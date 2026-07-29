@@ -8,23 +8,15 @@ import {
   Search, 
   ArrowLeft, 
   ChevronDown, 
-  ChevronRight,
   CheckCircle,
   Clock,
-  User,
   Send,
   FileText,
   Video,
   Book,
   Zap,
-  Heart,
-  Star,
   ThumbsUp,
-  AlertCircle,
-  Info,
   Settings,
-  Shield,
-  Globe,
   Users,
   Headphones
 } from 'lucide-react';
@@ -108,7 +100,7 @@ const supportCategories: SupportCategory[] = [
     title: 'Academic Support',
     description: 'Help with studies and resources',
     icon: Users,
-    color: 'from-green-500 to-emerald-500',
+    color: 'from-emerald-500 to-teal-500',
     items: ['Finding Notes', 'Past Papers Access', 'Study Groups', 'Academic Calendar']
   },
   {
@@ -124,7 +116,7 @@ const supportCategories: SupportCategory[] = [
     title: 'Tools & Features',
     description: 'Using our educational tools',
     icon: Zap,
-    color: 'from-orange-500 to-red-500',
+    color: 'from-indigo-500 to-purple-500',
     items: ['CGPA Calculator', 'Quiz Generator', 'Pomodoro Timer', 'Code Compiler']
   }
 ];
@@ -178,51 +170,57 @@ export function Support() {
 
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
     console.log('Contact form submitted:', contactForm);
+    toast.success('Your support message was sent successfully!');
+    setContactForm({
+      name: '',
+      email: '',
+      subject: '',
+      message: '',
+      priority: 'medium'
+    });
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-orange-50">
+    <div className="min-h-screen bg-slate-50/30">
       {/* Animated Background */}
-      <motion.div 
-        className="fixed inset-0 opacity-5 pointer-events-none"
-        animate={{
-          background: [
-            'radial-gradient(circle at 20% 50%, rgba(249, 115, 22, 0.3) 0%, transparent 50%)',
-            'radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.3) 0%, transparent 50%)',
-            'radial-gradient(circle at 40% 80%, rgba(168, 85, 247, 0.3) 0%, transparent 50%)'
-          ]
-        }}
-        transition={{ duration: 10, repeat: Infinity }}
-      />
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
+        <motion.div 
+          className="absolute top-20 left-10 w-64 h-64 bg-indigo-200/20 rounded-full blur-3xl animate-pulse"
+          animate={{ x: [0, 40, 0], y: [0, -20, 0] }}
+          transition={{ duration: 10, repeat: Infinity }}
+        />
+        <motion.div 
+          className="absolute bottom-20 right-10 w-80 h-80 bg-purple-200/20 rounded-full blur-3xl"
+          animate={{ x: [0, -30, 0], y: [0, 30, 0] }}
+          transition={{ duration: 12, repeat: Infinity }}
+        />
+      </div>
 
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div className="bg-white/85 backdrop-blur-md border-b border-slate-100 sticky top-0 z-40 shadow-sm relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4.5">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center space-x-4">
-              <Link to="/" className="flex items-center text-gray-600 hover:text-orange-600 transition-colors">
-                <ArrowLeft className="w-5 h-5 mr-2" />
-                <span className="hidden sm:inline">Back to Home</span>
-                <span className="sm:hidden">Back</span>
+              <Link to="/" className="flex items-center text-slate-655 hover:text-purple-650 transition-colors text-sm font-semibold">
+                <ArrowLeft className="w-4 h-4 mr-1.5" />
+                Back to Home
               </Link>
-              <div className="h-6 w-px bg-gray-300" />
+              <div className="h-4 w-px bg-slate-200" />
               <div className="flex items-center">
-                <Headphones className="w-6 h-6 mr-2 text-orange-600" />
-                <h1 className="text-lg sm:text-xl font-bold text-gray-900">Support Center</h1>
+                <Headphones className="w-5 h-5 mr-2 text-purple-600 animate-pulse" />
+                <h1 className="text-lg font-bold text-slate-800">Support Center</h1>
               </div>
             </div>
-            <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-500">
-              <Clock className="w-4 h-4" />
-              <span className="hidden sm:inline">24/7 Support Available</span>
-              <span className="sm:hidden">24/7 Available</span>
+            <div className="flex items-center space-x-2 text-xs font-bold text-slate-500">
+              <Clock className="w-4 h-4 text-slate-400" />
+              <span>24/7 Support Desk Available</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10">
         {/* Hero Section */}
         <motion.div 
           className="text-center mb-16"
@@ -231,34 +229,34 @@ export function Support() {
           transition={{ duration: 0.8 }}
         >
           <motion.div
-            className="w-20 h-20 bg-gradient-to-br from-orange-500 to-red-600 rounded-3xl flex items-center justify-center mx-auto mb-6"
-            whileHover={{ scale: 1.1, rotate: 5 }}
+            className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-650 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg shadow-indigo-500/10"
+            whileHover={{ scale: 1.08, rotate: 3 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <HelpCircle className="w-10 h-10 text-white" />
+            <HelpCircle className="w-8 h-8 text-white" />
           </motion.div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            How can we help you?
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-855 mb-4 tracking-tight leading-tight">
+            How can we help you today?
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8 px-4">
-            Get instant answers to your questions or reach out to our support team. 
+          <p className="text-base sm:text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed mb-8">
+            Get instant answers to your questions or reach out to our customer support team. 
             We're here to make your BCSITHub experience smooth and productive.
           </p>
 
           {/* Search Bar */}
           <motion.div
-            className="relative max-w-2xl mx-auto"
+            className="relative max-w-xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-slate-400 w-4.5 h-4.5" />
             <input
               type="text"
-              placeholder="Search for help articles, FAQs, or topics..."
+              placeholder="Search help articles, FAQs, or topics..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white shadow-lg text-lg"
+              className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 bg-white text-slate-800 placeholder:text-slate-400 shadow-sm"
             />
           </motion.div>
         </motion.div>
@@ -270,26 +268,26 @@ export function Support() {
           initial="hidden"
           animate="visible"
         >
-          <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">Browse by Category</h3>
+          <h3 className="text-xl font-bold text-slate-800 mb-8 text-center">Browse Help by Category</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {supportCategories.map((category, index) => (
+            {supportCategories.map((category) => (
               <motion.div
                 key={category.id}
                 variants={itemVariants}
-                whileHover={{ y: -5, scale: 1.02 }}
+                whileHover={{ y: -4 }}
                 className="cursor-pointer"
               >
-                <Card className="shadow-lg border-0 bg-white overflow-hidden h-full">
+                <Card className="border border-slate-105 shadow-premium bg-white h-full hover:border-indigo-200 transition-all duration-300 rounded-2xl">
                   <CardContent className="p-6">
-                    <div className={`w-12 h-12 bg-gradient-to-br ${category.color} rounded-2xl flex items-center justify-center mb-4`}>
-                      <category.icon className="w-6 h-6 text-white" />
+                    <div className={`w-11 h-11 bg-gradient-to-br ${category.color} rounded-xl flex items-center justify-center mb-4 shadow-sm`}>
+                      <category.icon className="w-5 h-5 text-white" />
                     </div>
-                    <h4 className="text-lg font-semibold text-gray-900 mb-2">{category.title}</h4>
-                    <p className="text-gray-600 text-sm mb-4">{category.description}</p>
-                    <ul className="space-y-1">
+                    <h4 className="text-base font-bold text-slate-800 mb-2">{category.title}</h4>
+                    <p className="text-xs text-slate-500 font-semibold mb-4 leading-relaxed">{category.description}</p>
+                    <ul className="space-y-1.5">
                       {category.items.map((item, itemIndex) => (
-                        <li key={itemIndex} className="text-sm text-gray-500 flex items-center">
-                          <div className="w-1.5 h-1.5 bg-orange-400 rounded-full mr-2" />
+                        <li key={itemIndex} className="text-xs text-slate-500 font-bold flex items-center">
+                          <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full mr-2" />
                           {item}
                         </li>
                       ))}
@@ -310,18 +308,18 @@ export function Support() {
             transition={{ duration: 0.6 }}
           >
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">Frequently Asked Questions</h3>
+              <h3 className="text-xl font-bold text-slate-800">Frequently Asked Questions</h3>
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
+                className="w-full sm:w-auto px-3 py-2 border border-slate-200 rounded-xl text-xs bg-white text-slate-705 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-bold transition-all"
               >
                 <option value="all">All Categories</option>
-                <option value="account">Account</option>
-                <option value="academic">Academic</option>
-                <option value="tools">Tools</option>
-                <option value="safety">Safety</option>
-                <option value="contribution">Contribution</option>
+                <option value="account">Account Setup</option>
+                <option value="academic">Academic Resources</option>
+                <option value="tools">Utilities</option>
+                <option value="safety">Platform Safety</option>
+                <option value="contribution">Material Uploads</option>
               </select>
             </div>
 
@@ -331,26 +329,25 @@ export function Support() {
                   key={faq.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ delay: index * 0.05 }}
                 >
-                  <Card className="shadow-md border-0 bg-white overflow-hidden">
+                  <Card className="border border-slate-105 shadow-premium bg-white rounded-2xl overflow-hidden hover:border-slate-200 transition-colors">
                     <CardContent className="p-0">
-                      <motion.div
+                      <div
                         className="p-6 cursor-pointer"
                         onClick={() => toggleFAQ(faq.id)}
-                        whileHover={{ backgroundColor: "rgba(249, 115, 22, 0.02)" }}
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex-1">
-                            <h4 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 pr-4">
+                            <h4 className="text-sm font-bold text-slate-800 mb-2 pr-4 leading-snug">
                               {faq.question}
                             </h4>
-                            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500">
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs font-semibold text-slate-505">
                               <span className="flex items-center">
-                                <ThumbsUp className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
-                                {faq.helpful} helpful
+                                <ThumbsUp className="w-3.5 h-3.5 mr-1 text-slate-400" />
+                                {faq.helpful} helpful votes
                               </span>
-                              <span className="capitalize px-2 py-1 bg-gray-100 rounded-full text-xs">
+                              <span className="capitalize px-2.5 py-0.5 bg-slate-55 border border-slate-100 rounded-full text-[10px] font-bold text-slate-600">
                                 {faq.category}
                               </span>
                             </div>
@@ -359,10 +356,10 @@ export function Support() {
                             animate={{ rotate: expandedFAQ === faq.id ? 180 : 0 }}
                             transition={{ duration: 0.3 }}
                           >
-                            <ChevronDown className="w-5 h-5 text-gray-400" />
+                            <ChevronDown className="w-4 h-4 text-slate-400" />
                           </motion.div>
                         </div>
-                      </motion.div>
+                      </div>
 
                       <AnimatePresence>
                         {expandedFAQ === faq.id && (
@@ -371,18 +368,18 @@ export function Support() {
                             animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.3 }}
-                            className="border-t border-gray-100"
+                            className="border-t border-slate-50"
                           >
-                            <div className="p-6">
-                              <p className="text-gray-700 leading-relaxed mb-4">{faq.answer}</p>
-                              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                                <span className="text-xs sm:text-sm text-gray-500">Was this helpful?</span>
+                            <div className="p-6 bg-slate-50/20 text-xs font-semibold text-slate-600 leading-relaxed">
+                              <p className="mb-4">{faq.answer}</p>
+                              <div className="flex items-center justify-between border-t border-slate-50 pt-4 mt-2">
+                                <span className="text-[10px] uppercase tracking-wider text-slate-455 font-bold">Was this article helpful?</span>
                                 <div className="flex space-x-2">
-                                  <Button size="sm" variant="outline" className="text-xs px-2 py-1">
-                                    <ThumbsUp className="w-3 h-3 mr-1" />
+                                  <Button size="sm" variant="outline" className="text-[10px] font-bold px-3 py-1 bg-white border-slate-200">
+                                    <ThumbsUp className="w-3 h-3 mr-1 text-indigo-650" />
                                     Yes
                                   </Button>
-                                  <Button size="sm" variant="outline" className="text-xs px-2 py-1">
+                                  <Button size="sm" variant="outline" className="text-[10px] font-bold px-3 py-1 bg-white border-slate-200">
                                     No
                                   </Button>
                                 </div>
@@ -405,96 +402,96 @@ export function Support() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <Card className="shadow-lg border-0 bg-white lg:sticky lg:top-24">
+            <Card className="border border-slate-105 shadow-premium bg-white/95 backdrop-blur-md lg:sticky lg:top-24 rounded-2xl">
               <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-                  <MessageCircle className="w-5 h-5 mr-2 text-orange-600" />
+                <h3 className="text-base font-bold text-slate-800 mb-4 flex items-center">
+                  <MessageCircle className="w-5 h-5 mr-2 text-indigo-605 animate-bounce" />
                   Contact Support
                 </h3>
                 
                 <form onSubmit={handleContactSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                    <label className="block text-[10px] font-bold text-slate-550 mb-1.5 uppercase tracking-wider">Your Name</label>
                     <input
                       type="text"
                       value={contactForm.name}
                       onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-semibold transition-all"
                       required
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <label className="block text-[10px] font-bold text-slate-555 mb-1.5 uppercase tracking-wider">Email Address</label>
                     <input
                       type="email"
                       value={contactForm.email}
                       onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-semibold transition-all"
                       required
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                    <label className="block text-[10px] font-bold text-slate-555 mb-1.5 uppercase tracking-wider">Subject</label>
                     <input
                       type="text"
                       value={contactForm.subject}
                       onChange={(e) => setContactForm({...contactForm, subject: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-semibold transition-all"
                       required
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                    <label className="block text-[10px] font-bold text-slate-555 mb-1.5 uppercase tracking-wider">Priority Level</label>
                     <select
                       value={contactForm.priority}
                       onChange={(e) => setContactForm({...contactForm, priority: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-bold transition-all"
                     >
-                      <option value="low">Low</option>
-                      <option value="medium">Medium</option>
-                      <option value="high">High</option>
-                      <option value="urgent">Urgent</option>
+                      <option value="low">Low Priority</option>
+                      <option value="medium">Medium Priority</option>
+                      <option value="high">High Priority</option>
+                      <option value="urgent">Urgent Escalation</option>
                     </select>
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                    <label className="block text-[10px] font-bold text-slate-555 mb-1.5 uppercase tracking-wider">Message</label>
                     <textarea
                       value={contactForm.message}
                       onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
                       rows={4}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-semibold transition-all"
                       required
                     />
                   </div>
                   
-                  <Button
+                  <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white"
+                    className="w-full bg-gradient-to-r from-indigo-600 to-purple-650 hover:brightness-110 text-white font-bold py-3 rounded-xl shadow-md border-0 transition-all text-xs flex items-center justify-center gap-1.5"
                   >
-                    <Send className="w-4 h-4 mr-2" />
-                    Send Message
-                  </Button>
+                    <Send className="w-4 h-4" />
+                    <span>Send Message</span>
+                  </button>
                 </form>
 
                 {/* Quick Contact Options */}
-                <div className="mt-8 pt-6 border-t border-gray-200">
-                  <h4 className="text-sm font-semibold text-gray-900 mb-3">Other Ways to Reach Us</h4>
-                  <div className="space-y-3">
-                    <div className="flex items-center text-sm text-gray-600">
-                      <Mail className="w-4 h-4 mr-3 text-orange-600" />
-                      support@bcsithub.com
+                <div className="mt-8 pt-6 border-t border-slate-100 text-xs font-bold text-slate-500">
+                  <h4 className="text-sm font-bold text-slate-805 mb-4">Other Ways to Reach Us</h4>
+                  <div className="space-y-3.5">
+                    <div className="flex items-center">
+                      <Mail className="w-4 h-4 mr-3 text-indigo-650" />
+                      <span>support@bcsithub.com</span>
                     </div>
-                    <div className="flex items-center text-sm text-gray-600">
-                      <Phone className="w-4 h-4 mr-3 text-orange-600" />
-                      +977-123-456-789
+                    <div className="flex items-center">
+                      <Phone className="w-4 h-4 mr-3 text-indigo-650" />
+                      <span>+977-123-456-789</span>
                     </div>
-                    <div className="flex items-center text-sm text-gray-600">
-                      <Clock className="w-4 h-4 mr-3 text-orange-600" />
-                      24/7 Support Available
+                    <div className="flex items-center">
+                      <Clock className="w-4 h-4 mr-3 text-indigo-650" />
+                      <span>24/7 Virtual Support Available</span>
                     </div>
                   </div>
                 </div>
@@ -510,44 +507,45 @@ export function Support() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <Card className="shadow-xl border-0 bg-gradient-to-br from-orange-500 to-red-600 text-white">
-            <CardContent className="p-8 text-center">
+          <Card className="border-0 shadow-premium bg-gradient-to-br from-indigo-650 via-purple-605 to-indigo-900 text-white rounded-2xl overflow-hidden">
+            <CardContent className="p-8 text-center relative">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full blur-2xl" />
               <motion.div
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.02 }}
                 className="mb-6"
               >
-                <div className="w-16 h-16 bg-white/20 rounded-3xl flex items-center justify-center mx-auto mb-4">
-                  <Video className="w-8 h-8 text-white" />
+                <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-white/10">
+                  <Video className="w-7 h-7 text-white animate-pulse" />
                 </div>
-                <h3 className="text-2xl font-bold mb-2">Need More Help?</h3>
-                <p className="text-orange-100 mb-6">
-                  Check out our video tutorials, user guides, and community forums for additional support.
+                <h3 className="text-2xl font-black mb-2">Need More Guidance?</h3>
+                <p className="text-indigo-100 text-sm max-w-md mx-auto mb-6">
+                  Check out our video walkthrough tutorials, user documentation guides, and community forum pages.
                 </p>
               </motion.div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
                 <Button
-                  className="bg-white text-orange-600 hover:bg-orange-50"
+                  className="bg-white hover:bg-slate-50 text-indigo-650 font-bold border-0"
                   size="lg"
                 >
-                  <Video className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                  <span className="text-sm sm:text-base">Video Tutorials</span>
+                  <Video className="w-4.5 h-4.5 mr-2 text-indigo-600" />
+                  <span>Video Tutorials</span>
                 </Button>
                 <Button
                   variant="outline"
-                  className="border-white text-white hover:bg-white/10"
+                  className="border-white/30 hover:bg-white/10 text-white font-bold"
                   size="lg"
                 >
-                  <FileText className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                  <span className="text-sm sm:text-base">User Guide</span>
+                  <FileText className="w-4.5 h-4.5 mr-2" />
+                  <span>User Guide</span>
                 </Button>
                 <Button
                   variant="outline"
-                  className="border-white text-white hover:bg-white/10 sm:col-span-2 md:col-span-1"
+                  className="border-white/30 hover:bg-white/10 text-white font-bold"
                   size="lg"
                 >
-                  <Users className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                  <span className="text-sm sm:text-base">Community Forum</span>
+                  <Users className="w-4.5 h-4.5 mr-2" />
+                  <span>Community Forum</span>
                 </Button>
               </div>
             </CardContent>

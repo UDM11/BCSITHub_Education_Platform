@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 8: Network Management and Network Security</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 8: Network Management and Network Security [4 Hrs.]</b></h1>
+
+  <!-- 8.1 - 8.2 Network Management & SNMP -->
+  <div class="section">
+    <h2><b>8.1 Network Management and SNMP</b></h2>
+
+    <h3>What is Network Management?</h3>
+    <p>
+      <b>Network management</b> is the process of administering, managing, and maintaining computer
+      networks. The ISO defines five functional areas of network management (FCAPS):
+    </p>
+    <ul>
+      <li><b>Fault Management:</b> Detecting, isolating, and resolving network problems.</li>
+      <li><b>Configuration Management:</b> Tracking and controlling network configurations, devices,
+        and software updates.</li>
+      <li><b>Accounting Management:</b> Tracking network utilization statistics to bill users
+        or allocate resources.</li>
+      <li><b>Performance Management:</b> Monitoring network metrics (throughput, latency, packet loss)
+        to maintain service quality.</li>
+      <li><b>Security Management:</b> Controlling access to network resources and protecting data.</li>
+    </ul>
+
+    <h3>SNMP (Simple Network Management Protocol)</h3>
+    <p>
+      <b>SNMP</b> is an application layer protocol used to monitor and manage network devices
+      (routers, switches, servers) over **UDP Port 161 (polling)** and **UDP Port 162 (traps)**.
+    </p>
+
+    <h4>SNMP Architecture Components</h4>
+    <pre>
+  ┌────────────────────────────────────────────────────────┐
+  │         Network Management Station (NMS / Manager)     │
+  └───────────────────────────┬───▲────────────────────────┘
+            Get / Set request │   │ Trap notification
+                              ▼   │
+  ┌───────────────────────────┴───┴────────────────────────┐
+  │                  Managed Device (Agent)                │
+  │  ┌──────────────────────────────────────────────────┐  │
+  │  │   MIB (Management Information Base)              │  │
+  │  │   └─ OID: 1.3.6.1.2.1.1.1.0 (System Description) │  │
+  │  └──────────────────────────────────────────────────┘  │
+  └────────────────────────────────────────────────────────┘
+    </pre>
+    <ul>
+      <li><b>SNMP Manager (NMS):</b> A central system that runs monitoring software to query agents
+        and collect reports.</li>
+      <li><b>SNMP Agent:</b> Software running on the managed device that monitors local parameters
+        and responds to queries from the manager.</li>
+      <li><b>MIB (Management Information Base):</b> A hierarchical, structured database on the agent
+        defining what variables (parameters) the manager can query or configure.</li>
+      <li><b>OID (Object Identifier):</b> Unique dotted numbers that identify parameters in the MIB
+        hierarchy (e.g., <code>1.3.6.1.2.1.1.1.0</code> represents System Description).</li>
+    </ul>
+
+    <h4>SNMP Commands</h4>
+    <ul>
+      <li><b>GetRequest:</b> Manager retrieves a value from the agent's MIB.</li>
+      <li><b>GetNextRequest:</b> Manager retrieves the next value in the MIB table.</li>
+      <li><b>SetRequest:</b> Manager modifies a configuration value on the agent.</li>
+      <li><b>Response:</b> Agent returns requested values to the manager.</li>
+      <li><b>Trap:</b> Agent sends an unsolicited alert to the manager informing them of a critical
+        event (e.g., interface down, high CPU load).</li>
+    </ul>
+  </div>
+
+  <!-- 8.3 - 8.4 Security Risks & Attacks -->
+  <div class="section">
+    <h2><b>8.2 Data Security and Network Attacks</b></h2>
+
+    <h3>Key Risks in Data Security</h3>
+    <ul>
+      <li><b>Data Breaches:</b> Unauthorized access to sensitive, private data.</li>
+      <li><b>Data Loss:</b> Accidental deletion or corruption of critical business files.</li>
+      <li><b>Data Alteration:</b> Malicious tampering with data during transit or in storage.</li>
+      <li><b>Identity Theft:</b> Stealing user credentials to impersonate legitimate personnel.</li>
+    </ul>
+
+    <h3>Types of Network Attacks</h3>
+    <p>
+      Attacks are classified as passive (monitoring data) or active (modifying data/services):
+    </p>
+
+    <h4>1. Passive Attacks</h4>
+    <ul>
+      <li><b>Eavesdropping / Packet Sniffing:</b> Capturing packets traversing the network
+        using tools like Wireshark to steal unencrypted credentials or sensitive information.</li>
+      <li><b>Traffic Analysis:</b> Monitoring communication patterns (frequency, volume, locations)
+        to deduce information.</li>
+    </ul>
+
+    <h4>2. Active Attacks</h4>
+    <ul>
+      <li><b>DoS / DDoS (Denial of Service):</b> Overwhelming network devices or servers with massive
+        volumes of fake traffic (e.g., SYN floods), crashing services to make them unavailable
+        to legitimate users.</li>
+      <li><b>Man-in-the-Middle (MitM):</b> An attacker positions themselves between two communicating
+        hosts to hijack sessions, read data, or inject malicious payloads.</li>
+      <li><b>IP Spoofing:</b> Forging the source IP address in packet headers to bypass access control list (ACL) rules.</li>
+      <li><b>Phishing:</b> Sending deceptive emails disguised as trusted entities to trick users into
+        divulging passwords or credit card numbers.</li>
+    </ul>
+
+    <h3>Countermeasures</h3>
+    <ul>
+      <li>Use **strong encryption** (HTTPS, SSH, SFTP, IPsec) for all communications.</li>
+      <li>Implement **Multifactor Authentication (MFA)** to secure access.</li>
+      <li>Regular **security updates and patching** of systems.</li>
+      <li>Maintain **offline, encrypted backups** of critical data.</li>
+      <li>Run regular **penetration testing** and vulnerability scans.</li>
+    </ul>
+  </div>
+
+  <!-- 8.5 Cryptography -->
+  <div class="section">
+    <h2><b>8.3 Cryptography (Symmetric vs. Asymmetric)</b></h2>
+    <p>
+      Cryptography is the practice of securing communication in the presence of adversaries by
+      converting plain text into unreadable cipher text.
+    </p>
+
+    <h3>Symmetric Key Cryptography</h3>
+    <p>
+      Uses the **same single secret key** for both encryption and decryption. Both sender and
+      receiver must agree on and secure this key before starting communication.
+    </p>
+    <ul>
+      <li><b>Encryption:</b> $C = E_k(P)$</li>
+      <li><b>Decryption:</b> $P = D_k(C)$</li>
+      <li><b>Advantages:</b> Extremely fast, computationally light, suitable for bulk data transfer.</li>
+      <li><b>Disadvantages:</b> Key distribution is difficult (how to securely share the key?).
+        Number of keys required grows exponentially as $N(N-1)/2$ for $N$ users.</li>
+      <li><b>Common Algorithms:</b> AES (Advanced Encryption Standard), DES, 3DES, Blowfish.</li>
+    </ul>
+    <pre>
+  Symmetric Cryptography:
+  [Plaintext] ───(Encrypt with Secret Key)───→ [Ciphertext] ───(Decrypt with Same Secret Key)───→ [Plaintext]
+    </pre>
+
+    <h3>Asymmetric Key Cryptography (Public Key)</h3>
+    <p>
+      Uses a **pair of keys**: a <b>Public Key</b> (shared openly with everyone) and a
+      <b>Private Key</b> (kept secret by the owner).
+    </p>
+    <ul>
+      <li>Data encrypted with a user's Public Key can only be decrypted with that specific user's Private Key.</li>
+      <li>Data encrypted with a user's Private Key can only be decrypted with that user's Public Key (used for Digital Signatures).</li>
+      <li><b>Advantages:</b> Solves the key distribution problem. Only $2N$ keys are required for $N$ users.</li>
+      <li><b>Disadvantages:</b> Computationally slow and heavy. Used mainly to encrypt small symmetric session keys.</li>
+      <li><b>Common Algorithms:</b> RSA, Diffie-Hellman (key exchange), ECC (Elliptic Curve Cryptography).</li>
+    </ul>
+    <pre>
+  Asymmetric Cryptography:
+  [Plaintext] ───(Encrypt with Bob's Public Key)───→ [Ciphertext] ───(Decrypt with Bob's Private Key)───→ [Plaintext]
+    </pre>
+  </div>
+
+  <!-- 8.6 VPN, Firewalls & Proxy -->
+  <div class="section">
+    <h2><b>8.4 Network Protection: VPNs, Firewalls, and Proxies</b></h2>
+
+    <h3>Virtual Private Network (VPN)</h3>
+    <p>
+      A <b>VPN</b> creates a secure, encrypted tunnel over public networks (like the Internet),
+      allowing remote users or branches to securely connect to a private organization network.
+      It relies on protocols like **IPsec** or **SSL/TLS**.
+    </p>
+    <pre>
+  Remote PC ───[ Encrypted VPN Tunnel (Internet) ]─── Firewall ─── Corporate LAN
+    </pre>
+
+    <h3>Firewalls</h3>
+    <p>
+      A security device that monitors and filters incoming and outgoing network traffic based on an
+      organization's previously established security rules.
+    </p>
+    <ul>
+      <li><b>Packet Filtering Firewalls:</b> Operates at Layers 3 and 4. Examines packets in isolation,
+        filtering based on source/destination IP addresses, port numbers, and protocol types (e.g., Access Control Lists - ACLs).</li>
+      <li><b>Stateful Inspection Firewalls:</b> Tracks active TCP connection states. It permits incoming
+        traffic only if it is part of an established outbound connection session.</li>
+      <li><b>Application Proxy Firewalls:</b> Operates at Layer 7. Acts as an intermediary, inspecting
+        the actual application data (e.g., blocking SQL injection attacks inside HTTP payloads).</li>
+    </ul>
+
+    <h3>Proxy Servers</h3>
+    <p>
+      A proxy server acts as a gateway between users and the internet:
+    </p>
+    <ul>
+      <li><b>Forward Proxy:</b> Sits in front of clients. It intercepts outbound client requests,
+        hides client IPs, filters content (blocking inappropriate sites in schools), and caches web pages to save bandwidth.</li>
+      <li><b>Reverse Proxy:</b> Sits in front of servers. It intercepts inbound requests, provides
+        load balancing, SSL termination, caching, and protects servers from direct exposure.</li>
+    </ul>
+  </div>
+
+  <!-- RSA Cryptography Numerical Example -->
+  <div class="section">
+    <h2><b>8.5 RSA Public Key Cryptography Algorithm (Worked Example)</b></h2>
+    <p>
+      The **RSA algorithm** is named after Ron Rivest, Adi Shamir, and Leonard Adleman. It is based
+      on the mathematical difficulty of factoring large prime numbers.
+    </p>
+    <div class="note">
+      <h4>RSA Algorithm Numerical Walkthrough</h4>
+      <p><b>Problem:</b> Generate an RSA key pair using prime numbers $p = 3$ and $q = 11$.
+        Encrypt the message value $M = 7$, and decrypt the resulting ciphertext to verify.</p>
+      <p><b>Solution:</b>
+        <br><b>Step 1: Compute $n$ and $z$ (Euler's totient $\phi(n)$):</b>
+        <br>$n = p \times q = 3 \times 11 = 33$.
+        <br>$z = \phi(n) = (p - 1) \times (q - 1) = 2 \times 10 = 20$.
+        <br>
+        <br><b>Step 2: Choose public exponent $e$:</b>
+        <br>$e$ must be co-prime to $z$ (i.e., $gcd(e, z) = 1$) and $1 < e < z$.
+        <br>Let's choose $e = 3$ (since $gcd(3, 20) = 1$).
+        <br>
+        <br><b>Step 3: Calculate private exponent $d$:</b>
+        <br>$d$ must satisfy: $(d \times e) \bmod z = 1 \implies (d \times 3) \bmod 20 = 1$.
+        <br>Test values of $d$:
+        <br>If $d=7 \implies 7 \times 3 = 21 \equiv 1 \bmod 20$. So $d = 7$.
+        <br>
+        <br><b>Key Pairs:</b>
+        <br>- Public Key: $(e, n) = (3, 33)$.
+        <br>- Private Key: $(d, n) = (7, 33)$.
+        <br>
+        <br><b>Step 4: Encryption:</b>
+        <br>Ciphertext $C = M^e \bmod n$
+        <br>$C = 7^3 \bmod 33 = 343 \bmod 33$.
+        <br>Since $33 \times 10 = 330$, $343 - 330 = 13 \implies C = 13$.
+        <br>
+        <br><b>Step 5: Decryption:</b>
+        <br>Decrypted Plaintext $P = C^d \bmod n$
+        <br>$P = 13^7 \bmod 33$.
+        <br>Compute $13^7 \bmod 33$ using exponentiation properties:
+        <br>$13^1 \bmod 33 = 13$
+        <br>$13^2 \bmod 33 = 169 \bmod 33 = 4$  (since $33 \times 5 = 165$)
+        <br>$13^4 \bmod 33 = (13^2)^2 \bmod 33 = 4^2 = 16$
+        <br>$13^7 = 13^4 \times 13^2 \times 13^1 \implies 16 \times 4 \times 13 = 64 \times 13$.
+        <br>$64 \bmod 33 = 31 \equiv -2 \bmod 33$.
+        <br>$P = (-2 \times 13) \bmod 33 = -26 \equiv 7 \bmod 33$.
+        <br>So $P = 7$, which matches the original message $M$.
+      </p>
+    </div>
+  </div>
+
+  <!-- IPsec Protocols and Modes -->
+  <div class="section">
+    <h2><b>8.6 IPsec (IP Security) Protocol Architecture</b></h2>
+    <p>
+      IPsec secures layer 3 (Network Layer) packets. It comprises two main sub-protocols:
+    </p>
+    <ul>
+      <li><b>Authentication Header (AH):</b> Provides source authentication and data integrity,
+        but **does not encrypt** the data payload. Protects against spoofing.</li>
+      <li><b>Encapsulating Security Payload (ESP):</b> Provides source authentication, data integrity,
+        and **data encryption** for confidentiality.</li>
+    </ul>
+
+    <h3>IPsec Operation Modes</h3>
+    <table>
+      <tr>
+        <th>IPsec Mode</th>
+        <th>Header Modification</th>
+        <th>Payload Protected</th>
+        <th>Best For</th>
+      </tr>
+      <tr>
+        <td><b>Transport Mode</b></td>
+        <td>Inserts IPsec header between IP header and TCP/UDP header</td>
+        <td>Upper-layer payload only (original IP header remains unencrypted)</td>
+        <td>End-to-end host communication (client to server)</td>
+      </tr>
+      <tr>
+        <td><b>Tunnel Mode</b></td>
+        <td>Encapsulates the entire original IP packet inside a new IP packet with a new header</td>
+        <td>Entire original packet (IP header + data payload) is encrypted</td>
+        <td>Site-to-site VPNs (gateway-to-gateway)</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Security Fundamentals and DMZ -->
+  <div class="section">
+    <h2><b>8.7 Information Security Fundamentals and DMZ Design</b></h2>
+
+    <h3>The CIA Triad</h3>
+    <p>
+      The core objectives of information security are represented by the CIA Triad:
+    </p>
+    <ul>
+      <li><b>Confidentiality:</b> Ensuring that information is accessible only to authorized users.
+        Achieved using encryption.</li>
+      <li><b>Integrity:</b> Ensuring that data is not altered or corrupted during transmission.
+        Achieved using hash algorithms (MD5, SHA-256) and checksums.</li>
+      <li><b>Availability:</b> Ensuring that authorized users have access to systems and information
+        when needed. Achieved using backups, redundancy, and DDoS mitigation.</li>
+    </ul>
+
+    <h3>DMZ (Demilitarized Zone) Architecture</h3>
+    <p>
+      A **DMZ** is a physical or logical sub-network that exposes an organization's external-facing
+      services (like Web, Mail, DNS servers) to the untrusted public Internet, while keeping the
+      rest of the internal network (database, active directory) isolated:
+    </p>
+    <pre>
+  Internet (Untrusted)
+         │
+         ▼  [External Firewall]
+  ┌──────────────┐
+  │  DMZ Subnet  │ ─── Exposes Web/Mail Server (Publicly accessible)
+  └──────┬───────┘
+         │
+         ▼  [Internal Firewall]
+  Private LAN (Trusted) ─── Contains Database, Employee PCs (Completely isolated)
+    </pre>
+  </div>
+
+  <!-- Firewall vs. IDS/IPS -->
+  <div class="section">
+    <h2><b>8.8 Firewalls, IDS, and IPS</b></h2>
+    <p>
+      For comprehensive network security, organizations deploy multiple lines of defense:
+    </p>
+    <table>
+      <tr>
+        <th>Feature</th>
+        <th>Firewall</th>
+        <th>Intrusion Detection System (IDS)</th>
+        <th>Intrusion Prevention System (IPS)</th>
+      </tr>
+      <tr>
+        <td>Primary Purpose</td>
+        <td>Filters traffic based on rules</td>
+        <td>Monitors traffic and detects attacks</td>
+        <td>Detects attacks and actively blocks them</td>
+      </tr>
+      <tr>
+        <td>Deployment</td>
+        <td>At network boundaries (inline)</td>
+        <td>Out-of-band (via port mirroring/SPAN)</td>
+        <td>In-line (all traffic passes through it)</td>
+      </tr>
+      <tr>
+        <td>Action on Threat</td>
+        <td>Blocks packet matching rule</td>
+        <td>Generates logs/alerts (Passive)</td>
+        <td>Drops packet, resets TCP connections (Active)</td>
+      </tr>
+      <tr>
+        <td>Inspection Level</td>
+        <td>IP, Ports, protocol headers</td>
+        <td>Full packet payload (signature/anomaly)</td>
+        <td>Full packet payload (signature/anomaly)</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Wireless Security Protocols -->
+  <div class="section">
+    <h2><b>8.9 Wireless Network Security Protocols</b></h2>
+    <p>
+      Wireless signals travel in open space, making them highly vulnerable to sniffing and unauthorized
+      access. Several security standards have evolved:
+    </p>
+    <ul>
+      <li><b>WEP (Wired Equivalent Privacy):</b> The original 802.11 security standard. It uses the RC4 stream
+        cipher with a short, static key.
+        <br><span class="warning">Extremely vulnerable. Can be cracked in minutes using simple tools.</span></li>
+      <li><b>WPA (Wi-Fi Protected Access):</b> Created as a temporary replacement for WEP. Uses TKIP
+        (Temporal Key Integrity Protocol) to dynamically change keys.</li>
+      <li><b>WPA2:</b> Uses the robust **AES (Advanced Encryption Standard)** cipher instead of TKIP,
+        providing excellent security. The standard for home/enterprise Wi-Fi for many years.
+        Uses a 4-way handshake (vulnerable to dictionary attacks if pre-shared key is weak).</li>
+      <li><b>WPA3:</b> The latest standard. Replaces pre-shared keys with **SAE (Simultaneous Authentication
+        of Equals)** handshake, protecting against offline dictionary attacks and providing forward secrecy.</li>
+    </ul>
+  </div>
+
+  <!-- Security Services & Hash Functions -->
+  <div class="section">
+    <h2><b>8.10 Security Services and Cryptographic Hashing</b></h2>
+
+    <h3>Essential Security Services</h3>
+    <ul>
+      <li><b>Authentication:</b> Verification of the identity of communicating entities.</li>
+      <li><b>Access Control:</b> Limiting access to authorized resources based on user permissions.</li>
+      <li><b>Confidentiality:</b> Protecting data from disclosure to unauthorized entities.</li>
+      <li><b>Data Integrity:</b> Ensuring received data has not been modified.</li>
+      <li><b>Non-repudiation:</b> Preventing an entity from denying a previous action or transaction.
+        For example, a digital signature on a contract prevents the sender from claiming they did not sign it.</li>
+    </ul>
+
+    <h3>Cryptographic Hash Functions</h3>
+    <p>
+      A hash function takes an arbitrary-sized input and produces a fixed-size output (digest) that is
+      unique to that input. Key characteristics:
+    </p>
+    <ul>
+      <li><b>One-way function:</b> It is computationally impossible to reconstruct the input from the hash value.</li>
+      <li><b>Collision resistance:</b> It is highly unlikely that two different inputs will produce the same hash value.</li>
+      <li><b>Common Algorithms:</b> MD5 (128-bit digest, considered weak), SHA-1 (160-bit digest, weak),
+        SHA-256 (256-bit digest, very strong).</li>
+    </ul>
+  </div>
+
+  <!-- Digital Signatures -->
+  <div class="section">
+    <h2><b>8.11 Digital Signatures</b></h2>
+    <p>
+      A <b>digital signature</b> is a mathematical scheme used to demonstrate the authenticity of a
+      digital message or document. It provides three main security services: **Authentication**,
+      **Data Integrity**, and **Non-repudiation**.
+    </p>
+
+    <h4>Digital Signature Flow</h4>
+    <pre>
+  Sender (Signing):
+  [Message] ───► (Hash Function) ───► [Message Digest] ───(Encrypt with Private Key)───► [Digital Signature]
+
+  Receiver (Verification):
+  [Signature] ───(Decrypt with Sender's Public Key)───► [Received Digest]
+                                                                │  Compare
+  [Received Msg] ───► (Hash Function) ───────────────► [Calculated Digest] ◄┘ (Must Match)
+    </pre>
+    <ol>
+      <li><b>Signing Process:</b>
+        <ul>
+          <li>The sender passes the message through a cryptographic hash function to create a unique *Message Digest*.</li>
+          <li>The sender encrypts this digest using their own **Private Key**. The result is the *Digital Signature*.</li>
+          <li>The message and the signature are sent to the receiver.</li>
+        </ul>
+      </li>
+      <li><b>Verification Process:</b>
+        <ul>
+          <li>The receiver decrypts the signature using the sender's **Public Key** to recover the original *Message Digest*.</li>
+          <li>The receiver hashes the received message using the same hash function to calculate a new *Message Digest*.</li>
+          <li>If the calculated digest matches the decrypted digest, the message is authentic and unaltered.</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <!-- AAA Services and Malware -->
+  <div class="section">
+    <h2><b>8.12 AAA Framework and Malware Taxonomy</b></h2>
+
+    <h3>The AAA Security Model</h3>
+    <p>
+      AAA is an architectural framework for configuring enterprise network access control:
+    </p>
+    <ul>
+      <li><b>Authentication:</b> "Who are you?" Verifies credentials (username/password, tokens, biometrics).</li>
+      <li><b>Authorization:</b> "What are you allowed to do?" Determines user access rights and privileges.</li>
+      <li><b>Accounting:</b> "What did you do?" Tracks user activities, session durations, and resources consumed
+        (used for auditing and billing).</li>
+      <li><b>Protocols:</b> Common AAA protocols are **RADIUS** (open standard, UDP-based, encrypts only passwords)
+        and **TACACS+** (Cisco proprietary, TCP-based, encrypts the entire packet payload).</li>
+    </ul>
+
+    <h3>Malware Taxonomy</h3>
+    <p>
+      Malware is any software intentionally designed to cause damage to a computer, server, client, or network:
+    </p>
+    <ul>
+      <li><b>Virus:</b> Malicious code that attaches itself to clean host files and replicates when the
+        program is executed. Requires human action to spread.</li>
+      <li><b>Worm:</b> Standalone malicious software that replicates and spreads automatically across network
+        links without requiring host files or human intervention. Explores network vulnerabilities.</li>
+      <li><b>Trojan Horse:</b> Software disguised as legitimate, useful programs (e.g., utility software)
+        but containing hidden malicious functions (backdoors).</li>
+      <li><b>Ransomware:</b> Encrypts user files and demands payment (ransom) to provide decryption keys.</li>
+      <li><b>Spyware:</b> Secretly monitors user behavior, keystrokes (keyloggers), and personal data,
+        sending information back to attackers.</li>
+    </ul>
+  </div>
+
+</body>
+</html>

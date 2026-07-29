@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phase 1: Conceptual Framework and Proposal</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Phase 1: Conceptual Framework and Proposal</b></h1>
+
+  <!-- Introduction to PRI 281 -->
+  <div class="section">
+    <h2><b>1.1 Introduction to BCSIT Project II (PRI 281)</b></h2>
+    <p>
+      <b>Project II (PRI 281)</b> is a 2-credit practical course in the fourth semester of the Bachelor of Computer
+      System and Information Technology (BCSIT) curriculum. It provides students with hands-on experience in building
+      a medium-scale software system by applying the software engineering principles, database models, and programming
+      skills learned throughout the first four semesters.
+    </p>
+    <p>
+      Unlike Project I (which is often a basic front-end or console application), Project II requires students to
+      develop a complete, multi-tiered application featuring a dynamic database backend, user role-based access control,
+      data validation, and software architecture patterns (such as MVC).
+    </p>
+    <div class="note">
+      <h4>Evaluation Structure of Project II</h4>
+      <table>
+        <tr>
+          <th>Evaluation Stage</th>
+          <th>Percentage Weight</th>
+          <th>Deliverable Expected</th>
+        </tr>
+        <tr>
+          <td><b>Internal Proposal Defense</b></td>
+          <td>20%</td>
+          <td>Signed proposal report, conceptual framework slide presentation.</td>
+        </tr>
+        <tr>
+          <td><b>Mid-Term Evaluation</b></td>
+          <td>30%</td>
+          <td>Progress report, complete database design, class diagrams, 50% functional coding.</td>
+        </tr>
+        <tr>
+          <td><b>External Viva & Defense</b></td>
+          <td>50%</td>
+          <td>Final project report, full software demonstration, testing case logs, external viva defense.</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- The Proposal Structure -->
+  <div class="section">
+    <h2><b>1.2 Structuring the Project Proposal</b></h2>
+    <p>
+      A project proposal is a formal document that describes the planned system, objectives, methodology, and feasibility.
+      A well-written proposal is crucial because it serves as the roadmap for the entire project. It must follow a structured layout:
+    </p>
+    <ol>
+      <li><b>Title Page:</b> Contains the project title, course code, student names, roll numbers, submission date, and university logo.</li>
+      <li><b>Abstract / Executive Summary:</b> A single paragraph (150-250 words) that briefly summarizes the problem statement,
+        proposed system features, technologies to be used, and expected outcomes.</li>
+      <li><b>Introduction and Background:</b> Contextual information about the industry or domain, explaining why the system is relevant.</li>
+      <li><b>Statement of the Problem:</b> Clearly defines the limitations, inefficiencies, or challenges of the current manual or existing legacy systems.</li>
+      <li><b>Objectives:</b>
+        <ul>
+          <li><i>General Objective:</i> The high-level ultimate goal of the project (e.g., "To design and develop a web-based Clinic Management System").</li>
+          <li><i>Specific Objectives:</i> Action-oriented, measurable milestones (e.g., "To implement secure Patient Registration," "To generate medical billing invoices," "To store health history records").</li>
+        </ul>
+      </li>
+      <li><b>Scope and Limitations:</b>
+        <ul>
+          <li><i>Scope:</i> Defines what features the system *will* have (e.g., user profiles, admin dashboards, data reporting).</li>
+          <li><i>Limitations:</i> Outlines what the system *cannot* do (e.g., "Does not handle real-time payment gateway integration," "Only works inside local area network").</li>
+        </ul>
+      </li>
+      <li><b>Literature Review:</b> Summarizes existing software solutions, research papers, or platforms, highlighting their strengths and gaps
+        that your project aims to fill. Includes:
+        <ul>
+          <li><i>Theoretical Framework:</i> Software development methodologies (like Agile or Waterfall) and architectures.</li>
+          <li><i>Empirical Review:</i> Review of similar systems in active market use.</li>
+        </ul>
+      </li>
+      <li><b>Methodology:</b> Details the Software Development Life Cycle (SDLC) model, data collection techniques, hardware/software specifications, and coding frameworks.</li>
+      <li><b>Work Plan (Gantt Chart):</b> Visual timeline showing when each phase (Analysis, Design, Coding, Testing, Documentation) will be performed.</li>
+      <li><b>References:</b> Standard bibliographic entries in APA (American Psychological Association) formatting.</li>
+    </ol>
+  </div>
+
+  <!-- Software Feasibility Analysis -->
+  <div class="section">
+    <h2><b>1.3 Software Feasibility Analysis</b></h2>
+    <p>
+      Before coding, students must conduct a **Feasibility Study** to verify whether the project can be realistically developed within
+      the constraints of technology, budget, skills, and timeline:
+    </p>
+
+    <h3>1. Technical Feasibility</h3>
+    <p>
+      Evaluates whether the development team possesses the technical skills, hardware tools, and software resources needed.
+      <br><i>Questions asked:</i> Do we know PHP/Java/Javascript well enough? Are our systems powerful enough to compile the project? Are the required APIs open-source?
+    </p>
+
+    <h3>2. Economic Feasibility (Cost-Benefit Analysis)</h3>
+    <p>
+      Compares the development and operating costs of the system against its tangible and intangible benefits.
+      Although student projects are academic, a standard commercial CBA must be modeled:
+      <br>
+      $$\text{ROI} = \frac{\text{Net Financial Benefits} - \text{Development Costs}}{\text{Development Costs}} \times 100\%$$
+      $$\text{Payback Period} = \frac{\text{Initial Capital Outlay}}{\text{Annual Net Cash Inflow}}$$
+    </p>
+
+    <h3>3. Operational Feasibility</h3>
+    <p>
+      Determines whether the end-users (e.g., administrative staff, students, customers) will actually use the system and if it fits within
+      daily business procedures. It evaluates user interfaces, required training time, and user acceptance.
+    </p>
+
+    <h3>4. Schedule Feasibility (Gantt Chart)</h3>
+    <p>
+      Validates if the project can be completed before the final university defense date. A Gantt chart is created to track task progress:
+    </p>
+    <pre>
+  Task Name            │ W1 │ W2 │ W3 │ W4 │ W5 │ W6 │ W7 │ W8 │ W9 │ W10│ W11│ W12│
+  ─────────────────────┼────┼────┼────┼────┼────┼────┼────┼────┼────┼────┼────┼────┤
+  Requirements Analysis│XXXX│    │    │    │    │    │    │    │    │    │    │    │
+  System Design        │    │XXXX│XXXX│    │    │    │    │    │    │    │    │    │
+  Database Creation    │    │    │    │XXXX│    │    │    │    │    │    │    │    │
+  Frontend Design      │    │    │    │    │XXXX│XXXX│    │    │    │    │    │    │
+  Backend Coding       │    │    │    │    │    │    │XXXX│XXXX│XXXX│    │    │    │
+  System Testing       │    │    │    │    │    │    │    │    │    │XXXX│    │    │
+  Deployment           │    │    │    │    │    │    │    │    │    │    │XXXX│    │
+  Report Writing       │    │    │    │    │    │    │    │    │    │    │    │XXXX│
+    </pre>
+
+    <h3>5. Legal Feasibility</h3>
+    <p>
+      Ensures the system does not violate software licensing, data privacy laws (such as GDPR, or Nepal's Electronic Transactions Act 2063),
+      copyrights, or institutional policies.
+    </p>
+  </div>
+
+  <!-- BCSIT Project Ideas -->
+  <div class="section">
+    <h2><b>1.4 Modern BCSIT Project II Ideas</b></h2>
+    <p>
+      To help students choose an appropriate project, here are 10 structured project topics with their core database and business logic:
+    </p>
+    <ol>
+      <li><b>Online Pharmacy E-Commerce System:</b> Features user ordering, doctor prescription upload, stock warnings for expiring medicines, and admin dashboards.</li>
+      <li><b>Local Body Grievance Redressal System (Ward Portal):</b> Citizens submit public issues (potholes, street lights) with photo uploads and GPS coordinates. Municipal officers track and update status.</li>
+      <li><b>Car Rental and Fleet Reservation Portal:</b> Customer vehicle booking, hourly/daily price calculation, dynamic driver allocation, and maintenance calendars.</li>
+      <li><b>Real Estate Listing and Broker Platform:</b> Owners upload land/house listings with pictures, price maps, customer scheduling for site visits, and filter searches.</li>
+      <li><b>Student Hostel Allocation System:</b> Admin manages rooms, beds, warden details, and food menus. Students request bookings, submit fee deposits, and register complaints.</li>
+      <li><b>Gym and Health Club Management System:</b> Member check-in tracker, trainer schedules, progress logs (BMI, calorie counts), and monthly subscription automated billing.</li>
+      <li><b>E-Learning Resource Share Portal:</b> Teachers upload syllabus notes, past paper PDFs, and lecture links. Students search and download resources, rating files for quality control.</li>
+      <li><b>Restaurant Table and QR Ordering System:</b> Diners scan a table QR code, browse a digital menu, place food orders directly to the kitchen, and track billing.</li>
+      <li><b>Employee Attendance and Payroll System:</b> Daily check-in/check-out logs, leave application workflow, tax deduction (Nepal tax bracket calculation), and payslip generation.</li>
+      <li><b>IT Asset Tracking and Inventory Management:</b> Tracks computers, monitors, software licenses, and hardware serial keys. Manages check-outs to employees and repairs.</li>
+    </ol>
+  </div>
+
+  <!-- Complete Sample Proposal Template -->
+  <div class="section">
+    <h2><b>1.5 Sample Project Proposal Template</b></h2>
+    <p>
+      Below is a full-length project proposal sample for a <b>"Web-Based Clinic Management System"</b>. Students can
+      refer to this template to structure their proposals:
+    </p>
+
+    <div class="note">
+      <h3><b>A PROPOSAL ON CLINIC MANAGEMENT SYSTEM (MEDCARE)</b></h3>
+      <p><b>Prepared By:</b> Umesh Darlami & Team</p>
+      <p><b>Course Code:</b> PRI 281 (Project II)</p>
+      <hr>
+
+      <h4>1. Executive Summary</h4>
+      <p>
+        The proposed Clinic Management System, named "MedCare," is a web-based portal designed to automate the medical scheduling, patient record tracking, and billing operations of mid-sized clinics. Currently, many clinics in Nepal rely on paper charts to record patient history and log appointments, leading to scheduling conflicts, data loss, and delays in patient care. MedCare resolves this by building a dynamic system using a MySQL database, an Express/NodeJS backend, and a clean HTML/CSS/JS frontend. The system includes role-based access for Admin, Doctor, and Receptionist, ensuring secure and efficient operations.
+      </p>
+
+      <h4>2. Problem Statement</h4>
+      <p>
+        Mid-sized medical clinics handle a high volume of outpatient records daily. The manual, paper-based tracking systems present severe limitations:
+        <br>- <b>Slow Retrieval:</b> Locating a patient's historical paper chart takes several minutes, delaying treatment.
+        <br>- <b>Data Damage:</b> Paper records are susceptible to physical fire, moisture, and misplacement.
+        <br>- <b>Inefficient Scheduling:</b> Double-bookings of doctors are common because receptionists lack a real-time calendar synchronization tool.
+        <br>- <b>Accounting Discrepancies:</b> Manual bill calculation is prone to errors and lacks financial auditing summaries.
+      </p>
+
+      <h4>3. Project Objectives</h4>
+      <p>
+        <b>General Objective:</b> To design, develop, and test a secure, web-based Clinic Management System (MedCare) to replace paper record-keeping.
+        <br>
+        <br><b>Specific Objectives:</b>
+        <br>1. To design a relational database to store patient profiles, medical histories, appointments, and bills securely.
+        <br>2. To build an appointment scheduling module with real-time slot checking to prevent double-bookings.
+        <br>3. To implement role-based dashboards (Receptionist, Doctor, Admin) using JWT sessions.
+        <br>4. To implement a billing system that automatically calculates costs, taxes, and outputs printable invoices.
+        <br>5. To perform unit and system testing to achieve a system stability rating of at least 95%.
+      </p>
+
+      <h4>4. Literature Review</h4>
+      <p>
+        Many clinic software solutions exist, such as open-source Electronic Medical Records (EMR) like OpenEMR.
+        While OpenEMR is highly customizable, it is extremely heavy and has a steep learning curve for local Nepalese clinics.
+        Commercial systems like Practo offer premium SaaS tools, but charge expensive monthly subscriptions that are economically
+        infeasible for small wards or independent general practitioners. MedCare targets this gap by delivering a lightweight,
+        cost-free, and simple-to-operate portal customized with Nepalese tax rates (13% VAT) and localized reporting formats.
+      </p>
+
+      <h4>5. Proposed Methodology</h4>
+      <p>
+        We will adopt the <b>Agile Scrum Methodology</b> for system development. The project will be divided into 4 main two-week sprints:
+      </p>
+      <ul>
+        <li><b>Sprint 1: System Analysis & Design:</b> Database ERD modeling, schema design, and Figma mockup design.</li>
+        <li><b>Sprint 2: Core Frontend/Backend Development:</b> Node server setup, database connection, user login, and dashboard templates.</li>
+        <li><b>Sprint 3: Module Integration:</b> Connecting the Appointment Booking calendar and the Doctor Prescription module with database triggers.</li>
+        <li><b>Sprint 4: Testing & Final Tuning:</b> Writing Jest unit tests, performing security audits, and compiling the PU report.</li>
+      </ul>
+      <p><b>Technical Stack:</b>
+        <br>- <b>Frontend:</b> HTML5, CSS3, JavaScript ES6 (built with responsive design for mobile browsers).
+        <br>- <b>Backend:</b> Node.js with Express framework.
+        <br>- <b>Database:</b> MySQL (hosted locally or on AWS RDS).
+        <br>- <b>Development Tools:</b> VS Code, Git/GitHub, Postman.
+      </p>
+
+      <h4>6. Hardware & Software Requirements</h4>
+      <p><b>Hardware:</b>
+        <br>- CPU: Intel Core i5 or equivalent.
+        <br>- RAM: 8 GB Minimum.
+        <br>- Disk Space: 500 MB free space for code and local database storage.
+        <br>
+        <br><b>Software:</b>
+        <br>- Operating System: Windows 10/11 or macOS.
+        <br>- Database Server: MySQL Server 8.0.
+        <br>- Web Browser: Google Chrome, Firefox, or Microsoft Edge.
+        <br>- Runtime Environment: Node.js (v18 or above).
+      </p>
+
+      <h4>7. Expected Outcomes</h4>
+      <p>
+        Upon successful completion of MedCare:
+        <br>- Clinics will reduce patient check-in times by 60%.
+        <br>- Appointments will be double-booking-free due to strict database constraint checking.
+        <br>- Patients will receive clean, error-free printed invoices.
+        <br>- Medical histories will be stored securely with access limited to authorized doctors.
+      </p>
+
+      <h4>8. References (APA Style)</h4>
+      <ul>
+        <li>Pressman, R. S. (2014). <i>Software Engineering: A Practitioner's Approach</i>. McGraw-Hill Education.</li>
+        <li>Elmasri, R., & Navathe, S. B. (2016). <i>Fundamentals of Database Systems</i> (7th ed.). Pearson.</li>
+        <li>Nepal Law Commission. (2006). <i>Electronic Transactions Act, 2063</i>. Government of Nepal.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Feasibility Checklist and Best Practices -->
+  <div class="section">
+    <h2><b>1.6 Proposal Defense Best Practices</b></h2>
+    <p>
+      When defending your proposal before the internal department committee:
+    </p>
+    <ul>
+      <li><b>Keep Slides Visual:</b> Do not overload slides with text. Use diagrams (like SDLC flowcharts or ASCII Gantt charts) to represent processes.</li>
+      <li><b>Focus on Scope:</b> Be realistic about what you can build in 12 weeks. If you propose machine learning or payment systems, examiners will expect them fully functional at the final defense.</li>
+      <li><b>Explain the Database:</b> Prepare to answer how you will structure your database tables and handle relationships (foreign keys).</li>
+      <li><b>Identify Gaps:</b> Clearly explain how your system is better or more suitable than existing alternative solutions.</li>
+    </ul>
+  </div>
+
+  <!-- Detailed Cost-Benefit Analysis -->
+  <div class="section">
+    <h2><b>1.7 Detailed Financial Feasibility: Cost-Benefit Analysis & NPV</b></h2>
+    <p>
+      In a professional feasibility study, the economic feasibility must project cash flows and compute Net Present Value (NPV)
+      assuming a 3-year system lifespan.
+    </p>
+    <div class="note">
+      <h4>Worked CBA Matrix</h4>
+      <table>
+        <tr>
+          <th>Cost Category</th>
+          <th>Year 0 (Development)</th>
+          <th>Year 1 (Operation)</th>
+          <th>Year 2 (Operation)</th>
+          <th>Year 3 (Operation)</th>
+        </tr>
+        <tr>
+          <td><b>Developer Salaries</b></td>
+          <td>$60,000</td>
+          <td>$0</td>
+          <td>$0</td>
+          <td>$0</td>
+        </tr>
+        <tr>
+          <td><b>Hosting & Domain</b></td>
+          <td>$2,000</td>
+          <td>$1,500</td>
+          <td>$1,600</td>
+          <td>$1,700</td>
+        </tr>
+        <tr>
+          <td><b>Training & Support</b></td>
+          <td>$3,000</td>
+          <td>$1,000</td>
+          <td>$1,000</td>
+          <td>$1,000</td>
+        </tr>
+        <tr>
+          <td><b>Total Costs</b></td>
+          <td><b>$65,000</b></td>
+          <td><b>$2,500</b></td>
+          <td><b>$2,600</b></td>
+          <td><b>$2,700</b></td>
+        </tr>
+        <tr>
+          <td><b>Tangible Savings (Staff reduction/paper)</b></td>
+          <td>$0</td>
+          <td>$30,000</td>
+          <td>$32,000</td>
+          <td>$35,000</td>
+        </tr>
+        <tr>
+          <td><b>Net Cash Flow</b></td>
+          <td><b>-$65,000</b></td>
+          <td><b>+$27,500</b></td>
+          <td><b>+$29,400</b></td>
+          <td><b>+$32,300</b></td>
+        </tr>
+      </table>
+      <p>
+        Assuming a cost of capital (discount rate) of 10%:
+        <br>
+        $$NPV = \frac{27,500}{(1.10)^1} + \frac{29,400}{(1.10)^2} + \frac{32,300}{(1.10)^3} - 65,000$$
+        <br>$$PV(\text{Year 1}) = 27,500 / 1.10 = \$25,000.00$$
+        <br>$$PV(\text{Year 2}) = 29,400 / 1.21 = \$24,297.52$$
+        <br>$$PV(\text{Year 3}) = 32,300 / 1.331 = \$24,267.47$$
+        <br>$$NPV = (25,000 + 24,297.52 + 24,267.47) - 65,000 = 73,564.99 - 65,000 = +\$8,564.99$$
+        <br>Since $NPV > 0$, the project is economically feasible.
+      </p>
+    </div>
+  </div>
+
+  <!-- SDLC Models Comparison -->
+  <div class="section">
+    <h2><b>1.8 Software Development Life Cycle (SDLC) Model Selection</b></h2>
+    <p>
+      Choosing the right development methodology determines how your team manages tasks:
+    </p>
+    <table>
+      <tr>
+        <th>SDLC Model</th>
+        <th>Characteristics</th>
+        <th>When to Use</th>
+        <th>Suitability for Project II</th>
+      </tr>
+      <tr>
+        <td><b>Waterfall</b></td>
+        <td>Linear, sequential phases. No feedback loops. Complete documentation first.</td>
+        <td>Strictly defined, unchangeable requirements.</td>
+        <td>Low. Hard to adapt if requirements change mid-semester.</td>
+      </tr>
+      <tr>
+        <td><b>V-Model</b></td>
+        <td>Verification and Validation phases run in parallel. Strict testing.</td>
+        <td>Safety-critical systems (medical hardware, aviation software).</td>
+        <td>Medium. Good testing structure, but too rigid.</td>
+      </tr>
+      <tr>
+        <td><b>Agile Scrum</b></td>
+        <td>Iterative, divided into 2-4 week Sprints. Regular prototype deliveries.</td>
+        <td>Dynamic projects where requirements evolve.</td>
+        <td>**High (Recommended).** Helps teams debug issues incrementally.</td>
+      </tr>
+    </table>
+    <h3>The Agile Scrum Framework</h3>
+    <ul>
+      <li><b>Scrum Roles:</b>
+        <br>- *Product Owner:* Represents client requirements (the supervisor/examiner).
+        <br>- *Scrum Master:* Facilitates meetings and removes bottlenecks (team lead).
+        <br>- *Development Team:* Writes code, designs database, runs tests.
+      </li>
+      <li><b>Scrum Events:</b>
+        <br>- *Sprint Planning:* Setting goals for the next 2 weeks.
+        <br>- *Daily Standup:* 15-minute sync checking completed work and blocking issues.
+        <br>- *Sprint Review:* Demonstrating working software prototype to the Product Owner.
+        <br>- *Sprint Retrospective:* Reviewing team performance to improve collaboration.
+      </li>
+    </ul>
+  </div>
+
+  <!-- Detailed Database Schemas for Selected Project Ideas -->
+  <div class="section">
+    <h2><b>1.9 Database Schemas for Selected BCSIT Project Ideas</b></h2>
+    <p>
+      To assist in design, here are detailed tables (entities and fields) for popular project ideas:
+    </p>
+
+    <h3>1. E-Commerce Pharmacy System</h3>
+    <ul>
+      <li><b>Users Table:</b> <code>user_id (PK)</code>, <code>username</code>, <code>password_hash</code>, <code>email</code>, <code>role (Admin, Customer)</code></li>
+      <li><b>Medicines Table:</b> <code>medicine_id (PK)</code>, <code>name</code>, <code>generic_name</code>, <code>expiry_date</code>, <code>stock_qty</code>, <code>price</code></li>
+      <li><b>Orders Table:</b> <code>order_id (PK)</code>, <code>user_id (FK)</code>, <code>order_date</code>, <code>total_amount</code>, <code>prescription_url</code></li>
+    </ul>
+
+    <h3>2. Car Rental Portal</h3>
+    <ul>
+      <li><b>Vehicles Table:</b> <code>vehicle_id (PK)</code>, <code>plate_number</code>, <code>model</code>, <code>category (SUV, Sedan)</code>, <code>status (Available, Rented)</code>, <code>price_per_day</code></li>
+      <li><b>Bookings Table:</b> <code>booking_id (PK)</code>, <code>customer_id (FK)</code>, <code>vehicle_id (FK)</code>, <code>start_date</code>, <code>end_date</code>, <code>total_cost</code></li>
+    </ul>
+
+    <h3>3. Gym Management System</h3>
+    <ul>
+      <li><b>Members Table:</b> <code>member_id (PK)</code>, <code>name</code>, <code>phone</code>, <code>join_date</code>, <code>membership_type (Monthly, Annual)</code></li>
+      <li><b>Attendance Logs Table:</b> <code>log_id (PK)</code>, <code>member_id (FK)</code>, <code>check_in_time</code></li>
+    </ul>
+  </div>
+
+  <!-- Guidelines for Literature Review -->
+  <div class="section">
+    <h2><b>1.10 Conducting the Literature Review & Identifying Research Gaps</b></h2>
+    <p>
+      The literature review is not just a summary of what you read; it must demonstrate an analytical synthesis
+      of existing works to find the **Research Gap** (what the existing systems lack that your project provides).
+    </p>
+    <h3>1. Systematic Search Steps</h3>
+    <ul>
+      <li><b>Identify Keywords:</b> E.g., "Web-based EMR," "Appointment Scheduling Algorithm," "Clinic Database Security."</li>
+      <li><b>Academic Databases:</b> Use Google Scholar, ResearchGate, and IEEE Xplore to locate peer-reviewed papers.</li>
+      <li><b>Document Findings:</b> Extract the methodologies (technologies, architectures) and key findings of each source.</li>
+    </ul>
+    <h3>2. Sample Literature Review Synthesis Matrix</h3>
+    <table>
+      <tr>
+        <th>Reference & Year</th>
+        <th>System / Methodology</th>
+        <th>Key Strengths</th>
+        <th>Identified Gaps (What is Missing?)</th>
+      </tr>
+      <tr>
+        <td>Shrestha & Thapa (2023)</td>
+        <td>PHP-based Hospital Portal.</td>
+        <td>Strong patient booking interface.</td>
+        <td>No role-based permissions; passwords stored in plaintext (security vulnerability).</td>
+      </tr>
+      <tr>
+        <td>Sharma et al. (2024)</td>
+        <td>NodeJS/MongoDB Medical Register.</td>
+        <td>Real-time chat, cloud storage.</td>
+        <td>Lacks financial invoice generation and Nepalese tax localizations.</td>
+      </tr>
+      <tr>
+        <td>OpenEMR Software (2025)</td>
+        <td>Global open-source EMR platform.</td>
+        <td>Extremely rich clinical customization.</td>
+        <td>Steep learning curve, high setup costs, heavy hardware requirements.</td>
+      </tr>
+    </table>
+
+    <h3>3. Standard APA 7th Edition Citation Formats</h3>
+    <p>
+      In your report, list citations using these precise formats:
+    </p>
+    <ul>
+      <li><b>Journal Article:</b> Author, A. A., & Author, B. B. (Year). Title of the article. <i>Title of the Journal</i>, <i>Volume</i>(Issue), pages.</li>
+      <li><b>Book:</b> Author, A. A. (Year). <i>Title of the book</i>. Publisher Name.</li>
+      <li><b>Web Page:</b> Group Name. (Year, Month Day). <i>Title of the page</i>. Site Name. URL</li>
+    </ul>
+    <p>
+      <b>Citation Check:</b>
+      <br>1. Confirm that all in-text citations (e.g. Sharma et al., 2024) have a matching full entry in the references.
+      <br>2. Avoid citing unverified blog posts or Wikipedia pages; prioritize peer-reviewed publications and official documentation.
+      <br>3. Check formatting rules for et al. references (use for three or more authors in-text).
+      <br>4. Capitalize only the first word of the title in book and article references.
+    </p>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 7: Configuration Management and Software Maintenance</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 7: Configuration Management and Software Maintenance [3 Hrs.]</b></h1>
+
+  <!-- 7.1 Software Configuration and Change Management -->
+  <div class="section">
+    <h2><b>7.1 Software Configuration and Change Management</b></h2>
+
+    <h3>What is Software Configuration Management (SCM)?</h3>
+    <p>
+      <b>Software Configuration Management (SCM)</b> is a set of activities designed to manage
+      change throughout the software lifecycle. It identifies, organizes, and controls
+      modifications to the software being built — essentially, SCM is the art of
+      coordinating software development to minimize confusion.
+    </p>
+
+    <h3>Why SCM is Needed</h3>
+    <p>
+      Change is inevitable in software development. Requirements change, designs evolve,
+      bugs are fixed, and new features are added. Without SCM, changes can lead to:
+    </p>
+    <ul>
+      <li>Lost modifications or overwritten changes</li>
+      <li>Inability to determine what changed, when, and why</li>
+      <li>Conflicting changes by multiple developers</li>
+      <li>Difficulty in reproducing bugs or reverting to a stable version</li>
+      <li>Inability to track which version a customer is using</li>
+    </ul>
+
+    <h3>Software Configuration Items (SCIs)</h3>
+    <p>
+      A <b>Software Configuration Item (SCI)</b> is anything that is produced during the
+      software engineering process and placed under configuration control:
+    </p>
+    <ul>
+      <li>Source code files</li>
+      <li>Documentation (SRS, design docs, test plans, user manuals)</li>
+      <li>Data files and databases</li>
+      <li>Build scripts and makefiles</li>
+      <li>Test cases and test data</li>
+      <li>Libraries and third-party components</li>
+      <li>Configuration files</li>
+      <li>Tools and compilers (versions)</li>
+    </ul>
+
+    <h3>Baselines</h3>
+    <p>
+      A <b>baseline</b> is a specification or product that has been formally reviewed and agreed upon,
+      that thereafter serves as the basis for further development, and that can be changed only
+      through formal change control procedures.
+    </p>
+
+    <table>
+      <tr>
+        <th>Baseline</th>
+        <th>When Established</th>
+        <th>What It Contains</th>
+      </tr>
+      <tr>
+        <td>Functional Baseline</td>
+        <td>After requirements review</td>
+        <td>Approved SRS document</td>
+      </tr>
+      <tr>
+        <td>Allocated Baseline</td>
+        <td>After design review</td>
+        <td>Approved design specification</td>
+      </tr>
+      <tr>
+        <td>Product Baseline</td>
+        <td>After testing and acceptance</td>
+        <td>Approved code, documentation, test results</td>
+      </tr>
+    </table>
+
+    <h3>Change Management Process</h3>
+    <p>
+      The change management process ensures that changes are introduced in a controlled
+      and coordinated manner:
+    </p>
+    <ol>
+      <li><b>Change Request:</b> A stakeholder submits a formal request for change
+        (using a Change Request Form)</li>
+      <li><b>Change Evaluation:</b> The change is evaluated for:
+        <ul>
+          <li>Technical merit and feasibility</li>
+          <li>Impact on existing functionality</li>
+          <li>Cost and effort required</li>
+          <li>Schedule impact</li>
+          <li>Risk assessment</li>
+        </ul>
+      </li>
+      <li><b>Change Control Board (CCB) Review:</b> A group of stakeholders reviews the change
+        request and the evaluation, then approves, modifies, or rejects the change</li>
+      <li><b>Implementation:</b> If approved, the change is implemented following established procedures</li>
+      <li><b>Verification:</b> The change is tested and verified</li>
+      <li><b>Release:</b> The modified software is released to users</li>
+    </ol>
+
+    <pre>
+  Change Management Process Flow:
+
+  Change Request → Evaluation → CCB Review → Decision
+                                               ↓
+                                     ┌────────────────┐
+                                     │   Approved?     │
+                                     └────────────────┘
+                                    Yes/              \No
+                                     ↓                  ↓
+                              Implementation        Archive
+                                     ↓               (Rejected)
+                               Verification
+                                     ↓
+                               Release / Deploy
+    </pre>
+  </div>
+
+  <!-- 7.3 Version and Release Management -->
+  <div class="section">
+    <h2><b>7.3 Version and Release Management</b></h2>
+
+    <h3>Version Control</h3>
+    <p>
+      <b>Version control</b> (also called source control or revision control) is the
+      management of changes to documents, programs, and other collections of information.
+      It tracks every modification to the code in a special database.
+    </p>
+
+    <h3>Version Numbering</h3>
+    <p>
+      The most common version numbering scheme is <b>Semantic Versioning (SemVer)</b>:
+    </p>
+    <pre>
+  MAJOR.MINOR.PATCH
+
+  MAJOR: Incremented when incompatible API changes are made
+  MINOR: Incremented when new functionality is added (backward compatible)
+  PATCH: Incremented when backward-compatible bug fixes are made
+
+  Examples:
+    1.0.0 → Initial release
+    1.0.1 → Bug fix
+    1.1.0 → New feature added
+    2.0.0 → Breaking change / major rewrite
+    </pre>
+
+    <h3>Version Control Systems</h3>
+    <table>
+      <tr>
+        <th>System</th>
+        <th>Type</th>
+        <th>Key Features</th>
+      </tr>
+      <tr>
+        <td>Git</td>
+        <td>Distributed</td>
+        <td>Most popular; branching, merging, distributed repos; GitHub, GitLab</td>
+      </tr>
+      <tr>
+        <td>SVN (Subversion)</td>
+        <td>Centralized</td>
+        <td>Central server; simpler model; still used in some organizations</td>
+      </tr>
+      <tr>
+        <td>Mercurial</td>
+        <td>Distributed</td>
+        <td>Similar to Git; simpler command set</td>
+      </tr>
+      <tr>
+        <td>Perforce</td>
+        <td>Centralized</td>
+        <td>Handles large binary files well; used in game development</td>
+      </tr>
+    </table>
+
+    <h3>Git Branching Strategies</h3>
+    <ul>
+      <li><b>GitFlow:</b> Uses feature, develop, release, hotfix, and main branches</li>
+      <li><b>GitHub Flow:</b> Simple model — main branch + feature branches</li>
+      <li><b>Trunk-Based Development:</b> All developers commit to a single trunk (main) branch</li>
+    </ul>
+
+    <pre>
+  GitFlow Branching Model:
+
+  main     ──●──────────────────●──────────── (stable releases)
+              ↑                  ↑
+  release   ──┼──●───●──────────┼──
+              ↑  ↑   ↑          ↑
+  develop  ──●──●───●──●──●───●──●── (integration branch)
+              ↑  ↑       ↑  ↑
+  feature  ──●──●       ●──●        (feature branches)
+    </pre>
+
+    <h3>Release Management</h3>
+    <p>
+      <b>Release management</b> is the process of planning, scheduling, and controlling
+      the build, test, and deployment of releases. Key activities include:
+    </p>
+    <ul>
+      <li>Creating release plans and schedules</li>
+      <li>Managing release branches in version control</li>
+      <li>Building and packaging release artifacts</li>
+      <li>Managing deployment to various environments (staging, production)</li>
+      <li>Release notes and documentation</li>
+      <li>Rollback procedures</li>
+    </ul>
+
+    <h3>Release Types</h3>
+    <table>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>Alpha Release</td>
+        <td>Early, internal testing release</td>
+        <td>v1.0.0-alpha.1</td>
+      </tr>
+      <tr>
+        <td>Beta Release</td>
+        <td>External testing with selected users</td>
+        <td>v1.0.0-beta.1</td>
+      </tr>
+      <tr>
+        <td>Release Candidate (RC)</td>
+        <td>Feature-complete, final testing</td>
+        <td>v1.0.0-rc.1</td>
+      </tr>
+      <tr>
+        <td>General Availability (GA)</td>
+        <td>Production release for all users</td>
+        <td>v1.0.0</td>
+      </tr>
+      <tr>
+        <td>Hotfix</td>
+        <td>Emergency fix for critical production issue</td>
+        <td>v1.0.1</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 7.5 Types of Software Maintenance -->
+  <div class="section">
+    <h2><b>7.5 Types of Software Maintenance</b></h2>
+
+    <h3>What is Software Maintenance?</h3>
+    <p>
+      <b>Software maintenance</b> is defined as the modification of a software product
+      after delivery to correct faults, to improve performance or other attributes,
+      or to adapt the product to a modified environment. It is the most costly phase
+      of the software lifecycle, accounting for <b>60-80%</b> of total software costs.
+    </p>
+
+    <h3>Four Types of Maintenance</h3>
+    <table>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+        <th>% of Effort</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td><b>Corrective</b></td>
+        <td>Fixing bugs and defects discovered after delivery</td>
+        <td>~20%</td>
+        <td>Fixing a login error that occurs with special characters</td>
+      </tr>
+      <tr>
+        <td><b>Adaptive</b></td>
+        <td>Modifying software to accommodate changes in the environment (OS, hardware, regulations)</td>
+        <td>~25%</td>
+        <td>Updating software to work with a new operating system version</td>
+      </tr>
+      <tr>
+        <td><b>Perfective</b></td>
+        <td>Enhancing functionality and improving performance based on user feedback</td>
+        <td>~50%</td>
+        <td>Adding a new search feature requested by users</td>
+      </tr>
+      <tr>
+        <td><b>Preventive</b></td>
+        <td>Making changes to prevent future problems (re-engineering, refactoring)</td>
+        <td>~5%</td>
+        <td>Refactoring code to improve maintainability</td>
+      </tr>
+    </table>
+
+    <div class="note">
+      <b>Key Insight:</b> Perfective maintenance (adding new features and improvements)
+      accounts for the largest share of maintenance effort (~50%). This underscores the
+      importance of designing software that is easy to extend and modify.
+    </div>
+  </div>
+
+  <!-- 7.4 Need for Software Maintenance -->
+  <div class="section">
+    <h2><b>7.4 Need for Software Maintenance</b></h2>
+
+    <h3>Why is Maintenance Necessary?</h3>
+    <ul>
+      <li><b>Bug Fixes:</b> No software is perfect at release. Users discover bugs that
+        were not caught during testing.</li>
+      <li><b>Environment Changes:</b> Operating systems, hardware, networks, and regulations
+        change over time. Software must adapt to remain functional.</li>
+      <li><b>Business Changes:</b> Business requirements evolve. New features must be added
+        and existing features modified to meet changing needs.</li>
+      <li><b>Performance Improvements:</b> Users demand faster performance, better usability,
+        and enhanced capabilities over time.</li>
+      <li><b>Security Updates:</b> New vulnerabilities are discovered regularly. Software must
+        be patched to remain secure.</li>
+      <li><b>Technology Evolution:</b> New technologies emerge that offer better solutions.
+        Software must be updated to leverage them.</li>
+    </ul>
+
+    <h3>Lehman's Laws of Software Evolution</h3>
+    <ol>
+      <li><b>Continuing Change:</b> A software system must be continually adapted or it becomes
+        progressively less satisfactory in use.</li>
+      <li><b>Increasing Complexity:</b> As a program evolves, its complexity increases unless
+        work is done to reduce it.</li>
+      <li><b>Self-Regulation:</b> Program evolution is a self-regulating process.</li>
+      <li><b>Conservation of Organizational Stability:</b> The rate of effective work on an
+        evolving system is statistically invariant.</li>
+      <li><b>Conservation of Familiarity:</b> The incremental change in each release is
+        approximately constant.</li>
+      <li><b>Continuing Growth:</b> Functional capability must be continually increased
+        to maintain user satisfaction.</li>
+      <li><b>Declining Quality:</b> Quality of evolving systems will decline unless
+        rigorously maintained and adapted.</li>
+      <li><b>Feedback System:</b> Evolution processes are multi-level, multi-loop,
+        multi-agent feedback systems.</li>
+    </ol>
+  </div>
+
+  <!-- 7.6 Software Maintenance Process Models -->
+  <div class="section">
+    <h2><b>7.6 Software Maintenance Process Models</b></h2>
+
+    <h3>Quick-Fix Model</h3>
+    <ul>
+      <li>Simplest approach: identify the problem, fix it, release</li>
+      <li>No formal analysis of impact or side effects</li>
+      <li>Often leads to degraded software quality over time</li>
+      <li>Acceptable only for trivial changes</li>
+    </ul>
+
+    <h3>Iterative Enhancement Model (Basili)</h3>
+    <ol>
+      <li>Analyze existing system and identify areas for improvement</li>
+      <li>Design modifications</li>
+      <li>Implement and test changes</li>
+      <li>Deliver enhanced system</li>
+      <li>Repeat cycle</li>
+    </ol>
+
+    <h3>Reuse-Oriented Model</h3>
+    <ul>
+      <li>Focuses on identifying reusable components in the existing system</li>
+      <li>Modifies and extends reusable components for new requirements</li>
+      <li>Reduces maintenance effort through systematic reuse</li>
+    </ul>
+
+    <h3>Boehm's Maintenance Model</h3>
+    <p>
+      Boehm's model considers maintenance as a closed-loop feedback system:
+    </p>
+    <ol>
+      <li>Management decision to modify the system</li>
+      <li>Understanding of the existing system</li>
+      <li>Design of the modification</li>
+      <li>Implementation of the modification</li>
+      <li>Testing the modified system</li>
+      <li>Documentation update</li>
+      <li>Release and delivery</li>
+    </ol>
+  </div>
+
+  <!-- 7.7 Software Maintenance Cost -->
+  <div class="section">
+    <h2><b>7.7 Software Maintenance Cost</b></h2>
+
+    <h3>Cost Distribution</h3>
+    <p>
+      Software maintenance typically accounts for <b>60-80%</b> of the total lifecycle
+      cost of a software system. This makes it the most expensive phase of the SDLC.
+    </p>
+
+    <h3>Factors Affecting Maintenance Cost</h3>
+    <table>
+      <tr>
+        <th>Factor</th>
+        <th>Impact on Cost</th>
+      </tr>
+      <tr>
+        <td>Staff stability</td>
+        <td>High turnover increases cost (knowledge loss)</td>
+      </tr>
+      <tr>
+        <td>Programming language</td>
+        <td>Low-level languages are harder to maintain</td>
+      </tr>
+      <tr>
+        <td>Age of software</td>
+        <td>Older software is more expensive to maintain</td>
+      </tr>
+      <tr>
+        <td>Documentation quality</td>
+        <td>Poor documentation significantly increases maintenance effort</td>
+      </tr>
+      <tr>
+        <td>Design quality</td>
+        <td>Poorly designed systems are difficult and expensive to modify</td>
+      </tr>
+      <tr>
+        <td>External dependencies</td>
+        <td>More dependencies = more maintenance triggers</td>
+      </tr>
+      <tr>
+        <td>Domain complexity</td>
+        <td>Complex domains require more effort for maintenance</td>
+      </tr>
+      <tr>
+        <td>Configuration management</td>
+        <td>Poor SCM makes tracking and managing changes difficult</td>
+      </tr>
+    </table>
+
+    <h3>Reducing Maintenance Costs</h3>
+    <ul>
+      <li><b>Good initial design:</b> Well-designed software is easier and cheaper to maintain</li>
+      <li><b>Comprehensive documentation:</b> Reduces time to understand the system</li>
+      <li><b>Coding standards:</b> Consistent code is easier to read and modify</li>
+      <li><b>Automated testing:</b> Regression tests catch side effects of changes</li>
+      <li><b>Configuration management:</b> Proper SCM ensures controlled changes</li>
+      <li><b>Modular architecture:</b> Changes are isolated to specific modules</li>
+      <li><b>Knowledge management:</b> Document design decisions, rationale, and domain knowledge</li>
+      <li><b>Continuous refactoring:</b> Prevent accumulation of technical debt</li>
+    </ul>
+
+    <div class="note">
+      <b>Summary:</b> Software Configuration Management ensures controlled evolution
+      of software through baselines, version control, and formal change management.
+      Software maintenance is the longest and most expensive phase of the SDLC,
+      with perfective maintenance (enhancements) accounting for the largest share.
+      Organizations can reduce maintenance costs through good initial design,
+      comprehensive documentation, and robust SCM practices.
+    </div>
+  </div>
+
+  <!-- CI/CD in SCM Context -->
+  <div class="section">
+    <h2><b>Modern SCM: CI/CD Pipelines and Automation</b></h2>
+
+    <h3>Continuous Integration in Configuration Management</h3>
+    <p>
+      Modern SCM practices extend beyond traditional version control to encompass
+      <b>Continuous Integration and Continuous Delivery (CI/CD)</b> pipelines that
+      automate the build, test, and deployment processes:
+    </p>
+
+    <h4>CI/CD Pipeline Stages</h4>
+    <ol>
+      <li><b>Source Stage:</b> Developer commits code to version control (Git).
+        The CI/CD pipeline is automatically triggered by the commit event.</li>
+      <li><b>Build Stage:</b> The application is compiled and built. Dependencies are resolved.
+        Build artifacts (executables, packages) are created.</li>
+      <li><b>Test Stage:</b> Automated tests are executed — unit tests, integration tests,
+        code quality checks (linting, static analysis), and security scans.</li>
+      <li><b>Deploy Stage:</b> If all tests pass, the application is automatically deployed
+        to a staging environment. After approval, it can be deployed to production.</li>
+    </ol>
+
+    <pre>
+  CI/CD Pipeline in SCM Context:
+
+  Developer          Version Control       CI Server          Environments
+  ────────          ───────────────       ─────────          ────────────
+  Write Code  ─────→  Git Push     ─────→  Build    ─────→  Staging
+  Code Review ←─────  Pull Request ←─────  Test     ─────→  Production
+  Fix Issues  ─────→  Merge        ─────→  Deploy   ─────→  Monitoring
+    </pre>
+
+    <h3>Technical Debt and SCM</h3>
+    <p>
+      <b>Technical debt</b> is a metaphor reflecting the implied cost of additional rework
+      caused by choosing easy (limited) solutions now instead of using a better approach
+      that would take longer. SCM practices help manage and reduce technical debt:
+    </p>
+
+    <h4>Types of Technical Debt</h4>
+    <table>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+        <th>SCM Strategy</th>
+      </tr>
+      <tr>
+        <td>Code Debt</td>
+        <td>Poor code quality, code smells, duplication</td>
+        <td>Code reviews, automated quality gates</td>
+      </tr>
+      <tr>
+        <td>Design Debt</td>
+        <td>Suboptimal architecture and design decisions</td>
+        <td>Architecture reviews, design documentation</td>
+      </tr>
+      <tr>
+        <td>Testing Debt</td>
+        <td>Insufficient test coverage</td>
+        <td>Coverage thresholds in CI/CD pipeline</td>
+      </tr>
+      <tr>
+        <td>Documentation Debt</td>
+        <td>Missing or outdated documentation</td>
+        <td>Documentation requirements in Definition of Done</td>
+      </tr>
+      <tr>
+        <td>Infrastructure Debt</td>
+        <td>Outdated dependencies, unsupported platforms</td>
+        <td>Automated dependency scanning and updates</td>
+      </tr>
+    </table>
+
+    <h3>SCM Best Practices Summary</h3>
+    <ul>
+      <li><b>Commit frequently:</b> Small, focused commits are easier to review, test, and revert</li>
+      <li><b>Write meaningful commit messages:</b> Describe what changed and why</li>
+      <li><b>Use branching strategies:</b> Feature branches, release branches, hotfix branches</li>
+      <li><b>Automate everything:</b> Build, test, deploy, and quality checks should be automated</li>
+      <li><b>Tag releases:</b> Use semantic versioning tags for all releases</li>
+      <li><b>Never commit secrets:</b> Use environment variables or secret management tools</li>
+      <li><b>Code review all changes:</b> Pull/merge requests with peer review before merging</li>
+      <li><b>Maintain a clean history:</b> Use squash merges or interactive rebase when appropriate</li>
+      <li><b>Back up your repository:</b> Ensure repository data is regularly backed up</li>
+      <li><b>Use .gitignore:</b> Exclude build artifacts, IDE files, and dependencies from version control</li>
+    </ul>
+  </div>
+
+</body>
+</html>

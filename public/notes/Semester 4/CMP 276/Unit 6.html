@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 6: Software Testing and Quality Assurance</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 6: Software Testing and Quality Assurance [4 Hrs.]</b></h1>
+
+  <!-- 6.1 Software Testing Approach -->
+  <div class="section">
+    <h2><b>6.1 Software Testing Approach</b></h2>
+
+    <h3>What is Software Testing?</h3>
+    <p>
+      <b>Software testing</b> is the process of executing a program with the intent of finding
+      errors. It is a critical element of software quality assurance and represents the
+      ultimate review of specification, design, and code generation.
+    </p>
+    <p>
+      According to <b>Glen Myers</b>, testing has the following rules:
+    </p>
+    <ul>
+      <li>Testing is a process of executing a program with the intent of finding an error.</li>
+      <li>A good test case is one that has a high probability of finding an as-yet undiscovered error.</li>
+      <li>A successful test is one that uncovers an as-yet undiscovered error.</li>
+    </ul>
+
+    <h3>Testing Objectives</h3>
+    <ul>
+      <li>Testing is a process of executing the software with the intent of finding and removing errors</li>
+      <li>A good test case is one that has a high probability of uncovering an error</li>
+      <li>Testing cannot show the absence of defects; it can only show their presence</li>
+      <li>Testing should be traceable to customer requirements</li>
+      <li>Testing should be planned long before testing begins</li>
+      <li>Testing should begin "in the small" and progress toward testing "in the large"</li>
+      <li>Exhaustive testing is not possible</li>
+    </ul>
+
+    <h3>Testing Levels</h3>
+    <p>
+      Software testing is typically organized into four levels, each building on the previous:
+    </p>
+    <pre>
+  ┌─────────────────────────────────────────────┐
+  │         Acceptance Testing                   │  ← Customer validates
+  ├─────────────────────────────────────────────┤
+  │         System Testing                       │  ← Complete system verified
+  ├─────────────────────────────────────────────┤
+  │         Integration Testing                  │  ← Modules combined and tested
+  ├─────────────────────────────────────────────┤
+  │         Unit Testing                         │  ← Individual components tested
+  └─────────────────────────────────────────────┘
+    </pre>
+
+    <h4>1. Unit Testing</h4>
+    <ul>
+      <li>Tests individual components (functions, methods, classes) in isolation</li>
+      <li>Performed by developers during the construction phase</li>
+      <li>Uses stubs and drivers to simulate dependencies</li>
+      <li>Focuses on internal logic, boundary conditions, error handling</li>
+      <li>Tools: JUnit, NUnit, pytest, Mocha</li>
+    </ul>
+
+    <h4>2. Integration Testing</h4>
+    <ul>
+      <li>Tests the interfaces between components when they are combined</li>
+      <li>Approaches:
+        <ul>
+          <li><b>Top-down integration:</b> Starts with top-level module; uses stubs for lower modules</li>
+          <li><b>Bottom-up integration:</b> Starts with lowest modules; uses drivers for higher modules</li>
+          <li><b>Sandwich/Hybrid:</b> Combines both approaches</li>
+          <li><b>Big-bang:</b> All modules integrated at once (not recommended)</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h4>3. System Testing</h4>
+    <ul>
+      <li>Tests the complete integrated system against requirements</li>
+      <li>Includes functional testing, performance testing, security testing, usability testing</li>
+      <li>Validates that the system meets its specified requirements</li>
+    </ul>
+
+    <h4>4. Acceptance Testing</h4>
+    <ul>
+      <li>Performed by the customer/end-user</li>
+      <li><b>Alpha Testing:</b> Conducted at the developer's site by end users</li>
+      <li><b>Beta Testing:</b> Conducted at the customer's site by end users</li>
+      <li>Validates that the system satisfies the customer's business needs</li>
+    </ul>
+  </div>
+
+  <!-- 6.2 Types of System Testing -->
+  <div class="section">
+    <h2><b>6.2 Types of System Testing</b></h2>
+
+    <h3>Internal vs. External Views of Testing</h3>
+    <table>
+      <tr>
+        <th>Aspect</th>
+        <th>Internal View (White-Box)</th>
+        <th>External View (Black-Box)</th>
+      </tr>
+      <tr>
+        <td>Knowledge Required</td>
+        <td>Internal code structure</td>
+        <td>Only input/output specifications</td>
+      </tr>
+      <tr>
+        <td>Focus</td>
+        <td>Code coverage, logic paths</td>
+        <td>Functional correctness</td>
+      </tr>
+      <tr>
+        <td>Performed By</td>
+        <td>Developers</td>
+        <td>Testers, QA, customers</td>
+      </tr>
+      <tr>
+        <td>Basis</td>
+        <td>Source code</td>
+        <td>Requirements specification</td>
+      </tr>
+    </table>
+
+    <h3>White-Box Testing (Structural Testing)</h3>
+    <p>
+      <b>White-box testing</b> (also called glass-box testing, structural testing, or clear-box testing)
+      uses the internal structure of the program to design test cases. The tester has access to
+      the source code and tests internal logic.
+    </p>
+
+    <h4>Basis Path Testing</h4>
+    <p>
+      <b>Basis path testing</b>, proposed by Tom McCabe, enables the tester to derive a
+      logical complexity measure of a procedural design and use this measure as a guide
+      for defining a <b>basis set</b> of execution paths:
+    </p>
+    <ol>
+      <li>Draw the <b>Control Flow Graph (CFG)</b> from the source code</li>
+      <li>Calculate <b>cyclomatic complexity V(G)</b> = E - N + 2</li>
+      <li>Determine the <b>basis set</b> of V(G) linearly independent paths</li>
+      <li>Prepare <b>test cases</b> that force execution of each path in the basis set</li>
+    </ol>
+
+    <pre>
+  Example:
+  void process(int a, int b) {
+      int x = 0;                    // Node 1
+      if (a &gt; 5) {                  // Node 2 (Predicate)
+          x = a;                    // Node 3
+      }
+      if (b &gt; 10) {                 // Node 4 (Predicate)
+          x = x + b;               // Node 5
+      }
+      printf("%d", x);             // Node 6
+  }
+
+  V(G) = 2 (predicates) + 1 = 3
+
+  Basis Paths:
+  Path 1: 1 → 2 → 4 → 6          (a ≤ 5, b ≤ 10)
+  Path 2: 1 → 2 → 3 → 4 → 6      (a &gt; 5, b ≤ 10)
+  Path 3: 1 → 2 → 3 → 4 → 5 → 6  (a &gt; 5, b &gt; 10)
+
+  Test Cases:
+  TC1: a=3, b=5   → Expected: x=0
+  TC2: a=8, b=5   → Expected: x=8
+  TC3: a=8, b=15  → Expected: x=23
+    </pre>
+
+    <h4>Control Structure Testing</h4>
+    <ul>
+      <li><b>Condition Testing:</b> Tests each condition in the program
+        <ul>
+          <li>Branch Testing: Test each branch (true/false) of every condition</li>
+          <li>Domain Testing: Tests boundary values of conditions</li>
+        </ul>
+      </li>
+      <li><b>Loop Testing:</b> Focuses on the validity of loop constructs
+        <ul>
+          <li>Skip loop entirely (zero iterations)</li>
+          <li>Only one pass through the loop</li>
+          <li>Two passes through the loop</li>
+          <li>m passes where m &lt; maximum</li>
+          <li>Maximum minus 1, maximum, maximum plus 1 passes</li>
+        </ul>
+      </li>
+      <li><b>Data Flow Testing:</b> Selects test paths based on the locations of
+        definitions and uses of variables</li>
+    </ul>
+
+    <h3>Black-Box Testing (Functional Testing)</h3>
+    <p>
+      <b>Black-box testing</b> focuses on the functional requirements of the software.
+      The tester treats the software as a "black box" — only knowing inputs and expected outputs.
+    </p>
+
+    <h4>Black-Box Techniques</h4>
+
+    <h4>1. Equivalence Partitioning</h4>
+    <p>
+      Divides the input domain into classes of data (partitions) from which test cases
+      can be derived. Each partition is expected to be treated the same way by the software.
+    </p>
+    <pre>
+  Example: Input field accepts age (1-120)
+
+  Valid Partitions:
+    Class 1: 1-120 (valid range)
+
+  Invalid Partitions:
+    Class 2: &lt; 1 (below minimum)
+    Class 3: &gt; 120 (above maximum)
+    Class 4: Non-numeric input
+
+  Test Cases:
+    TC1: age = 25   (Class 1 - valid)
+    TC2: age = 0    (Class 2 - invalid)
+    TC3: age = 150  (Class 3 - invalid)
+    TC4: age = "abc"(Class 4 - invalid)
+    </pre>
+
+    <h4>2. Boundary Value Analysis (BVA)</h4>
+    <p>
+      Focuses on testing at the boundaries of input ranges where errors are most likely:
+    </p>
+    <pre>
+  Example: Input range 1-120
+
+  Boundary Test Cases:
+    TC1: age = 0    (just below minimum)
+    TC2: age = 1    (minimum boundary)
+    TC3: age = 2    (just above minimum)
+    TC4: age = 119  (just below maximum)
+    TC5: age = 120  (maximum boundary)
+    TC6: age = 121  (just above maximum)
+    </pre>
+
+    <h4>3. Decision Table Testing</h4>
+    <p>
+      Uses a table to represent combinations of conditions and the actions that should result:
+    </p>
+    <table>
+      <tr>
+        <th>Condition</th>
+        <th>Rule 1</th>
+        <th>Rule 2</th>
+        <th>Rule 3</th>
+        <th>Rule 4</th>
+      </tr>
+      <tr>
+        <td>Age ≥ 18</td>
+        <td>T</td>
+        <td>T</td>
+        <td>F</td>
+        <td>F</td>
+      </tr>
+      <tr>
+        <td>Has ID</td>
+        <td>T</td>
+        <td>F</td>
+        <td>T</td>
+        <td>F</td>
+      </tr>
+      <tr>
+        <th>Action</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <td>Allow Entry</td>
+        <td>X</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Deny Entry</td>
+        <td></td>
+        <td>X</td>
+        <td>X</td>
+        <td>X</td>
+      </tr>
+    </table>
+
+    <h4>4. State Transition Testing</h4>
+    <p>
+      Tests the behavior of the system as it transitions between different states:
+    </p>
+    <ul>
+      <li>Identify all states the system can be in</li>
+      <li>Identify all events that trigger state transitions</li>
+      <li>Create state transition diagrams</li>
+      <li>Test each valid transition and attempt invalid transitions</li>
+    </ul>
+
+    <h3>System Debugging</h3>
+    <p>
+      <b>Debugging</b> occurs as a consequence of successful testing — when a test case
+      uncovers an error, debugging is the process of finding and removing the cause
+      of that error. Debugging approaches include:
+    </p>
+    <ul>
+      <li><b>Brute Force:</b> Memory dumps, print statements, runtime traces</li>
+      <li><b>Backtracking:</b> Start from the error symptom and work backward through the code</li>
+      <li><b>Cause Elimination:</b> Develop a hypothesis for the cause, test the hypothesis,
+        refine until the cause is found (scientific method)</li>
+      <li><b>Automated Debugging:</b> Using debugger tools (breakpoints, watch variables,
+        step-through execution)</li>
+    </ul>
+  </div>
+
+  <!-- 6.3 Software Quality -->
+  <div class="section">
+    <h2><b>6.3 Software Quality Attributes and Quality Factors</b></h2>
+
+    <h3>McCall's Quality Factors</h3>
+    <p>
+      <b>McCall's quality model</b> categorizes software quality factors into three
+      perspectives:
+    </p>
+
+    <h4>1. Product Operation (How well does it run?)</h4>
+    <table>
+      <tr>
+        <th>Factor</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>Correctness</td>
+        <td>Extent to which a program satisfies its specifications and fulfills user objectives</td>
+      </tr>
+      <tr>
+        <td>Reliability</td>
+        <td>Extent to which a program can be expected to perform its function with required precision</td>
+      </tr>
+      <tr>
+        <td>Efficiency</td>
+        <td>Amount of computing resources and code required to perform a function</td>
+      </tr>
+      <tr>
+        <td>Integrity</td>
+        <td>Extent to which access to software or data by unauthorized persons can be controlled</td>
+      </tr>
+      <tr>
+        <td>Usability</td>
+        <td>Effort required to learn, operate, prepare input, and interpret output</td>
+      </tr>
+    </table>
+
+    <h4>2. Product Revision (How easy is it to change?)</h4>
+    <table>
+      <tr>
+        <th>Factor</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>Maintainability</td>
+        <td>Effort required to locate and fix an error in a program</td>
+      </tr>
+      <tr>
+        <td>Flexibility</td>
+        <td>Effort required to modify an operational program</td>
+      </tr>
+      <tr>
+        <td>Testability</td>
+        <td>Effort required to test a program to ensure it performs its intended function</td>
+      </tr>
+    </table>
+
+    <h4>3. Product Transition (How well does it adapt?)</h4>
+    <table>
+      <tr>
+        <th>Factor</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>Portability</td>
+        <td>Effort required to transfer a program from one environment to another</td>
+      </tr>
+      <tr>
+        <td>Reusability</td>
+        <td>Extent to which a program can be used in other applications</td>
+      </tr>
+      <tr>
+        <td>Interoperability</td>
+        <td>Effort required to couple one system to another</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 6.4-6.5 Quality Control and Quality Assurance -->
+  <div class="section">
+    <h2><b>6.4 Software Quality Control and Quality Assurance</b></h2>
+
+    <h3>Quality Control (QC) vs. Quality Assurance (QA)</h3>
+    <table>
+      <tr>
+        <th>Aspect</th>
+        <th>Quality Control (QC)</th>
+        <th>Quality Assurance (QA)</th>
+      </tr>
+      <tr>
+        <td>Focus</td>
+        <td>Product-oriented (finding defects)</td>
+        <td>Process-oriented (preventing defects)</td>
+      </tr>
+      <tr>
+        <td>When</td>
+        <td>During and after development</td>
+        <td>Throughout the entire lifecycle</td>
+      </tr>
+      <tr>
+        <td>Goal</td>
+        <td>Identify and fix defects</td>
+        <td>Improve processes to prevent defects</td>
+      </tr>
+      <tr>
+        <td>Activities</td>
+        <td>Testing, reviews, inspections</td>
+        <td>Process definition, audits, training, standards</td>
+      </tr>
+      <tr>
+        <td>Responsibility</td>
+        <td>Testing team</td>
+        <td>Everyone in the organization</td>
+      </tr>
+    </table>
+
+    <h3>Statistical Software Quality Assurance (SQA)</h3>
+    <ul>
+      <li>Collects and categorizes information about software defects</li>
+      <li>Traces each defect to its underlying cause</li>
+      <li>Uses the Pareto principle (80/20 rule): 80% of defects come from 20% of causes</li>
+      <li>Identifies the "vital few" causes and corrects the processes that contribute to them</li>
+    </ul>
+
+    <h3>Software Reliability</h3>
+    <p>
+      <b>Software reliability</b> is defined as the probability of failure-free operation
+      of a computer program in a specified environment for a specified period of time.
+    </p>
+    <ul>
+      <li><b>MTBF</b> (Mean Time Between Failures) = MTTF + MTTR</li>
+      <li><b>MTTF</b> (Mean Time To Failure)</li>
+      <li><b>MTTR</b> (Mean Time To Repair)</li>
+      <li><b>Availability</b> = MTTF / (MTTF + MTTR) × 100%</li>
+    </ul>
+  </div>
+
+  <!-- 6.5 Software Safety -->
+  <div class="section">
+    <h2><b>6.5 Software Safety</b></h2>
+    <p>
+      <b>Software safety</b> is a software quality assurance activity that focuses on the
+      identification and assessment of potential hazards that may affect software negatively
+      and cause an entire system to fail. Safety-critical software is software that can
+      cause or contribute to a hazardous condition.
+    </p>
+    <ul>
+      <li>Examples: Medical device software, avionics, nuclear control systems, automotive systems</li>
+      <li>Requires formal hazard analysis (FMEA, FTA)</li>
+      <li>Often requires certification (DO-178C for avionics, IEC 62304 for medical)</li>
+      <li>Demands rigorous testing, formal verification, and comprehensive documentation</li>
+    </ul>
+  </div>
+
+  <!-- 6.6 ISO 9001 -->
+  <div class="section">
+    <h2><b>6.6 The ISO 9001 Quality Standards</b></h2>
+    <p>
+      <b>ISO 9001</b> is an international standard that specifies requirements for a
+      quality management system (QMS). Organizations use the standard to demonstrate
+      the ability to consistently provide products and services that meet customer
+      and regulatory requirements.
+    </p>
+    <h3>ISO 9001 for Software</h3>
+    <ul>
+      <li><b>ISO 9001:2015</b> is the current version — specifies requirements for a QMS</li>
+      <li><b>ISO/IEC 90003</b> provides guidelines for applying ISO 9001 to software</li>
+      <li>Focuses on: documented processes, management responsibility, resource management,
+        product realization, measurement/analysis/improvement</li>
+      <li>Requires regular internal audits and management reviews</li>
+      <li>Certification is obtained through accredited third-party auditors</li>
+    </ul>
+
+    <h3>Key ISO 9001 Principles</h3>
+    <ol>
+      <li>Customer focus</li>
+      <li>Leadership</li>
+      <li>Engagement of people</li>
+      <li>Process approach</li>
+      <li>Improvement (continual)</li>
+      <li>Evidence-based decision making</li>
+      <li>Relationship management</li>
+    </ol>
+  </div>
+
+  <!-- 6.7 SEI CMM -->
+  <div class="section">
+    <h2><b>6.7 SEI Capability Maturity Model (CMM)</b></h2>
+
+    <p>
+      The <b>Capability Maturity Model (CMM)</b>, developed by the Software Engineering
+      Institute (SEI) at Carnegie Mellon University, provides a framework for improving
+      software processes. It has been superseded by <b>CMMI</b> (Capability Maturity Model
+      Integration), but the original CMM concepts remain fundamental.
+    </p>
+
+    <h3>CMM Maturity Levels</h3>
+    <table>
+      <tr>
+        <th>Level</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Key Characteristics</th>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>Initial</td>
+        <td>Ad hoc, chaotic</td>
+        <td>No formal processes; success depends on individual effort; heroic programming</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Repeatable</td>
+        <td>Basic project management</td>
+        <td>Planning, tracking, configuration management; can repeat earlier successes</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Defined</td>
+        <td>Process standardization</td>
+        <td>Organization-wide standard processes; training; peer reviews</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Managed</td>
+        <td>Quantitative management</td>
+        <td>Metrics-driven; process and product quality measured; statistical control</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Optimizing</td>
+        <td>Continuous improvement</td>
+        <td>Proactive process improvement; defect prevention; technology change management</td>
+      </tr>
+    </table>
+
+    <pre>
+  CMM Maturity Levels Progression:
+
+  Level 5: Optimizing    ─── Continuous Process Improvement
+      ↑
+  Level 4: Managed       ─── Quantitatively Managed
+      ↑
+  Level 3: Defined       ─── Process Standardization
+      ↑
+  Level 2: Repeatable    ─── Basic Project Management
+      ↑
+  Level 1: Initial       ─── Ad hoc / Chaotic
+    </pre>
+  </div>
+
+  <!-- 6.8 Verification and Validation -->
+  <div class="section">
+    <h2><b>6.8 Verification and Validation (V&V)</b></h2>
+
+    <h3>Definitions</h3>
+    <ul>
+      <li><b>Verification:</b> "Are we building the product <i>right</i>?"
+        — Ensures the software correctly implements specific functions.
+        Checks the product against specifications.</li>
+      <li><b>Validation:</b> "Are we building the <i>right</i> product?"
+        — Ensures the software is traceable to customer requirements.
+        Checks the product against actual user needs.</li>
+    </ul>
+
+    <table>
+      <tr>
+        <th>Aspect</th>
+        <th>Verification</th>
+        <th>Validation</th>
+      </tr>
+      <tr>
+        <td>Question</td>
+        <td>Building the product right?</td>
+        <td>Building the right product?</td>
+      </tr>
+      <tr>
+        <td>Focus</td>
+        <td>Conformance to specifications</td>
+        <td>Conformance to user needs</td>
+      </tr>
+      <tr>
+        <td>Methods</td>
+        <td>Reviews, walkthroughs, inspections</td>
+        <td>Testing, prototyping, user feedback</td>
+      </tr>
+      <tr>
+        <td>When</td>
+        <td>Throughout development</td>
+        <td>At the end of development phases</td>
+      </tr>
+      <tr>
+        <td>Performed By</td>
+        <td>Development team</td>
+        <td>Testing team, customers</td>
+      </tr>
+    </table>
+
+    <div class="note">
+      <b>Summary:</b> Software testing and quality assurance are complementary activities
+      that ensure the software meets both its specifications (verification) and user
+      expectations (validation). White-box testing examines internal logic while
+      black-box testing focuses on external behavior. Quality standards (ISO 9001, CMM/CMMI)
+      provide frameworks for consistently producing high-quality software.
+    </div>
+  </div>
+
+</body>
+</html>

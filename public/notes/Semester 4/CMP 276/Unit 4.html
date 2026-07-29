@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 4: Design Concepts</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.7;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      text-align: center;
+      color: #111;
+      font-size: 20pt;
+      font-weight: bold;
+      margin: 30px 0;
+    }
+    h2 {
+      color: #222;
+      border-bottom: 3px solid #aaa;
+      padding-bottom: 10px;
+      margin-top: 40px;
+    }
+    h3 {
+      color: #444;
+      margin-top: 25px;
+      font-size: 1.3em;
+    }
+    h4 {
+      color: #555;
+      margin-top: 20px;
+    }
+    .section {
+      background: white;
+      padding: 25px;
+      margin-bottom: 35px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 35px;
+    }
+    li {
+      margin-bottom: 14px;
+    }
+    pre {
+      background-color: #111;
+      color: #0f8;
+      padding: 18px;
+      overflow-x: auto;
+      border-radius: 10px;
+      font-size: 13pt;
+      margin: 20px 0;
+      line-height: 1.5;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.95em;
+      display: block;
+      overflow-x: auto;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #e0e0e0;
+      font-weight: bold;
+    }
+    .note {
+      background-color: #e8f4fd;
+      border-left: 5px solid #2196f3;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 6px;
+    }
+    .warning {
+      background-color: #fff3e0;
+      border-left: 5px solid #ff9800;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 6px;
+    }
+    @media (max-width: 768px) {
+      body { font-size: 15px; }
+      h1 { font-size: 1.6rem; }
+      h2 { font-size: 1.3rem; }
+      .section { padding: 18px; margin-bottom: 25px; }
+    }
+    @media (max-width: 480px) {
+      body { font-size: 14px; }
+      h1 { font-size: 1.4rem; margin: 20px 0; }
+      h2 { font-size: 1.1rem; }
+      .section { padding: 14px; margin-bottom: 20px; }
+      pre { font-size: 11.5pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 4: Design Concepts [6 Hrs.]</b></h1>
+
+  <!-- 5.1 The Evolution of Software Design -->
+  <div class="section">
+    <h2><b>5.1 The Evolution of Software Design</b></h2>
+
+    <h3>What is Software Design?</h3>
+    <p>
+      <b>Software design</b> is the process of defining the architecture, components, interfaces,
+      and other characteristics of a system or component. It translates the requirements model
+      (what) into a design model (how). Design sits at the kernel of software engineering and
+      is applied regardless of the development process model that is used.
+    </p>
+
+    <h3>Evolution of Software Design</h3>
+    <p>
+      The history of software design traces the evolution from ad-hoc coding to sophisticated
+      engineering disciplines:
+    </p>
+
+    <table>
+      <tr>
+        <th>Era</th>
+        <th>Approach</th>
+        <th>Key Concepts</th>
+      </tr>
+      <tr>
+        <td>1950s-1960s</td>
+        <td>Code and Fix</td>
+        <td>No formal design; write code, debug, patch</td>
+      </tr>
+      <tr>
+        <td>Late 1960s</td>
+        <td>Structured Programming</td>
+        <td>Top-down design, stepwise refinement (Dijkstra, Wirth)</td>
+      </tr>
+      <tr>
+        <td>1970s</td>
+        <td>Structured Design</td>
+        <td>Modules, coupling, cohesion (Yourdon, Constantine)</td>
+      </tr>
+      <tr>
+        <td>1980s</td>
+        <td>Data-Oriented Design</td>
+        <td>Jackson Structured Programming, Warnier-Orr</td>
+      </tr>
+      <tr>
+        <td>Late 1980s-1990s</td>
+        <td>Object-Oriented Design</td>
+        <td>Classes, inheritance, polymorphism, encapsulation</td>
+      </tr>
+      <tr>
+        <td>1990s-2000s</td>
+        <td>Pattern-Based Design</td>
+        <td>Design patterns (GoF), architectural patterns</td>
+      </tr>
+      <tr>
+        <td>2000s-Present</td>
+        <td>Agile/Component-Based</td>
+        <td>Microservices, API design, domain-driven design</td>
+      </tr>
+    </table>
+
+    <h3>Design Concepts</h3>
+    <p>
+      A set of fundamental design concepts has evolved over the history of software engineering.
+      Each provides the software designer with a foundation from which more sophisticated
+      design methods can be applied:
+    </p>
+
+    <h4>1. Abstraction</h4>
+    <p>
+      <b>Abstraction</b> allows designers to focus on solving a problem at a certain level
+      of generalization without regard to irrelevant low-level details. There are different
+      levels of abstraction:
+    </p>
+    <ul>
+      <li><b>Procedural Abstraction:</b> A named sequence of instructions that has a specific
+        and limited function (e.g., a function "openDoor" abstracts the detailed steps of opening a door)</li>
+      <li><b>Data Abstraction:</b> A named collection of data that describes a data object
+        (e.g., "Door" with attributes: type, swing direction, opening mechanism, weight)</li>
+      <li><b>Control Abstraction:</b> A program control mechanism without specifying internal
+        details (e.g., a semaphore in an operating system)</li>
+    </ul>
+
+    <h4>2. Architecture</h4>
+    <p>
+      <b>Software architecture</b> alludes to the overall structure of the software and the
+      ways in which that structure provides conceptual integrity for a system.
+      Architecture defines the components, their interactions, and the constraints
+      that govern them.
+    </p>
+    <p><b>Common Architectural Styles:</b></p>
+    <ul>
+      <li><b>Layered Architecture:</b> Organizes the system into layers (e.g., Presentation, Business Logic, Data Access)</li>
+      <li><b>Client-Server:</b> Separates clients that request services from servers that provide them</li>
+      <li><b>Pipe and Filter:</b> Data flows through a series of processing components (filters) connected by pipes</li>
+      <li><b>Model-View-Controller (MVC):</b> Separates data model, user interface, and control logic</li>
+      <li><b>Microservices:</b> Decomposes application into small, independently deployable services</li>
+      <li><b>Event-Driven:</b> Components communicate through events</li>
+      <li><b>Repository/Blackboard:</b> Components share data through a central repository</li>
+    </ul>
+
+    <pre>
+  Layered Architecture Example:
+
+  ┌─────────────────────────────────┐
+  │     Presentation Layer          │  (UI / Views / Controllers)
+  ├─────────────────────────────────┤
+  │     Business Logic Layer        │  (Services / Use Cases)
+  ├─────────────────────────────────┤
+  │     Data Access Layer           │  (Repositories / DAOs)
+  ├─────────────────────────────────┤
+  │     Database Layer              │  (PostgreSQL / MongoDB)
+  └─────────────────────────────────┘
+
+
+  MVC Architecture:
+
+  ┌────────┐    User Action    ┌────────────┐
+  │  View  │ ────────────────→ │ Controller │
+  │ (UI)   │                   │ (Logic)    │
+  └────────┘                   └────────────┘
+      ↑                              │
+      │          Updates             │ Manipulates
+      │                              ↓
+      └──────────────────────── ┌─────────┐
+                                │  Model  │
+                                │ (Data)  │
+                                └─────────┘
+    </pre>
+
+    <h4>3. Modularity</h4>
+    <p>
+      <b>Modularity</b> is the attribute of software that allows a program to be
+      intellectually manageable. Software is divided into separately named and
+      addressable components, called <b>modules</b>, that are integrated to satisfy
+      problem requirements.
+    </p>
+    <ul>
+      <li>Divides the system into manageable pieces</li>
+      <li>Each module performs a specific function</li>
+      <li>Modules can be developed, tested, and maintained independently</li>
+      <li>Reduces complexity by managing smaller units</li>
+    </ul>
+
+    <div class="note">
+      <b>Meyer's Criteria for Modularity:</b>
+      <ul>
+        <li>Modular decomposability — can be decomposed into sub-problems</li>
+        <li>Modular composability — can be combined to produce new systems</li>
+        <li>Modular understandability — can be understood as a standalone unit</li>
+        <li>Modular continuity — small changes result in changes to few modules</li>
+        <li>Modular protection — errors are confined within a module</li>
+      </ul>
+    </div>
+
+    <h4>4. Information Hiding</h4>
+    <p>
+      <b>Information hiding</b> (proposed by David Parnas) suggests that modules should be
+      characterized by design decisions that each hides from all others. Modules should
+      be specified and designed so that information (procedure and data) contained within
+      a module is inaccessible to other modules that have no need for such information.
+    </p>
+    <ul>
+      <li>Reduces coupling between modules</li>
+      <li>Protects modules from the effects of changes in other modules</li>
+      <li>Leads to better encapsulation</li>
+    </ul>
+
+    <h4>5. Functional Independence</h4>
+    <p>
+      The concept of <b>functional independence</b> is achieved by developing modules
+      with "single-minded" function and an "aversion" to excessive interaction with
+      other modules. Independence is measured using two qualitative criteria:
+    </p>
+
+    <h4>Cohesion</h4>
+    <p>
+      <b>Cohesion</b> is a measure of how closely the elements within a module are
+      related to each other. High cohesion is desirable.
+    </p>
+    <table>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Quality</th>
+      </tr>
+      <tr>
+        <td>Functional Cohesion</td>
+        <td>Every element contributes to a single well-defined function</td>
+        <td>Best (Highest)</td>
+      </tr>
+      <tr>
+        <td>Sequential Cohesion</td>
+        <td>Output of one element is input to the next</td>
+        <td>Good</td>
+      </tr>
+      <tr>
+        <td>Communicational Cohesion</td>
+        <td>Elements operate on the same data</td>
+        <td>Acceptable</td>
+      </tr>
+      <tr>
+        <td>Procedural Cohesion</td>
+        <td>Elements are related by order of execution</td>
+        <td>Moderate</td>
+      </tr>
+      <tr>
+        <td>Temporal Cohesion</td>
+        <td>Elements are grouped by when they are executed (e.g., initialization)</td>
+        <td>Poor</td>
+      </tr>
+      <tr>
+        <td>Logical Cohesion</td>
+        <td>Elements perform similar but different functions selected by a flag</td>
+        <td>Bad</td>
+      </tr>
+      <tr>
+        <td>Coincidental Cohesion</td>
+        <td>Elements have no meaningful relationship</td>
+        <td>Worst (Lowest)</td>
+      </tr>
+    </table>
+
+    <h4>Coupling</h4>
+    <p>
+      <b>Coupling</b> is a measure of the degree of interdependence between modules.
+      Low coupling is desirable.
+    </p>
+    <table>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Quality</th>
+      </tr>
+      <tr>
+        <td>Data Coupling</td>
+        <td>Modules communicate through simple data parameters</td>
+        <td>Best (Lowest)</td>
+      </tr>
+      <tr>
+        <td>Stamp Coupling</td>
+        <td>Modules share a composite data structure but use only parts</td>
+        <td>Good</td>
+      </tr>
+      <tr>
+        <td>Control Coupling</td>
+        <td>One module passes a control flag to another</td>
+        <td>Moderate</td>
+      </tr>
+      <tr>
+        <td>External Coupling</td>
+        <td>Modules share externally imposed data format or protocol</td>
+        <td>Acceptable</td>
+      </tr>
+      <tr>
+        <td>Common Coupling</td>
+        <td>Modules share global data</td>
+        <td>Bad</td>
+      </tr>
+      <tr>
+        <td>Content Coupling</td>
+        <td>One module modifies internal data of another</td>
+        <td>Worst (Highest)</td>
+      </tr>
+    </table>
+
+    <h4>6. Refinement</h4>
+    <p>
+      <b>Stepwise refinement</b> is a top-down design strategy originally proposed by
+      Niklaus Wirth. A program is developed by successively refining levels of procedural
+      detail. At each step, one or more instructions of the program are decomposed into
+      more detailed instructions.
+    </p>
+
+    <h4>7. Refactoring</h4>
+    <p>
+      <b>Refactoring</b> is a reorganization technique that simplifies the design (or code)
+      of a component without changing its function or behavior. It improves the internal
+      structure while preserving external behavior.
+    </p>
+    <ul>
+      <li>Remove redundant code</li>
+      <li>Simplify complex expressions</li>
+      <li>Extract methods for better readability</li>
+      <li>Rename variables/methods for clarity</li>
+      <li>Replace conditionals with polymorphism</li>
+    </ul>
+  </div>
+
+  <!-- 5.2 Software Design Strategies -->
+  <div class="section">
+    <h2><b>5.2 Software Design Strategies, Interface Analysis and Design</b></h2>
+
+    <h3>Design Strategies</h3>
+    <p>
+      There are several fundamental strategies for designing software:
+    </p>
+
+    <h4>Top-Down Design</h4>
+    <ul>
+      <li>Start with the highest level of abstraction</li>
+      <li>Decompose the system into sub-systems and modules</li>
+      <li>Continue decomposition until each module is simple enough to implement</li>
+      <li>Useful for understanding the overall system structure</li>
+    </ul>
+
+    <h4>Bottom-Up Design</h4>
+    <ul>
+      <li>Start with the most basic components</li>
+      <li>Combine them into higher-level components</li>
+      <li>Continue until the entire system is assembled</li>
+      <li>Useful when building on existing reusable components</li>
+    </ul>
+
+    <h3>Interface Analysis</h3>
+    <p>
+      Interface analysis examines the interactions between the system and its environment
+      (users, other systems, devices). Key aspects include:
+    </p>
+    <ul>
+      <li><b>User Interfaces (UI):</b> How humans interact with the system</li>
+      <li><b>External Interfaces:</b> How the system connects to other systems</li>
+      <li><b>Internal Interfaces:</b> How modules within the system communicate</li>
+    </ul>
+
+    <h3>Interface Design Steps</h3>
+    <ol>
+      <li><b>Analyze users:</b> Understand who will use the interface, their expertise level, and their tasks</li>
+      <li><b>Define interface objects and actions:</b> Identify the objects users manipulate and actions they perform</li>
+      <li><b>Create interface layout:</b> Design screen layouts, menus, forms, and dialogs</li>
+      <li><b>Define navigation flow:</b> How users move between screens/pages</li>
+      <li><b>Evaluate and refine:</b> Test with real users and iterate on the design</li>
+    </ol>
+
+    <h3>Golden Rules of Interface Design (Shneiderman)</h3>
+    <ol>
+      <li><b>Strive for consistency:</b> Consistent sequences of actions, identical terminology in prompts, menus, and help screens</li>
+      <li><b>Enable frequent users to use shortcuts:</b> Abbreviations, function keys, hidden commands, macro facilities</li>
+      <li><b>Offer informative feedback:</b> For every user action, there should be a system response</li>
+      <li><b>Design dialogs to yield closure:</b> Groups of actions should have a beginning, middle, and end</li>
+      <li><b>Offer simple error handling:</b> The system should detect errors and offer simple, constructive instructions for recovery</li>
+      <li><b>Permit easy reversal of actions:</b> Users should be able to undo actions</li>
+      <li><b>Support internal locus of control:</b> Users should feel they are in charge of the system</li>
+      <li><b>Reduce short-term memory load:</b> Minimize what users need to remember from one screen to the next</li>
+    </ol>
+
+    <h3>WebApp Interface Design</h3>
+    <p>
+      Web application interface design has additional considerations:
+    </p>
+    <ul>
+      <li><b>Responsive Design:</b> Interface must work across devices (desktop, tablet, mobile)</li>
+      <li><b>Accessibility:</b> Follow WCAG guidelines for users with disabilities</li>
+      <li><b>Cross-Browser Compatibility:</b> Must work consistently across browsers</li>
+      <li><b>Performance:</b> Fast loading times are critical for user retention</li>
+      <li><b>Progressive Enhancement:</b> Core functionality works without JavaScript; enhanced experience with it</li>
+    </ul>
+  </div>
+
+  <!-- 5.3 Design Patterns -->
+  <div class="section">
+    <h2><b>5.3 Design Patterns</b></h2>
+
+    <h3>What is a Design Pattern?</h3>
+    <p>
+      A <b>design pattern</b> is a general, reusable solution to a commonly occurring
+      problem within a given context in software design. It is not a finished design
+      that can be transformed directly into code; rather, it is a description or template
+      for how to solve a problem that can be used in many different situations.
+    </p>
+
+    <h3>Pattern-Based Software Design</h3>
+    <p>
+      Pattern-based design creates new applications by using existing knowledge about
+      patterns that have been encountered in previous applications. The GoF
+      (Gang of Four) catalog defines 23 classic design patterns organized into three categories:
+    </p>
+
+    <h4>1. Creational Patterns</h4>
+    <p>Deal with object creation mechanisms:</p>
+    <table>
+      <tr>
+        <th>Pattern</th>
+        <th>Purpose</th>
+        <th>When to Use</th>
+      </tr>
+      <tr>
+        <td>Singleton</td>
+        <td>Ensures only one instance exists</td>
+        <td>Database connections, logging, configuration</td>
+      </tr>
+      <tr>
+        <td>Factory Method</td>
+        <td>Defines an interface for creating objects</td>
+        <td>When class creation logic is complex</td>
+      </tr>
+      <tr>
+        <td>Abstract Factory</td>
+        <td>Creates families of related objects</td>
+        <td>Cross-platform UI components</td>
+      </tr>
+      <tr>
+        <td>Builder</td>
+        <td>Separates construction from representation</td>
+        <td>Complex objects with many optional parameters</td>
+      </tr>
+      <tr>
+        <td>Prototype</td>
+        <td>Creates objects by cloning</td>
+        <td>When object creation is expensive</td>
+      </tr>
+    </table>
+
+    <h4>2. Structural Patterns</h4>
+    <p>Deal with object composition:</p>
+    <table>
+      <tr>
+        <th>Pattern</th>
+        <th>Purpose</th>
+        <th>When to Use</th>
+      </tr>
+      <tr>
+        <td>Adapter</td>
+        <td>Converts interface of a class to another</td>
+        <td>Integrating legacy or third-party code</td>
+      </tr>
+      <tr>
+        <td>Bridge</td>
+        <td>Separates abstraction from implementation</td>
+        <td>Multiple implementations of an abstraction</td>
+      </tr>
+      <tr>
+        <td>Composite</td>
+        <td>Treats individual objects and compositions uniformly</td>
+        <td>Tree structures (file systems, org charts)</td>
+      </tr>
+      <tr>
+        <td>Decorator</td>
+        <td>Adds responsibilities dynamically</td>
+        <td>Extending functionality without subclassing</td>
+      </tr>
+      <tr>
+        <td>Facade</td>
+        <td>Provides simplified interface to complex subsystem</td>
+        <td>Simplifying complex API usage</td>
+      </tr>
+      <tr>
+        <td>Proxy</td>
+        <td>Provides a surrogate for another object</td>
+        <td>Lazy loading, access control, caching</td>
+      </tr>
+    </table>
+
+    <h4>3. Behavioral Patterns</h4>
+    <p>Deal with communication between objects:</p>
+    <table>
+      <tr>
+        <th>Pattern</th>
+        <th>Purpose</th>
+        <th>When to Use</th>
+      </tr>
+      <tr>
+        <td>Observer</td>
+        <td>Notifies dependent objects of state changes</td>
+        <td>Event systems, pub-sub, reactive UIs</td>
+      </tr>
+      <tr>
+        <td>Strategy</td>
+        <td>Defines a family of interchangeable algorithms</td>
+        <td>Multiple sorting/searching algorithms</td>
+      </tr>
+      <tr>
+        <td>Command</td>
+        <td>Encapsulates a request as an object</td>
+        <td>Undo/redo, queuing, logging operations</td>
+      </tr>
+      <tr>
+        <td>Iterator</td>
+        <td>Sequential access without exposing internals</td>
+        <td>Traversing collections</td>
+      </tr>
+      <tr>
+        <td>State</td>
+        <td>Alters behavior when internal state changes</td>
+        <td>State machines, workflow engines</td>
+      </tr>
+      <tr>
+        <td>Template Method</td>
+        <td>Defines skeleton; subclasses fill in steps</td>
+        <td>Framework hooks, algorithm structure</td>
+      </tr>
+    </table>
+
+    <h3>Architectural Patterns</h3>
+    <ul>
+      <li><b>MVC (Model-View-Controller):</b> Separates data, presentation, and control logic</li>
+      <li><b>MVP (Model-View-Presenter):</b> Variation of MVC where presenter mediates between model and view</li>
+      <li><b>MVVM (Model-View-ViewModel):</b> Uses data binding to synchronize view and model</li>
+      <li><b>Repository Pattern:</b> Abstracts data access behind a repository interface</li>
+      <li><b>Service-Oriented Architecture (SOA):</b> System composed of loosely coupled services</li>
+      <li><b>Microservices:</b> Decomposition into small, independently deployable services</li>
+    </ul>
+
+    <h3>User Interface Design Patterns</h3>
+    <ul>
+      <li><b>Navigation patterns:</b> Breadcrumbs, hamburger menu, tab bar, sidebar</li>
+      <li><b>Input patterns:</b> Autocomplete, date picker, stepper, search with filters</li>
+      <li><b>Data display patterns:</b> Cards, lists, tables, infinite scroll, pagination</li>
+      <li><b>Feedback patterns:</b> Toasts, modals, progress indicators, skeleton screens</li>
+    </ul>
+
+    <h3>Web App Design Patterns</h3>
+    <ul>
+      <li><b>Single Page Application (SPA):</b> Loads a single HTML page and dynamically updates content</li>
+      <li><b>Server-Side Rendering (SSR):</b> Server generates HTML for each request</li>
+      <li><b>Static Site Generation (SSG):</b> Pre-renders pages at build time</li>
+      <li><b>Progressive Web App (PWA):</b> Web app with native-like capabilities</li>
+      <li><b>REST API Design:</b> Resource-based URLs, HTTP methods, stateless</li>
+    </ul>
+  </div>
+
+  <!-- 5.4 Function-Oriented Design -->
+  <div class="section">
+    <h2><b>5.4 Function-Oriented Design</b></h2>
+
+    <h3>What is Function-Oriented Design?</h3>
+    <p>
+      <b>Function-oriented design</b> (also called structured design) views a system as
+      a set of interacting <b>functions</b>. The system is decomposed into a set of
+      interacting units where each unit has a clearly defined function.
+    </p>
+
+    <h3>Key Characteristics</h3>
+    <ul>
+      <li>Focuses on the processes/functions the system performs</li>
+      <li>Uses top-down decomposition (functional decomposition)</li>
+      <li>Data flows between functions</li>
+      <li>Functions transform input data into output data</li>
+      <li>Represented using DFDs, Structure Charts</li>
+    </ul>
+
+    <h3>Structure Chart</h3>
+    <p>
+      A <b>structure chart</b> shows the hierarchical structure of modules and how they
+      call each other. It depicts:
+    </p>
+    <ul>
+      <li><b>Modules:</b> Represented as rectangles</li>
+      <li><b>Calling relationships:</b> Shown as arrows</li>
+      <li><b>Data parameters:</b> Shown as small circles on arrows</li>
+      <li><b>Control parameters:</b> Shown as filled circles on arrows</li>
+    </ul>
+
+    <pre>
+  Structure Chart Example (Order Processing):
+
+                    ┌──────────────────┐
+                    │  Process Order   │
+                    └──────────────────┘
+                     /       |       \
+                    /        |        \
+    ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+    │ Validate     │  │  Calculate   │  │  Generate    │
+    │ Order        │  │  Total       │  │  Invoice     │
+    └──────────────┘  └──────────────┘  └──────────────┘
+         |                   |                 |
+    ┌──────────┐     ┌──────────────┐    ┌──────────┐
+    │ Check    │     │  Apply       │    │ Format   │
+    │ Inventory│     │  Discount    │    │ Output   │
+    └──────────┘     └──────────────┘    └──────────┘
+    </pre>
+
+    <h3>Advantages of Function-Oriented Design</h3>
+    <ul>
+      <li>Straightforward and easy to understand</li>
+      <li>Well-suited for systems where data processing is the main concern</li>
+      <li>Established techniques (DFD, structure charts) provide clear documentation</li>
+      <li>Good for batch processing and data transformation systems</li>
+    </ul>
+
+    <h3>Disadvantages</h3>
+    <ul>
+      <li>Separates data from the functions that operate on them</li>
+      <li>Difficult to maintain as requirements change</li>
+      <li>Poor support for data abstraction</li>
+      <li>Not suitable for systems where data is the central concern</li>
+    </ul>
+  </div>
+
+  <!-- 5.5 Object-Oriented Design -->
+  <div class="section">
+    <h2><b>5.5 Object-Oriented Design (OOD)</b></h2>
+
+    <h3>What is Object-Oriented Design?</h3>
+    <p>
+      <b>Object-Oriented Design</b> views a system as a collection of <b>interacting objects</b>.
+      Each object combines both data (attributes) and behavior (methods) into a single
+      entity. OOD is based on the principle that software should be modeled around
+      the objects in the problem domain rather than around functions.
+    </p>
+
+    <h3>Key OOD Principles</h3>
+
+    <h4>1. Encapsulation</h4>
+    <p>
+      <b>Encapsulation</b> bundles data and the methods that operate on that data within
+      a single class, hiding the internal implementation details from outside access.
+      Only the public interface is exposed.
+    </p>
+
+    <h4>2. Inheritance</h4>
+    <p>
+      <b>Inheritance</b> allows a new class (derived/child) to inherit the properties and
+      methods of an existing class (base/parent). This promotes code reuse and
+      establishes a natural hierarchy.
+    </p>
+
+    <h4>3. Polymorphism</h4>
+    <p>
+      <b>Polymorphism</b> allows objects of different classes to be treated as objects of
+      a common superclass. The same interface can have different implementations.
+    </p>
+
+    <h4>4. Abstraction</h4>
+    <p>
+      <b>Abstraction</b> focuses on the essential characteristics of an object relative
+      to the perspective of the viewer, ignoring properties that are not relevant.
+    </p>
+
+    <h3>SOLID Principles</h3>
+    <p>
+      The <b>SOLID principles</b> are five design principles for making software designs
+      more understandable, flexible, and maintainable:
+    </p>
+    <table>
+      <tr>
+        <th>Principle</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td><b>S</b> — Single Responsibility</td>
+        <td>A class should have only one reason to change</td>
+        <td>Separate UserValidator from UserRepository</td>
+      </tr>
+      <tr>
+        <td><b>O</b> — Open/Closed</td>
+        <td>Open for extension, closed for modification</td>
+        <td>Add new payment types without changing existing code</td>
+      </tr>
+      <tr>
+        <td><b>L</b> — Liskov Substitution</td>
+        <td>Subtypes must be substitutable for their base types</td>
+        <td>Square should properly extend Rectangle behavior</td>
+      </tr>
+      <tr>
+        <td><b>I</b> — Interface Segregation</td>
+        <td>Clients shouldn't depend on interfaces they don't use</td>
+        <td>Split large interfaces into smaller, focused ones</td>
+      </tr>
+      <tr>
+        <td><b>D</b> — Dependency Inversion</td>
+        <td>Depend on abstractions, not concretions</td>
+        <td>Use interfaces/abstract classes instead of concrete implementations</td>
+      </tr>
+    </table>
+
+    <h3>Function-Oriented vs. Object-Oriented Design</h3>
+    <table>
+      <tr>
+        <th>Aspect</th>
+        <th>Function-Oriented Design</th>
+        <th>Object-Oriented Design</th>
+      </tr>
+      <tr>
+        <td>Focus</td>
+        <td>Functions/processes</td>
+        <td>Objects (data + behavior)</td>
+      </tr>
+      <tr>
+        <td>Decomposition</td>
+        <td>Functional decomposition</td>
+        <td>Object decomposition</td>
+      </tr>
+      <tr>
+        <td>Data</td>
+        <td>Separate from functions</td>
+        <td>Encapsulated within objects</td>
+      </tr>
+      <tr>
+        <td>Reusability</td>
+        <td>Limited</td>
+        <td>High (through inheritance and polymorphism)</td>
+      </tr>
+      <tr>
+        <td>Maintainability</td>
+        <td>Difficult (data-function dependency)</td>
+        <td>Easier (encapsulation limits change impact)</td>
+      </tr>
+      <tr>
+        <td>Notation</td>
+        <td>DFD, Structure Charts</td>
+        <td>UML (Class, Sequence, State diagrams)</td>
+      </tr>
+      <tr>
+        <td>Best For</td>
+        <td>Data processing, batch systems</td>
+        <td>Complex, evolving, interactive systems</td>
+      </tr>
+    </table>
+
+    <div class="note">
+      <b>Summary:</b> Software design concepts provide the foundation for creating
+      well-structured, maintainable, and extensible software systems. Understanding
+      abstraction, architecture, modularity, coupling, cohesion, and design patterns
+      is essential for every software engineer. The choice between function-oriented
+      and object-oriented design depends on the nature of the problem, but modern
+      systems overwhelmingly favor OOD due to its superior support for complexity
+      management and change accommodation.
+    </div>
+  </div>
+
+</body>
+</html>

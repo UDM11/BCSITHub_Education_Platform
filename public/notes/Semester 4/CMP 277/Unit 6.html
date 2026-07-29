@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 6: Transport Layer</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 6: Transport Layer [5 Hrs.]</b></h1>
+
+  <!-- 6.1 - 6.3 Services & Protocols -->
+  <div class="section">
+    <h2><b>6.1 Transport Layer Services, Protocols and Handshakes</b></h2>
+
+    <h3>Role and Services</h3>
+    <p>
+      The <b>Transport Layer</b> is responsible for process-to-process delivery of the entire message.
+      It ensures that the complete message arrives intact and in order, overseeing both flow control
+      and error control at the source-to-destination level.
+    </p>
+    <ul>
+      <li><b>Port Addressing:</b> Ensures delivery to the correct process (application) on a computer.</li>
+      <li><b>Segmentation and Reassembly:</b> Divides long messages into smaller packets (segments)
+        and reconstructs them at the receiver side.</li>
+      <li><b>Connection Control:</b> Provides connectionless or connection-oriented transport services.</li>
+      <li><b>Flow Control:</b> Performed end-to-end (unlike Data Link layer which is link-to-link).</li>
+      <li><b>Error Control:</b> Performed end-to-end to ensure packets arrive without corruption.</li>
+    </ul>
+
+    <h3>TCP Segment Header Format</h3>
+    <pre>
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |          Source Port          |        Destination Port       |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                        Sequence Number                        |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                     Acknowledgment Number                     |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |  Data |           |U|A|P|R|S|F|                               |
+   | Offset| Reserved  |R|C|S|S|Y|I|            Window             |
+   |       |           |G|K|H|T|N|N|                               |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |           Checksum            |         Urgent Pointer        |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                    Options (Variable Size)                    |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    </pre>
+
+    <h3>Transport Layer Protocols Comparison</h3>
+    <table>
+      <tr>
+        <th>Feature</th>
+        <th>TCP</th>
+        <th>UDP</th>
+        <th>SCTP</th>
+        <th>RTP</th>
+      </tr>
+      <tr>
+        <td>Full Name</td>
+        <td>Transmission Control Protocol</td>
+        <td>User Datagram Protocol</td>
+        <td>Stream Control Transmission Protocol</td>
+        <td>Real-time Transport Protocol</td>
+      </tr>
+      <tr>
+        <td>Connection Type</td>
+        <td>Connection-Oriented</td>
+        <td>Connectionless</td>
+        <td>Connection-Oriented</td>
+        <td>Connectionless</td>
+      </tr>
+      <tr>
+        <td>Reliability</td>
+        <td>Reliable (ACKs, Retransmission)</td>
+        <td>Unreliable (Best-effort)</td>
+        <td>Reliable</td>
+        <td>Unreliable (Relies on RTCP)</td>
+      </tr>
+      <tr>
+        <td>Data Unit</td>
+        <td>Segment</td>
+        <td>User Datagram</td>
+        <td>Packet (Chunks)</td>
+        <td>Packet</td>
+      </tr>
+      <tr>
+        <td>Transmission Type</td>
+        <td>Byte Stream</td>
+        <td>Message-oriented</td>
+        <td>Message-oriented (Multi-streaming)</td>
+        <td>Streaming (Multimedia)</td>
+      </tr>
+      <tr>
+        <td>Header Size</td>
+        <td>20 - 60 bytes</td>
+        <td>8 bytes</td>
+        <td>12 bytes (min)</td>
+        <td>12 bytes (min)</td>
+      </tr>
+    </table>
+
+    <h3>TCP Connection Management</h3>
+
+    <h4>TCP 3-Way Handshake (Connection Establishment)</h4>
+    <p>
+      Ensures both hosts are ready to transmit and agree on initial sequence numbers:
+    </p>
+    <pre>
+     Client                                     Server
+       │                                          │
+       │─────── SYN (Seq = X) ───────────────────&gt;│  [Server transitions to SYN-RCVD]
+       │                                          │
+       │&lt;────── SYN-ACK (Seq = Y, Ack = X+1) ─────│  [Client transitions to ESTABLISHED]
+       │                                          │
+       │─────── ACK (Seq = X+1, Ack = Y+1) ──────&gt;│  [Server transitions to ESTABLISHED]
+       ▼                                          ▼
+    </pre>
+
+    <h4>TCP 4-Way Handshake (Connection Termination)</h4>
+    <p>
+      Terminates connections gracefully, closing sending directions independently (half-close):
+    </p>
+    <pre>
+     Client                                     Server
+       │                                          │
+       │─────── FIN (Seq = U) ───────────────────&gt;│  [Server sends ACK, enters CLOSE-WAIT]
+       │&lt;────── ACK (Ack = U+1) ──────────────────│  [Client enters FIN-WAIT-2]
+       │                                          │
+       │                               (Server sends remaining data)
+       │                                          │
+       │&lt;────── FIN (Seq = V) ────────────────────│  [Server enters LAST-ACK]
+       │─────── ACK (Ack = V+1) ─────────────────&gt;│  [Client enters TIME-WAIT, closes after 2MSL]
+       ▼                                          ▼  [Server closes]
+    </pre>
+  </div>
+
+  <!-- 6.4 - 6.5 Sockets & Coding -->
+  <div class="section">
+    <h2><b>6.2 Ports, Sockets, and Socket Programming</b></h2>
+
+    <h3>Port Addressing</h3>
+    <p>
+      Ports are 16-bit integers (0 to 65535) used to distinguish multiple processes running on the
+      same computer.
+    </p>
+    <ul>
+      <li><b>Well-Known Ports (0 - 1023):</b> Reserved for system/standard protocols (e.g., HTTP: 80, HTTPS: 443, FTP: 21, DNS: 53).</li>
+      <li><b>Registered Ports (1024 - 49151):</b> Used by user processes or applications (e.g., MySQL: 3306, PostgreSQL: 5432).</li>
+      <li><b>Dynamic/Private Ports (49152 - 65535):</b> Temporary ports assigned automatically to client applications when initiating connections.</li>
+    </ul>
+
+    <h3>What is a Socket?</h3>
+    <p>
+      A <b>socket</b> is a logical endpoint for network communication. It is represented by the
+      binding of an IP Address and a Port Number:
+      <br>
+      $$\text{Socket} = \text{IP Address} : \text{Port Number}$$
+      For example, <code>192.168.1.100:8080</code> represents a socket on a host.
+    </p>
+
+    <h3>Python TCP Socket Programming</h3>
+    <h4>TCP Server (server.py)</h4>
+    <pre>
+<code>
+import socket
+
+# 1. Create a TCP socket
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# 2. Bind the socket to IP and port
+server_socket.bind(('127.0.0.1', 65432))
+
+# 3. Listen for incoming connections (queue size = 5)
+server_socket.listen(5)
+print("TCP Server listening on 127.0.0.1:65432...")
+
+while True:
+    # 4. Accept a connection
+    client_socket, address = server_socket.accept()
+    print(f"Connected by {address}")
+    
+    # 5. Receive data
+    data = client_socket.recv(1024).decode('utf-8')
+    if data:
+        print(f"Received from client: {data}")
+        # Send response
+        response = f"Echo from server: {data}"
+        client_socket.send(response.encode('utf-8'))
+        
+    # 6. Close connection
+    client_socket.close()
+</code>
+    </pre>
+
+    <h4>TCP Client (client.py)</h4>
+    <pre>
+<code>
+import socket
+
+# 1. Create client socket
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# 2. Connect to server
+client_socket.connect(('127.0.0.1', 65432))
+
+# 3. Send message
+message = "Hello, TCP Server!"
+client_socket.send(message.encode('utf-8'))
+
+# 4. Receive response
+response = client_socket.recv(1024).decode('utf-8')
+print(f"Received from server: {response}")
+
+# 5. Close socket
+client_socket.close()
+</code>
+    </pre>
+  </div>
+
+  <!-- 6.6 - 6.8 Congestion, Traffic & Queuing -->
+  <div class="section">
+    <h2><b>6.3 Congestion Control, Traffic Shaping, and Queuing</b></h2>
+
+    <h3>Congestion Control</h3>
+    <p>
+      Congestion occurs when the number of packets sent to the network is greater than the capacity
+      of the network handles.
+    </p>
+    <ul>
+      <li><b>Open-Loop (Prevention):</b> Policies implemented before congestion occurs:
+        <ul>
+          <li>Retransmission policy: Design to avoid timeouts.</li>
+          <li>Window policy: Select appropriate window sizes.</li>
+          <li>Discarding policy: Routers discard less important packets.</li>
+        </ul>
+      </li>
+      <li><b>Closed-Loop (Correction):</b> Dynamic feedback mechanisms implemented after congestion is detected:
+        <ul>
+          <li>Backpressure: Congested node tells upstream node to slow down.</li>
+          <li>Choke packet: Congested node sends a packet directly to source to restrict transmission rate.</li>
+          <li>Implicit/Explicit signaling: Echoing congestion bits back to source.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Traffic Shaping Algorithms</h3>
+    <p>
+      Traffic shaping limits bursts of traffic to provide smooth data streams:
+    </p>
+
+    <h4>1. Leaky Bucket Algorithm</h4>
+    <p>
+      Converts an irregular, bursty input stream into a steady, constant-rate output stream.
+      The bucket has a finite capacity. If packets arrive too fast and the bucket overflows,
+      additional packets are discarded.
+    </p>
+    <pre>
+     Bursty Input (Variable rate)
+         │  │   │  │
+         ▼  ▼   ▼  ▼
+      ┌──────────────┐
+      │\   Bucket   /│
+      │ \  Liquid  / │  (Capacity = B)
+      │  \________/  │
+      └──────┬───────┘
+             │ Water drops at constant rate (Leaking)
+             ▼
+      Steady Output (Constant rate = R)
+    </pre>
+
+    <h4>2. Token Bucket Algorithm</h4>
+    <p>
+      Allows bursty traffic but regulates the maximum burst size. Tokens are added to a bucket
+      at a constant rate. To transmit a packet, the sender must remove a token from the bucket.
+      If the bucket is full of tokens, a burst of packets can be sent instantly.
+    </p>
+
+    <h3>Queuing Techniques for Scheduling</h3>
+    <ul>
+      <li><b>FIFO (First-In, First-Out):</b> Packets are processed in the order they arrive.
+        No priority is given.</li>
+      <li><b>Priority Queuing:</b> Packets are classified into different priority queues (High, Medium, Low).
+        Lower queues are processed only when higher queues are empty.
+        <br><span class="warning">Can cause starvation of low-priority traffic.</span></li>
+      <li><b>WFQ (Weighted Fair Queuing):</b> Shares bandwidth dynamically. Queues are assigned
+        weights, and bandwidth is allocated proportionally to those weights, preventing starvation.</li>
+    </ul>
+  </div>
+
+  <!-- Python UDP Socket Programming -->
+  <div class="section">
+    <h2><b>6.4 Python UDP Socket Programming</b></h2>
+    <p>
+      Unlike TCP, UDP is connectionless. There is no handshake or connection setup phase. Sockets
+      send messages directly using destination IP and port numbers.
+    </p>
+
+    <h4>UDP Server (udp_server.py)</h4>
+    <pre>
+<code>
+import socket
+
+# 1. Create a UDP socket
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+# 2. Bind to IP and port
+server_socket.bind(('127.0.0.1', 9999))
+print("UDP Server listening on 127.0.0.1:9999...")
+
+while True:
+    # 3. Receive datagram and client address
+    data, client_address = server_socket.recvfrom(1024)
+    message = data.decode('utf-8')
+    print(f"Received from {client_address}: {message}")
+    
+    # 4. Send response back to client
+    response = f"UDP Echo: {message}"
+    server_socket.sendto(response.encode('utf-8'), client_address)
+</code>
+    </pre>
+
+    <h4>UDP Client (udp_client.py)</h4>
+    <pre>
+<code>
+import socket
+
+# 1. Create client UDP socket
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+# 2. Send message directly without connecting
+server_address = ('127.0.0.1', 9999)
+message = "Hello, UDP Server!"
+client_socket.sendto(message.encode('utf-8'), server_address)
+
+# 3. Receive response
+data, server = client_socket.recvfrom(1024)
+print(f"Received from server: {data.decode('utf-8')}")
+
+# 4. Close socket
+client_socket.close()
+</code>
+    </pre>
+  </div>
+
+  <!-- Leaky Bucket Numerical Calculation -->
+  <div class="section">
+    <h2><b>6.5 Leaky Bucket Algorithm Calculations</b></h2>
+    <p>
+      The leaky bucket ensures a smooth output rate. If the input rate exceeds the leak rate,
+      buffer queueing occurs. We can calculate the maximum output burst and buffer sizes:
+    </p>
+    <div class="note">
+      <h4>Leaky Bucket Numerical Example</h4>
+      <p><b>Problem:</b> A leaky bucket has an output rate of 2 MB/s. Bursty input arrives at 10 MB/s
+        for a duration of 12 seconds.
+        <br>1. Calculate the minimum buffer size (bucket capacity) required to prevent packet loss.
+        <br>2. Calculate the total time required for the bucket to empty completely.</p>
+      <p><b>Solution:</b>
+        <br>Input rate $I = 10$ MB/s.
+        <br>Output leak rate $R = 2$ MB/s.
+        <br>Burst duration $t = 12$ seconds.
+        <br>
+        <br><b>1. Minimum Buffer Size:</b>
+        <br>During the 12-second burst:
+        <br>- Total bytes entering = $I \times t = 10\text{ MB/s} \times 12\text{ s} = 120$ MB.
+        <br>- Total bytes leaking out = $R \times t = 2\text{ MB/s} \times 12\text{ s} = 24$ MB.
+        <br>- Accumulated data in buffer = Total entering - Total leaking = $120 - 24 = 96$ MB.
+        <br>Therefore, the minimum bucket capacity required to prevent buffer overflow is 96 MB.
+        <br>
+        <br><b>2. Time to Empty Completely:</b>
+        <br>The total bytes that must leave the bucket is 120 MB.
+        <br>Since the bucket leaks at a constant rate of 2 MB/s:
+        <br>$\text{Total Time} = \text{Total Data} / R = 120\text{ MB} / 2\text{ MB/s} = 60$ seconds.
+        <br>The bucket will empty in 60 seconds (12 seconds during the burst + 48 seconds after the burst stops).
+      </p>
+    </div>
+  </div>
+
+  <!-- TCP Congestion Window Phases -->
+  <div class="section">
+    <h2><b>6.6 TCP Congestion Control Mechanisms (AIMD)</b></h2>
+    <p>
+      TCP manages congestion dynamically by adjusting the size of its congestion window ($cwnd$):
+    </p>
+    <ol>
+      <li><b>Slow Start (SS):</b> $cwnd$ starts at 1 MSS (Maximum Segment Size). For every ACK received,
+        $cwnd$ doubles every Round Trip Time (RTT), growing exponentially. This phase continues until
+        $cwnd$ reaches the Slow Start Threshold ($ssthresh$).</li>
+      <li><b>Congestion Avoidance (CA):</b> Once $cwnd \ge ssthresh$, the growth becomes linear
+        (Additive Increase). $cwnd$ increases by 1 MSS for every RTT.</li>
+      <li><b>Fast Retransmit & Fast Recovery:</b> If the sender receives 3 duplicate ACKs:
+        <ul>
+          <li>It immediately retransmits the missing segment without waiting for timeout.</li>
+          <li>It sets $ssthresh = cwnd / 2$.</li>
+          <li>It sets $cwnd = ssthresh$ (Multiplicative Decrease) and continues with linear growth.</li>
+        </ul>
+      </li>
+      <li><b>Timeout:</b> If a timeout occurs (severe congestion), the sender sets $ssthresh = cwnd / 2$,
+        resets $cwnd = 1$ MSS, and goes back to the Slow Start phase.</li>
+    </ol>
+
+    <pre>
+  TCP Congestion Window (cwnd) Behavior:
+
+  cwnd (MSS)
+    ▲
+ 16 │               / \  (3 Duplicate ACKs)
+ 12 │              /   \____/ \            ssthresh = 8
+  8 │             /   /        \
+  4 │   / \______/             \
+  2 │  /                         \
+  1 └──┴──────────────────────────┴───► Time (RTT)
+       &lt;SlowStart&gt;&lt;Avoidance&gt;&lt;Timeout&gt;&lt;SlowStart&gt;
+    </pre>
+  </div>
+
+  <!-- UDP Segment Header Format -->
+  <div class="section">
+    <h2><b>6.7 UDP Datagram Header Format</b></h2>
+    <p>
+      Unlike TCP, UDP is a lightweight, connectionless protocol with minimal overhead.
+      The UDP header is fixed at exactly **8 bytes** (64 bits) in size:
+    </p>
+    <pre>
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |          Source Port          |        Destination Port       |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |             Length            |           Checksum            |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    </pre>
+    <ul>
+      <li><b>Source Port (16 bits):</b> Identifies the sending process on the source host. Optional (can be set to 0 if not needed).</li>
+      <li><b>Destination Port (16 bits):</b> Identifies the receiving process on the destination host.</li>
+      <li><b>Length (16 bits):</b> Specifies the total length of the UDP datagram (header + data payload) in bytes.
+        Minimum value is 8 (size of header). Maximum limit is 65,535 bytes.</li>
+      <li><b>Checksum (16 bits):</b> Used for error-checking the header and data payload (plus an IP pseudo-header).
+        In UDP, checksum calculation is optional in IPv4 but mandatory in IPv6.</li>
+    </ul>
+  </div>
+
+  <!-- QoS Parameters -->
+  <div class="section">
+    <h2><b>6.8 Quality of Service (QoS) and Traffic Policing</b></h2>
+    <p>
+      <b>Quality of Service (QoS)</b> refers to the capability of a network to provide better service to
+      selected network traffic over various technologies:
+    </p>
+    <ul>
+      <li><b>QoS Parameters:</b>
+        <ul>
+          <li><i>Bandwidth:</i> Guaranteed minimum data rate.</li>
+          <li><i>Delay (Latency):</i> Maximum allowable end-to-end delay. Critical for voice and gaming.</li>
+          <li><i>Jitter:</i> Stability of packet arrival interval. Real-time buffers smooth out jitter.</li>
+          <li><i>Packet Loss:</i> Percentage of transmitted packets that fail to reach their destination.</li>
+        </ul>
+      </li>
+      <li><b>Traffic Policing:</b> Monitoring traffic flow to ensure it conforms to contract agreements.
+        If a host exceeds its traffic rate, the policing device can drop packets or mark them as lower priority.</li>
+      <li><b>Traffic Shaping:</b> Buffer packets when they exceed the rate limit and send them out in a
+        controlled, smooth manner (using Leaky/Token Bucket algorithms).</li>
+    </ul>
+  </div>
+
+  <!-- TCP Flow Control Sliding Window -->
+  <div class="section">
+    <h2><b>6.9 Transport Layer Flow Control: TCP Sliding Window</b></h2>
+    <p>
+      While the network layer routes packets, the transport layer manages end-to-end flow control
+      using a <b>dynamic sliding window</b> mechanism:
+    </p>
+    <ul>
+      <li><b>Receiver Window (rwnd):</b> The receiver advertises its available buffer space in the
+        <code>Window Size</code> field of every TCP segment sent back to the sender. This tells the
+        sender how much data it can safely transmit before receiving an acknowledgment.</li>
+      <li><b>Sender Window size:</b> The sender computes its maximum window size as:
+        <br>
+        $$\text{Effective Window} = \min(rwnd, cwnd)$$
+        Where $cwnd$ is the congestion window size.</li>
+      <li><b>Zero Window Probe:</b> If the receiver's buffer becomes completely full, it advertises a
+        <code>rwnd = 0</code>. The sender must stop transmitting but periodically sends small 1-byte
+        <b>Zero Window Probes</b> to check if the receiver has cleared its buffer and can accept data.</li>
+    </ul>
+  </div>
+
+</body>
+</html>

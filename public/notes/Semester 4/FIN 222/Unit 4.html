@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 4: Fundamentals of Risk and Return</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 4: Fundamentals of Risk and Return [7 Hrs.]</b></h1>
+
+  <!-- 4.1 - 4.2 Concept & Calculations -->
+  <div class="section">
+    <h2><b>4.1 Concept of Risk and Return (Individual Assets)</b></h2>
+
+    <h3>Basic Definitions</h3>
+    <ul>
+      <li><b>Return:</b> The financial gain or loss on an investment over a specific period. It is usually
+        expressed as a percentage of the initial investment.</li>
+      <li><b>Risk:</b> The variability or uncertainty of the actual returns relative to the expected return.
+        An investment is considered riskier if it has a wider range of possible returns.</li>
+    </ul>
+
+    <h3>Expected Rate of Return ($\hat{r}$)</h3>
+    <p>The weighted average of all possible returns, where the weights are the probabilities of occurrence:</p>
+    <div class="note">
+      $$\hat{r} = \sum_{i=1}^n P_i \times r_i$$
+      Where $P_i$ is the probability of state $i$ and $r_i$ is the return in state $i$.
+    </div>
+
+    <h3>Variance ($\sigma^2$) and Standard Deviation ($\sigma$)</h3>
+    <p>Measure the absolute dispersion of returns around the expected value. Standard deviation is the square root of variance:</p>
+    <div class="note">
+      $$\text{Variance } (\sigma^2) = \sum_{i=1}^n P_i \times (r_i - \hat{r})^2$$
+      $$\text{Standard Deviation } (\sigma) = \sqrt{\sigma^2}$$
+    </div>
+
+    <h3>Coefficient of Variation (CV)</h3>
+    <p>Measures relative risk per unit of return. Useful when comparing assets with different expected returns:</p>
+    <div class="note">
+      $$CV = \frac{\sigma}{\hat{r}}$$
+      <i>Rule: Prefer the asset with the lower CV (less risk per unit of return).</i>
+    </div>
+  </div>
+
+  <!-- 4.3 Systematic and Unsystematic Risk -->
+  <div class="section">
+    <h2><b>4.2 Systematic vs. Unsystematic Risk and Portfolio Diversification</b></h2>
+
+    <h3>Types of Risk</h3>
+    <ul>
+      <li><b>Unsystematic (Diversifiable / Unique) Risk:</b> Company-specific risk (e.g., strikes, lawsuits,
+        bad management, product recalls). This risk can be completely eliminated by holding a well-diversified portfolio.</li>
+      <li><b>Systematic (Non-Diversifiable / Market) Risk:</b> Economy-wide risk affecting all companies
+        (e.g., inflation, GDP contraction, changes in interest rates, wars). This risk cannot be eliminated through diversification.</li>
+    </ul>
+
+    <h3>The Portfolio Diversification Effect</h3>
+    <pre>
+  Total Portfolio Risk (Standard Deviation)
+    ▲
+    │ \
+    │  \   Unsystematic Risk (Diversifiable)
+    │   \
+    │────└───► Systematic Risk (Non-diversifiable)
+    │
+    └───────────────────────────────────────► Number of Stocks
+      0         10        20        30
+    </pre>
+    <p>
+      As the number of stocks in a portfolio increases, the unsystematic risk drops rapidly, leaving only
+      systematic market risk (usually achieved with 30-40 stocks).
+    </p>
+
+    <h3>Measuring Systematic Risk: Beta ($\beta$)</h3>
+    <p>
+      <b>Beta ($\beta$)</b> measures the sensitivity of a stock's return relative to the overall market return:
+    </p>
+    <ul>
+      <li>$\beta = 1.0$: Stock has average risk (moves exactly with the market).</li>
+      <li>$\beta > 1.0$: Stock is more volatile than the market (aggressive stock, e.g., tech start-up).</li>
+      <li>$\beta < 1.0$: Stock is less volatile than the market (defensive stock, e.g., utility company).</li>
+      <li>$\beta = 0.0$: Risk-free asset (e.g., government treasury bill).</li>
+    </ul>
+  </div>
+
+  <!-- 4.4 Portfolio Risk and Return -->
+  <div class="section">
+    <h2><b>4.3 Portfolio Risk and Return</b></h2>
+
+    <h3>Portfolio Expected Return ($r_p$)</h3>
+    <p>The weighted average of the expected returns of the individual assets in the portfolio:</p>
+    <div class="note">
+      $$r_p = \sum_{j=1}^k w_j \times \hat{r}_j$$
+      Where $w_j$ is the weight of asset $j$ in the portfolio.
+    </div>
+
+    <h3>Portfolio Beta ($\beta_p$)</h3>
+    <p>The weighted average of individual asset betas:</p>
+    <div class="note">
+      $$\beta_p = \sum_{j=1}^k w_j \times \beta_j$$
+    </div>
+
+    <h3>Portfolio Risk (Standard Deviation $\sigma_p$)</h3>
+    <p>For a 2-asset portfolio, risk depends on the correlation ($\rho_{AB}$) between the two assets:</p>
+    <div class="note">
+      $$\sigma_p = \sqrt{w_A^2 \sigma_A^2 + w_B^2 \sigma_B^2 + 2 w_A w_B \sigma_A \sigma_B \rho_{AB}}$$
+      Where $\rho_{AB}$ is the correlation coefficient between asset A and asset B.
+    </div>
+
+    <h3>Role of Correlation Coefficient ($\rho$) in Diversification</h3>
+    <ul>
+      <li><b>Perfect Positive Correlation ($\rho = +1.0$):</b> No risk reduction is achieved. Risk is a simple weighted average.</li>
+      <li><b>No Correlation ($\rho = 0.0$):</b> Significant risk reduction is achieved.</li>
+      <li><b>Perfect Negative Correlation ($\rho = -1.0$):</b> Risk can be completely eliminated to zero.</li>
+    </ul>
+  </div>
+
+  <!-- CAPM & SML -->
+  <div class="section">
+    <h2><b>4.4 Capital Asset Pricing Model (CAPM) and SML</b></h2>
+
+    <h3>The CAPM Equation</h3>
+    <p>
+      The **Capital Asset Pricing Model (CAPM)** defines the required rate of return for an individual asset
+      based on its systematic risk ($\beta$):
+    </p>
+    <div class="note">
+      $$r_i = r_{RF} + (r_M - r_{RF}) \times \beta_i$$
+      Where:
+      <br>- $r_i$ = Required rate of return on stock $i$.
+      <br>- $r_{RF}$ = Risk-free rate of return (e.g., T-bills).
+      <br>- $r_M$ = Expected return on the market portfolio.
+      <br>- $(r_M - r_{RF})$ = **Market Risk Premium (MRP)**.
+      <br>- $(r_M - r_{RF}) \times \beta_i$ = **Stock Risk Premium**.
+    </div>
+
+    <h3>The Security Market Line (SML)</h3>
+    <p>
+      The SML is the graphical representation of the CAPM, plotting required returns against beta:
+    </p>
+    <pre>
+  Required Return (%)
+    ▲
+    │               / SML (Security Market Line)
+    │              /
+ rM │─────────────o  (Market Portfolio: Beta = 1.0)
+    │            /
+rRF │───────────/
+    │          /
+    └──────────┴─────────────────────────► Risk (Beta)
+    0         1.0
+    </pre>
+  </div>
+
+  <!-- Worked Numerical -->
+  <div class="section">
+    <h2><b>4.5 Worked Numerical Example</b></h2>
+    <div class="note">
+      <h4>Risk and Return Calculations</h4>
+      <p><b>Problem:</b> You are analyzing two stocks, Stock A and Stock B, with the following probability distributions:
+        <br>- State 1 (Recession, P=0.2): Return A = -5%, Return B = 5%
+        <br>- State 2 (Normal, P=0.6): Return A = 12%, Return B = 10%
+        <br>- State 3 (Boom, P=0.2): Return A = 25%, Return B = 15%
+        <br>1. Calculate the expected return ($\hat{r}$), standard deviation ($\sigma$), and CV for both stocks.
+        <br>2. Find the expected return of a portfolio consisting of 60% Stock A and 40% Stock B.
+        <br>3. If the risk-free rate is 5% and the market return is 11%, calculate the required return for a stock with Beta = 1.5 using CAPM.
+      </p>
+      <p><b>Solution:</b>
+        <br>
+        <br><b>1. Stock A expected return ($\hat{r}_A$):</b>
+        <br>$\hat{r}_A = 0.2 \times (-5\%) + 0.6 \times (12\%) + 0.2 \times (25\%) = -1\% + 7.2\% + 5\% = 11.2\%$.
+        <br>
+        <br><b>Stock A variance ($\sigma_A^2$):</b>
+        <br>$\sigma_A^2 = 0.2 \times (-5 - 11.2)^2 + 0.6 \times (12 - 11.2)^2 + 0.2 \times (25 - 11.2)^2$
+        <br>$\sigma_A^2 = 0.2 \times (262.44) + 0.6 \times (0.64) + 0.2 \times (190.44)$
+        <br>$\sigma_A^2 = 52.488 + 0.384 + 38.088 = 90.96$.
+        <br>$\text{Standard Deviation } \sigma_A = \sqrt{90.96} \approx 9.54\%$.
+        <br>$\text{Coefficient of Variation } CV_A = 9.54 / 11.2 \approx 0.85$.
+        <br>
+        <br><b>2. Stock B expected return ($\hat{r}_B$):</b>
+        <br>$\hat{r}_B = 0.2 \times (5\%) + 0.6 \times (10\%) + 0.2 \times (15\%) = 1\% + 6\% + 3\% = 10\%$.
+        <br>
+        <br><b>Stock B variance ($\sigma_B^2$):</b>
+        <br>$\sigma_B^2 = 0.2 \times (5 - 10)^2 + 0.6 \times (10 - 10)^2 + 0.2 \times (15 - 10)^2$
+        <br>$\sigma_B^2 = 0.2 \times (25) + 0.6 \times (0) + 0.2 \times (25) = 5 + 0 + 5 = 10$.
+        <br>$\text{Standard Deviation } \sigma_B = \sqrt{10} \approx 3.16\%$.
+        <br>$\text{Coefficient of Variation } CV_B = 3.16 / 10 \approx 0.32$.
+        <br>
+        <br><b>3. Portfolio Return ($r_p$):</b>
+        <br>$r_p = w_A \hat{r}_A + w_B \hat{r}_B = 0.6 \times (11.2\%) + 0.4 \times (10\%) = 6.72\% + 4.0\% = 10.72\%$.
+        <br>
+        <br><b>4. CAPM Required Return ($r_i$):</b>
+        <br>$r_i = r_{RF} + (r_M - r_{RF}) \times \beta = 5\% + (11\% - 5\%) \times 1.5 = 5\% + 6\% \times 1.5 = 5\% + 9\% = 14\%$.
+      </p>
+    </div>
+  </div>
+
+  <!-- Behavioral Finance -->
+  <div class="section">
+    <h2><b>4.6 Behavioral Finance Overview</b></h2>
+    <p>
+      While classical finance assumes that investors are rational wealth maximizers, **Behavioral Finance**
+      argues that psychology affects investment decisions. Common investor biases include:
+    </p>
+    <ul>
+      <li><b>Loss Aversion:</b> The tendency for individuals to strongly prefer avoiding losses over acquiring gains.
+        Studies show that the pain of losing $100 is twice as intense as the pleasure of gaining $100.</li>
+      <li><b>Overconfidence:</b> Investors overestimate their ability to predict market shifts, leading to excessive trading.</li>
+      <li><b>Herding Behavior:</b> Following the crowd or copying other investors' actions (explains market bubbles and crashes).</li>
+      <li><b>Anchoring:</b> Relying too heavily on initial pieces of information (like a purchase price) when making decisions.</li>
+    </ul>
+  </div>
+
+  <!-- Detailed Portfolio Risk Calculations (Covariance & Correlation) -->
+  <div class="section">
+    <h2><b>4.7 Detailed Portfolio Risk Analysis (Covariance & Correlation)</b></h2>
+    <p>
+      To find the standard deviation of a multi-asset portfolio, we must account for the interaction
+      between asset returns. This interaction is measured using <b>Covariance</b> and the <b>Correlation Coefficient</b>:
+    </p>
+    <div class="note">
+      <h4>Worked Example: Covariance and Portfolio Risk Calculation</h4>
+      <p><b>Problem:</b> Using the probability distribution from Section 4.5:
+        <br>- State 1 (Recession, P=0.2): Return A = -5%, Return B = 5%
+        <br>- State 2 (Normal, P=0.6): Return A = 12%, Return B = 10%
+        <br>- State 3 (Boom, P=0.2): Return A = 25%, Return B = 15%
+        <br>Expected Returns: $\hat{r}_A = 11.2\%$, $\hat{r}_B = 10.0\%$.
+        <br>Standard Deviations: $\sigma_A = 9.54\%$, $\sigma_B = 3.16\%$.
+        <br>1. Calculate Covariance between Stock A and Stock B.
+        <br>2. Calculate the Correlation Coefficient ($\rho_{AB}$).
+        <br>3. Compute the portfolio standard deviation ($\sigma_p$) for a 60% Stock A and 40% Stock B portfolio.
+      </p>
+      <p><b>Solution:</b>
+        <br>
+        <br><b>1. Compute Covariance ($Cov_{AB}$):</b>
+        <br>$$Cov_{AB} = \sum P_i \times (r_{Ai} - \hat{r}_A) \times (r_{Bi} - \hat{r}_B)$$
+        <br>- State 1: $0.2 \times (-5 - 11.2) \times (5 - 10) = 0.2 \times (-16.2) \times (-5) = 0.2 \times (81) = 16.2$
+        <br>- State 2: $0.6 \times (12 - 11.2) \times (10 - 10) = 0.6 \times (0.8) \times (0) = 0$
+        <br>- State 3: $0.2 \times (25 - 11.2) \times (15 - 10) = 0.2 \times (13.8) \times (5) = 0.2 \times (69) = 13.8$
+        <br>$Cov_{AB} = 16.2 + 0 + 13.8 = 30.0$.
+        <br>
+        <br><b>2. Compute Correlation Coefficient ($\rho_{AB}$):</b>
+        <br>$$\rho_{AB} = \frac{Cov_{AB}}{\sigma_A \times \sigma_B} = \frac{30.0}{9.54 \times 3.16} = \frac{30.0}{30.1464} \approx 0.995$$
+        <br>This indicates that the two stocks are very highly positively correlated (virtually move together),
+        meaning diversification benefits will be minimal.
+        <br>
+        <br><b>3. Compute Portfolio Risk ($\sigma_p$):</b>
+        <br>$$\sigma_p = \sqrt{w_A^2 \sigma_A^2 + w_B^2 \sigma_B^2 + 2 w_A w_B Cov_{AB}}$$
+        <br>$\sigma_p = \sqrt{(0.6)^2(90.96) + (0.4)^2(10) + 2(0.6)(0.4)(30.0)}$
+        <br>$\sigma_p = \sqrt{0.36(90.96) + 0.16(10) + 0.48(30.0)}$
+        <br>$\sigma_p = \sqrt{32.7456 + 1.6 + 14.4} = \sqrt{48.7456} \approx 6.98\%$.
+        <br>The portfolio standard deviation is 6.98%.
+      </p>
+    </div>
+  </div>
+
+  <!-- CML vs. SML -->
+  <div class="section">
+    <h2><b>4.8 CML (Capital Market Line) vs. SML (Security Market Line)</b></h2>
+    <p>
+      Although both represent relationships between risk and return under modern portfolio theory, they serve different purposes:
+    </p>
+    <table>
+      <tr>
+        <th>Aspect</th>
+        <th>Capital Market Line (CML)</th>
+        <th>Security Market Line (SML)</th>
+      </tr>
+      <tr>
+        <td><b>Measure of Risk</b></td>
+        <td>Total Risk (Standard Deviation $\sigma$)</td>
+        <td>Systematic Market Risk (Beta $\beta$)</td>
+      </tr>
+      <tr>
+        <td><b>Applicability</b></td>
+        <td>Only efficient portfolios</td>
+        <td>Individual securities, assets, and portfolios (efficient or inefficient)</td>
+      </tr>
+      <tr>
+        <td><b>Slope</b></td>
+        <td>Market Sharpe Ratio: $(r_M - r_{RF}) / \sigma_M$</td>
+        <td>Market Risk Premium: $(r_M - r_{RF})$</td>
+      </tr>
+      <tr>
+        <td><b>Diagram Axis</b></td>
+        <td>Expected Return vs. Standard Deviation ($\sigma$)</td>
+        <td>Required Return vs. Beta ($\beta$)</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Pricing Evaluation & Alpha -->
+  <div class="section">
+    <h2><b>4.9 Stock Evaluation and Security Alpha</b></h2>
+    <p>
+      Investors use CAPM to evaluate whether a stock is a good buy. They compare the stock's
+      <b>Estimated Return ($\hat{r}$)</b> (from financial analysts) with its **Required Return ($r$)** (from CAPM):
+    </p>
+    <ul>
+      <li><b>Alpha ($\alpha$):</b> The difference between estimated return and required return:
+        <br>
+        $$\alpha = \text{Estimated Return} - \text{Required Return}$$
+      </li>
+      <li><b>Underpriced Stock (Buy Signal):</b> If $\alpha > 0$. The stock is expected to return more than
+        its risk warrants. The stock plots **above the SML**.</li>
+      <li><b>Overpriced Stock (Sell/Short Signal):</b> If $\alpha < 0$. The stock is expected to return less than
+        its risk warrants. The stock plots **below the SML**.</li>
+      <li><b>Fairly Priced Stock:</b> If $\alpha = 0$. The stock plots **on the SML**.</li>
+    </ul>
+  </div>
+
+  <!-- Historical Returns and Sample Risk Calculations -->
+  <div class="section">
+    <h2><b>4.10 Historical Returns and Sample Risk Calculations</b></h2>
+    <p>
+      When analyzing historical asset data rather than forward-looking probability states, we use
+      sample average and sample standard deviation:
+    </p>
+    <ul>
+      <li><b>Sample Mean Return ($\bar{r}$):</b>
+        <br>
+        $$\bar{r} = \frac{\sum_{t=1}^n r_t}{n}$$
+      </li>
+      <li><b>Sample Standard Deviation ($S$):</b> Uses $n-1$ in the denominator to ensure an unbiased estimator:
+        <br>
+        $$S = \sqrt{\frac{\sum_{t=1}^n (r_t - \bar{r})^2}{n - 1}}$$
+      </li>
+    </ul>
+    <div class="note">
+      <h4>Worked Example: Historical Data analysis</h4>
+      <p><b>Problem:</b> Stock X recorded the following annual returns over the last 4 years:
+        Year 1: 10%, Year 2: 15%, Year 3: -5%, Year 4: 20%. Calculate the sample mean and sample standard deviation.</p>
+      <p><b>Solution:</b>
+        <br>1. Calculate Mean ($\bar{r}$):
+        <br>$$\bar{r} = \frac{10 + 15 - 5 + 20}{4} = \frac{40}{4} = 10.0\%$$
+        <br>2. Calculate Variance Numerator:
+        <br>- $(r_1 - \bar{r})^2 = (10 - 10)^2 = 0$
+        <br>- $(r_2 - \bar{r})^2 = (15 - 10)^2 = 25$
+        <br>- $(r_3 - \bar{r})^2 = (-5 - 10)^2 = 225$
+        <br>- $(r_4 - \bar{r})^2 = (20 - 10)^2 = 100$
+        <br>Sum of Squared Deviations = $0 + 25 + 225 + 100 = 350$.
+        <br>
+        <br>3. Compute Sample Standard Deviation ($S$):
+        <br>$$S = \sqrt{\frac{350}{4 - 1}} = \sqrt{\frac{350}{3}} = \sqrt{116.67} \approx 10.80\%$$
+      </p>
+    </div>
+  </div>
+
+  <!-- Mathematical Derivation of Beta -->
+  <div class="section">
+    <h2><b>4.11 Mathematical Derivation of Beta ($\beta$)</b></h2>
+    <p>
+      A stock's Beta represents its systematic covariance with the market, scaled by the market's own variance:
+      <br>
+      $$\beta_i = \frac{Cov(i, M)}{\sigma_M^2} = \rho_{iM} \times \frac{\sigma_i}{\sigma_M}$$
+      Where $Cov(i, M)$ is the covariance of stock $i$ with the market, $\sigma_M^2$ is market variance,
+      and $\rho_{iM}$ is the correlation between the stock and the market.
+    </p>
+    <div class="note">
+      <h4>Worked Example: Beta Calculation</h4>
+      <p><b>Problem:</b> Stock Y has a standard deviation of 15%. The market portfolio has a standard deviation of 10%.
+        The correlation between Stock Y and the market is 0.80. Calculate the stock's Beta.</p>
+      <p><b>Solution:</b>
+        <br>$$\beta_Y = \rho_{YM} \times \frac{\sigma_Y}{\sigma_M} = 0.80 \times \frac{15\%}{10\%} = 0.80 \times 1.5 = 1.20$$
+        <br>Stock Y is 20% more volatile than the market.
+      </p>
+    </div>
+  </div>
+
+  <!-- Advanced Asset Pricing Models -->
+  <div class="section">
+    <h2><b>4.12 Beyond CAPM: The Fama-French Three-Factor Model</b></h2>
+    <p>
+      Although CAPM is widely used, empirical studies show that a single factor (Beta) does not fully explain
+      stock returns. To address this, Eugene Fama and Kenneth French introduced the **Three-Factor Model**,
+      which adds size and book-to-market factors:
+    </p>
+    <div class="note">
+      $$r_i = r_{RF} + b_i(r_M - r_{RF}) + s_i(\text{SMB}) + h_i(\text{HML})$$
+      Where:
+      <br>- **SMB (Small Minus Big):** Represents the historical return premium of small-cap stocks over large-cap stocks.
+      <br>- **HML (High Minus Low):** Represents the historical return premium of high book-to-market (value) stocks over low book-to-market (growth) stocks.
+      <br>- $b_i, s_i, h_i$ are the factor loadings (sensitivities) of the asset.
+    </div>
+  </div>
+
+  <!-- Efficient Frontier and Sharpe Ratio -->
+  <div class="section">
+    <h2><b>4.13 The Efficient Frontier and Sharpe Ratio</b></h2>
+    <p>
+      Markowitz Modern Portfolio Theory (MPT) outlines how rational investors construct optimal portfolios:
+    </p>
+    <ul>
+      <li><b>Portfolio Opportunity Set:</b> The collection of all possible risk-return combinations that can
+        be created by combining risky assets in various weights.</li>
+      <li><b>Efficient Frontier:</b> The upper boundary of the opportunity set. It contains the portfolios
+        that provide the highest possible expected return for a given level of standard deviation (risk).</li>
+      <li><b>The Sharpe Ratio:</b> Measures the excess return per unit of total risk in a portfolio:
+        <br>
+        $$\text{Sharpe Ratio} = \frac{r_p - r_{RF}}{\sigma_p}$$
+        Investors seek to select the portfolio on the efficient frontier that maximizes the Sharpe Ratio (the **Tangency Portfolio**).
+      </li>
+    </ul>
+  </div>
+
+  <!-- CML Calculations -->
+  <div class="section">
+    <h2><b>4.14 Capital Market Line (CML) Calculations</b></h2>
+    <p>
+      When we introduce a risk-free asset, the efficient frontier becomes a straight line starting from
+      $r_{RF}$ and passing through the tangency market portfolio. This is the **CML**:
+      <br>
+      $$r_p = r_{RF} + \left[ \frac{r_M - r_{RF}}{\sigma_M} \right] \times \sigma_p$$
+      Where the term in brackets is the market price of risk (Sharpe Ratio of the market).
+    </p>
+    <div class="note">
+      <h4>Worked Example: CML Calculation</h4>
+      <p><b>Problem:</b> You are constructing an efficient portfolio. The risk-free rate is 4%, and the market portfolio
+        has an expected return of 10% with a standard deviation of 12%. If you want your efficient portfolio to have
+        a standard deviation of 8%, calculate its expected return using the CML.</p>
+      <p><b>Solution:</b>
+        <br>$$r_p = r_{RF} + \left[ \frac{r_M - r_{RF}}{\sigma_M} \right] \times \sigma_p$$
+        <br>$$r_p = 4\% + \left[ \frac{10\% - 4\%}{12\%} \right] \times 8\%$$
+        <br>$$r_p = 4\% + \left[ \frac{6\%}{12\%} \right] \times 8\% = 4\% + 0.5 \times 8\% = 4\% + 4\% = 8.0\%$$
+        <br>The expected return of the efficient portfolio is 8.0%.
+      </p>
+    </div>
+  </div>
+
+  <!-- CAPM Assumptions & Limitations -->
+  <div class="section">
+    <h2><b>4.15 CAPM Assumptions and Real-World Limitations</b></h2>
+    <p>
+      The Capital Asset Pricing Model is built upon several strict theoretical assumptions:
+    </p>
+    <ul>
+      <li><b>Theoretical Assumptions:</b>
+        <br>1. *Homogeneous Expectations:* All investors have access to the same information and agree on the expected returns, standard deviations, and covariances of all assets.
+        <br>2. *Risk-Free Borrowing/Lending:* All investors can borrow and lend unlimited sums at the risk-free rate.
+        <br>3. *No Market Friction:* There are no taxes, no transaction costs, and no restrictions on short-selling.
+        <br>4. *Price Takers:* No single investor is large enough to influence stock prices.
+      </li>
+      <li><b>Real-World Limitations:</b>
+        <br>1. Retail investors cannot borrow at the same rate as the government (risk-free rate is too low).
+        <br>2. Transaction costs and taxes exist, which drag down investment returns.
+        <br>3. Expectations differ widely among analysts, creating pricing anomalies.
+      </li>
+    </ul>
+  </div>
+
+  <!-- Advanced Portfolio Performance Metrics -->
+  <div class="section">
+    <h2><b>4.16 Advanced Portfolio Performance Evaluation Metrics</b></h2>
+    <p>
+      To measure the quality of portfolio management, analysts use metrics that adjust returns for risk:
+    </p>
+    <ol>
+      <li><b>Treynor Ratio:</b> Measures excess return per unit of systematic risk (Beta):
+        <br>
+        $$\text{Treynor Ratio} = \frac{r_p - r_{RF}}{\beta_p}$$
+        Best for evaluating portfolios that are sub-components of a larger, well-diversified fund.
+      </li>
+      <li><b>Jensen's Alpha ($\alpha_p$):</b> Measures the absolute abnormal return generated by the portfolio manager
+        relative to the CAPM required return:
+        <br>
+        $$\alpha_p = r_p - \left[ r_{RF} + (r_M - r_{RF}) \cdot \beta_p \right]$$
+        A positive Jensen's Alpha ($\alpha_p > 0$) indicates that the manager beat the market on a risk-adjusted basis.
+      </li>
+    </ol>
+  </div>
+
+  <!-- Arbitrage Pricing Theory (APT) -->
+  <div class="section">
+    <h2><b>4.17 Arbitrage Pricing Theory (APT)</b></h2>
+    <p>
+      An alternative to CAPM is the **Arbitrage Pricing Theory (APT)** developed by Stephen Ross.
+      Unlike CAPM, which assumes only market return is relevant, APT assumes that an asset's return is driven
+      by multiple macroeconomic factors:
+      <br>
+      $$r_i = r_{RF} + \beta_{i1}(F_1) + \beta_{i2}(F_2) + \dots + \beta_{ik}(F_k)$$
+      Where:
+      <br>- $F_1, F_2, \dots, F_k$ represent macroeconomic factors (such as inflation rate changes, GDP growth, interest rate shifts).
+      <br>- $\beta_{ij}$ represents the sensitivity of asset $i$ to factor $j$.
+    </p>
+    <p>
+      <b>Comparison to CAPM:</b>
+      <br>1. *No market portfolio required:* APT does not require identifying the hard-to-measure "market portfolio."
+      <br>2. *Multivariate:* It reflects real-world complexities where different economic forces affect assets differently.
+    </p>
+  </div>
+
+</body>
+</html>

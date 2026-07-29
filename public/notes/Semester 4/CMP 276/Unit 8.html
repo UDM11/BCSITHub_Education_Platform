@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 8: Software Project Management</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 8: Software Project Management [4 Hrs.]</b></h1>
+
+  <!-- 8.1 Software Project, Project Manager -->
+  <div class="section">
+    <h2><b>8.1 Software Project, Project Manager, Qualities of Project Manager</b></h2>
+
+    <h3>What is a Software Project?</h3>
+    <p>
+      A <b>software project</b> is a temporary endeavor undertaken to create a unique software
+      product, service, or result. It has a defined beginning and end, specific objectives,
+      scope, budget, and schedule. A software project involves the coordinated effort of
+      a team to deliver software that meets specified requirements within constraints of
+      time, cost, and quality.
+    </p>
+
+    <h3>Characteristics of Software Projects</h3>
+    <ul>
+      <li><b>Temporariness:</b> Every project has a definite start and end date</li>
+      <li><b>Uniqueness:</b> Each project produces a unique product or result</li>
+      <li><b>Progressive Elaboration:</b> Details are refined as the project progresses</li>
+      <li><b>Intangibility:</b> Software is intangible; progress is harder to measure than construction projects</li>
+      <li><b>Complexity:</b> Software systems can be enormously complex</li>
+      <li><b>Conformity:</b> Software must conform to the requirements of users, hardware, regulations</li>
+      <li><b>Changeability:</b> Software requirements are subject to constant change</li>
+    </ul>
+
+    <h3>What is a Project Manager?</h3>
+    <p>
+      A <b>software project manager</b> is the person responsible for planning, executing,
+      monitoring, controlling, and closing a software project. The project manager ensures
+      that the project is completed on time, within budget, and meets quality standards.
+    </p>
+
+    <h3>Qualities of a Good Project Manager</h3>
+    <table>
+      <tr>
+        <th>Category</th>
+        <th>Quality</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>Leadership</td>
+        <td>Vision and Direction</td>
+        <td>Can articulate a clear vision and motivate the team to achieve it</td>
+      </tr>
+      <tr>
+        <td>Leadership</td>
+        <td>Decision Making</td>
+        <td>Can make timely decisions with incomplete information</td>
+      </tr>
+      <tr>
+        <td>Technical</td>
+        <td>Technical Competence</td>
+        <td>Understands the technology, tools, and methodologies used</td>
+      </tr>
+      <tr>
+        <td>Technical</td>
+        <td>Problem Solving</td>
+        <td>Can identify and resolve technical and organizational problems</td>
+      </tr>
+      <tr>
+        <td>Communication</td>
+        <td>Effective Communication</td>
+        <td>Can communicate clearly with team members, stakeholders, and management</td>
+      </tr>
+      <tr>
+        <td>Communication</td>
+        <td>Negotiation</td>
+        <td>Can negotiate resources, scope, and schedule with stakeholders</td>
+      </tr>
+      <tr>
+        <td>Management</td>
+        <td>Planning & Organization</td>
+        <td>Can create and manage realistic project plans</td>
+      </tr>
+      <tr>
+        <td>Management</td>
+        <td>Risk Management</td>
+        <td>Can identify, assess, and mitigate risks proactively</td>
+      </tr>
+      <tr>
+        <td>People</td>
+        <td>Team Building</td>
+        <td>Can build cohesive, motivated, and productive teams</td>
+      </tr>
+      <tr>
+        <td>People</td>
+        <td>Conflict Resolution</td>
+        <td>Can resolve conflicts within the team constructively</td>
+      </tr>
+    </table>
+
+    <h3>Roles and Responsibilities of a PM</h3>
+    <ul>
+      <li>Define project scope and objectives</li>
+      <li>Create project plans (schedule, budget, resource allocation)</li>
+      <li>Manage project team and assign tasks</li>
+      <li>Monitor project progress and take corrective action</li>
+      <li>Communicate project status to stakeholders</li>
+      <li>Manage risks and resolve issues</li>
+      <li>Ensure quality standards are met</li>
+      <li>Manage project budget and resources</li>
+      <li>Coordinate with external parties (customers, vendors)</li>
+      <li>Facilitate project closure and lessons learned</li>
+    </ul>
+  </div>
+
+  <!-- 8.2 Activities in Project Management -->
+  <div class="section">
+    <h2><b>8.2 Activities in Project Management</b></h2>
+
+    <h3>The Four P's of Software Project Management</h3>
+    <p>
+      Effective software project management focuses on the four P's:
+    </p>
+
+    <h4>1. People</h4>
+    <p>
+      People are the most important factor in a successful software project.
+      Key people-related activities include:
+    </p>
+    <ul>
+      <li><b>Stakeholder management:</b> Identifying and managing expectations of all stakeholders</li>
+      <li><b>Team organization:</b> Structuring teams appropriately
+        (functional, project-based, matrix)</li>
+      <li><b>Skill management:</b> Ensuring the team has the right skills for the project</li>
+      <li><b>Motivation:</b> Keeping team members engaged and productive</li>
+    </ul>
+
+    <h4>2. Product</h4>
+    <p>
+      Understanding the product (software) to be built is essential:
+    </p>
+    <ul>
+      <li>Define scope and objectives</li>
+      <li>Identify alternative solutions</li>
+      <li>Identify constraints (technical, business, resource)</li>
+      <li>Decompose the product into manageable components</li>
+    </ul>
+
+    <h4>3. Process</h4>
+    <p>
+      The software process framework must be chosen and adapted:
+    </p>
+    <ul>
+      <li>Select the appropriate process model (Agile, Waterfall, Spiral, etc.)</li>
+      <li>Define the set of framework activities and task sets</li>
+      <li>Establish umbrella activities (QA, SCM, reviews, risk management)</li>
+    </ul>
+
+    <h4>4. Project</h4>
+    <p>
+      The project itself must be planned and managed:
+    </p>
+    <ul>
+      <li>Estimation (cost, effort, schedule)</li>
+      <li>Planning and scheduling</li>
+      <li>Monitoring and control</li>
+      <li>Risk management</li>
+    </ul>
+
+    <h3>Key Management Activities</h3>
+    <ol>
+      <li><b>Proposal Writing:</b> Preparing proposals for project funding/approval</li>
+      <li><b>Project Planning & Scheduling:</b> Creating WBS, Gantt charts, network diagrams</li>
+      <li><b>Project Costing:</b> Estimating and controlling project costs</li>
+      <li><b>Project Monitoring & Reviews:</b> Tracking progress against plans</li>
+      <li><b>Personnel Selection & Evaluation:</b> Building and evaluating teams</li>
+      <li><b>Report Writing & Presentations:</b> Communicating status and results</li>
+    </ol>
+  </div>
+
+  <!-- 8.3 Software Project Planning -->
+  <div class="section">
+    <h2><b>8.3 Software Project Planning and Management Plan</b></h2>
+
+    <h3>Software Project Planning</h3>
+    <p>
+      <b>Project planning</b> is the most important project management activity.
+      A project plan defines the work to be done, the resources needed, the schedule,
+      and the risks. Planning begins before technical work starts and continues
+      iteratively throughout the project.
+    </p>
+
+    <h3>Work Breakdown Structure (WBS)</h3>
+    <p>
+      A <b>WBS</b> is a hierarchical decomposition of the total scope of work to be
+      carried out by the project team. It breaks the project into deliverable-oriented
+      work packages.
+    </p>
+
+    <pre>
+  WBS Example: E-Commerce Website Project
+
+  1. E-Commerce Website
+  ├── 1.1 Project Management
+  │   ├── 1.1.1 Project Planning
+  │   ├── 1.1.2 Progress Monitoring
+  │   └── 1.1.3 Risk Management
+  ├── 1.2 Requirements
+  │   ├── 1.2.1 Requirements Gathering
+  │   ├── 1.2.2 Requirements Analysis
+  │   └── 1.2.3 SRS Document
+  ├── 1.3 Design
+  │   ├── 1.3.1 Architecture Design
+  │   ├── 1.3.2 Database Design
+  │   ├── 1.3.3 UI/UX Design
+  │   └── 1.3.4 API Design
+  ├── 1.4 Development
+  │   ├── 1.4.1 Frontend Development
+  │   ├── 1.4.2 Backend Development
+  │   ├── 1.4.3 Database Implementation
+  │   └── 1.4.4 Payment Integration
+  ├── 1.5 Testing
+  │   ├── 1.5.1 Unit Testing
+  │   ├── 1.5.2 Integration Testing
+  │   ├── 1.5.3 System Testing
+  │   └── 1.5.4 User Acceptance Testing
+  └── 1.6 Deployment
+      ├── 1.6.1 Server Setup
+      ├── 1.6.2 Deployment
+      └── 1.6.3 Training
+    </pre>
+
+    <h3>Software Project Management Plan (SPMP)</h3>
+    <p>
+      The <b>SPMP</b> is a formal document that describes how the project will be executed,
+      monitored, and controlled. IEEE Standard 1058 defines the structure:
+    </p>
+    <ol>
+      <li><b>Introduction:</b> Project overview, deliverables, schedule summary, budget summary</li>
+      <li><b>Project Organization:</b> Process model, organizational structure, roles and responsibilities</li>
+      <li><b>Managerial Process:</b> Management objectives, assumptions, constraints, risk management,
+        monitoring and controlling mechanisms, staffing plan</li>
+      <li><b>Technical Process:</b> Methods, tools, and techniques; documentation plan;
+        project support functions</li>
+      <li><b>Work Packages, Schedule, and Budget:</b> WBS, task dependencies, schedule,
+        resource allocation, budget</li>
+    </ol>
+  </div>
+
+  <!-- 8.5 Software Project Scheduling -->
+  <div class="section">
+    <h2><b>8.5 Software Project Scheduling and Techniques</b></h2>
+
+    <h3>Project Scheduling</h3>
+    <p>
+      <b>Project scheduling</b> transforms the action plan (WBS) into a time-ordered
+      sequence of activities. It establishes when each activity should start and end,
+      identifies dependencies between activities, and allocates resources.
+    </p>
+
+    <h3>Scheduling Techniques</h3>
+
+    <h4>1. Gantt Charts</h4>
+    <p>
+      A <b>Gantt chart</b> is a horizontal bar chart that shows the schedule of project
+      activities along a timeline. Each bar represents a task, its start date,
+      duration, and end date.
+    </p>
+    <pre>
+  Gantt Chart Example:
+
+  Task                    Week 1  Week 2  Week 3  Week 4  Week 5  Week 6
+  Requirements Gathering  ██████
+  System Design                   ██████████████
+  Database Design                         ██████
+  Frontend Development                            ██████████████
+  Backend Development                     ██████████████████████
+  Testing                                                 ██████████████
+  Deployment                                                      ██████
+    </pre>
+
+    <h4>2. PERT Chart (Network Diagram)</h4>
+    <p>
+      <b>PERT</b> (Program Evaluation and Review Technique) uses a network diagram
+      to show task dependencies and critical paths.
+    </p>
+
+    <h4>3. Critical Path Method (CPM)</h4>
+    <p>
+      The <b>Critical Path Method</b> identifies the longest sequence of dependent
+      tasks (the critical path) which determines the minimum project duration.
+      Any delay in a critical path task delays the entire project.
+    </p>
+
+    <div class="note">
+      <b>Note:</b> PERT and CPM are covered in detail in Unit 9.
+    </div>
+  </div>
+
+  <!-- 8.6 Team Management -->
+  <div class="section">
+    <h2><b>8.6 Software Project Team Management and Organization</b></h2>
+
+    <h3>Team Structures</h3>
+
+    <h4>1. Democratic Decentralized (DD)</h4>
+    <ul>
+      <li>No permanent leader; decisions made by consensus</li>
+      <li>Communication is horizontal</li>
+      <li>Best for research-oriented, exploratory projects</li>
+      <li>Good for complex problems requiring creative solutions</li>
+    </ul>
+
+    <h4>2. Controlled Decentralized (CD)</h4>
+    <ul>
+      <li>Has a recognized leader who coordinates tasks</li>
+      <li>Sub-groups may have their own leaders</li>
+      <li>Horizontal communication within sub-groups; vertical between leader and sub-groups</li>
+      <li>Best for medium to large projects</li>
+    </ul>
+
+    <h4>3. Controlled Centralized (CC)</h4>
+    <ul>
+      <li>Top-level leader makes all decisions</li>
+      <li>Communication flows vertically through the leader</li>
+      <li>Good for well-understood problems with tight deadlines</li>
+      <li>Efficient but can be a bottleneck</li>
+    </ul>
+
+    <h3>Team Organization Models</h3>
+    <table>
+      <tr>
+        <th>Model</th>
+        <th>Structure</th>
+        <th>Best For</th>
+      </tr>
+      <tr>
+        <td>Chief Programmer Team</td>
+        <td>Chief programmer directs all work; supported by backup programmer and librarian</td>
+        <td>Small, well-defined projects</td>
+      </tr>
+      <tr>
+        <td>Egoless (Democratic)</td>
+        <td>All members are equal; rotate leadership</td>
+        <td>Research, innovative projects</td>
+      </tr>
+      <tr>
+        <td>Matrix Organization</td>
+        <td>Team members report to both functional manager and project manager</td>
+        <td>Large organizations with multiple projects</td>
+      </tr>
+      <tr>
+        <td>Agile/Scrum Team</td>
+        <td>Self-organizing, cross-functional team (5-9 members)</td>
+        <td>Iterative, rapidly changing projects</td>
+      </tr>
+    </table>
+
+    <h3>Communication Challenges</h3>
+    <p>
+      As team size increases, communication complexity grows dramatically:
+    </p>
+    <pre>
+  Communication Paths = n(n-1) / 2
+
+  Where n = number of team members
+
+  Examples:
+    3 members  →  3 paths
+    5 members  →  10 paths
+    10 members →  45 paths
+    20 members →  190 paths
+    50 members →  1,225 paths
+    </pre>
+
+    <div class="warning">
+      <b>Brooks's Law:</b> "Adding manpower to a late software project makes it later."
+      New team members require time to learn the system and increase communication overhead.
+      This is why maintaining small, focused teams is crucial.
+    </div>
+  </div>
+
+  <!-- 8.7 Project Estimation: COCOMO -->
+  <div class="section">
+    <h2><b>8.7 Project Estimation Techniques: COCOMO Model</b></h2>
+
+    <h3>What is Software Estimation?</h3>
+    <p>
+      <b>Software estimation</b> is the process of predicting the effort, cost, and time
+      required to develop software. Accurate estimation is crucial for project planning,
+      budgeting, and resource allocation.
+    </p>
+
+    <h3>Estimation Techniques Overview</h3>
+    <ul>
+      <li><b>Expert Judgment:</b> Based on experience of experts (Delphi technique)</li>
+      <li><b>Analogy-Based:</b> Comparing with similar completed projects</li>
+      <li><b>Algorithmic Models:</b> Mathematical formulas (COCOMO, Function Points)</li>
+      <li><b>Bottom-Up:</b> Estimate each task individually and sum up</li>
+      <li><b>Top-Down:</b> Estimate overall project and decompose</li>
+    </ul>
+
+    <h3>COCOMO Model (COnstructive COst MOdel)</h3>
+    <p>
+      The <b>COCOMO model</b>, developed by <b>Barry Boehm</b> in 1981, is an algorithmic
+      software cost estimation model. It uses a mathematical formula based on the
+      estimated size of the software (in KLOC — Kilo Lines of Code).
+    </p>
+
+    <h4>Three Levels of COCOMO</h4>
+
+    <h4>1. Basic COCOMO</h4>
+    <p>
+      Provides a rough order-of-magnitude estimate. Uses only project size (KLOC)
+      as the input parameter.
+    </p>
+    <pre>
+  Effort (person-months) = a × (KLOC)^b
+  Development Time (months) = c × (Effort)^d
+  People Required = Effort / Development Time
+    </pre>
+
+    <table>
+      <tr>
+        <th>Project Type</th>
+        <th>a</th>
+        <th>b</th>
+        <th>c</th>
+        <th>d</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>Organic</td>
+        <td>2.4</td>
+        <td>1.05</td>
+        <td>2.5</td>
+        <td>0.38</td>
+        <td>Small teams, familiar environment, well-understood problems</td>
+      </tr>
+      <tr>
+        <td>Semi-Detached</td>
+        <td>3.0</td>
+        <td>1.12</td>
+        <td>2.5</td>
+        <td>0.35</td>
+        <td>Medium teams, mix of experienced and inexperienced, moderately complex</td>
+      </tr>
+      <tr>
+        <td>Embedded</td>
+        <td>3.6</td>
+        <td>1.20</td>
+        <td>2.5</td>
+        <td>0.32</td>
+        <td>Tight constraints, complex interfaces, novel algorithms, high reliability</td>
+      </tr>
+    </table>
+
+    <h4>Worked Example: Basic COCOMO</h4>
+    <pre>
+  Given: An organic project estimated at 32 KLOC
+
+  Effort = 2.4 × (32)^1.05
+         = 2.4 × 36.96
+         = 88.7 person-months
+
+  Development Time = 2.5 × (88.7)^0.38
+                   = 2.5 × 5.97
+                   = 14.9 months ≈ 15 months
+
+  People Required = 88.7 / 14.9
+                  = 5.95 ≈ 6 people
+
+
+  Given: An embedded project estimated at 128 KLOC
+
+  Effort = 3.6 × (128)^1.20
+         = 3.6 × 412.5
+         = 1485.1 person-months
+
+  Development Time = 2.5 × (1485.1)^0.32
+                   = 2.5 × 9.71
+                   = 24.3 months ≈ 24 months
+
+  People Required = 1485.1 / 24.3
+                  = 61.1 ≈ 61 people
+    </pre>
+
+    <h4>2. Intermediate COCOMO</h4>
+    <p>
+      Extends Basic COCOMO by incorporating <b>15 cost drivers</b> that adjust the effort
+      estimate based on product attributes, hardware attributes, personnel attributes,
+      and project attributes.
+    </p>
+
+    <h4>Cost Drivers</h4>
+    <table>
+      <tr>
+        <th>Category</th>
+        <th>Cost Driver</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>Product</td>
+        <td>RELY (Required reliability)</td>
+        <td>Consequence of software failure (very low to very high)</td>
+      </tr>
+      <tr>
+        <td>Product</td>
+        <td>DATA (Database size)</td>
+        <td>Size of database relative to program size</td>
+      </tr>
+      <tr>
+        <td>Product</td>
+        <td>CPLX (Product complexity)</td>
+        <td>Complexity of the software module</td>
+      </tr>
+      <tr>
+        <td>Hardware</td>
+        <td>TIME (Execution time constraint)</td>
+        <td>Percentage of available execution time used</td>
+      </tr>
+      <tr>
+        <td>Hardware</td>
+        <td>STOR (Main storage constraint)</td>
+        <td>Percentage of available memory used</td>
+      </tr>
+      <tr>
+        <td>Hardware</td>
+        <td>VIRT (Virtual machine volatility)</td>
+        <td>Frequency of changes to underlying platform</td>
+      </tr>
+      <tr>
+        <td>Hardware</td>
+        <td>TURN (Computer turnaround time)</td>
+        <td>Response time of the development computer</td>
+      </tr>
+      <tr>
+        <td>Personnel</td>
+        <td>ACAP (Analyst capability)</td>
+        <td>Experience and ability of analysts</td>
+      </tr>
+      <tr>
+        <td>Personnel</td>
+        <td>AEXP (Application experience)</td>
+        <td>Team experience with the application domain</td>
+      </tr>
+      <tr>
+        <td>Personnel</td>
+        <td>PCAP (Programmer capability)</td>
+        <td>Experience and ability of programmers</td>
+      </tr>
+      <tr>
+        <td>Personnel</td>
+        <td>VEXP (Virtual machine experience)</td>
+        <td>Team experience with the platform/language</td>
+      </tr>
+      <tr>
+        <td>Personnel</td>
+        <td>LEXP (Language experience)</td>
+        <td>Team experience with the programming language</td>
+      </tr>
+      <tr>
+        <td>Project</td>
+        <td>MODP (Modern programming practices)</td>
+        <td>Use of modern SE practices</td>
+      </tr>
+      <tr>
+        <td>Project</td>
+        <td>TOOL (Use of software tools)</td>
+        <td>Level of tool support</td>
+      </tr>
+      <tr>
+        <td>Project</td>
+        <td>SCED (Required development schedule)</td>
+        <td>Schedule compression/expansion</td>
+      </tr>
+    </table>
+
+    <pre>
+  Intermediate COCOMO Formula:
+
+  Effort = a × (KLOC)^b × EAF
+
+  Where EAF (Effort Adjustment Factor) = product of all 15 cost driver ratings
+
+  Example:
+    If EAF = 0.92 (experienced team, low complexity):
+    Effort = 2.4 × (32)^1.05 × 0.92
+           = 88.7 × 0.92
+           = 81.6 person-months (reduced from 88.7)
+    </pre>
+
+    <h4>3. Detailed COCOMO</h4>
+    <p>
+      The most detailed level, which provides a phase-by-phase estimate of effort.
+      Each phase (requirements, design, coding, testing) has its own set of cost
+      driver multipliers. This provides more granular estimates for resource allocation
+      and scheduling at the phase level.
+    </p>
+
+    <h3>COCOMO II</h3>
+    <p>
+      <b>COCOMO II</b> (1997) is the updated version designed for modern software development:
+    </p>
+    <ul>
+      <li>Supports estimation at different stages of the project lifecycle</li>
+      <li>Three sub-models: Application Composition, Early Design, Post-Architecture</li>
+      <li>Uses 17 cost drivers (updated from the original 15)</li>
+      <li>Considers reuse, COTS integration, and process maturity</li>
+      <li>Uses function points as an alternative size measure</li>
+    </ul>
+
+    <div class="note">
+      <b>Summary:</b> Software project management encompasses people, product, process,
+      and project management. The project manager plays a critical role in planning,
+      executing, and controlling the project. Estimation techniques like COCOMO provide
+      mathematical models for predicting effort and cost. Understanding team dynamics,
+      communication complexity (n(n-1)/2), and Brooks's Law is essential for effective
+      project management.
+    </div>
+  </div>
+
+</body>
+</html>

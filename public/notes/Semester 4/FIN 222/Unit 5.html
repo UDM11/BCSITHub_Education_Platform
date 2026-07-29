@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 5: Capital Structure and Financing Decision</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { text-align: left; font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 5: Capital Structure and Financing Decision [10 Hrs.]</b></h1>
+
+  <!-- 5.1 - 5.2 Concepts & Components -->
+  <div class="section">
+    <h2><b>5.1 Capital Structure vs. Financial Structure</b></h2>
+
+    <h3>Definitions</h3>
+    <ul>
+      <li><b>Financial Structure:</b> Represents the entire right-hand side of the Balance Sheet. It includes
+        all sources of financing (both short-term current liabilities like accounts payable and long-term liabilities/equity).</li>
+      <li><b>Capital Structure:</b> The permanent, long-term financing mix of the firm. It excludes short-term
+        current liabilities.
+        <br>
+        $$\text{Capital Structure} = \text{Long-term Debt} + \text{Preferred Stock} + \text{Common Equity}$$
+      </li>
+    </ul>
+
+    <h3>Capital Structure Components</h3>
+    <table>
+      <tr>
+        <th>Component</th>
+        <th>Cost Level</th>
+        <th>Risk Level for Firm</th>
+        <th>Key Characteristics</th>
+      </tr>
+      <tr>
+        <td><b>Debt Capital</b></td>
+        <td>Lowest cost (interest is tax-deductible)</td>
+        <td>Highest risk (fixed payment obligations; default leads to bankruptcy)</td>
+        <td>No voting rights, no dilution of control, fixed maturity.</td>
+      </tr>
+      <tr>
+        <td><b>Preferred Stock</b></td>
+        <td>Medium cost</td>
+        <td>Medium risk (omitting dividend doesn't trigger default, but accumulates)</td>
+        <td>Hybrid security, fixed dividend rate, no voting rights, priority over common stock.</td>
+      </tr>
+      <tr>
+        <td><b>Common Stock / Equity</b></td>
+        <td>Highest cost (requires highest return)</td>
+        <td>Lowest risk (no obligation to pay dividends or return capital)</td>
+        <td>Represents true ownership, voting rights, receives residual profits, causes dilution.</td>
+      </tr>
+      <tr>
+        <td><b>Retained Earnings</b></td>
+        <td>Slightly lower than new common stock (no flotation costs)</td>
+        <td>Lowest risk</td>
+        <td>Internal source of equity capital. Has opportunity cost ($r_s$).</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 5.3 Factors and Business vs Financial Risk -->
+  <div class="section">
+    <h2><b>5.2 Factors Affecting Capital Structure and Leverage Risks</b></h2>
+
+    <h3>Factors Influencing Capital Structure Decisions</h3>
+    <ol>
+      <li><b>Taxes:</b> Since interest payments are tax-deductible, higher corporate tax rates encourage
+        firms to use more debt (interest tax shield benefit).</li>
+      <li><b>Bankruptcy Costs:</b> Highly volatile firms face a higher threat of bankruptcy, restricting
+        them from borrowing heavily.</li>
+      <li><b>Financial Flexibility:</b> Firms should keep reserve borrowing capacity to exploit future opportunities.</li>
+      <li><b>Management Attitudes:</b> Aggressive managers borrow heavily; conservative ones avoid debt.</li>
+    </ol>
+
+    <h3>Business Risk vs. Financial Risk</h3>
+    <ul>
+      <li><b>Business Risk (Operating Leverage):</b> The natural risk inherent in the firm's operations
+        with zero debt financing. Driven by revenue volatility, input price changes, and the ratio of fixed operating
+        costs to variable operating costs (high fixed costs lead to high operating leverage).</li>
+      <li><b>Financial Risk (Financial Leverage):</b> The additional risk placed on common shareholders as
+        a result of choosing to finance with debt (fixed interest obligations). High financial leverage increases
+        the volatility of EPS and the risk of insolvency.</li>
+    </ul>
+  </div>
+
+  <!-- 5.4 - 5.5 Component Costs of Capital Formulas -->
+  <div class="section">
+    <h2><b>5.3 Component Cost of Capital Formulas</b></h2>
+    <p>
+      Before calculating the total WACC, we must calculate the individual cost of each component:
+    </p>
+
+    <h3>1. Cost of Debt ($r_d$)</h3>
+    <p>The cost of borrowing long-term funds. Since interest is tax-deductible, we must find the **after-tax cost of debt**:</p>
+    <div class="note">
+      $$\text{After-tax } r_d = r_d \times (1 - T)$$
+      Where $r_d$ is the nominal interest rate on debt and $T$ is the corporate tax rate.
+    </div>
+
+    <h3>2. Cost of Preferred Stock ($r_{ps}$)</h3>
+    <p>Preferred dividends are paid out of after-tax earnings, so there is no tax shield:</p>
+    <div class="note">
+      $$r_{ps} = \frac{D_{ps}}{P_p - F} = \frac{D_{ps}}{NP}$$
+      Where $D_{ps}$ is the annual preferred dividend, $P_p$ is the market price, $F$ is flotation cost, and $NP$ is Net Proceeds.
+    </div>
+
+    <h3>3. Cost of Retained Earnings / Common Equity ($r_s$)</h3>
+    <p>Can be calculated using three main methods:</p>
+    <ul>
+      <li><b>CAPM Method:</b>
+        <br>
+        $$r_s = r_{RF} + (r_M - r_{RF}) \times \beta$$
+      </li>
+      <li><b>Dividend Growth Model (Gordon Growth Model):</b>
+        <br>
+        $$r_s = \frac{D_1}{P_0} + g$$
+        Where $D_1$ is expected dividend next year ($D_0 \times (1+g)$), $P_0$ is current stock price, and $g$ is constant growth rate.</li>
+      <li><b>Bond Yield Plus Risk Premium Method:</b>
+        <br>
+        $$r_s = \text{Bond Yield} + \text{Risk Premium} \approx r_d + (3\% \text{ to } 5\%)$$
+      </li>
+    </ul>
+
+    <h3>4. Cost of New Common Stock ($r_e$)</h3>
+    <p>Includes flotation costs ($F$) incurred when issuing new shares to the public:</p>
+    <div class="note">
+      $$r_e = \frac{D_1}{P_0 \times (1 - F_{percent})} + g = \frac{D_1}{NP} + g$$
+    </div>
+  </div>
+
+  <!-- WACC Formula and Numerical -->
+  <div class="section">
+    <h2><b>5.4 Weighted Average Cost of Capital (WACC)</b></h2>
+    <p>
+      The **WACC** represents the overall average rate a business pays to finance its assets. It is
+      calculated by multiplying the individual cost of each capital component by its proportional weight:
+    </p>
+    <div class="note">
+      $$WACC = w_d \cdot r_d (1 - T) + w_{ps} \cdot r_{ps} + w_s \cdot r_s$$
+      Where $w_d, w_{ps}, w_s$ represent the weights of debt, preferred stock, and common equity respectively.
+    </div>
+
+    <div class="note">
+      <h4>WACC Calculation Worked Numerical</h4>
+      <p><b>Problem:</b> Kathmandu Enterprise has the following capital structure and cost parameters:
+        <br>- Debt: Book value = $3,000,000. Stated interest rate is 10%.
+        <br>- Preferred Stock: Book value = $1,000,000. Pays an 8% dividend on $100 par value. Market price is $95.
+        <br>- Common Equity: Book value = $6,000,000. Market price $P_0 = \$40$. Most recent dividend paid $D_0 = \$2.00$ per share, and dividends are expected to grow at a constant rate of 6% per year.
+        <br>- Beta of the stock is 1.2, risk-free rate is 5%, market return is 11%.
+        <br>- Corporate Tax Rate $T = 30\%$.
+        <br>Calculate WACC using CAPM for the cost of equity.
+      </p>
+      <p><b>Solution:</b>
+        <br>
+        <br><b>Step 1: Calculate Weights:</b>
+        <br>Total Capital = Debt + Preferred + Common = $3,000,000 + 1,000,000 + 6,000,000 = \$10,000,000$.
+        <br>- Weight of Debt $w_d = 3M / 10M = 0.30$.
+        <br>- Weight of Preferred $w_{ps} = 1M / 10M = 0.10$.
+        <br>- Weight of Common Equity $w_s = 6M / 10M = 0.60$.
+        <br>
+        <br><b>Step 2: Calculate Component Costs:</b>
+        <br>1. After-tax Cost of Debt:
+        <br>$r_d(after-tax) = 10\% \times (1 - 0.30) = 7.0\%$.
+        <br>
+        <br>2. Cost of Preferred Stock:
+        <br>$D_{ps} = \$100 \text{ par} \times 8\% = \$8$.
+        <br>$r_{ps} = D_{ps} / P_p = \$8 / \$95 \approx 0.0842 \quad (8.42\%)$.
+        <br>
+        <br>3. Cost of Equity ($r_s$) using CAPM:
+        <br>$r_s = r_{RF} + (r_M - r_{RF}) \times \beta = 5\% + (11\% - 5\%) \times 1.2 = 5\% + 6\% \times 1.2 = 5\% + 7.2\% = 12.2\%$.
+        <br><i>(Check using Dividend Growth Model for comparison: $D_1 = D_0(1+g) = 2(1.06) = \$2.12$. $r_s = (2.12 / 40) + 0.06 = 0.053 + 0.06 = 11.3\%$. We will proceed with CAPM 12.2% as requested).</i>
+        <br>
+        <br><b>Step 3: Calculate WACC:</b>
+        <br>$WACC = (w_d \times \text{after-tax } r_d) + (w_{ps} \times r_{ps}) + (w_s \times r_s)$
+        <br>$WACC = (0.30 \times 7.0\%) + (0.10 \times 8.42\%) + (0.60 \times 12.2\%)$
+        <br>$WACC = 2.10\% + 0.842\% + 7.32\% = 10.262\%$.
+        <br>The Weighted Average Cost of Capital is 10.26%.
+      </p>
+    </div>
+  </div>
+
+  <!-- Capital Structure Theories -->
+  <div class="section">
+    <h2><b>5.5 Capital Structure Theories</b></h2>
+    <p>
+      Several theories explain the relationship between capital structure, cost of capital, and firm value:
+    </p>
+    <ol>
+      <li><b>Net Income (NI) Approach:</b> Suggests that value can be increased and cost of capital decreased by
+        increasing the proportion of cheaper debt in the capital structure. (Optimal capital structure exists at 100% debt).</li>
+      <li><b>Net Operating Income (NOI) Approach:</b> Argues that WACC remains constant regardless of leverage because
+        equity holders demand higher returns as risk increases, completely offsetting debt benefits. (Optimal capital structure does not exist).</li>
+      <li><b>Modigliani-Miller (MM) Hypotheses:</b>
+        <ul>
+          <li><i>MM Proposition I (Without Taxes):</i> In perfect markets, the value of a firm is independent of its leverage.</li>
+          <li><i>MM Proposition II (With Taxes):</i> Because interest is tax-deductible, corporate taxes create a **tax shield**
+            that increases firm value as debt increases:
+            <br>
+            $$V_L = V_U + T \cdot D$$
+            Where $V_L$ is leverage value, $V_U$ is unleveraged value, $T$ is tax rate, and $D$ is debt value.
+          </li>
+        </ul>
+      </li>
+      <li><b>Trade-off Theory:</b> Suggests that firms trade off the tax benefits of debt against the costs of financial
+        distress and bankruptcy. The optimal structure occurs where the marginal tax benefit equals marginal bankruptcy costs.</li>
+      <li><b>Pecking Order Theory:</b> Suggests that firms prefer internal financing (retained earnings) first, debt financing second,
+        and new equity issue (common stock) as a last resort due to asymmetric information and flotation costs.</li>
+    </ol>
+  </div>
+
+  <!-- Leverage Calculations (DOL, DFL, DTL) -->
+  <div class="section">
+    <h2><b>5.6 Leverage Analysis (DOL, DFL, DTL)</b></h2>
+    <p>
+      Leverage measures the sensitivity of a firm's bottom-line profits to changes in top-line sales:
+    </p>
+    <ul>
+      <li><b>Degree of Operating Leverage (DOL):</b> Measures the sensitivity of EBIT to changes in Sales.
+        <br>
+        $$DOL = \frac{\% \Delta EBIT}{\% \Delta Sales} = \frac{Q(P - V)}{Q(P - V) - FC} = \frac{\text{Contribution Margin}}{EBIT}$$
+      </li>
+      <li><b>Degree of Financial Leverage (DFL):</b> Measures the sensitivity of Net Income (or EPS) to changes in EBIT.
+        <br>
+        $$DFL = \frac{\% \Delta EPS}{\% \Delta EBIT} = \frac{EBIT}{EBIT - I}$$
+      </li>
+      <li><b>Degree of Total Leverage (DTL):</b> Measures the sensitivity of EPS to changes in Sales.
+        <br>
+        $$DTL = DOL \times DFL = \frac{\text{Contribution Margin}}{EBIT - I}$$
+      </li>
+    </ul>
+
+    <div class="note">
+      <h4>Leverage Calculations Worked Numerical</h4>
+      <p><b>Problem:</b> A firm has Net Sales of $500,000, Variable Cost of $300,000, Fixed Operating Cost of $120,000,
+        and Interest Expense of $20,000.
+        <br>1. Calculate DOL, DFL, and DTL.
+        <br>2. If Sales increase by 10%, calculate the percentage increase in EBIT and EPS.
+      </p>
+      <p><b>Solution:</b>
+        <br>
+        <br><b>1. Compute EBIT:</b>
+        <br>Contribution Margin = Sales - Variable Cost = $500,000 - 300,000 = $200,000.
+        <br>EBIT = Contribution Margin - Fixed Cost = $200,000 - 120,000 = $80,000.
+        <br>EBT = EBIT - Interest = $80,000 - 20,000 = $60,000.
+        <br>
+        <br><b>2. Calculate Leverage:</b>
+        <br>- $DOL = \text{Contribution Margin} / EBIT = 200,000 / 80,000 = 2.5$.
+        <br>- $DFL = EBIT / EBT = 80,000 / 60,000 \approx 1.33$.
+        <br>- $DTL = DOL \times DFL = 2.5 \times 1.33 = 3.33$.
+        <br>
+        <br><b>3. Impact of 10% Sales Increase:</b>
+        <br>- Increase in EBIT = $\% \Delta Sales \times DOL = 10\% \times 2.5 = 25\%$.
+        <br>- Increase in EPS = $\% \Delta Sales \times DTL = 10\% \times 3.33 = 33.33\%$.
+      </p>
+    </div>
+  </div>
+
+  <!-- Operating and Financial Break-Even Analysis -->
+  <div class="section">
+    <h2><b>5.7 Operating and Financial Break-Even Analysis</b></h2>
+    <p>
+      Break-even analysis helps managers determine the sales volume or EBIT level required to avoid losses:
+    </p>
+
+    <h3>1. Operating Break-Even Point</h3>
+    <p>
+      The sales quantity where operating income (EBIT) is exactly zero. Fixed operating costs are fully covered:
+      <br>
+      $$Q_{BE} = \frac{FC}{P - V}$$
+      $$\text{Sales Value } S_{BE} = Q_{BE} \times P = \frac{FC}{1 - \frac{V}{P}} = \frac{FC}{\text{Contribution Margin Ratio}}$$
+      Where $FC$ is fixed operating cost, $P$ is unit price, and $V$ is unit variable cost.
+    </p>
+
+    <h3>2. Financial Break-Even Point</h3>
+    <p>
+      The EBIT level where Net Income (and EPS) is exactly zero. It covers fixed financial costs (interest and preferred dividends):
+      <br>
+      $$\text{Financial Break-Even EBIT} = I + \frac{D_{ps}}{1 - T}$$
+      Where $I$ is interest expense, $D_{ps}$ is preferred dividends, and $T$ is tax rate.
+    </p>
+    <div class="note">
+      <h4>Break-Even Worked Numerical</h4>
+      <p><b>Problem:</b> A firm has fixed operating costs of $60,000. It sells products at $10 each, with unit variable
+        costs of $6. The firm has an interest expense of $10,000, preferred dividends of $3,500, and a tax rate of 30%.
+        Calculate: (1) Operating break-even quantity, and (2) Financial break-even EBIT.</p>
+      <p><b>Solution:</b>
+        <br>1. Operating Break-Even:
+        <br>$$Q_{BE} = \frac{FC}{P - V} = \frac{60,000}{10 - 6} = \frac{60,000}{4} = 15,000 \text{ units}$$
+        <br>
+        <br>2. Financial Break-Even:
+        <br>$$\text{EBIT} = I + \frac{D_{ps}}{1 - T} = 10,000 + \frac{3,500}{1 - 0.30} = 10,000 + \frac{3,500}{0.70} = 10,000 + 5,000 = \$15,000$$
+        <br>The firm must earn an operating profit (EBIT) of at least $15,000 to cover interest and preferred dividends.
+      </p>
+    </div>
+  </div>
+
+  <!-- EBIT-EPS Indifference Points -->
+  <div class="section">
+    <h2><b>5.8 EBIT-EPS Indifference Analysis</b></h2>
+    <p>
+      The **EBIT-EPS Indifference Point** is the level of EBIT at which the Earnings Per Share (EPS) remains identical
+      under two different financing plans. It assists managers in selecting the optimal capital plan:
+    </p>
+    <div class="note">
+      <h4>Indifference Formula</h4>
+      $$\frac{(EBIT - I_1)(1 - T) - D_{ps1}}{N_1} = \frac{(EBIT - I_2)(1 - T) - D_{ps2}}{N_2}$$
+      Where:
+      <br>- $I_1, I_2$ are interest expenses under Plan 1 and Plan 2.
+      <br>- $N_1, N_2$ are the number of outstanding common shares under Plan 1 and Plan 2.
+      <br>- $D_{ps1}, D_{ps2}$ are preferred dividends under both plans.
+    </div>
+    <div class="note">
+      <h4>EBIT-EPS Indifference Worked Example</h4>
+      <p><b>Problem:</b> Nepal Tech is considering two plans to raise $100,000:
+        <br>- **Plan 1 (All Equity):** Issue 10,000 common shares. No debt.
+        <br>- **Plan 2 (Debt-Equity):** Issue 5,000 common shares and borrow $50,000 at 10% interest ($I_2 = \$5,000$).
+        <br>Corporate tax rate $T = 30\%$. Find the EBIT indifference level.
+      </p>
+      <p><b>Solution:</b>
+        <br>Plan 1: $I_1 = 0$, $N_1 = 10,000$.
+        <br>Plan 2: $I_2 = 5,000$, $N_2 = 5,000$.
+        <br>Set up equation:
+        <br>$$\frac{(EBIT - 0)(1 - 0.30)}{10,000} = \frac{(EBIT - 5,000)(1 - 0.30)}{5,000}$$
+        <br>Divide both sides by 0.70 and multiply by 10,000:
+        <br>$$EBIT = 2 \times (EBIT - 5,000)$$
+        <br>$$EBIT = 2 \cdot EBIT - 10,000 \implies EBIT = \$10,000$$
+        <br>The indifference EBIT level is $10,000. If EBIT is expected to exceed $10,000, Plan 2 (Debt) is preferred because it yields higher EPS; if below, Plan 1 (All Equity) is preferred.
+      </p>
+    </div>
+  </div>
+
+  <!-- IT WACC adjustments -->
+  <div class="section">
+    <h2><b>5.9 Capital Cost Adjustments in the Service and IT Sectors</b></h2>
+    <p>
+      Determining the WACC for software development and IT service companies requires specific operational adjustments:
+    </p>
+    <ul>
+      <li><b>Absence of Cheap Debt:</b> Because tech startups lack physical collateral (like land/factories) to back loans,
+        commercial banks charge high risk premiums or reject loan requests. As a result, the debt weight ($w_d$) is usually very low (0% to 15%).</li>
+      <li><b>High Equity Cost ($r_s$):</b> Tech stocks are volatile, resulting in high Betas ($\beta \ge 1.3$).
+        Using CAPM, this high Beta increases the cost of equity. Since WACC is heavily weighted towards expensive equity,
+        IT firm WACCs are typically high (12% to 16%) compared to utilities (6% to 8%).</li>
+      <li><b>Implications:</b> A high WACC raises the hurdle rate for capital budgeting. Software projects must deliver
+        very high rates of return to show positive NPVs.</li>
+    </ul>
+  </div>
+
+  <!-- Marginal Cost of Capital (MCC) and Break Points -->
+  <div class="section">
+    <h2><b>5.10 Marginal Cost of Capital (MCC) and Capital Break Points</b></h2>
+    <p>
+      The **Marginal Cost of Capital (MCC)** is the cost of the last dollar of new capital raised by the firm.
+      As a firm raises larger sums, the cost of individual components increases (e.g., bank loans interest rates rise,
+      or the firm exhausts retained earnings and must issue new common stock with high flotation costs).
+    </p>
+    <ul>
+      <li><b>Capital Break Point:</b> The total amount of new capital at which WACC increases:
+        <br>
+        $$\text{Break Point} = \frac{\text{Limit of cheaper component source}}{\text{Weight of component in WACC}}$$
+      </li>
+    </ul>
+    <div class="note">
+      <h4>MCC Break Point Worked Example</h4>
+      <p><b>Problem:</b> A firm has a capital structure of 40% Debt and 60% Common Equity. The firm expects to generate
+        $120,000 of retained earnings this year. Beyond $120,000, it must issue new common stock with a flotation
+        cost of 10%, which increases the cost of equity. Calculate the capital break point at which the WACC will increase.</p>
+      <p><b>Solution:</b>
+        <br>The cheaper equity source is Retained Earnings (limit = $120,000).
+        <br>The weight of equity in the WACC is $w_s = 60\% = 0.60$.
+        <br>
+        <br>$$\text{Break Point}_{\text{Equity}} = \frac{\text{Retained Earnings}}{\text{Weight of Equity}} = \frac{120,000}{0.60} = \$200,000$$
+        <br>If the firm raises up to $200,000 of total capital, it will use $80,000 debt (40%) and $120,000 retained earnings (60%).
+        Beyond $200,000, the retained earnings are exhausted, and it must issue new equity, causing the WACC to rise.
+      </p>
+    </div>
+  </div>
+
+  <!-- Optimum Capital Budget -->
+  <div class="section">
+    <h2><b>5.11 The Optimum Capital Budget</b></h2>
+    <p>
+      Firms determine their optimal investment volume by plotting the **MCC Schedule** (which slopes upward
+      as WACC increases at break points) against the **Investment Opportunity Schedule (IOS)** (which slopes downward
+      as projects are ranked and selected from highest IRR to lowest IRR):
+    </p>
+    <pre>
+  Percent (%)
+    ▲
+    │          / MCC (Cost of Capital rises)
+    │   \     /
+    │    \   /  &lt;-- Intersection (Optimum Capital Budget)
+    │     \ /
+    │      X
+    │     / \
+    │    /   \  IOS (Project IRRs ranked)
+    └────┴────┴──────────────────────────► Capital Raised ($)
+    </pre>
+    <p>
+      <b>Decision Rule:</b> Accept all projects whose IRR exceeds the marginal cost of capital.
+      The intersection of the MCC and IOS schedules defines the firm's **Optimum Capital Budget**.
+    </p>
+  </div>
+
+  <!-- Trade-off Theory Plot & signaling -->
+  <div class="section">
+    <h2><b>5.12 Trade-Off Theory Curve and Signaling Effects</b></h2>
+
+    <h3>1. Trade-Off Theory Curve Analysis</h3>
+    <p>
+      The Trade-off Theory states that the value of a leveraged firm is equal to the value of an unleveraged firm
+      plus the present value of the interest tax shield minus the present value of financial distress costs:
+    </p>
+    <pre>
+  Firm Value ($)
+    ▲                / [Value with tax shield: VL = VU + TD]
+    │               /
+    │         __--X--__  &lt;-- Optimal Point (Marginal Tax Shield = Marginal Distress Cost)
+    │     __--    │    --__
+    │   _--       │        --__ [Actual Value (leveraged)]
+    │  /          │            --
+ VU ┼─o───────────┼───────────────► Debt/Equity Ratio (%)
+    │             Optimal Debt
+    </pre>
+    <ul>
+      <li><b>Initial Phase:</b> As debt increases, tax shield benefits dominate, raising firm value.</li>
+      <li><b>Optimal Point:</b> The maximum point of the curve where the marginal tax shield benefit matches the marginal increase in bankruptcy costs.</li>
+      <li><b>Decline Phase:</b> Beyond this point, the probability and cost of financial distress (bankruptcy threats, lost sales, supplier restrictions) outweigh tax benefits, depressing firm value.</li>
+    </ul>
+
+    <h3>2. Signaling Theory in Financing Decisions</h3>
+    <p>
+      Because managers have better information than outside investors (**Asymmetric Information**), their financing
+      decisions send signals to the market:
+    </p>
+    <ul>
+      <li><b>Debt Issuance (Positive Signal):</b> Indicates that managers believe the firm has stable future cash flows
+        and can easily cover fixed interest payments. Lenders interpret this as a sign of financial strength.</li>
+      <li><b>Equity Issuance (Negative/Bearish Signal):</b> Indicates that managers believe the stock is currently
+        **overvalued** and are trying to sell expensive shares to the public. As a result, stock prices typically drop
+        upon announcement of a new share issue.</li>
+    </ul>
+  </div>
+
+  <!-- Agency Costs of Capital -->
+  <div class="section">
+    <h2><b>5.13 Agency Costs of Debt and Equity</b></h2>
+    <p>
+      Capital structure decisions also affect agency conflicts within the firm:
+    </p>
+    <ul>
+      <li><b>Agency Costs of Equity:</b> When managers do not own the entire company, they may not work as hard
+        or may waste corporate resources on personal perks (luxurious offices, company cars). Debt reduces this
+        risk because the legal obligation to make interest payments forces managers to run a lean operation to avoid bankruptcy.
+        This is called the **disciplining role of debt**.</li>
+      <li><b>Agency Costs of Debt:</b> When a firm borrows money, shareholders have an incentive to invest in highly
+        risky projects because they capture all the upside while creditors absorb the losses if the project fails.
+        Lenders prevent this by charging higher interest rates or imposing restrictive covenants, which limits the firm's operating flexibility.</li>
+    </ul>
+
+    <h3>3. The Free Cash Flow Hypothesis</h3>
+    <p>
+      Michael Jensen's **Free Cash Flow Hypothesis** states that managers with high levels of free cash flow
+      (cash beyond what is needed to fund all positive-NPV projects) have a tendency to waste it on low-yielding
+      or value-destroying projects (e.g., empire-building acquisitions). By issuing debt instead of equity,
+      the firm obligates itself to pay out this cash as interest, reducing the amount of free cash flow available to
+      managers to waste.
+    </p>
+
+    <h3>4. Types of Debt Covenants</h3>
+    <p>
+      Lenders write protective covenants into credit agreements to limit agency costs of debt:
+    </p>
+    <ul>
+      <li><b>Negative Covenants (Restrictions):</b> Limit the firm's actions (e.g., prohibiting additional debt,
+        capping dividend payments, restricting asset sales, or preventing mergers without lender approval).</li>
+      <li><b>Positive Covenants (Requirements):</b> Obligate the firm to take specific actions (e.g., maintaining a
+        minimum current ratio of 1.5, submitting audited financial statements quarterly, or keeping key asset insurance active).</li>
+    </ul>
+  </div>
+
+</body>
+</html>
+

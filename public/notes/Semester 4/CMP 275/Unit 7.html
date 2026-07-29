@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 7: Input and Output Organization - Comprehensive Notes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0px;
+    }
+    h1 {
+        text-align: center;
+        color: #0f172a;
+        font-size: 20pt;
+        font-weight: bold;
+        margin-bottom: 40px;
+        border-bottom: 3px double #cbd5e1;
+        padding-bottom: 15px;
+    }
+    h2 {
+      color: #1e3a8a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 30px;
+      font-size: 15pt;
+    }
+    h3 {
+      color: #2563eb;
+      font-size: 13pt;
+      margin-top: 20px;
+    }
+    .section {
+      background: #ffffff;
+      padding: 30px;
+      margin-bottom: 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 25px;
+    }
+    li {
+      margin-bottom: 12px;
+    }
+    pre {
+      background-color: #0f172a;
+      color: #38bdf8;
+      padding: 20px;
+      overflow-x: auto;
+      border-radius: 8px;
+      font-size: 11pt;
+      margin: 20px 0;
+      font-family: Consolas, Monaco, monospace;
+      border-left: 4px solid #3b82f6;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      background-color: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #0f172a;
+    }
+    pre code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+      color: inherit;
+    }
+    .highlight {
+      background-color: #fef08a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .diagram-container {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .table-container {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 11pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .note-box {
+      background-color: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px; }
+      .section { padding: 20px; }
+      pre { font-size: 10pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 7: Input and Output Organization [5 Hours] - Detailed Study Guide</b></h1>
+
+  <div class="section">
+    <h2><b>7.1 I/O Interfaces, Addressing, and Command Types</b></h2>
+    <p>An <b>I/O Interface</b> is a hardware circuit that coordinates the flow of information between the internal CPU registers and external peripheral devices. It converts signal levels, handles speed differences, and provides status flags (such as busy or ready).</p>
+
+    <h3><b>Typical I/O Interface Block Diagram:</b></h3>
+    <div class="diagram-container">
+                    +------------------------------------+
+                    |        System Buses                |
+   ====== Data =====|======== [ Data Bus Buffer ] =======|<=======> CPU
+   ====== Addr =====|======== [ Address Decoder ] =======|========> CPU
+   ====== Ctrl =====|======== [ Control Logic   ] =======|<=======> CPU
+                    +-----------------+------------------+
+                                      |
+                         +------------+------------+
+                         |                         |
+                         v                         v
+               +---------+---------+     +---------+---------+
+               |  Status/Control   |     |    Data Input/    |
+               |     Registers     |     |  Output Register  |
+               +---------+---------+     +---------+---------+
+                         |                         |
+                         +------------+------------+
+                                      |
+                                      v
+                             [ Peripheral Device ]
+    </div>
+
+    <h3><b>Types of I/O Commands:</b></h3>
+    <ul>
+      <li><b>Control Command:</b> Sent to activate a peripheral and instruct it on what action to perform (e.g., rewinding a tape, setting baud rates).</li>
+      <li><b>Status Command:</b> Reads the status register of the interface to check flag conditions (e.g., checking if the printer is out of paper, or if data is ready).</li>
+      <li><b>Data Output Command:</b> Instructs the interface to accept a data byte from the bus and send it to the peripheral.</li>
+      <li><b>Data Input Command:</b> Instructs the interface to read a byte from the peripheral and place it on the system data bus.</li>
+    </ul>
+
+    <h3><b>Comparison: Isolated vs. Memory-Mapped I/O</b></h3>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Isolated I/O (I/O Mapped I/O)</th>
+            <th>Memory-Mapped I/O</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Address Space</b></td>
+            <td>Uses a separate 8-bit or 16-bit port address space.</td>
+            <td>I/O devices are assigned addresses in the memory space.</td>
+          </tr>
+          <tr>
+            <td><b>Memory Space Loss</b></td>
+            <td>No memory space is lost.</td>
+            <td>Reduces available memory space for programs.</td>
+          </tr>
+          <tr>
+            <td><b>Instructions</b></td>
+            <td>Limited to special instructions (e.g., <code>IN</code>, <code>OUT</code>).</td>
+            <td>Any memory instruction can be used (e.g., <code>MOV</code>, <code>LDA</code>, <code>STA</code>).</td>
+          </tr>
+          <tr>
+            <td><b>Control Signals</b></td>
+            <td>Distinct control signals (<code>IOR'</code>, <code>IOW'</code>).</td>
+            <td>Standard memory control signals (<code>MEMR'</code>, <code>MEMW'</code>).</td>
+          </tr>
+          <tr>
+            <td><b>Execution Speed</b></td>
+            <td>Faster execution of dedicated instructions.</td>
+            <td>Slightly slower due to complex address decoding.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><b>7.2 Direct Memory Access (DMA)</b></h2>
+    <p><b>Direct Memory Access (DMA)</b> is a high-speed data transfer technique where an external device (the DMA Controller) takes control of the system buses from the CPU to transfer data directly between memory and peripherals.</p>
+
+    <h3><b>DMA Controller Internals:</b></h3>
+    <p>A typical DMA controller (like Intel 8257/8237) contains:</p>
+    <ul>
+      <li><b>Address Register:</b> Holds the starting memory address for the transfer. It increments automatically after each byte is moved.</li>
+      <li><b>Word Count Register:</b> Holds the number of bytes to transfer. It decrements after each byte, triggering a terminal count (TC) interrupt when it reaches 0.</li>
+      <li><b>Control/Status Register:</b> Enables channels, sets priorities, and monitors transfer states.</li>
+    </ul>
+
+    <h3><b>DMA Handshake Sequence:</b></h3>
+    <div class="diagram-container">
+      Peripheral                      DMA Controller                      CPU
+          |                                 |                              |
+          |--- DMA Request (DREQ) --------->|                              |
+          |                                 |--- Hold Request (HOLD) ----->|
+          |                                 |                              |
+          |                                 |<-- Hold Acknowledge (HLDA) --|
+          |<-- DMA Acknowledge (DACK) ------|                              |
+          |                                 |                              |
+      [======= Bi-directional high-speed data transfer directly RAM <-> I/O =======]
+    </div>
+
+    <h3><b>Modes of DMA Transfers:</b></h3>
+    <ul>
+      <li><b>Burst Transfer Mode:</b> The DMA controller maintains control of the system buses until the entire block of data is transferred. This is the fastest method but blocks the CPU from executing instructions.</li>
+      <li><b>Cycle Stealing Mode:</b> The DMA controller requests the buses, transfers a single byte, and returns control to the CPU. It "steals" one clock cycle at a time, allowing the CPU to run concurrently.</li>
+      <li><b>Transparent Mode:</b> The DMA controller only transfers data when the CPU is executing internal operations and not accessing the system buses. This does not impact CPU performance but has the lowest transfer rate.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><b>7.3 Input-Output Processor (IOP)</b></h2>
+    <p>An <b>IOP</b> is a dedicated coprocessor with its own instruction set designed to handle all peripheral communication independently of the main CPU. The CPU only initiates operations by sending an instruction to the IOP. The IOP then handles the transfer in the background, signaling the CPU via an interrupt only when the entire task is complete.</p>
+  </div>
+
+  <div class="section">
+    <h2><b>7.4 Data Communication Protocols</b></h2>
+    <p>Data transmission between computers uses structured protocols to frame packets and verify integrity.</p>
+
+    <h3><b>1. Character-Oriented Protocols (e.g., IBM BISYNC):</b></h3>
+    <p>Data is transmitted as a sequence of characters (bytes). Control characters define packet boundaries:
+      <br><code>[SYN] [SYN] [SOH] [Header] [STX] [Text Payload] [ETX] [BCC]</code>
+      <br>If a control character (like <code>ETX</code>) appears in the text payload, the transmitter inserts a DLE (Data Link Escape) character before it. The receiver detects the DLE and treats the following ETX as raw data rather than the end of the packet (Byte Stuffing).</p>
+
+    <h3><b>2. Bit-Oriented Protocols (e.g., HDLC):</b></h3>
+    <p>Data is transmitted as a continuous stream of bits. Frame boundaries are marked by a unique flag bit pattern: <code>01111110</code> (Hex 7E).
+      <br><b>Bit Stuffing Rule:</b> To prevent this flag pattern from appearing within the payload, the transmitter monitors the bit stream. If five consecutive 1s are sent, the transmitter automatically inserts a 0 bit. The receiver detects this: if it sees five 1s followed by a 0, it removes the 0 bit. If it sees five 1s followed by a 1, it identifies it as a flag or abort signal.</p>
+
+    <h4><b>Bit Stuffing Example:</b></h4>
+    <pre><code>
+Original Payload:  1101 1111 1011 1111 1100
+                   (Contains consecutive 1s)
+                   
+Transmitter Stuffing Process:
+   1101 1111 [Insert 0] 1011 1111 [Insert 0] 1100
+   
+Transmitted Data:  1101 1111 0101 1111 0110 0
+    </code></pre>
+  </div>
+</body>
+</html>

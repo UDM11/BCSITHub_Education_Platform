@@ -375,27 +375,27 @@ export function QuizGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-purple-50">
+    <div className="min-h-screen bg-slate-50/30">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div className="bg-white/85 backdrop-blur-md border-b border-slate-100 sticky top-0 z-40 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4.5">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center space-x-4">
-              <Link to="/" className="flex items-center text-gray-600 hover:text-purple-600 transition-colors">
-                <ArrowLeft className="w-5 h-5 mr-2" />
+              <Link to="/" className="flex items-center text-slate-600 hover:text-purple-650 transition-colors text-sm font-semibold">
+                <ArrowLeft className="w-4 h-4 mr-1.5" />
                 Back to Home
               </Link>
-              <div className="h-6 w-px bg-gray-300" />
+              <div className="h-4 w-px bg-slate-200" />
               <div className="flex items-center">
-                <Brain className="w-6 h-6 mr-2 text-purple-600" />
-                <h1 className="text-xl font-bold text-gray-900">Quiz Generator</h1>
+                <Brain className="w-5 h-5 mr-2 text-purple-600 animate-pulse" />
+                <h1 className="text-lg font-bold text-slate-800">Quiz Generator</h1>
                 {quizStarted && (
                   <motion.div
-                    initial={{ opacity: 0, scale: 0 }}
+                    initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="ml-3 px-2 py-1 bg-purple-100 text-purple-600 text-xs font-medium rounded-full"
+                    className="ml-3 px-2.5 py-0.5 bg-purple-50 border border-purple-100/50 text-purple-600 text-xs font-bold rounded-full animate-pulse"
                   >
-                    In Progress
+                    Active
                   </motion.div>
                 )}
               </div>
@@ -404,41 +404,37 @@ export function QuizGenerator() {
             <div className="flex items-center gap-2">
               {!quizStarted && !showResults && (
                 <>
-                  <Button
-                    variant="outline"
-                    size="sm"
+                  <button
                     onClick={() => setShowAnalytics(!showAnalytics)}
-                    className="flex items-center"
+                    className="flex items-center bg-white border border-slate-200 text-slate-755 hover:text-purple-600 hover:border-purple-500 px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 shadow-sm"
                   >
-                    <BarChart3 className="w-4 h-4 mr-1" />
+                    <BarChart3 className="w-4 h-4 mr-1.5" />
                     Analytics
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
+                  </button>
+                  <button
                     onClick={() => setShowSettings(!showSettings)}
-                    className="flex items-center"
+                    className="flex items-center bg-white border border-slate-200 text-slate-755 hover:text-purple-600 hover:border-purple-500 px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 shadow-sm"
                   >
-                    <Settings className="w-4 h-4 mr-1" />
+                    <Settings className="w-4 h-4 mr-1.5" />
                     Settings
-                  </Button>
+                  </button>
                 </>
               )}
               {quizStarted && (
                 <>
                   <motion.div
-                    animate={{ scale: timeRemaining < 60 ? [1, 1.1, 1] : 1 }}
+                    animate={{ scale: timeRemaining < 60 ? [1, 1.05, 1] : 1 }}
                     transition={{ duration: 1, repeat: timeRemaining < 60 ? Infinity : 0 }}
-                    className="flex items-center bg-gray-100 px-3 py-2 rounded-lg"
+                    className="flex items-center bg-slate-100/80 px-3.5 py-2 rounded-xl border border-slate-200/50"
                   >
-                    <Clock className="w-4 h-4 mr-2 text-gray-600" />
-                    <span className={`font-mono font-bold ${timeRemaining < 60 ? 'text-red-600' : 'text-gray-900'}`}>
+                    <Clock className="w-4 h-4 mr-2 text-slate-500" />
+                    <span className={`font-mono text-xs font-extrabold ${timeRemaining < 60 ? 'text-rose-600 animate-pulse' : 'text-slate-800'}`}>
                       {formatTime(timeRemaining)}
                     </span>
                   </motion.div>
-                  <div className="flex items-center bg-purple-100 px-3 py-2 rounded-lg">
+                  <div className="flex items-center bg-purple-50 border border-purple-100/50 px-3.5 py-2 rounded-xl">
                     <Activity className="w-4 h-4 mr-2 text-purple-600" />
-                    <span className="text-sm font-medium text-purple-600">
+                    <span className="text-xs font-bold text-purple-600">
                       {currentQuestionIndex + 1} / {currentQuiz.length}
                     </span>
                   </div>
@@ -449,7 +445,7 @@ export function QuizGenerator() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {!quizStarted && !showResults ? (
           /* Quiz Setup */
           <motion.div
@@ -464,14 +460,14 @@ export function QuizGenerator() {
                 transition={{ duration: 0.8 }}
                 className="mb-8"
               >
-                <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-3xl flex items-center justify-center mx-auto mb-6">
-                  <Brain className="w-10 h-10 text-white" />
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-650 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg shadow-purple-500/10">
+                  <Brain className="w-8 h-8 text-white" />
                 </div>
-                <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-850 mb-4 tracking-tight leading-tight">
                   AI-Powered Quiz Generator
                 </h2>
-                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                  Test your knowledge with personalized quizzes tailored to your learning needs
+                <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+                  Evaluate your Pokhara University syllabus knowledge with customized dynamic quizzes.
                 </p>
               </motion.div>
             </div>
@@ -484,13 +480,13 @@ export function QuizGenerator() {
               className="mb-8"
             >
               <div className="relative max-w-md mx-auto">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-slate-400 w-4.5 h-4.5" />
                 <input
                   type="text"
                   placeholder="Search quiz topics..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white shadow-sm"
+                  className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 transition-all duration-300 bg-white text-slate-800 placeholder:text-slate-400"
                 />
               </div>
             </motion.div>
@@ -503,44 +499,46 @@ export function QuizGenerator() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <Card className="shadow-lg border-0 bg-white">
+                <Card className="border border-slate-100 shadow-premium bg-white">
                   <CardContent className="p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                      <Filter className="w-5 h-5 mr-2 text-purple-600" />
+                    <h3 className="text-sm font-bold text-slate-800 mb-4 flex items-center">
+                      <Filter className="w-4 h-4 mr-2 text-purple-650" />
                       Select Category
                     </h3>
                     <div className="space-y-2">
                       <motion.button
-                        whileHover={{ scale: 1.02 }}
+                        whileHover={{ y: -1 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => setSelectedCategory('all')}
-                        className={`w-full p-3 rounded-lg text-left transition-all duration-300 ${
+                        className={`w-full p-3 rounded-xl text-left text-xs font-bold transition-all duration-300 border flex items-center ${
                           selectedCategory === 'all'
-                            ? 'bg-purple-100 text-purple-700 border-2 border-purple-300'
-                            : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                            ? 'bg-purple-55 border-purple-200 text-purple-700 shadow-sm'
+                            : 'bg-slate-50/50 border-slate-100 hover:bg-slate-50 text-slate-700'
                         }`}
                       >
-                        <Target className="w-4 h-4 inline mr-2" />
+                        <Target className="w-3.5 h-3.5 mr-2 text-purple-600" />
                         All Categories
                       </motion.button>
                       {QUIZ_CATEGORIES.map((category, index) => (
                         <motion.button
                           key={category.id}
-                          whileHover={{ scale: 1.02 }}
+                          whileHover={{ y: -1 }}
                           whileTap={{ scale: 0.98 }}
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: index * 0.1 }}
+                          transition={{ duration: 0.3, delay: index * 0.05 }}
                           onClick={() => setSelectedCategory(category.id)}
-                          className={`w-full p-3 rounded-lg text-left transition-all duration-300 ${
+                          className={`w-full p-3 rounded-xl text-left text-xs font-bold transition-all duration-300 border flex items-center justify-between ${
                             selectedCategory === category.id
-                              ? 'bg-purple-100 text-purple-700 border-2 border-purple-300'
-                              : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                              ? 'bg-purple-55 border-purple-200 text-purple-700 shadow-sm'
+                              : 'bg-slate-50/50 border-slate-100 hover:bg-slate-50 text-slate-700'
                           }`}
                         >
-                          <span className="mr-2">{category.icon}</span>
-                          {category.name}
-                          <ChevronRight className="w-4 h-4 float-right mt-0.5" />
+                          <div className="flex items-center">
+                            <span className="mr-2 text-sm">{category.icon}</span>
+                            <span>{category.name}</span>
+                          </div>
+                          <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
                         </motion.button>
                       ))}
                     </div>
@@ -554,22 +552,21 @@ export function QuizGenerator() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
-                <Card className="shadow-lg border-0 bg-white">
+                <Card className="border border-slate-100 shadow-premium bg-white">
                   <CardContent className="p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                      <Settings className="w-5 h-5 mr-2 text-purple-600" />
+                    <h3 className="text-sm font-bold text-slate-800 mb-4 flex items-center">
+                      <Settings className="w-4 h-4 mr-2 text-purple-655" />
                       Quiz Settings
                     </h3>
                     <div className="space-y-6">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                          <Target className="w-4 h-4 mr-2 text-purple-600" />
+                        <label className="block text-xs font-bold text-slate-550 mb-1.5 uppercase tracking-wider">
                           Difficulty Level
                         </label>
                         <select
                           value={difficulty}
                           onChange={(e) => setDifficulty(e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                          className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-700 focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 font-semibold transition-all"
                         >
                           <option value="all">All Levels</option>
                           <option value="Easy">🟢 Easy</option>
@@ -579,16 +576,16 @@ export function QuizGenerator() {
                       </div>
                       
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                          <HelpCircle className="w-4 h-4 mr-2 text-purple-600" />
-                          Questions: {questionCount}
+                        <label className="block text-xs font-bold text-slate-550 mb-2 uppercase tracking-wider flex items-center justify-between">
+                          <span>Questions count</span>
+                          <span className="bg-slate-100 text-slate-600 px-2 py-0.5 rounded text-[10px]">{questionCount} Qs</span>
                         </label>
                         <div className="flex items-center space-x-3">
                           <button
                             onClick={() => setQuestionCount(Math.max(5, questionCount - 1))}
-                            className="p-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                            className="w-7 h-7 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors"
                           >
-                            <Minus className="w-4 h-4" />
+                            <Minus className="w-3.5 h-3.5" />
                           </button>
                           <input
                             type="range"
@@ -596,25 +593,21 @@ export function QuizGenerator() {
                             max="20"
                             value={questionCount}
                             onChange={(e) => setQuestionCount(parseInt(e.target.value))}
-                            className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                            className="flex-1 h-1.5 bg-slate-105 rounded-lg appearance-none cursor-pointer accent-purple-605"
                           />
                           <button
                             onClick={() => setQuestionCount(Math.min(20, questionCount + 1))}
-                            className="p-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                            className="w-7 h-7 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors"
                           >
-                            <Plus className="w-4 h-4" />
+                            <Plus className="w-3.5 h-3.5" />
                           </button>
-                        </div>
-                        <div className="flex justify-between text-xs text-gray-500 mt-1">
-                          <span>5</span>
-                          <span>20</span>
                         </div>
                       </div>
                       
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                          <Clock className="w-4 h-4 mr-2 text-purple-600" />
-                          Time Limit: {timeLimit} minutes
+                        <label className="block text-xs font-bold text-slate-550 mb-2 uppercase tracking-wider flex items-center justify-between">
+                          <span>Time limit</span>
+                          <span className="bg-slate-100 text-slate-600 px-2 py-0.5 rounded text-[10px]">{timeLimit} Mins</span>
                         </label>
                         <input
                           type="range"
@@ -622,27 +615,23 @@ export function QuizGenerator() {
                           max="30"
                           value={timeLimit}
                           onChange={(e) => setTimeLimit(parseInt(e.target.value))}
-                          className="w-full h-2 bg-purple-200 rounded-lg appearance-none cursor-pointer"
+                          className="w-full h-1.5 bg-purple-105 rounded-lg appearance-none cursor-pointer accent-purple-600"
                         />
-                        <div className="flex justify-between text-xs text-gray-500 mt-1">
-                          <span>5 min</span>
-                          <span>30 min</span>
-                        </div>
                       </div>
                       
-                      <div className="flex items-center justify-between">
-                        <label className="flex items-center text-sm font-medium text-gray-700">
+                      <div className="flex items-center justify-between border-t border-slate-50 pt-4 mt-2">
+                        <label className="flex items-center text-xs font-bold text-slate-550 uppercase tracking-wider">
                           <Shuffle className="w-4 h-4 mr-2 text-purple-600" />
                           Shuffle Questions
                         </label>
                         <button
                           onClick={() => setShuffleQuestions(!shuffleQuestions)}
-                          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                            shuffleQuestions ? 'bg-purple-600' : 'bg-gray-200'
+                          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-305 ${
+                            shuffleQuestions ? 'bg-purple-650' : 'bg-slate-200'
                           }`}
                         >
                           <span
-                            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-305 ${
                               shuffleQuestions ? 'translate-x-6' : 'translate-x-1'
                             }`}
                           />
@@ -659,66 +648,40 @@ export function QuizGenerator() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
               >
-                <Card className="shadow-lg border-0 bg-gradient-to-br from-purple-500 to-pink-600 text-white">
+                <Card className="border-0 shadow-premium bg-gradient-to-br from-purple-605 via-pink-650 to-indigo-900 text-white rounded-2xl">
                   <CardContent className="p-6">
-                    <h3 className="text-lg font-semibold mb-4 flex items-center">
-                      <BarChart3 className="w-5 h-5 mr-2" />
-                      Your Stats
+                    <h3 className="text-sm font-bold mb-4 flex items-center">
+                      <BarChart3 className="w-4 h-4 mr-2 text-yellow-350" />
+                      Academic Stats
                     </h3>
                     <div className="space-y-4">
-                      <motion.div 
-                        whileHover={{ scale: 1.05 }}
-                        className="flex justify-between items-center p-2 rounded-lg bg-white/10"
-                      >
-                        <span className="text-purple-100 flex items-center">
-                          <Users className="w-4 h-4 mr-2" />
+                      <div className="flex justify-between items-center p-2.5 rounded-xl bg-white/10">
+                        <span className="text-xs font-semibold text-purple-100 flex items-center">
+                          <Brain className="w-4 h-4 mr-2" />
                           Quizzes Taken
                         </span>
-                        <span className="font-bold text-xl">{quizStats.totalQuizzes}</span>
-                      </motion.div>
-                      <motion.div 
-                        whileHover={{ scale: 1.05 }}
-                        className="flex justify-between items-center p-2 rounded-lg bg-white/10"
-                      >
-                        <span className="text-purple-100 flex items-center">
+                        <span className="font-extrabold text-lg">{quizStats.totalQuizzes}</span>
+                      </div>
+                      <div className="flex justify-between items-center p-2.5 rounded-xl bg-white/10">
+                        <span className="text-xs font-semibold text-purple-100 flex items-center">
                           <TrendingUp className="w-4 h-4 mr-2" />
                           Average Score
                         </span>
-                        <span className="font-bold text-xl">{quizStats.averageScore}%</span>
-                      </motion.div>
-                      <motion.div 
-                        whileHover={{ scale: 1.05 }}
-                        className="flex justify-between items-center p-2 rounded-lg bg-white/10"
-                      >
-                        <span className="text-purple-100 flex items-center">
+                        <span className="font-extrabold text-lg">{quizStats.averageScore}%</span>
+                      </div>
+                      <div className="flex justify-between items-center p-2.5 rounded-xl bg-white/10">
+                        <span className="text-xs font-semibold text-purple-100 flex items-center">
                           <Trophy className="w-4 h-4 mr-2" />
                           Best Score
                         </span>
-                        <span className="font-bold text-xl">{quizStats.bestScore}%</span>
-                      </motion.div>
-                      <motion.div 
-                        whileHover={{ scale: 1.05 }}
-                        className="flex justify-between items-center p-2 rounded-lg bg-white/10"
-                      >
-                        <span className="text-purple-100 flex items-center">
+                        <span className="font-extrabold text-lg">{quizStats.bestScore}%</span>
+                      </div>
+                      <div className="flex justify-between items-center p-2.5 rounded-xl bg-white/10">
+                        <span className="text-xs font-semibold text-purple-100 flex items-center">
                           <Clock className="w-4 h-4 mr-2" />
                           Total Time
                         </span>
-                        <span className="font-bold text-xl">{Math.round(quizStats.totalTime / 60)}m</span>
-                      </motion.div>
-                      <div className="mt-4 pt-4 border-t border-white/20">
-                        <div className="flex items-center justify-center space-x-4">
-                          <div className="text-center">
-                            <Star className="w-6 h-6 mx-auto mb-1 text-yellow-300" />
-                            <div className="text-xs text-purple-100">Streak</div>
-                            <div className="font-bold">5</div>
-                          </div>
-                          <div className="text-center">
-                            <Award className="w-6 h-6 mx-auto mb-1 text-orange-300" />
-                            <div className="text-xs text-purple-100">Rank</div>
-                            <div className="font-bold">#12</div>
-                          </div>
-                        </div>
+                        <span className="font-extrabold text-lg">{Math.round(quizStats.totalTime / 60)}m</span>
                       </div>
                     </div>
                   </CardContent>
@@ -733,32 +696,24 @@ export function QuizGenerator() {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="mb-6"
+                  className="mb-6 max-w-xl mx-auto"
                 >
-                  <Card className="border-red-200 bg-red-50">
-                    <CardContent className="p-4">
-                      <div className="flex items-center">
-                        <XCircle className="w-5 h-5 text-red-600 mr-3" />
+                  <Card className="border-red-200 bg-red-50/50 rounded-2xl">
+                    <CardContent className="p-5">
+                      <div className="flex items-start">
+                        <XCircle className="w-5 h-5 text-red-600 mr-3 mt-0.5" />
                         <div className="flex-1">
-                          <h4 className="font-semibold text-red-800">Quiz Generation Failed</h4>
-                          <p className="text-red-700 text-sm mt-1">{error}</p>
+                          <h4 className="font-bold text-red-800 text-sm">Quiz Generation Failed</h4>
+                          <p className="text-red-750 text-xs mt-1">{error}</p>
                         </div>
-                        <button
-                          onClick={() => setError(null)}
-                          className="text-red-600 hover:text-red-800 p-1"
-                        >
-                          <XCircle className="w-5 h-5" />
-                        </button>
                       </div>
-                      <div className="mt-3 flex gap-2">
-                        <Button
+                      <div className="mt-4 flex gap-2">
+                        <button
                           onClick={generateQuiz}
-                          size="sm"
-                          className="bg-red-600 hover:bg-red-700 text-white"
+                          className="bg-red-650 hover:bg-red-700 text-white font-semibold text-xs px-4 py-2 rounded-xl transition-all shadow-sm"
                         >
-                          <RotateCcw className="w-4 h-4 mr-1" />
                           Try Again
-                        </Button>
+                        </button>
                       </div>
                     </CardContent>
                   </Card>
@@ -769,13 +724,14 @@ export function QuizGenerator() {
             {/* Generate Quiz Button */}
             <div className="text-center">
               <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-block"
               >
-                <Button
+                <button
                   onClick={generateQuiz}
                   disabled={isLoading}
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-12 py-4 text-lg font-semibold rounded-2xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-gradient-to-r from-purple-650 to-pink-600 hover:brightness-110 text-white font-bold px-12 py-4 rounded-xl shadow-lg shadow-purple-500/20 disabled:opacity-50 disabled:cursor-not-allowed border-0 flex items-center justify-center gap-2"
                 >
                   {isLoading ? (
                     <>
@@ -784,15 +740,15 @@ export function QuizGenerator() {
                         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                         className="w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2"
                       />
-                      Generating...
+                      <span>Generating Quiz Pool...</span>
                     </>
                   ) : (
                     <>
-                      <Sparkles className="w-6 h-6 mr-2" />
-                      Generate Smart Quiz
+                      <Sparkles className="w-5 h-5 text-yellow-355" />
+                      <span>Generate Smart Quiz</span>
                     </>
                   )}
-                </Button>
+                </button>
               </motion.div>
               
               {/* API Status Indicator */}
@@ -800,10 +756,10 @@ export function QuizGenerator() {
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="mt-3 flex items-center justify-center text-sm text-gray-600"
+                  className="mt-4 flex items-center justify-center text-xs font-semibold text-slate-505"
                 >
-                  <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                  Connected to QuizAPI.io
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse"></div>
+                  QuizAPI.io Connected
                 </motion.div>
               )}
             </div>
@@ -811,22 +767,22 @@ export function QuizGenerator() {
         ) : quizStarted ? (
           /* Quiz Interface */
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
             className="max-w-4xl mx-auto"
           >
-            <Card className="shadow-xl border-0 bg-white">
+            <Card className="border border-slate-100 shadow-premium bg-white rounded-2xl">
               <CardContent className="p-8">
                 {/* Progress Bar */}
                 <div className="mb-8">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm font-medium text-gray-600">Progress</span>
-                    <span className="text-sm font-medium text-gray-600">
+                  <div className="flex justify-between items-center mb-2 text-xs font-bold text-slate-550">
+                    <span>Progress</span>
+                    <span>
                       {Math.round(((currentQuestionIndex + 1) / currentQuiz.length) * 100)}%
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="w-full bg-slate-105 rounded-full h-2">
                     <motion.div
                       className="bg-gradient-to-r from-purple-600 to-pink-600 h-2 rounded-full"
                       initial={{ width: 0 }}
@@ -839,31 +795,31 @@ export function QuizGenerator() {
                 {/* Question */}
                 <div className="mb-8">
                   <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-3">
-                      <span className="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm font-medium">
+                    <div className="flex items-center space-x-2.5">
+                      <span className="bg-purple-50 text-purple-650 px-3 py-1 rounded-full text-xs font-bold border border-purple-100/50">
                         Question {currentQuestionIndex + 1}
                       </span>
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                        currentQuiz[currentQuestionIndex]?.difficulty === 'Easy' ? 'bg-green-100 text-green-600' :
-                        currentQuiz[currentQuestionIndex]?.difficulty === 'Medium' ? 'bg-yellow-100 text-yellow-600' :
-                        'bg-red-100 text-red-600'
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${
+                        currentQuiz[currentQuestionIndex]?.difficulty === 'Easy' ? 'bg-emerald-50 text-emerald-700 border-emerald-100/50' :
+                        currentQuiz[currentQuestionIndex]?.difficulty === 'Medium' ? 'bg-amber-50 text-amber-700 border-amber-200/50' :
+                        'bg-rose-50 text-rose-700 border-rose-100/50'
                       }`}>
                         {currentQuiz[currentQuestionIndex]?.difficulty}
                       </span>
-                      <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm font-medium">
+                      <span className="bg-slate-50 border border-slate-100 text-slate-500 px-3 py-1 rounded-full text-xs font-semibold">
                         {currentQuiz[currentQuestionIndex]?.points} pts
                       </span>
                     </div>
                     <button
                       onClick={() => setShowExplanation(!showExplanation)}
-                      className="flex items-center text-purple-600 hover:text-purple-700 transition-colors"
+                      className="flex items-center text-xs font-bold text-purple-600 hover:text-purple-805 transition-colors"
                     >
-                      {showExplanation ? <EyeOff className="w-4 h-4 mr-1" /> : <Eye className="w-4 h-4 mr-1" />}
-                      {showExplanation ? 'Hide' : 'Show'} Hint
+                      {showExplanation ? <EyeOff className="w-3.5 h-3.5 mr-1" /> : <Eye className="w-3.5 h-3.5 mr-1" />}
+                      <span>{showExplanation ? 'Hide' : 'Show'} Hint</span>
                     </button>
                   </div>
                   
-                  <h3 className="text-2xl font-bold text-gray-900 mb-6 leading-relaxed">
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-800 mb-6 leading-relaxed">
                     {currentQuiz[currentQuestionIndex]?.question}
                   </h3>
                   
@@ -872,13 +828,13 @@ export function QuizGenerator() {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6"
+                      className="bg-indigo-50 border-l-4 border-indigo-400 p-4.5 mb-6 rounded-r-xl shadow-sm text-xs font-semibold"
                     >
                       <div className="flex items-center mb-2">
-                        <Lightbulb className="w-5 h-5 text-blue-600 mr-2" />
-                        <span className="font-semibold text-blue-800">Explanation</span>
+                        <Lightbulb className="w-4 h-4 text-indigo-650 mr-2" />
+                        <span className="font-bold text-indigo-855">Explanation</span>
                       </div>
-                      <p className="text-blue-700">{currentQuiz[currentQuestionIndex]?.explanation}</p>
+                      <p className="text-indigo-700 font-medium">{currentQuiz[currentQuestionIndex]?.explanation}</p>
                     </motion.div>
                   )}
                 </div>
@@ -889,38 +845,38 @@ export function QuizGenerator() {
                     <motion.button
                       key={index}
                       onClick={() => handleAnswerSelect(index)}
-                      className={`w-full p-4 text-left rounded-xl border-2 transition-all duration-300 ${
+                      className={`w-full p-4.5 text-left rounded-2xl border transition-all duration-300 text-sm flex items-center justify-between ${
                         selectedAnswers[currentQuiz[currentQuestionIndex].id] === index
-                          ? 'border-purple-500 bg-purple-50 text-purple-700'
-                          : 'border-gray-200 bg-white text-gray-700 hover:border-purple-300 hover:bg-purple-25'
+                          ? 'border-purple-500 bg-purple-50/40 text-purple-700 font-bold shadow-sm'
+                          : 'border-slate-200 bg-white text-slate-705 hover:border-purple-305 hover:bg-purple-50/10'
                       }`}
-                      whileHover={{ scale: 1.02 }}
+                      whileHover={{ y: -2 }}
                       whileTap={{ scale: 0.98 }}
                     >
                       <div className="flex items-center">
-                        <div className={`w-6 h-6 rounded-full border-2 mr-4 flex items-center justify-center ${
+                        <div className={`w-5 h-5 rounded-full border mr-3 flex items-center justify-center ${
                           selectedAnswers[currentQuiz[currentQuestionIndex].id] === index
                             ? 'border-purple-500 bg-purple-500'
-                            : 'border-gray-300'
+                            : 'border-slate-300 bg-white'
                         }`}>
                           {selectedAnswers[currentQuiz[currentQuestionIndex].id] === index && (
-                            <CheckCircle className="w-4 h-4 text-white" />
+                            <CheckCircle className="w-3.5 h-3.5 text-white" />
                           )}
                         </div>
-                        <span className="font-medium">{String.fromCharCode(65 + index)}.</span>
-                        <span className="ml-3">{option}</span>
+                        <span className="font-bold mr-1.5 text-slate-400">{String.fromCharCode(65 + index)}.</span>
+                        <span>{option}</span>
                       </div>
                     </motion.button>
                   ))}
                 </div>
 
                 {/* Navigation */}
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center border-t border-slate-50 pt-6">
                   <Button
                     onClick={handlePreviousQuestion}
                     disabled={currentQuestionIndex === 0}
                     variant="outline"
-                    className="flex items-center"
+                    className="flex items-center border-slate-200 text-slate-700"
                   >
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Previous
@@ -930,12 +886,12 @@ export function QuizGenerator() {
                     {currentQuiz.map((_, index) => (
                       <div
                         key={index}
-                        className={`w-3 h-3 rounded-full ${
+                        className={`w-2.5 h-2.5 rounded-full transition-all ${
                           index === currentQuestionIndex
-                            ? 'bg-purple-600'
+                            ? 'bg-purple-600 scale-125'
                             : selectedAnswers[currentQuiz[index].id] !== undefined
-                            ? 'bg-green-400'
-                            : 'bg-gray-300'
+                            ? 'bg-emerald-450'
+                            : 'bg-slate-200'
                         }`}
                       />
                     ))}
@@ -943,9 +899,9 @@ export function QuizGenerator() {
                   
                   <Button
                     onClick={handleNextQuestion}
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white flex items-center"
+                    className="bg-gradient-to-r from-purple-650 to-pink-650 hover:brightness-110 text-white flex items-center border-0"
                   >
-                    {currentQuestionIndex === currentQuiz.length - 1 ? 'Finish Quiz' : 'Next'}
+                    <span>{currentQuestionIndex === currentQuiz.length - 1 ? 'Finish Quiz' : 'Next'}</span>
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </div>
@@ -960,65 +916,65 @@ export function QuizGenerator() {
             transition={{ duration: 0.8 }}
             className="max-w-4xl mx-auto"
           >
-            <Card className="shadow-xl border-0 bg-white overflow-hidden">
-              <div className={`bg-gradient-to-r ${getScoreGradient(quizResult?.percentage || 0)} p-8 text-white text-center`}>
+            <Card className="border border-slate-100 shadow-premium bg-white overflow-hidden rounded-2xl">
+              <div className={`bg-gradient-to-br ${getScoreGradient(quizResult?.percentage || 0)} p-10 text-white text-center rounded-t-2xl relative`}>
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.6, delay: 0.2 }}
                 >
-                  <Trophy className="w-16 h-16 mx-auto mb-4" />
-                  <h2 className="text-4xl font-bold mb-2">Quiz Complete!</h2>
-                  <p className="text-xl opacity-90">Here are your results</p>
+                  <Trophy className="w-16 h-16 mx-auto mb-4 text-yellow-300" />
+                  <h2 className="text-3xl font-extrabold mb-2 text-white">Quiz Completed!</h2>
+                  <p className="text-sm opacity-90 font-semibold text-purple-100">Review your final dashboard performance summary</p>
                 </motion.div>
               </div>
               
               <CardContent className="p-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                  <div className="text-center">
-                    <div className={`text-4xl font-bold mb-2 ${getScoreColor(quizResult?.percentage || 0)}`}>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                  <div className="p-5 bg-slate-50 rounded-2xl text-center border border-slate-100 shadow-sm">
+                    <div className={`text-4xl font-black mb-1.5 ${getScoreColor(quizResult?.percentage || 0)}`}>
                       {quizResult?.percentage}%
                     </div>
-                    <div className="text-gray-600">Final Score</div>
+                    <div className="text-xs text-slate-500 font-bold uppercase tracking-wider">Final Score</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-green-600 mb-2">
+                  <div className="p-5 bg-slate-50 rounded-2xl text-center border border-slate-105 shadow-sm">
+                    <div className="text-4xl font-black text-emerald-650 mb-1.5">
                       {quizResult?.correctAnswers}
                     </div>
-                    <div className="text-gray-600">Correct Answers</div>
+                    <div className="text-xs text-slate-500 font-bold uppercase tracking-wider">Correct</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-blue-600 mb-2">
+                  <div className="p-5 bg-slate-50 rounded-2xl text-center border border-slate-105 shadow-sm">
+                    <div className="text-4xl font-black text-indigo-650 mb-1.5">
                       {quizResult?.score}
                     </div>
-                    <div className="text-gray-600">Total Points</div>
+                    <div className="text-xs text-slate-500 font-bold uppercase tracking-wider">Total Points</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-purple-600 mb-2">
+                  <div className="p-5 bg-slate-50 rounded-2xl text-center border border-slate-105 shadow-sm">
+                    <div className="text-4xl font-black text-purple-650 mb-1.5">
                       {formatTime(quizResult?.timeSpent || 0)}
                     </div>
-                    <div className="text-gray-600">Time Spent</div>
+                    <div className="text-xs text-slate-500 font-bold uppercase tracking-wider">Time Spent</div>
                   </div>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button
                     onClick={resetQuiz}
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white flex items-center"
+                    className="bg-gradient-to-r from-purple-650 to-pink-655 hover:brightness-110 text-white flex items-center border-0 font-bold"
                   >
                     <RotateCcw className="w-4 h-4 mr-2" />
                     Take Another Quiz
                   </Button>
                   <Button
                     variant="outline"
-                    className="flex items-center"
+                    className="flex items-center border-slate-200 text-slate-700 font-semibold"
                   >
                     <Download className="w-4 h-4 mr-2" />
                     Download Results
                   </Button>
                   <Button
                     variant="outline"
-                    className="flex items-center"
+                    className="flex items-center border-slate-200 text-slate-700 font-semibold"
                   >
                     <Share2 className="w-4 h-4 mr-2" />
                     Share Results
@@ -1034,69 +990,69 @@ export function QuizGenerator() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
             className="mt-16"
           >
-            <Card className="border-0 shadow-lg bg-gradient-to-r from-indigo-50 to-purple-50">
+            <Card className="border border-slate-100 shadow-premium bg-gradient-to-r from-slate-50 to-indigo-50/20 rounded-2xl">
               <CardContent className="p-8">
-                <div className="text-center mb-8">
-                  <Zap className="w-10 h-10 mx-auto mb-4 text-purple-600" />
-                  <h3 className="text-3xl font-bold mb-4 text-gray-900">
-                    Advanced Quiz Features
+                <div className="text-center mb-10">
+                  <Zap className="w-8 h-8 mx-auto mb-3 text-purple-600" />
+                  <h3 className="text-2xl font-bold text-slate-800">
+                    Advanced Smart Quiz Utilities
                   </h3>
-                  <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                    Experience intelligent quiz generation with comprehensive analytics
+                  <p className="text-xs font-bold text-slate-455 uppercase tracking-widest mt-1">
+                    Simulate PU board examinations using smart AI-generated templates
                   </p>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {[
                     { 
                       icon: Brain, 
-                      title: "AI-Powered Questions", 
-                      description: "Intelligent question generation based on your learning progress and weak areas"
+                      title: "Smart Question Pool", 
+                      description: "Access a structured quiz bank covering operating systems, DBMS, networks, and coding."
                     },
                     { 
                       icon: Target, 
-                      title: "Adaptive Difficulty", 
-                      description: "Dynamic difficulty adjustment based on your performance and skill level"
+                      title: "Adaptive Selectors", 
+                      description: "Filter questions by exact difficulty level - Easy, Medium, or Hard immediately."
                     },
                     { 
                       icon: BarChart3, 
-                      title: "Detailed Analytics", 
-                      description: "Comprehensive performance tracking with insights and improvement suggestions"
+                      title: "Score Breakdown", 
+                      description: "Monitor your performance percentage, correct responses, and virtual points."
                     },
                     { 
                       icon: Clock, 
-                      title: "Timed Challenges", 
-                      description: "Customizable time limits to simulate real exam conditions"
+                      title: "Simulated Timers", 
+                      description: "Simulate PU semester midterms and finals with strict session time limits."
                     },
                     { 
                       icon: Award, 
-                      title: "Achievement System", 
-                      description: "Earn badges and track your progress with gamified learning"
+                      title: "Streak Analytics", 
+                      description: "Gamified achievement system tracking streak statistics and performance reviews."
                     },
                     { 
                       icon: Users, 
-                      title: "Collaborative Learning", 
-                      description: "Share quizzes with classmates and compete on leaderboards"
+                      title: "Offline Sharing", 
+                      description: "Export results as local transcripts and share key stats with peer groups."
                     }
                   ].map((feature, index) => (
                     <motion.div
                       key={feature.title}
-                      initial={{ opacity: 0, y: 30 }}
+                      initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.9 + index * 0.1 }}
+                      transition={{ duration: 0.5, delay: 0.1 + index * 0.05 }}
                       whileHover={{ y: -5 }}
-                      className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300"
+                      className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-premium transition-all duration-300"
                     >
-                      <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <feature.icon className="w-6 h-6 text-white" />
+                      <div className="w-11 h-11 bg-gradient-to-br from-purple-550 to-pink-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <feature.icon className="w-5 h-5 text-white" />
                       </div>
-                      <h4 className="text-xl font-bold text-gray-900 mb-3 text-center">
+                      <h4 className="text-base font-bold text-slate-805 mb-2 text-center">
                         {feature.title}
                       </h4>
-                      <p className="text-gray-600 text-center leading-relaxed">
+                      <p className="text-xs text-slate-500 font-semibold text-center leading-relaxed">
                         {feature.description}
                       </p>
                     </motion.div>
@@ -1114,68 +1070,68 @@ export function QuizGenerator() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+              className="fixed inset-0 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 z-50"
               onClick={() => setShowAnalytics(false)}
             >
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-white rounded-2xl p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto"
+                className="bg-white/95 backdrop-blur-lg border border-slate-100 rounded-2xl p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-premium"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-2xl font-bold text-gray-900 flex items-center">
-                    <BarChart3 className="w-6 h-6 mr-2 text-purple-600" />
-                    Quiz Analytics
+                <div className="flex items-center justify-between mb-6 border-b border-slate-50 pb-3">
+                  <h3 className="text-xl font-bold text-slate-850 flex items-center">
+                    <BarChart3 className="w-5 h-5 mr-2 text-purple-600" />
+                    Quiz Performance Dashboard
                   </h3>
                   <button
                     onClick={() => setShowAnalytics(false)}
-                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                    className="p-1 hover:bg-slate-100 rounded-xl transition-colors text-slate-400"
                   >
-                    <XCircle className="w-5 h-5 text-gray-500" />
+                    <XCircle className="w-5 h-5" />
                   </button>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  <Card className="bg-gradient-to-br from-blue-500 to-cyan-500 text-white">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <Card className="bg-gradient-to-br from-blue-500 to-indigo-650 text-white rounded-2xl border-0 shadow-md">
                     <CardContent className="p-6 text-center">
-                      <PieChart className="w-8 h-8 mx-auto mb-3" />
-                      <h4 className="text-lg font-semibold mb-2">Performance</h4>
-                      <div className="text-3xl font-bold">{quizStats.averageScore}%</div>
-                      <div className="text-sm opacity-80">Average Score</div>
+                      <PieChart className="w-7 h-7 mx-auto mb-3 text-white" />
+                      <h4 className="text-sm font-bold mb-1.5">Average Performance</h4>
+                      <div className="text-3xl font-black">{quizStats.averageScore}%</div>
+                      <div className="text-[10px] uppercase font-bold text-indigo-100 mt-1">Syllabus Grade</div>
                     </CardContent>
                   </Card>
                   
-                  <Card className="bg-gradient-to-br from-green-500 to-emerald-500 text-white">
+                  <Card className="bg-gradient-to-br from-emerald-500 to-teal-650 text-white rounded-2xl border-0 shadow-md">
                     <CardContent className="p-6 text-center">
-                      <Activity className="w-8 h-8 mx-auto mb-3" />
-                      <h4 className="text-lg font-semibold mb-2">Activity</h4>
-                      <div className="text-3xl font-bold">{quizStats.totalQuizzes}</div>
-                      <div className="text-sm opacity-80">Quizzes Completed</div>
+                      <Activity className="w-7 h-7 mx-auto mb-3 text-white" />
+                      <h4 className="text-sm font-bold mb-1.5">Total Assessments</h4>
+                      <div className="text-3xl font-black">{quizStats.totalQuizzes}</div>
+                      <div className="text-[10px] uppercase font-bold text-emerald-100 mt-1">Completed Pools</div>
                     </CardContent>
                   </Card>
                   
-                  <Card className="bg-gradient-to-br from-purple-500 to-pink-500 text-white">
+                  <Card className="bg-gradient-to-br from-purple-500 to-pink-655 text-white rounded-2xl border-0 shadow-md">
                     <CardContent className="p-6 text-center">
-                      <Calendar className="w-8 h-8 mx-auto mb-3" />
-                      <h4 className="text-lg font-semibold mb-2">Time Spent</h4>
-                      <div className="text-3xl font-bold">{Math.round(quizStats.totalTime / 60)}</div>
-                      <div className="text-sm opacity-80">Minutes</div>
+                      <Calendar className="w-7 h-7 mx-auto mb-3 text-white" />
+                      <h4 className="text-sm font-bold mb-1.5">Time Logged</h4>
+                      <div className="text-3xl font-black">{Math.round(quizStats.totalTime / 60)}</div>
+                      <div className="text-[10px] uppercase font-bold text-pink-100 mt-1">Minutes Spent</div>
                     </CardContent>
                   </Card>
                 </div>
                 
-                <div className="mt-8">
-                  <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                    <TrendingUp className="w-5 h-5 mr-2 text-purple-600" />
-                    Recent Performance
+                <div className="mt-8 border-t border-slate-50 pt-6">
+                  <h4 className="text-sm font-bold text-slate-805 mb-4 flex items-center">
+                    <TrendingUp className="w-4 h-4 mr-2 text-purple-600 animate-bounce" />
+                    Quiz Completion Chart
                   </h4>
-                  <div className="bg-gray-50 rounded-xl p-4">
-                    <div className="flex items-center justify-center h-32 text-gray-500">
+                  <div className="bg-slate-50/50 rounded-2xl border border-slate-105 p-6">
+                    <div className="flex items-center justify-center h-32 text-slate-400">
                       <div className="text-center">
-                        <BarChart3 className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                        <p>Performance chart will be displayed here</p>
+                        <BarChart3 className="w-8 h-8 mx-auto mb-2 opacity-30 text-slate-550" />
+                        <p className="text-xs font-semibold">Weekly statistics analytics will load here</p>
                       </div>
                     </div>
                   </div>
@@ -1192,43 +1148,43 @@ export function QuizGenerator() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+              className="fixed inset-0 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 z-50"
               onClick={() => setShowSettings(false)}
             >
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-white rounded-2xl p-6 w-full max-w-md"
+                className="bg-white/95 backdrop-blur-lg border border-slate-100 rounded-2xl p-6 w-full max-w-md shadow-premium"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-bold text-gray-900 flex items-center">
-                    <Settings className="w-5 h-5 mr-2 text-purple-600" />
-                    Quiz Settings
+                <div className="flex items-center justify-between mb-6 border-b border-slate-50 pb-3">
+                  <h3 className="text-lg font-bold text-slate-800 flex items-center">
+                    <Settings className="w-4 h-4 mr-2 text-purple-600" />
+                    Quiz Preferences
                   </h3>
                   <button
                     onClick={() => setShowSettings(false)}
-                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                    className="p-1 hover:bg-slate-100 rounded-xl transition-colors text-slate-400"
                   >
-                    <XCircle className="w-5 h-5 text-gray-500" />
+                    <XCircle className="w-5 h-5" />
                   </button>
                 </div>
                 
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
-                    <label className="flex items-center text-sm font-medium text-gray-700">
-                      <Shuffle className="w-4 h-4 mr-2 text-purple-600" />
+                    <label className="flex items-center text-xs font-bold text-slate-550 uppercase tracking-wider">
+                      <Shuffle className="w-4 h-4 mr-2 text-purple-655" />
                       Auto-shuffle Questions
                     </label>
                     <button
                       onClick={() => setShuffleQuestions(!shuffleQuestions)}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        shuffleQuestions ? 'bg-purple-600' : 'bg-gray-200'
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
+                        shuffleQuestions ? 'bg-purple-650' : 'bg-slate-250'
                       }`}
                     >
                       <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${
                           shuffleQuestions ? 'translate-x-6' : 'translate-x-1'
                         }`}
                       />
@@ -1236,44 +1192,43 @@ export function QuizGenerator() {
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <label className="flex items-center text-sm font-medium text-gray-700">
-                      <BookOpen className="w-4 h-4 mr-2 text-purple-600" />
+                    <label className="flex items-center text-xs font-bold text-slate-555 uppercase tracking-wider">
+                      <BookOpen className="w-4 h-4 mr-2 text-purple-655" />
                       Show Explanations
                     </label>
                     <button
-                      className="relative inline-flex h-6 w-11 items-center rounded-full bg-purple-600"
+                      className="relative inline-flex h-6 w-11 items-center rounded-full bg-purple-650"
                     >
                       <span className="inline-block h-4 w-4 transform rounded-full bg-white translate-x-6" />
                     </button>
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <label className="flex items-center text-sm font-medium text-gray-700">
-                      <Star className="w-4 h-4 mr-2 text-purple-600" />
+                    <label className="flex items-center text-xs font-bold text-slate-555 uppercase tracking-wider">
+                      <Star className="w-4 h-4 mr-2 text-purple-655" />
                       Save Progress
                     </label>
                     <button
-                      className="relative inline-flex h-6 w-11 items-center rounded-full bg-purple-600"
+                      className="relative inline-flex h-6 w-11 items-center rounded-full bg-purple-650"
                     >
                       <span className="inline-block h-4 w-4 transform rounded-full bg-white translate-x-6" />
                     </button>
                   </div>
                 </div>
                 
-                <div className="flex gap-3 mt-8">
-                  <Button
+                <div className="flex gap-3 mt-8 border-t border-slate-50 pt-5">
+                  <button
                     onClick={() => setShowSettings(false)}
-                    className="flex-1 bg-purple-600 hover:bg-purple-700 text-white"
+                    className="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-semibold text-xs py-3 rounded-xl shadow-sm transition-all duration-300"
                   >
                     Save Settings
-                  </Button>
-                  <Button
+                  </button>
+                  <button
                     onClick={() => setShowSettings(false)}
-                    variant="outline"
-                    className="flex-1"
+                    className="flex-1 bg-slate-105 hover:bg-slate-250 text-slate-700 font-semibold text-xs py-3 rounded-xl transition-all duration-300"
                   >
                     Cancel
-                  </Button>
+                  </button>
                 </div>
               </motion.div>
             </motion.div>
@@ -1287,21 +1242,20 @@ export function QuizGenerator() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+              className="fixed inset-0 bg-slate-900/60 backdrop-blur-md flex items-center justify-center z-50 animate-fade-in"
             >
               <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
+                initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="bg-white rounded-2xl p-8 text-center max-w-sm mx-4"
+                className="bg-white/95 backdrop-blur-lg border border-slate-100 rounded-2xl p-8 text-center max-w-sm mx-4 shadow-premium"
               >
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                  className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full mx-auto mb-4"
+                  className="w-12 h-12 border-4 border-purple-200 border-t-purple-650 rounded-full mx-auto mb-4"
                 />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Generating Quiz</h3>
-                <p className="text-gray-600">Fetching questions from QuizAPI...</p>
-                <p className="text-sm text-gray-500 mt-2">This may take a few seconds</p>
+                <h3 className="text-lg font-bold text-slate-805 mb-2">Generating smart quiz...</h3>
+                <p className="text-xs text-slate-500 font-semibold">Compiling curriculum questions from database</p>
               </motion.div>
             </motion.div>
           )}

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit III: Interpolation & Approximation - Comprehensive Notes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0px;
+    }
+    h1 {
+        text-align: center;
+        color: #0f172a;
+        font-size: 20pt;
+        font-weight: bold;
+        margin-bottom: 40px;
+        border-bottom: 3px double #cbd5e1;
+        padding-bottom: 15px;
+    }
+    h2 {
+      color: #1e3a8a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 30px;
+      font-size: 15pt;
+    }
+    h3 {
+      color: #2563eb;
+      font-size: 13pt;
+      margin-top: 20px;
+    }
+    .section {
+      background: #ffffff;
+      padding: 30px;
+      margin-bottom: 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 25px;
+    }
+    li {
+      margin-bottom: 12px;
+    }
+    pre {
+      background-color: #0f172a;
+      color: #38bdf8;
+      padding: 20px;
+      overflow-x: auto;
+      border-radius: 8px;
+      font-size: 11pt;
+      margin: 20px 0;
+      font-family: Consolas, Monaco, monospace;
+      border-left: 4px solid #3b82f6;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      background-color: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #0f172a;
+    }
+    pre code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+      color: inherit;
+    }
+    .highlight {
+      background-color: #fef08a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .diagram-container {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .table-container {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 11pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .note-box {
+      background-color: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px; }
+      .section { padding: 20px; }
+      pre { font-size: 10pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit III: Interpolation & Approximation [8 Hours] - Study Notes</b></h1>
+
+  <div class="section">
+    <h2><b>3.1 Linear Interpolation</b></h2>
+    <p><b>Linear Interpolation</b> connects two known points <code>(x_0, y_0)</code> and <code>(x_1, y_1)</code> with a straight line. The equation of the line is:</p>
+    <pre><code>
+y = y_0 + [ (y_1 - y_0) * (x - x_0) ] / (x_1 - x_0)
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>3.2 Lagrange's Interpolation</b></h2>
+    <p><b>Lagrange's Interpolation</b> works for both equally and unequally spaced data points. Proving the uniqueness of this interpolating polynomial is standard in numerical analysis.</p>
+
+    <h3><b>Lagrange's Interpolation C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+
+// Function to interpolate at target x using Lagrange's method
+double lagrange_interpolate(double x[], double y[], int n, double target_x) {
+    double result = 0.0;
+    
+    for (int i = 0; i &lt; n; i++) {
+        double term = y[i];
+        for (int j = 0; j &lt; n; j++) {
+            if (j != i) {
+                term = term * (target_x - x[j]) / (x[i] - x[j]);
+            }
+        }
+        result += term;
+    }
+    return result;
+}
+
+int main() {
+    double x[] = {1.0, 2.0, 5.0};
+    double y[] = {3.0, 7.0, 19.0};
+    int n = sizeof(x) / sizeof(x[0]);
+    double target = 3.0;
+    
+    double interpolated_val = lagrange_interpolate(x, y, n, target);
+    printf("Lagrange Interpolation at x = %lf is: %lf\n", target, interpolated_val);
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>3.3 Newton's Divided Difference Method</b></h2>
+    <p>Constructs the interpolating polynomial for unequally spaced data points by evaluating divided differences.</p>
+
+    <h3><b>Newton's Divided Difference C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+
+// Function to print Divided Difference Table and return interpolated value
+double newton_divided_diff(double x[], double y[], int n, double target_x) {
+    double dd[10][10];
+    
+    // Step 1: Initialize first column with y values
+    for (int i = 0; i &lt; n; i++) {
+        dd[i][0] = y[i];
+    }
+    
+    // Step 2: Build divided difference table
+    for (int j = 1; j &lt; n; j++) {
+        for (int i = 0; i &lt; n - j; i++) {
+            dd[i][j] = (dd[i+1][j-1] - dd[i][j-1]) / (x[i+j] - x[i]);
+        }
+    }
+    
+    // Step 3: Print divided difference table
+    printf("\nDivided Difference Table:\n");
+    for (int i = 0; i &lt; n; i++) {
+        printf("%8.3f ", x[i]);
+        for (int j = 0; j &lt; n - i; j++) {
+            printf("%8.3f ", dd[i][j]);
+        }
+        printf("\n");
+    }
+    
+    // Step 4: Calculate interpolated value
+    double sum = dd[0][0];
+    double term = 1.0;
+    for (int i = 1; i &lt; n; i++) {
+        term *= (target_x - x[i-1]);
+        sum += term * dd[0][i];
+    }
+    return sum;
+}
+
+int main() {
+    double x[] = {1.0, 2.0, 5.0};
+    double y[] = {3.0, 7.0, 19.0};
+    int n = sizeof(x) / sizeof(x[0]);
+    double target = 3.0;
+    
+    double val = newton_divided_diff(x, y, n, target);
+    printf("\nNewton Divided Difference value at x = %lf is: %lf\n", target, val);
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>3.4 Newton's Forward & Backward Difference Interpolation</b></h2>
+    <p>Used specifically for equally spaced data points (where step size <code>h = x_i+1 - x_i</code> is constant).</p>
+
+    <h3><b>Newton's Forward Difference C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+
+void newton_forward(double x[], double y[], int n, double target_x) {
+    double diff[10][10];
+    double h = x[1] - x[0];
+    double u = (target_x - x[0]) / h;
+    
+    // Initialize first column of diff table
+    for (int i = 0; i &lt; n; i++) {
+        diff[i][0] = y[i];
+    }
+    
+    // Build difference table
+    for (int j = 1; j &lt; n; j++) {
+        for (int i = 0; i &lt; n - j; i++) {
+            diff[i][j] = diff[i+1][j-1] - diff[i][j-1];
+        }
+    }
+    
+    // Calculate interpolated value
+    double sum = diff[0][0];
+    double term = 1.0;
+    double u_term = 1.0;
+    for (int i = 1; i &lt; n; i++) {
+        u_term *= (u - (i - 1));
+        term *= i;
+        sum += (u_term / term) * diff[0][i];
+    }
+    printf("Newton Forward value at x = %lf is: %lf\n", target_x, sum);
+}
+
+int main() {
+    double x[] = {10.0, 20.0, 30.0, 40.0};
+    double y[] = {1.1, 2.3, 3.9, 6.1};
+    int n = sizeof(x) / sizeof(x[0]);
+    newton_forward(x, y, n, 25.0);
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>3.6 Least Square Regression</b></h2>
+    <p>Regression finds a curve that best fits the general trend of data points by minimizing the sum of the squared residuals (errors).</p>
+
+    <h3><b>Fitting a Straight Line (y = a + bx) Normal Equations Derivation:</b></h3>
+    <p>Let the residual error at point <code>(x_i, y_i)</code> be:
+      <br><code>e_i = y_i - (a + b*x_i)</code>
+      <br>
+      <br>We minimize the sum of squared errors <code>S = Σ (e_i)^2</code>:
+      <br><code>S = Σ [ y_i - (a + b*x_i) ]^2</code>
+      <br>
+      <br>To minimize <code>S</code>, we take the partial derivatives with respect to <code>a</code> and <code>b</code> and set them to zero:</p>
+    <pre><code>
+∂S/∂a = -2 * Σ [ y_i - (a + b*x_i) ] = 0
+       => Σ y_i - n*a - b * Σ x_i = 0
+       => Σ y_i = n*a + b * Σ x_i    (Normal Equation 1)
+
+∂S/∂b = -2 * Σ x_i * [ y_i - (a + b*x_i) ] = 0
+       => Σ x_i*y_i - a * Σ x_i - b * Σ x_i^2 = 0
+       => Σ x_i*y_i = a * Σ x_i + b * Σ x_i^2   (Normal Equation 2)
+    </code></pre>
+
+    <h3><b>Linear Least Squares C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+
+void linear_regression(double x[], double y[], int n) {
+    double sum_x = 0.0, sum_y = 0.0, sum_xx = 0.0, sum_xy = 0.0;
+    
+    for (int i = 0; i &lt; n; i++) {
+        sum_x += x[i];
+        sum_y += y[i];
+        sum_xx += x[i] * x[i];
+        sum_xy += x[i] * y[i];
+    }
+    
+    // Solve system of 2 equations using Cramer's rule:
+    // n*a + sum_x*b = sum_y
+    // sum_x*a + sum_xx*b = sum_xy
+    
+    double det = n * sum_xx - sum_x * sum_x;
+    if (det == 0) {
+        printf("Error: Determinant is zero. Cannot fit line.\n");
+        return;
+    }
+    
+    double a = (sum_y * sum_xx - sum_xy * sum_x) / det;
+    double b = (n * sum_xy - sum_x * sum_y) / det;
+    
+    printf("Fitted Straight Line: y = %lf + %lfx\n", a, b);
+}
+
+int main() {
+    double x[] = {1.0, 2.0, 3.0, 4.0};
+    double y[] = {2.0, 5.0, 7.0, 10.0};
+    int n = sizeof(x) / sizeof(x[0]);
+    linear_regression(x, y, n);
+    return 0;
+}
+    </code></pre>
+  </div>
+</body>
+</html>

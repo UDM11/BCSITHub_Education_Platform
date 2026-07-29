@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 2: Intel 8085 Microprocessor - Detailed Study Guide</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0px;
+    }
+    h1 {
+        text-align: center;
+        color: #0f172a;
+        font-size: 20pt;
+        font-weight: bold;
+        margin-bottom: 40px;
+        border-bottom: 3px double #cbd5e1;
+        padding-bottom: 15px;
+    }
+    h2 {
+      color: #1e3a8a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 30px;
+      font-size: 15pt;
+    }
+    h3 {
+      color: #2563eb;
+      font-size: 13pt;
+      margin-top: 20px;
+    }
+    .section {
+      background: #ffffff;
+      padding: 30px;
+      margin-bottom: 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 25px;
+    }
+    li {
+      margin-bottom: 12px;
+    }
+    pre {
+      background-color: #0f172a;
+      color: #38bdf8;
+      padding: 20px;
+      overflow-x: auto;
+      border-radius: 8px;
+      font-size: 11pt;
+      margin: 20px 0;
+      font-family: Consolas, Monaco, monospace;
+      border-left: 4px solid #3b82f6;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      background-color: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #0f172a;
+    }
+    pre code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+      color: inherit;
+    }
+    .highlight {
+      background-color: #fef08a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .diagram-container {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .table-container {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 11pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .note-box {
+      background-color: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px; }
+      .section { padding: 20px; }
+      pre { font-size: 10pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 2: Intel 8085 Microprocessor [8 Hours] - Comprehensive Guide</b></h1>
+
+  <div class="section">
+    <h2><b>2.1 Functional Block Diagram and System Architecture</b></h2>
+    <p>The <b>Intel 8085</b> is a general-purpose, 8-bit microprocessor manufactured using NMOS technology. It is a 40-pin IC that operates on a single +5V DC power supply, has an internal clock frequency of 3 MHz, and addresses up to 64KB of memory.</p>
+
+    <h3><b>1. Internal Registers:</b></h3>
+    <ul>
+      <li><b>Accumulator (A Register):</b> An 8-bit register that acts as the primary destination for arithmetic, logical, and input/output data operations.</li>
+      <li><b>General-Purpose Registers (B, C, D, E, H, L):</b> Six 8-bit registers. They can be operated as single registers or in 16-bit register pairs: <code>BC</code>, <code>DE</code>, and <code>HL</code>. The HL pair is also used as a memory pointer (M) that stores the 16-bit memory address.</li>
+      <li><b>Program Counter (PC):</b> A 16-bit register that holds the memory address of the next instruction to be fetched.</li>
+      <li><b>Stack Pointer (SP):</b> A 16-bit register that points to the top of the stack area in RAM memory.</li>
+      <li><b>Temporary Register and W/Z Registers:</b> Used internally by the CPU for micro-operations; not accessible to programmers.</li>
+    </ul>
+
+    <h3><b>2. Flag Register (Flag Flip-Flops):</b></h3>
+    <p>An 8-bit register containing five 1-bit status flags that are set (1) or reset (0) after arithmetic and logical operations:</p>
+    <div class="diagram-container">
+Flag Byte Layout:
++----+----+----+----+----+----+----+----+
+| S  | Z  | X  | AC | X  | P  | X  | CY |
++----+----+----+----+----+----+----+----+
+  D7   D6   D5   D4   D3   D2   D1   D0
+  
+Where: S=Sign, Z=Zero, AC=Auxiliary Carry, P=Parity, CY=Carry, X=Undefined
+    </div>
+    
+    <h4><b>Mathematical Flag Example:</b></h4>
+    <p>Let's add <code>0x9C</code> (156) and <code>0x76</code> (118) in the Accumulator:</p>
+    <pre><code>
+   0x9C =  1001 1100
+ + 0x76 =  0111 0110
+ -------------------
+   Result= 0001 0010 (Hex 0x12, Dec 18) with Carry = 1
+   
+Flags set after this operation:
+ - Sign Flag (S): 0 (Since the result bit D7 is 0, indicating positive).
+ - Zero Flag (Z): 0 (Since the result is 0x12, not zero).
+ - Carry Flag (CY): 1 (Since there was a carry out from D7).
+ - Parity Flag (P): 0 (Result 00010010 has two 1s, which is even, so P = 1).
+ - Auxiliary Carry (AC): 1 (Carry generated from bit D3 to D4: 1100 + 0110 yields carry out of bit D3).
+    </code></pre>
+
+    <h3><b>3. Timing and Control Unit:</b></h3>
+    <p>Generates control and synchronization signals for execution. It includes status indicators <code>S0, S1, IO/M'</code> to identify machine cycle types:</p>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>IO/M'</th>
+            <th>S1</th>
+            <th>S0</th>
+            <th>Machine Cycle Type</th>
+            <th>Active Control Signal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>0</td>
+            <td>1</td>
+            <td>1</td>
+            <td>Opcode Fetch</td>
+            <td>RD' = 0</td>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>1</td>
+            <td>0</td>
+            <td>Memory Read</td>
+            <td>RD' = 0</td>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>0</td>
+            <td>1</td>
+            <td>Memory Write</td>
+            <td>WR' = 0</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>0</td>
+            <td>I/O Port Read</td>
+            <td>RD' = 0</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>0</td>
+            <td>1</td>
+            <td>I/O Port Write</td>
+            <td>WR' = 0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3><b>4. Interrupt Control Block:</b></h3>
+    <p>Provides hardware interrupt lines sorted in priority order:</p>
+    <ul>
+      <li><b>TRAP:</b> Non-maskable, vectored (0024H), highest priority. Triggered by edge-and-level.</li>
+      <li><b>RST 7.5:</b> Maskable, vectored (003CH), priority 2. Edge-triggered.</li>
+      <li><b>RST 6.5:</b> Maskable, vectored (0034H), priority 3. Level-triggered.</li>
+      <li><b>RST 5.5:</b> Maskable, vectored (002CH), priority 4. Level-triggered.</li>
+      <li><b>INTR:</b> Maskable, non-vectored, priority 5. Level-triggered. Requires externally supplied restart opcode.</li>
+    </ul>
+
+    <h3><b>5. Serial I/O Control (SIM & RIM):</b></h3>
+    <p>Uses <code>SID</code> (Serial Input Data) and <code>SOD</code> (Serial Output Data) pins. They are controlled by the <b>SIM</b> (Set Interrupt Mask) and <b>RIM</b> (Read Interrupt Mask) instructions.</p>
+  </div>
+
+  <div class="section">
+    <h2><b>2.2 Pin Configuration and Multiplexed Bus Demultiplexing</b></h2>
+    <p>The 8085 IC has 40 pins. To reduce pin counts, the lower-order address bus (A0-A7) is multiplexed with the data bus (D0-D7) into <b>AD0-AD7</b>.</p>
+
+    <h3><b>40-Pin Classification:</b></h3>
+    <ol>
+      <li><b>Address Bus (A8-A15):</b> Pins 21-28. High-order 8 bits of the memory address.</li>
+      <li><b>Address/Data Bus (AD0-AD7):</b> Pins 12-19. Multiplexed lower address/data.</li>
+      <li><b>Control & Status:</b> ALE (Pin 30), RD' (Pin 32), WR' (Pin 31), IO/M' (Pin 34), S0 (Pin 29), S1 (Pin 33).</li>
+      <li><b>Interrupts:</b> TRAP (Pin 6), RST 7.5 (Pin 7), RST 6.5 (Pin 8), RST 5.5 (Pin 9), INTR (Pin 10), INTA' (Pin 11).</li>
+      <li><b>DMA:</b> HOLD (Pin 39), HLDA (Pin 38).</li>
+      <li><b>Serial I/O:</b> SID (Pin 5), SOD (Pin 4).</li>
+      <li><b>Clock & Power:</b> X1, X2 (Pins 1, 2 - crystal input), CLK OUT (Pin 37), RESET IN' (Pin 36), RESET OUT (Pin 3), Vcc (Pin 40, +5V), Vss (Pin 20, Ground).</li>
+    </ol>
+
+    <h3><b>Demultiplexing the Bus (ALE & Latch Logic):</b></h3>
+    <p>During the first T-state (T1) of a machine cycle, the CPU outputs the lower 8 bits of address on AD0-AD7 and sets the <b>ALE (Address Latch Enable)</b> pin to 1. This pulse triggers a <b>74LS373 Octal Latch</b> to store the address bits. For the remaining T-states (T2-T4), the ALE drops to 0, allowing AD0-AD7 to be used for bidirectional data transfer while the latch maintains the lower address lines.</p>
+    <div class="diagram-container">
+   +---------------+
+   |               |---- A8-A15 -----------------------> High Address Bus (A8-A15)
+   |               |
+   |   8085 CPU    |---- AD0-AD7 ----+
+   |               |                 |
+   |               |                 v [D-Inputs]
+   |               |            +---------+
+   |               |            | 74LS373 |------------> Low Address Bus (A0-A7)
+   |      ALE      |------------|  Latch  | [Q-Outputs]
+   +---------------+            +---------+
+          | (ALE Latch Enable)
+          v
+    [Data lines split from AD0-AD7 bypass latch to data bus directly]
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><b>2.3 Instruction Classification and Addressing Modes</b></h2>
+    <p>The 8085 instruction set includes 74 instructions with 246 different opcodes. They are classified into 5 categories:</p>
+    
+    <h3><b>Instruction Categories:</b></h3>
+    <ul>
+      <li><b>Data Transfer:</b> Copies data from a source to a destination.
+        <br>Examples: <code>MOV A, B</code>, <code>MVI A, 32H</code>, <code>LDA 2050H</code>, <code>STA 3000H</code>, <code>LXI H, 4000H</code>.</li>
+      <li><b>Arithmetic:</b> Performs mathematical operations.
+        <br>Examples: <code>ADD B</code>, <code>ADI 05H</code>, <code>SUB C</code>, <code>INR A</code>, <code>INX H</code>, <code>DAD B</code>.</li>
+      <li><b>Logical:</b> Performs bitwise logical operations.
+        <br>Examples: <code>ANA B</code>, <code>ANI F0H</code>, <code>ORA C</code>, <code>XRA A</code>, <code>CMA</code>, <code>RLC</code>.</li>
+      <li><b>Branching:</b> Alters program flow conditionally or unconditionally.
+        <br>Examples: <code>JMP 2000H</code>, <code>JZ 2500H</code>, <code>CALL 3000H</code>, <code>RET</code>.</li>
+      <li><b>Machine Control:</b> Controls execution state.
+        <br>Examples: <code>NOP</code>, <code>HLT</code>, <code>EI</code>, <code>DI</code>.</li>
+    </ul>
+
+    <h3><b>Addressing Modes:</b></h3>
+    <ol>
+      <li><b>Immediate Addressing:</b> Data operand is specified directly in instruction. (e.g., <code>MVI A, 45H</code>).</li>
+      <li><b>Register Addressing:</b> Operands are general-purpose registers. (e.g., <code>ADD B</code>).</li>
+      <li><b>Direct Addressing:</b> The 16-bit address of data is directly stated. (e.g., <code>LDA 2500H</code>).</li>
+      <li><b>Register Indirect Addressing:</b> The HL register pair points to the memory location of data. (e.g., <code>MOV A, M</code>).</li>
+      <li><b>Implied Addressing:</b> The operand is implicit in the instruction opcode. (e.g., <code>CMA</code>).</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><b>2.4 Assembly Language Programming Examples</b></h2>
+    <p>Here are detailed, structured assembly programs for the Intel 8085 processor.</p>
+
+    <h3><b>Example 1: Bubble Sort Algorithm (Ascending Order)</b></h3>
+    <p>Sorts an array starting at memory address <code>3000H</code>. The first byte contains the array count.</p>
+    <pre><code>
+START:  LDA 3000H     ; Load array count into Accumulator
+        MOV C, A      ; Outer loop counter = array count
+        DCR C         ; Decrement outer loop count (N - 1 passes)
+PASS:   LXI H, 3001H  ; Initialize memory pointer to first element
+        MOV B, C      ; Inner loop counter = Outer loop counter
+LOOP:   MOV A, M      ; Get current element
+        INX H         ; Move pointer to next element
+        CMP M         ; Compare current element with next element
+        JC SKIP       ; If current < next, skip swapping
+        JZ SKIP       ; If equal, skip swapping
+        ; SWAP DATA IN MEMORY
+        MOV D, M      ; Load next element to D
+        MOV M, A      ; Write current element to next position
+        DCX H         ; Point back to current position
+        MOV M, D      ; Write next element (D) to current position
+        INX H         ; Restore pointer to next position
+SKIP:   DCR B         ; Decrement inner loop counter
+        JNZ LOOP      ; If inner loop != 0, repeat comparison
+        DCR C         ; Decrement outer loop counter
+        JNZ PASS      ; If outer loop != 0, perform next pass
+        HLT           ; Terminate program
+    </code></pre>
+
+    <h3><b>Bubble Sort Execution Trace Table:</b></h3>
+    <p>Assume array stored at <code>3001H-3003H</code> is <code>[09H, 02H, 05H]</code> (Count at <code>3000H = 03H</code>):</p>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Pass</th>
+            <th>Outer Counter (C)</th>
+            <th>Inner Counter (B)</th>
+            <th>Pointer (HL)</th>
+            <th>Compare values</th>
+            <th>Action</th>
+            <th>Array State</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pass 1</td>
+            <td>02</td>
+            <td>02</td>
+            <td>3001H</td>
+            <td>[3001H]=09H vs [3002H]=02H</td>
+            <td>Swap (09 > 02)</td>
+            <td>[02H, 09H, 05H]</td>
+          </tr>
+          <tr>
+            <td>Pass 1</td>
+            <td>02</td>
+            <td>01</td>
+            <td>3002H</td>
+            <td>[3002H]=09H vs [3003H]=05H</td>
+            <td>Swap (09 > 05)</td>
+            <td>[02H, 05H, 09H]</td>
+          </tr>
+          <tr>
+            <td>Pass 2</td>
+            <td>01</td>
+            <td>01</td>
+            <td>3001H</td>
+            <td>[3001H]=02H vs [3002H]=05H</td>
+            <td>Skip (02 &lt; 05)</td>
+            <td>[02H, 05H, 09H]</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3><b>Example 2: 16-Bit Division</b></h3>
+    <p>Divide 16-bit dividend at <code>2500H-2501H</code> by 8-bit divisor at <code>2502H</code>. Store quotient at <code>2503H</code> and remainder at <code>2504H</code>.</p>
+    <pre><code>
+LHLD 2500H    ; Load 16-bit dividend into HL register pair
+LDA 2502H     ; Load 8-bit divisor into register A
+MOV C, A      ; Move divisor to register C
+MVI B, 00H    ; Initialize quotient register B to 00H
+MOV A, H      ; Get high-byte of dividend
+
+DIV_HIGH:
+        CMP C         ; Compare High byte with divisor
+        JC DIV_LOW    ; If High byte < divisor, check low-byte
+        SUB C         ; Subtract divisor from High byte
+        INR B         ; Increment quotient count
+        JMP DIV_HIGH  ; Loop high subtraction
+
+DIV_LOW:
+        MOV H, A      ; Restore remainder to High byte position
+        MOV A, L      ; Get Low byte of dividend
+        LXI D, 0008H  ; Load bit counter (8 bits)
+
+LOOP_DIV:
+        DAD H         ; Shift HL left by 1 bit (Rotate dividend)
+        RAL           ; Shift accumulator left
+        SUB C         ; Subtract divisor
+        JNC SET_Q     ; If no borrow, quotient bit is 1
+        ADD C         ; Else, restore divisor
+        JMP DEC_COUNT
+SET_Q:  INR L         ; Set quotient LSB to 1
+DEC_COUNT:
+        DCX D
+        MOV A, D
+        ORA E
+        JNZ LOOP_DIV
+        SHLD 2503H    ; Save quotient in 2503H (L) and remainder in 2504H (H)
+        HLT
+    </code></pre>
+  </div>
+</body>
+</html>

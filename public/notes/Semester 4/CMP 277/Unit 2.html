@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 2: Introduction to Computer Networks</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 2: Introduction to Computer Networks [5 Hrs.]</b></h1>
+
+  <!-- 2.1 - 2.3 Network Basics & Topologies -->
+  <div class="section">
+    <h2><b>2.1 Network Definitions, Classification and Topologies</b></h2>
+
+    <h3>What is a Computer Network?</h3>
+    <p>
+      A <b>computer network</b> is a collection of autonomous computers and devices interconnected by
+      communication channels to facilitate data sharing, resource sharing, and communication.
+      Networks range from personal area connections to the global Internet.
+    </p>
+
+    <h3>Uses and Benefits of Computer Networks</h3>
+    <ul>
+      <li><b>Resource Sharing:</b> Sharing physical devices (printers, scanners, storage servers)
+        and logical resources (databases, applications, files) among network users.</li>
+      <li><b>Information Sharing:</b> Instantaneous transfer of files, reports, and emails
+        across geographical distances.</li>
+      <li><b>Enhanced Communication:</b> Instant messaging, video conferencing, IP telephony,
+        and collaborative workflows.</li>
+      <li><b>High Reliability:</b> Crucial data can be replicated on multiple machines, ensuring
+        system availability if one hardware component fails.</li>
+      <li><b>Cost Reduction:</b> Storing shared resources on central servers reduces the cost
+        of purchasing individual licenses or redundant peripherals.</li>
+      <li><b>Scalability:</b> System capacity can be expanded easily by adding more nodes
+        (computers) without interrupting existing network configurations.</li>
+    </ul>
+
+    <h3>Types of Networks (Geographical Scope)</h3>
+    <table>
+      <tr>
+        <th>Network Type</th>
+        <th>Abbreviation</th>
+        <th>Geographical Scope</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>Personal Area Network</td>
+        <td>PAN</td>
+        <td>Within 10 meters (human workspace)</td>
+        <td>Bluetooth connections (phone to earphones)</td>
+      </tr>
+      <tr>
+        <td>Local Area Network</td>
+        <td>LAN</td>
+        <td>Within a room, building, or campus (up to a few km)</td>
+        <td>College computer lab network, home Wi-Fi</td>
+      </tr>
+      <tr>
+        <td>Campus Area Network</td>
+        <td>CAN</td>
+        <td>Interconnected LANs across a university or corporate campus</td>
+        <td>Pokhara University campus network</td>
+      </tr>
+      <tr>
+        <td>Metropolitan Area Network</td>
+        <td>MAN</td>
+        <td>Across a city or large town (up to 50 km)</td>
+        <td>Cable television network, city municipal network</td>
+      </tr>
+      <tr>
+        <td>Wide Area Network</td>
+        <td>WAN</td>
+        <td>Across countries or continents</td>
+        <td>The global Internet, banking transaction networks</td>
+      </tr>
+    </table>
+
+    <h3>Network Topologies</h3>
+    <p>
+      Network topology refers to the geometric arrangement of links and nodes in a network.
+      It can be viewed physically (cable layout) or logically (data flow path).
+    </p>
+
+    <h4>1. Mesh Topology</h4>
+    <p>
+      Every node is connected to every other node in the network via a dedicated point-to-point link.
+    </p>
+    <ul>
+      <li><b>Cables Required (Full Mesh):</b> $N(N-1)/2$ lines, where $N$ is the number of nodes.</li>
+      <li><b>I/O Ports Required per Node:</b> $N-1$ ports.</li>
+      <li><b>Advantages:</b> High redundancy, robust (fault isolated), secure.</li>
+      <li><b>Disadvantages:</b> Extremely expensive, high cabling complexity.</li>
+    </ul>
+    <pre>
+       Full Mesh (4 Nodes):
+             Node A ─────── Node B
+               │   \       /   │
+               │    \     /    │
+               │     \   /     │
+               │      \ /      │
+               │       X       │
+               │      / \      │
+               │     /   \     │
+               │    /     \    │
+             Node C ─────── Node D
+    </pre>
+
+    <h4>2. Star Topology</h4>
+    <p>
+      Each node connects directly to a central controller (typically a Hub or Switch).
+      Nodes do not communicate directly with one another.
+    </p>
+    <ul>
+      <li><b>Cables Required:</b> $N$ lines.</li>
+      <li><b>Advantages:</b> Easy to configure, low cost, single cable failure doesn't affect others.</li>
+      <li><b>Disadvantages:</b> Single point of failure (if central hub fails, the whole network goes down).</li>
+    </ul>
+    <pre>
+       Star Topology:
+               Node A     Node B
+                 │         │
+                 ▼         ▼
+             ┌─────────────────┐
+             │ Central Switch  │
+             └─────────────────┘
+                 ▲         ▲
+                 │         │
+               Node C     Node D
+    </pre>
+
+    <h4>3. Bus Topology</h4>
+    <p>
+      A multipoint configuration where one long cable (the backbone) acts as a shared link.
+      Taps connect nodes to the backbone, and terminators are placed at the ends to prevent signal reflection.
+    </p>
+    <ul>
+      <li><b>Advantages:</b> Cheap, easy installation, minimal cabling.</li>
+      <li><b>Disadvantages:</b> Difficult reconfiguration, backbone failure disables the network, collision issues.</li>
+    </ul>
+    <pre>
+       Bus Topology:
+       [Terminator] ═══╦═════════╦═════════╦═════════╦═══ [Terminator]
+                       ║         ║         ║         ║
+                     Node A    Node B    Node C    Node D
+    </pre>
+
+    <h4>4. Ring Topology</h4>
+    <p>
+      Each node has a dedicated point-to-point connection with only the two nodes on either side.
+      Signals pass along the loop in one direction (using tokens to regulate transmission).
+    </p>
+    <ul>
+      <li><b>Advantages:</b> Simple installation, predictable token access delay.</li>
+      <li><b>Disadvantages:</b> Unidirectional traffic means a single break in the loop halts the entire network.</li>
+    </ul>
+    <pre>
+       Ring Topology:
+             Node A ─────── Node B
+               │             │
+               │             │
+             Node C ─────── Node D
+    </pre>
+
+    <h4>5. Hybrid Topology</h4>
+    <p>
+      A combination of two or more distinct topologies. For example, a Star-Bus network
+      where several star networks are linked via a bus backbone.
+    </p>
+  </div>
+
+  <!-- 2.4 - 2.5 Architectures, Protocols & Standards -->
+  <div class="section">
+    <h2><b>2.2 Client-Server vs. Peer-to-Peer, Protocols and Standards</b></h2>
+
+    <h3>Client/Server Architecture</h3>
+    <p>
+      An architecture in which one or more computers (servers) are dedicated to providing resources,
+      services, and data management to other computers (clients) on the network.
+    </p>
+    <ul>
+      <li><b>Role of Server:</b> Always active, listens for client requests, manages permissions.</li>
+      <li><b>Role of Client:</b> Active only when initiating requests, relies on server for files/services.</li>
+      <li><b>Advantages:</b> Centralized management, easy backup, robust security.</li>
+      <li><b>Disadvantages:</b> High cost, requires skilled admin, server overload bottlenecks performance.</li>
+    </ul>
+
+    <h3>Peer-to-Peer (P2P) Architecture</h3>
+    <p>
+      An architecture where every computer (peer) on the network has equal capabilities and responsibilities.
+      Peers act as both clients and servers to other nodes.
+    </p>
+    <ul>
+      <li><b>Advantages:</b> Low cost, no central server required, easy to set up, highly scalable.</li>
+      <li><b>Disadvantages:</b> Centralized administration is impossible, security is difficult, backup must be done on each node.</li>
+    </ul>
+
+    <h3>Protocols and Standards</h3>
+    <ul>
+      <li><b>Protocol:</b> A set of syntax, semantics, and timing rules governing communication.
+        <ul>
+          <li><i>Syntax:</i> Structure or format of data (e.g., first 8 bits = sender address).</li>
+          <li><i>Semantics:</i> Interpretation of bits (e.g., does "101" mean print or delete?).</li>
+          <li><i>Timing:</i> When to send data and how fast it should be sent.</li>
+        </ul>
+      </li>
+      <li><b>Standards:</b> Documented agreements that ensure interoperability.
+        <ul>
+          <li><i>De Facto standards:</i> Standards by custom or common use (e.g., TCP/IP).</li>
+          <li><i>De Jure standards:</i> Standards established by formal legislated bodies (e.g., ISO, IEEE, ITU-T).</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 2.6 - 2.7 OSI and TCP/IP Reference Models -->
+  <div class="section">
+    <h2><b>2.3 OSI and TCP/IP Reference Models</b></h2>
+
+    <h3>The OSI 7-Layer Reference Model</h3>
+    <p>
+      Developed by the International Organization for Standardization (ISO) in 1984, the
+      <b>Open Systems Interconnection (OSI)</b> model is a conceptual framework that standardizes
+      network communications into seven logical layers.
+    </p>
+    <pre>
+  ┌────────────────────────────────────────────────────────┐
+  │ 7. Application  ── Interface for user programs         │  PDU: Data
+  ├────────────────────────────────────────────────────────┤
+  │ 6. Presentation ── Encryption, syntax translation      │  PDU: Data
+  ├────────────────────────────────────────────────────────┤
+  │ 5. Session      ── Interhost dialog management         │  PDU: Data
+  ├────────────────────────────────────────────────────────┤
+  │ 4. Transport    ── End-to-end reliability, segmenting  │  PDU: Segment
+  ├────────────────────────────────────────────────────────┤
+  │ 3. Network      ── Logical routing, IP addresses       │  PDU: Packet
+  ├────────────────────────────────────────────────────────┤
+  │ 2. Data Link    ── Physical framing, MAC addresses     │  PDU: Frame
+  ├────────────────────────────────────────────────────────┤
+  │ 1. Physical     ── Binary transmission (bits on wire)  │  PDU: Bits
+  └────────────────────────────────────────────────────────┘
+    </pre>
+
+    <h3>OSI Layer Functions</h3>
+    <ol>
+      <li><b>Physical Layer:</b> Coordinates transmission of unstructured raw bit streams over physical media. Deals with voltage levels, data rates, cables, and pin layouts.</li>
+      <li><b>Data Link Layer:</b> Organizes raw bits into <i>frames</i>. Provides node-to-node delivery, error control (CRC), flow control, and access control (MAC addresses).</li>
+      <li><b>Network Layer:</b> Routes <i>packets</i> across multiple networks. Responsible for source-to-destination routing, logical addressing (IP addresses), and fragmentation.</li>
+      <li><b>Transport Layer:</b> Splits data into <i>segments</i>. Provides end-to-end flow control, error recovery, port addressing, and connection management (TCP/UDP).</li>
+      <li><b>Session Layer:</b> Establishes, maintains, and synchronizes conversations between applications.</li>
+      <li><b>Presentation Layer:</b> Resolves syntax differences. Handles data formatting, compression, translation, and encryption/decryption.</li>
+      <li><b>Application Layer:</b> Acts as the entry point for application software to access network services (HTTP, DNS, SMTP).</li>
+    </ol>
+
+    <h3>OSI vs. TCP/IP Comparison</h3>
+    <table>
+      <tr>
+        <th>Feature</th>
+        <th>OSI Model</th>
+        <th>TCP/IP Model</th>
+      </tr>
+      <tr>
+        <td>Number of Layers</td>
+        <td>7 Layers</td>
+        <td>4 or 5 Layers</td>
+      </tr>
+      <tr>
+        <td>Introduction</td>
+        <td>Developed by ISO (1984)</td>
+        <td>Developed by ARPANET/DoD (prior to OSI)</td>
+      </tr>
+      <tr>
+        <td>Philosophy</td>
+        <td>Strictly conceptual, prescriptive</td>
+        <td>Practical, protocol-driven</td>
+      </tr>
+      <tr>
+        <td>Upper Layers</td>
+        <td>Application, Presentation, Session are separate</td>
+        <td>Merged into a single Application Layer</td>
+      </tr>
+      <tr>
+        <td>Lower Layers</td>
+        <td>Data Link and Physical separate</td>
+        <td>Merged as Network Access Layer (in 4-layer model)</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 2.8 - 2.9 Hardware & Commands -->
+  <div class="section">
+    <h2><b>2.4 Networking Hardware and Troubleshooting Commands</b></h2>
+
+    <h3>Networking Hardware Components</h3>
+    <ul>
+      <li><b>Network Interface Card (NIC):</b> A hardware component (internal or USB) that connects
+        a device to the transmission medium. Every NIC has a unique 48-bit physical address
+        burned into its ROM, known as the <b>MAC Address</b>.</li>
+      <li><b>Hub:</b> A Layer 1 multiport repeater. It receives an electrical signal on one port and
+        blindly broadcasts it to all other ports.
+        <br><span class="warning">Creates a single large collision domain and broadcast domain.</span></li>
+      <li><b>Repeater:</b> A Layer 1 device used to regenerate electrical signals that have faded
+        due to attenuation, extending the physical length of the network segment.</li>
+      <li><b>Switch:</b> A Layer 2 intelligent device. It reads incoming frames' destination MAC addresses
+        and forwards them only to the specific port connected to that destination node.
+        <br><span class="note">Each port of a switch is a separate collision domain. All ports share a single broadcast domain.</span></li>
+      <li><b>Bridge:</b> A legacy Layer 2 device with fewer ports than a switch, used to connect
+        two separate LAN segments.</li>
+      <li><b>Router:</b> A Layer 3 device that routes packets between different networks based on logical
+        addresses (IP addresses). It determines the best path for data to travel.
+        <br><span class="note">Routers block broadcasts. Each router interface is a separate collision domain and broadcast domain.</span></li>
+    </ul>
+
+    <h3>Basic Networking Commands</h3>
+    <p>
+      These commands are used in terminal environments (Windows Command Prompt, PowerShell, or Linux bash)
+      to troubleshoot network connectivity issues:
+    </p>
+
+    <h4>1. ipconfig / ifconfig</h4>
+    <p>Displays the IP configuration of all network adapters in the local machine.</p>
+    <pre>
+  C:\Users\Asus&gt; ipconfig
+
+  Windows IP Configuration
+
+  Ethernet adapter Ethernet0:
+     Connection-specific DNS Suffix  . : gateway.local
+     IPv4 Address. . . . . . . . . . . : 192.168.1.104
+     Subnet Mask . . . . . . . . . . . : 255.255.255.0
+     Default Gateway . . . . . . . . . : 192.168.1.1
+    </pre>
+
+    <h4>2. ping</h4>
+    <p>Sends ICMP Echo Request packets to test network connectivity to a destination host.</p>
+    <pre>
+  C:\Users\Asus&gt; ping 8.8.8.8
+
+  Pinging 8.8.8.8 with 32 bytes of data:
+  Reply from 8.8.8.8: bytes=32 time=45ms TTL=117
+  Reply from 8.8.8.8: bytes=32 time=46ms TTL=117
+  Reply from 8.8.8.8: bytes=32 time=42ms TTL=117
+
+  Ping statistics for 8.8.8.8:
+      Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+  Approximate round trip times in milli-seconds:
+      Minimum = 42ms, Maximum = 46ms, Average = 44ms
+    </pre>
+
+    <h4>3. tracert / traceroute</h4>
+    <p>Traces the path packets take to reach a destination host, showing each router (hop) along the route.</p>
+    <pre>
+  C:\Users\Asus&gt; tracert pokharauniversity.edu.np
+
+  Tracing route to pokharauniversity.edu.np [202.45.144.12] over a maximum of 30 hops:
+    1     1 ms    &lt;1 ms    &lt;1 ms  192.168.1.1
+    2     8 ms     7 ms     9 ms  10.120.0.1
+    3    12 ms    11 ms    11 ms  172.16.4.12
+    4    44 ms    43 ms    45 ms  202.45.144.12
+
+  Trace complete.
+    </pre>
+
+    <h4>4. arp</h4>
+    <p>Displays or modifies the Address Resolution Protocol (ARP) table, which maps IP addresses to physical MAC addresses.</p>
+    <pre>
+  C:\Users\Asus&gt; arp -a
+
+  Interface: 192.168.1.104 --- 0x10
+    Internet Address      Physical Address      Type
+    192.168.1.1           e0-d9-e3-12-a4-b6     dynamic
+    192.168.1.102         74-d4-35-9a-c1-d4     dynamic
+    192.168.1.255         ff-ff-ff-ff-ff-ff     static
+    </pre>
+
+    <h4>5. netstat</h4>
+    <p>Displays active TCP/UDP connections, listening ports, and ethernet statistics.</p>
+    <pre>
+  C:\Users\Asus&gt; netstat -an
+
+  Active Connections
+
+    Proto  Local Address          Foreign Address        State
+    TCP    0.0.0.0:80             0.0.0.0:0              LISTENING
+    TCP    192.168.1.104:54322    142.250.190.46:443     ESTABLISHED
+    UDP    0.0.0.0:5353           *:*
+    </pre>
+
+    <h4>6. nslookup</h4>
+    <p>Queries DNS servers to resolve domain names to IP addresses or vice versa.</p>
+    <pre>
+  C:\Users\Asus&gt; nslookup google.com
+
+  Server:  google-public-dns-a.google.com
+  Address:  8.8.8.8
+
+  Non-authoritative answer:
+  Name:    google.com
+  Addresses:  142.250.190.46
+    </pre>
+  </div>
+
+  <!-- Collision vs Broadcast Domain -->
+  <div class="section">
+    <h2><b>2.5 Deep Dive: Collision Domains vs. Broadcast Domains</b></h2>
+    <p>
+      Understanding the difference between collision domains and broadcast domains is crucial for
+      effective network design and troubleshooting:
+    </p>
+    <ul>
+      <li><b>Collision Domain:</b> A logical network segment where data packets can collide with
+        each other when sent on a shared medium. Collisions occur in hubs and half-duplex links.
+        Switches segment networks into separate collision domains per port.</li>
+      <li><b>Broadcast Domain:</b> A logical division of a computer network in which all nodes
+        can reach each other by broadcast at the data link layer. A broadcast frame is sent to
+        destination MAC <code>FF:FF:FF:FF:FF:FF</code>. Switches forward broadcasts out all ports.
+        Routers block broadcasts, thus defining broadcast domain boundaries.</li>
+    </ul>
+
+    <table>
+      <tr>
+        <th>Device</th>
+        <th>Collision Domains</th>
+        <th>Broadcast Domains</th>
+        <th>Operating OSI Layer</th>
+      </tr>
+      <tr>
+        <td>Hub / Repeater</td>
+        <td>1 (Shared across all ports)</td>
+        <td>1 (Shared across all ports)</td>
+        <td>Layer 1 (Physical)</td>
+      </tr>
+      <tr>
+        <td>Bridge</td>
+        <td>Separate per port (e.g., 2-port bridge = 2 collision domains)</td>
+        <td>1 (Shared across all ports)</td>
+        <td>Layer 2 (Data Link)</td>
+      </tr>
+      <tr>
+        <td>Switch</td>
+        <td>Separate per port (e.g., 24-port switch = 24 collision domains)</td>
+        <td>1 (Shared across all ports, unless VLANs are configured)</td>
+        <td>Layer 2 (Data Link)</td>
+      </tr>
+      <tr>
+        <td>Router</td>
+        <td>Separate per port</td>
+        <td>Separate per port (Blocks broadcasts)</td>
+        <td>Layer 3 (Network)</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Packet Encapsulation -->
+  <div class="section">
+    <h2><b>2.6 Packet Encapsulation and Decapsulation</b></h2>
+    <p>
+      As data moves down the sending device's OSI stack, each layer adds control information
+      (headers and sometimes trailers) to the data received from the layer above. This process
+      is called <b>encapsulation</b>.
+    </p>
+    <pre>
+  [Application Layer]       ─── Data (HTTP, SMTP)
+                                   │
+                                   ▼  (Add Transport Header)
+  [Transport Layer]         ─── Segment (TCP) / Datagram (UDP)
+                                   │
+                                   ▼  (Add Network Header)
+  [Network Layer]           ─── Packet (IP)
+                                   │
+                                   ▼  (Add Link Header & Trailer)
+  [Data Link Layer]         ─── Frame (Ethernet)
+                                   │
+                                   ▼  (Convert to electrical/optical signals)
+  [Physical Layer]          ─── Bits (0s and 1s)
+    </pre>
+    <ol>
+      <li><b>User Data:</b> The user initiates transmission (e.g., clicks a link).
+        Application data is created.</li>
+      <li><b>Segment/Datagram Creation:</b> The Transport layer adds a header containing port numbers,
+        sequencing, and checksums. The unit becomes a <i>Segment</i> (TCP) or <i>Datagram</i> (UDP).</li>
+      <li><b>Packet Creation:</b> The Network layer adds a header containing Source and Destination IP
+        addresses. The unit becomes a <i>Packet</i>.</li>
+      <li><b>Frame Creation:</b> The Data Link layer wraps the packet with a header containing Source and
+        Destination MAC addresses, and a trailer (FCS/CRC) containing error check sequences.
+        The unit becomes a <i>Frame</i>.</li>
+      <li><b>Bit Stream:</b> The Physical layer converts the frame into binary electrical, optical,
+        or electromagnetic signals (bits) and sends them over the transmission medium.</li>
+      <li><b>Decapsulation:</b> The reverse process occurs at the receiver. Each layer strips off its
+        respective header, verifies integrity, and passes the payload to the layer above.</li>
+    </ol>
+  </div>
+
+  <!-- Standards Organizations -->
+  <div class="section">
+    <h2><b>2.7 Global Standards Organizations</b></h2>
+    <p>
+      Standards are essential for ensuring that products from different manufacturers can communicate
+      successfully. The key organizations defining networking standards are:
+    </p>
+    <ul>
+      <li><b>ISO (International Organization for Standardization):</b> Best known for the OSI model.</li>
+      <li><b>IEEE (Institute of Electrical and Electronics Engineers):</b> Defines LAN/MAN standards,
+        notably the <b>IEEE 802 group</b>:
+        <ul>
+          <li><i>802.3:</i> Ethernet standards.</li>
+          <li><i>802.11:</i> Wireless LAN (Wi-Fi) standards.</li>
+          <li><i>802.15:</i> Wireless PAN (Bluetooth, Zigbee).</li>
+        </ul>
+      </li>
+      <li><b>ITU-T (International Telecommunication Union - Telecommunication sector):</b> Defines
+        standards for telecommunication, public mail, and telegraph systems.</li>
+      <li><b>IETF (Internet Engineering Task Force):</b> A large open international community of network
+        designers, operators, and researchers. They publish standards as <b>RFC (Request for Comments)</b>
+        documents (e.g., RFC 791 for IPv4).</li>
+      <li><b>ANSI (American National Standards Institute):</b> A non-profit organization coordinating
+        voluntary standards in the US.</li>
+    </ul>
+  </div>
+
+</body>
+</html>

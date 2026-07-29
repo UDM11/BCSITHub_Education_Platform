@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 4: Micro Operations - Comprehensive Notes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0px;
+    }
+    h1 {
+        text-align: center;
+        color: #0f172a;
+        font-size: 20pt;
+        font-weight: bold;
+        margin-bottom: 40px;
+        border-bottom: 3px double #cbd5e1;
+        padding-bottom: 15px;
+    }
+    h2 {
+      color: #1e3a8a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 30px;
+      font-size: 15pt;
+    }
+    h3 {
+      color: #2563eb;
+      font-size: 13pt;
+      margin-top: 20px;
+    }
+    .section {
+      background: #ffffff;
+      padding: 30px;
+      margin-bottom: 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 25px;
+    }
+    li {
+      margin-bottom: 12px;
+    }
+    pre {
+      background-color: #0f172a;
+      color: #38bdf8;
+      padding: 20px;
+      overflow-x: auto;
+      border-radius: 8px;
+      font-size: 11pt;
+      margin: 20px 0;
+      font-family: Consolas, Monaco, monospace;
+      border-left: 4px solid #3b82f6;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      background-color: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #0f172a;
+    }
+    pre code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+      color: inherit;
+    }
+    .highlight {
+      background-color: #fef08a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .diagram-container {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .table-container {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 11pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .note-box {
+      background-color: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px; }
+      .section { padding: 20px; }
+      pre { font-size: 10pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 4: Micro Operations [3 Hours] - Detailed Study Guide</b></h1>
+
+  <div class="section">
+    <h2><b>4.1 Register Transfer Language (RTL)</b></h2>
+    <p>A digital system is composed of registers, and the data operations performed on contents of registers are called micro-operations. To specify the symbolic transfer sequences and execution constraints, we use a symbolic language called <b>Register Transfer Language (RTL)</b>.</p>
+
+    <h3><b>Basic RTL Notation Rules:</b></h3>
+    <ul>
+      <li><b>Registers:</b> Represented by capital letters (e.g., <code>AR</code>, <code>PC</code>, <code>R1</code>). Individual bits can be specified inside parentheses (e.g., <code>R1(0-7)</code> for the low-order byte of R1).</li>
+      <li><b>Replacement/Transfer:</b> Denoted by an arrow <code><-</code>. The source is on the right, and the destination is on the left.
+        <br>Example: <code>R2 <- R1</code> (Copies contents of R1 into R2).</li>
+      <li><b>Control Function:</b> A conditional statement prefixing the transfer, separated by a colon <code>:</code>.
+        <br>Example: <code>P: R2 <- R1</code> (If control variable P = 1, transfer contents of R1 to R2).</li>
+      <li><b>Comma Separator:</b> Denotes micro-operations executed in parallel during the same clock cycle.
+        <br>Example: <code>T: R2 <- R1, AR <- PC</code>.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><b>4.2 Arithmetic Micro Operations and Hardware Design</b></h2>
+    <p>Arithmetic micro-operations operate on numeric data stored in registers. The fundamental arithmetic operations are: Addition, Subtraction, Increment, and Decrement.</p>
+
+    <h3><b>Detailed Arithmetic Hardware Circuit:</b></h3>
+    <p>A complete 4-bit Arithmetic Unit can be implemented using 4 Full Adders, 4 multiplexers, and XOR gates. The mode is selected using inputs S1 and S0 along with the carry input Cin:</p>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>S1</th>
+            <th>S0</th>
+            <th>Cin</th>
+            <th>Input Y to Adder</th>
+            <th>Output (D = A + Y + Cin)</th>
+            <th>Arithmetic Operation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>B</td>
+            <td>D = A + B</td>
+            <td>Add A and B</td>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>0</td>
+            <td>1</td>
+            <td>B</td>
+            <td>D = A + B + 1</td>
+            <td>Add A and B with carry</td>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>1</td>
+            <td>0</td>
+            <td>B'</td>
+            <td>D = A + B'</td>
+            <td>Subtract B from A with borrow</td>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>1</td>
+            <td>1</td>
+            <td>B'</td>
+            <td>D = A + B' + 1</td>
+            <td>Subtract B from A (2's complement)</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>D = A</td>
+            <td>Transfer A</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>0</td>
+            <td>1</td>
+            <td>0</td>
+            <td>D = A + 1</td>
+            <td>Increment A by 1</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>0</td>
+            <td>-1 (all 1s)</td>
+            <td>D = A - 1</td>
+            <td>Decrement A by 1</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>-1 (all 1s)</td>
+            <td>D = A</td>
+            <td>Transfer A</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3><b>ASCII stages of Binary Adder-Subtractor:</b></h3>
+    <div class="diagram-container">
+                    [Mode Control M]
+                           |
+                           v
+              Bi --------+ |
+                         | |
+                         v v
+                      +-------+
+                      |  XOR  |
+                      +---+---+
+                          | (Y bit input)
+       Ai ----------+     |     +--------- (Carry In Cin)
+                    |     |     |
+                    v     v     v
+                  +-----------------+
+                  |    Full Adder   |
+                  +---+---------+---+
+                      |         |
+                      v         v
+                  [Sum Si]   [Carry Out Cout]
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><b>4.3 Logic Micro Operations and Practical Applications</b></h2>
+    <p>Logic micro-operations treat each bit in a register independently (no carry is generated). They are used for bit-level manipulation.</p>
+
+    <h3><b>Hardware Stage of Logic Unit:</b></h3>
+    <p>A single stage of a logic unit is designed using a 4-to-1 multiplexer that selects between logical combinations of bits Ai and Bi:</p>
+    <div class="diagram-container">
+   Ai, Bi ----> [ AND gate ] ----> Input 0 (S1=0, S0=0)
+   Ai, Bi ----> [ OR gate  ] ----> Input 1 (S1=0, S0=1)  +---------+
+   Ai, Bi ----> [ XOR gate ] ----> Input 2 (S1=1, S0=0) -| 4-to-1  |----> Output [Ei]
+   Ai --------> [ NOT gate ] ----> Input 3 (S1=1, S0=1)  |   MUX   |
+                                                         +----+----+
+                                                              |
+                                                    Select lines (S1, S0)
+    </div>
+
+    <h3><b>Logic Applications with 8-Bit Examples:</b></h3>
+    <p>Let Register <code>A = 1010 1100</code> (Original Data).</p>
+    <ul>
+      <li><b>1. Selective Set:</b> Force selected bits to 1. Uses the <b>OR</b> operation with a mask.
+        <br>Let Mask <code>B = 1111 0000</code>.
+        <br><code>A OR B = 1010 1100 OR 1111 0000 = 1111 1100</code> (first 4 bits set to 1, others unchanged).</li>
+      <li><b>2. Selective Complement:</b> Toggle/invert selected bits. Uses the <b>XOR</b> operation with a mask.
+        <br>Let Mask <code>B = 1111 0000</code>.
+        <br><code>A XOR B = 1010 1100 XOR 1111 0000 = 0101 1100</code> (first 4 bits inverted).</li>
+      <li><b>3. Selective Clear:</b> Force selected bits to 0. Uses the <b>AND</b> operation with a complemented mask.
+        <br>Let Mask <code>B = 1111 0000</code>.
+        <br><code>A AND B' = 1010 1100 AND 0000 1111 = 0000 1100</code> (first 4 bits cleared).</li>
+      <li><b>4. Masking:</b> Preserves selected bits while clearing others. Uses the <b>AND</b> operation.
+        <br>Let Mask <code>B = 0000 1111</code>.
+        <br><code>A AND B = 1010 1100 AND 0000 1111 = 0000 1100</code> (cleared first 4 bits, preserved last 4).</li>
+      <li><b>5. Insert:</b> Writes a new bit configuration into a register field.
+        <br>Step 1: Mask off current bits: <code>A = A AND 0000 1111 = 0000 1100</code>.
+        <br>Step 2: OR with new value (e.g., 0101): <code>A = A OR 0101 0000 = 0101 1100</code>.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><b>4.4 Shift Micro Operations and Overflow Detection</b></h2>
+    <p>Shift operations shift the bits of a register left or right. They are used for serial transfer and fast multiplication/division.</p>
+
+    <h3><b>1. Logical Shifts:</b></h3>
+    <p>Insert 0 into the serial input position.
+      <br>Logical Shift Right (<code>shr R1</code>): <code>0 -> MSB...LSB -> Out</code>
+      <br>Logical Shift Left (<code>shl R1</code>): <code>Out <- MSB...LSB <- 0</code></p>
+
+    <h3><b>2. Circular Shifts (Rotate):</b></h3>
+    <p>Bits shifted out are circulated back into the opposite end.
+      <br>Circular Shift Right (<code>cir R1</code>): LSB is moved to MSB.
+      <br>Circular Shift Left (<code>cil R1</code>): MSB is moved to LSB.</p>
+
+    <h3><b>3. Arithmetic Shifts:</b></h3>
+    <p>Shift signed numeric data.
+      <br><b>Arithmetic Shift Right (<code>ashr</code>):</b> Shifts data right but preserves the sign bit (MSB). This is equivalent to dividing the signed number by 2.
+      <br><b>Arithmetic Shift Left (<code>ashl</code>):</b> Shifts data left and inserts 0 into LSB. The sign bit (MSB) is replaced by bit D6.
+      <br><i>Overflow Hazard:</i> If the sign bit changes during an arithmetic left shift, an <b>Arithmetic Overflow</b> occurs. 
+      <br><b>Overflow Detector Logic:</b> An overflow flip-flop <code>V</code> is set if the sign bit changes: <code>V = Rn-1 XOR Rn-2</code> (where Rn-1 is the sign bit, and Rn-2 is the bit shifting into it).</p>
+  </div>
+
+  <div class="section">
+    <h2><b>4.5 Arithmetic Logic Shift Unit (ALSU) Stage</b></h2>
+    <p>An <b>ALSU</b> combines arithmetic, logic, and shift stages into a single unit. Below is the selection logic table for a typical stage:</p>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>S3</th>
+            <th>S2</th>
+            <th>S1</th>
+            <th>S0</th>
+            <th>Cin</th>
+            <th>Output Operation Selected</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>F = A + B (Addition)</td>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>1</td>
+            <td>1</td>
+            <td>F = A - B (Subtraction)</td>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>0</td>
+            <td>1</td>
+            <td>0</td>
+            <td>1</td>
+            <td>F = A + 1 (Increment)</td>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>1</td>
+            <td>0</td>
+            <td>0</td>
+            <td>X</td>
+            <td>F = A AND B (Bitwise AND)</td>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>1</td>
+            <td>0</td>
+            <td>1</td>
+            <td>X</td>
+            <td>F = A OR B (Bitwise OR)</td>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>1</td>
+            <td>1</td>
+            <td>0</td>
+            <td>X</td>
+            <td>F = A XOR B (Bitwise XOR)</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>0</td>
+            <td>X</td>
+            <td>X</td>
+            <td>X</td>
+            <td>F = shr A (Shift Right A)</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>X</td>
+            <td>X</td>
+            <td>X</td>
+            <td>F = shl A (Shift Left A)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

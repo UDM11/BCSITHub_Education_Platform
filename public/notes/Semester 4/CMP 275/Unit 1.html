@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 1: Introduction to Microprocessor - Comprehensive Notes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0px;
+    }
+    h1 {
+        text-align: center;
+        color: #0f172a;
+        font-size: 20pt;
+        font-weight: bold;
+        margin-bottom: 40px;
+        border-bottom: 3px double #cbd5e1;
+        padding-bottom: 15px;
+    }
+    h2 {
+      color: #1e3a8a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 30px;
+      font-size: 15pt;
+    }
+    h3 {
+      color: #2563eb;
+      font-size: 13pt;
+      margin-top: 20px;
+    }
+    .section {
+      background: #ffffff;
+      padding: 30px;
+      margin-bottom: 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 25px;
+    }
+    li {
+      margin-bottom: 12px;
+    }
+    pre {
+      background-color: #0f172a;
+      color: #38bdf8;
+      padding: 20px;
+      overflow-x: auto;
+      border-radius: 8px;
+      font-size: 11pt;
+      margin: 20px 0;
+      font-family: Consolas, Monaco, monospace;
+      border-left: 4px solid #3b82f6;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      background-color: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #0f172a;
+    }
+    pre code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+      color: inherit;
+    }
+    .highlight {
+      background-color: #fef08a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .diagram-container {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .table-container {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 11pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .note-box {
+      background-color: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px; }
+      .section { padding: 20px; }
+      pre { font-size: 10pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 1: Introduction to Microprocessor [9 Hours] - Detailed Study Guide</b></h1>
+
+  <div class="section">
+    <h2><b>1.1 Introduction, Basic Terminology, and System Architecture</b></h2>
+    <p>A <b>microprocessor</b> is a multipurpose, programmable, clock-driven, register-based electronic integrated circuit (IC) that acts as the CPU of a computer system. It reads binary instructions from a storage device called memory, accepts binary data as input, processes data according to those instructions, and provides results as output.</p>
+    
+    <h3><b>Key Operational Concepts:</b></h3>
+    <ul>
+      <li><b>Multipurpose:</b> The processor is not hardwired for a single application; it can execute varied software algorithms.</li>
+      <li><b>Clock-Driven:</b> The processor requires a clock signal to synchronize all internal operations. The clock frequency (measured in Megahertz or Gigahertz) dictates the instruction execution speed.</li>
+      <li><b>Register-Based:</b> The CPU contains high-speed internal memory cells (registers) to temporarily hold addresses, instruction opcodes, and intermediate calculation data.</li>
+    </ul>
+
+    <h3><b>Basic Block Diagram of a Computer System:</b></h3>
+    <p>A typical computer system has three main hardware components connected by system buses:</p>
+    <div class="diagram-container">
++-------------------------+
+|      INPUT DEVICES      |
+|  (Keyboard, Mouse, etc.)|
++------------+------------+
+             |
+             v (Data Input)
++------------+--------------------------------------------------------+
+|                          MICROPROCESSOR (CPU)                       |
+|                                                                     |
+|   +--------------------+  +--------------------+  +-------------+   |
+|   |                    |  |                    |  |             |   |
+|   |  ARITHMETIC LOGIC  |  |  INTERNAL REGISTER |  |   CONTROL   |   |
+|   |     UNIT (ALU)     |<=>|     ARRAY/STACK    |<=>|     UNIT    |   |
+|   |                    |  |                    |  |    (CU)     |   |
+|   +--------------------+  +--------------------+  +-------------+   |
++------------+---------------------------------------------+----------+
+             |                                             ^
+             | (Address / Control / Data Bus)              |
+             v                                             v
++------------+------------+                  +-------------+----------+
+|      OUTPUT DEVICES     |                  |      MEMORY SYSTEM     |
+|   (Monitor, Printer)    |                  |  (RAM, ROM, Cache)     |
++-------------------------+                  +------------------------+
+    </div>
+
+    <h3><b>Evolutionary Generations of Microprocessors:</b></h3>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Generation</th>
+            <th>Era</th>
+            <th>Data Width</th>
+            <th>Representative Chips</th>
+            <th>Transistors Count</th>
+            <th>Max RAM Size</th>
+            <th>Key Features</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>First</td>
+            <td>1971 - 1973</td>
+            <td>4-bit / 8-bit</td>
+            <td>Intel 4004, 8008</td>
+            <td>2,300 - 3,500</td>
+            <td>640 bytes</td>
+            <td>PMOS Technology, low speed, mechanical calculators.</td>
+          </tr>
+          <tr>
+            <td>Second</td>
+            <td>1974 - 1978</td>
+            <td>8-bit</td>
+            <td>Intel 8080, 8085, Motorola 6800</td>
+            <td>8,500 - 20,000</td>
+            <td>64 KB</td>
+            <td>NMOS Technology, 3-6 MHz clock speed, DMA support.</td>
+          </tr>
+          <tr>
+            <td>Third</td>
+            <td>1978 - 1980</td>
+            <td>16-bit</td>
+            <td>Intel 8086, 8088, 80186, Zilog Z8000</td>
+            <td>29,000</td>
+            <td>1 MB</td>
+            <td>HMOS Technology, instruction queue (pipelining), segment registers.</td>
+          </tr>
+          <tr>
+            <td>Fourth</td>
+            <td>1981 - 1995</td>
+            <td>32-bit</td>
+            <td>Intel 80386, 80486, Motorola 68020</td>
+            <td>275,000 - 1.2 Million</td>
+            <td>4 GB</td>
+            <td>CMOS Technology, cache memory, paging hardware, built-in coprocessor.</td>
+          </tr>
+          <tr>
+            <td>Fifth</td>
+            <td>1995 - Present</td>
+            <td>64-bit</td>
+            <td>Pentium, Core i3/i5/i7/i9, AMD Ryzen, Apple M-series</td>
+            <td>Millions to Billions</td>
+            <td>TB / PB limits</td>
+            <td>Multi-core architectures, superscalar execution, branch prediction, Out-of-Order execution.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><b>1.2 System Bus Organization & Communication</b></h2>
+    <p>A <b>bus</b> is a shared collection of physical wires used to transmit signals between the microprocessor, memory chips, and I/O interface units. The shared communication structure is called the <b>System Bus Organization</b>.</p>
+
+    <h3><b>1. The Address Bus:</b></h3>
+    <ul>
+      <li><b>Direction:</b> Unidirectional. Signals originate only from the CPU.</li>
+      <li><b>Function:</b> Used by the microprocessor to select a specific memory location or I/O port address for data transfer.</li>
+      <li><b>Sizing:</b> The number of address lines determines the maximum memory capacity the CPU can address directly. If there are <code>N</code> address lines, the CPU can address <code>2^N</code> locations. 
+        <br>For example, the Intel 8085 has a 16-bit address bus, enabling it to access <code>2^16 = 65,536 bytes = 64KB</code> of memory. The Intel 8086 has a 20-bit address bus, accessing <code>2^20 = 1,048,576 bytes = 1MB</code>.</li>
+    </ul>
+
+    <h3><b>2. The Data Bus:</b></h3>
+    <ul>
+      <li><b>Direction:</b> Bidirectional. Data can flow into the CPU (read operation) or out of the CPU (write operation).</li>
+      <li><b>Function:</b> Used to transfer the actual data values between the registers of the CPU, memory, and peripheral chips.</li>
+      <li><b>Sizing:</b> The data bus width defines the word size of the processor. An 8-bit data bus (like 8085) transfers 1 byte per read/write cycle, while a 64-bit data bus transfers 8 bytes.</li>
+    </ul>
+
+    <h3><b>3. The Control Bus:</b></h3>
+    <ul>
+      <li><b>Direction:</b> Bidirectional/Unidirectional depending on lines.</li>
+      <li><b>Function:</b> Transmits control, status, and synchronization signals.</li>
+      <li><b>Key Signals:</b>
+        <ul>
+          <li><code>MEMR</code> (Memory Read): Initiates a memory read action.</li>
+          <li><code>MEMW</code> (Memory Write): Initiates a memory write action.</li>
+          <li><code>IOR</code> (I/O Read): Initiates a read action from an input port.</li>
+          <li><code>IOW</code> (I/O Write): Initiates a write action to an output port.</li>
+          <li><code>RDY</code> (Ready): Used by slow memories/I/O devices to insert Wait States.</li>
+          <li><code>ALE</code> (Address Latch Enable): Demultiplexes combined address/data buses.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3><b>Tri-State Logic and Bus Buffering:</b></h3>
+    <p>Because multiple devices share the same data and address buses, they must use <b>tri-state buffers</b> to prevent bus contention. A tri-state gate has three states: Logical 0, Logical 1, and High-Impedance (Hi-Z). In Hi-Z state, the device is electrically disconnected from the bus line, allowing another active device to communicate.</p>
+  </div>
+
+  <div class="section">
+    <h2><b>1.3 The Stored Program Concept & Control Unit Architectures</b></h2>
+    <p>The <b>Stored Program Concept</b> (originally defined by Von Neumann) mandates that instruction codes and data codes reside in the same physical memory space. This allows the computer to alter its execution path dynamically and treat programs as data.</p>
+
+    <h3><b>The Basic CPU Processing Cycle:</b></h3>
+    <p>The execution of any instruction consists of three basic phases:</p>
+    <div class="diagram-container">
+   +-----------------------------------------------------------------+
+   | 1. FETCH                                                        |
+   | Read opcode byte from memory address stored in Program Counter  |
+   | (PC) into Instruction Register (IR). Increment PC.             |
+   +-------------------------------+---------------------------------+
+                                   |
+                                   v
+   +-----------------------------------------------------------------+
+   | 2. DECODE                                                       |
+   | Control Unit translates opcode bits into specific control lines|
+   | and calculates memory addresses of operands.                    |
+   +-------------------------------+---------------------------------+
+                                   |
+                                   v
+   +-----------------------------------------------------------------+
+   | 3. EXECUTE                                                      |
+   | ALU performs operation, transfers data, or jumps to branches.   |
+   +-----------------------------------------------------------------+
+    </div>
+
+    <h3><b>Control Unit Implementations: Hardwired vs. Microprogrammed</b></h3>
+    <p>The Control Unit (CU) generates control sequences. It is implemented in one of two ways:</p>
+
+    <h3><b>Hardwired Control Unit:</b></h3>
+    <p>Uses digital circuit gates, decoders, and counter circuits to generate timing control pulses. The hardware wiring directly maps the instruction code to control line outputs.</p>
+    <ul>
+      <li><b>Speed:</b> Fast. Minimal propagation delays.</li>
+      <li><b>Design:</b> Complex to design and debug.</li>
+      <li><b>Flexibility:</b> Low. Changing instruction behavior requires physical IC layout redesign.</li>
+      <li><b>Use Case:</b> Preferred in RISC architectures to achieve single-cycle executions.</li>
+    </ul>
+
+    <h3><b>Microprogrammed Control Unit:</b></h3>
+    <p>Uses a microprogram stored in a dedicated internal memory segment called <b>Control Memory (ROM)</b>. Each macroinstruction (e.g., <code>ADD</code>) translates to an address in Control Memory, executing a microprogram consisting of several microinstructions.</p>
+    <ul>
+      <li><b>Speed:</b> Slow. Requires read operations from the internal Control ROM.</li>
+      <li><b>Design:</b> Highly structured, simple design.</li>
+      <li><b>Flexibility:</b> High. Updating or adding instructions only requires writing new microprogram bytes into Control ROM.</li>
+      <li><b>Use Case:</b> Preferred in CISC architectures to handle variable-length, complex operations.</li>
+    </ul>
+    
+    <div class="note-box">
+      <b>Key Difference Summary:</b> Hardwired CU uses hardware logic gates to optimize speed, while Microprogrammed CU uses software-like microcode stored in ROM to optimize instruction flexibility.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><b>1.4 SAP-1 (Simple As Possible - 1) Architecture</b></h2>
+    <p><b>SAP-1</b> is an 8-bit computer architecture designed to introduce computer organization, registers, control systems, and instruction cycles.</p>
+
+    <h3><b>SAP-1 Components:</b></h3>
+    <ul>
+      <li><b>Program Counter (PC):</b> A 4-bit register that keeps track of the next instruction's address. It counts from <code>0000</code> to <code>1111</code> (0 to 15 in decimal).</li>
+      <li><b>Input and MAR (Memory Address Register):</b> The MAR stores the address of the memory location currently being read or written.</li>
+      <li><b>RAM (Random Access Memory):</b> A 16x8 memory organization (16 addresses, each storing 8 bits of data/instructions).</li>
+      <li><b>Instruction Register (IR):</b> An 8-bit register. The upper 4 bits represent the Opcode, and the lower 4 bits represent the Address/Operand.</li>
+      <li><b>Controller-Sequence (Control Unit):</b> Generates the 12 control signals (CON word) to coordinate SAP-1 components.</li>
+      <li><b>Accumulator (Register A):</b> An 8-bit register that holds input/output data for ALU operations.</li>
+      <li><b>Adder-Subtracter (ALU):</b> Performs 8-bit addition or subtraction using 2's complement.</li>
+      <li><b>B Register:</b> Temporary register used to hold the second operand for ALU.</li>
+      <li><b>Output Register (Output Port):</b> Displays the result of processed data.</li>
+      <li><b>Binary Display:</b> Row of LEDs connected to the output register.</li>
+    </ul>
+
+    <h3><b>SAP-1 Control Word (CON Word):</b></h3>
+    <p>The Controller-Sequence generates a 12-bit control word to enable or disable different registers and buses:</p>
+    <pre><code>
+CON Word Bits:
+   +----+----+----+----+----+----+----+----+----+----+----+----+
+   | Cp | Ep | Lm | Er | Li | Ei | La | Ea | Su | Eu | Lb | Lo |
+   +----+----+----+----+----+----+----+----+----+----+----+----+
+   
+Where:
+   Cp : Program Counter Increment Flag (active-high)
+   Ep : Program Counter Enable onto Bus (active-high)
+   Lm : MAR Load Register Enable (active-low, Lm')
+   Er : RAM Read Enable (active-low, Er')
+   Li : IR Load Register Enable (active-low, Li')
+   Ei : IR Enable onto Bus (active-low, Ei')
+   La : Accumulator Load Register Enable (active-low, La')
+   Ea : Accumulator Enable onto Bus (active-high)
+   Su : Subtract Mode Select (0 = ADD, 1 = SUB)
+   Eu : ALU Enable onto Bus (active-high)
+   Lb : B Register Load Register Enable (active-low, Lb')
+   Lo : Output Register Load Register Enable (active-low, Lo')
+    </code></pre>
+
+    <h3><b>FETCH Cycle T-States (T1, T2, T3):</b></h3>
+    <p>The fetch cycle is identical for all instructions and takes 3 clock cycles:</p>
+    <ul>
+      <li><b>T1 (Address State):</b> Address in PC is loaded into MAR. (PC is enabled, MAR is loaded).
+        <br>Active Signals: <code>Ep = 1, Lm' = 0</code>
+        <br>Control Word: <code>0101 1111 0011</code> (CON = 5F3H)</li>
+      <li><b>T2 (Increment State):</b> PC is incremented by 1.
+        <br>Active Signals: <code>Cp = 1</code>
+        <br>Control Word: <code>1011 1111 0011</code> (CON = BF3H)</li>
+      <li><b>T3 (Memory State):</b> RAM contents at MAR address are read onto W-bus and loaded into IR.
+        <br>Active Signals: <code>Er' = 0, Li' = 0</code>
+        <br>Control Word: <code>0010 0111 0011</code> (CON = 273H)</li>
+    </ul>
+
+    <h3><b>EXECUTION Cycles (T4, T5, T6) for SAP-1 Instructions:</b></h3>
+    
+    <h4><b>1. LDA (Load Accumulator)</b></h4>
+    <ul>
+      <li><b>T4 (Address to MAR):</b> Lower 4 bits of IR (address) are loaded into MAR.
+        <br>Active Signals: <code>Ei' = 0, Lm' = 0</code> (CON = 1A3H)</li>
+      <li><b>T5 (RAM to Accumulator):</b> Data from RAM at selected address is loaded into Accumulator.
+        <br>Active Signals: <code>Er' = 0, La' = 0</code> (CON = 2C3H)</li>
+      <li><b>T6 (NOP):</b> No operation.
+        <br>Active Signals: None (CON = 3E3H)</li>
+    </ul>
+
+    <h4><b>2. ADD (Add to Accumulator)</b></h4>
+    <ul>
+      <li><b>T4 (Address to MAR):</b> Address from IR loaded into MAR.
+        <br>Active Signals: <code>Ei' = 0, Lm' = 0</code> (CON = 1A3H)</li>
+      <li><b>T5 (RAM to B Register):</b> Data from RAM loaded into B Register.
+        <br>Active Signals: <code>Er' = 0, Lb' = 0</code> (CON = 2E1H)</li>
+      <li><b>T6 (ALU Sum to Accumulator):</b> ALU output (addition mode) is enabled onto bus and loaded into Accumulator.
+        <br>Active Signals: <code>Eu = 1, La' = 0, Su = 0</code> (CON = 3F7H)</li>
+    </ul>
+
+    <h4><b>3. SUB (Subtract from Accumulator)</b></h4>
+    <ul>
+      <li><b>T4 (Address to MAR):</b> Address from IR loaded into MAR.
+        <br>Active Signals: <code>Ei' = 0, Lm' = 0</code> (CON = 1A3H)</li>
+      <li><b>T5 (RAM to B Register):</b> Data from RAM loaded into B Register.
+        <br>Active Signals: <code>Er' = 0, Lb' = 0</code> (CON = 2E1H)</li>
+      <li><b>T6 (ALU Difference to Accumulator):</b> ALU output (subtraction mode) is enabled onto bus and loaded into Accumulator.
+        <br>Active Signals: <code>Eu = 1, La' = 0, Su = 1</code> (CON = 3FFH)</li>
+    </ul>
+
+    <h4><b>4. OUT (Output Accumulator)</b></h4>
+    <ul>
+      <li><b>T4 (Accumulator to Output Register):</b> Accumulator contents are loaded into Output Register.
+        <br>Active Signals: <code>Ea = 1, Lo' = 0</code> (CON = 3F2H)</li>
+      <li><b>T5 (NOP):</b> No operation. (CON = 3E3H)</li>
+      <li><b>T6 (NOP):</b> No operation. (CON = 3E3H)</li>
+    </ul>
+
+    <h4><b>5. HLT (Halt)</b></h4>
+    <ul>
+      <li><b>T4:</b> Stops the clock generator. CPU enters standby. (CON = 3E3H with halt triggered)</li>
+      <li><b>T5:</b> NOP</li>
+      <li><b>T6:</b> NOP</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><b>1.5 SAP-2 Architecture and Advancements</b></h2>
+    <p><b>SAP-2</b> is a significant advancement over the SAP-1 model, addressing its limitations and creating a complete 8-bit microcomputer system.</p>
+
+    <h3><b>Key Advancements and Differences:</b></h3>
+    <ul>
+      <li><b>Address Space & RAM:</b> SAP-2 uses a 16-bit address bus and can access up to 64KB (65,536 bytes) of memory. This allows it to support larger programs and separate data regions.</li>
+      <li><b>Bidirectional Registers:</b> In SAP-2, registers like A, B, and C can both read from and write to the W-bus. They use bidirectional tri-state ports.</li>
+      <li><b>Additional Registers:</b>
+        <ul>
+          <li><b>C Register:</b> A new general-purpose register.</li>
+          <li><b>Flags Register:</b> Contains two condition flags: Zero flag (Z) and Sign flag (S). These allow conditional branching.</li>
+          <li><b>Stack Pointer (SP):</b> A 16-bit register allowing stack operations (PUSH/POP).</li>
+        </ul>
+      </li>
+      <li><b>Instruction Set Expansion:</b> SAP-2 supports a much larger set of instructions, including conditional jumps (JZ, JNZ, JM, JP), immediate loading (MVI), and logical operations (ANA, ORA, XRA).</li>
+      <li><b>Input/Output Ports:</b> Includes two 8-bit input ports and two 8-bit output ports, allowing interfacing with external peripherals.</li>
+    </ul>
+  </div>
+</body>
+</html>

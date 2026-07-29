@@ -259,54 +259,51 @@ export function PomodoroTimer() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50">
+    <div className="min-h-screen bg-slate-50/30">
       {/* Header */}
-      <div className={`bg-white shadow-sm border-b transition-all duration-300 ${isRunning ? 'border-l-4 border-l-red-500' : ''}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div className={`bg-white/85 backdrop-blur-md border-b sticky top-0 z-40 shadow-sm transition-all duration-300 ${isRunning ? 'border-l-4 border-l-rose-500' : 'border-slate-100'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4.5">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center space-x-4">
-              <Link to="/" className="flex items-center text-gray-600 hover:text-indigo-600 transition-colors">
-                <ArrowLeft className="w-5 h-5 mr-2" />
+              <Link to="/" className="flex items-center text-slate-600 hover:text-indigo-600 transition-colors text-sm font-semibold">
+                <ArrowLeft className="w-4 h-4 mr-1.5" />
                 Back to Home
               </Link>
-              <div className="h-6 w-px bg-gray-300" />
+              <div className="h-4 w-px bg-slate-200" />
               <div className="flex items-center">
-                <Timer className="w-6 h-6 text-indigo-600 mr-2" />
-                <h1 className="text-xl font-bold text-gray-900">Pomodoro Timer</h1>
+                <Timer className="w-5 h-5 text-indigo-600 mr-2" />
+                <h1 className="text-lg font-bold text-slate-800">Pomodoro Timer</h1>
                 {isRunning && (
                   <motion.div
-                    initial={{ opacity: 0, scale: 0 }}
+                    initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="ml-3 px-2 py-1 bg-red-100 text-red-600 text-xs font-medium rounded-full"
+                    className="ml-3 px-2.5 py-0.5 bg-rose-50 border border-rose-100/50 text-rose-600 text-xs font-bold rounded-full"
                   >
-                    Running
+                    Active
                   </motion.div>
                 )}
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
+              <button
                 onClick={() => setSoundEnabled(!soundEnabled)}
-                className="flex items-center"
-                size="sm"
+                className="flex items-center justify-center w-9 h-9 border border-slate-200 rounded-xl text-slate-500 hover:text-indigo-600 hover:border-indigo-500 transition-all duration-300 bg-white"
               >
                 {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
-              </Button>
-              <Button
-                variant="outline"
+              </button>
+              <button
                 onClick={() => setShowSettings(true)}
-                className="flex items-center"
+                className="flex items-center bg-white border border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-500 px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300"
               >
-                <Settings className="w-4 h-4 mr-2" />
+                <Settings className="w-4 h-4 mr-1.5" />
                 Settings
-              </Button>
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Timer */}
           <div className="lg:col-span-2">
@@ -315,23 +312,23 @@ export function PomodoroTimer() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <Card className="bg-white shadow-xl border-0 overflow-hidden">
+              <Card hover={false} className="bg-white border border-slate-100 shadow-premium overflow-hidden">
                 <CardContent className="p-8 sm:p-12">
                   {/* Timer Type Selector */}
-                  <div className="flex flex-wrap justify-center gap-2 mb-8">
+                  <div className="flex flex-wrap justify-center gap-2 mb-10 bg-slate-50 p-1.5 rounded-2xl border border-slate-100/50 max-w-md mx-auto">
                     {Object.entries(TIMER_TYPES).map(([key, type]) => (
                       <motion.button
                         key={key}
                         onClick={() => switchTimerType(key as any)}
-                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                        className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 flex items-center ${
                           currentType === key
-                            ? `bg-gradient-to-r ${type.color} text-white shadow-lg`
-                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                            ? `bg-gradient-to-r ${type.color} text-white shadow-md`
+                            : 'text-slate-600 hover:bg-slate-100'
                         }`}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.97 }}
                       >
-                        <type.icon className="w-4 h-4 inline mr-2" />
+                        <type.icon className="w-3.5 h-3.5 mr-1.5" />
                         {type.label}
                       </motion.button>
                     ))}
@@ -352,16 +349,16 @@ export function PomodoroTimer() {
                           cy="50"
                           r="45"
                           stroke="currentColor"
-                          strokeWidth="2"
+                          strokeWidth="1.5"
                           fill="none"
-                          className="text-gray-200"
+                          className="text-slate-100"
                         />
                         <motion.circle
                           cx="50"
                           cy="50"
                           r="45"
                           stroke="url(#gradient)"
-                          strokeWidth="3"
+                          strokeWidth="2.5"
                           fill="none"
                           strokeLinecap="round"
                           strokeDasharray={`${2 * Math.PI * 45}`}
@@ -371,7 +368,7 @@ export function PomodoroTimer() {
                         <defs>
                           <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                             <stop offset="0%" stopColor="#ef4444" />
-                            <stop offset="100%" stopColor="#ec4899" />
+                            <stop offset="100%" stopColor="#8b5cf6" />
                           </linearGradient>
                         </defs>
                       </svg>
@@ -379,60 +376,57 @@ export function PomodoroTimer() {
                       {/* Timer Text */}
                       <div className="absolute inset-0 flex flex-col items-center justify-center">
                         <motion.div
-                          className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gray-900 mb-2"
+                          className="text-5xl sm:text-7xl font-bold text-slate-800 mb-2 tracking-tight"
                           key={timeLeft}
-                          initial={{ scale: 1.1 }}
+                          initial={{ scale: 1.05 }}
                           animate={{ scale: 1 }}
                           transition={{ duration: 0.2 }}
                         >
                           {formatTime(timeLeft)}
                         </motion.div>
-                        <div className={`text-sm sm:text-lg font-medium bg-gradient-to-r ${TIMER_TYPES[currentType].color} bg-clip-text text-transparent`}>
+                        <div className={`text-xs font-bold uppercase tracking-widest bg-gradient-to-r ${TIMER_TYPES[currentType].color} bg-clip-text text-transparent`}>
                           {TIMER_TYPES[currentType].label}
                         </div>
                       </div>
                     </motion.div>
 
                     {/* Control Buttons */}
-                    <div className="flex flex-col sm:flex-row justify-center gap-4">
-                      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
-                        <Button
+                    <div className="flex flex-col sm:flex-row justify-center gap-4 max-w-sm mx-auto">
+                      <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} className="w-full sm:flex-1">
+                        <button
                           onClick={toggleTimer}
-                          size="lg"
-                          className={`bg-gradient-to-r ${TIMER_TYPES[currentType].color} hover:opacity-90 text-white px-8 py-4 rounded-2xl shadow-lg w-full sm:w-auto`}
+                          className={`w-full flex items-center justify-center gap-2 bg-gradient-to-r ${TIMER_TYPES[currentType].color} hover:brightness-110 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg transition-all duration-300 border-0`}
                         >
                           {isRunning ? (
                             <>
-                              <Pause className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
-                              Pause
+                              <Pause className="w-5 h-5" />
+                              <span>Pause</span>
                             </>
                           ) : (
                             <>
-                              <Play className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
-                              Start
+                              <Play className="w-5 h-5" />
+                              <span>Start</span>
                             </>
                           )}
-                        </Button>
+                        </button>
                       </motion.div>
                       
-                      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
-                        <Button
+                      <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} className="w-full sm:flex-1">
+                        <button
                           onClick={resetTimer}
-                          variant="outline"
-                          size="lg"
-                          className="px-8 py-4 rounded-2xl border-2 w-full sm:w-auto"
+                          className="w-full flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-6 py-3.5 rounded-xl transition-all duration-300"
                         >
-                          <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
-                          Reset
-                        </Button>
+                          <RotateCcw className="w-5 h-5 text-slate-500" />
+                          <span>Reset</span>
+                        </button>
                       </motion.div>
                     </div>
                   </div>
 
                   {/* Progress Indicator */}
-                  <div className="text-center">
-                    <div className="text-sm text-gray-600 mb-2">Session Progress</div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="text-center border-t border-slate-50 pt-8 mt-4">
+                    <div className="text-xs font-bold text-slate-455 mb-2.5">Session Progress</div>
+                    <div className="w-full bg-slate-100 rounded-full h-2">
                       <motion.div
                         className={`h-2 rounded-full bg-gradient-to-r ${TIMER_TYPES[currentType].color}`}
                         initial={{ width: 0 }}
@@ -440,7 +434,7 @@ export function PomodoroTimer() {
                         transition={{ duration: 0.5 }}
                       />
                     </div>
-                    <div className="text-xs text-gray-500 mt-1">
+                    <div className="text-xs font-bold text-slate-500 mt-2">
                       {Math.round(getProgress())}% Complete
                     </div>
                   </div>
@@ -457,26 +451,26 @@ export function PomodoroTimer() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <Card className="bg-white shadow-lg border-0">
+              <Card hover={false} className="bg-white border border-slate-100 shadow-premium">
                 <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900">Today's Progress</h3>
-                    <Calendar className="w-5 h-5 text-indigo-600" />
+                  <div className="flex items-center justify-between mb-5 pb-3 border-b border-slate-50">
+                    <h3 className="font-bold text-slate-800 text-sm">Today's Progress</h3>
+                    <Calendar className="w-4 h-4 text-indigo-600" />
                   </div>
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-600">Sessions</span>
-                      <span className="font-bold text-2xl text-indigo-600">{stats.todaySessions}</span>
+                      <span className="text-xs font-semibold text-slate-500">Sessions</span>
+                      <span className="font-extrabold text-xl text-indigo-600">{stats.todaySessions}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-600">Focus Time</span>
-                      <span className="font-bold text-2xl text-green-600">
+                      <span className="text-xs font-semibold text-slate-500">Focus Time</span>
+                      <span className="font-extrabold text-xl text-emerald-650">
                         {Math.round(stats.totalFocusTime / 60)}m
                       </span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-600">Streak</span>
-                      <span className="font-bold text-2xl text-orange-600">{stats.streak}</span>
+                      <span className="text-xs font-semibold text-slate-500">Streak</span>
+                      <span className="font-extrabold text-xl text-orange-600">{stats.streak}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -489,15 +483,15 @@ export function PomodoroTimer() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <Card className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-lg border-0">
+              <Card hover={false} className="bg-gradient-to-br from-indigo-600 via-purple-650 to-indigo-900 text-white shadow-premium border-0 rounded-2xl">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold">Achievement</h3>
-                    <Award className="w-5 h-5" />
+                    <h3 className="font-bold text-sm">Achievement</h3>
+                    <Award className="w-4 h-4 text-yellow-350" />
                   </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold mb-2">{completedCycles}</div>
-                    <div className="text-indigo-100">Cycles Completed</div>
+                  <div className="text-center py-2">
+                    <div className="text-4xl font-black text-yellow-300 mb-1">{completedCycles}</div>
+                    <div className="text-indigo-200 text-xs font-bold uppercase tracking-wider">Cycles Completed</div>
                   </div>
                 </CardContent>
               </Card>
@@ -509,22 +503,22 @@ export function PomodoroTimer() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <Card className="bg-white shadow-lg border-0">
+              <Card hover={false} className="bg-white border border-slate-100 shadow-premium">
                 <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900">Recent Sessions</h3>
-                    <BarChart3 className="w-5 h-5 text-indigo-600" />
+                  <div className="flex items-center justify-between mb-5 pb-3 border-b border-slate-50">
+                    <h3 className="font-bold text-slate-800 text-sm">Recent Sessions</h3>
+                    <BarChart3 className="w-4 h-4 text-indigo-600 animate-pulse" />
                   </div>
                   <div className="space-y-3">
                     {sessions.slice(-5).reverse().map((session) => (
-                      <div key={session.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                      <div key={session.id} className="flex items-center justify-between py-2.5 border-b border-slate-50 last:border-0">
                         <div className="flex items-center">
-                          <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${TIMER_TYPES[session.type].color} mr-3`} />
-                          <span className="text-sm text-gray-600">
+                          <div className={`w-2.5 h-2.5 rounded-full bg-gradient-to-r ${TIMER_TYPES[session.type].color} mr-3`} />
+                          <span className="text-xs font-bold text-slate-700">
                             {TIMER_TYPES[session.type].label}
                           </span>
                         </div>
-                        <div className="text-xs text-gray-500">
+                        <div className="text-xs font-bold text-slate-400">
                           {new Date(session.completedAt).toLocaleTimeString([], { 
                             hour: '2-digit', 
                             minute: '2-digit' 
@@ -533,8 +527,8 @@ export function PomodoroTimer() {
                       </div>
                     ))}
                     {sessions.length === 0 && (
-                      <div className="text-center text-gray-500 py-4">
-                        No sessions yet. Start your first timer!
+                      <div className="text-center text-slate-400 py-6 text-xs font-semibold">
+                        No sessions completed yet.
                       </div>
                     )}
                   </div>
@@ -551,32 +545,32 @@ export function PomodoroTimer() {
           transition={{ duration: 0.6, delay: 0.5 }}
           className="mt-12"
         >
-          <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-0 shadow-lg">
+          <Card hover={false} className="bg-gradient-to-r from-slate-50 to-indigo-50/20 border border-slate-100 shadow-premium">
             <CardContent className="p-8">
-              <div className="text-center mb-6">
-                <Zap className="w-8 h-8 text-indigo-600 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Pomodoro Tips</h3>
-                <p className="text-gray-600">Maximize your productivity with these proven techniques</p>
+              <div className="text-center mb-10">
+                <Zap className="w-6 h-6 text-indigo-600 mx-auto mb-3" />
+                <h3 className="text-xl font-bold text-slate-850 mb-2">Pomodoro Guidelines</h3>
+                <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Maximize your focus hours with these basic routines</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {[
-                  { icon: Target, title: "Stay Focused", tip: "Eliminate distractions during work sessions" },
-                  { icon: Coffee, title: "Take Breaks", tip: "Use breaks to rest and recharge your mind" },
-                  { icon: TrendingUp, title: "Track Progress", tip: "Monitor your daily productivity patterns" },
-                  { icon: CheckCircle, title: "Complete Tasks", tip: "Finish one task before starting another" }
+                  { icon: Target, title: "Stay Focused", tip: "Eliminate distractions during focus blocks." },
+                  { icon: Coffee, title: "Take Breaks", tip: "Get up, stretch, and relax your eyes." },
+                  { icon: TrendingUp, title: "Track Progress", tip: "Build a persistent streak day by day." },
+                  { icon: CheckCircle, title: "Finish Tasks", tip: "Commit completely to one task at a time." }
                 ].map((item, index) => (
                   <motion.div
                     key={item.title}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
+                    transition={{ duration: 0.5, delay: 0.6 + index * 0.05 }}
                     className="text-center"
                   >
-                    <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-                      <item.icon className="w-6 h-6 text-indigo-600" />
+                    <div className="w-11 h-11 bg-indigo-50 border border-indigo-100/50 rounded-xl flex items-center justify-center mx-auto mb-3">
+                      <item.icon className="w-5 h-5 text-indigo-600" />
                     </div>
-                    <h4 className="font-semibold text-gray-900 mb-2">{item.title}</h4>
-                    <p className="text-sm text-gray-600">{item.tip}</p>
+                    <h4 className="font-bold text-slate-800 text-sm mb-1">{item.title}</h4>
+                    <p className="text-xs text-slate-550 font-semibold leading-relaxed px-4">{item.tip}</p>
                   </motion.div>
                 ))}
               </div>
@@ -592,73 +586,73 @@ export function PomodoroTimer() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 z-50"
             onClick={() => setShowSettings(false)}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-2xl p-6 w-full max-w-md"
+              className="bg-white/95 backdrop-blur-lg border border-slate-100 rounded-2xl p-6 w-full max-w-md shadow-premium"
               onClick={(e) => e.stopPropagation()}
             >
-              <h3 className="text-xl font-bold text-gray-900 mb-6">Timer Settings</h3>
+              <h3 className="text-lg font-bold text-slate-800 mb-6 border-b border-slate-50 pb-3">Timer Configs</h3>
               
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-xs font-bold text-slate-550 mb-1.5 uppercase tracking-wider">
                     Work Duration (minutes)
                   </label>
                   <input
                     type="number"
                     value={customDurations.work}
                     onChange={(e) => setCustomDurations(prev => ({ ...prev, work: parseInt(e.target.value) || 25 }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 bg-white text-slate-800"
                     min="1"
                     max="60"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-xs font-bold text-slate-550 mb-1.5 uppercase tracking-wider">
                     Short Break (minutes)
                   </label>
                   <input
                     type="number"
                     value={customDurations.shortBreak}
                     onChange={(e) => setCustomDurations(prev => ({ ...prev, shortBreak: parseInt(e.target.value) || 5 }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 bg-white text-slate-800"
                     min="1"
                     max="30"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-xs font-bold text-slate-550 mb-1.5 uppercase tracking-wider">
                     Long Break (minutes)
                   </label>
                   <input
                     type="number"
                     value={customDurations.longBreak}
                     onChange={(e) => setCustomDurations(prev => ({ ...prev, longBreak: parseInt(e.target.value) || 15 }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 bg-white text-slate-800"
                     min="1"
                     max="60"
                   />
                 </div>
                 
-                <div className="flex items-center justify-between">
-                  <label className="text-sm font-medium text-gray-700">
+                <div className="flex items-center justify-between border-t border-slate-50 pt-4 mt-2">
+                  <label className="text-xs font-bold text-slate-550 uppercase tracking-wider">
                     Sound Notifications
                   </label>
                   <button
                     onClick={() => setSoundEnabled(!soundEnabled)}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                      soundEnabled ? 'bg-indigo-600' : 'bg-gray-200'
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
+                      soundEnabled ? 'bg-indigo-650' : 'bg-slate-200'
                     }`}
                   >
                     <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${
                         soundEnabled ? 'translate-x-6' : 'translate-x-1'
                       }`}
                     />
@@ -666,20 +660,19 @@ export function PomodoroTimer() {
                 </div>
               </div>
               
-              <div className="flex gap-3 mt-6">
-                <Button
+              <div className="flex gap-3 mt-6 border-t border-slate-50 pt-5">
+                <button
                   onClick={saveSettings}
-                  className="flex-1 bg-indigo-600 hover:bg-indigo-700"
+                  className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs py-3 rounded-xl shadow-sm transition-all duration-300"
                 >
                   Save Settings
-                </Button>
-                <Button
+                </button>
+                <button
                   onClick={() => setShowSettings(false)}
-                  variant="outline"
-                  className="flex-1"
+                  className="flex-1 bg-slate-100 hover:bg-slate-250 text-slate-700 font-semibold text-xs py-3 rounded-xl transition-all duration-300"
                 >
                   Cancel
-                </Button>
+                </button>
               </div>
             </motion.div>
           </motion.div>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 5: Control Unit & Central Processing Unit - Comprehensive Notes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0px;
+    }
+    h1 {
+        text-align: center;
+        color: #0f172a;
+        font-size: 20pt;
+        font-weight: bold;
+        margin-bottom: 40px;
+        border-bottom: 3px double #cbd5e1;
+        padding-bottom: 15px;
+    }
+    h2 {
+      color: #1e3a8a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 30px;
+      font-size: 15pt;
+    }
+    h3 {
+      color: #2563eb;
+      font-size: 13pt;
+      margin-top: 20px;
+    }
+    .section {
+      background: #ffffff;
+      padding: 30px;
+      margin-bottom: 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 25px;
+    }
+    li {
+      margin-bottom: 12px;
+    }
+    pre {
+      background-color: #0f172a;
+      color: #38bdf8;
+      padding: 20px;
+      overflow-x: auto;
+      border-radius: 8px;
+      font-size: 11pt;
+      margin: 20px 0;
+      font-family: Consolas, Monaco, monospace;
+      border-left: 4px solid #3b82f6;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      background-color: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #0f172a;
+    }
+    pre code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+      color: inherit;
+    }
+    .highlight {
+      background-color: #fef08a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .diagram-container {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .table-container {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 11pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .note-box {
+      background-color: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px; }
+      .section { padding: 20px; }
+      pre { font-size: 10pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 5: Control Unit and Central Processing Unit [9 Hours] - Detailed Study Guide</b></h1>
+
+  <div class="section">
+    <h2><b>5.1 Control Unit Architecture: Hardwired vs. Microprogrammed</b></h2>
+    <p>The <b>Control Unit (CU)</b> directs all operations inside the CPU by issuing appropriate control signals. There are two primary techniques for implementing the CU:</p>
+
+    <h3><b>1. Hardwired Control Unit:</b></h3>
+    <p>Implemented using combinational logic gates, counters, and decoders.
+      <br><b>Timing Signals:</b> An instruction opcode (e.g., bits 12-14 in IR) is decoded by a 3x8 decoder into one of eight outputs (D0-D7). A 4-bit Sequence Counter (SC) feeds a 4x16 decoder to produce 16 timing states (T0-T15). Control logic gates combine these decoded inputs to generate control outputs at specific clock ticks.</p>
+    <div class="diagram-container">
+   +------------+           +------------+
+   | Instruction|           |  Sequence  |
+   | Register   |           |  Counter   |
+   +-----+------+           +-----+------+
+         | (Opcode Bits)          |
+         v                        v
+    [3x8 Decoder]           [4x16 Decoder]
+     (D0 to D7)              (T0 to T15)
+         |                        |
+         +----------+  +----------+
+                    |  |
+                    v  v
+             +---------------+
+             | Control Logic |-----------> Output Control Signals
+             |     Gates     |
+             +---------------+
+    </div>
+
+    <h3><b>2. Microprogrammed Control Unit:</b></h3>
+    <p>Implemented by executing sequences of microcode stored in a Control Memory (ROM).</p>
+    <div class="diagram-container">
+                    +-----------------------------+
+                    |      Address Sequencer      |
+                    +--------------+--------------+
+                                   | (Next address)
+                                   v
+                    +-----------------------------+
+                    |  Control Address Reg (CAR)  |
+                    +--------------+--------------+
+                                   |
+                                   v
+                    +-----------------------------+
+                    |    Control Memory (ROM)     |
+                    +--------------+--------------+
+                                   |
+                                   v
+                    +-----------------------------+
+                    |  Control Buffer Reg (CBR)   |
+                    +--------------+--------------+
+                     |                          |
+                     v (Control Signals)        v (Address Field for next step)
+    </div>
+
+    <h3><b>Detailed Comparison Table:</b></h3>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Characteristic</th>
+            <th>Hardwired Control Unit</th>
+            <th>Microprogrammed Control Unit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Implementation</b></td>
+            <td>Hardware gates, decoders, flip-flops.</td>
+            <td>Microprogram stored in Control ROM.</td>
+          </tr>
+          <tr>
+            <td><b>Operational Speed</b></td>
+            <td>Extremely fast (no memory access delay).</td>
+            <td>Slower (requires reading from Control Memory).</td>
+          </tr>
+          <tr>
+            <td><b>Design Complexity</b></td>
+            <td>High. Difficult to layout and debug.</td>
+            <td>Low. Highly structured and systematic.</td>
+          </tr>
+          <tr>
+            <td><b>Instruction Expansion</b></td>
+            <td>Difficult (requires rewiring the chip).</td>
+            <td>Easy (requires writing new microcode).</td>
+          </tr>
+          <tr>
+            <td><b>Cost</b></td>
+            <td>High for custom IC structures.</td>
+            <td>Lower due to standardized ROM grids.</td>
+          </tr>
+          <tr>
+            <td><b>Use Case</b></td>
+            <td>RISC Processors (e.g., MIPS, ARM).</td>
+            <td>CISC Processors (e.g., x86 family).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><b>5.2 Microprogramming Concepts & Addressing Sequences</b></h2>
+    <p>A <b>microprogram</b> is a sequence of control words (microinstructions) that execute a macroinstruction. The <b>Address Sequencer</b> determines the address of the next microinstruction to fetch:</p>
+
+    <h3><b>Address Sequencing Sources:</b></h3>
+    <ol>
+      <li><b>Incrementing CAR:</b> The CAR is incremented by 1 (default next step).</li>
+      <li><b>Branching:</b> If conditional flags are met, jump to an address specified in the address field of the microinstruction.</li>
+      <li><b>Mapping:</b> Translate the macroinstruction opcode into a control memory address.
+        <br><i>Mapping Example:</i> If opcode is <code>1011</code>, mapping logic inserts a 0 at the start and 00 at the end to create a 7-bit Control Address: <code>0101100</code>.</li>
+      <li><b>Subroutine Call/Return:</b> Fetch address from return registers (SBR).</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><b>5.3 Symbolic and Binary Microprogramming</b></h2>
+    <p>A microinstruction format is divided into fields. A typical 20-bit microinstruction layout is:</p>
+    <div class="diagram-container">
+Microinstruction Format:
++--------+--------+--------+---------------+-------------+------------------+
+| F1 (3) | F2 (3) | F3 (3) | CD (2 bits)   | BR (2 bits) | AD (7 bits)      |
++--------+--------+--------+---------------+-------------+------------------+
+  F1, F2, F3: Micro-operation fields (Decoded)
+  CD: Condition Select (00=Always, 01=Carry, 10=Zero, 11=Sign)
+  BR: Branch Field (00=Jump, 01=Call, 10=Return, 11=Map)
+  AD: Address Field (Holds target Control Address)
+    </div>
+
+    <h3><b>Symbolic Microprogram Example (FETCH and ADD):</b></h3>
+    <p>Here is a symbolic representation of the microinstructions:</p>
+    <pre><code>
+// FETCH SEQUENCE:
+Address   Micro-operations     CD   BR    AD
+0000000   ORG 0                ; Start at address 0
+          ART, PCT             U    JMP   NEXT   ; AR <- PC
+          DRT, INC             U    JMP   NEXT   ; DR <- Memory, PC <- PC+1
+          IRT                  U    MAP          ; IR <- DR, Jump to Map address
+
+// ADD EXECUTION SEQUENCE (Opcode mapped to address 64):
+0100000   ORG 64               ; Add instruction address
+          ART                  U    JMP   NEXT   ; AR <- Address field of IR
+          DRT                  U    JMP   NEXT   ; DR <- Memory
+          ADD, LaT             U    JMP   FETCH  ; AC <- AC + DR, Return to Fetch
+    </code></pre>
+
+    <h3><b>Corresponding Binary Microprogram Table:</b></h3>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Microinstruction Description</th>
+            <th>F1</th>
+            <th>F2</th>
+            <th>F3</th>
+            <th>CD</th>
+            <th>BR</th>
+            <th>AD (Address)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>AR &lt;- PC</td>
+            <td>010</td>
+            <td>000</td>
+            <td>000</td>
+            <td>00</td>
+            <td>00</td>
+            <td>0000001</td>
+          </tr>
+          <tr>
+            <td>DR &lt;- Memory, PC &lt;- PC + 1</td>
+            <td>000</td>
+            <td>100</td>
+            <td>000</td>
+            <td>00</td>
+            <td>00</td>
+            <td>0000010</td>
+          </tr>
+          <tr>
+            <td>IR &lt;- DR, Map Opcode</td>
+            <td>000</td>
+            <td>000</td>
+            <td>110</td>
+            <td>00</td>
+            <td>11</td>
+            <td>0000000</td>
+          </tr>
+          <tr>
+            <td>AC &lt;- AC + DR, Jump Fetch</td>
+            <td>001</td>
+            <td>000</td>
+            <td>001</td>
+            <td>00</td>
+            <td>00</td>
+            <td>0000000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><b>5.4 Addressing Modes</b></h2>
+    <p>Addressing modes define how the instruction calculates the actual memory address (Effective Address, EA) of the data operand.</p>
+    <ul>
+      <li><b>Implied Mode:</b> Operand is implied in the instruction (e.g., <code>CMA</code>, EA not needed).</li>
+      <li><b>Immediate Mode:</b> Operand is specified directly in the instruction (e.g., <code>ADD 5</code>, EA = Address of operand field).</li>
+      <li><b>Register Mode:</b> Operand is in a register (e.g., <code>ADD R1</code>, EA = R1).</li>
+      <li><b>Register Indirect Mode:</b> Register contains the address of the operand (e.g., <code>ADD (R1)</code>, EA = M[R1]).</li>
+      <li><b>Direct Addressing Mode:</b> Instruction contains the memory address of the operand (e.g., <code>ADD 2500H</code>, EA = 2500H).</li>
+      <li><b>Indirect Addressing Mode:</b> Instruction contains an address that points to the actual address of the operand (e.g., <code>ADD [2500H]</code>, EA = M[2500H]).</li>
+      <li><b>Relative Addressing Mode:</b> Address is calculated relative to the Program Counter (e.g., <code>JMP +10</code>, EA = PC + 10).</li>
+      <li><b>Indexed Addressing Mode:</b> Effective address is calculated by adding an offset to an Index Register (e.g., <code>ADD X(R1)</code>, EA = X + R1).</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><b>5.5 RISC vs. CISC Design Philosophy</b></h2>
+    <p>CPU design strategies are divided into CISC and RISC:</p>
+    <ul>
+      <li><b>CISC (Complex Instruction Set Computer):</b>
+        <ul>
+          <li><b>Concept:</b> Minimizes instructions per program at the expense of cycles per instruction. It supports high-level complex operations directly in assembly.</li>
+          <li><b>Hardware:</b> Relies heavily on microprogrammed control units to decode instructions. Fewer general registers are available.</li>
+        </ul>
+      </li>
+      <li><b>RISC (Reduced Instruction Set Computer):</b>
+        <ul>
+          <li><b>Concept:</b> Minimizes clock cycles per instruction by simplifying instructions. Each instruction executes in exactly 1 cycle.</li>
+          <li><b>Hardware:</b> Relies on hardwired control units. Uses a large register file to minimize memory reads. Excellent for pipelining.</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>

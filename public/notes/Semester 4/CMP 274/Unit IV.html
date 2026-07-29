@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit IV: Numerical Differentiation & Integration - Comprehensive Notes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0px;
+    }
+    h1 {
+        text-align: center;
+        color: #0f172a;
+        font-size: 20pt;
+        font-weight: bold;
+        margin-bottom: 40px;
+        border-bottom: 3px double #cbd5e1;
+        padding-bottom: 15px;
+    }
+    h2 {
+      color: #1e3a8a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 30px;
+      font-size: 15pt;
+    }
+    h3 {
+      color: #2563eb;
+      font-size: 13pt;
+      margin-top: 20px;
+    }
+    .section {
+      background: #ffffff;
+      padding: 30px;
+      margin-bottom: 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 25px;
+    }
+    li {
+      margin-bottom: 12px;
+    }
+    pre {
+      background-color: #0f172a;
+      color: #38bdf8;
+      padding: 20px;
+      overflow-x: auto;
+      border-radius: 8px;
+      font-size: 11pt;
+      margin: 20px 0;
+      font-family: Consolas, Monaco, monospace;
+      border-left: 4px solid #3b82f6;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      background-color: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #0f172a;
+    }
+    pre code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+      color: inherit;
+    }
+    .highlight {
+      background-color: #fef08a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .diagram-container {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .table-container {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 11pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .note-box {
+      background-color: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px; }
+      .section { padding: 20px; }
+      pre { font-size: 10pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit IV: Numerical Differentiation & Integration [7 Hours] - Study Notes</b></h1>
+
+  <div class="section">
+    <h2><b>4.1 Numerical Differentiation</b></h2>
+    <p>Numerical differentiation calculates the derivative of a function at a point using values of the function. It is derived using Taylor series expansions or difference operators.</p>
+
+    <h3><b>Central Difference First-Derivative Derivation:</b></h3>
+    <p>Using Taylor expansions around <code>x</code> with step <code>h</code>:</p>
+    <pre><code>
+1) f(x + h) = f(x) + h*f'(x) + (h^2/2)*f''(x) + (h^3/6)*f'''(x) + ...
+2) f(x - h) = f(x) - h*f'(x) + (h^2/2)*f''(x) - (h^3/6)*f'''(x) + ...
+
+Subtracting equation 2 from equation 1:
+f(x + h) - f(x - h) = 2*h*f'(x) + (h^3/3)*f'''(x) + ...
+
+Solving for f'(x):
+f'(x) = [ f(x + h) - f(x - h) ] / (2*h)  -  (h^2/6)*f'''(c)
+
+This shows the Central Difference approximation has an error term of order O(h^2).
+    </code></pre>
+
+    <h3><b>Numerical Differentiation C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+// Function f(x) = sin(x)
+double f(double x) {
+    return sin(x);
+}
+
+int main() {
+    double x = 1.0; // Point to evaluate derivative
+    double h = 0.1; // Step size
+    
+    double forward_diff = (f(x + h) - f(x)) / h;
+    double backward_diff = (f(x) - f(x - h)) / h;
+    double central_diff = (f(x + h) - f(x - h)) / (2.0 * h);
+    double exact_val = cos(x); // True derivative of sin(x) is cos(x)
+    
+    printf("Exact derivative: %lf\n", exact_val);
+    printf("Forward Difference: %lf (Err: %e)\n", forward_diff, fabs(exact_val - forward_diff));
+    printf("Backward Difference: %lf (Err: %e)\n", backward_diff, fabs(exact_val - backward_diff));
+    printf("Central Difference: %lf (Err: %e)\n", central_diff, fabs(exact_val - central_diff));
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>4.2 Trapezoidal Rule</b></h2>
+    <p>Approximates the area under the curve using linear trapezoids over <code>n</code> subintervals of width <code>h = (b - a) / n</code>.</p>
+
+    <h3><b>Trapezoidal Rule C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+// Function f(x) = 1 / (1 + x^2)
+double f(double x) {
+    return 1.0 / (1.0 + x*x);
+}
+
+double trapezoidal(double a, double b, int n) {
+    double h = (b - a) / n;
+    double sum = f(a) + f(b);
+    
+    for (int i = 1; i &lt; n; i++) {
+        sum += 2.0 * f(a + i*h);
+    }
+    return (h / 2.0) * sum;
+}
+
+int main() {
+    double a = 0.0, b = 1.0;
+    int n = 6;
+    double integral = trapezoidal(a, b, n);
+    printf("Trapezoidal Integration value: %lf (True value: %lf)\n", integral, atan(1.0));
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>4.3 Simpson's 1/3 and 3/8 Rules</b></h2>
+    <p>Simpson's rules use higher-order polynomials to approximate the function over subintervals.</p>
+
+    <h3><b>Simpson's Rules C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+double f(double x) {
+    return 1.0 / (1.0 + x*x);
+}
+
+double simpson13(double a, double b, int n) {
+    if (n % 2 != 0) {
+        printf("Error: Simpson's 1/3 requires an even number of intervals.\n");
+        return -1.0;
+    }
+    double h = (b - a) / n;
+    double sum = f(a) + f(b);
+    
+    for (int i = 1; i &lt; n; i++) {
+        if (i % 2 == 0) {
+            sum += 2.0 * f(a + i*h);
+        } else {
+            sum += 4.0 * f(a + i*h);
+        }
+    }
+    return (h / 3.0) * sum;
+}
+
+double simpson38(double a, double b, int n) {
+    if (n % 3 != 0) {
+        printf("Error: Simpson's 3/8 requires intervals to be a multiple of 3.\n");
+        return -1.0;
+    }
+    double h = (b - a) / n;
+    double sum = f(a) + f(b);
+    
+    for (int i = 1; i &lt; n; i++) {
+        if (i % 3 == 0) {
+            sum += 2.0 * f(a + i*h);
+        } else {
+            sum += 3.0 * f(a + i*h);
+        }
+    }
+    return (3.0 * h / 8.0) * sum;
+}
+
+int main() {
+    double a = 0.0, b = 1.0;
+    printf("Simpson's 1/3: %lf\n", simpson13(a, b, 6));
+    printf("Simpson's 3/8: %lf\n", simpson38(a, b, 6));
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>4.4 Romberg Integration</b></h2>
+    <p>Romberg integration combines the Composite Trapezoidal Rule with Richardson Extrapolation to eliminate leading error terms, yielding highly accurate integration values.</p>
+
+    <h3><b>Romberg Integration C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+double f(double x) {
+    return 1.0 / (1.0 + x*x);
+}
+
+// Simple composite trapezoid helper
+double trapezoid_helper(double a, double b, int n) {
+    double h = (b - a) / n;
+    double sum = f(a) + f(b);
+    for (int i = 1; i &lt; n; i++) {
+        sum += 2.0 * f(a + i*h);
+    }
+    return (h / 2.0) * sum;
+}
+
+void romberg(double a, double b, int steps) {
+    double R[10][10];
+    
+    // Step 1: Initialize first column with basic trapezoid values
+    for (int i = 1; i &lt;= steps; i++) {
+        R[i][1] = trapezoid_helper(a, b, pow(2, i-1));
+    }
+    
+    // Step 2: Compute extrapolated values
+    for (int j = 2; j &lt;= steps; j++) {
+        for (int k = j; k &lt;= steps; k++) {
+            R[k][j] = R[k][j-1] + (R[k][j-1] - R[k-1][j-1]) / (pow(4, j-1) - 1.0);
+        }
+    }
+    
+    // Print Romberg Table
+    printf("\nRomberg Integration Table:\n");
+    for (int i = 1; i &lt;= steps; i++) {
+        for (int j = 1; j &lt;= i; j++) {
+            printf("%10.6f ", R[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    romberg(0.0, 1.0, 4);
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>4.5 Gaussian Quadrature (Two-Point Gauss Legendre)</b></h2>
+    <p>Gaussian Quadrature evaluates the function at optimized, unequally spaced points to maximize accuracy.</p>
+
+    <h3><b>Two-Point Gauss Legendre C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+// Function f(x) = x^2 + 1
+double f_func(double x) {
+    return x*x + 1.0;
+}
+
+double gauss_quadrature_2point(double a, double b) {
+    // Gauss-Legendre points and weights for interval [-1, 1]
+    double t0 = -1.0 / sqrt(3.0);
+    double t1 = 1.0 / sqrt(3.0);
+    double w0 = 1.0;
+    double w1 = 1.0;
+    
+    // Transform variables from [a, b] to [-1, 1]
+    double x0 = ((b - a) * t0 + (b + a)) / 2.0;
+    double x1 = ((b - a) * t1 + (b + a)) / 2.0;
+    double jacobian = (b - a) / 2.0;
+    
+    return jacobian * (w0 * f_func(x0) + w1 * f_func(x1));
+}
+
+int main() {
+    double a = 0.0, b = 2.0;
+    double integral = gauss_quadrature_2point(a, b);
+    printf("Gauss Quadrature (2-point) over [%lf, %lf] = %lf\n", a, b, integral);
+    return 0;
+}
+    </code></pre>
+  </div>
+</body>
+</html>

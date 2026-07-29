@@ -244,45 +244,48 @@ export function PastPapers() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div className="min-h-screen bg-slate-50/30">
       {/* Hero Section */}
       <motion.section 
-        className="relative py-16 sm:py-20 lg:py-24 px-4 overflow-hidden"
+        className="relative py-20 sm:py-24 px-4 overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 opacity-90"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-900"></div>
         <motion.div 
-          className="absolute inset-0"
+          className="absolute inset-0 opacity-20"
           animate={{
             background: [
-              'radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%)',
-              'radial-gradient(circle at 80% 20%, rgba(159, 122, 234, 0.3) 0%, transparent 50%)',
-              'radial-gradient(circle at 40% 80%, rgba(99, 102, 241, 0.3) 0%, transparent 50%)'
+              'radial-gradient(circle at 10% 40%, rgba(99, 102, 241, 0.4) 0%, transparent 60%)',
+              'radial-gradient(circle at 90% 10%, rgba(139, 92, 246, 0.4) 0%, transparent 60%)',
+              'radial-gradient(circle at 30% 90%, rgba(59, 130, 246, 0.4) 0%, transparent 60%)'
             ]
           }}
-          transition={{ duration: 8, repeat: Infinity }}
+          transition={{ duration: 10, repeat: Infinity }}
         />
         
-        <div className="relative max-w-6xl mx-auto text-center text-white">
+        <div className="relative max-w-6xl mx-auto text-center text-white z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <FileText className="w-16 h-16 mx-auto mb-6 text-yellow-300" />
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-white to-yellow-200 bg-clip-text text-transparent">
+            <div className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-5 py-1.5 mb-6 border border-white/10">
+              <FileText className="w-5 h-5 text-yellow-300 mr-2" />
+              <span className="text-sm font-semibold text-yellow-50">Resource Library</span>
+            </div>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight bg-gradient-to-r from-white via-slate-100 to-indigo-100 bg-clip-text text-transparent">
               Past Question Papers
             </h1>
-            <p className="text-lg sm:text-xl lg:text-2xl text-indigo-100 mb-8 px-4 sm:px-0">
-              Access and share previous exam papers from different colleges
+            <p className="text-lg sm:text-xl text-indigo-100 mb-10 max-w-3xl mx-auto px-4 sm:px-0">
+              Access and share previous exam papers from different semesters and colleges, tailored to PU.
             </p>
           </motion.div>
           
           {/* Stats */}
           <motion.div 
-            className="grid grid-cols-2 sm:grid-cols-4 gap-4 lg:gap-6 max-w-4xl mx-auto mb-8"
+            className="grid grid-cols-2 sm:grid-cols-4 gap-4 lg:gap-6 max-w-4xl mx-auto mb-10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -295,14 +298,12 @@ export function PastPapers() {
             ].map((stat, index) => (
               <motion.div 
                 key={stat.label}
-                className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 + index * 0.1 }}
+                className="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/10 hover:border-white/20 transition-all duration-300 shadow-lg shadow-indigo-950/10"
+                whileHover={{ scale: 1.05 }}
               >
-                <stat.icon className="w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-2 text-yellow-300" />
-                <div className="text-xl sm:text-2xl font-bold">{stat.value}</div>
-                <div className="text-xs sm:text-sm text-indigo-100">{stat.label}</div>
+                <stat.icon className="w-7 h-7 mx-auto mb-3 text-yellow-300" />
+                <div className="text-2xl sm:text-3xl font-bold">{stat.value}</div>
+                <div className="text-xs sm:text-sm text-indigo-200 font-semibold">{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>
@@ -311,23 +312,23 @@ export function PastPapers() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
-            className="flex justify-start"
+            className="flex justify-center"
           >
             <Button 
               onClick={handleUploadClick} 
-              className="bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700 font-semibold px-12 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto"
+              className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:brightness-110 text-white font-bold px-10 py-3.5 rounded-xl shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 transition-all duration-300 border-0 w-full sm:w-auto flex items-center justify-center gap-2"
             >
-              <Plus className="w-5 h-5 mr-2" />
+              <Plus className="w-5 h-5" />
               Upload Paper
             </Button>
           </motion.div>
         </div>
       </motion.section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 mt-12">
         {/* Controls Section */}
         <motion.section 
-          className="py-6 sm:py-8 px-4 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-sm mb-8"
+          className="py-5 px-6 bg-white/70 backdrop-blur-md border border-slate-100 rounded-2xl shadow-premium mb-8"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
@@ -336,23 +337,23 @@ export function PastPapers() {
             {/* Search */}
             <div className="flex-1 max-w-md">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
                 <input
                   type="text"
                   placeholder="Search by subject..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 bg-white text-slate-800 placeholder:text-slate-400"
                 />
               </div>
             </div>
 
             {/* Controls */}
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-4">
               <Button
                 variant="outline"
                 onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 border-slate-200 text-slate-700 font-semibold"
               >
                 <Filter className="w-4 h-4" />
                 Filters
@@ -361,23 +362,23 @@ export function PastPapers() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 font-semibold text-slate-700"
               >
                 <option value="date">Latest</option>
                 <option value="downloads">Most Downloaded</option>
                 <option value="name">Name</option>
               </select>
               
-              <div className="flex bg-gray-100 rounded-lg p-1">
+              <div className="flex bg-slate-100 rounded-xl p-1 border border-slate-200/40">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded ${viewMode === 'grid' ? 'bg-white shadow-sm' : ''}`}
+                  className={`p-2 rounded-lg transition-all duration-200 ${viewMode === 'grid' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
                 >
                   <Grid className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`p-2 rounded ${viewMode === 'list' ? 'bg-white shadow-sm' : ''}`}
+                  className={`p-2 rounded-lg transition-all duration-200 ${viewMode === 'list' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
                 >
                   <List className="w-4 h-4" />
                 </button>
@@ -392,15 +393,15 @@ export function PastPapers() {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                className="mt-6 pt-6 border-t border-gray-200"
+                className="mt-5 pt-5 border-t border-slate-100"
               >
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Semester</label>
+                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">Semester</label>
                     <select
                       value={selectedSemester}
                       onChange={(e) => setSelectedSemester(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 text-slate-800"
                     >
                       <option value="">All Semesters</option>
                       {semesters.map((semester) => (
@@ -412,11 +413,11 @@ export function PastPapers() {
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Exam Type</label>
+                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">Exam Type</label>
                     <select
                       value={selectedExamType}
                       onChange={(e) => setSelectedExamType(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 text-slate-800"
                     >
                       <option value="">All Types</option>
                       {examTypes.map((type) => (
@@ -428,11 +429,11 @@ export function PastPapers() {
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">College</label>
+                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">College</label>
                     <select
                       value={selectedCollege}
                       onChange={(e) => setSelectedCollege(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 text-slate-800"
                     >
                       <option value="">All Colleges</option>
                       {colleges.map((college) => (
@@ -446,7 +447,7 @@ export function PastPapers() {
                 
                 {(selectedSemester || selectedExamType || selectedCollege) && (
                   <div className="mt-4 flex justify-end">
-                    <Button variant="outline" onClick={handleResetFilters}>
+                    <Button variant="outline" onClick={handleResetFilters} className="text-xs border-slate-200 font-semibold">
                       Clear Filters
                     </Button>
                   </div>
@@ -470,30 +471,30 @@ export function PastPapers() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4, delay: 0.1 * index }}
-                whileHover={{ y: -4, scale: 1.02 }}
-                className="cursor-pointer"
+                transition={{ duration: 0.4, delay: 0.05 * index }}
+                whileHover={{ y: -5 }}
+                className="cursor-pointer group h-full"
               >
-                <Card className="h-full bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300">
-                  <CardHeader className="pb-4">
+                <Card hover={false} className="h-full bg-white rounded-2xl border border-slate-100 shadow-premium group-hover:shadow-premium-hover hover:border-indigo-500/10 transition-all duration-300 flex flex-col justify-between overflow-hidden">
+                  <CardHeader className="pb-4 border-b border-slate-100/50 bg-gradient-to-br from-slate-50 to-indigo-50/20">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">{paper.title}</h3>
-                        <div className="flex items-center space-x-2 text-sm text-gray-500 mb-2">
-                          <School className="w-4 h-4" />
+                        <h3 className="text-lg font-bold text-slate-800 mb-2 line-clamp-2">{paper.title}</h3>
+                        <div className="flex items-center space-x-2 text-xs text-slate-500 font-semibold mb-2">
+                          <School className="w-3.5 h-3.5 text-slate-400" />
                           <span className="truncate">{paper.college}</span>
                         </div>
-                        <div className="text-sm font-medium text-gray-900">Subject: {paper.subject}</div>
+                        <div className="text-xs font-bold text-indigo-600">Subject: {paper.subject}</div>
                       </div>
-                      <div className="flex flex-col items-end space-y-2 ml-4">
-                        <div className="bg-indigo-100 text-indigo-600 px-2 py-1 rounded-full text-xs font-medium">
+                      <div className="flex flex-col items-end space-y-1.5 ml-4 flex-shrink-0">
+                        <div className="bg-indigo-50 text-indigo-600 border border-indigo-100/50 px-2.5 py-1 rounded-full text-xs font-bold">
                           Sem {paper.semester}
                         </div>
-                        <div className={`px-2 py-1 rounded-full text-xs font-medium ${getExamTypeColor(paper.examType)}`}>
+                        <div className={`px-2.5 py-1 rounded-full text-xs font-semibold ${getExamTypeColor(paper.examType)}`}>
                           {paper.examType ? paper.examType.charAt(0).toUpperCase() + paper.examType.slice(1) : 'Unknown'}
                         </div>
                         {!paper.approved && (
-                          <div className="bg-yellow-100 text-yellow-600 px-2 py-1 rounded-full text-xs font-medium">
+                          <div className="bg-amber-50 text-amber-600 border border-amber-200/50 px-2.5 py-1 rounded-full text-xs font-semibold">
                             {user?.objectId === paper.ownerId ? 'Your Upload' : 'Pending'}
                           </div>
                         )}
@@ -501,16 +502,16 @@ export function PastPapers() {
                     </div>
                   </CardHeader>
                   
-                  <CardContent className="pt-0">
-                    <div className="space-y-3 text-sm text-gray-600 mb-4">
+                  <CardContent className="p-6 flex-1 flex flex-col justify-between">
+                    <div className="space-y-3 text-xs font-semibold text-slate-500 mb-6">
                       <div className="flex items-center space-x-2">
-                        <Calendar className="w-4 h-4" />
+                        <Calendar className="w-4 h-4 text-slate-400" />
                         <span>Uploaded {new Date(paper.uploadedAt).toLocaleDateString()}</span>
                       </div>
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium">By: {paper.uploadedBy}</span>
-                        <div className="flex items-center space-x-1 text-gray-500">
-                          <Download className="w-4 h-4" />
+                      <div className="flex items-center justify-between border-t border-slate-50 pt-3">
+                        <span className="font-semibold text-slate-600">By: {paper.uploadedBy}</span>
+                        <div className="flex items-center space-x-1">
+                          <Download className="w-3.5 h-3.5 text-slate-400" />
                           <span>{paper.downloads || 0}</span>
                         </div>
                       </div>
@@ -519,7 +520,8 @@ export function PastPapers() {
                     <div className="space-y-2">
                       {paper.approved ? (
                         <Button 
-                          className="w-full bg-indigo-600 hover:bg-indigo-700" 
+                          variant="primary"
+                          className="w-full text-sm font-semibold" 
                           onClick={() => handleDownload(paper)}
                         >
                           <Download className="w-4 h-4 mr-2" />
@@ -530,7 +532,7 @@ export function PastPapers() {
                           <Button 
                             variant="outline" 
                             size="sm" 
-                            className="flex-1 hover:bg-green-50 hover:text-green-700 hover:border-green-300" 
+                            className="flex-1 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200 font-semibold border-slate-200 rounded-xl" 
                             onClick={() => paper.objectId && handleApprove(paper.objectId)}
                           >
                             Approve
@@ -538,19 +540,19 @@ export function PastPapers() {
                           <Button 
                             variant="outline" 
                             size="sm" 
-                            className="flex-1 hover:bg-red-50 hover:text-red-700 hover:border-red-300" 
+                            className="flex-1 hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 font-semibold border-slate-200 rounded-xl" 
                             onClick={() => paper.objectId && handleReject(paper.objectId)}
                           >
                             Reject
                           </Button>
                         </div>
                       ) : user?.objectId === paper.ownerId ? (
-                        <Button variant="ghost" className="w-full" disabled>
+                        <Button variant="ghost" className="w-full text-xs font-bold text-slate-400" disabled>
                           <Clock className="w-4 h-4 mr-2" />
                           Waiting for Approval
                         </Button>
                       ) : (
-                        <Button variant="ghost" className="w-full" disabled>
+                        <Button variant="ghost" className="w-full text-xs font-bold text-slate-400" disabled>
                           <Clock className="w-4 h-4 mr-2" />
                           Pending Approval
                         </Button>
@@ -575,7 +577,7 @@ export function PastPapers() {
               variant="outline"
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
-              className="px-3 py-2"
+              className="px-3.5 py-2 border-slate-200 text-slate-700"
             >
               Previous
             </Button>
@@ -583,12 +585,12 @@ export function PastPapers() {
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
               <Button
                 key={page}
-                variant={currentPage === page ? "default" : "outline"}
+                variant={currentPage === page ? "primary" : "outline"}
                 onClick={() => setCurrentPage(page)}
-                className={`px-3 py-2 min-w-[40px] ${
+                className={`px-3 py-2 min-w-[40px] rounded-xl border-slate-200 font-semibold ${
                   currentPage === page 
-                    ? 'bg-indigo-600 text-white' 
-                    : 'hover:bg-indigo-50 hover:text-indigo-700'
+                    ? '' 
+                    : 'text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-700'
                 }`}
               >
                 {page}
@@ -599,7 +601,7 @@ export function PastPapers() {
               variant="outline"
               onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className="px-3 py-2"
+              className="px-3.5 py-2 border-slate-200 text-slate-700"
             >
               Next
             </Button>
@@ -614,15 +616,15 @@ export function PastPapers() {
             transition={{ duration: 0.4 }} 
             className="text-center py-16"
           >
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <FileText className="w-8 h-8 text-gray-400" />
+            <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <FileText className="w-8 h-8 text-slate-400" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No papers found</h3>
-            <p className="text-gray-600 mb-6">Try adjusting your filters or be the first to upload a paper!</p>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">No papers found</h3>
+            <p className="text-slate-600 mb-6 text-sm">Try adjusting your filters or be the first to upload a paper!</p>
             {(selectedSemester || selectedExamType || selectedCollege) && (
               <Button
                 variant="outline"
-                className="mb-4"
+                className="mb-4 text-xs font-semibold border-slate-200"
                 onClick={handleResetFilters}
               >
                 Clear Filters
@@ -630,7 +632,7 @@ export function PastPapers() {
             )}
             <Button
               onClick={handleUploadClick}
-              className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
+              className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:brightness-110 text-white font-semibold"
             >
               <Plus className="w-4 h-4 mr-2" />
               Upload Paper

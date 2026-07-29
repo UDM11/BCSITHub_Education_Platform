@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 9: Project Scheduling</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 9: Project Scheduling [2 Hrs.]</b></h1>
+
+  <!-- 9.1 Project Scheduling -->
+  <div class="section">
+    <h2><b>9.1 Project Scheduling</b></h2>
+
+    <h3>What is Project Scheduling?</h3>
+    <p>
+      <b>Project scheduling</b> is the process of converting the project action plan into an
+      operating timetable. It serves as a fundamental tool for project tracking and control.
+      The schedule distributes estimated effort across the planned project duration by
+      allocating the effort to specific software engineering tasks.
+    </p>
+
+    <h3>Purpose of Project Scheduling</h3>
+    <ul>
+      <li><b>Time Management:</b> Determines when each task should start and finish</li>
+      <li><b>Resource Allocation:</b> Assigns people and resources to tasks at specific times</li>
+      <li><b>Dependency Tracking:</b> Identifies which tasks depend on the completion of other tasks</li>
+      <li><b>Progress Monitoring:</b> Provides a baseline against which actual progress can be measured</li>
+      <li><b>Risk Identification:</b> Helps identify potential bottlenecks and schedule risks</li>
+      <li><b>Communication:</b> Communicates the plan to all team members and stakeholders</li>
+      <li><b>Coordination:</b> Ensures all team members understand their roles and deadlines</li>
+    </ul>
+
+    <h3>Basic Scheduling Principles</h3>
+    <ol>
+      <li><b>Compartmentalization:</b> The project must be compartmentalized into a number of
+        manageable activities and tasks. The Work Breakdown Structure (WBS) accomplishes this.</li>
+      <li><b>Interdependency:</b> The interdependency of each compartmentalized activity/task
+        must be determined. Some tasks must occur in sequence (serial); others can occur
+        in parallel (concurrent).</li>
+      <li><b>Time Allocation:</b> Each task must be assigned some number of work units
+        (e.g., person-days). Each task must be assigned a start date and an end date
+        that are a function of interdependencies and the resource available.</li>
+      <li><b>Effort Validation:</b> Every project has a defined number of people on the team.
+        As the schedule is developed, the project manager must ensure that no more than
+        the available number of people are assigned at any given time. This is called
+        <b>resource leveling</b>.</li>
+      <li><b>Defined Responsibilities:</b> Every scheduled task should be assigned to a
+        specific team member who is responsible for its completion.</li>
+      <li><b>Defined Outcomes:</b> Every scheduled task should have a defined outcome
+        — typically a work product (deliverable) or milestone.</li>
+      <li><b>Defined Milestones:</b> Each task or group of tasks should be associated with
+        a <b>milestone</b> — a recognizable point at which a deliverable can be reviewed
+        for quality and adherence to requirements.</li>
+    </ol>
+
+    <h3>Relationship Between People and Effort</h3>
+    <p>
+      The relationship between the number of people working on a project and overall
+      productivity is NOT linear. Doubling the number of people does not halve the
+      development time because:
+    </p>
+    <ul>
+      <li><b>Communication overhead</b> increases as n(n-1)/2 where n is team size</li>
+      <li><b>Learning time</b> — new team members need time to understand the project</li>
+      <li><b>Task divisibility</b> — not all tasks can be parallelized</li>
+      <li><b>Dependency chains</b> — some tasks must be done sequentially</li>
+    </ul>
+
+    <pre>
+  Effort vs. Duration Tradeoff:
+
+  Personnel
+      ↑
+    8 │            ×
+    7 │         ×
+    6 │       ×
+    5 │     ×           ← Optimal zone
+    4 │    ×
+    3 │   ×
+    2 │  ×
+    1 │ ×
+      └──────────────────→ Duration (months)
+       2  4  6  8  10  12  14
+
+  Note: There is a minimum time below which no amount
+  of additional personnel can reduce the schedule.
+  This is called the "impossible region."
+    </pre>
+
+    <div class="note">
+      <b>Key Insight:</b> There is an optimal team size for every project. Adding people
+      beyond this optimal point actually increases project duration and cost due to
+      communication overhead and coordination complexity.
+    </div>
+  </div>
+
+  <!-- 9.2 Defining Tasks -->
+  <div class="section">
+    <h2><b>9.2 Defining a Task for the Software Project</b></h2>
+
+    <h3>What is a Task?</h3>
+    <p>
+      A <b>task</b> (also called a work package or activity) is a well-defined unit of
+      project work that has a clear beginning and end, a defined set of deliverables,
+      and can be assigned to one or more team members. Tasks are the building blocks
+      of the project schedule.
+    </p>
+
+    <h3>Task Characteristics</h3>
+    <ul>
+      <li><b>Defined Scope:</b> Clear description of what work is to be done</li>
+      <li><b>Measurable Output:</b> A deliverable or milestone that can be verified</li>
+      <li><b>Assignable:</b> Can be assigned to a specific person or team</li>
+      <li><b>Estimable:</b> Duration and effort can be estimated</li>
+      <li><b>Bounded:</b> Has a defined start and end date</li>
+      <li><b>Independent:</b> Has minimal overlap with other tasks</li>
+    </ul>
+
+    <h3>Task Decomposition (From WBS)</h3>
+    <p>
+      Tasks are derived from the WBS through progressive decomposition. The level of
+      decomposition should follow the <b>8-80 rule</b>: each task should require between
+      8 hours (1 day) and 80 hours (2 weeks) of effort. Tasks smaller than 8 hours
+      create excessive management overhead; tasks larger than 80 hours are difficult
+      to track and control.
+    </p>
+
+    <h3>Task Dependencies</h3>
+    <p>
+      Tasks may have four types of dependencies:
+    </p>
+    <table>
+      <tr>
+        <th>Dependency Type</th>
+        <th>Notation</th>
+        <th>Meaning</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>Finish-to-Start (FS)</td>
+        <td>A → B</td>
+        <td>B cannot start until A finishes</td>
+        <td>Coding cannot start until design is complete</td>
+      </tr>
+      <tr>
+        <td>Start-to-Start (SS)</td>
+        <td>A ⇒ B</td>
+        <td>B cannot start until A starts</td>
+        <td>Testing plan can start when design starts</td>
+      </tr>
+      <tr>
+        <td>Finish-to-Finish (FF)</td>
+        <td>A ⇔ B</td>
+        <td>B cannot finish until A finishes</td>
+        <td>Testing cannot finish until coding finishes</td>
+      </tr>
+      <tr>
+        <td>Start-to-Finish (SF)</td>
+        <td>A ← B</td>
+        <td>B cannot finish until A starts</td>
+        <td>Rare; legacy system runs until new system starts</td>
+      </tr>
+    </table>
+
+    <h3>Task Network Example</h3>
+    <pre>
+  Task Network (Activity-on-Node):
+
+     ┌────┐     ┌────┐     ┌────┐
+     │ T1 │────→│ T3 │────→│ T5 │────→ ┌────┐
+     │ 5d │     │ 8d │     │ 3d │      │ T7 │
+     └────┘     └────┘     └────┘  ┌──→│ 4d │
+                                   │   └────┘
+     ┌────┐     ┌────┐     ┌────┐  │
+     │ T2 │────→│ T4 │────→│ T6 │──┘
+     │ 3d │     │ 6d │     │ 5d │
+     └────┘     └────┘     └────┘
+
+  T1 and T2 can start in parallel (no dependency)
+  T3 depends on T1; T4 depends on T2
+  T5 depends on T3; T6 depends on T4
+  T7 depends on both T5 and T6
+    </pre>
+  </div>
+
+  <!-- 9.3 Types of Scheduling -->
+  <div class="section">
+    <h2><b>9.3 Project Scheduling and Its Types</b></h2>
+
+    <h3>Types of Project Schedules</h3>
+
+    <h4>1. Master Schedule</h4>
+    <ul>
+      <li>High-level schedule showing major milestones and phases</li>
+      <li>Used for executive reporting and stakeholder communication</li>
+      <li>Shows: project start/end, phase boundaries, major deliverables</li>
+    </ul>
+
+    <h4>2. Detailed Schedule</h4>
+    <ul>
+      <li>Shows all individual tasks, dependencies, resources, and dates</li>
+      <li>Used for day-to-day project management and tracking</li>
+      <li>Typically created and maintained in project management software</li>
+    </ul>
+
+    <h4>3. Milestone Schedule</h4>
+    <ul>
+      <li>Lists only the key milestones and their target dates</li>
+      <li>Used for high-level tracking and reporting</li>
+      <li>Simpler than the detailed schedule</li>
+    </ul>
+
+    <h4>4. Resource Schedule</h4>
+    <ul>
+      <li>Shows resource allocation over time</li>
+      <li>Identifies over-allocation and under-utilization</li>
+      <li>Used for resource leveling and optimization</li>
+    </ul>
+
+    <h3>Schedule Representations</h3>
+    <table>
+      <tr>
+        <th>Representation</th>
+        <th>Description</th>
+        <th>Best For</th>
+      </tr>
+      <tr>
+        <td>Gantt Chart</td>
+        <td>Horizontal bar chart showing tasks against time</td>
+        <td>Visual schedule overview, progress tracking</td>
+      </tr>
+      <tr>
+        <td>Network Diagram (PERT/CPM)</td>
+        <td>Graph showing task dependencies and critical path</td>
+        <td>Identifying critical path, analyzing dependencies</td>
+      </tr>
+      <tr>
+        <td>Milestone Chart</td>
+        <td>Timeline showing key milestones only</td>
+        <td>Executive reporting, high-level tracking</td>
+      </tr>
+      <tr>
+        <td>Resource Histogram</td>
+        <td>Bar chart showing resource usage over time</td>
+        <td>Resource planning and leveling</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 9.4 Tools for Project Scheduling -->
+  <div class="section">
+    <h2><b>9.4 Tools for Project Scheduling</b></h2>
+
+    <h3>Project Scheduling Software</h3>
+    <table>
+      <tr>
+        <th>Tool</th>
+        <th>Type</th>
+        <th>Key Features</th>
+        <th>Best For</th>
+      </tr>
+      <tr>
+        <td>Microsoft Project</td>
+        <td>Traditional PM</td>
+        <td>Gantt charts, CPM, resource leveling, WBS, reports</td>
+        <td>Large traditional (waterfall) projects</td>
+      </tr>
+      <tr>
+        <td>Jira</td>
+        <td>Agile PM</td>
+        <td>Sprints, backlogs, boards (Kanban/Scrum), burndown charts</td>
+        <td>Agile software development</td>
+      </tr>
+      <tr>
+        <td>Trello</td>
+        <td>Kanban Board</td>
+        <td>Visual boards, cards, lists, simple workflow</td>
+        <td>Small teams, simple projects</td>
+      </tr>
+      <tr>
+        <td>Asana</td>
+        <td>Work Management</td>
+        <td>Tasks, timelines, boards, portfolios</td>
+        <td>Cross-functional team collaboration</td>
+      </tr>
+      <tr>
+        <td>Azure DevOps</td>
+        <td>ALM Tool</td>
+        <td>Boards, sprints, repos, pipelines, test plans</td>
+        <td>Microsoft ecosystem, integrated DevOps</td>
+      </tr>
+      <tr>
+        <td>GanttProject</td>
+        <td>Open Source</td>
+        <td>Gantt charts, PERT, resource management</td>
+        <td>Small projects, educational use</td>
+      </tr>
+    </table>
+
+    <h3>Selecting the Right Tool</h3>
+    <ul>
+      <li><b>Project methodology:</b> Agile → Jira/Trello; Traditional → MS Project</li>
+      <li><b>Team size:</b> Small → Trello/Asana; Large → MS Project/Azure DevOps</li>
+      <li><b>Budget:</b> Open source → GanttProject; Enterprise → MS Project/Jira</li>
+      <li><b>Integration needs:</b> Consider existing toolchain (version control, CI/CD, communication)</li>
+      <li><b>Reporting requirements:</b> Complex reports → MS Project; Simple → Trello</li>
+    </ul>
+  </div>
+
+  <!-- 9.5 PERT and CPM -->
+  <div class="section">
+    <h2><b>9.5 PERT and CPM Scheduling</b></h2>
+
+    <h3>PERT (Program Evaluation and Review Technique)</h3>
+    <p>
+      <b>PERT</b> is a statistical tool used in project management designed to analyze
+      and represent the tasks involved in completing a given project. Developed by the
+      U.S. Navy in the 1950s for the Polaris missile project, PERT uses probabilistic
+      time estimates for each activity.
+    </p>
+
+    <h4>PERT Time Estimates</h4>
+    <p>
+      PERT uses three time estimates for each activity:
+    </p>
+    <ul>
+      <li><b>Optimistic Time (O):</b> The minimum possible time in the best-case scenario
+        (everything goes right)</li>
+      <li><b>Most Likely Time (M):</b> The most probable time based on normal conditions</li>
+      <li><b>Pessimistic Time (P):</b> The maximum possible time in the worst-case scenario
+        (everything goes wrong)</li>
+    </ul>
+
+    <h4>PERT Expected Time Formula</h4>
+    <pre>
+  Expected Time (TE) = (O + 4M + P) / 6
+
+  Standard Deviation (σ) = (P - O) / 6
+
+  Variance (σ²) = [(P - O) / 6]²
+    </pre>
+
+    <h4>PERT Calculation Example</h4>
+    <pre>
+  Activity    O (days)  M (days)  P (days)  TE (days)   σ       σ²
+
+  A           2         4         6         4.0         0.67    0.44
+  B           3         5         9         5.3         1.00    1.00
+  C           1         3         5         3.0         0.67    0.44
+  D           4         6         10        6.3         1.00    1.00
+  E           2         3         8         3.7         1.00    1.00
+  F           3         4         5         4.0         0.33    0.11
+  G           1         2         3         2.0         0.33    0.11
+
+  Example Calculation for Activity B:
+  TE = (3 + 4×5 + 9) / 6 = (3 + 20 + 9) / 6 = 32/6 = 5.33 days
+  σ  = (9 - 3) / 6 = 6/6 = 1.0 day
+  σ² = 1.0² = 1.0 day²
+    </pre>
+
+    <h3>CPM (Critical Path Method)</h3>
+    <p>
+      The <b>Critical Path Method (CPM)</b> identifies the longest path through the project
+      network — the <b>critical path</b>. The duration of the critical path determines the
+      minimum project duration. Any delay in a critical path activity directly delays the project.
+    </p>
+
+    <h4>CPM Terminology</h4>
+    <table>
+      <tr>
+        <th>Term</th>
+        <th>Abbreviation</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>Early Start</td>
+        <td>ES</td>
+        <td>Earliest time an activity can start</td>
+      </tr>
+      <tr>
+        <td>Early Finish</td>
+        <td>EF</td>
+        <td>Earliest time an activity can finish (ES + Duration)</td>
+      </tr>
+      <tr>
+        <td>Late Start</td>
+        <td>LS</td>
+        <td>Latest time an activity can start without delaying the project</td>
+      </tr>
+      <tr>
+        <td>Late Finish</td>
+        <td>LF</td>
+        <td>Latest time an activity can finish without delaying the project</td>
+      </tr>
+      <tr>
+        <td>Total Float (Slack)</td>
+        <td>TF</td>
+        <td>LS - ES or LF - EF; amount of time an activity can be delayed</td>
+      </tr>
+      <tr>
+        <td>Free Float</td>
+        <td>FF</td>
+        <td>Time an activity can be delayed without affecting successor's ES</td>
+      </tr>
+    </table>
+
+    <h4>CPM Forward and Backward Pass</h4>
+    <pre>
+  Forward Pass (Calculate ES and EF):
+    ES of first activity = 0
+    EF = ES + Duration
+    ES of successor = MAX(EF of all predecessors)
+
+  Backward Pass (Calculate LS and LF):
+    LF of last activity = Project Duration
+    LS = LF - Duration
+    LF of predecessor = MIN(LS of all successors)
+
+  Float (Slack) = LS - ES = LF - EF
+  Critical Path: Activities where Float = 0
+    </pre>
+
+    <h4>Complete CPM Worked Example</h4>
+    <pre>
+  Project Network:
+
+  Activity  Duration  Predecessors
+  A         3         -
+  B         4         -
+  C         2         A
+  D         5         A
+  E         3         B
+  F         4         C, E
+  G         2         D, F
+
+  Step 1: Draw the Network
+                    ┌───┐     ┌───┐
+             ┌─────→│ C │────→│   │
+             │      │ 2 │     │ F │
+  ┌───┐      │      └───┘  ┌→│ 4 │     ┌───┐
+  │ A │──────┤              │ └───┘────→│ G │
+  │ 3 │      │      ┌───┐  │           │ 2 │
+  └───┘      └─────→│ D │──┼──────────→└───┘
+                    │ 5 │  │
+  ┌───┐      ┌───┐  └───┘  │
+  │ B │─────→│ E │──────────┘
+  │ 4 │      │ 3 │
+  └───┘      └───┘
+
+  Step 2: Forward Pass
+  Activity   ES    EF = ES + Duration
+  A          0     3
+  B          0     4
+  C          3     5    (ES = EF of A = 3)
+  D          3     8    (ES = EF of A = 3)
+  E          4     7    (ES = EF of B = 4)
+  F          7     11   (ES = MAX(EF_C=5, EF_E=7) = 7)
+  G          11    13   (ES = MAX(EF_D=8, EF_F=11) = 11)
+
+  Project Duration = 13 days
+
+  Step 3: Backward Pass
+  Activity   LF         LS = LF - Duration
+  G          13         11
+  F          11         7     (LF = LS_G = 11)
+  D          13         8     (LF = LS_G = 13)  *Wait: LF_D = LS_G = 11
+  E          7          4     (LF = LS_F = 7)
+  C          7          5     (LF = LS_F = 7)
+  A          5          2     (LF = MIN(LS_C=5, LS_D=6) = 5)  
+  B          4          0     (LF = LS_E = 4)
+
+  Correction — Let me recalculate properly:
+  G: LF = 13, LS = 13 - 2 = 11
+  F: LF = LS_G = 11, LS = 11 - 4 = 7
+  D: LF = LS_G = 11, LS = 11 - 5 = 6
+  E: LF = LS_F = 7, LS = 7 - 3 = 4
+  C: LF = LS_F = 7, LS = 7 - 2 = 5
+  A: LF = MIN(LS_C, LS_D) = MIN(5, 6) = 5, LS = 5 - 3 = 2
+  B: LF = LS_E = 4, LS = 4 - 4 = 0
+
+  Step 4: Calculate Float
+  Activity   ES  EF  LS  LF  Float (LS-ES)
+  A          0   3   2   5   2
+  B          0   4   0   4   0  ←  Critical
+  C          3   5   5   7   2
+  D          3   8   6   11  3
+  E          4   7   4   7   0  ←  Critical
+  F          7   11  7   11  0  ←  Critical
+  G          11  13  11  13  0  ←  Critical
+
+  Critical Path: B → E → F → G
+  Critical Path Duration: 4 + 3 + 4 + 2 = 13 days
+    </pre>
+
+    <h3>PERT vs. CPM Comparison</h3>
+    <table>
+      <tr>
+        <th>Aspect</th>
+        <th>PERT</th>
+        <th>CPM</th>
+      </tr>
+      <tr>
+        <td>Time Estimates</td>
+        <td>Probabilistic (O, M, P)</td>
+        <td>Deterministic (single estimate)</td>
+      </tr>
+      <tr>
+        <td>Focus</td>
+        <td>Time/schedule management</td>
+        <td>Time-cost tradeoff</td>
+      </tr>
+      <tr>
+        <td>Best For</td>
+        <td>R&D projects with uncertain durations</td>
+        <td>Construction/routine projects</td>
+      </tr>
+      <tr>
+        <td>Origin</td>
+        <td>U.S. Navy (1958)</td>
+        <td>DuPont and Remington Rand (1957)</td>
+      </tr>
+      <tr>
+        <td>Activity Duration</td>
+        <td>Uncertain, estimated</td>
+        <td>Known from experience</td>
+      </tr>
+      <tr>
+        <td>Crashing</td>
+        <td>Not typically used</td>
+        <td>Supports time-cost crashing analysis</td>
+      </tr>
+    </table>
+
+    <h3>Schedule Compression Techniques</h3>
+    <ul>
+      <li><b>Crashing:</b> Adding resources to critical path activities to shorten duration.
+        Increases cost but reduces schedule. Only effective on critical path activities.</li>
+      <li><b>Fast Tracking:</b> Performing activities in parallel that would normally be done
+        in sequence. Increases risk (of rework) but can significantly reduce schedule.</li>
+    </ul>
+
+    <div class="note">
+      <b>Summary:</b> Project scheduling transforms the project plan into a time-based
+      roadmap. PERT uses probabilistic estimates for uncertain activities, while CPM
+      uses deterministic durations. The critical path determines the minimum project
+      duration — any delay on the critical path delays the entire project.
+      Effective scheduling requires identifying dependencies, allocating resources,
+      and monitoring progress against the baseline schedule.
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 3: Physical Layer and its Design Issues</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 3: Physical Layer and its Design Issues [7 Hrs.]</b></h1>
+
+  <!-- 3.1 - 3.2 Duties & Media -->
+  <div class="section">
+    <h2><b>3.1 Duties of Physical Layer and Transmission Media</b></h2>
+
+    <h3>Role and Design Issues</h3>
+    <p>
+      The <b>Physical Layer</b> is the lowest layer of the OSI architecture. Its primary purpose
+      is to transmit individual bits over a physical medium from one node to the next.
+      Its design issues center around the mechanical, electrical, functional, and procedural interfaces.
+    </p>
+    <ul>
+      <li><b>Data Rate:</b> Defining the transmission speed (number of bits per second).</li>
+      <li><b>Bit Representation:</b> Defining how 0s and 1s are encoded (voltage levels).</li>
+      <li><b>Bit Synchronization:</b> Aligning transmitter and receiver clocks.</li>
+      <li><b>Line Configuration:</b> Connection type (point-to-point or multipoint).</li>
+      <li><b>Physical Topology:</b> How devices are physically wired.</li>
+      <li><b>Transmission Mode:</b> Simplex, half-duplex, or full-duplex.</li>
+    </ul>
+
+    <h3>Guided Transmission Media (Wired)</h3>
+    <p>
+      Guided media provide a physical pathway for electromagnetic waves to travel.
+    </p>
+
+    <h4>1. Twisted-Pair Cable</h4>
+    <p>
+      Consists of two copper conductors, each with its own plastic insulation, twisted together.
+      Twisting reduces <b>crosstalk</b> (electromagnetic interference from adjacent pairs).
+    </p>
+    <ul>
+      <li><b>UTP (Unshielded Twisted Pair):</b> Cheap, flexible, but susceptible to external noise.
+        Commonly classified by categories (Cat 5e, Cat 6, Cat 6a).</li>
+      <li><b>STP (Shielded Twisted Pair):</b> Contains a metal braid jacket to protect against noise, but is bulky and expensive.</li>
+    </ul>
+
+    <h4>2. Coaxial Cable</h4>
+    <p>
+      Contains a central copper core surrounded by an insulating layer, covered by a braided metal shield
+      and an outer jacket. Historically used in cable TV and early Ethernet.
+    </p>
+
+    <h4>3. Optical Fiber Cable</h4>
+    <p>
+      Transmits data as light pulses through glass or plastic cores. It works on the principle of
+      <b>Total Internal Reflection</b>.
+    </p>
+    <ul>
+      <li><b>Single-Mode Fiber (SMF):</b> Thin core (9µm), single light ray path, uses laser sources,
+        suitable for long distances (low attenuation).</li>
+      <li><b>Multi-Mode Fiber (MMF):</b> Thicker core (50µm or 62.5µm), multiple light paths,
+        uses LED sources, cheaper but prone to modal dispersion (limited distance).</li>
+    </ul>
+    <pre>
+  Optical Fiber Total Internal Reflection:
+
+      Cladding (Low refractive index)
+    ┌───────────────────────────────────────────────┐
+    │  \             /             \             /  │
+  ──┼───\───────────/───────────────\───────────/───┼──
+    │    \   Core  / (High index)    \         /    │
+  ──┼─────\───────/───────────────────\───────/─────┼──
+    │      \     /                     \     /      │
+    └───────────────────────────────────────────────┘
+      Cladding
+    </pre>
+
+    <h3>Unguided Transmission Media (Wireless)</h3>
+    <p>
+      Unguided media transmit electromagnetic waves without a physical conductor.
+    </p>
+    <ul>
+      <li><b>Radio Waves:</b> Electromagnetic waves between 3 kHz and 1 GHz. Omnidirectional
+        propagation, easily pass through walls, used for FM radio, Wi-Fi.</li>
+      <li><b>Microwaves:</b> Between 1 GHz and 300 GHz. Unidirectional (line-of-sight),
+        highly focused, used for terrestrial microwave towers and satellite links.</li>
+      <li><b>Infrared:</b> Between 300 GHz and 400 THz. Short-range, line-of-sight,
+        cannot penetrate walls, used for remote controls.</li>
+      <li><b>Satellite Communication:</b> Satellites receive signals from ground stations,
+        amplify them, and rebroadcast them over a wide area (transponders).
+        Common orbits: GEO (35,786 km), MEO, LEO.</li>
+    </ul>
+  </div>
+
+  <!-- 3.3 - 3.5 Standards & Ethernet -->
+  <div class="section">
+    <h2><b>3.2 Ethernet Standards and Wireless Specifications</b></h2>
+
+    <h3>Ethernet Cable Standards (RJ-45 Pinouts)</h3>
+    <p>
+      Ethernet cables are wired using two standard configurations defined by TIA/EIA:
+    </p>
+    <table>
+      <tr>
+        <th>Pin Number</th>
+        <th>T568A Color Code</th>
+        <th>T568B Color Code</th>
+      </tr>
+      <tr>
+        <td>Pin 1</td>
+        <td>White/Green (Tx+)</td>
+        <td>White/Orange (Tx+)</td>
+      </tr>
+      <tr>
+        <td>Pin 2</td>
+        <td>Green (Tx-)</td>
+        <td>Orange (Tx-)</td>
+      </tr>
+      <tr>
+        <td>Pin 3</td>
+        <td>White/Orange (Rx+)</td>
+        <td>White/Green (Rx+)</td>
+      </tr>
+      <tr>
+        <td>Pin 4</td>
+        <td>Blue</td>
+        <td>Blue</td>
+      </tr>
+      <tr>
+        <td>Pin 5</td>
+        <td>White/Blue</td>
+        <td>White/Blue</td>
+      </tr>
+      <tr>
+        <td>Pin 6</td>
+        <td>Orange (Rx-)</td>
+        <td>Green (Rx-)</td>
+      </tr>
+      <tr>
+        <td>Pin 7</td>
+        <td>White/Brown</td>
+        <td>White/Brown</td>
+      </tr>
+      <tr>
+        <td>Pin 8</td>
+        <td>Brown</td>
+        <td>Brown</td>
+      </tr>
+    </table>
+    <ul>
+      <li><b>Straight-Through Cable:</b> Both ends use T568B (or both T568A).
+        Used to connect different devices (e.g., PC to Switch).</li>
+      <li><b>Crossover Cable:</b> One end uses T568A, the other uses T568B.
+        Used to connect similar devices (e.g., PC to PC, Switch to Switch).</li>
+    </ul>
+
+    <h3>Ethernet Speeds</h3>
+    <ul>
+      <li><b>Standard Ethernet (10Base-T):</b> 10 Mbps speed, baseband transmission, twisted-pair copper.</li>
+      <li><b>Fast Ethernet (100Base-TX):</b> 100 Mbps speed, uses 2-pair Cat 5 or better cables.</li>
+      <li><b>Gigabit Ethernet (1000Base-T):</b> 1 Gbps speed, uses all 4 pairs of Cat 5e/Cat 6.</li>
+    </ul>
+
+    <h3>Wireless Standards</h3>
+    <ul>
+      <li><b>IEEE 802.11 (Wi-Fi):</b> Defines WLAN standards.
+        <ul>
+          <li><i>802.11a:</i> 54 Mbps, 5 GHz</li>
+          <li><i>802.11b:</i> 11 Mbps, 2.4 GHz</li>
+          <li><i>802.11g:</i> 54 Mbps, 2.4 GHz</li>
+          <li><i>802.11n:</i> 600 Mbps, 2.4/5 GHz (uses MIMO)</li>
+          <li><i>802.11ac:</i> 1.3 Gbps, 5 GHz</li>
+          <li><i>802.11ax (Wi-Fi 6):</i> Up to 9.6 Gbps, high density</li>
+        </ul>
+      </li>
+      <li><b>IEEE 802.15.1 (Bluetooth):</b> Low-power, short-range PAN wireless standard.
+        Operates in 2.4 GHz ISM band using FHSS (Frequency Hopping Spread Spectrum).</li>
+    </ul>
+  </div>
+
+  <!-- 3.6 - 3.7 Signals and Impairments -->
+  <div class="section">
+    <h2><b>3.3 Signals and Transmission Impairments</b></h2>
+
+    <h3>Signals</h3>
+    <ul>
+      <li><b>Analog Signal:</b> Continuous values that vary smoothly over time.</li>
+      <li><b>Digital Signal:</b> Discrete levels representing binary values.</li>
+      <li><b>Periodic Signal:</b> Repeats a pattern over a regular interval called a period ($T$).
+        Frequency is $f = 1/T$.</li>
+      <li><b>Non-periodic Signal:</b> Does not repeat a pattern over time.</li>
+    </ul>
+
+    <h3>Transmission Impairments</h3>
+    <p>
+      Signals travel through transmission media, which are not perfect. The imperfection causes
+      signal degradation, leading to three types of impairments:
+    </p>
+
+    <h4>1. Attenuation</h4>
+    <p>
+      Loss of signal energy over distance due to resistance of the medium.
+      Measured in decibels (dB):
+    </p>
+    <pre>
+  Decibel (dB) = 10 × log₁₀ (P_out / P_in)
+
+  Where:
+    P_in  = Input power
+    P_out = Output power
+
+  If the signal power is halved: 10 × log₁₀ (0.5) ≈ -3 dB. A -3 dB change represents loss of 50% power.
+    </pre>
+
+    <h4>2. Distortion</h4>
+    <p>
+      Occurs when the signal changes its shape or form. Each frequency component of a composite analog
+      signal travels at a slightly different speed, arriving at the destination with different phase shifts.
+    </p>
+
+    <h4>3. Noise</h4>
+    <p>
+      Unwanted signals that combine with the original signal:
+    </p>
+    <ul>
+      <li><b>Thermal Noise:</b> Random motion of electrons in conductors (proportional to temperature).</li>
+      <li><b>Induced Noise:</b> Comes from external sources like motors or fluorescent lights.</li>
+      <li><b>Crosstalk:</b> Interference caused by electromagnetic coupling between adjacent cables.</li>
+      <li><b>Impulse Noise:</b> Short spikes of high energy caused by lighting, power line surges, etc.</li>
+    </ul>
+  </div>
+
+  <!-- 3.8 - 3.9 Multiplexing & Switching -->
+  <div class="section">
+    <h2><b>3.4 Multiplexing and Switching Techniques</b></h2>
+
+    <h3>Multiplexing</h3>
+    <p>
+      The set of techniques that allows the simultaneous transmission of multiple signals
+      across a single data link.
+    </p>
+
+    <h4>1. FDM (Frequency Division Multiplexing)</h4>
+    <p>
+      Analog technique. The available bandwidth of a single link is divided into multiple overlapping
+      frequency bands, each assigned to a separate channel. Guard bands are used to prevent interference.
+      Used in radio and cable TV.
+    </p>
+
+    <h4>2. TDM (Time Division Multiplexing)</h4>
+    <p>
+      Digital technique. The entire bandwidth of the link is shared in time. Users are assigned
+      dedicated time slots. Can be Synchronous (fixed slots) or Statistical (dynamic slots).
+    </p>
+
+    <h4>3. WDM (Wavelength Division Multiplexing)</h4>
+    <p>
+      Analog technique designed for optical fibers. Multiple light beams of different wavelengths
+      (colors) are combined into a single fiber and demultiplexed at the receiving end.
+    </p>
+
+    <h3>Switching</h3>
+    <p>
+      Switching determines how data is routed through intermediate nodes in a network:
+    </p>
+    <table>
+      <tr>
+        <th>Switching Type</th>
+        <th>Path Setup</th>
+        <th>Unit of Transfer</th>
+        <th>Resources Dedicated</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td><b>Circuit Switching</b></td>
+        <td>Required upfront</td>
+        <td>Continuous stream</td>
+        <td>Yes</td>
+        <td>PSTN (Landline Telephone)</td>
+      </tr>
+      <tr>
+        <td><b>Message Switching</b></td>
+        <td>No</td>
+        <td>Entire message</td>
+        <td>No (Store-and-forward)</td>
+      <td>Old telegraph systems</td>
+      </tr>
+      <tr>
+        <td><b>Packet Switching</b></td>
+        <td>No</td>
+        <td>Packets (fragmented)</td>
+        <td>No (Shared)</td>
+        <td>The Internet (IP)</td>
+      </tr>
+      <tr>
+        <td><b>Virtual Circuit</b></td>
+        <td>Yes (logical path)</td>
+        <td>Packets</td>
+        <td>Partial</td>
+        <td>Frame Relay, ATM</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 3.10 Network Performance -->
+  <div class="section">
+    <h2><b>3.5 Network Performance Metrics</b></h2>
+    <p>
+      Performance metrics quantify how well a network transfers data:
+    </p>
+    <ul>
+      <li><b>Bandwidth:</b> The maximum amount of data that can pass through a channel per unit time (Hz or bps).</li>
+      <li><b>Throughput:</b> The actual amount of data successfully transmitted over the network in a given period.
+        Throughput is usually lower than bandwidth due to overhead, collisions, and impairments.</li>
+      <li><b>Latency (Delay):</b> The total time required for a packet to travel from source to destination.
+        <br>
+        $$\text{Latency} = \text{Propagation Delay} + \text{Transmission Delay} + \text{Queuing Delay} + \text{Processing Delay}$$
+        <ul>
+          <li><b>Propagation Delay:</b> Time for a bit to travel the physical distance.
+            <br>
+            $$\text{Prop. Delay} = \frac{\text{Distance}}{\text{Speed of Signal in Medium}}$$
+            <i>Note: Speed of light in copper/fiber $\approx 2 \times 10^8$ m/s.</i>
+          </li>
+          <li><b>Transmission Delay:</b> Time required to push all bits of a packet onto the medium.
+            <br>
+            $$\text{Trans. Delay} = \frac{\text{Packet Size (bits)}}{\text{Transmission Rate (bps)}}$$
+          </li>
+          <li><b>Queuing Delay:</b> Time a packet spends in buffers waiting to be processed.</li>
+          <li><b>Processing Delay:</b> Time routers take to examine packet headers and determine the destination.</li>
+        </ul>
+      </li>
+      <li><b>Bandwidth-Delay Product (BDP):</b> The volume of bits that can fill the transmission link at any instant:
+        <br>
+        $$\text{BDP} = \text{Bandwidth} \times \text{Propagation Delay}$$
+      </li>
+      <li><b>Jitter:</b> The variation or fluctuation in packet arrival times. High jitter degrades real-time applications like VoIP.</li>
+    </ul>
+
+    <div class="note">
+      <h4>Performance Numerical Example</h4>
+      <p><b>Problem:</b> A file of size 2 Megabytes (2 MB) is sent over a link with a distance of 10,000 km, bandwidth of 10 Mbps, and signal propagation speed of $2 \times 10^8$ m/s. Calculate the total latency (excluding queuing and processing delays).</p>
+      <p><b>Solution:</b>
+        <br>File size = 2 MB = $2 \times 2^{20} \times 8$ bits = $16,777,216$ bits.
+        <br>Bandwidth = 10 Mbps = $10^7$ bps.
+        <br>Distance = 10,000 km = $10^7$ meters.
+        <br>Speed = $2 \times 10^8$ m/s.
+        <br>
+        <br><b>1. Propagation Delay:</b>
+        <br>$\text{Prop. Delay} = \text{Distance} / \text{Speed} = 10^7 / (2 \times 10^8) = 0.05$ seconds = 50 ms.
+        <br>
+        <br><b>2. Transmission Delay:</b>
+        <br>$\text{Trans. Delay} = \text{File Size} / \text{Bandwidth} = 16,777,216 / 10^7 \approx 1.677$ seconds.
+        <br>
+        <br><b>Total Latency:</b>
+        <br>$\text{Latency} = 0.05 + 1.677 = 1.727$ seconds.
+      </p>
+    </div>
+  </div>
+
+  <!-- Wireless Propagation Modes -->
+  <div class="section">
+    <h2><b>3.6 Wireless Propagation Modes</b></h2>
+    <p>
+      Electromagnetic waves travel from source to destination in space through different modes
+      depending on their frequency:
+    </p>
+    <ul>
+      <li><b>Ground Wave Propagation:</b> Follows the curvature of the Earth. Used for low-frequency
+        signals (frequencies below 2 MHz) like AM radio. The waves hug the surface, wrapping around
+        obstacles, but lose signal strength rapidly due to absorption by the ground.</li>
+      <li><b>Sky Wave Propagation:</b> Utilizes the ionosphere. High-frequency signals (2 MHz to 30 MHz)
+        are radiated upward and reflected back to Earth by the charged ionosphere. Allows long-distance,
+        intercontinental communication (e.g., shortwave radio).</li>
+      <li><b>Space Wave Propagation:</b> Line-of-sight propagation. Very high-frequency signals (above 30 MHz)
+        cannot be reflected by the ionosphere and must travel in straight paths directly from transmitter
+        to receiver. Earth's curvature limits the distance, requiring high repeaters/towers or satellites.</li>
+    </ul>
+
+    <pre>
+  Wireless Propagation:
+
+        Ionosphere
+     - - - - - - - - - - - - - - - - (Reflection) - - - - - -
+                                    /           \
+                                   /             \
+                                  /  Sky Wave     \
+            Space Wave (Direct)  /                 ▼
+  [Tower] ────────────────────→ [Tower]           [Receiver]
+    \                          /
+     \   Ground Wave (Curve)  /
+      ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀  (Earth Surface)
+    </pre>
+  </div>
+
+  <!-- Detailed Media Parameters -->
+  <div class="section">
+    <h2><b>3.7 Guided Media Performance Metrics</b></h2>
+    <p>
+      The selection of transmission media is based on several key electrical and physical parameters:
+    </p>
+    <table>
+      <tr>
+        <th>Transmission Medium</th>
+        <th>Bandwidth Capacity</th>
+        <th>Typical Attenuation</th>
+        <th>Repeater Spacing</th>
+        <th>EMI Susceptibility</th>
+      </tr>
+      <tr>
+        <td>UTP (Cat 6)</td>
+        <td>Up to 250 MHz</td>
+        <td>~20 dB / 100m at 100MHz</td>
+        <td>100 meters</td>
+        <td>High</td>
+      </tr>
+      <tr>
+        <td>Coaxial (RG-6)</td>
+        <td>Up to 1 GHz</td>
+        <td>~6 dB / 100m at 100MHz</td>
+        <td>1 to 10 km</td>
+        <td>Medium</td>
+      </tr>
+      <tr>
+        <td>MMF Fiber (62.5µm)</td>
+        <td>Up to 2 GHz·km</td>
+        <td>~3 dB / km at 850nm</td>
+        <td>2 km</td>
+        <td>None</td>
+      </tr>
+      <tr>
+        <td>SMF Fiber (9µm)</td>
+        <td>Virtually unlimited</td>
+        <td>~0.2 dB / km at 1550nm</td>
+        <td>40 to 80 km</td>
+        <td>None</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Decibel Calculations -->
+  <div class="section">
+    <h2><b>3.8 Practical Decibel Calculations (Power Losses and Gains)</b></h2>
+    <p>
+      In communication systems, signals experience cascading losses (cables) and gains (amplifiers).
+      Decibels allow simple addition and subtraction instead of multiplication and division.
+    </p>
+    <div class="note">
+      <h4>Numerical Example: Multi-Stage Link Analysis</h4>
+      <p><b>Problem:</b> A signal with an initial power of 10 mW is sent over a 10 km fiber optic cable
+        having an attenuation of 0.5 dB/km. The signal is then passed through an amplifier with a gain
+        of 15 dB. Calculate the final output power.</p>
+      <p><b>Solution:</b>
+        <br>1. Initial power $P_{in} = 10$ mW.
+        <br>Convert to dBm (decibels relative to 1 milliwatt):
+        <br>$P_{in}(dBm) = 10 \log_{10}(10\text{ mW} / 1\text{ mW}) = 10 \log_{10}(10) = 10$ dBm.
+        <br>
+        <br>2. Total fiber cable loss:
+        <br>$\text{Loss} = 10\text{ km} \times 0.5\text{ dB/km} = 5$ dB (negative gain).
+        <br>
+        <br>3. Amplifier gain:
+        <br>$\text{Gain} = 15$ dB.
+        <br>
+        <br>4. Calculate final power in dBm:
+        <br>$P_{out}(dBm) = P_{in}(dBm) - \text{Loss} + \text{Gain}$
+        <br>$P_{out}(dBm) = 10\text{ dBm} - 5\text{ dB} + 15\text{ dB} = 20$ dBm.
+        <br>
+        <br>5. Convert back to linear power:
+        <br>$20\text{ dBm} = 10 \log_{10}(P_{out}\text{ in mW}) \implies 2 = \log_{10}(P_{out}) \implies P_{out} = 10^2 = 100$ mW.
+        <br>The final output power of the signal is 100 mW.
+      </p>
+    </div>
+  </div>
+
+  <!-- Physical Interface Standards -->
+  <div class="section">
+    <h2><b>3.9 Physical Interface Standards</b></h2>
+    <p>
+      The physical layer also defines mechanical and electrical standards for connecting devices
+      to the transmission medium:
+    </p>
+    <ul>
+      <li><b>RS-232 Standard:</b> A classic serial interface standard defined by EIA for connecting
+        DTE (Data Terminal Equipment, e.g., computer) and DCE (Data Circuit-terminating Equipment, e.g., modem).
+        Uses a 25-pin DB-25 connector or a 9-pin DB-9 connector.
+        It defines signal functions and electrical levels (e.g., control lines, Tx, Rx, ground).</li>
+      <li><b>DB-9 Pin Configuration:</b>
+        <ul>
+          <li>Pin 1: DCD (Data Carrier Detect)</li>
+          <li>Pin 2: RxD (Receive Data)</li>
+          <li>Pin 3: TxD (Transmit Data)</li>
+          <li>Pin 4: DTR (Data Terminal Ready)</li>
+          <li>Pin 5: GND (Signal Ground)</li>
+          <li>Pin 6: DSR (Data Set Ready)</li>
+          <li>Pin 7: RTS (Request to Send)</li>
+          <li>Pin 8: CTS (Clear to Send)</li>
+          <li>Pin 9: RI (Ring Indicator)</li>
+        </ul>
+      </li>
+      <li><b>USB (Universal Serial Bus):</b> A modern hot-pluggable serial interface standard.
+        It supports four transfer rates: Low-speed (1.5 Mbps), Full-speed (12 Mbps), High-speed (480 Mbps),
+        and Super-speed (up to 20 Gbps for USB 3.2). Uses differential signaling on a 4-wire bus
+        (Vbus, D+, D-, GND).</li>
+      <li><b>RJ-45 (Registered Jack 45):</b> An 8-pin/8-position physical connector used in twisted-pair Ethernet cables.</li>
+    </ul>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 1: Introduction to Data Communication</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 1: Introduction to Data Communication [5 Hrs.]</b></h1>
+
+  <!-- 1.1 - 1.4 Fundamentals -->
+  <div class="section">
+    <h2><b>1.1 Introduction and Fundamentals of Data Communication</b></h2>
+
+    <h3>What is Data Communication?</h3>
+    <p>
+      <b>Data communication</b> refers to the exchange of data (in the form of 0s and 1s)
+      between two devices via some form of transmission medium, such as a wire cable or
+      wireless channel. It is the movement of encoded information from one point to another
+      by means of electrical, optical, or electromagnetic signals.
+    </p>
+
+    <h3>Fundamental Characteristics of Data Communication</h3>
+    <p>
+      The effectiveness of a data communication system depends on four fundamental characteristics:
+    </p>
+    <ol>
+      <li><b>Delivery:</b> The system must deliver data to the correct destination.
+        Data must be received by the intended device or user and only by that device or user.</li>
+      <li><b>Accuracy:</b> The system must deliver the data accurately. Data that have been altered
+        in transmission and left uncorrected are unusable.</li>
+      <li><b>Timeliness:</b> The system must deliver data in a timely manner. Data delivered late
+        are useless. In the case of video and audio, timely delivery means delivering data
+        as they are produced, in the same order that they are produced, and without significant delay.
+        This is called real-time transmission.</li>
+      <li><b>Jitter:</b> Jitter refers to the variation in the packet arrival time. It is the uneven
+        delay in the delivery of audio or video packets. For example, if some packets of a video
+        are delayed by 30ms and others by 40ms, the quality of the video will be uneven.</li>
+    </ol>
+
+    <h3>Five Components of Data Communication System</h3>
+    <p>
+      A data communication system has five core components, working together to transfer information:
+    </p>
+    <pre>
+                      Rule 1: Header format
+                      Rule 2: Transmission speed
+                      ┌──────────────────┐
+                      │    Protocol      │
+                      └────────┬─────────┘
+                               │
+               Message (Data, Text, Audio, Video)
+        ┌──────────────┐ ───────────────→ ┌──────────────┐
+        │    Sender    │                  │   Receiver   │
+        │ (Computer,   │ ═══════════════→ │ (Computer,   │
+        │  Phone, etc) │   Transmission   │  Printer, etc│
+        └──────────────┘      Medium      └──────────────┘
+                           (Cable, Fiber,
+                            Radio Waves)
+    </pre>
+    <ol>
+      <li><b>Message:</b> The information (data) to be communicated. Popular forms of
+        information include text, numbers, pictures, audio, and video.</li>
+      <li><b>Sender:</b> The device that sends the data message. It can be a computer,
+        workstation, telephone handset, video camera, and so on.</li>
+      <li><b>Receiver:</b> The device that receives the message. It can be a computer,
+        workstation, telephone handset, television, and so on.</li>
+      <li><b>Transmission Medium:</b> The physical path by which a message travels from sender
+        to receiver. It can be guided (wired) like twisted-pair wire, coaxial cable, or fiber-optic
+        cable, or unguided (wireless) like radio waves or microwaves.</li>
+      <li><b>Protocol:</b> A set of rules that govern data communication. It represents an agreement
+        between the communicating devices. Without a protocol, two devices may be connected
+        but not communicating, just as a person speaking French cannot understand a person speaking Nepali.</li>
+    </ol>
+  </div>
+
+  <!-- 1.2 Data Transmission Modes -->
+  <div class="section">
+    <h2><b>1.2 Data Transmission Modes</b></h2>
+    <p>
+      The transmission mode defines the direction of signal flow between two connected devices.
+      There are three basic modes:
+    </p>
+
+    <h3>1. Simplex Mode</h3>
+    <p>
+      In <b>simplex mode</b>, the communication is unidirectional, like a one-way street.
+      Only one of the two devices on a link can transmit; the other can only receive.
+    </p>
+    <ul>
+      <li><b>Direction of Flow:</b> Sender to Receiver only.</li>
+      <li><b>Channel Capacity:</b> The entire capacity of the channel is used by the transmitter.</li>
+      <li><b>Examples:</b> Keyboard (input only), Monitor (output only), Television broadcasting, Radio.</li>
+    </ul>
+    <pre>
+  ┌──────────────┐   Unidirectional (One-way)    ┌──────────────┐
+  │  Transmitter │ ────────────────────────────→ │   Receiver   │
+  │  (e.g., Keyboard)                            │  (e.g., CPU) │
+  └──────────────┘                               └──────────────┘
+    </pre>
+
+    <h3>2. Half-Duplex Mode</h3>
+    <p>
+      In <b>half-duplex mode</b>, each station can both transmit and receive, but not at the
+      same time. When one device is sending, the other can only receive, and vice versa.
+      It is like a one-lane bridge where traffic can go in both directions, but only one
+      direction at a time.
+    </p>
+    <ul>
+      <li><b>Direction of Flow:</b> Bidirectional, but only one direction at a time.</li>
+      <li><b>Channel Capacity:</b> The full capacity of the channel is used by whichever device is sending at that moment.</li>
+      <li><b>Examples:</b> Walkie-talkies, legacy Coaxial-Ethernet.</li>
+    </ul>
+    <pre>
+  Direction 1:   ┌──────────────┐ ───────────────→ ┌──────────────┐
+                 │   Device A   │                  │   Device B   │
+                 └──────────────┘                  └──────────────┘
+  Direction 2:   ┌──────────────┐ ←─────────────── ┌──────────────┐
+                 │   Device A   │                  │   Device B   │
+                 └──────────────┘                  └──────────────┘
+    </pre>
+
+    <h3>3. Full-Duplex Mode</h3>
+    <p>
+      In <b>full-duplex mode</b> (often called simply duplex), both stations can transmit
+      and receive simultaneously. It is like a two-way street where traffic flows in both
+      directions at the same time.
+    </p>
+    <ul>
+      <li><b>Direction of Flow:</b> Bidirectional, simultaneously.</li>
+      <li><b>Channel Capacity:</b> The capacity of the link is shared between the two directions.
+        This sharing can occur in two ways: either the link must contain two physically separate
+        transmission paths (one for sending and one for receiving), or the capacity of the single path
+        is split between signals traveling in opposite directions.</li>
+      <li><b>Examples:</b> Telephone network, modern switched Ethernet, mobile phone communication.</li>
+    </ul>
+    <pre>
+  Simultaneous   ┌──────────────┐ ───────────────→ ┌──────────────┐
+  Bidirectional  │   Device A   │                  │   Device B   │
+                 │              │ ←─────────────── │              │
+                 └──────────────┘                  └──────────────┘
+    </pre>
+
+    <h3>Summary Comparison Table</h3>
+    <table>
+      <tr>
+        <th>Feature</th>
+        <th>Simplex</th>
+        <th>Half-Duplex</th>
+        <th>Full-Duplex</th>
+      </tr>
+      <tr>
+        <td>Direction of Flow</td>
+        <td>Unidirectional</td>
+        <td>Bidirectional (one at a time)</td>
+        <td>Bidirectional (simultaneous)</td>
+      </tr>
+      <tr>
+        <td>Send/Receive</td>
+        <td>Only send OR only receive</td>
+        <td>Both, but not at same time</td>
+        <td>Both, simultaneously</td>
+      </tr>
+      <tr>
+        <td>Channel Utilization</td>
+        <td>Inefficient (one-way only)</td>
+        <td>Moderate</td>
+        <td>Highly efficient</td>
+      </tr>
+      <tr>
+        <td>Performance</td>
+        <td>Low</td>
+        <td>Medium</td>
+        <td>High</td>
+      </tr>
+      <tr>
+        <td>Example</td>
+        <td>Keyboard to Monitor</td>
+        <td>Walkie-talkie</td>
+        <td>Mobile Phone call</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 1.5 - 1.7 Block Diagram, Analog to Digital, and Advantages -->
+  <div class="section">
+    <h2><b>1.5 Digital Communication System and Analog-to-Digital Conversion</b></h2>
+
+    <h3>Block Diagram of Digital Communication System</h3>
+    <p>
+      A digital communication system processes information in discrete steps. Below is the
+      comprehensive block diagram showing the flow of information from the source to the destination:
+    </p>
+    <pre>
+  [Information Source]
+          │ (Analog Voice/Text)
+          ▼
+  [Source Encoder]      ─── Converts information to binary bits (A/D conversion, compression)
+          │
+          ▼
+  [Channel Encoder]     ─── Adds redundant bits for error detection and correction (e.g., CRC, Hamming)
+          │
+          ▼
+  [Modulator / Transmitter] ── Modulates digital bits into electromagnetic waveforms (ASK, FSK, PSK)
+          │
+          ▼  [Transmission Medium] (Coaxial, Fiber, Space) + [Noise & Distortions]
+          │
+          ▼
+  [Demodulator / Receiver] ── Demodulates received wave back into digital bit streams
+          │
+          ▼
+  [Channel Decoder]     ── Detects and corrects errors; removes redundant bits
+          │
+          ▼
+  [Source Decoder]      ── Decompresses and converts binary bits back to original format (D/A)
+          │
+          ▼
+    [Destination]
+    </pre>
+
+    <h3>Analog to Digital Conversion (ADC)</h3>
+    <p>
+      An <b>Analog-to-Digital System</b> converts continuous physical signals (like voice or temperature)
+      into discrete binary representations. This process involves three essential steps:
+    </p>
+    <ol>
+      <li><b>Sampling:</b> Measuring the amplitude of the continuous analog signal at regular
+        time intervals (sampling period $T_s$). The rate of sampling is $f_s = 1/T_s$.</li>
+      <li><b>Quantization:</b> Mapping the continuous amplitude values to the nearest discrete levels
+        from a finite set of predetermined levels (L levels). This introduces a small error known
+        as <i>quantization noise</i>.</li>
+      <li><b>Coding:</b> Assigning an n-bit binary code to represent each quantized amplitude level,
+        where $L = 2^n$.</li>
+    </ol>
+
+    <h3>Advantages of Digital Transmission over Analog</h3>
+    <ul>
+      <li><b>Noise Immunity:</b> Digital signals are less susceptible to noise and interference
+        because they use discrete states (0 and 1). A slight modification of the waveform shape
+        due to noise does not change the logic level unless the noise amplitude is very high.</li>
+      <li><b>Regeneration:</b> Instead of amplifying an analog signal (which also amplifies the noise),
+        digital systems use <b>regenerative repeaters</b>. These repeaters detect the binary values,
+        discard the accumulated noise, and transmit clean, newly generated pulses.</li>
+      <li><b>Error Detection and Correction:</b> Redundant bits can be added to digital data, allowing
+        the receiver to identify and even correct transmission errors.</li>
+      <li><b>Compression and Cryptography:</b> Digital data can be easily compressed to conserve
+        bandwidth and encrypted for secure transmission.</li>
+      <li><b>Integration of Services:</b> Voice, data, video, and control signals can be multiplexed
+        and transmitted over the same digital network.</li>
+      <li><b>Cost-Effectiveness:</b> Digital integrated circuits (ICs) are cheaper to manufacture
+        and maintain than high-precision analog circuitry.</li>
+    </ul>
+  </div>
+
+  <!-- 1.8 - 1.10 Sampling, Nyquist and Shannon Theorems -->
+  <div class="section">
+    <h2><b>1.8 Nyquist and Shannon Theorems (Channel Capacity)</b></h2>
+
+    <h3>Nyquist Sampling Theorem</h3>
+    <p>
+      The <b>Nyquist Sampling Theorem</b> states that a continuous-time bandlimited signal containing
+      no frequency components higher than $f_{max}$ Hz can be uniquely and completely reconstructed
+      from its samples if it is sampled at a rate $f_s$ that is greater than or equal to twice the
+      maximum frequency component:
+    </p>
+    <pre>
+  fs ≥ 2 × fmax
+
+  Where:
+    fs   = Sampling frequency (samples per second)
+    fmax = Highest frequency component of the analog signal
+    2 × fmax is known as the "Nyquist Rate".
+    </pre>
+    <p>
+      If the sampling rate is less than $2f_{max}$, high-frequency components overlap with low-frequency
+      components in the reconstructed signal. This distortion is called <b>aliasing</b>.
+    </p>
+
+    <h3>Nyquist Bit Rate (Noiseless Channel)</h3>
+    <p>
+      For a noiseless (ideal) channel of bandwidth $B$, the maximum bit rate ($R$) at which data
+      can be transmitted is limited by the number of signal levels ($L$) used:
+    </p>
+    <pre>
+  Bit Rate (R) = 2 × B × log₂ (L) bps
+
+  Where:
+    B = Bandwidth of the channel in Hz
+    L = Number of discrete signal levels (voltage levels)
+    R = Maximum bit rate in bits per second (bps)
+    log₂ (L) = Number of bits represented by each signal level (n)
+    </pre>
+
+    <h3>Shannon Channel Capacity Theorem (Noisy Channel)</h3>
+    <p>
+      In reality, communication channels are noisy. Claude Shannon developed a formula to calculate
+      the absolute maximum theoretical bit rate (Channel Capacity, $C$) of a noisy channel with
+      bandwidth $B$ and Signal-to-Noise Ratio ($SNR$):
+    </p>
+    <pre>
+  Capacity (C) = B × log₂ (1 + SNR) bps
+
+  Where:
+    B   = Bandwidth of the channel in Hz
+    SNR = Signal-to-Noise Ratio (ratio of signal power to noise power, S/N)
+    C   = Maximum channel capacity in bits per second (bps)
+    </pre>
+    <p class="warning">
+      <b>Important Note:</b> Signal-to-Noise Ratio is often expressed in decibels (dB).
+      Before applying Shannon's formula, you must convert the decibel value to a linear ratio:
+      <br>
+      $$SNR_{dB} = 10 \log_{10}(SNR) \implies SNR = 10^{\frac{SNR_{dB}}{10}}$$
+    </p>
+
+    <h3>Bit Rate vs. Baud Rate</h3>
+    <ul>
+      <li><b>Bit Rate:</b> The number of data bits transmitted per second (bps). It measures the speed of data transfer.</li>
+      <li><b>Baud Rate:</b> The number of signal changes (symbol changes) per second. It measures the modulation rate.</li>
+      <li><b>Relationship:</b> Bit Rate = Baud Rate × $\log_2(L)$ or Bit Rate = Baud Rate × $n$, where $n$ is the number of bits per signal element.</li>
+    </ul>
+  </div>
+
+  <!-- 1.11 - 1.12 Numericals -->
+  <div class="section">
+    <h2><b>1.9 Numerical Examples and Calculations</b></h2>
+
+    <div class="note">
+      <h4>Numerical Example 1: Sampling Rate</h4>
+      <p><b>Problem:</b> A human voice signal has a frequency range from 300 Hz to 3400 Hz. What is the minimum sampling rate required to digitize this signal without aliasing?</p>
+      <p><b>Solution:</b>
+        <br>The highest frequency component is $f_{max} = 3400$ Hz.
+        <br>According to Nyquist Sampling Theorem:
+        <br>$f_s \ge 2 \times f_{max}$
+        <br>$f_s \ge 2 \times 3400 = 6800$ Hz (samples/second).
+        <br><i>Note: In standard telephone networks, the voice signal is sampled at 8000 Hz to provide a guard band.</i>
+      </p>
+    </div>
+
+    <div class="note">
+      <h4>Numerical Example 2: Nyquist Bit Rate</h4>
+      <p><b>Problem:</b> Consider a noiseless channel with a bandwidth of 3000 Hz transmitting a signal with 4 levels. Calculate the maximum bit rate.</p>
+      <p><b>Solution:</b>
+        <br>Bandwidth $B = 3000$ Hz.
+        <br>Number of signal levels $L = 4$.
+        <br>According to Nyquist Bit Rate formula:
+        <br>$R = 2 \times B \times \log_2(L)$
+        <br>$R = 2 \times 3000 \times \log_2(4) = 6000 \times 2 = 12000$ bps (12 kbps).
+      </p>
+    </div>
+
+    <div class="note">
+      <h4>Numerical Example 3: Shannon Capacity</h4>
+      <p><b>Problem:</b> A telephone line has a bandwidth of 3100 Hz. The Signal-to-Noise Ratio (SNR) is 30 dB. Calculate the maximum channel capacity.</p>
+      <p><b>Solution:</b>
+        <br>Bandwidth $B = 3100$ Hz.
+        <br>Signal-to-Noise Ratio in dB, $SNR_{dB} = 30$ dB.
+        <br>First, convert $SNR_{dB}$ to its linear ratio form:
+        <br>$30 = 10 \log_{10}(SNR) \implies 3 = \log_{10}(SNR) \implies SNR = 10^3 = 1000$.
+        <br>Now apply Shannon's formula:
+        <br>$C = B \times \log_2(1 + SNR)$
+        <br>$C = 3100 \times \log_2(1 + 1000) = 3100 \times \log_2(1001)$
+        <br>Using base change rule: $\log_2(1001) = \frac{\log_{10}(1001)}{\log_{10}(2)} \approx \frac{3.00043}{0.30103} \approx 9.967$
+        <br>$C = 3100 \times 9.967 \approx 30897.7$ bps $\approx 30.9$ kbps.
+      </p>
+    </div>
+
+    <div class="note">
+      <h4>Numerical Example 4: Combined Limits</h4>
+      <p><b>Problem:</b> A channel has a bandwidth of 1 MHz. The SNR is 24 dB.
+      <br>1. Calculate the maximum Shannon capacity.
+      <br>2. To achieve this capacity, how many signal levels must be used according to Nyquist?</p>
+      <p><b>Solution:</b>
+        <br>Bandwidth $B = 1$ MHz = $10^6$ Hz.
+        <br>$SNR_{dB} = 24$ dB.
+        <br>Convert to linear ratio: $SNR = 10^{2.4} \approx 251.19$.
+        <br>
+        <br><b>1. Shannon Capacity:</b>
+        <br>$C = B \times \log_2(1 + SNR) = 10^6 \times \log_2(1 + 251.19)$
+        <br>$C = 10^6 \times \log_2(252.19) \approx 10^6 \times 7.978 \approx 7.98$ Mbps.
+        <br>
+        <br><b>2. Nyquist Signal Levels:</b>
+        <br>We want to find $L$ such that Nyquist Bit Rate equals the Shannon capacity limit:
+        <br>$7.98 \times 10^6 = 2 \times B \times \log_2(L)$
+        <br>$7.98 \times 10^6 = 2 \times 10^6 \times \log_2(L)$
+        <br>$7.98 = 2 \log_2(L) \implies \log_2(L) = 3.99 \approx 4$ bits per signal element.
+        <br>$L = 2^{3.99} \approx 16$ levels.
+        <br>Therefore, we must use 16 distinct signal levels to approach this capacity.
+      </p>
+    </div>
+  </div>
+
+  <!-- 1.13 Line Coding -->
+  <div class="section">
+    <h2><b>1.13 Line Coding Schemes</b></h2>
+    <p>
+      <b>Line coding</b> is the process of converting digital data (binary bit stream) into
+      digital signals (voltage pulses). There are three major categories of line coding:
+    </p>
+
+    <h3>1. Unipolar Scheme</h3>
+    <p>
+      All signal levels are on one side of the time axis — either positive or zero.
+    </p>
+    <ul>
+      <li><b>Unipolar NRZ (Non-Return-to-Zero):</b> High voltage represents 1, and zero voltage
+        represents 0. The signal does not return to zero in the middle of a bit.
+        <br><b>Drawback:</b> DC component is present, and synchronization loss occurs during long sequences of 0s or 1s.</li>
+    </ul>
+    <pre>
+  Bit Stream:    1        0        1        1        0
+              ┌───────┐        ┌────────────────┐
+  Voltage:    │       │        │                │
+              ┘       └────────┘                └────────
+    </pre>
+
+    <h3>2. Polar Schemes</h3>
+    <p>
+      Voltages are on both sides of the time axis (positive and negative levels).
+    </p>
+
+    <h4>NRZ-L (NRZ-Level) and NRZ-I (NRZ-Invert)</h4>
+    <ul>
+      <li><b>NRZ-L:</b> The level of the voltage determines the value of the bit. Typically, positive voltage represents 0, and negative voltage represents 1.</li>
+      <li><b>NRZ-I:</b> The inversion or lack of inversion determines the value of the bit.
+        A transition at the beginning of the bit interval represents a 1; no transition represents a 0.</li>
+    </ul>
+    <pre>
+  Bit Stream:       1        0        1        1        0
+  NRZ-L:       ----------            ------------------- (Negative = 1)
+                         ------------                    (Positive = 0)
+
+  NRZ-I:       |---------|-----------|_________|--------- (Transitions on 1)
+  (starts high)           (no change) (change)  (change)
+    </pre>
+
+    <h4>RZ (Return-to-Zero)</h4>
+    <p>
+      The signal changes not between bits, but during the bit. The signal returns to zero
+      at the midpoint of each bit interval.
+    </p>
+    <ul>
+      <li>1 is represented by positive-to-zero transition.</li>
+      <li>0 is represented by negative-to-zero transition.</li>
+      <li><b>Advantage:</b> Excellent synchronization.</li>
+      <li><b>Disadvantage:</b> Requires double the bandwidth.</li>
+    </ul>
+
+    <h4>Biphase: Manchester and Differential Manchester</h4>
+    <ul>
+      <li><b>Manchester:</b> A transition occurs in the middle of each bit interval.
+        A 0 is represented by a high-to-low transition (positive-to-negative).
+        A 1 is represented by a low-to-high transition (negative-to-positive).
+        Used in legacy Coaxial Ethernet (10Base5/10Base2).</li>
+      <li><b>Differential Manchester:</b> The transition in the middle of the bit interval is
+        used only for synchronization. The presence or absence of a transition at the beginning of
+        the bit interval determines the bit value:
+        <ul>
+          <li>Transition at beginning = 0</li>
+          <li>No transition at beginning = 1</li>
+        </ul>
+        Used in Token Ring (IEEE 802.5).</li>
+    </ul>
+    <pre>
+  Bit Stream:          0          1          0          0
+  Manchester:      ┌────┐     ┌──┐  ┌──┐     ┌────┐     ┌────┐
+  (High-to-Low = 0)│    │     │  │  │  │     │    │     │    │
+  (Low-to-High = 1)     └────┘  └──┘  └────┘     └────┘     └───
+  Mid-bit Trans:     ↓          ↓          ↓          ↓
+    </pre>
+
+    <h3>3. Bipolar Schemes</h3>
+    <p>
+      There are three voltage levels: positive, negative, and zero.
+    </p>
+    <ul>
+      <li><b>AMI (Alternate Mark Inversion):</b> Neutral zero voltage represents 0.
+        Binary 1s (marks) are represented by alternating positive and negative voltages.</li>
+    </ul>
+    <pre>
+  Bit Stream:    1        0        1        0        1
+              ┌───────┐        │                 ┌───────┐
+  Voltage:    │       │        │                 │       │
+              ┘       └────────┴────────┘        ┘       └───────
+                               (Negative)       (Positive)
+    </pre>
+
+    <h3>Scrambling Techniques (B8ZS and HDB3)</h3>
+    <p>
+      Bipolar AMI suffers from synchronization loss during long sequences of zeros.
+      To solve this, <b>scrambling</b> replaces long strings of zeros with predefined
+      code patterns containing violations:
+    </p>
+    <ul>
+      <li><b>B8ZS (Bipolar with 8-Zero Substitution):</b> Used in North America. If eight
+        consecutive zeros occur, they are replaced with the pattern <code>000VB0VB</code>,
+        where V is a bipolar violation (same polarity as previous 1) and B is a bipolar element
+        (opposite polarity).</li>
+      <li><b>HDB3 (High-Density Bipolar 3-Zero):</b> Used in Europe and Asia. If four consecutive
+        zeros occur, they are replaced with <code>000V</code> or <code>B00V</code> depending on
+        the parity of 1s since the last substitution.</li>
+    </ul>
+  </div>
+
+</body>
+</html>

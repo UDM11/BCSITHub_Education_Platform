@@ -362,14 +362,15 @@ const stats = [
 // Reusable button component
 const PrimaryButton = ({ icon: Icon, children, disabled, onClick }: any) => (
   <Button
+    variant="primary"
     size="lg"
-    className={`bg-black text-white hover:bg-white hover:text-black w-full sm:w-auto ${
+    className={`bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white hover:brightness-110 shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 transition-all duration-300 border-0 w-full sm:w-auto ${
       disabled ? 'opacity-70 cursor-not-allowed' : ''
     }`}
     onClick={onClick}
     disabled={disabled}
+    icon={Icon}
   >
-    {Icon && <Icon />}
     {children}
   </Button>
 );
@@ -377,14 +378,14 @@ const PrimaryButton = ({ icon: Icon, children, disabled, onClick }: any) => (
 // Enhanced feature card component
 const FeatureCard = ({ icon: Icon, title, description, color, bgColor, gradient, index }: any) => (
   <motion.div
-    initial={{ opacity: 0, y: 50 }}
+    initial={{ opacity: 0, y: 40 }}
     whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6, delay: index * 0.1 }}
+    transition={{ duration: 0.6, delay: index * 0.1, type: 'spring', stiffness: 100, damping: 15 }}
     viewport={{ once: true }}
     whileHover={{ y: -10 }}
-    className="group"
+    className="group h-full"
   >
-    <Card className="h-full border-0 shadow-lg hover:shadow-2xl transition-all duration-500 bg-white relative overflow-hidden">
+    <Card hover={false} className="h-full border border-slate-100 shadow-premium group-hover:shadow-premium-hover transition-all duration-500 bg-white relative overflow-hidden rounded-2xl">
       <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
       <CardContent className="text-center p-8 relative z-10">
         <motion.div 
@@ -394,8 +395,8 @@ const FeatureCard = ({ icon: Icon, title, description, color, bgColor, gradient,
         >
           <Icon className={`w-10 h-10 ${color}`} />
         </motion.div>
-        <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors">{title}</h3>
-        <p className="text-gray-600 leading-relaxed">{description}</p>
+        <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-indigo-600 transition-colors">{title}</h3>
+        <p className="text-slate-600 leading-relaxed text-sm">{description}</p>
         <motion.div 
           className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           initial={{ x: -20 }}
@@ -746,25 +747,26 @@ export function Home() {
                 key={course.code || course.name}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.6, delay: index * 0.1, type: 'spring', stiffness: 100, damping: 15 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -10 }}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100"
+                whileHover={{ y: -8 }}
+                className="bg-white rounded-2xl border border-slate-100 shadow-premium hover:shadow-premium-hover transition-all duration-300 overflow-hidden"
               >
                 <div className="p-8">
                   <div className="text-4xl mb-4">📚</div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="bg-indigo-100 text-indigo-600 px-3 py-1 rounded-full text-sm font-medium">
+                    <span className="bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full text-xs font-semibold">
                       {course.code || 'Course'}
                     </span>
                     <div className="flex items-center">
-                      <span className="text-sm font-medium text-gray-600">{course.credits} Credits</span>
+                      <span className="text-xs font-semibold text-slate-500">{course.credits} Credits</span>
                     </div>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{course.name}</h3>
-                  <p className="text-gray-600 mb-6">Access notes, past papers, and study materials</p>
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">{course.name}</h3>
+                  <p className="text-slate-500 text-sm mb-6">Access notes, past papers, and study materials</p>
                   <Button 
-                    className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700"
+                    variant="primary"
+                    className="w-full text-sm font-semibold"
                     onClick={() => {
                       const currentSemester = user && profile?.semester ? profile.semester : '1';
                       const subjectCode = course.code || course.name;

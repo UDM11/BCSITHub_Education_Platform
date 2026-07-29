@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 3: Computer Architecture Basics - Comprehensive Notes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0px;
+    }
+    h1 {
+        text-align: center;
+        color: #0f172a;
+        font-size: 20pt;
+        font-weight: bold;
+        margin-bottom: 40px;
+        border-bottom: 3px double #cbd5e1;
+        padding-bottom: 15px;
+    }
+    h2 {
+      color: #1e3a8a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 30px;
+      font-size: 15pt;
+    }
+    h3 {
+      color: #2563eb;
+      font-size: 13pt;
+      margin-top: 20px;
+    }
+    .section {
+      background: #ffffff;
+      padding: 30px;
+      margin-bottom: 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 25px;
+    }
+    li {
+      margin-bottom: 12px;
+    }
+    pre {
+      background-color: #0f172a;
+      color: #38bdf8;
+      padding: 20px;
+      overflow-x: auto;
+      border-radius: 8px;
+      font-size: 11pt;
+      margin: 20px 0;
+      font-family: Consolas, Monaco, monospace;
+      border-left: 4px solid #3b82f6;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      background-color: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #0f172a;
+    }
+    pre code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+      color: inherit;
+    }
+    .highlight {
+      background-color: #fef08a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .diagram-container {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .table-container {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 11pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .note-box {
+      background-color: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px; }
+      .section { padding: 20px; }
+      pre { font-size: 10pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 3: Computer Architecture Basics [3 Hours] - Detailed Study Guide</b></h1>
+
+  <div class="section">
+    <h2><b>3.1 Computer Architecture vs. Computer Organization</b></h2>
+    <p><b>Computer Architecture</b> refers to those attributes of a system visible to a programmer, or, put another way, those attributes that have a direct impact on the logical execution of a program. Examples of architectural attributes include the instruction set, the number of bits used to represent data types, input/output mechanisms, and techniques for addressing memory.</p>
+    <p><b>Computer Organization</b> refers to the operational units and their interconnections that realize the architectural specifications. Organizational attributes include hardware details transparent to the programmer, such as control signals, interfaces between the computer and peripherals, and the memory technology used (e.g., SRAM vs. DRAM).</p>
+
+    <div class="note-box">
+      <b>Example:</b> It is an architectural design decision whether a computer will have a multiply instruction. It is an organizational decision whether that instruction will be implemented by a dedicated multiply hardware unit or by iterative addition logic in the ALU.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><b>3.2 Register Organization of a Basic Computer</b></h2>
+    <p>The internal registers of the basic computer are organized to facilitate data transfer, memory address tracking, and instruction processing. Below is a comprehensive list of these registers:</p>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Register Symbol</th>
+            <th>Name</th>
+            <th>Size (Bits)</th>
+            <th>Function</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>DR</td>
+            <td>Data Register</td>
+            <td>16</td>
+            <td>Holds memory operand values read from memory.</td>
+          </tr>
+          <tr>
+            <td>AR</td>
+            <td>Address Register</td>
+            <td>12</td>
+            <td>Holds address for memory access. Connected to address lines.</td>
+          </tr>
+          <tr>
+            <td>AC</td>
+            <td>Accumulator</td>
+            <td>16</td>
+            <td>General-purpose processor register for ALU operations.</td>
+          </tr>
+          <tr>
+            <td>IR</td>
+            <td>Instruction Register</td>
+            <td>16</td>
+            <td>Holds the instruction code currently being executed.</td>
+          </tr>
+          <tr>
+            <td>PC</td>
+            <td>Program Counter</td>
+            <td>12</td>
+            <td>Holds address of the next instruction to be fetched from memory.</td>
+          </tr>
+          <tr>
+            <td>TR</td>
+            <td>Temporary Register</td>
+            <td>16</td>
+            <td>Holds temporary data during processing operations.</td>
+          </tr>
+          <tr>
+            <td>INPR</td>
+            <td>Input Register</td>
+            <td>8</td>
+            <td>Holds 8-bit input character from device.</td>
+          </tr>
+          <tr>
+            <td>OUTR</td>
+            <td>Output Register</td>
+            <td>8</td>
+            <td>Holds 8-bit output character for display device.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><b>3.3 Common Bus System Architecture</b></h2>
+    <p>Connecting all registers with individual wires would require a highly complex network of lines. To simplify this, a <b>Common Bus System</b> is used. It allows the output of only one register to be placed on the bus at a time, while multiple registers can read from it.</p>
+
+    <h3><b>1. Multiplexer-Based Bus System:</b></h3>
+    <p>Constructed using 16-to-1 multiplexers (or 8-to-1 depending on register counts). Each register output is connected to a specific multiplexer input line. Three selection lines (S2, S1, S0) select which register's data is placed on the bus.</p>
+
+    <h3><b>2. Three-State Buffer Bus System:</b></h3>
+    <p>Constructed using <b>Three-state buffers</b> (like 74LS244). A three-state gate has three states: 0, 1, and high-impedance (Hi-Z). In Hi-Z state, the output is electrically isolated from the bus. A decoder uses the select lines to enable the three-state buffer of only one register, placing its bits on the shared bus lines.</p>
+    <div class="diagram-container">
+   +------------+              +------------+              +------------+
+   | Register A |              | Register B |              | Register C |
+   +-----+------+              +-----+------+              +-----+------+
+         |                           |                           |
+         v [Buffer En]               v [Buffer En]               v [Buffer En]
+      |\ |                        |\ |                        |\ |
+      | \|----[Hi-Z Control]      | \|----[Hi-Z Control]      | \|----[Hi-Z Control]
+      +--+                        +--+                        +--+
+        |                           |                           |
+   =====+===========================+===========================+=========> Common Bus Line
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><b>3.4 Instruction Formats and Addressing Modes</b></h2>
+    <p>An <b>Instruction Format</b> specifies the structure of bits in a machine instruction. A basic computer instruction format consists of three fields:</p>
+    <div class="diagram-container">
+Instruction Word Bit Layout:
++-----+----------+------------------------------------------+
+|  I  |  Opcode  |                 Address                  |
++-----+----------+------------------------------------------+
+  15   14      12 11                                       0
+  
+Where:
+- I (Bit 15)   : Addressing Mode. 0 = Direct Addressing, 1 = Indirect Addressing.
+- Opcode       : 3 bits (bits 14-12) specifying operations (000 to 111).
+- Address      : 12 bits (bits 11-0) specifying memory address.
+    </div>
+
+    <h3><b>Instruction Formats by Address Fields:</b></h3>
+    <p>Let's evaluate how the algebraic expression <code>X = (A + B) * (C + D)</code> is executed in different instruction set architectures:</p>
+
+    <h4><b>1. Three-Address Instructions:</b></h4>
+    <p>Each instruction specifies two source operands and one destination operand.</p>
+    <pre><code>
+ADD R1, A, B     ; R1 <- M[A] + M[B]
+ADD R2, C, D     ; R2 <- M[C] + M[D]
+MUL X, R1, R2     ; M[X] <- R1 * R2
+    </code></pre>
+
+    <h4><b>2. Two-Address Instructions:</b></h4>
+    <p>The destination operand doubles as one of the source operands.</p>
+    <pre><code>
+MOV R1, A        ; R1 <- M[A]
+ADD R1, B        ; R1 <- R1 + M[B]
+MOV R2, C        ; R2 <- M[C]
+ADD R2, D        ; R2 <- R2 + M[D]
+MUL R1, R2       ; R1 <- R1 * R2
+MOV X, R1        ; M[X] <- R1
+    </code></pre>
+
+    <h4><b>3. One-Address Instructions (Accumulator-Based):</b></h4>
+    <p>Uses an implicit Accumulator (AC) register for all operations.</p>
+    <pre><code>
+LOAD A           ; AC <- M[A]
+ADD B            ; AC <- AC + M[B]
+STORE T          ; M[T] <- AC (store intermediate sum)
+LOAD C           ; AC <- M[C]
+ADD D            ; AC <- AC + M[D]
+MUL T            ; AC <- AC * M[T]
+STORE X          ; M[X] <- AC
+    </code></pre>
+
+    <h4><b>4. Zero-Address Instructions (Stack-Based):</b></h4>
+    <p>Operands are popped from the top of the stack, processed, and the result is pushed back.</p>
+    <pre><code>
+PUSH A           ; Stack <- M[A]
+PUSH B           ; Stack <- M[B]
+ADD              ; Pop two, add, push sum
+PUSH C           ; Stack <- M[C]
+PUSH D           ; Stack <- M[D]
+ADD              ; Pop two, add, push sum
+MUL              ; Pop two, multiply, push product
+POP X            ; M[X] <- Pop top of stack
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>3.5 Stack Organization</b></h2>
+    <p>A <b>stack</b> is a storage device that stores information in such a manner that the item stored last is the first to be retrieved (Last-In, First-Out: LIFO). It is controlled by the <b>Stack Pointer (SP)</b>.</p>
+
+    <h3><b>1. Register Stack Organization:</b></h3>
+    <p>Implemented as a dedicated array of high-speed registers. A 64-word stack requires a 6-bit Stack Pointer (since 2^6 = 64). It uses flag flip-flops <b>FULL</b> and <b>EMPTY</b> to detect stack limits.</p>
+    
+    <h4><b>Register Stack Push Micro-operations:</b></h4>
+    <pre><code>
+SP <- SP + 1      ; Increment Stack Pointer
+DR <- Data        ; Get data
+M[SP] <- DR       ; Write to stack memory
+If (SP = 0) then (FULL <- 1) ; If pointer wraps to 0, stack is full
+EMPTY <- 0        ; Stack is no longer empty
+    </code></pre>
+
+    <h4><b>Register Stack Pop Micro-operations:</b></h4>
+    <pre><code>
+DR <- M[SP]       ; Read data from top of stack
+SP <- SP - 1      ; Decrement Stack Pointer
+If (SP = 0) then (EMPTY <- 1) ; If pointer wraps to 0, stack is empty
+FULL <- 0         ; Stack is no longer full
+    </code></pre>
+
+    <h3><b>2. Memory Stack Organization:</b></h3>
+    <p>Implemented in a dedicated segment of main memory (RAM). The stack grows downward in memory, meaning PUSH operations decrement the SP, and POP operations increment the SP.</p>
+    
+    <h4><b>Memory Stack Push:</b></h4>
+    <pre><code>
+SP <- SP - 1      ; Decrement pointer (moves to lower memory address)
+M[SP] <- DR       ; Write data to memory address in SP
+    </code></pre>
+
+    <h4><b>Memory Stack Pop:</b></h4>
+    <pre><code>
+DR <- M[SP]       ; Read data from memory address in SP
+SP <- SP + 1      ; Increment pointer (moves to higher memory address)
+    </code></pre>
+  </div>
+</body>
+</html>

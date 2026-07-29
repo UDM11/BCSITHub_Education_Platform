@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit V: Solution of Ordinary Differential Equations - Comprehensive Notes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0px;
+    }
+    h1 {
+        text-align: center;
+        color: #0f172a;
+        font-size: 20pt;
+        font-weight: bold;
+        margin-bottom: 40px;
+        border-bottom: 3px double #cbd5e1;
+        padding-bottom: 15px;
+    }
+    h2 {
+      color: #1e3a8a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 30px;
+      font-size: 15pt;
+    }
+    h3 {
+      color: #2563eb;
+      font-size: 13pt;
+      margin-top: 20px;
+    }
+    .section {
+      background: #ffffff;
+      padding: 30px;
+      margin-bottom: 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 25px;
+    }
+    li {
+      margin-bottom: 12px;
+    }
+    pre {
+      background-color: #0f172a;
+      color: #38bdf8;
+      padding: 20px;
+      overflow-x: auto;
+      border-radius: 8px;
+      font-size: 11pt;
+      margin: 20px 0;
+      font-family: Consolas, Monaco, monospace;
+      border-left: 4px solid #3b82f6;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      background-color: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #0f172a;
+    }
+    pre code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+      color: inherit;
+    }
+    .highlight {
+      background-color: #fef08a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .diagram-container {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .table-container {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 11pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .note-box {
+      background-color: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px; }
+      .section { padding: 20px; }
+      pre { font-size: 10pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit V: Solution of Ordinary Differential Equations [8 Hours] - Study Notes</b></h1>
+
+  <div class="section">
+    <h2><b>5.1 Euler's Method</b></h2>
+    <p>Euler's Method is a first-order numerical procedure for solving Initial Value Problems (IVPs). It projects the next value along the tangent line slope at the current point.</p>
+
+    <h3><b>Derivation using Taylor Series:</b></h3>
+    <p>The Taylor series expansion of the solution function <code>y(x)</code> around <code>x_i</code> is:
+      <br><code>y(x_i + h) = y(x_i) + h * y'(x_i) + (h^2 / 2) * y''(c)</code>
+      <br>
+      <br>Since <code>y'(x) = f(x, y)</code>, substituting this and truncating the terms of order <code>O(h^2)</code> yields the Euler formula:
+      <br><code>y_i+1 = y_i + h * f(x_i, y_i)</code>
+    </p>
+
+    <h3><b>Euler's Method C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+
+// Define function dy/dx = f(x, y) = x + y
+double f(double x, double y) {
+    return x + y;
+}
+
+void euler(double x0, double y0, double h, double target_x) {
+    double x = x0;
+    double y = y0;
+    printf("%-10s %-15s %-15s\n", "Step", "x", "y");
+    
+    int step = 0;
+    printf("%-10d %-15.6f %-15.6f\n", step++, x, y);
+    
+    while (x &lt; target_x - 1e-9) {
+        y = y + h * f(x, y);
+        x = x + h;
+        printf("%-10d %-15.6f %-15.6f\n", step++, x, y);
+    }
+}
+
+int main() {
+    euler(0.0, 1.0, 0.1, 0.5);
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>5.2 Heun's Method (Modified Euler Method)</b></h2>
+    <p>Heun's Method improves accuracy by predicting the next value using Euler's formula, calculating the slope at the predicted point, and averaging it with the initial slope to obtain a corrected value.</p>
+
+    <h3><b>Heun's Method C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+
+double f(double x, double y) {
+    return x + y;
+}
+
+void heun(double x0, double y0, double h, double target_x) {
+    double x = x0;
+    double y = y0;
+    printf("%-10s %-15s %-15s %-15s\n", "Step", "x", "y (Predicted)", "y (Corrected)");
+    
+    int step = 0;
+    printf("%-10d %-15.6f %-15s %-15.6f\n", step++, x, "-", y);
+    
+    while (x &lt; target_x - 1e-9) {
+        double slope1 = f(x, y);
+        double y_pred = y + h * slope1; // Predictor step
+        double slope2 = f(x + h, y_pred);
+        y = y + (h / 2.0) * (slope1 + slope2); // Corrector step
+        x = x + h;
+        printf("%-10d %-15.6f %-15.6f %-15.6f\n", step++, x, y_pred, y);
+    }
+}
+
+int main() {
+    heun(0.0, 1.0, 0.1, 0.5);
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>5.3 Fourth-Order Runge-Kutta Method (RK-4)</b></h2>
+    <p>Calculates the slope at the beginning, midpoint, and end of the step interval to compute a weighted average slope.</p>
+
+    <h3><b>RK-4 Method C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+
+double f(double x, double y) {
+    return x + y;
+}
+
+double rk4_step(double x, double y, double h) {
+    double k1 = h * f(x, y);
+    double k2 = h * f(x + h/2.0, y + k1/2.0);
+    double k3 = h * f(x + h/2.0, y + k2/2.0);
+    double k4 = h * f(x + h, y + k3);
+    return y + (1.0/6.0) * (k1 + 2.0*k2 + 2.0*k3 + k4);
+}
+
+void rk4(double x0, double y0, double h, double target_x) {
+    double x = x0;
+    double y = y0;
+    printf("%-10s %-15s %-15s\n", "Step", "x", "y (RK4)");
+    
+    int step = 0;
+    printf("%-10d %-15.6f %-15.6f\n", step++, x, y);
+    
+    while (x &lt; target_x - 1e-9) {
+        y = rk4_step(x, y, h);
+        x = x + h;
+        printf("%-10d %-15.6f %-15.6f\n", step++, x, y);
+    }
+}
+
+int main() {
+    rk4(0.0, 1.0, 0.1, 0.5);
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>5.4 Solution of Higher-Order Differential Equations</b></h2>
+    <p>Numerical methods solve systems of first-order differential equations. To solve a higher-order ODE, we must first convert it into a system of first-order equations.</p>
+
+    <h3><b>Higher-Order ODE Solver C Implementation:</b></h3>
+    <p>The following C program solves the second-order ODE: <code>y'' - 3y' + 2y = e^x</code> (equivalent to system: <code>dy/dx = z</code>, <code>dz/dx = 3z - 2y + e^x</code>) using the RK-4 method:</p>
+    <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+// dy/dx = z
+double dy_dx(double x, double y, double z) {
+    return z;
+}
+
+// dz/dx = 3z - 2y + e^x
+double dz_dx(double x, double y, double z) {
+    return 3.0*z - 2.0*y + exp(x);
+}
+
+void rk4_system(double x0, double y0, double z0, double h, double target_x) {
+    double x = x0;
+    double y = y0;
+    double z = z0;
+    
+    printf("%-10s %-15s %-15s %-15s\n", "Step", "x", "y", "y' (z)");
+    int step = 0;
+    printf("%-10d %-15.6f %-15.6f %-15.6f\n", step++, x, y, z);
+    
+    while (x &lt; target_x - 1e-9) {
+        double ky1 = h * dy_dx(x, y, z);
+        double kz1 = h * dz_dx(x, y, z);
+        
+        double ky2 = h * dy_dx(x + h/2.0, y + ky1/2.0, z + kz1/2.0);
+        double kz2 = h * dz_dx(x + h/2.0, y + ky1/2.0, z + kz1/2.0);
+        
+        double ky3 = h * dy_dx(x + h/2.0, y + ky2/2.0, z + kz2/2.0);
+        double kz3 = h * dz_dx(x + h/2.0, y + ky2/2.0, z + kz2/2.0);
+        
+        double ky4 = h * dy_dx(x + h, y + ky3, z + kz3);
+        double kz4 = h * dz_dx(x + h, y + ky3, z + kz3);
+        
+        y = y + (1.0/6.0) * (ky1 + 2.0*ky2 + 2.0*ky3 + ky4);
+        z = z + (1.0/6.0) * (kz1 + 2.0*kz2 + 2.0*kz3 + kz4);
+        x = x + h;
+        
+        printf("%-10d %-15.6f %-15.6f %-15.6f\n", step++, x, y, z);
+    }
+}
+
+int main() {
+    rk4_system(0.0, 1.0, 0.0, 0.1, 0.5);
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>5.5 Boundary Value Problems (Shooting Method)</b></h2>
+    <p>Converts a BVP into an equivalent IVP by guessing the missing initial conditions and refining them iteratively.</p>
+
+    <h3><b>Shooting Method C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+// System equations representing y'' = f(x, y, y')
+double dy(double x, double y, double z) { return z; }
+double dz(double x, double y, double z) { return 3.0*z - 2.0*y + exp(x); }
+
+// Helper: Run RK4 system integration to calculate boundary y(b)
+double integrate_system(double x0, double y0, double initial_slope, double h, double b) {
+    double x = x0;
+    double y = y0;
+    double z = initial_slope;
+    
+    while (x &lt; b - 1e-9) {
+        double ky1 = h * dy(x, y, z);
+        double kz1 = h * dz(x, y, z);
+        
+        double ky2 = h * dy(x + h/2.0, y + ky1/2.0, z + kz1/2.0);
+        double kz2 = h * dz(x + h/2.0, y + ky1/2.0, z + kz1/2.0);
+        
+        double ky3 = h * dy(x + h/2.0, y + ky2/2.0, z + kz2/2.0);
+        double kz3 = h * dz(x + h/2.0, y + ky2/2.0, z + kz2/2.0);
+        
+        double ky4 = h * dy(x + h, y + ky3, z + kz3);
+        double kz4 = h * dz(x + h, y + ky3, z + kz3);
+        
+        y = y + (1.0/6.0) * (ky1 + 2.0*ky2 + 2.0*ky3 + ky4);
+        z = z + (1.0/6.0) * (kz1 + 2.0*kz2 + 2.0*kz3 + kz4);
+        x = x + h;
+    }
+    return y;
+}
+
+void shooting_method(double x0, double y0, double b, double target_yb, double h) {
+    // We guess two initial slopes and interpolate using linear secant line
+    double m1 = 0.0;
+    double yb1 = integrate_system(x0, y0, m1, h, b);
+    
+    double m2 = 1.0;
+    double yb2 = integrate_system(x0, y0, m2, h, b);
+    
+    double m3 = m2 - (yb2 - target_yb) * (m2 - m1) / (yb2 - yb1); // Secant correction
+    double yb3 = integrate_system(x0, y0, m3, h, b);
+    
+    printf("Shooting Method Results:\n");
+    printf("Guess 1 (slope: %lf) yielded y(b) = %lf\n", m1, yb1);
+    printf("Guess 2 (slope: %lf) yielded y(b) = %lf\n", m2, yb2);
+    printf("Corrected slope: %lf yielded y(b) = %lf (Target: %lf)\n", m3, yb3, target_yb);
+}
+
+int main() {
+    shooting_method(0.0, 1.0, 0.5, 2.5, 0.1);
+    return 0;
+}
+    </code></pre>
+  </div>
+</body>
+</html>

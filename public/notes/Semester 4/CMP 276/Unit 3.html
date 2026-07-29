@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 3: Software Requirement Specification and Modeling</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.7;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      text-align: center;
+      color: #111;
+      font-size: 20pt;
+      font-weight: bold;
+      margin: 30px 0;
+    }
+    h2 {
+      color: #222;
+      border-bottom: 3px solid #aaa;
+      padding-bottom: 10px;
+      margin-top: 40px;
+    }
+    h3 {
+      color: #444;
+      margin-top: 25px;
+      font-size: 1.3em;
+    }
+    h4 {
+      color: #555;
+      margin-top: 20px;
+    }
+    .section {
+      background: white;
+      padding: 25px;
+      margin-bottom: 35px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 35px;
+    }
+    li {
+      margin-bottom: 14px;
+    }
+    pre {
+      background-color: #111;
+      color: #0f8;
+      padding: 18px;
+      overflow-x: auto;
+      border-radius: 10px;
+      font-size: 13pt;
+      margin: 20px 0;
+      line-height: 1.5;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.95em;
+      display: block;
+      overflow-x: auto;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #e0e0e0;
+      font-weight: bold;
+    }
+    .note {
+      background-color: #e8f4fd;
+      border-left: 5px solid #2196f3;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 6px;
+    }
+    .warning {
+      background-color: #fff3e0;
+      border-left: 5px solid #ff9800;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 6px;
+    }
+    @media (max-width: 768px) {
+      body { font-size: 15px; }
+      h1 { font-size: 1.6rem; }
+      h2 { font-size: 1.3rem; }
+      .section { padding: 18px; margin-bottom: 25px; }
+    }
+    @media (max-width: 480px) {
+      body { font-size: 14px; }
+      h1 { font-size: 1.4rem; margin: 20px 0; }
+      h2 { font-size: 1.1rem; }
+      .section { padding: 14px; margin-bottom: 20px; }
+      pre { font-size: 11.5pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 3: Software Requirement Specification and Modeling [8 Hrs.]</b></h1>
+
+  <!-- 3.1 Software Requirements and Its Types -->
+  <div class="section">
+    <h2><b>3.1 Software Requirements and Its Types</b></h2>
+
+    <h3>What is a Software Requirement?</h3>
+    <p>
+      A <b>software requirement</b> is a description of a feature, functionality, or constraint
+      that a software system must satisfy. Requirements serve as the foundation for all
+      subsequent development activities — design, coding, testing, and maintenance.
+      If requirements are wrong, everything built on them will also be wrong.
+    </p>
+
+    <h3>Types of Software Requirements</h3>
+
+    <h4>1. Functional Requirements</h4>
+    <p>
+      Functional requirements describe <b>what the system should do</b>. They define
+      specific behavior or functions of the system. They specify:
+    </p>
+    <ul>
+      <li>What inputs the system should accept</li>
+      <li>What outputs the system should produce</li>
+      <li>What data the system should store</li>
+      <li>What computations the system should perform</li>
+      <li>The timing and synchronization of the above</li>
+    </ul>
+    <p><b>Examples of Functional Requirements:</b></p>
+    <ul>
+      <li>"The system shall allow users to register with email and password."</li>
+      <li>"The system shall generate monthly sales reports in PDF format."</li>
+      <li>"The system shall send email notifications when an order is placed."</li>
+      <li>"The system shall calculate tax at 13% on all purchases."</li>
+    </ul>
+
+    <h4>2. Non-Functional Requirements (NFRs)</h4>
+    <p>
+      Non-functional requirements describe <b>how the system should perform</b>.
+      They define quality attributes, constraints, and performance criteria.
+      NFRs are often more critical than individual functional requirements because
+      a system that is functionally correct but has poor performance, security,
+      or usability will not satisfy users.
+    </p>
+
+    <table>
+      <tr>
+        <th>NFR Category</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>Performance</td>
+        <td>Speed, throughput, response time</td>
+        <td>"System shall respond within 2 seconds for any query"</td>
+      </tr>
+      <tr>
+        <td>Reliability</td>
+        <td>Failure frequency, recoverability</td>
+        <td>"System uptime shall be 99.9%"</td>
+      </tr>
+      <tr>
+        <td>Availability</td>
+        <td>System uptime and accessibility</td>
+        <td>"System shall be available 24/7/365"</td>
+      </tr>
+      <tr>
+        <td>Security</td>
+        <td>Data protection, authentication</td>
+        <td>"All passwords shall be encrypted using AES-256"</td>
+      </tr>
+      <tr>
+        <td>Usability</td>
+        <td>Ease of use, learnability</td>
+        <td>"New users shall complete registration in under 3 minutes"</td>
+      </tr>
+      <tr>
+        <td>Scalability</td>
+        <td>Handle growth in users/data</td>
+        <td>"System shall support 10,000 concurrent users"</td>
+      </tr>
+      <tr>
+        <td>Maintainability</td>
+        <td>Ease of modification</td>
+        <td>"Code shall follow SOLID principles"</td>
+      </tr>
+      <tr>
+        <td>Portability</td>
+        <td>Platform independence</td>
+        <td>"System shall run on Windows, Linux, and macOS"</td>
+      </tr>
+    </table>
+
+    <h4>3. Domain Requirements</h4>
+    <p>
+      Domain requirements are derived from the application domain of the system
+      rather than from the specific needs of the users. They may be new functional
+      requirements, constraints on existing requirements, or specific computations.
+      For example, a medical system may have domain requirements related to patient
+      privacy laws (HIPAA compliance).
+    </p>
+
+    <h4>4. User Requirements vs. System Requirements</h4>
+    <ul>
+      <li><b>User Requirements:</b> Statements in natural language (plus diagrams) of what services
+        the system is expected to provide and the constraints under which it must operate.
+        Written for customers.</li>
+      <li><b>System Requirements:</b> More detailed descriptions of the software system's functions,
+        services, and operational constraints. Written for developers. The system requirements
+        document should define exactly what is to be implemented.</li>
+    </ul>
+  </div>
+
+  <!-- 3.2 Requirement Modeling Approaches -->
+  <div class="section">
+    <h2><b>3.2 Requirement Modeling Approaches</b></h2>
+
+    <p>
+      Requirements modeling creates a representation of requirements that helps in
+      understanding, analyzing, and validating them. There are several approaches:
+    </p>
+
+    <h3>Structured Analysis Approach</h3>
+    <ul>
+      <li>Uses Data Flow Diagrams (DFDs) to model data flow</li>
+      <li>Uses Entity-Relationship Diagrams (ERDs) for data modeling</li>
+      <li>Uses State Transition Diagrams for behavioral modeling</li>
+      <li>Top-down functional decomposition</li>
+      <li>Process-oriented approach</li>
+    </ul>
+
+    <h3>Object-Oriented Approach</h3>
+    <ul>
+      <li>Uses UML (Unified Modeling Language) diagrams</li>
+      <li>Use Case Diagrams for functional requirements</li>
+      <li>Class Diagrams for data/structure modeling</li>
+      <li>Sequence and Activity Diagrams for behavioral modeling</li>
+      <li>Centers around objects and their interactions</li>
+    </ul>
+
+    <h3>Agile/User Story Approach</h3>
+    <ul>
+      <li>Requirements are expressed as <b>user stories</b></li>
+      <li>Format: "As a [role], I want [feature], so that [benefit]"</li>
+      <li>Acceptance criteria define when a story is "done"</li>
+      <li>Story points estimate effort</li>
+      <li>Product backlog organizes stories by priority</li>
+    </ul>
+  </div>
+
+  <!-- 3.3 Requirement Engineering -->
+  <div class="section">
+    <h2><b>3.3 Requirement Engineering</b></h2>
+
+    <h3>Definition</h3>
+    <p>
+      <b>Requirement engineering (RE)</b> is a set of activities that help to identify,
+      communicate, and manage the requirements for a software system. It is the process
+      of defining, documenting, and maintaining requirements. RE establishes the groundwork
+      for design and construction.
+    </p>
+
+    <h3>Requirement Engineering Process</h3>
+    <p>
+      The RE process encompasses seven distinct functions carried out in parallel:
+    </p>
+    <ol>
+      <li><b>Inception</b> — Understanding the basic problem</li>
+      <li><b>Elicitation</b> — Gathering requirements from stakeholders</li>
+      <li><b>Elaboration</b> — Refining requirements into analysis model</li>
+      <li><b>Negotiation</b> — Resolving conflicts in requirements</li>
+      <li><b>Specification</b> — Documenting requirements formally</li>
+      <li><b>Validation</b> — Checking requirements for correctness and completeness</li>
+      <li><b>Management</b> — Controlling changes to requirements</li>
+    </ol>
+
+    <pre>
+  Inception → Elicitation → Elaboration → Negotiation
+                                              ↓
+  Management ← Validation ← Specification ←──┘
+    </pre>
+
+    <h3>Inception</h3>
+    <p>
+      At inception, the software engineer asks a set of context-free questions:
+    </p>
+    <ul>
+      <li>Who is behind the request for this work?</li>
+      <li>Who will use the solution?</li>
+      <li>What will be the economic benefit of a successful solution?</li>
+      <li>Is there another source for the solution that you need?</li>
+    </ul>
+    <p>
+      The questions help identify all stakeholders, define measurable benefits,
+      and establish a preliminary basis for communication.
+    </p>
+  </div>
+
+  <!-- 3.4 Eliciting Requirements -->
+  <div class="section">
+    <h2><b>3.4 Eliciting Requirements</b></h2>
+
+    <h3>What is Requirements Elicitation?</h3>
+    <p>
+      Requirements elicitation is the practice of <b>collecting the requirements of a system
+      from users, customers, and other stakeholders</b>. It seems simple — just ask the
+      customer what they want. But it is far more complex and difficult than it appears.
+    </p>
+
+    <h3>Problems with Elicitation</h3>
+    <ul>
+      <li><b>Scope Problems:</b> The boundary of the system is ill-defined or the customers/users
+        specify unnecessary technical detail that may confuse rather than clarify overall system objectives.</li>
+      <li><b>Understanding Problems:</b> Customers/users are not completely sure of what is needed,
+        have a poor understanding of the capabilities and limitations of their computing environment,
+        don't have a full understanding of the problem domain, have trouble communicating needs
+        to the system engineer, omit information that is believed to be "obvious," specify requirements
+        that conflict with the needs of other customers/users, or specify requirements that are
+        ambiguous or untestable.</li>
+      <li><b>Volatility Problems:</b> Requirements change over time.</li>
+    </ul>
+
+    <h3>Elicitation Techniques</h3>
+
+    <h4>1. Interviews</h4>
+    <ul>
+      <li><b>Structured Interviews:</b> Pre-defined set of questions</li>
+      <li><b>Unstructured Interviews:</b> Open-ended discussion</li>
+      <li><b>Semi-structured:</b> Mix of both approaches</li>
+      <li>Good for understanding stakeholder needs at a high level</li>
+      <li>Can be time-consuming and may miss important details</li>
+    </ul>
+
+    <h4>2. Questionnaires/Surveys</h4>
+    <ul>
+      <li>Useful when stakeholders are geographically distributed</li>
+      <li>Can reach a large number of stakeholders</li>
+      <li>Must be carefully designed to avoid biased or leading questions</li>
+    </ul>
+
+    <h4>3. Observation (Ethnography)</h4>
+    <ul>
+      <li>Observing users in their actual work environment</li>
+      <li>Helps discover implicit requirements that users may not articulate</li>
+      <li>Particularly useful for understanding existing workflows</li>
+    </ul>
+
+    <h4>4. Document Analysis</h4>
+    <ul>
+      <li>Reviewing existing documentation, forms, reports, and procedures</li>
+      <li>Useful for understanding the current system and its limitations</li>
+    </ul>
+
+    <h4>5. Prototyping</h4>
+    <ul>
+      <li>Building a quick model of the system to help stakeholders visualize requirements</li>
+      <li>Extremely effective for clarifying user interface requirements</li>
+    </ul>
+
+    <h4>6. Brainstorming</h4>
+    <ul>
+      <li>Group technique for generating creative ideas</li>
+      <li>All ideas are accepted without criticism initially</li>
+      <li>Ideas are then organized, refined, and prioritized</li>
+    </ul>
+
+    <h4>7. Use Case Analysis</h4>
+    <ul>
+      <li>Describes system behavior from the user's perspective</li>
+      <li>Identifies actors and their interactions with the system</li>
+      <li>Provides scenarios that illustrate system functionality</li>
+    </ul>
+  </div>
+
+  <!-- 3.5 Collaborative Requirements Gathering -->
+  <div class="section">
+    <h2><b>3.5 Collaborative Requirements Gathering</b></h2>
+
+    <p>
+      <b>Collaborative requirements gathering</b> involves multiple stakeholders working
+      together to define requirements. One popular approach is <b>Joint Application
+      Development (JAD)</b>:
+    </p>
+
+    <h3>JAD (Joint Application Development)</h3>
+    <ul>
+      <li>Structured workshop sessions with key stakeholders</li>
+      <li>Facilitated by a trained moderator (not a participant)</li>
+      <li>Participants include: end users, managers, developers, domain experts</li>
+      <li>Sessions are focused and time-boxed (typically 1-5 days)</li>
+      <li>Results in a comprehensive set of requirements with stakeholder buy-in</li>
+    </ul>
+
+    <h3>Guidelines for Collaborative Gathering</h3>
+    <ol>
+      <li>Meetings are conducted at a neutral site and have rules for preparation and participation</li>
+      <li>An agenda is established that is formal enough to cover all important points but informal enough to encourage the free flow of ideas</li>
+      <li>A "facilitator" (a customer, developer, or outsider) controls the meeting</li>
+      <li>A "definition mechanism" (worksheets, flip charts, wall stickers, electronic bulletin boards, chat rooms, or virtual forums) is used</li>
+      <li>The goal is to identify the problem, propose elements of the solution, negotiate different approaches, and specify a preliminary set of solution requirements</li>
+    </ol>
+  </div>
+
+  <!-- 3.6 Requirement Analysis -->
+  <div class="section">
+    <h2><b>3.6 Requirement Analysis</b></h2>
+
+    <p>
+      Once requirements are elicited, they must be <b>analyzed</b> to ensure they are
+      correct, complete, consistent, unambiguous, and feasible. Requirement analysis
+      involves:
+    </p>
+
+    <h3>Analysis Activities</h3>
+    <ul>
+      <li><b>Classification:</b> Grouping requirements into categories
+        (functional, non-functional, domain, interface)</li>
+      <li><b>Prioritization:</b> Assigning priority levels (Must-have, Should-have,
+        Could-have, Won't-have — MoSCoW method)</li>
+      <li><b>Conflict Resolution:</b> Identifying and resolving conflicting requirements
+        from different stakeholders</li>
+      <li><b>Feasibility Analysis:</b> Determining if each requirement is technically
+        and economically feasible within project constraints</li>
+      <li><b>Modeling:</b> Creating models (DFDs, ERDs, use cases) to represent
+        requirements visually and aid understanding</li>
+    </ul>
+
+    <h3>Quality Attributes of Good Requirements</h3>
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Example of Violation</th>
+      </tr>
+      <tr>
+        <td>Unambiguous</td>
+        <td>Only one interpretation possible</td>
+        <td>"The system should be fast" (what is "fast"?)</td>
+      </tr>
+      <tr>
+        <td>Testable</td>
+        <td>Can be verified through testing</td>
+        <td>"The system should be user-friendly" (not testable)</td>
+      </tr>
+      <tr>
+        <td>Complete</td>
+        <td>All aspects of the requirement are described</td>
+        <td>Missing error handling scenarios</td>
+      </tr>
+      <tr>
+        <td>Consistent</td>
+        <td>No conflicts with other requirements</td>
+        <td>Req-1: "Users can delete accounts" vs Req-2: "User data must be retained forever"</td>
+      </tr>
+      <tr>
+        <td>Traceable</td>
+        <td>Can be linked to source and downstream artifacts</td>
+        <td>Requirement without a source or linked test case</td>
+      </tr>
+      <tr>
+        <td>Feasible</td>
+        <td>Can be implemented within constraints</td>
+        <td>"System shall respond in 0.001ms" (physically impossible)</td>
+      </tr>
+      <tr>
+        <td>Modifiable</td>
+        <td>Can be changed without excessive impact</td>
+        <td>Tightly coupled, redundant requirement statements</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 3.7 Negotiating Requirements -->
+  <div class="section">
+    <h2><b>3.7 Negotiating Requirements</b></h2>
+
+    <p>
+      Requirements from different stakeholders often conflict. <b>Requirements negotiation</b>
+      (also called <b>requirements conflict resolution</b>) is the process of resolving
+      these conflicts. The objective is to develop a "win-win" result — a consensus
+      where all parties feel they have gained something.
+    </p>
+
+    <h3>Win-Win Negotiation</h3>
+    <ul>
+      <li><b>Identify stakeholder "win conditions":</b> What each stakeholder needs
+        from the system to consider it a success</li>
+      <li><b>Identify conflicts:</b> Where win conditions of different stakeholders
+        are incompatible</li>
+      <li><b>Negotiate:</b> Find solutions that satisfy all parties, possibly through
+        compromise, creative alternatives, or prioritization</li>
+      <li><b>Document agreements:</b> Record the negotiated requirements and the
+        rationale behind decisions</li>
+    </ul>
+
+    <h3>Common Negotiation Strategies</h3>
+    <ol>
+      <li><b>Prioritization:</b> Use priority schemes (MoSCoW) to defer less critical requirements</li>
+      <li><b>Trade-offs:</b> Reduce scope in one area to accommodate another</li>
+      <li><b>Phased Delivery:</b> Deliver high-priority requirements first, defer others to later releases</li>
+      <li><b>Cost-Benefit Analysis:</b> Evaluate the cost vs. benefit of conflicting requirements</li>
+    </ol>
+  </div>
+
+  <!-- 3.8 Requirement Documentation and Validation -->
+  <div class="section">
+    <h2><b>3.8 Requirement Documentation and Validation</b></h2>
+
+    <h3>Requirement Documentation</h3>
+    <p>
+      Requirements must be documented in a formal, organized manner. The primary document
+      is the <b>Software Requirements Specification (SRS)</b>. Requirements documentation should be:
+    </p>
+    <ul>
+      <li>Clear and concise</li>
+      <li>Well-organized and structured</li>
+      <li>Traceable (each requirement has a unique ID)</li>
+      <li>Accessible to all stakeholders</li>
+      <li>Version-controlled</li>
+    </ul>
+
+    <h3>Requirement Validation</h3>
+    <p>
+      Requirement validation checks the requirements document for:
+    </p>
+    <ul>
+      <li><b>Validity:</b> Do the requirements reflect the actual needs of the system?</li>
+      <li><b>Consistency:</b> Are there any contradictions in the requirements?</li>
+      <li><b>Completeness:</b> Are all required functions and constraints included?</li>
+      <li><b>Realism:</b> Can the requirements be implemented with available technology and budget?</li>
+      <li><b>Verifiability:</b> Can the requirement be checked/tested?</li>
+    </ul>
+
+    <h3>Validation Techniques</h3>
+    <ul>
+      <li><b>Requirements Reviews:</b> Systematic manual analysis of requirements by a team</li>
+      <li><b>Prototyping:</b> Build an executable model to check requirements</li>
+      <li><b>Test-Case Generation:</b> Write test cases for each requirement; if a test case is
+        difficult to design, the requirement may be difficult to implement or ambiguous</li>
+      <li><b>Automated Consistency Analysis:</b> Use tools to detect inconsistencies</li>
+    </ul>
+  </div>
+
+  <!-- 3.9 Requirement Management -->
+  <div class="section">
+    <h2><b>3.9 Requirement Management</b></h2>
+
+    <h3>What is Requirements Management?</h3>
+    <p>
+      <b>Requirements management</b> is the process of managing changing requirements
+      during the requirements engineering process and system development.
+      Requirements always change because the business environment changes,
+      stakeholders learn more about what they need, and new priorities emerge.
+    </p>
+
+    <h3>Key Activities</h3>
+    <ul>
+      <li><b>Change Control:</b> Formal process for requesting, evaluating, approving,
+        and implementing changes to requirements
+        <ul>
+          <li>Change Request Form</li>
+          <li>Impact Analysis</li>
+          <li>Change Control Board (CCB) review</li>
+          <li>Implementation and verification</li>
+        </ul>
+      </li>
+      <li><b>Requirements Traceability:</b> Maintaining relationships between requirements
+        and other artifacts (design, code, tests)
+        <ul>
+          <li><b>Forward traceability:</b> Requirements → Design → Code → Tests</li>
+          <li><b>Backward traceability:</b> Tests → Code → Design → Requirements</li>
+        </ul>
+      </li>
+      <li><b>Version Control:</b> Tracking different versions of requirements as they evolve</li>
+      <li><b>Status Tracking:</b> Monitoring the state of each requirement
+        (proposed, approved, implemented, verified, deleted)</li>
+    </ul>
+
+    <h3>Requirements Traceability Matrix (RTM)</h3>
+    <table>
+      <tr>
+        <th>Req ID</th>
+        <th>Description</th>
+        <th>Source</th>
+        <th>Design Element</th>
+        <th>Code Module</th>
+        <th>Test Case</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td>REQ-001</td>
+        <td>User login</td>
+        <td>Client Meeting 1</td>
+        <td>Login Module Design</td>
+        <td>auth.py</td>
+        <td>TC-001, TC-002</td>
+        <td>Implemented</td>
+      </tr>
+      <tr>
+        <td>REQ-002</td>
+        <td>Generate PDF report</td>
+        <td>Client Email #12</td>
+        <td>Report Generator Design</td>
+        <td>reports.py</td>
+        <td>TC-015</td>
+        <td>In Progress</td>
+      </tr>
+      <tr>
+        <td>REQ-003</td>
+        <td>Email notifications</td>
+        <td>JAD Session 2</td>
+        <td>Notification Service Design</td>
+        <td>notify.py</td>
+        <td>TC-020, TC-021</td>
+        <td>Proposed</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 3.10 Scenario, Data, Class and Flow-Oriented Modeling -->
+  <div class="section">
+    <h2><b>3.10 Scenario, Data, Class and Flow-Oriented Modeling</b></h2>
+
+    <h3>Scenario-Based Modeling (Use Cases)</h3>
+    <p>
+      Scenario-based modeling views the system from the user's perspective.
+      The primary technique is the <b>use case</b>:
+    </p>
+
+    <h4>Use Case Elements</h4>
+    <ul>
+      <li><b>Actor:</b> An entity (person, system, device) that interacts with the system</li>
+      <li><b>Use Case:</b> A description of a sequence of actions that provides value to an actor</li>
+      <li><b>System Boundary:</b> The scope of the system being modeled</li>
+      <li><b>Relationships:</b>
+        <ul>
+          <li><b>Include:</b> One use case always includes the behavior of another</li>
+          <li><b>Extend:</b> One use case conditionally extends the behavior of another</li>
+          <li><b>Generalization:</b> One actor/use case inherits from another</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h4>Use Case Template</h4>
+    <pre>
+  Use Case:        Place Order
+  Actor:           Customer
+  Precondition:    Customer is logged in, cart is not empty
+  Main Flow:
+    1. Customer clicks "Checkout"
+    2. System displays order summary
+    3. Customer enters shipping address
+    4. Customer selects payment method
+    5. Customer confirms order
+    6. System processes payment
+    7. System generates order confirmation
+    8. System sends confirmation email
+  Postcondition:   Order is placed, inventory updated
+  Alternative Flow:
+    6a. Payment fails → System displays error, returns to step 4
+    3a. Invalid address → System displays validation error
+    </pre>
+
+    <h3>Data Modeling (Entity-Relationship Diagram)</h3>
+    <p>
+      Data modeling focuses on the <b>data objects</b> (entities) that the system must
+      process and the <b>relationships</b> between them.
+    </p>
+    <ul>
+      <li><b>Entity:</b> A data object (e.g., Customer, Order, Product)</li>
+      <li><b>Attribute:</b> A property of an entity (e.g., Customer.name, Order.date)</li>
+      <li><b>Relationship:</b> An association between entities (e.g., Customer PLACES Order)</li>
+      <li><b>Cardinality:</b> 1:1, 1:N, M:N relationships</li>
+    </ul>
+
+    <h3>Class-Based Modeling</h3>
+    <p>
+      Class diagrams model the static structure of the system by showing:
+    </p>
+    <ul>
+      <li><b>Classes:</b> Templates for objects with attributes and methods</li>
+      <li><b>Associations:</b> Relationships between classes</li>
+      <li><b>Aggregation:</b> "Has-a" relationship (weak ownership)</li>
+      <li><b>Composition:</b> "Part-of" relationship (strong ownership)</li>
+      <li><b>Inheritance:</b> "Is-a" relationship (generalization/specialization)</li>
+      <li><b>Multiplicity:</b> Number of instances in the relationship</li>
+    </ul>
+
+    <h3>Flow-Oriented Modeling (DFD)</h3>
+    <p>
+      Data Flow Diagrams (DFDs) show the flow of data through the system:
+    </p>
+    <ul>
+      <li><b>External Entity:</b> Source or destination of data (square)</li>
+      <li><b>Process:</b> Transforms data (circle/rounded rectangle)</li>
+      <li><b>Data Store:</b> Repository of data (open rectangle)</li>
+      <li><b>Data Flow:</b> Movement of data (arrow)</li>
+    </ul>
+
+    <h4>DFD Levels</h4>
+    <ol>
+      <li><b>Context Diagram (Level 0):</b> Shows the entire system as a single process
+        with external entities and data flows</li>
+      <li><b>Level 1 DFD:</b> Decomposes the single process into major sub-processes</li>
+      <li><b>Level 2 DFD:</b> Further decomposes each Level 1 process</li>
+    </ol>
+
+    <pre>
+  Context Diagram Example (Online Bookstore):
+
+  ┌──────────┐    Order Details    ┌─────────────┐    Book Info     ┌───────────┐
+  │          │ ──────────────────→ │             │ ←───────────── │           │
+  │ Customer │                    │  Bookstore  │                │ Publisher │
+  │          │ ←────────────────── │   System    │ ──────────────→│           │
+  └──────────┘  Order Confirmation └─────────────┘  Purchase Order └───────────┘
+                                        ↑ ↓
+                                  ┌──────────────┐
+                                  │   Payment    │
+                                  │   Gateway    │
+                                  └──────────────┘
+    </pre>
+  </div>
+
+  <!-- 3.11 Requirement Modeling for Web Apps -->
+  <div class="section">
+    <h2><b>3.11 Requirement Modeling for Web Apps</b></h2>
+
+    <p>
+      Web application requirements modeling has unique considerations due to the
+      nature of web applications (network-intensive, content-driven, continuously evolving).
+    </p>
+
+    <h3>Special Considerations for WebApps</h3>
+    <ul>
+      <li><b>Content Model:</b> Defines the content objects (text, images, video) and their relationships</li>
+      <li><b>Interaction Model:</b> Describes how users interact with the WebApp (navigation, forms, actions)</li>
+      <li><b>Functional Model:</b> Defines the processing that occurs (business logic, data manipulation)</li>
+      <li><b>Navigation Model:</b> Defines the navigation flow through the web pages</li>
+      <li><b>Configuration Model:</b> Describes the server/client architecture and infrastructure</li>
+    </ul>
+
+    <h3>User Stories for Web Apps (Agile Approach)</h3>
+    <pre>
+  User Story #1:
+    As a customer,
+    I want to search for books by title, author, or ISBN,
+    So that I can quickly find the book I'm looking for.
+
+  Acceptance Criteria:
+    - Search results appear within 2 seconds
+    - Results are paginated (20 per page)
+    - Results can be sorted by relevance, price, or rating
+    - Partial matches are supported
+
+  User Story #2:
+    As an admin,
+    I want to manage book inventory (add, update, delete),
+    So that the catalog stays current.
+
+  Acceptance Criteria:
+    - Admin can upload book cover images
+    - Admin can set price, quantity, and description
+    - Changes are reflected immediately on the site
+    </pre>
+  </div>
+
+  <!-- 3.12 SRS Documents and Their Importance -->
+  <div class="section">
+    <h2><b>3.12 SRS Documents and Their Importance</b></h2>
+
+    <h3>What is an SRS Document?</h3>
+    <p>
+      The <b>Software Requirements Specification (SRS)</b> is a comprehensive document
+      that provides a complete description of the behavior of a system to be developed.
+      It includes a set of use cases that describe all the interactions the users will
+      have with the software. The SRS also contains non-functional requirements.
+    </p>
+
+    <h3>IEEE 830 Standard SRS Template</h3>
+    <ol>
+      <li><b>Introduction</b>
+        <ul>
+          <li>1.1 Purpose</li>
+          <li>1.2 Scope</li>
+          <li>1.3 Definitions, Acronyms, and Abbreviations</li>
+          <li>1.4 References</li>
+          <li>1.5 Overview</li>
+        </ul>
+      </li>
+      <li><b>Overall Description</b>
+        <ul>
+          <li>2.1 Product Perspective</li>
+          <li>2.2 Product Functions</li>
+          <li>2.3 User Characteristics</li>
+          <li>2.4 Constraints</li>
+          <li>2.5 Assumptions and Dependencies</li>
+        </ul>
+      </li>
+      <li><b>Specific Requirements</b>
+        <ul>
+          <li>3.1 External Interface Requirements (User, Hardware, Software, Communications)</li>
+          <li>3.2 Functional Requirements</li>
+          <li>3.3 Performance Requirements</li>
+          <li>3.4 Design Constraints</li>
+          <li>3.5 Software System Attributes (Reliability, Availability, Security, Maintainability, Portability)</li>
+        </ul>
+      </li>
+      <li><b>Appendices</b></li>
+      <li><b>Index</b></li>
+    </ol>
+
+    <h3>Importance of SRS</h3>
+    <ul>
+      <li><b>Agreement:</b> Serves as a contract between the customer and the development team</li>
+      <li><b>Foundation:</b> Provides the basis for all subsequent design and development</li>
+      <li><b>Validation:</b> Provides a basis for validating the final product</li>
+      <li><b>Estimation:</b> Helps in estimating cost, effort, and schedule</li>
+      <li><b>Communication:</b> Ensures all stakeholders have the same understanding</li>
+      <li><b>Traceability:</b> Enables forward and backward traceability throughout the SDLC</li>
+    </ul>
+
+    <h3>Characteristics of a Good SRS</h3>
+    <table>
+      <tr>
+        <th>Characteristic</th>
+        <th>Meaning</th>
+      </tr>
+      <tr>
+        <td>Correct</td>
+        <td>Every requirement stated is one the software shall meet</td>
+      </tr>
+      <tr>
+        <td>Unambiguous</td>
+        <td>Every requirement has only one interpretation</td>
+      </tr>
+      <tr>
+        <td>Complete</td>
+        <td>All significant requirements have been included</td>
+      </tr>
+      <tr>
+        <td>Consistent</td>
+        <td>No requirements conflict with each other</td>
+      </tr>
+      <tr>
+        <td>Ranked for Importance</td>
+        <td>Requirements are prioritized</td>
+      </tr>
+      <tr>
+        <td>Verifiable</td>
+        <td>Each requirement can be tested</td>
+      </tr>
+      <tr>
+        <td>Modifiable</td>
+        <td>Structure allows easy changes</td>
+      </tr>
+      <tr>
+        <td>Traceable</td>
+        <td>Each requirement has a clear origin and can be traced forward</td>
+      </tr>
+    </table>
+
+    <div class="note">
+      <b>Summary:</b> The SRS document is arguably the most important document in the
+      software development lifecycle. A well-written SRS reduces ambiguity, prevents
+      scope creep, provides a basis for testing, and serves as a reference throughout
+      the entire project. Poor or missing requirements are the #1 cause of software project failure.
+    </div>
+  </div>
+
+</body>
+</html>

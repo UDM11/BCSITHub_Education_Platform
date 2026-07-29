@@ -79,45 +79,48 @@ export function Colleges() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div className="min-h-screen bg-slate-50/30">
       {/* Hero Section */}
       <motion.section 
-        className="relative py-16 sm:py-20 lg:py-24 px-4 overflow-hidden"
+        className="relative py-20 sm:py-24 px-4 overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-90"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-900"></div>
         <motion.div 
-          className="absolute inset-0"
+          className="absolute inset-0 opacity-20"
           animate={{
             background: [
-              'radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.3) 0%, transparent 50%)',
-              'radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.3) 0%, transparent 50%)',
-              'radial-gradient(circle at 40% 80%, rgba(79, 70, 229, 0.3) 0%, transparent 50%)'
+              'radial-gradient(circle at 10% 40%, rgba(99, 102, 241, 0.4) 0%, transparent 60%)',
+              'radial-gradient(circle at 90% 10%, rgba(139, 92, 246, 0.4) 0%, transparent 60%)',
+              'radial-gradient(circle at 30% 90%, rgba(59, 130, 246, 0.4) 0%, transparent 60%)'
             ]
           }}
-          transition={{ duration: 8, repeat: Infinity }}
+          transition={{ duration: 10, repeat: Infinity }}
         />
         
-        <div className="relative max-w-6xl mx-auto text-center text-white">
+        <div className="relative max-w-6xl mx-auto text-center text-white z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <GraduationCap className="w-16 h-16 mx-auto mb-6 text-yellow-300" />
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-white to-yellow-200 bg-clip-text text-transparent">
+            <div className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-5 py-1.5 mb-6 border border-white/10">
+              <GraduationCap className="w-5 h-5 text-yellow-300 mr-2" />
+              <span className="text-sm font-semibold text-yellow-50">Pokhara University Affiliations</span>
+            </div>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight bg-gradient-to-r from-white via-slate-100 to-indigo-100 bg-clip-text text-transparent">
               BCSIT Colleges in Nepal
             </h1>
-            <p className="text-lg sm:text-xl lg:text-2xl text-blue-100 mb-8 px-4 sm:px-0">
-              Discover top educational institutions offering BCSIT programs across Nepal
+            <p className="text-lg sm:text-xl text-indigo-100 mb-10 max-w-3xl mx-auto px-4 sm:px-0">
+              Discover top-tier educational institutions offering the Bachelor of Computer Science & Information Technology program across Nepal.
             </p>
           </motion.div>
           
           {/* Stats */}
           <motion.div 
-            className="grid grid-cols-2 sm:grid-cols-4 gap-4 lg:gap-6 max-w-4xl mx-auto mb-8"
+            className="grid grid-cols-2 sm:grid-cols-4 gap-4 lg:gap-6 max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -130,24 +133,22 @@ export function Colleges() {
             ].map((stat, index) => (
               <motion.div 
                 key={stat.label}
-                className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 + index * 0.1 }}
+                className="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/10 hover:border-white/20 transition-all duration-300 shadow-lg shadow-indigo-950/10"
+                whileHover={{ scale: 1.05 }}
               >
-                <stat.icon className="w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-2 text-yellow-300" />
-                <div className="text-xl sm:text-2xl font-bold">{stat.value}</div>
-                <div className="text-xs sm:text-sm text-blue-100">{stat.label}</div>
+                <stat.icon className="w-7 h-7 mx-auto mb-3 text-yellow-300" />
+                <div className="text-2xl sm:text-3xl font-bold">{stat.value}</div>
+                <div className="text-xs sm:text-sm text-indigo-200 font-semibold">{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>
         </div>
       </motion.section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 mt-12">
         {/* Controls Section */}
         <motion.section 
-          className="py-6 sm:py-8 px-4 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-sm mb-8"
+          className="py-5 px-6 bg-white/70 backdrop-blur-md border border-slate-100/80 rounded-2xl shadow-premium mb-8"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
@@ -155,24 +156,20 @@ export function Colleges() {
           <div className="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4">
             {/* Search */}
             <div className="flex-1 max-w-md">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                <input
-                  type="text"
-                  placeholder="Search colleges by name or location..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
+              <Input
+                placeholder="Search colleges by name or location..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                icon={Search}
+              />
             </div>
 
             {/* Controls */}
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-4">
               <Button
                 variant="outline"
                 onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 border-slate-200 text-slate-700 font-semibold"
               >
                 <Filter className="w-4 h-4" />
                 Filters
@@ -181,23 +178,23 @@ export function Colleges() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 font-semibold text-slate-700"
               >
-                <option value="name">Name</option>
-                <option value="rating">Rating</option>
-                <option value="students">Students</option>
+                <option value="name">Sort by: Name</option>
+                <option value="rating">Sort by: Rating</option>
+                <option value="students">Sort by: Students</option>
               </select>
               
-              <div className="flex bg-gray-100 rounded-lg p-1">
+              <div className="flex bg-slate-100 rounded-xl p-1 border border-slate-200/40">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded ${viewMode === 'grid' ? 'bg-white shadow-sm' : ''}`}
+                  className={`p-2 rounded-lg transition-all duration-200 ${viewMode === 'grid' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
                 >
                   <Grid className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`p-2 rounded ${viewMode === 'list' ? 'bg-white shadow-sm' : ''}`}
+                  className={`p-2 rounded-lg transition-all duration-200 ${viewMode === 'list' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
                 >
                   <List className="w-4 h-4" />
                 </button>
@@ -212,15 +209,15 @@ export function Colleges() {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                className="mt-6 pt-6 border-t border-gray-200"
+                className="mt-5 pt-5 border-t border-slate-100"
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">Location</label>
                     <select
                       value={selectedLocation}
                       onChange={(e) => setSelectedLocation(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 text-slate-800"
                     >
                       <option value="">All Locations</option>
                       {locations.map((location) => (
@@ -237,6 +234,7 @@ export function Colleges() {
                     <Button 
                       variant="outline" 
                       onClick={() => setSelectedLocation('')}
+                      className="text-xs border-slate-200 font-semibold"
                     >
                       Clear Filters
                     </Button>
@@ -262,103 +260,107 @@ export function Colleges() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.4, delay: 0.1 * index }}
-                  whileHover={{ y: -8, scale: 1.02 }}
+                  transition={{ duration: 0.4, delay: 0.05 * index }}
+                  whileHover={{ y: -8 }}
                   onClick={() => handleCollegeClick(college.website)}
-                  className="cursor-pointer group"
+                  className="cursor-pointer group h-full"
                 >
-                  <Card className="h-full bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-xl transition-all duration-300 overflow-hidden">
+                  <Card hover={false} className="h-full bg-white rounded-2xl border border-slate-100 shadow-premium group-hover:shadow-premium-hover hover:border-indigo-500/10 transition-all duration-300 overflow-hidden flex flex-col justify-between">
                     {/* College Logo & Header */}
-                    <div className="relative p-6 bg-gradient-to-br from-blue-50 to-indigo-50">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="w-16 h-16 rounded-full bg-white p-2 flex items-center justify-center shadow-sm border border-gray-200">
-                          <img
-                            src={college.logo}
-                            alt={college.name}
-                            className="max-w-full max-h-full object-contain"
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).src = 'https://via.placeholder.com/64';
-                            }}
-                          />
+                    <div>
+                      <div className="relative p-6 bg-gradient-to-br from-slate-50 to-indigo-50/20 border-b border-slate-100/50">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="w-16 h-16 rounded-2xl bg-white p-2.5 flex items-center justify-center shadow-sm border border-slate-100/80">
+                            <img
+                              src={college.logo}
+                              alt={college.name}
+                              className="max-w-full max-h-full object-contain"
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = 'https://via.placeholder.com/64';
+                              }}
+                            />
+                          </div>
+                          {college.rating && (
+                            <div className="flex items-center gap-1 bg-amber-50 text-amber-700 px-2.5 py-1 rounded-full text-xs font-semibold border border-amber-200/55 shadow-sm">
+                              <Star className="w-3.5 h-3.5 fill-current" />
+                              <span>{college.rating}</span>
+                            </div>
+                          )}
                         </div>
-                        {college.rating && (
-                          <div className="flex items-center gap-1 bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-sm">
-                            <Star className="w-3 h-3 fill-current" />
-                            <span className="font-medium">{college.rating}</span>
-                          </div>
-                        )}
-                      </div>
-                      
-                      <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                        {college.name}
-                      </h3>
-                      
-                      <div className="flex items-center text-gray-600 text-sm mb-3">
-                        <MapPin className="w-4 h-4 mr-1 flex-shrink-0" />
-                        <span className="truncate">{college.address}</span>
-                      </div>
-                    </div>
-
-                    {/* College Details */}
-                    <CardContent className="p-6 pt-0">
-                      <div className="space-y-3 mb-4">
-                        {college.established && (
-                          <div className="flex items-center text-sm text-gray-600">
-                            <Calendar className="w-4 h-4 mr-2 text-blue-500" />
-                            <span>Established {college.established}</span>
-                          </div>
-                        )}
                         
-                        {college.students && (
-                          <div className="flex items-center text-sm text-gray-600">
-                            <Users className="w-4 h-4 mr-2 text-green-500" />
-                            <span>{college.students} Students</span>
-                          </div>
-                        )}
+                        <h3 className="text-lg font-bold text-slate-800 mb-2 line-clamp-2 group-hover:text-indigo-600 transition-colors">
+                          {college.name}
+                        </h3>
+                        
+                        <div className="flex items-center text-slate-500 text-xs font-semibold mb-1">
+                          <MapPin className="w-3.5 h-3.5 mr-1.5 text-indigo-500 flex-shrink-0" />
+                          <span className="truncate">{college.address}</span>
+                        </div>
+                      </div>
 
-                        {college.programs && (
-                          <div className="flex flex-wrap gap-1 mt-2">
-                            {college.programs.slice(0, 2).map((program, idx) => (
-                              <span key={idx} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
-                                {program}
-                              </span>
-                            ))}
-                            {college.programs.length > 2 && (
-                              <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
-                                +{college.programs.length - 2} more
-                              </span>
+                      {/* College Details */}
+                      <CardContent className="p-6">
+                        <div className="space-y-3 mb-4">
+                          {college.established && (
+                            <div className="flex items-center text-sm text-slate-600">
+                              <Calendar className="w-4 h-4 mr-2.5 text-indigo-500" />
+                              <span>Established {college.established}</span>
+                            </div>
+                          )}
+                          
+                          {college.students && (
+                            <div className="flex items-center text-sm text-slate-600">
+                              <Users className="w-4 h-4 mr-2.5 text-indigo-500" />
+                              <span>{college.students} Students</span>
+                            </div>
+                          )}
+
+                          {college.programs && (
+                            <div className="flex flex-wrap gap-1.5 mt-2">
+                              {college.programs.slice(0, 2).map((program, idx) => (
+                                <span key={idx} className="px-2.5 py-1 bg-indigo-50 text-indigo-600 text-xs font-semibold rounded-full border border-indigo-100/40">
+                                  {program}
+                                </span>
+                              ))}
+                              {college.programs.length > 2 && (
+                                <span className="px-2.5 py-1 bg-slate-50 text-slate-500 text-xs font-semibold rounded-full border border-slate-100">
+                                  +{college.programs.length - 2} more
+                                </span>
+                              )}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Contact Info */}
+                        {college.contact && (
+                          <div className="space-y-2 mb-4 text-xs font-medium border-t border-slate-100/80 pt-4">
+                            {college.contact.phone && (
+                              <div className="flex items-center text-slate-500">
+                                <Phone className="w-3.5 h-3.5 mr-2 text-slate-400" />
+                                <span>{college.contact.phone}</span>
+                              </div>
+                            )}
+                            {college.contact.email && (
+                              <div className="flex items-center text-slate-500">
+                                <Mail className="w-3.5 h-3.5 mr-2 text-slate-400" />
+                                <span className="truncate">{college.contact.email}</span>
+                              </div>
                             )}
                           </div>
                         )}
-                      </div>
+                      </CardContent>
+                    </div>
 
-                      {/* Contact Info */}
-                      {college.contact && (
-                        <div className="space-y-2 mb-4 text-sm">
-                          {college.contact.phone && (
-                            <div className="flex items-center text-gray-600">
-                              <Phone className="w-3 h-3 mr-2" />
-                              <span>{college.contact.phone}</span>
-                            </div>
-                          )}
-                          {college.contact.email && (
-                            <div className="flex items-center text-gray-600">
-                              <Mail className="w-3 h-3 mr-2" />
-                              <span className="truncate">{college.contact.email}</span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Visit Website Button */}
-                      <div className="pt-4 border-t border-gray-100">
-                        <div className="flex items-center justify-center text-blue-600 group-hover:text-blue-700 font-medium">
+                    {/* Visit Website Button */}
+                    <div className="px-6 pb-6 mt-auto">
+                      <div className="pt-4 border-t border-slate-100">
+                        <div className="flex items-center justify-center text-indigo-600 group-hover:text-indigo-700 font-semibold text-sm transition-all duration-300 group-hover:translate-x-1">
                           <Globe className="w-4 h-4 mr-2" />
                           <span>Visit Website</span>
-                          <ExternalLink className="w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          <ExternalLink className="w-3 h-3 ml-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         </div>
                       </div>
-                    </CardContent>
+                    </div>
                   </Card>
                 </motion.div>
               ))}
@@ -370,11 +372,11 @@ export function Colleges() {
             animate={{ opacity: 1 }}
             className="text-center py-16"
           >
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Building className="w-8 h-8 text-gray-400" />
+            <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <Building className="w-8 h-8 text-slate-400" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No colleges found</h3>
-            <p className="text-gray-600 mb-6">
+            <h3 className="text-xl font-bold text-slate-900 mb-2">No colleges found</h3>
+            <p className="text-slate-600 mb-6 text-sm">
               {searchTerm || selectedLocation 
                 ? "Try adjusting your search or filter criteria" 
                 : "No colleges available at the moment"}

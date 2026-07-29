@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 2: Financial Statement Analysis</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 2: Financial Statement Analysis [10 Hrs.]</b></h1>
+
+  <!-- 2.1 The Financial Statements -->
+  <div class="section">
+    <h2><b>2.1 Core Financial Statements</b></h2>
+    <p>
+      Financial statements are the structured reports prepared by accountants to communicate the financial
+      condition and performance of a firm. The three main financial statements are:
+    </p>
+
+    <h3>1. The Balance Sheet</h3>
+    <p>
+      Provides a snapshot of a firm's financial position at a **specific point in time** (e.g., December 31, 2026).
+      It is governed by the fundamental accounting equation:
+      <br>
+      $$\text{Assets} = \text{Liabilities} + \text{Shareholders' Equity}$$
+    </p>
+    <ul>
+      <li><b>Assets:</b> Resources owned by the firm (Current Assets: cash, accounts receivable, inventory;
+        Fixed Assets: property, plant, equipment, software assets).</li>
+      <li><b>Liabilities:</b> Obligations/debts owed to creditors (Current Liabilities: accounts payable, accrued wages, short-term debt;
+        Long-term Liabilities: long-term bank loans, bonds).</li>
+      <li><b>Shareholders' Equity:</b> The owners' residual claim on the assets after paying off liabilities. Includes common stock,
+        retained earnings, and paid-in capital.</li>
+    </ul>
+
+    <h3>2. The Income Statement (Profit or Loss Statement)</h3>
+    <p>
+      Summarizes the firm's revenues, expenses, and profits over a **period of time** (e.g., for the year ended December 31, 2026).
+    </p>
+    <pre>
+  Income Statement Flow:
+
+     Net Sales (Revenues)
+  -  Cost of Goods Sold (COGS)
+  ───────────────────────────────────────
+  =  Gross Profit
+  -  Operating Expenses (SG&A, R&D, Depreciation)
+  ───────────────────────────────────────
+  =  Operating Income (EBIT - Earnings Before Interest & Taxes)
+  -  Interest Expense
+  ───────────────────────────────────────
+  =  Earnings Before Taxes (EBT)
+  -  Corporate Income Taxes
+  ───────────────────────────────────────
+  =  Net Income (Earnings available to common shareholders)
+    </pre>
+
+    <h3>3. The Cash Flow Statement</h3>
+    <p>
+      Reports the actual cash inflows and outflows of a firm over a **period of time**, categorizing them into
+      three main activities:
+    </p>
+    <ol>
+      <li><b>Operating Activities:</b> Cash flows generated from day-to-day core business operations (includes net income,
+        adding back non-cash depreciation, adjusting for changes in working capital like inventory and accounts receivable).</li>
+      <li><b>Investing Activities:</b> Cash flows related to the purchase or sale of long-term assets (capital expenditures, acquisition of other firms, purchase of securities).</li>
+      <li><b>Financing Activities:</b> Cash flows related to raising capital and paying back investors (issuing stock, borrowing debt, paying dividends, repurchasing shares).</li>
+    </ol>
+  </div>
+
+  <!-- 2.2 Nature & Need of Ratio Analysis -->
+  <div class="section">
+    <h2><b>2.2 Nature and Need of Financial Ratio Analysis</b></h2>
+
+    <h3>What is a Financial Ratio?</h3>
+    <p>
+      A **financial ratio** is a mathematical relationship between two or more figures found in the financial statements.
+      It standardizes financial information, allowing comparison across firms of different sizes and across time.
+    </p>
+
+    <h3>Why do we need Ratio Analysis?</h3>
+    <ul>
+      <li><b>Performance Evaluation:</b> Helps managers, investors, and creditors assess firm efficiency,
+        profitability, and risk.</li>
+      <li><b>Comparison:</b>
+        <ul>
+          <li><i>Cross-Sectional Analysis:</i> Comparing a firm's ratios with competitors or industry averages at a single point in time.</li>
+          <li><i>Trend (Time-Series) Analysis:</i> Evaluating changes in ratios over several years to identify patterns.</li>
+        </ul>
+      </li>
+      <li><b>Planning and Forecasting:</b> Helps managers project future cash flows and plan capital structure.</li>
+      <li><b>Credit Evaluation:</b> Banks use liquidity and debt ratios to assess if a firm can pay back loans.</li>
+    </ul>
+
+    <h3>Limitations of Ratio Analysis</h3>
+    <ul>
+      <li>Different accounting policies (e.g., LIFO vs FIFO for inventory, straight-line vs accelerated depreciation)
+        make comparisons difficult.</li>
+      <li>Seasonal factors can distort ratios (e.g., inventory ratios for retail businesses change drastically before/after holidays).</li>
+      <li>"Window Dressing" — companies can temporarily manipulate year-end balance sheets to make ratios look better.</li>
+      <li>Inflation can distort historical asset values.</li>
+      <li>Ratios show *what* happened, not *why* it happened. They are indicators, not diagnostic solutions.</li>
+    </ul>
+  </div>
+
+  <!-- 2.3 Types of Ratios & Formulas -->
+  <div class="section">
+    <h2><b>2.3 Types of Financial Ratios and Formulas</b></h2>
+
+    <h3>1. Liquidity Ratios</h3>
+    <p>Measure a firm's ability to meet its short-term debt obligations as they fall due.</p>
+    <ul>
+      <li><b>Current Ratio:</b>
+        <br>
+        $$\text{Current Ratio} = \frac{\text{Total Current Assets}}{\text{Total Current Liabilities}}$$
+        <i>Standard target: 2.0.</i>
+      </li>
+      <li><b>Quick (Acid-Test) Ratio:</b> Inventory is excluded because it is the least liquid current asset.
+        <br>
+        $$\text{Quick Ratio} = \frac{\text{Current Assets} - \text{Inventory}}{\text{Current Liabilities}}$$
+        <i>Standard target: 1.0.</i>
+      </li>
+    </ul>
+
+    <h3>2. Asset Management (Activity) Ratios</h3>
+    <p>Measure how effectively a firm is managing its assets to generate sales.</p>
+    <ul>
+      <li><b>Inventory Turnover Ratio:</b> How many times inventory is sold and replaced in a year.
+        <br>
+        $$\text{Inventory Turnover} = \frac{\text{Cost of Goods Sold}}{\text{Inventory}}$$
+      </li>
+      <li><b>Days Sales Outstanding (DSO) / Average Collection Period:</b> Average days taken to collect cash from credit customers.
+        <br>
+        $$\text{DSO} = \frac{\text{Accounts Receivable}}{\text{Annual Credit Sales} / 365}$$
+      </li>
+      <li><b>Total Assets Turnover:</b> Sales generated per dollar of assets.
+        <br>
+        $$\text{Total Assets Turnover} = \frac{\text{Net Sales}}{\text{Total Assets}}$$
+      </li>
+    </ul>
+
+    <h3>3. Debt Management (Leverage) Ratios</h3>
+    <p>Measure the degree to which a firm is financed by debt and its ability to service that debt.</p>
+    <ul>
+      <li><b>Debt Ratio (Total Debt to Total Assets):</b>
+        <br>
+        $$\text{Debt Ratio} = \frac{\text{Total Liabilities}}{\text{Total Assets}}$$
+      </li>
+      <li><b>Debt-to-Equity Ratio:</b>
+        <br>
+        $$\text{Debt-to-Equity} = \frac{\text{Total Liabilities}}{\text{Total Shareholders' Equity}}$$
+      </li>
+      <li><b>Times Interest Earned (TIE) Ratio:</b> Ability to meet annual interest payments.
+        <br>
+        $$\text{TIE} = \frac{\text{EBIT}}{\text{Interest Expense}}$$
+      </li>
+    </ul>
+
+    <h3>4. Profitability Ratios</h3>
+    <p>Measure the firm's capacity to generate earnings relative to sales, assets, and equity.</p>
+    <ul>
+      <li><b>Gross Profit Margin:</b>
+        <br>
+        $$\text{Gross Profit Margin} = \frac{\text{Gross Profit}}{\text{Net Sales}}$$
+      </li>
+      <li><b>Net Profit Margin:</b>
+        <br>
+        $$\text{Net Profit Margin} = \frac{\text{Net Income}}{\text{Net Sales}}$$
+      </li>
+      <li><b>Return on Assets (ROA):</b>
+        <br>
+        $$\text{ROA} = \frac{\text{Net Income}}{\text{Total Assets}}$$
+      </li>
+      <li><b>Return on Equity (ROE):</b> Measures return for common shareholders.
+        <br>
+        $$\text{ROE} = \frac{\text{Net Income}}{\text{Common Shareholders' Equity}}$$
+      </li>
+    </ul>
+
+    <h3>5. Market Value Ratios</h3>
+    <p>Relate the firm's stock price to its earnings and book value.</p>
+    <ul>
+      <li><b>Price-to-Earnings (P/E) Ratio:</b> Indicates how much investors are willing to pay per dollar of current profits.
+        <br>
+        $$\text{P/E Ratio} = \frac{\text{Market Price per Share}}{\text{Earnings per Share (EPS)}}$$
+      </li>
+      <li><b>Market-to-Book (M/B) Ratio:</b>
+        <br>
+        $$\text{M/B Ratio} = \frac{\text{Market Price per Share}}{\text{Book Value per Share}}$$
+      </li>
+    </ul>
+  </div>
+
+  <!-- DuPont Equation and Numericals -->
+  <div class="section">
+    <h2><b>2.4 The DuPont Analysis System and Numerical Cases</b></h2>
+
+    <h3>The DuPont Equation</h3>
+    <p>
+      The **DuPont Equation** decomposes Return on Equity (ROE) into three components: profit margin
+      (representing expense control), asset turnover (representing asset efficiency), and the equity multiplier
+      (representing leverage):
+    </p>
+    <pre>
+  ROE = Profit Margin × Total Asset Turnover × Equity Multiplier
+
+  ROE = (Net Income / Sales) × (Sales / Total Assets) × (Total Assets / Equity)
+    </pre>
+    <p>
+      This decomposition helps management pinpoint the exact reason why ROE is high or low. For example,
+      a firm can achieve high ROE through high profit margins (like premium luxury goods), high asset turnover
+      (like grocery stores), or high leverage (which increases risk).
+    </p>
+
+    <div class="note">
+      <h4>Ratio Calculation Worked Numerical</h4>
+      <p><b>Problem:</b> Given the following financial data for Nepalese Tech Solutions Ltd:
+        <br>- Cash = $10,000; Accounts Receivable = $20,000; Inventory = $30,000; Net Fixed Assets = $140,000
+        <br>- Accounts Payable = $15,000; Notes Payable = $5,000; Long-term Debt = $60,000
+        <br>- Net Sales = $300,000; Cost of Goods Sold = $180,000; Interest Expense = $8,000; Net Income = $24,000
+        <br>Calculate: (1) Current Ratio, (2) Quick Ratio, (3) Total Assets Turnover, (4) Debt-to-Equity Ratio,
+        (5) ROE using the DuPont Equation.
+      </p>
+      <p><b>Solution:</b>
+        <br>
+        <br><b>1. Compute Totals:</b>
+        <br>Total Current Assets = Cash + A/R + Inventory = $10,000 + 20,000 + 30,000 = $60,000.
+        <br>Total Assets = Current Assets + Net Fixed Assets = $60,000 + 140,000 = $200,000.
+        <br>Total Current Liabilities = Accounts Payable + Notes Payable = $15,000 + 5,000 = $20,000.
+        <br>Total Liabilities = Current Liabilities + Long-term Debt = $20,000 + 60,000 = $80,000.
+        <br>Common Shareholders' Equity = Total Assets - Total Liabilities = $200,000 - 80,000 = $120,000.
+        <br>
+        <br><b>2. Calculate Ratios:</b>
+        <br>(1) $\text{Current Ratio} = \text{Current Assets} / \text{Current Liabilities} = 60,000 / 20,000 = 3.0$.
+        <br>(2) $\text{Quick Ratio} = (\text{Current Assets} - \text{Inventory}) / \text{Current Liabilities} = (60,000 - 30,000) / 20,000 = 1.5$.
+        <br>(3) $\text{Total Assets Turnover} = \text{Sales} / \text{Total Assets} = 300,000 / 200,000 = 1.5$ times.
+        <br>(4) $\text{Debt-to-Equity Ratio} = \text{Total Liabilities} / \text{Equity} = 80,000 / 120,000 \approx 0.67 \quad (67\%)$.
+        <br>
+        <br><b>3. DuPont ROE Analysis:</b>
+        <br>- Profit Margin = $\text{Net Income} / \text{Sales} = 24,000 / 300,000 = 0.08 \quad (8\%)$.
+        <br>- Total Asset Turnover = 1.5.
+        <br>- Equity Multiplier = $\text{Total Assets} / \text{Equity} = 200,000 / 120,000 \approx 1.667$.
+        <br>$\text{ROE} = 8\% \times 1.5 \times 1.667 \approx 12\% \times 1.667 \approx 20\%$.
+        <br><i>Verify directly: $\text{ROE} = \text{Net Income} / \text{Equity} = 24,000 / 120,000 = 0.20 = 20\%$.</i>
+      </p>
+    </div>
+  </div>
+
+  <!-- Common Size Financial Statements -->
+  <div class="section">
+    <h2><b>2.5 Common-Size Financial Statements</b></h2>
+    <p>
+      Standardizing financial statements by expressing each line item as a percentage of a common base is called
+      <b>Common-Size Analysis</b>. This assists managers in spotting structural shifts over time:
+    </p>
+    <ul>
+      <li><b>Common-Size Income Statement:</b> Every expense and profit margin line item is divided by **Net Sales**:
+        <br>
+        $$\text{Common Size \%} = \frac{\text{Line Item Value}}{\text{Net Sales}} \times 100$$
+        Allows easy identification of whether operating costs, R&D expenses, or SG&A are growing disproportionately compared to revenues.
+      </li>
+      <li><b>Common-Size Balance Sheet:</b> Every asset, liability, and equity account is divided by **Total Assets**:
+        <br>
+        $$\text{Common Size \%} = \frac{\text{Line Item Value}}{\text{Total Assets}} \times 100$$
+        Shows the asset mix (e.g., what percentage of assets are tied up in cash or inventory) and the capital structure mix.
+      </li>
+    </ul>
+  </div>
+
+  <!-- Window Dressing Tactics -->
+  <div class="section">
+    <h2><b>2.6 Window Dressing and Creative Accounting Tactics</b></h2>
+    <p>
+      Companies sometimes engage in **window dressing** — legal but misleading actions to make their financial
+      statements look better at the end of the fiscal year:
+    </p>
+    <ul>
+      <li><b>Artificially Boosting Liquidity (Current Ratio):</b>
+        <br>Assume current assets = $100,000 and current liabilities = $50,000. Current ratio = 2.0.
+        <br>If the firm pays off $20,000 of accounts payable just before the year-end:
+        <br>New current assets = $80,000; New current liabilities = $30,000.
+        <br>New Current Ratio = $80,000 / $30,000 = 2.67.
+        <br>The current ratio appears stronger, even though no new cash entered the business.
+      </li>
+      <li><b>Accelerating Revenue Recognition:</b> Shipping goods early or booking service revenues before
+        the work is completed to inflate the current year's earnings.</li>
+      <li><b>Delaying Expenses:</b> Postponing maintenance or advertising expenses to the next fiscal year.</li>
+    </ul>
+  </div>
+
+  <!-- DuPont Case Study -->
+  <div class="section">
+    <h2><b>2.7 DuPont System Comparison: Margin vs. Turnover Focus</b></h2>
+    <p>
+      Consider two companies with the exact same Return on Equity (ROE) of 15% operating under different models:
+    </p>
+    <table>
+      <tr>
+        <th>Company</th>
+        <th>Profit Margin (PM)</th>
+        <th>Total Asset Turnover (TAT)</th>
+        <th>Equity Multiplier (EM)</th>
+        <th>Calculation</th>
+        <th>Result (ROE)</th>
+      </tr>
+      <tr>
+        <td><b>PremiumTech (Software)</b></td>
+        <td>15%</td>
+        <td>0.5</td>
+        <td>2.0</td>
+        <td>$15\% \times 0.5 \times 2.0$</td>
+        <td><b>15%</b></td>
+      </tr>
+      <tr>
+        <td><b>BulkRetail (Hardware)</b></td>
+        <td>3%</td>
+        <td>2.5</td>
+        <td>2.0</td>
+        <td>$3\% \times 2.5 \times 2.0$</td>
+        <td><b>15%</b></td>
+      </tr>
+    </table>
+    <p>
+      - **PremiumTech** generates high profit margins per sale (15%) but has low asset turnover (0.5), meaning it doesn't utilize its assets rapidly. This is typical of high-margin SaaS/Software platforms.
+      <br>- **BulkRetail** generates low profit margins (3%) but turns over its assets very rapidly (2.5 times a year). This is typical of hardware distributors or grocery stores.
+      <br>- Both achieve the same ROE, demonstrating that DuPont analysis uncovers the underlying drivers of financial performance.
+    </p>
+  </div>
+
+  <!-- Case Study: Nepalese Public Limited Company Disclosures -->
+  <div class="section">
+    <h2><b>2.8 Case Study: Nepalese Public Company Disclosures</b></h2>
+    <p>
+      In Nepal, public limited companies (such as commercial banks, manufacturing giants like Unilever Nepal or Shivam Cement,
+      and hydropower operators) are required to publish condensed quarterly financial disclosures in major newspapers
+      and submit complete annual audited statements to the <b>Securities Board of Nepal (SEBON)</b> and **Nepal Stock Exchange (NEPSE)**.
+    </p>
+    <div class="note">
+      <h4>Quarterly Report Analysis Checklist</h4>
+      <ul>
+        <li><b>Section 1: Balance Sheet Structure:</b> Nepalese balance sheets list Share Capital, Reserves, and
+          Long-Term/Short-Term Borrowings first on the Liabilities side, followed by Fixed Assets, Investments, and
+          Current Assets.</li>
+        <li><b>Section 2: Profit or Loss Highlights:</b> Major elements include Operating Revenue (Sales), Cost of Sales,
+          Administrative Expenses, Finance Costs (Interest), and Net Profit.</li>
+        <li><b>Section 3: Key Financial Indicators:</b> Usually printed at the bottom of the newspaper advertisement, listing:
+          <ul>
+            <li>Earnings Per Share (EPS)</li>
+            <li>Net Worth Per Share</li>
+            <li>Liquidity Ratio (Current Ratio)</li>
+            <li>Price-to-Earnings (P/E) Ratio</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Free Cash Flow (FCF) -->
+  <div class="section">
+    <h2><b>2.9 Free Cash Flow (FCF) Analysis</b></h2>
+    <p>
+      While Net Income is an accounting profit, investors focus on **Free Cash Flow (FCF)**, which is the cash
+      actually available to distribute to all investors (debt holders and equity holders) after paying taxes
+      and making necessary capital expenditures and working capital investments:
+    </p>
+    <div class="note">
+      <h4>Free Cash Flow Formula</h4>
+      $$FCF = \left[ EBIT(1 - T) + \text{Depreciation} \right] - \left[ \text{Capital Expenditures} + \Delta \text{Net Operating Working Capital} \right]$$
+      Where:
+      <br>- $EBIT(1 - T)$ is Net Operating Profit After Taxes (NOPAT).
+      <br>- Depreciation is added back because it is a non-cash expense.
+      <br>- Capital Expenditures (CapEx) is cash spent to buy/maintain physical fixed assets.
+      <br>- $\Delta$ Net Operating Working Capital (NOWC) is the change in current assets needed for operations minus accounts payable.
+    </div>
+
+    <div class="note">
+      <h4>FCF Worked Numerical</h4>
+      <p><b>Problem:</b> In 2026, Tech Nepal Pvt Ltd reported:
+        <br>- EBIT = $150,000; Tax Rate T = 30%
+        <br>- Depreciation Expense = $20,000
+        <br>- Capital Expenditures (purchase of fixed servers/laptops) = $45,000
+        <br>- Operating Working Capital grew from $50,000 (2025) to $60,000 (2026) ($\Delta NOWC = \$10,000$).
+        <br>Calculate the firm's Free Cash Flow.
+      </p>
+      <p><b>Solution:</b>
+        <br>1. Calculate NOPAT:
+        <br>$\text{NOPAT} = EBIT(1 - T) = 150,000 \times (1 - 0.30) = 150,000 \times 0.70 = \$105,000$.
+        <br>
+        <br>2. Calculate Cash Flow from Operations before CapEx:
+        <br>$\text{Operating Cash Flow} = NOPAT + \text{Depreciation} = 105,000 + 20,000 = \$125,000$.
+        <br>
+        <br>3. Compute FCF:
+        <br>$FCF = 125,000 - (\text{CapEx} + \Delta NOWC) = 125,000 - (45,000 + 10,000) = 125,000 - 55,000 = \$70,000$.
+        <br>The firm generated $70,000 of free cash flow during the year, which can be used to pay dividends or pay off bank loans.
+      </p>
+    </div>
+  </div>
+
+  <!-- Ratio Benchmarks and Liquidity trade-offs -->
+  <div class="section">
+    <h2><b>2.10 Ratio Benchmarks and Liquidity Trade-offs</b></h2>
+    <p>
+      Ratios cannot be analyzed in isolation. They must be compared against standard industry benchmarks:
+    </p>
+    <table>
+      <tr>
+        <th>Ratio Type</th>
+        <th>Standard Benchmark</th>
+        <th>If Too Low (Implications)</th>
+        <th>If Too High (Implications)</th>
+      </tr>
+      <tr>
+        <td><b>Current Ratio</b></td>
+        <td>1.5 to 2.0</td>
+        <td>Liquidity risk; high chance of defaulting on short-term debts.</td>
+        <td>Inefficient capital use; excess cash or idle inventory yielding 0% return.</td>
+      </tr>
+      <tr>
+        <td><b>Inventory Turnover</b></td>
+        <td>5.0 to 8.0 times</td>
+        <td>Slow-moving, obsolete stock; cash tied up in inventories.</td>
+        <td>Frequent stock-outs, lost sales, ordering costs are too high.</td>
+      </tr>
+      <tr>
+        <td><b>Times Interest Earned</b></td>
+        <td>> 3.0 times</td>
+        <td>Debt distress; risk of lenders foreclosing on corporate assets.</td>
+        <td>Under-utilization of debt tax shield benefits.</td>
+      </tr>
+    </table>
+
+    <h3>The Liquidity-Profitability Trade-off</h3>
+    <p>
+      Financial managers face a constant trade-off between liquidity and profitability:
+      <br>1. **High Liquidity:** Protects the firm from bankruptcy, but reduces profitability because cash and liquid
+      assets earn little to no returns.
+      <br>2. **Low Liquidity:** Maximizes profitability by investing all cash into high-yielding project assets, but increases
+      insolvency risk.
+    </p>
+  </div>
+
+  <!-- EBITDA Coverage & Ratio Users -->
+  <div class="section">
+    <h2><b>2.11 Advanced Debt Service Metrics and Users of Ratio Analysis</b></h2>
+
+    <h3>1. EBITDA Coverage Ratio</h3>
+    <p>
+      While the Times Interest Earned (TIE) ratio measures a firm's ability to pay interest, it has two drawbacks:
+      it ignores principal repayments, and it uses EBIT (which subtracts non-cash depreciation).
+      The **EBITDA Coverage Ratio** resolves this:
+      <br>
+      $$\text{EBITDA Coverage} = \frac{\text{EBITDA} + \text{Lease Payments}}{\text{Interest} + \text{Lease Payments} + \frac{\text{Principal Repayments}}{1 - T}}$$
+      Where EBITDA is EBIT + Depreciation + Amortization.
+    </p>
+
+    <h3>2. Who Uses Financial Ratios?</h3>
+    <ul>
+      <li><b>Trade Creditors / Suppliers:</b> Focus on **Liquidity Ratios** (Current, Quick) to ensure the firm can pay
+        for supplies purchased on credit within 30-90 days.</li>
+      <li><b>Commercial Banks / Long-term Lenders:</b> Focus on **Leverage & Debt Coverage Ratios** (Debt-to-Equity, TIE, EBITDA Coverage)
+        to evaluate if the firm's long-term cash flow is stable enough to pay annual interest and principal repayments.</li>
+      <li><b>Shareholders & Stock Analysts:</b> Focus on **Profitability and Market Ratios** (ROE, Profit Margin, P/E, EPS)
+        to assess future stock price appreciation and dividend growth potential.</li>
+      <li><b>Internal Management:</b> Uses all ratios, especially **Asset Management Ratios** (Inventory Turnover, DSO), to identify
+        operational bottlenecks and improve production efficiency.</li>
+    </ul>
+  </div>
+
+  <!-- Industry Standard Classifications -->
+  <div class="section">
+    <h2><b>2.12 Industry Benchmark Standards: SIC and NAICS Codes</b></h2>
+    <p>
+      To conduct meaningful cross-sectional analyses, firms must compare themselves against true peers.
+      Financial analysts use standardized classification systems:
+    </p>
+    <ul>
+      <li><b>SIC (Standard Industrial Classification) Codes:</b> A four-digit code system used by the US government
+        to classify industries.</li>
+      <li><b>NAICS (North American Industry Classification System) Codes:</b> A newer, more detailed six-digit system
+        that replaced SIC, providing finer categories for information technology, software services, and e-commerce sectors.</li>
+      <li><b>Application:</b> Databases like Bloomberg or Reuters use these codes to aggregate sector financial data,
+        generating the industry average benchmarks that firms use to gauge their performance.</li>
+    </ul>
+  </div>
+
+</body>
+</html>

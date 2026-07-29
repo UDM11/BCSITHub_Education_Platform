@@ -1232,98 +1232,92 @@ export function CodeCompiler() {
 
   const saveCode = () => {
     const timestamp = new Date().toISOString();
-    setSavedCodes({
-      ...savedCodes,
+    setSavedCodes(prev => ({
+      ...prev,
       [timestamp]: code
-    });
+    }));
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50">
+    <div className="min-h-screen bg-slate-50/30">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div className="bg-white/85 backdrop-blur-md border-b border-slate-100 sticky top-0 z-40 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4.5">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center space-x-4">
               <Link 
                 to="/" 
-                className="flex items-center text-gray-600 hover:text-indigo-600 transition-colors"
+                className="flex items-center text-slate-600 hover:text-indigo-600 transition-colors text-sm font-semibold"
               >
-                <ArrowLeft className="w-5 h-5 mr-2" />
+                <ArrowLeft className="w-4 h-4 mr-1.5" />
                 Back to Home
               </Link>
-              <div className="h-6 w-px bg-gray-300" />
+              <div className="h-4 w-px bg-slate-200" />
               <div className="flex items-center">
-                <Code className="w-6 h-6 mr-2 text-indigo-600" />
-                <h1 className="text-xl font-bold text-gray-900">
+                <Code className="w-5 h-5 mr-2 text-indigo-600" />
+                <h1 className="text-lg font-bold text-slate-800">
                   Code Compiler
                 </h1>
                 {isRunning && (
                   <motion.div
-                    initial={{ opacity: 0, scale: 0 }}
+                    initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="ml-3 px-2 py-1 bg-green-100 text-green-600 text-xs font-medium rounded-full"
+                    className="ml-3 px-2.5 py-0.5 bg-rose-50 border border-rose-100/50 text-rose-600 text-xs font-bold rounded-full"
                   >
-                    Running
+                    Compiling
                   </motion.div>
                 )}
               </div>
             </div>
             
             <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
+              <button
                 onClick={() => setShowStats(!showStats)}
-                className="flex items-center"
+                className="flex items-center bg-white border border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-500 px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300"
               >
-                <TrendingUp className="w-4 h-4 mr-1" />
-                Stats
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
+                <TrendingUp className="w-4 h-4 mr-1.5" />
+                Analytics
+              </button>
+              <button
                 onClick={() => setShowSettings(!showSettings)}
-                className="flex items-center"
+                className="flex items-center bg-white border border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-500 px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300"
               >
-                <Settings className="w-4 h-4 mr-1" />
-                Settings
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
+                <Settings className="w-4 h-4 mr-1.5" />
+                Configs
+              </button>
+              <button
                 onClick={() => setIsFullscreen(!isFullscreen)}
-                className="flex items-center"
+                className="flex items-center justify-center w-9 h-9 border border-slate-200 rounded-xl text-slate-500 hover:text-indigo-600 hover:border-indigo-500 transition-all duration-300 bg-white"
               >
                 {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
-              </Button>
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 ${isFullscreen ? 'max-w-none px-2' : ''}`}>
+      <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ${isFullscreen ? 'max-w-none px-2' : ''}`}>
         {/* Language Selector */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-6"
+          className="mb-8"
         >
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="flex flex-wrap gap-2.5 mb-4 bg-slate-100 p-1.5 rounded-2xl border border-slate-200/40">
             {LANGUAGES.map((lang) => (
               <motion.button
                 key={lang.id}
                 onClick={() => setSelectedLanguage(lang)}
-                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 flex items-center ${
+                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 flex items-center ${
                   selectedLanguage.id === lang.id
-                    ? `bg-gradient-to-r ${lang.color} text-white shadow-lg`
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? `bg-gradient-to-r ${lang.color} text-white shadow-md`
+                    : 'bg-white text-slate-655 border border-slate-150 hover:bg-slate-50'
                 }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.97 }}
               >
-                <span className="mr-2">{lang.icon}</span>
+                <span className="mr-2 text-sm">{lang.icon}</span>
                 {lang.name}
               </motion.button>
             ))}
@@ -1337,26 +1331,26 @@ export function CodeCompiler() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="mb-6"
+              className="mb-8 overflow-hidden"
             >
-              <Card className="bg-white shadow-lg border-0">
+              <Card hover={false} className="bg-white border border-slate-100 shadow-premium">
                 <CardContent className="p-6">
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-indigo-600">{linesOfCode}</div>
-                      <div className="text-sm text-gray-600">Lines of Code</div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div className="p-4 bg-slate-50/50 hover:bg-slate-50 rounded-2xl border border-slate-100/50 transition-all text-center">
+                      <div className="text-2xl font-black text-indigo-650">{linesOfCode}</div>
+                      <div className="text-xs text-slate-400 font-bold uppercase mt-1">Lines of Code</div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-green-600">{charactersCount}</div>
-                      <div className="text-sm text-gray-600">Characters</div>
+                    <div className="p-4 bg-slate-50/50 hover:bg-slate-50 rounded-2xl border border-slate-100/50 transition-all text-center">
+                      <div className="text-2xl font-black text-emerald-650">{charactersCount}</div>
+                      <div className="text-xs text-slate-400 font-bold uppercase mt-1">Characters</div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-orange-600">{memoryUsage}MB</div>
-                      <div className="text-sm text-gray-600">Memory Usage</div>
+                    <div className="p-4 bg-slate-50/50 hover:bg-slate-50 rounded-2xl border border-slate-100/50 transition-all text-center">
+                      <div className="text-2xl font-black text-amber-600">{memoryUsage}MB</div>
+                      <div className="text-xs text-slate-400 font-bold uppercase mt-1">Memory Pool</div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-purple-600">{cpuUsage}%</div>
-                      <div className="text-sm text-gray-600">CPU Usage</div>
+                    <div className="p-4 bg-slate-50/50 hover:bg-slate-50 rounded-2xl border border-slate-100/50 transition-all text-center">
+                      <div className="text-2xl font-black text-purple-600">{cpuUsage}%</div>
+                      <div className="text-xs text-slate-400 font-bold uppercase mt-1">CPU Load</div>
                     </div>
                   </div>
                 </CardContent>
@@ -1365,38 +1359,54 @@ export function CodeCompiler() {
           )}
         </AnimatePresence>
 
-        <div className={`grid gap-6 ${isFullscreen ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2'}`}>
+        <div className={`grid gap-8 ${isFullscreen ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2'}`}>
           {/* Code Editor */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <Card className="shadow-xl border-0 overflow-hidden bg-white">
-              <div className="px-4 py-3 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <div className="flex space-x-1">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+            <Card hover={false} className="shadow-premium border border-slate-100 overflow-hidden bg-slate-900 rounded-2xl">
+              <div className="px-5 py-3.5 border-b border-slate-800 bg-slate-900/90 flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="flex space-x-1.5">
+                    <div className="w-3.5 h-3.5 bg-rose-500 rounded-full shadow-sm"></div>
+                    <div className="w-3.5 h-3.5 bg-amber-500 rounded-full shadow-sm"></div>
+                    <div className="w-3.5 h-3.5 bg-emerald-500 rounded-full shadow-sm"></div>
                   </div>
-                  <span className="text-sm font-medium text-gray-600">
+                  <span className="text-xs font-bold text-slate-400">
                     main.{selectedLanguage.extension}
                   </span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Button variant="ghost" size="sm" onClick={copyCode}>
+                <div className="flex items-center space-x-1">
+                  <button 
+                    onClick={copyCode}
+                    className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all duration-300"
+                    title="Copy Code"
+                  >
                     <Copy className="w-4 h-4" />
-                  </Button>
-                  <Button variant="ghost" size="sm" onClick={saveCode}>
+                  </button>
+                  <button 
+                    onClick={saveCode}
+                    className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all duration-300"
+                    title="Save snippet"
+                  >
                     <Save className="w-4 h-4" />
-                  </Button>
-                  <Button variant="ghost" size="sm" onClick={downloadCode}>
+                  </button>
+                  <button 
+                    onClick={downloadCode}
+                    className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all duration-300"
+                    title="Download script"
+                  >
                     <Download className="w-4 h-4" />
-                  </Button>
-                  <Button variant="ghost" size="sm" onClick={resetCode}>
+                  </button>
+                  <button 
+                    onClick={resetCode}
+                    className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all duration-300"
+                    title="Reset draft"
+                  >
                     <RotateCcw className="w-4 h-4" />
-                  </Button>
+                  </button>
                 </div>
               </div>
               <CardContent className="p-0">
@@ -1404,8 +1414,8 @@ export function CodeCompiler() {
                   ref={codeEditorRef}
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
-                  className="w-full h-96 p-4 font-mono resize-none focus:outline-none bg-white text-gray-900 placeholder-gray-500"
-                  style={{ fontSize: `${fontSize}px`, lineHeight: '1.5' }}
+                  className="w-full h-[450px] p-6 font-mono resize-none focus:outline-none bg-slate-950 text-slate-100 placeholder-slate-600 rounded-b-2xl border-0 shadow-inner"
+                  style={{ fontSize: `${fontSize}px`, lineHeight: '1.6' }}
                   placeholder="Write your code here..."
                   spellCheck={false}
                 />
@@ -1419,25 +1429,25 @@ export function CodeCompiler() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <Card className="shadow-xl border-0 overflow-hidden bg-white">
-              <div className="px-4 py-3 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
+            <Card hover={false} className="shadow-premium border border-slate-100 overflow-hidden bg-slate-900 rounded-2xl">
+              <div className="px-5 py-3 border-b border-slate-800 bg-slate-900/90 flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <Terminal className="w-4 h-4 text-gray-600" />
-                  <span className="text-sm font-medium text-gray-600">
-                    Output
+                  <Terminal className="w-4 h-4 text-slate-455" />
+                  <span className="text-xs font-bold text-slate-400">
+                    Console Terminal
                   </span>
                   {executionTime && (
-                    <span className="text-xs px-2 py-1 rounded-full bg-gray-200 text-gray-600">
-                      {executionTime}ms
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-bold border border-slate-700/50">
+                      {executionTime} ms
                     </span>
                   )}
                 </div>
                 <div className="flex items-center space-x-2">
-                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Button
+                  <motion.div whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }}>
+                    <button
                       onClick={runCode}
                       disabled={isRunning}
-                      className={`bg-gradient-to-r ${selectedLanguage.color} hover:opacity-90 text-white px-6 py-2 rounded-lg shadow-lg flex items-center`}
+                      className={`bg-gradient-to-r ${selectedLanguage.color} hover:brightness-110 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-md border-0 flex items-center gap-1.5`}
                     >
                       {isRunning ? (
                         <>
@@ -1445,31 +1455,31 @@ export function CodeCompiler() {
                             animate={{ rotate: 360 }}
                             transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                           >
-                            <Square className="w-4 h-4 mr-2" />
+                            <Square className="w-3.5 h-3.5" />
                           </motion.div>
-                          Running
+                          <span>Compiling...</span>
                         </>
                       ) : (
                         <>
-                          <Play className="w-4 h-4 mr-2" />
-                          Run Code
+                          <Play className="w-3.5 h-3.5 fill-current" />
+                          <span>Run Code</span>
                         </>
                       )}
-                    </Button>
+                    </button>
                   </motion.div>
                 </div>
               </div>
               <CardContent className="p-0">
                 <div
                   ref={outputRef}
-                  className="h-96 p-4 font-mono text-sm overflow-auto bg-gray-50 text-gray-800"
-                  style={{ fontSize: `${fontSize}px`, lineHeight: '1.5' }}
+                  className="h-[450px] p-6 font-mono text-sm overflow-auto bg-slate-950 text-slate-200 border-0 rounded-b-2xl shadow-inner border-t border-slate-900"
+                  style={{ fontSize: `${fontSize}px`, lineHeight: '1.6' }}
                 >
                   {output || (
-                    <div className="flex items-center justify-center h-full text-gray-400">
+                    <div className="flex items-center justify-center h-full text-slate-600">
                       <div className="text-center">
-                        <Terminal className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                        <p>Click "Run Code" to see the output</p>
+                        <Terminal className="w-10 h-10 mx-auto mb-3 opacity-30 text-slate-400" />
+                        <p className="text-xs font-semibold">Ready for compilation logs...</p>
                       </div>
                     </div>
                   )}
@@ -1485,14 +1495,14 @@ export function CodeCompiler() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="mt-6"
+            className="mt-8"
           >
-            <Card className="shadow-xl border-0 overflow-hidden bg-white">
-              <div className="px-4 py-3 border-b border-gray-200 bg-gray-50">
+            <Card hover={false} className="shadow-premium border border-slate-100 overflow-hidden bg-white rounded-2xl">
+              <div className="px-5 py-3.5 border-b border-slate-100 bg-slate-50/50">
                 <div className="flex items-center space-x-2">
-                  <FileText className="w-4 h-4 text-gray-600" />
-                  <span className="text-sm font-medium text-gray-600">
-                    HTML Preview
+                  <FileText className="w-4 h-4 text-indigo-650" />
+                  <span className="text-xs font-bold text-slate-700">
+                    Live HTML Viewport
                   </span>
                 </div>
               </div>
@@ -1512,92 +1522,74 @@ export function CodeCompiler() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-12"
+          className="mt-16"
         >
-          <Card className="border-0 shadow-lg bg-gradient-to-r from-blue-50 to-indigo-50">
+          <Card hover={false} className="border border-slate-100 shadow-premium bg-gradient-to-r from-slate-50 to-indigo-50/20 rounded-2xl">
             <CardContent className="p-8">
-              <div className="text-center mb-8">
-                <Sparkles className="w-10 h-10 mx-auto mb-4 text-indigo-600" />
-                <h3 className="text-3xl font-bold mb-4 text-gray-900">
-                  Advanced Code Compiler Features
+              <div className="text-center mb-10">
+                <Sparkles className="w-8 h-8 mx-auto mb-3 text-indigo-600" />
+                <h3 className="text-2xl font-bold text-slate-800">
+                  Sandboxed Compiler Features
                 </h3>
-                <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                  Experience the most comprehensive online coding platform with cutting-edge features
+                <p className="text-xs font-bold text-slate-455 uppercase tracking-widest mt-1">
+                  Secure local compiler environment for modern web development courses
                 </p>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[
                   { 
                     icon: Code, 
                     title: "Multi-Language Support", 
-                    description: "Support for 10+ programming languages including JavaScript, Python, Java, C++, TypeScript, PHP, Go, Rust, and more",
-                    color: "from-blue-500 to-cyan-500"
+                    description: "Compile JavaScript, Python, Java, C++, TypeScript, PHP, Go, Rust, and more instantly.",
+                    color: "from-blue-500 to-indigo-500"
                   },
                   { 
                     icon: Zap, 
-                    title: "Lightning Fast Execution", 
-                    description: "Optimized compilation engine with real-time performance monitoring and instant feedback",
-                    color: "from-yellow-500 to-orange-500"
+                    title: "Lightning Execution", 
+                    description: "Optimized script execution logs with microsecond execution tracking metric.",
+                    color: "from-yellow-450 to-orange-500"
                   },
                   { 
                     icon: Smartphone, 
-                    title: "Fully Responsive", 
-                    description: "Perfect coding experience across all devices - desktop, tablet, and mobile with touch-friendly interface",
-                    color: "from-green-500 to-emerald-500"
+                    title: "Mobile Friendly Layout", 
+                    description: "Write code on the go with responsive editor viewport controls on any device.",
+                    color: "from-emerald-500 to-teal-500"
                   },
                   { 
                     icon: Save, 
-                    title: "Save & Export", 
-                    description: "Save your code snippets, export as files, and maintain your coding history with version control",
+                    title: "Script Exporting", 
+                    description: "Download code snapshots locally as files and maintain your offline library.",
                     color: "from-purple-500 to-pink-500"
                   },
                   { 
                     icon: TrendingUp, 
-                    title: "Performance Analytics", 
-                    description: "Track execution time, memory usage, CPU utilization, and code complexity metrics",
-                    color: "from-red-500 to-rose-500"
+                    title: "Complexity Analytics", 
+                    description: "Track script size, character distributions, lines count, and virtual memory profiles.",
+                    color: "from-rose-500 to-red-500"
                   },
                   { 
                     icon: Globe, 
-                    title: "Live HTML Preview", 
-                    description: "Real-time HTML/CSS/JavaScript preview with responsive design testing capabilities",
-                    color: "from-indigo-500 to-purple-500"
-                  },
-                  { 
-                    icon: Shield, 
-                    title: "Secure Execution", 
-                    description: "Sandboxed code execution environment with security monitoring and safe compilation",
-                    color: "from-gray-500 to-slate-500"
-                  },
-                  { 
-                    icon: Users, 
-                    title: "Collaborative Coding", 
-                    description: "Share code snippets, collaborate with peers, and learn from community examples",
-                    color: "from-teal-500 to-cyan-500"
-                  },
-                  { 
-                    icon: BookOpen, 
-                    title: "Learning Resources", 
-                    description: "Built-in code templates, syntax guides, and programming tutorials for all skill levels",
-                    color: "from-amber-500 to-yellow-500"
+                    title: "Integrated HTML View", 
+                    description: "Render layouts immediately with live responsive sandbox frame preview.",
+                    color: "from-indigo-600 to-purple-650"
                   }
                 ].map((feature, index) => (
                   <motion.div
                     key={feature.title}
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.9 + index * 0.1 }}
+                    transition={{ duration: 0.5, delay: 0.1 + index * 0.05 }}
                     whileHover={{ y: -5 }}
-                    className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-premium transition-all duration-300"
                   >
-                    <div className={`w-14 h-14 bg-gradient-to-r ${feature.color} rounded-2xl flex items-center justify-center mx-auto mb-4`}>
-                      <feature.icon className="w-7 h-7 text-white" />
+                    <div className={`w-12 h-12 bg-gradient-to-br ${feature.color} rounded-xl flex items-center justify-center mx-auto mb-4`}>
+                      <feature.icon className="w-5 h-5 text-white" />
                     </div>
-                    <h4 className="text-xl font-bold text-gray-900 mb-3 text-center">
+                    <h4 className="text-base font-bold text-slate-800 mb-2 text-center">
                       {feature.title}
                     </h4>
-                    <p className="text-gray-600 text-center leading-relaxed">
+                    <p className="text-xs text-slate-500 font-semibold text-center leading-relaxed">
                       {feature.description}
                     </p>
                   </motion.div>
@@ -1606,8 +1598,6 @@ export function CodeCompiler() {
             </CardContent>
           </Card>
         </motion.div>
-
-
       </div>
 
       {/* Settings Modal */}
@@ -1617,21 +1607,21 @@ export function CodeCompiler() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 z-50"
             onClick={() => setShowSettings(false)}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-2xl p-6 w-full max-w-md"
+              className="bg-white/95 backdrop-blur-lg border border-slate-100 rounded-2xl p-6 w-full max-w-md shadow-premium animate-in fade-in zoom-in-95 duration-150"
               onClick={(e) => e.stopPropagation()}
             >
-              <h3 className="text-xl font-bold text-gray-900 mb-6">Editor Settings</h3>
+              <h3 className="text-lg font-bold text-slate-800 mb-6 border-b border-slate-50 pb-3">Editor Settings</h3>
               
               <div className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-xs font-bold text-slate-550 mb-2.5 uppercase tracking-wider">
                     Font Size
                   </label>
                   <div className="flex items-center space-x-4">
@@ -1641,42 +1631,43 @@ export function CodeCompiler() {
                       max="24"
                       value={fontSize}
                       onChange={(e) => setFontSize(parseInt(e.target.value))}
-                      className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                      className="flex-1 h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600"
                     />
-                    <span className="text-sm text-gray-600 w-8">{fontSize}px</span>
+                    <span className="text-xs font-bold text-slate-600 w-8">{fontSize}px</span>
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">
-                    Editor Theme
+                  <label className="block text-xs font-bold text-slate-555 mb-3 uppercase tracking-wider">
+                    Theme Mode
                   </label>
                   <div className="grid grid-cols-2 gap-3">
                     <button
-                      className="p-3 border-2 border-gray-200 rounded-lg hover:border-indigo-500 transition-colors"
+                      className="p-3 border border-indigo-500 bg-indigo-50/20 rounded-xl transition-all"
                       onClick={() => {}}
                     >
-                      <div className="w-full h-8 bg-white border rounded mb-2"></div>
-                      <span className="text-xs text-gray-600">Light</span>
+                      <div className="w-full h-8 bg-slate-900 rounded-lg mb-2"></div>
+                      <span className="text-xs font-bold text-indigo-700">Editor Dark</span>
                     </button>
                     <button
-                      className="p-3 border-2 border-gray-200 rounded-lg hover:border-indigo-500 transition-colors"
-                      onClick={() => {}}
+                      className="p-3 border border-slate-200 bg-white rounded-xl opacity-60 cursor-not-allowed"
+                      disabled
+                      title="Only Dark theme available for Code Compiler editor"
                     >
-                      <div className="w-full h-8 bg-gray-800 rounded mb-2"></div>
-                      <span className="text-xs text-gray-600">Dark</span>
+                      <div className="w-full h-8 bg-slate-50 border rounded-lg mb-2"></div>
+                      <span className="text-xs font-semibold text-slate-400">Editor Light</span>
                     </button>
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Auto-save Code
+                  <label className="block text-xs font-bold text-slate-555 mb-2 uppercase tracking-wider">
+                    Auto-Save Drafts
                   </label>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">Automatically save your code while typing</span>
+                    <span className="text-xs text-slate-500 font-semibold">Save code snapshots locally</span>
                     <button
-                      className="relative inline-flex h-6 w-11 items-center rounded-full bg-indigo-600 transition-colors"
+                      className="relative inline-flex h-6 w-11 items-center rounded-full bg-indigo-650 transition-colors duration-300"
                       onClick={() => {}}
                     >
                       <span className="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-6" />
@@ -1685,13 +1676,13 @@ export function CodeCompiler() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Show Line Numbers
+                  <label className="block text-xs font-bold text-slate-555 mb-2 uppercase tracking-wider">
+                    Display Line Numbers
                   </label>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">Display line numbers in the editor</span>
+                    <span className="text-xs text-slate-500 font-semibold font-sans">Show line numbers margins</span>
                     <button
-                      className="relative inline-flex h-6 w-11 items-center rounded-full bg-indigo-600 transition-colors"
+                      className="relative inline-flex h-6 w-11 items-center rounded-full bg-indigo-650 transition-colors duration-300"
                       onClick={() => {}}
                     >
                       <span className="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-6" />
@@ -1700,10 +1691,10 @@ export function CodeCompiler() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Tab Size
+                  <label className="block text-xs font-bold text-slate-550 mb-2 uppercase tracking-wider">
+                    Indent Spacing
                   </label>
-                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                  <select className="w-full px-3 py-2 border border-slate-250 rounded-xl text-xs bg-white text-slate-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-semibold transition-all">
                     <option value="2">2 spaces</option>
                     <option value="4" selected>4 spaces</option>
                     <option value="8">8 spaces</option>
@@ -1711,20 +1702,19 @@ export function CodeCompiler() {
                 </div>
               </div>
               
-              <div className="flex gap-3 mt-8">
-                <Button
+              <div className="flex gap-3 mt-8 border-t border-slate-50 pt-5">
+                <button
                   onClick={() => setShowSettings(false)}
-                  className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white"
+                  className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs py-3 rounded-xl shadow-sm transition-all duration-300"
                 >
-                  Save Settings
-                </Button>
-                <Button
+                  Save settings
+                </button>
+                <button
                   onClick={() => setShowSettings(false)}
-                  variant="outline"
-                  className="flex-1"
+                  className="flex-1 bg-slate-100 hover:bg-slate-250 text-slate-700 font-semibold text-xs py-3 rounded-xl transition-all duration-300"
                 >
                   Cancel
-                </Button>
+                </button>
               </div>
             </motion.div>
           </motion.div>

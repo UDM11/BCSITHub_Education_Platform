@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 6: Basics of Capital Budgeting Decisions</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { text-align: left; font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 6: Basics of Capital Budgeting Decisions [9 Hrs.]</b></h1>
+
+  <!-- 6.1 - 6.3 Concepts & Classifications -->
+  <div class="section">
+    <h2><b>6.1 Concept and Significance of Capital Budgeting</b></h2>
+
+    <h3>What is Capital Budgeting?</h3>
+    <p>
+      <b>Capital Budgeting</b> is the process of planning and evaluating long-term capital expenditures
+      (investments in fixed assets like machinery, research and development projects, or new IT systems)
+      whose cash flows are expected to extend beyond one year.
+    </p>
+
+    <h3>Why is Capital Budgeting Critical (Significance)?</h3>
+    <ul>
+      <li><b>Long-term Effects:</b> Capital decisions shape the firm's cost structure, production capabilities,
+        and competitiveness for years to come.</li>
+      <li><b>Large Resource Commitments:</b> Capital projects require massive cash layouts that can bankrupt
+        a firm if they fail.</li>
+      <li><b>Irreversibility:</b> Once fixed assets are purchased or custom software is developed, they have little
+        to no salvage value. Undoing a bad decision causes huge financial losses.</li>
+    </ul>
+
+    <h3>Classification of Capital Projects</h3>
+    <ul>
+      <li><b>Independent Projects:</b> Projects whose cash flows are completely unrelated. Accepting or rejecting
+        one project does not affect the decision on the other project.</li>
+      <li><b>Mutually Exclusive Projects:</b> Projects that perform the same function. If we accept one, we must
+        reject the other (e.g., building a bridge vs. running a ferry service).</li>
+      <li><b>Replacement Projects:</b> Upgrading worn-out or obsolete equipment to reduce operating costs.</li>
+      <li><b>Expansion Projects:</b> Entering new markets or launching new product lines to increase sales.</li>
+    </ul>
+  </div>
+
+  <!-- 6.4 Evaluation Techniques & Formulas -->
+  <div class="section">
+    <h2><b>6.2 Capital Budgeting Evaluation Techniques</b></h2>
+    <p>
+      Firms use multiple techniques to evaluate projects, split into non-discounting (traditional)
+      and discounting (modern) methods:
+    </p>
+
+    <h3>1. Payback Period (PBP)</h3>
+    <p>The length of time required for an investment to recover its initial cost from its cash inflows.</p>
+    <ul>
+      <li><b>Formula (Equal cash flows):</b>
+        <br>
+        $$\text{PBP} = \frac{\text{Initial Investment}}{\text{Annual Cash Inflow}}$$
+      </li>
+      <li><b>Unequal cash flows:</b> Sum the cash inflows year by year until they equal the initial investment.
+        <br>
+        $$\text{PBP} = A + \frac{B}{C}$$
+        Where $A$ is the last year with a negative cumulative cash flow, $B$ is the remaining unpaid cost,
+        and $C$ is the cash flow in the following year.
+      </li>
+      <li><b>Decision Rule:</b> Accept if $PBP \le \text{Target Payback Period}$.</li>
+    </ul>
+
+    <h3>2. Discounted Payback Period (DPBP)</h3>
+    <p>Similar to payback, but uses discounted present values of cash flows rather than nominal ones, accounting for TVM.</p>
+
+    <h3>3. Net Present Value (NPV)</h3>
+    <p>The sum of the present values of all cash inflows minus the initial cost. Considered the gold standard of capital budgeting.</p>
+    <div class="note">
+      $$NPV = \sum_{t=1}^n \frac{CF_t}{(1 + k)^t} - CF_0$$
+      Where $CF_t$ is cash flow in year $t$, $k$ is cost of capital (WACC), and $CF_0$ is initial investment.
+      <br><b>Decision Rule:</b>
+      <br>- Accept if $NPV > 0$ (Increases shareholder wealth).
+      <br>- Reject if $NPV < 0$.
+    </div>
+
+    <h3>4. Internal Rate of Return (IRR)</h3>
+    <p>The discount rate that forces the NPV of a project to equal exactly zero.</p>
+    <div class="note">
+      $$\sum_{t=1}^n \frac{CF_t}{(1 + IRR)^t} - CF_0 = 0$$
+      Calculated by trial-and-error and interpolation:
+      <br>
+      $$IRR = LDR + \left[ \frac{NPV_{LDR}}{NPV_{LDR} - NPV_{HDR}} \right] \times (HDR - LDR)$$
+      Where LDR is Lower Discount Rate and HDR is Higher Discount Rate.
+      <br><b>Decision Rule:</b> Accept if $IRR \ge k$ (Cost of Capital).
+    </div>
+
+    <h3>5. Profitability Index (PI)</h3>
+    <p>The ratio of the present value of future cash inflows to the initial cost (measures benefit-cost ratio):</p>
+    <div class="note">
+      $$PI = \frac{\sum_{t=1}^n \frac{CF_t}{(1 + k)^t}}{CF_0}$$
+      <b>Decision Rule:</b> Accept if $PI \ge 1.0$.
+    </div>
+  </div>
+
+  <!-- NPV vs IRR Conflicts -->
+  <div class="section">
+    <h2><b>6.3 NPV vs. IRR Conflicts</b></h2>
+    <p>
+      For **independent projects**, NPV and IRR always yield the same accept/reject decisions.
+      However, for **mutually exclusive projects**, conflicts can arise (NPV selects Project A, but IRR selects Project B):
+    </p>
+    <ul>
+      <li><b>Causes of Conflicts:</b>
+        <ul>
+          <li><i>Scale Difference:</i> One project is much larger than the other.</li>
+          <li><i>Timing Difference:</i> Cash flows of one project arrive early; the other arrives late.</li>
+          <li><i>Reinvestment Rate Assumption:</i> NPV assumes cash flows are reinvested at the **Cost of Capital ($k$)**,
+            while IRR assumes cash flows are reinvested at the **project's own IRR**. The NPV assumption is more realistic.</li>
+        </ul>
+      </li>
+      <li><b>Resolution:</b> Always follow the **NPV rule** because it directly measures wealth maximization.</li>
+    </ul>
+  </div>
+
+  <!-- Worked Numerical -->
+  <div class="section">
+    <h2><b>6.4 Worked Numerical Example</b></h2>
+    <div class="note">
+      <h4>Capital Budgeting Calculations</h4>
+      <p><b>Problem:</b> Nepalese Software Hub is evaluating a new software development project with the following cash flows:
+        <br>- Initial Investment $CF_0 = \$50,000$
+        <br>- Year 1 Cash Inflow $CF_1 = \$20,000$
+        <br>- Year 2 Cash Inflow $CF_2 = \$25,000$
+        <br>- Year 3 Cash Inflow $CF_3 = \$30,000$
+        <br>The firm's cost of capital (WACC) is 10%.
+        <br>Calculate: (1) Payback Period, (2) Net Present Value (NPV), (3) Profitability Index (PI), and (4) Internal Rate of Return (IRR).
+      </p>
+      <p><b>Solution:</b>
+        <br>
+        <br><b>1. Payback Period (PBP):</b>
+        <br>- Year 0: -$50,000 remaining.
+        <br>- Year 1: -$30,000 remaining (after receiving $20,000).
+        <br>- Year 2: -$5,000 remaining (after receiving $25,000).
+        <br>- Year 3: Cash inflow is $30,000.
+        <br>$\text{PBP} = 2 + (5,000 / 30,000) = 2.17$ years.
+        <br>
+        <br><b>2. Net Present Value (NPV):</b>
+        <br>Discount the cash flows at 10%:
+        <br>- $PV(CF_1) = 20,000 / (1.10)^1 = \$18,181.82$
+        <br>- $PV(CF_2) = 25,000 / (1.10)^2 = 25,000 / 1.21 = \$20,661.16$
+        <br>- $PV(CF_3) = 30,000 / (1.10)^3 = 30,000 / 1.331 = \$22,539.44$
+        <br>Sum of PV of Inflows = $18,181.82 + 20,661.16 + 22,539.44 = \$61,382.42$.
+        <br>$\text{NPV} = \text{Sum of PV of Inflows} - CF_0 = 61,382.42 - 50,000 = \$11,382.42$.
+        <br>Since $NPV > 0$, the project is acceptable.
+        <br>
+        <br><b>3. Profitability Index (PI):</b>
+        <br>$\text{PI} = \text{Sum of PV of Inflows} / CF_0 = 61,382.42 / 50,000 = 1.228$.
+        <br>Since $PI > 1.0$, the project is acceptable.
+        <br>
+        <br><b>4. Internal Rate of Return (IRR):</b>
+        <br>We need to find the rate where $NPV = 0$.
+        <br>At $k = 10\%$, $NPV = +\$11,382.42$.
+        <br>Let's try a higher discount rate, say $k = 25\%$:
+        <br>- $PV(CF_1) = 20,000 / (1.25)^1 = \$16,000.00$
+        <br>- $PV(CF_2) = 25,000 / (1.25)^2 = \$16,000.00$
+        <br>- $PV(CF_3) = 30,000 / (1.25)^3 = \$15,360.00$
+        <br>Sum of PV of Inflows = $16,000 + 16,000 + 15,360 = \$47,360$.
+        <br>$\text{NPV at 25\%} = 47,360 - 50,000 = -\$2,640$.
+        <br>
+        <br>Interpolate between 10% and 25%:
+        <br>$IRR = LDR + \left[ \frac{NPV_{LDR}}{NPV_{LDR} - NPV_{HDR}} \right] \times (HDR - LDR)$
+        <br>$IRR = 10\% + \left[ \frac{11,382.42}{11,382.42 - (-2,640)} \right] \times (25\% - 10\%)$
+        <br>$IRR = 10\% + \left[ \frac{11,382.42}{14,022.42} \right] \times 15\% = 10\% + 0.8117 \times 15\% \approx 10\% + 12.18\% = 22.18\%$.
+        <br>The Internal Rate of Return is approximately 22.18%.
+      </p>
+    </div>
+  </div>
+
+  <!-- Modified Internal Rate of Return (MIRR) -->
+  <div class="section">
+    <h2><b>6.5 Modified Internal Rate of Return (MIRR)</b></h2>
+    <p>
+      The traditional IRR assumes that cash inflows are reinvested at the project's own IRR.
+      This can lead to highly unrealistic returns for excellent projects (e.g., assuming a project with 80% IRR
+      can reinvest cash at 80%). The **MIRR** solves this by assuming cash inflows are reinvested at the
+      firm's **cost of capital ($k$)**:
+    </p>
+    <ul>
+      <li><b>MIRR Formula:</b>
+        <br>
+        $$PV(\text{Outflows}) = \frac{\text{Terminal Value of Inflows } (TV)}{(1 + MIRR)^n}$$
+        Where:
+        <br>$$TV = \sum_{t=1}^n CF_t \cdot (1 + k)^{n-t}$$
+        $$PV(\text{Outflows}) = CF_0$$
+      </li>
+      <li><b>Advantages:</b>
+        <br>1. More realistic reinvestment assumption (cost of capital).
+        <br>2. Resolves the **Multiple IRR problem** (occurs when a project has non-normal cash flows, i.e., cash flows change signs more than once).
+      </li>
+    </ul>
+  </div>
+
+  <!-- NPV Profiles and Crossover Rates -->
+  <div class="section">
+    <h2><b>6.6 NPV Profiles and Crossover Rates</b></h2>
+    <p>
+      An **NPV Profile** is a graph that plots a project's NPV on the y-axis against various discount rates
+      on the x-axis:
+    </p>
+    <pre>
+  NPV ($)
+    ▲
+ 50 │ \
+    │  \   Project A Profile
+    │   \
+  0 ┼────\─────o──────────► Discount Rate (%)
+    │     \   crossover rate
+-10 │      \
+    </pre>
+    <ul>
+      <li><b>IRR on the Profile:</b> The point where the NPV curve crosses the x-axis ($NPV = 0$) represents the IRR of the project.</li>
+      <li><b>Crossover Rate:</b> The discount rate at which the NPV profiles of two mutually exclusive projects
+        intersect, making their NPVs equal.
+        <ul>
+          <li><i>Calculation:</i> Subtracted the cash flows of Project B from Project A year-by-year, and calculate the IRR
+            of the difference cash flow stream.</li>
+          <li>If the cost of capital is less than the crossover rate, an NPV vs. IRR conflict occurs. If it is greater,
+            both NPV and IRR select the same project.</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ARR and Post-Audit Phase -->
+  <div class="section">
+    <h2><b>6.7 Accounting Rate of Return and Post-Audit</b></h2>
+
+    <h3>1. Accounting Rate of Return (ARR)</h3>
+    <p>
+      A traditional non-discounting method that measures the profitability of a project from an accounting perspective:
+    </p>
+    <div class="note">
+      $$ARR = \frac{\text{Average Net Profit}}{\text{Average Investment}}$$
+      Where:
+      <br>$$\text{Average Investment} = \frac{\text{Initial Cost} + \text{Salvage Value}}{2}$$
+      <br><b>Pros:</b> Simple to compute, uses readily available accounting statements.
+      <br><b>Cons:</b> Completely ignores the **Time Value of Money** and focuses on profits rather than cash flows.
+    </div>
+
+    <h3>2. The Post-Audit Phase</h3>
+    <p>
+      The capital budgeting process does not end with project selection. The **Post-Audit** is a critical final step:
+    </p>
+    <ul>
+      <li><b>Definition:</b> Comparing the actual cash flows and performance of an active project against
+        the initial forecasts used during the selection phase.</li>
+      <li><b>Purposes:</b>
+        <br>1. <i>Accountability:</i> Discourages managers from inflating forecast revenues to get projects approved.
+        <br>2. <i>Improvement:</i> Helps identification of forecasting errors and systemic bias, improving future evaluations.
+      </li>
+    </ul>
+  </div>
+
+  <!-- Capital Rationing -->
+  <div class="section">
+    <h2><b>6.8 Capital Rationing Decisions</b></h2>
+    <p>
+      In a perfect world, a firm would accept all independent projects that have an NPV &gt; 0.
+      However, firms often face a **Capital Budget Constraint** where they have limited funds and must select
+      only a subset of positive-NPV projects. This is called **Capital Rationing**:
+    </p>
+    <ul>
+      <li><b>Hard Capital Rationing:</b> Imposed by external financial markets (e.g., banks refuse to lend
+        additional money, or equity markets are locked).</li>
+      <li><b>Soft Capital Rationing:</b> Imposed internally by the firm's senior management (e.g., setting a maximum
+        departmental capital budget of $500,000 to maintain operational control).</li>
+      <li><b>Optimal Selection Method:</b>
+        <ul>
+          <li><i>Divisible Projects:</i> Rank all projects by their **Profitability Index (PI)** and select the highest-ranked
+            projects until the budget is exhausted.</li>
+          <li><i>Indivisible Projects:</i> Evaluate all possible combinations of projects that fit within the budget limit
+            and select the combination that yields the **highest total NPV**.</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="note">
+      <h4>Indivisible Project Selection Worked Example</h4>
+      <p><b>Problem:</b> An IT firm has a maximum capital budget of $100,000. It is evaluating four independent projects:
+        <br>- Project W: Cost = $40,000; NPV = $12,000
+        <br>- Project X: Cost = $50,000; NPV = $15,000
+        <br>- Project Y: Cost = $60,000; NPV = $20,000
+        <br>- Project Z: Cost = $30,000; NPV = $8,000
+        <br>Identify the optimal combination of projects under the budget constraint.
+      </p>
+      <p><b>Solution:</b>
+        <br>Evaluate all feasible combinations whose combined cost $\le \$100,000$:
+        <br>
+        <br><b>Combination 1: W + X</b>
+        <br>- Total Cost = $40,000 + 50,000 = $90,000 (Feasible)
+        <br>- Total NPV = $12,000 + 15,000 = **$27,000**
+        <br>
+        <br><b>Combination 2: W + Y</b>
+        <br>- Total Cost = $40,000 + 60,000 = $100,000 (Feasible)
+        <br>- Total NPV = $12,000 + 20,000 = **$32,000**
+        <br>
+        <br><b>Combination 3: X + Z</b>
+        <br>- Total Cost = $50,000 + 30,000 = $80,000 (Feasible)
+        <br>- Total NPV = $15,000 + 8,000 = **$23,000**
+        <br>
+        <br><b>Combination 4: Y + Z</b>
+        <br>- Total Cost = $60,000 + 30,000 = $90,000 (Feasible)
+        <br>- Total NPV = $20,000 + 8,000 = **$28,000**
+        <br>
+        <br><b>Combination 5: W + X + Z</b>
+        <br>- Total Cost = $40,000 + 50,000 + 30,000 = $120,000 (Exceeds Budget!)
+        <br>
+        <br><i>Conclusion: The optimal combination is **Project W and Project Y**, which fully utilizes the $100,000 budget and maximizes cumulative shareholder wealth with a total NPV of $32,000.</i>
+      </p>
+    </div>
+  </div>
+
+  <!-- Cash Flow Estimation -->
+  <div class="section">
+    <h2><b>6.9 Cash Flow Estimation in Project Evaluation</b></h2>
+    <p>
+      The most challenging part of capital budgeting is estimating the relevant project cash flows.
+      These cash flows are estimated across three phases:
+    </p>
+    <ol>
+      <li><b>Net Initial Investment Outlay ($CF_0$):</b> The net cash outlay required to initiate the project:
+        <br>
+        $$\text{Initial Outlay} = \text{Purchase Price} + \text{Installation/Shipping Costs} + \Delta \text{Net Working Capital} - \text{After-tax Salvage of old asset}$$
+      </li>
+      <li><b>Operating Cash Flows ($CF_t$):</b> The incremental cash flows generated during the operating life of the project:
+        <br>
+        $$CF_t = (\text{Revenues} - \text{Operating Expenses} - \text{Depreciation}) \times (1 - T) + \text{Depreciation}$$
+        $$CF_t = \text{EBIT}(1 - T) + \text{Depreciation}$$
+      </li>
+      <li><b>Terminal Cash Flow:</b> The final net cash flow at the end of the project's life (includes salvage value of the project assets, adjusting for taxes, and recovery of the net operating working capital).</li>
+    </ol>
+  </div>
+
+  <!-- Capital Budgeting Methods Comparison -->
+  <div class="section">
+    <h2><b>6.10 Capital Budgeting Methods Comparison</b></h2>
+    <p>
+      Here is a comparison of all the major evaluation techniques:
+    </p>
+    <table>
+      <tr>
+        <th>Method</th>
+        <th>Considers TVM?</th>
+        <th>Considers All Cash Flows?</th>
+        <th>Primary Advantage</th>
+        <th>Primary Disadvantage</th>
+      </tr>
+      <tr>
+        <td><b>Payback Period (PBP)</b></td>
+        <td>No</td>
+        <td>No (ignores post-payback cash flows)</td>
+        <td>Simple, measures liquidity and risk directly.</td>
+        <td>Biased against long-term projects; ignores TVM.</td>
+      </tr>
+      <tr>
+        <td><b>Accounting Return (ARR)</b></td>
+        <td>No</td>
+        <td>Yes</td>
+        <td>Uses easy accounting statement data.</td>
+        <td>Focuses on accrual profits, not cash; ignores TVM.</td>
+      </tr>
+      <tr>
+        <td><b>Net Present Value (NPV)</b></td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Directly measures shareholder wealth addition.</td>
+        <td>Requires accurate cost of capital (WACC) estimation.</td>
+      </tr>
+      <tr>
+        <td><b>Internal Rate (IRR)</b></td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Expressed as a percentage return (preferred by managers).</td>
+        <td>Can have multiple IRRs; unrealistic reinvestment rate.</td>
+      </tr>
+      <tr>
+        <td><b>Profitability Index (PI)</b></td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Excellent for capital rationing project ranking.</td>
+        <td>Cannot be used to choose between mutually exclusive projects of different sizes.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Case Study: Replacement Project Cash Flows -->
+  <div class="section">
+    <h2><b>6.11 Worked Case Study: Replacement Project Analysis</b></h2>
+    <p>
+      Replacement decisions are more complex because we must look at **incremental** changes in cash flows:
+    </p>
+    <div class="note">
+      <h4>Replacement Case Study Calculation</h4>
+      <p><b>Problem:</b> Nepal Software Corp is considering replacing a server stack with a modern cloud-hybrid node:
+        <br>- **Old Server:** Book value = $20,000. It can be sold today for $8,000.
+        <br>- **New Server:** Purchase price = $90,000. Installation costs = $5,000. It requires a net operating working capital increase of $5,000.
+        <br>- **Operating Impact:** The new server reduces annual operating costs by $35,000 (pre-tax).
+        <br>- **Depreciation:** The new server will be depreciated straight-line to zero over 5 years ($19,000/yr). The old server's remaining straight-line depreciation is $4,000/yr for 5 years.
+        <br>- **Tax rate** $T = 30\%$.
+        <br>Calculate: (1) The net initial outlay ($CF_0$) today, and (2) The annual incremental operating cash flow ($CF_1$ to $CF_5$).
+      </p>
+      <p><b>Solution:</b>
+        <br>
+        <br><b>1. Calculate Net Initial Outlay ($CF_0$):</b>
+        <br>- Cost of New Server = -$90,000
+        <br>- New Server Installation = -$5,000
+        <br>- Sale of Old Server = +$8,000 (Cash Inflow)
+        <br>- Tax effect on sale of old server:
+        <br>  Loss on sale = Book Value - Sale Price = $20,000 - 8,000 = $12,000.
+        <br>  Tax savings from loss (Tax Shield) = $\text{Loss} \times T = 12,000 \times 0.30 = +\$3,600$ (Cash Inflow).
+        <br>- Increase in Net Working Capital = -$5,000
+        <br>
+        <br>$$\text{Net Initial Outlay } CF_0 = -90,000 - 5,000 + 8,000 + 3,600 - 5,000 = -\$88,400$$
+        <br>The net initial cash outflow today is **$88,400**.
+        <br>
+        <br><b>2. Calculate Annual Incremental Operating Cash Flows ($CF_t$):</b>
+        <br>- Incremental Pre-tax Cost Savings = +$35,000
+        <br>- Incremental Depreciation Expense:
+        <br>  New Depreciation = $19,000
+        <br>  Old Depreciation = $4,000
+        <br>  $\Delta \text{Depreciation} = 19,000 - 4,000 = \$15,000$.
+        <br>- Calculate Incremental EBIT:
+        <br>  $\Delta EBIT = \text{Savings} - \Delta \text{Depreciation} = 35,000 - 15,000 = \$20,000$.
+        <br>- Calculate NOPAT:
+        <br>  $\Delta NOPAT = \Delta EBIT \times (1 - T) = 20,000 \times (1 - 0.30) = \$14,000$.
+        <br>- Add back incremental depreciation:
+        <br>  $\text{Incremental } CF_t = \Delta NOPAT + \Delta \text{Depreciation} = 14,000 + 15,000 = \$29,000$.
+        <br>The annual incremental operating cash inflow for years 1 to 5 is **$29,000**.
+      </p>
+    </div>
+  </div>
+
+  <!-- Terminal Cash Flow Details -->
+  <div class="section">
+    <h2><b>6.12 Terminal Cash Flow Calculations</b></h2>
+    <p>
+      At the end of a project's life (Year $n$), the firm recovers cash from winding down operations:
+      <br>
+      $$\text{Terminal Cash Flow} = \text{Salvage Value of Project Assets} - \text{Taxes on Salvage} + \text{Recovery of Net Working Capital}$$
+      Taxes on Salvage are calculated as:
+      <br>
+      $$\text{Taxes on Salvage} = (\text{Salvage Price} - \text{Book Value at Year } n) \times T$$
+      If the salvage price is greater than the book value, the firm pays tax on the gain (cash outflow);
+      if less, it claims a tax saving (cash inflow).
+    </p>
+    <div class="note">
+      <h4>Terminal Cash Flow Worked Calculation</h4>
+      <p><b>Problem:</b> For the server stack replacement project in Section 6.11, assume the new server is sold
+        at Year 5 for $15,000. The server was depreciated to a book value of $0. The firm recovers the initial
+        $5,000 net working capital. Tax rate $T = 30\%$. Calculate the terminal cash flow at Year 5.</p>
+      <p><b>Solution:</b>
+        <br>1. Calculate tax on salvage:
+        <br>Gain on sale = Salvage Price - Book Value = $15,000 - 0 = $15,000.
+        <br>Tax on gain = $15,000 \times 30\% = \$4,500$ (Cash Outflow).
+        <br>
+        <br>2. Compute Terminal Cash Flow:
+        <br>$$\text{Terminal Cash Flow} = \text{Salvage Price} - \text{Tax} + \text{Recovery of Working Capital}$$
+        <br>$$\text{Terminal Cash Flow} = 15,000 - 4,500 + 5,000 = \$15,500$$
+        <br>In Year 5, the firm receives an additional cash inflow of **$15,500** from salvage and working capital recovery.
+      </p>
+    </div>
+  </div>
+
+  <!-- Project Risk Analysis: Sensitivity vs. Scenario -->
+  <div class="section">
+    <h2><b>6.13 Capital Budgeting Risk Analysis: Sensitivity vs. Scenario</b></h2>
+    <p>
+      Since cash flow forecasts are projections of the future, they are subject to forecasting errors.
+      Firms use risk analysis tools to test project robustness:
+    </p>
+    <ul>
+      <li><b>Sensitivity Analysis:</b> Measures the change in NPV in response to a change in a single input variable
+        (e.g., unit sales, selling price, variable cost, or WACC) while holding all other variables constant.
+        <br><i>Benefit:</i> Pinpoints the most critical variables that management must monitor closely.
+      </li>
+      <li><b>Scenario Analysis:</b> Evaluates the impact on NPV when multiple input variables are changed simultaneously
+        to represent distinct economic states:
+        <ul>
+          <li><i>Best Case:</i> High sales, high unit price, low costs.</li>
+          <li><i>Base Case:</i> Most likely values for all variables.</li>
+          <li><i>Worst Case:</i> Low sales, price war, high operating costs.</li>
+        </ul>
+        Allows managers to calculate the standard deviation and coefficient of variation of the project's NPV.
+      </li>
+    </ul>
+  </div>
+
+</body>
+</html>

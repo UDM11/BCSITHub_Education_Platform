@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 2: Software Process Models</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.7;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      text-align: center;
+      color: #111;
+      font-size: 20pt;
+      font-weight: bold;
+      margin: 30px 0;
+    }
+    h2 {
+      color: #222;
+      border-bottom: 3px solid #aaa;
+      padding-bottom: 10px;
+      margin-top: 40px;
+    }
+    h3 {
+      color: #444;
+      margin-top: 25px;
+      font-size: 1.3em;
+    }
+    h4 {
+      color: #555;
+      margin-top: 20px;
+    }
+    .section {
+      background: white;
+      padding: 25px;
+      margin-bottom: 35px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 35px;
+    }
+    li {
+      margin-bottom: 14px;
+    }
+    pre {
+      background-color: #111;
+      color: #0f8;
+      padding: 18px;
+      overflow-x: auto;
+      border-radius: 10px;
+      font-size: 13pt;
+      margin: 20px 0;
+      line-height: 1.5;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.95em;
+      display: block;
+      overflow-x: auto;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #e0e0e0;
+      font-weight: bold;
+    }
+    .note {
+      background-color: #e8f4fd;
+      border-left: 5px solid #2196f3;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 6px;
+    }
+    .warning {
+      background-color: #fff3e0;
+      border-left: 5px solid #ff9800;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 6px;
+    }
+    @media (max-width: 768px) {
+      body { font-size: 15px; }
+      h1 { font-size: 1.6rem; }
+      h2 { font-size: 1.3rem; }
+      .section { padding: 18px; margin-bottom: 25px; }
+    }
+    @media (max-width: 480px) {
+      body { font-size: 14px; }
+      h1 { font-size: 1.4rem; margin: 20px 0; }
+      h2 { font-size: 1.1rem; }
+      .section { padding: 14px; margin-bottom: 20px; }
+      pre { font-size: 11.5pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 2: Software Process Models [8 Hrs.]</b></h1>
+
+  <!-- 2.1 A Generic Process Model -->
+  <div class="section">
+    <h2><b>2.1 A Generic Process Model</b></h2>
+
+    <p>
+      A <b>process model</b> provides a specific roadmap for software engineering work.
+      It defines the flow of all activities, actions, and tasks, the degree of iteration,
+      the work products, and the organization of the work that must be done.
+      Each process model defines a distinct flow of activities.
+    </p>
+
+    <h3>Process Flow</h3>
+    <p>
+      A <b>process flow</b> describes how the framework activities (communication, planning,
+      modeling, construction, deployment) and the actions and tasks that occur within each
+      framework activity are organized with respect to sequence and time. There are four
+      general types of process flow:
+    </p>
+    <ul>
+      <li><b>Linear Process Flow:</b> Executes each of the five framework activities in sequence,
+        beginning with communication and culminating with deployment.</li>
+      <li><b>Iterative Process Flow:</b> Repeats one or more of the activities before proceeding
+        to the next.</li>
+      <li><b>Evolutionary Process Flow:</b> Executes the activities in a "circular" manner.
+        Each circuit through the five activities leads to a more complete version of the software.</li>
+      <li><b>Parallel Process Flow:</b> Executes one or more activities in parallel with
+        other activities (e.g., modeling for one aspect of the software in parallel with
+        construction of another aspect).</li>
+    </ul>
+
+    <h3>2.1.1 Defining a Framework Activity</h3>
+    <p>
+      Each framework activity is populated by a set of software engineering <b>actions</b>.
+      Each action is defined by a <b>task set</b> — a collection of software engineering
+      work tasks, related work products, quality assurance points, and project milestones.
+      For example, the framework activity "Communication" might have an action
+      called "Requirements Elicitation" which contains tasks such as: make a list
+      of stakeholders, invite all stakeholders to meeting, ask questions, record responses,
+      consolidate the list, prioritize requirements, and note areas of uncertainty.
+    </p>
+
+    <h3>2.1.2 Identifying a Task Set</h3>
+    <p>
+      A <b>task set</b> defines the actual work to be done to accomplish the objectives
+      of a software engineering action. A task set may contain:
+    </p>
+    <ul>
+      <li>A list of the tasks to be accomplished</li>
+      <li>The work products to be produced</li>
+      <li>The quality assurance filters to be applied</li>
+      <li>The milestones that mark the completion of sub-activities</li>
+    </ul>
+    <p>
+      Different projects require different task sets. A small, relatively simple project
+      would use a simplified task set. A larger, more complex project would require
+      a more comprehensive task set for each action.
+    </p>
+
+    <h3>2.1.3 Process Patterns</h3>
+    <p>
+      A <b>process pattern</b> describes a process-related problem that is encountered during
+      software engineering work, identifies the environment in which the problem has been
+      encountered, and suggests one or more proven solutions to the problem.
+    </p>
+    <p>
+      Process patterns can be defined at different levels of abstraction:
+    </p>
+    <ul>
+      <li><b>Stage patterns:</b> Define a problem associated with a framework activity (e.g., Communication).
+        Example: "CustomerCommunication" pattern addresses establishing a productive channel between
+        developers and customers.</li>
+      <li><b>Task patterns:</b> Define a problem associated with a software engineering action or work task.
+        Example: "RequirementsGathering" pattern establishes an effective approach to creating a
+        prioritized list of requirements.</li>
+      <li><b>Phase patterns:</b> Define the sequence of framework activities that occur within the process.
+        Example: "SpiralModel" or "Prototyping" patterns describe the overall process flow.</li>
+    </ul>
+  </div>
+
+  <!-- 2.2/2.3 Prescriptive Process Models -->
+  <div class="section">
+    <h2><b>2.3 Prescriptive Process Models</b></h2>
+
+    <p>
+      Prescriptive process models advocate an orderly approach to software engineering.
+      They prescribe a set of process elements — framework activities, software engineering
+      actions, tasks, work products, quality assurance, and change management mechanisms.
+      Each process model also prescribes a <b>process flow</b> — a direction for the overall
+      activities and the interconnections among them.
+    </p>
+
+    <h3>2.2.1 Waterfall Model (Classic Life Cycle)</h3>
+
+    <p>
+      The <b>waterfall model</b> is the oldest paradigm for software engineering.
+      It suggests a systematic, sequential approach to software development that begins
+      with customer specification of requirements and progresses through planning,
+      modeling (analysis and design), construction (code and test), and deployment (delivery and maintenance).
+    </p>
+
+    <pre>
+  Communication → Planning → Modeling → Construction → Deployment
+       ↓              ↓           ↓            ↓              ↓
+  Requirements    Estimating   Analysis     Coding        Delivery
+  Gathering       Scheduling   Design       Testing       Support
+    </pre>
+
+    <h4>Phases of the Waterfall Model</h4>
+    <ol>
+      <li><b>Communication (Requirements Gathering):</b> The project requirements are gathered.
+        All requirements should be documented in a requirements document.</li>
+      <li><b>Planning (Estimating & Scheduling):</b> Project estimation including resources,
+        cost estimation, and scheduling is done at this stage.</li>
+      <li><b>Modeling (Analysis & Design):</b> System and software design is prepared from the
+        requirement specifications. The requirements are translated into a representation
+        that can be assessed for quality before code generation begins.</li>
+      <li><b>Construction (Code & Test):</b> The actual coding begins. Once the coding is complete,
+        testing of the code is conducted. Testing uncovers errors in the code.</li>
+      <li><b>Deployment (Delivery, Support & Feedback):</b> After successful testing,
+        the product is deployed in the customer's environment. After deployment,
+        the customer provides feedback and maintenance is conducted.</li>
+    </ol>
+
+    <h4>Advantages</h4>
+    <ul>
+      <li>Simple and easy to understand and use</li>
+      <li>Easy to manage due to the rigidity of the model; each phase has specific deliverables and a review process</li>
+      <li>Phases are processed and completed one at a time</li>
+      <li>Works well for smaller projects where requirements are well understood</li>
+      <li>Clearly defined stages and well-understood milestones</li>
+    </ul>
+
+    <h4>Disadvantages</h4>
+    <ul>
+      <li>Not suitable for complex or long-duration projects</li>
+      <li>Not suitable when requirements are at a moderate to high risk of changing</li>
+      <li>Working software is produced late in the life cycle</li>
+      <li>No working software is produced until late during the life cycle</li>
+      <li>Integration is done as a "big-bang" at the very end, which can lead to issues</li>
+      <li>High amounts of risk and uncertainty</li>
+      <li>Cannot accommodate changing requirements (inflexible)</li>
+    </ul>
+
+    <h4>Enhanced Waterfall Model (V-Model)</h4>
+    <p>
+      The <b>V-Model</b> is an extension of the waterfall model. Instead of moving down
+      in a linear way, the process steps are bent upward after the coding phase,
+      to form a V shape. Each development stage has a corresponding testing phase.
+    </p>
+    <pre>
+  Requirements ─────────────────────── Acceptance Testing
+       ↘                                        ↗
+  System Design ───────────────── System Testing
+       ↘                                ↗
+  Architecture Design ──── Integration Testing
+       ↘                        ↗
+  Module Design ──── Unit Testing
+       ↘                ↗
+        Implementation
+    </pre>
+
+    <h3>2.2.2 Incremental Process Models</h3>
+
+    <p>
+      The <b>incremental model</b> combines elements of the linear and parallel process flows.
+      It applies linear sequences in a staggered fashion as calendar time progresses.
+      Each linear sequence produces a deliverable <b>"increment"</b> of the software.
+    </p>
+
+    <h4>How It Works</h4>
+    <ul>
+      <li>The first increment is often a <b>core product</b> — basic requirements are addressed,
+        but many supplementary features remain undelivered.</li>
+      <li>The core product is used by the customer (or undergoes detailed review).
+        As a result, a plan is developed for the next increment.</li>
+      <li>The plan addresses the modification of the core product to better meet the needs
+        of the customer and the delivery of additional features and functionality.</li>
+      <li>This process repeats following the delivery of each increment,
+        until the complete product is produced.</li>
+    </ul>
+
+    <h4>Advantages</h4>
+    <ul>
+      <li>Generates working software quickly and early during the software life cycle</li>
+      <li>More flexible — less costly to change scope and requirements</li>
+      <li>It is easier to test and debug during a smaller iteration</li>
+      <li>Customer can respond to each build and provide feedback</li>
+      <li>Lower initial delivery cost due to reduced functionality per increment</li>
+    </ul>
+
+    <h3>2.2.3 Rapid Application Development (RAD)</h3>
+
+    <p>
+      <b>RAD</b> is an incremental software development process model that emphasizes
+      an extremely short development cycle (60 to 90 days). RAD is a "high-speed"
+      adaptation of the waterfall model in which rapid development is achieved by
+      using component-based construction.
+    </p>
+
+    <h4>RAD Phases</h4>
+    <ol>
+      <li><b>Business Modeling:</b> The information flow among business functions is modeled.</li>
+      <li><b>Data Modeling:</b> The information flow is refined into a set of data objects needed to support the business.</li>
+      <li><b>Process Modeling:</b> Data objects are transformed to achieve the information flow necessary to implement a business function.</li>
+      <li><b>Application Generation:</b> RAD assumes the use of fourth generation techniques and reusable components.</li>
+      <li><b>Testing and Turnover:</b> Since RAD emphasizes reuse, many components have already been tested. Overall testing time is reduced.</li>
+    </ol>
+
+    <h4>Limitations of RAD</h4>
+    <ul>
+      <li>Requires sufficient human resources to create the right number of RAD teams</li>
+      <li>Developers and customers must be committed to the rapid-fire activities necessary</li>
+      <li>Not appropriate when technical risks are high (e.g., new technology)</li>
+      <li>Not suitable for systems that cannot be properly modularized</li>
+    </ul>
+
+    <h3>2.2.4 Prototype Model</h3>
+
+    <p>
+      The <b>prototyping paradigm</b> begins with requirements gathering. The developer
+      and customer meet and define the overall objectives for the software, identify
+      whatever requirements are known, and outline areas where further definition is mandatory.
+      A "quick design" then occurs, focusing on a representation of those aspects of
+      the software that will be visible to the customer/user (e.g., input approaches and output formats).
+    </p>
+
+    <h4>Types of Prototyping</h4>
+    <ul>
+      <li><b>Throwaway Prototyping (Rapid):</b> The prototype is built quickly to explore
+        requirements and then discarded. Development starts fresh with a clean design.</li>
+      <li><b>Evolutionary Prototyping:</b> The prototype evolves into the final product
+        through progressive refinement. The initial prototype is not discarded.</li>
+    </ul>
+
+    <h4>Advantages</h4>
+    <ul>
+      <li>Users are actively involved in the development</li>
+      <li>Errors can be detected much earlier</li>
+      <li>Quick user feedback leads to better solutions</li>
+      <li>Missing functionality can be identified easily</li>
+      <li>Confusing or difficult functions can be identified</li>
+    </ul>
+
+    <h4>Disadvantages</h4>
+    <ul>
+      <li>Risk of insufficient analysis — developers may focus on superficial visible aspects</li>
+      <li>Users may become attached to the prototype and resist changes</li>
+      <li>Developers may try to extend the prototype into the final product, resulting in poor design</li>
+      <li>Can lead to "scope creep" as users keep adding requirements</li>
+    </ul>
+
+    <h3>2.2.5 Spiral Process Model</h3>
+
+    <p>
+      The <b>spiral model</b>, originally proposed by <b>Barry Boehm</b>, is an evolutionary
+      software process model that couples the iterative nature of prototyping with the
+      controlled and systematic aspects of the waterfall model. It provides the potential
+      for rapid development of increasingly complete versions of the software.
+    </p>
+
+    <h4>Four Major Activities (Quadrants)</h4>
+    <ol>
+      <li><b>Planning:</b> Determination of objectives, alternatives, and constraints.
+        Includes requirements gathering and project planning.</li>
+      <li><b>Risk Analysis:</b> Analysis of alternatives and identification/resolution of risks.
+        Prototypes may be developed to reduce risk.</li>
+      <li><b>Engineering:</b> Development of the "next-level product."
+        Includes design, coding, and testing.</li>
+      <li><b>Customer Evaluation:</b> Assessment of the results of engineering by the customer.
+        Includes review and feedback for next iteration.</li>
+    </ol>
+
+    <pre>
+                    Planning          Risk Analysis
+                  ┌───────────────┬───────────────┐
+                  │  Determine    │  Identify &   │
+                  │  objectives,  │  resolve      │
+                  │  alternatives,│  risks,       │
+                  │  constraints  │  build        │
+                  │               │  prototypes   │
+                  ├───────────────┼───────────────┤
+                  │  Plan next    │  Develop &    │
+                  │  phases,      │  verify       │
+                  │  Review       │  next-level   │
+                  │  results      │  product      │
+                  └───────────────┴───────────────┘
+               Customer Evaluation    Engineering
+    </pre>
+
+    <h4>Advantages</h4>
+    <ul>
+      <li>High amount of risk analysis hence avoidance of risk is enhanced</li>
+      <li>Good for large and mission-critical projects</li>
+      <li>Strong approval and documentation control</li>
+      <li>Additional functionality can be added at a later date</li>
+      <li>Software is produced early in the life cycle</li>
+    </ul>
+
+    <h4>Disadvantages</h4>
+    <ul>
+      <li>Can be a costly model to use</li>
+      <li>Risk analysis requires highly specific expertise</li>
+      <li>Project success is highly dependent on the risk analysis phase</li>
+      <li>Doesn't work well for smaller projects</li>
+      <li>Spiral may go on indefinitely</li>
+    </ul>
+
+    <h3>2.2.6 Rational Unified Process (RUP)</h3>
+
+    <p>
+      The <b>Rational Unified Process (RUP)</b> is an iterative software development process
+      framework created by Rational Software Corporation (now IBM). RUP is not a single
+      concrete prescriptive process, but rather an adaptable process framework.
+    </p>
+
+    <h4>RUP Phases</h4>
+    <ol>
+      <li><b>Inception:</b> Establish the business case for the system. Identify all external
+        entities (people and systems) that will interact with the system, and define
+        the nature of the interaction at a high level. Identify all use cases and
+        describe a few significant ones.</li>
+      <li><b>Elaboration:</b> Develop an understanding of the problem domain, establish an
+        architectural framework, develop the project plan, identify key risks.
+        At the end of this phase, the "architecture lifecycle" is achieved.</li>
+      <li><b>Construction:</b> The system is developed, tested, and integrated.
+        The focus is on developing components and other features of the system.
+        At the end, a beta release of the product is ready.</li>
+      <li><b>Transition:</b> The product is transitioned to the user community.
+        Includes final testing (beta test), user training, and system rollout.
+        Feedback from users may generate new requirements for subsequent iterations.</li>
+    </ol>
+
+    <h3>2.2.7 Agile Model: XP and Scrum</h3>
+
+    <h4>Extreme Programming (XP)</h4>
+    <p>
+      <b>Extreme Programming (XP)</b> is an agile process model proposed by <b>Kent Beck</b>.
+      XP uses an object-oriented approach as its preferred development paradigm and
+      encompasses a set of rules and practices that occur within four framework activities:
+      planning, design, coding, and testing.
+    </p>
+
+    <p><b>Key XP Practices:</b></p>
+    <ul>
+      <li><b>The Planning Game:</b> Customer creates user stories with business value; developers estimate effort</li>
+      <li><b>Small Releases:</b> Deliver working software frequently (every 1-3 weeks)</li>
+      <li><b>Metaphor:</b> Simple shared story of how the system works</li>
+      <li><b>Simple Design:</b> The simplest design that works at any given moment</li>
+      <li><b>Testing:</b> Unit tests are written first (Test-Driven Development — TDD); acceptance tests defined by customer</li>
+      <li><b>Refactoring:</b> Restructure code without changing functionality to improve design</li>
+      <li><b>Pair Programming:</b> All production code is written by two programmers at one computer</li>
+      <li><b>Collective Ownership:</b> Anyone can change any code anywhere in the system</li>
+      <li><b>Continuous Integration:</b> New code is integrated into the code base multiple times per day; all unit tests must pass</li>
+      <li><b>40-Hour Work Week:</b> No overtime; fresh programmers write better code</li>
+      <li><b>On-site Customer:</b> A customer representative is available full-time to the team</li>
+      <li><b>Coding Standards:</b> All code follows a consistent style for communication</li>
+    </ul>
+
+    <h4>Scrum</h4>
+    <p>
+      <b>Scrum</b> is an agile process model developed by <b>Jeff Sutherland and Ken Schwaber</b>.
+      Scrum principles are consistent with the agile manifesto and are used to guide development
+      activities within a process that incorporates the following framework activities:
+      requirements, analysis, design, evolution, and delivery.
+    </p>
+
+    <p><b>Key Scrum Concepts:</b></p>
+    <ul>
+      <li><b>Product Backlog:</b> A prioritized list of project requirements or features
+        that provide business value for the customer.</li>
+      <li><b>Sprint:</b> A fixed-length iteration (typically 2-4 weeks) in which a "potentially
+        shippable product increment" is created.</li>
+      <li><b>Sprint Backlog:</b> A subset of the Product Backlog selected for a specific Sprint.
+        The team commits to completing these items within the Sprint.</li>
+      <li><b>Daily Scrum (Stand-up):</b> A short daily meeting (15 minutes) where each team member
+        answers three questions: What did I do yesterday? What will I do today? Are there impediments?</li>
+      <li><b>Sprint Review:</b> At the end of each Sprint, the team demonstrates the working
+        increment to stakeholders and gathers feedback.</li>
+      <li><b>Sprint Retrospective:</b> The team reflects on the Sprint to identify improvements
+        for the next Sprint.</li>
+    </ul>
+
+    <p><b>Scrum Roles:</b></p>
+    <ul>
+      <li><b>Product Owner:</b> Represents the customer; manages the product backlog</li>
+      <li><b>Scrum Master:</b> Facilitates the process; removes impediments</li>
+      <li><b>Development Team:</b> Self-organizing team that delivers the increment</li>
+    </ul>
+
+    <h4>A Toolset for the Agile Process</h4>
+    <p>
+      Agile teams often use tools to manage their work effectively:
+    </p>
+    <ul>
+      <li><b>Project Management:</b> Jira, Trello, Azure DevOps, Asana</li>
+      <li><b>Version Control:</b> Git (GitHub, GitLab, Bitbucket)</li>
+      <li><b>CI/CD:</b> Jenkins, GitHub Actions, GitLab CI, Travis CI</li>
+      <li><b>Communication:</b> Slack, Microsoft Teams, Zoom</li>
+      <li><b>Documentation:</b> Confluence, Notion, Wiki</li>
+    </ul>
+
+    <h3>2.2.8 Big-Bang Model</h3>
+
+    <p>
+      The <b>Big-Bang model</b> is a software development model where there is no specific
+      process followed. The development just starts with the required money and efforts
+      as the input, and the output is the software developed — which may or may not
+      be as per customer requirements.
+    </p>
+
+    <ul>
+      <li>Very little planning is required</li>
+      <li>Does not follow any specific process</li>
+      <li>All resources are simply used for software development and coding</li>
+      <li>Useful for very small projects, academic projects, or learning projects</li>
+      <li>Not suitable for large or complex projects</li>
+      <li>High risk; outcome is unpredictable</li>
+    </ul>
+  </div>
+
+  <!-- 2.4 Specialized Process Models -->
+  <div class="section">
+    <h2><b>2.4 Specialized Process Models</b></h2>
+
+    <h3>2.4.1 Component-Based Development (CBD)</h3>
+    <p>
+      <b>Component-based development</b> incorporates many of the characteristics of the
+      spiral model. It is evolutionary in nature, demanding an iterative approach to the
+      creation of software. However, CBD composes applications from pre-packaged software
+      components (sometimes called <b>COTS — Commercial Off-The-Shelf components</b>).
+    </p>
+
+    <h4>CBD Activities</h4>
+    <ol>
+      <li>Available component-based products are researched and evaluated for the application domain</li>
+      <li>Component integration issues are considered</li>
+      <li>A software architecture is designed to accommodate the components</li>
+      <li>Components are integrated into the architecture</li>
+      <li>Comprehensive testing is conducted to ensure proper functionality</li>
+    </ol>
+
+    <h4>Advantages</h4>
+    <ul>
+      <li>Reduces development time significantly</li>
+      <li>Reduces overall development cost</li>
+      <li>Pre-tested components reduce defect density</li>
+      <li>Increases reliability (using proven components)</li>
+    </ul>
+
+    <h3>2.4.2 The Formal Methods Model</h3>
+    <p>
+      The <b>formal methods model</b> encompasses a set of activities that leads to formal
+      mathematical specification of computer software. Formal methods enable software
+      engineers to specify, develop, and verify a computer-based system by applying
+      a rigorous, mathematical notation.
+    </p>
+
+    <ul>
+      <li>Uses formal mathematical specifications (e.g., Z notation, VDM, B Method)</li>
+      <li>Ambiguity, incompleteness, and inconsistency can be discovered more easily
+        through the application of mathematical analysis</li>
+      <li>Provides a mechanism for eliminating many of the problems that are difficult
+        to overcome using other software engineering paradigms</li>
+      <li>Extremely time-consuming and expensive for typical commercial software</li>
+      <li>Primarily used in safety-critical systems (medical devices, avionics, nuclear systems)</li>
+    </ul>
+
+    <h3>2.4.3 Aspect-Oriented Software Development (AOSD)</h3>
+    <p>
+      <b>Aspect-Oriented Software Development</b> provides a process and methodological
+      approach for defining, specifying, designing, and constructing <b>aspects</b> —
+      cross-cutting concerns that pervade the system architecture.
+    </p>
+
+    <ul>
+      <li><b>Cross-cutting concerns</b> are functionalities that affect multiple modules
+        (e.g., logging, security, transaction management, error handling)</li>
+      <li>In traditional OOP, these concerns get "tangled" with business logic</li>
+      <li>AOSD provides mechanisms to <b>modularize cross-cutting concerns</b></li>
+      <li>Uses concepts like <b>aspects, pointcuts, joinpoints, and advice</b></li>
+      <li>Languages/frameworks: AspectJ, Spring AOP, PostSharp</li>
+    </ul>
+  </div>
+
+  <!-- Comparison Table -->
+  <div class="section">
+    <h2><b>Comparison of Software Process Models</b></h2>
+
+    <table>
+      <tr>
+        <th>Model</th>
+        <th>Approach</th>
+        <th>Requirements</th>
+        <th>Flexibility</th>
+        <th>Risk Handling</th>
+        <th>Best For</th>
+      </tr>
+      <tr>
+        <td>Waterfall</td>
+        <td>Sequential</td>
+        <td>Fixed, well-defined</td>
+        <td>Low</td>
+        <td>Minimal</td>
+        <td>Small, well-understood projects</td>
+      </tr>
+      <tr>
+        <td>V-Model</td>
+        <td>Sequential + Testing</td>
+        <td>Fixed</td>
+        <td>Low</td>
+        <td>Moderate</td>
+        <td>Safety-critical systems</td>
+      </tr>
+      <tr>
+        <td>Incremental</td>
+        <td>Iterative</td>
+        <td>Partially defined</td>
+        <td>Moderate</td>
+        <td>Moderate</td>
+        <td>Medium-size projects</td>
+      </tr>
+      <tr>
+        <td>RAD</td>
+        <td>Rapid Iterative</td>
+        <td>Known early</td>
+        <td>Moderate</td>
+        <td>Low</td>
+        <td>Time-critical business apps</td>
+      </tr>
+      <tr>
+        <td>Prototype</td>
+        <td>Evolutionary</td>
+        <td>Unclear initially</td>
+        <td>High</td>
+        <td>Moderate</td>
+        <td>Unclear requirements</td>
+      </tr>
+      <tr>
+        <td>Spiral</td>
+        <td>Evolutionary + Risk</td>
+        <td>Evolving</td>
+        <td>High</td>
+        <td>Very High</td>
+        <td>Large, mission-critical projects</td>
+      </tr>
+      <tr>
+        <td>RUP</td>
+        <td>Iterative (4 phases)</td>
+        <td>Evolving</td>
+        <td>High</td>
+        <td>High</td>
+        <td>Large enterprise systems</td>
+      </tr>
+      <tr>
+        <td>XP (Agile)</td>
+        <td>Agile/Iterative</td>
+        <td>Evolving rapidly</td>
+        <td>Very High</td>
+        <td>Moderate</td>
+        <td>Small teams, changing requirements</td>
+      </tr>
+      <tr>
+        <td>Scrum (Agile)</td>
+        <td>Agile/Sprint-based</td>
+        <td>Evolving</td>
+        <td>Very High</td>
+        <td>Moderate</td>
+        <td>Products with evolving requirements</td>
+      </tr>
+      <tr>
+        <td>Big-Bang</td>
+        <td>No specific process</td>
+        <td>Unknown</td>
+        <td>Very High</td>
+        <td>None</td>
+        <td>Very small or academic projects</td>
+      </tr>
+    </table>
+
+    <div class="note">
+      <b>Key Takeaway:</b> No single process model is universally applicable.
+      The choice of process model depends on project characteristics: size, complexity,
+      requirements stability, risk factors, team experience, and customer involvement.
+      Many organizations adopt a <b>hybrid approach</b>, combining elements from multiple
+      models to suit their specific needs.
+    </div>
+  </div>
+
+</body>
+</html>

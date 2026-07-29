@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit VII: Solution of Partial Differential Equations - Comprehensive Notes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0px;
+    }
+    h1 {
+        text-align: center;
+        color: #0f172a;
+        font-size: 20pt;
+        font-weight: bold;
+        margin-bottom: 40px;
+        border-bottom: 3px double #cbd5e1;
+        padding-bottom: 15px;
+    }
+    h2 {
+      color: #1e3a8a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 30px;
+      font-size: 15pt;
+    }
+    h3 {
+      color: #2563eb;
+      font-size: 13pt;
+      margin-top: 20px;
+    }
+    .section {
+      background: #ffffff;
+      padding: 30px;
+      margin-bottom: 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 25px;
+    }
+    li {
+      margin-bottom: 12px;
+    }
+    pre {
+      background-color: #0f172a;
+      color: #38bdf8;
+      padding: 20px;
+      overflow-x: auto;
+      border-radius: 8px;
+      font-size: 11pt;
+      margin: 20px 0;
+      font-family: Consolas, Monaco, monospace;
+      border-left: 4px solid #3b82f6;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      background-color: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #0f172a;
+    }
+    pre code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+      color: inherit;
+    }
+    .highlight {
+      background-color: #fef08a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .diagram-container {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .table-container {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 11pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .note-box {
+      background-color: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px; }
+      .section { padding: 20px; }
+      pre { font-size: 10pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit VII: Solution of Partial Differential Equations [5 Hours] - Comprehensive Study Notes</b></h1>
+
+  <div class="section">
+    <h2><b>7.1 Classification of Second-Order Linear PDEs</b></h2>
+    <p>A partial differential equation (PDE) relates multi-variable functions to their partial derivatives. A linear second-order PDE in two independent variables is written as:</p>
+    <pre><code>
+A*(∂^2u/∂x^2) + B*(∂^2u/∂x∂y) + C*(∂^2u/∂y^2) + D*(∂u/∂x) + E*(∂u/∂y) + F*u = G
+    </code></pre>
+    <p>Using the discriminant <code>B^2 - 4*A*C</code>, we classify these equations into three categories:</p>
+    <ul>
+      <li><b>Elliptic (B^2 - 4*A*C &lt; 0):</b> Steady-state physical equilibria. Examples: Laplace and Poisson equations.</li>
+      <li><b>Parabolic (B^2 - 4*A*C == 0):</b> Diffusion processes. Example: Heat equation.</li>
+      <li><b>Hyperbolic (B^2 - 4*A*C &gt; 0):</b> Vibrational systems. Example: Wave equation.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><b>7.2 Derivation of Finite Difference Approximations</b></h2>
+    <p>Using Taylor expansions around the grid node <code>(x_i, y_j)</code> with step sizes <code>h = Δx</code> and <code>k = Δy</code>, we approximate the partial derivatives:</p>
+    <pre><code>
+1) u(x+h, y) = u(x,y) + h*(∂u/∂x) + (h^2/2)*(∂^2u/∂x^2) + (h^3/6)*(∂^3u/∂x^3) + ...
+2) u(x-h, y) = u(x,y) - h*(∂u/∂x) + (h^2/2)*(∂^2u/∂x^2) - (h^3/6)*(∂^3u/∂x^3) + ...
+
+Adding equation 1 and equation 2:
+u(x+h, y) + u(x-h, y) = 2*u(x,y) + h^2*(∂^2u/∂x^2) + O(h^4)
+
+Rearranging for the second-order partial derivative yields the central difference formula:
+∂^2u/∂x^2 ≈ [ u_i+1,j - 2*u_i,j + u_i-1,j ] / h^2
+
+Similarly for the y-direction:
+∂^2u/∂y^2 ≈ [ u_i,j+1 - 2*u_i,j + u_i,j-1 ] / k^2
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>7.3 Laplace's Equation & Liebmann's Iteration</b></h2>
+    <p>Laplace's equation in 2D is: <code>∂^2u/∂x^2 + ∂^2u/∂y^2 = 0</code>.
+      <br>Assuming a square grid (<code>h = k</code>), substituting the central difference approximations yields the **Standard Five-Point Formula (SFPF)**:
+      <br><code>u_i,j = (1/4) * [ u_i+1,j + u_i-1,j + u_i,j+1 + u_i,j-1 ]</code>
+    </p>
+
+    <h3><b>Liebmann's Iteration C Implementation:</b></h3>
+    <p>The following C program solves Laplace's equation on a 4x4 grid with specified boundary conditions using Liebmann's method:</p>
+    <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+#define SIZE 4 // 4x4 Grid (2x2 interior nodes, 12 boundary nodes)
+
+void liebmann_laplace(double grid[SIZE][SIZE], double tol) {
+    int max_iter = 100;
+    int converged = 0;
+    
+    printf("\nLiebmann Iterations for Laplace Equation:\n");
+    for (int step = 1; step &lt;= max_iter; step++) {
+        double max_diff = 0.0;
+        
+        // Update interior nodes only (rows 1 to SIZE-2, cols 1 to SIZE-2)
+        for (int i = 1; i &lt; SIZE - 1; i++) {
+            for (int j = 1; j &lt; SIZE - 1; j++) {
+                double old_val = grid[i][j];
+                // SFPF: average of 4 orthogonal neighbors
+                grid[i][j] = 0.25 * (grid[i+1][j] + grid[i-1][j] + grid[i][j+1] + grid[i][j-1]);
+                
+                double diff = fabs(grid[i][j] - old_val);
+                if (diff &gt; max_diff) {
+                    max_diff = diff;
+                }
+            }
+        }
+        
+        printf("Iteration %2d: Max change = %lf\n", step, max_diff);
+        if (max_diff &lt; tol) {
+            printf("\nLiebmann converged in %d iterations.\n", step);
+            converged = 1;
+            break;
+        }
+    }
+    
+    if (!converged) {
+        printf("\nLiebmann reached max iterations without full convergence.\n");
+    }
+    
+    // Print final grid values
+    printf("\nFinal Grid Values:\n");
+    for (int i = 0; i &lt; SIZE; i++) {
+        for (int j = 0; j &lt; SIZE; j++) {
+            printf("%7.2f ", grid[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    // Initialize 4x4 grid with boundary conditions
+    // Interior nodes are initialized to 0.0
+    double grid[SIZE][SIZE] = {
+        {100.0, 100.0, 100.0, 100.0}, // Top boundary
+        { 75.0,   0.0,   0.0,  50.0}, // Left / Right boundary
+        { 75.0,   0.0,   0.0,  50.0}, // Left / Right boundary
+        {  0.0,   0.0,   0.0,   0.0}  // Bottom boundary
+    };
+    liebmann_laplace(grid, 0.001);
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>7.4 Poisson's Equation</b></h2>
+    <p>Poisson's equation is: <code>∂^2u/∂x^2 + ∂^2u/∂y^2 = f(x, y)</code>.
+      <br>For a square grid (<code>h = k</code>), substituting the central difference approximations yields the finite difference equation:
+      <br><code>u_i+1,j + u_i-1,j + u_i,j+1 + u_i,j-1 - 4*u_i,j = h^2 * f(x_i, y_j)</code>
+    </p>
+
+    <h3><b>Poisson Equation Solver C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+#define SIZE 4
+
+// Define function f(x, y) = -10 * (x^2 + y^2 + 10)
+double f_source(double x, double y) {
+    return -10.0 * (x*x + y*y + 10.0);
+}
+
+void solve_poisson(double grid[SIZE][SIZE], double h, double tol) {
+    int max_iter = 100;
+    double x_vals[SIZE] = {0.0, 0.5, 1.0, 1.5};
+    double y_vals[SIZE] = {0.0, 0.5, 1.0, 1.5};
+    
+    printf("\nIterative Solver for Poisson Equation:\n");
+    for (int step = 1; step &lt;= max_iter; step++) {
+        double max_diff = 0.0;
+        
+        for (int i = 1; i &lt; SIZE - 1; i++) {
+            for (int j = 1; j &lt; SIZE - 1; j++) {
+                double old_val = grid[i][j];
+                
+                // Poisson finite difference:
+                // u_i,j = 0.25 * (u_i+1,j + u_i-1,j + u_i,j+1 + u_i,j-1 - h^2 * f(x_i, y_j))
+                double source_term = h * h * f_source(x_vals[i], y_vals[j]);
+                grid[i][j] = 0.25 * (grid[i+1][j] + grid[i-1][j] + grid[i][j+1] + grid[i][j-1] - source_term);
+                
+                double diff = fabs(grid[i][j] - old_val);
+                if (diff &gt; max_diff) {
+                    max_diff = diff;
+                }
+            }
+        }
+        
+        if (max_diff &lt; tol) {
+            printf("Converged in %d iterations.\n", step);
+            break;
+        }
+    }
+    
+    // Print final grid values
+    printf("\nFinal Poisson Grid:\n");
+    for (int i = 0; i &lt; SIZE; i++) {
+        for (int j = 0; j &lt; SIZE; j++) {
+            printf("%7.2f ", grid[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    double grid[SIZE][SIZE] = {0.0}; // Boundary conditions set to 0.0
+    double h = 0.5; // Step size
+    solve_poisson(grid, h, 0.001);
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>7.5 Parabolic equations (1D Heat Equation)</b></h2>
+    <p>The 1D Heat Equation represents diffusion systems: <code>∂u/∂t = c^2 * ∂^2u/∂x^2</code>.
+      <br>We solve this equation over a grid where <code>x_i = i*h</code> (space step) and <code>t_j = j*k</code> (time step).</p>
+    
+    <h3><b>1. Schmidt Explicit Method:</b></h3>
+    <p>Using forward difference for time derivative and central difference for space derivative:
+      <br><code>[ u_i,j+1 - u_i,j ] / k = c^2 * [ u_i+1,j - 2*u_i,j + u_i-1,j ] / h^2</code>
+      <br>
+      <br>Let <code>r = c^2 * k / h^2</code>. The explicit relation is:
+      <br><code>u_i,j+1 = r*u_i-1,j + (1 - 2*r)*u_i,j + r*u_i+1,j</code>
+      <br>
+      <br><b>Stability Condition:</b> The explicit scheme converges stable only if <code>r &lt;= 0.5</code>.
+      <br>If we choose <code>r = 0.5</code> (Schmidt Simplification):
+      <br><code>u_i,j+1 = 0.5 * ( u_i-1,j + u_i+1,j )</code>
+    </p>
+
+    <h3><b>1D Heat Equation Explicit Solver C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+
+#define NX 5 // Number of space steps
+#define NT 5 // Number of time steps
+
+void solve_heat_explicit() {
+    double u[NX][NT] = {0.0};
+    double h = 0.2;
+    double k = 0.02;
+    double c2 = 1.0;
+    double r = c2 * k / (h * h); // r = 0.5
+    
+    // Boundary conditions:
+    // u(0, t) = 0.0, u(1, t) = 0.0
+    // Initial condition: u(x, 0) = sin(pi * x)
+    double pi = 3.14159265;
+    for (int i = 0; i &lt; NX; i++) {
+        u[i][0] = sin(pi * i * h);
+    }
+    
+    // Perform explicit time step updates
+    for (int j = 0; j &lt; NT - 1; j++) {
+        for (int i = 1; i &lt; NX - 1; i++) {
+            u[i][j+1] = r * u[i-1][j] + (1.0 - 2.0 * r) * u[i][j] + r * u[i+1][j];
+        }
+    }
+    
+    printf("\nExplicit 1D Heat Equation Solution Matrix [u(x,t)]:\n");
+    printf("   x=0.0    x=0.2    x=0.4    x=0.6    x=0.8    x=1.0\n");
+    for (int j = 0; j &lt; NT; j++) {
+        printf("t=%4.2f: ", j * k);
+        for (int i = 0; i &lt; NX; i++) {
+            printf("%7.4f  ", u[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    solve_heat_explicit();
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>7.6 Hyperbolic equations (1D Wave Equation)</b></h2>
+    <p>The 1D Wave Equation represents vibrating string systems: <code>∂^2u/∂t^2 = c^2 * ∂^2u/∂x^2</code>.
+      <br>Using central differences for both time and space derivatives:
+      <br><code>[ u_i,j+1 - 2*u_i,j + u_i,j-1 ] / k^2 = c^2 * [ u_i+1,j - 2*u_i,j + u_i-1,j ] / h^2</code>
+      <br>
+      <br>Letting <code>r = c * k / h</code>. The explicit relation is:
+      <br><code>u_i,j+1 = 2*(1 - r^2)*u_i,j + r^2*( u_i+1,j + u_i-1,j ) - u_i,j-1</code>
+      <br>
+      <br>If we choose <code>r = 1</code> (simplification):
+      <br><code>u_i,j+1 = u_i+1,j + u_i-1,j - u_i,j-1</code>
+    </p>
+
+    <h3><b>1D Wave Equation Explicit Solver C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+
+#define NX 6
+#define NT 4
+
+void solve_wave_explicit() {
+    double u[NX][NT] = {0.0};
+    double h = 0.2;
+    double k = 0.2;
+    double c = 1.0;
+    double r = c * k / h; // r = 1.0
+    
+    // Boundary conditions:
+    // u(0, t) = 0.0, u(1, t) = 0.0
+    // Initial displacement: u(x, 0) = x * (1 - x)
+    for (int i = 0; i &lt; NX; i++) {
+        double x = i * h;
+        u[i][0] = x * (1.0 - x);
+    }
+    
+    // Initial velocity condition: du/dt = 0 at t = 0
+    // Yields: u_i,1 = 0.5 * r^2 * (u_i-1,0 + u_i+1,0) + (1 - r^2)*u_i,0
+    for (int i = 1; i &lt; NX - 1; i++) {
+        u[i][1] = 0.5 * (u[i-1][0] + u[i+1][0]);
+    }
+    
+    // Explicit calculations for remaining time levels
+    for (int j = 1; j &lt; NT - 1; j++) {
+        for (int i = 1; i &lt; NX - 1; i++) {
+            u[i][j+1] = u[i+1][j] + u[i-1][j] - u[i][j-1];
+        }
+    }
+    
+    printf("\nExplicit 1D Wave Equation Solution Matrix [u(x,t)]:\n");
+    for (int j = 0; j &lt; NT; j++) {
+        printf("t=%4.2f: ", j * k);
+        for (int i = 0; i &lt; NX; i++) {
+            printf("%7.4f  ", u[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    solve_wave_explicit();
+    return 0;
+}
+    </code></pre>
+  </div>
+</body>
+</html>

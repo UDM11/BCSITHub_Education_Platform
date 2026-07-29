@@ -241,45 +241,48 @@ const PUNotices: React.FC = () => {
         )}
       </AnimatePresence>
 
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+      <div className="min-h-screen bg-slate-50/30">
         {/* Hero Section */}
         <motion.section 
-          className="relative py-16 sm:py-20 lg:py-24 px-4 overflow-hidden"
+          className="relative py-20 sm:py-24 px-4 overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 opacity-90"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-900"></div>
           <motion.div 
-            className="absolute inset-0"
+            className="absolute inset-0 opacity-20"
             animate={{
               background: [
-                'radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%)',
-                'radial-gradient(circle at 80% 20%, rgba(159, 122, 234, 0.3) 0%, transparent 50%)',
-                'radial-gradient(circle at 40% 80%, rgba(99, 102, 241, 0.3) 0%, transparent 50%)'
+                'radial-gradient(circle at 10% 40%, rgba(99, 102, 241, 0.4) 0%, transparent 60%)',
+                'radial-gradient(circle at 90% 10%, rgba(139, 92, 246, 0.4) 0%, transparent 60%)',
+                'radial-gradient(circle at 30% 90%, rgba(59, 130, 246, 0.4) 0%, transparent 60%)'
               ]
             }}
-            transition={{ duration: 8, repeat: Infinity }}
+            transition={{ duration: 10, repeat: Infinity }}
           />
           
-          <div className="relative max-w-6xl mx-auto text-center text-white">
+          <div className="relative max-w-6xl mx-auto text-center text-white z-10">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <Bell className="w-16 h-16 mx-auto mb-6 text-yellow-300" />
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-white to-yellow-200 bg-clip-text text-transparent">
+              <div className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-5 py-1.5 mb-6 border border-white/10">
+                <Bell className="w-5 h-5 text-yellow-300 mr-2" />
+                <span className="text-sm font-semibold text-yellow-50">Announcements Portal</span>
+              </div>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight bg-gradient-to-r from-white via-slate-100 to-indigo-100 bg-clip-text text-transparent">
                 PU Notices
               </h1>
-              <p className="text-lg sm:text-xl lg:text-2xl text-indigo-100 mb-8 px-4 sm:px-0">
-                Official notices and documents from Pokhara University for BCSIT program
+              <p className="text-lg sm:text-xl text-indigo-100 mb-10 max-w-3xl mx-auto px-4 sm:px-0">
+                Official notices, exam guidelines, and announcements from Pokhara University for the BCSIT program.
               </p>
             </motion.div>
             
             {/* Stats */}
             <motion.div 
-              className="grid grid-cols-2 sm:grid-cols-4 gap-4 lg:gap-6 max-w-4xl mx-auto mb-8"
+              className="grid grid-cols-2 sm:grid-cols-4 gap-4 lg:gap-6 max-w-4xl mx-auto mb-10"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -292,14 +295,12 @@ const PUNotices: React.FC = () => {
               ].map((stat, index) => (
                 <motion.div 
                   key={stat.label}
-                  className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 + index * 0.1 }}
+                  className="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/10 hover:border-white/20 transition-all duration-300 shadow-lg shadow-indigo-950/10"
+                  whileHover={{ scale: 1.05 }}
                 >
-                  <stat.icon className="w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-2 text-yellow-300" />
-                  <div className="text-xl sm:text-2xl font-bold">{stat.value}</div>
-                  <div className="text-xs sm:text-sm text-indigo-100">{stat.label}</div>
+                  <stat.icon className="w-7 h-7 mx-auto mb-3 text-yellow-300" />
+                  <div className="text-2xl sm:text-3xl font-bold">{stat.value}</div>
+                  <div className="text-xs sm:text-sm text-indigo-200 font-semibold">{stat.label}</div>
                 </motion.div>
               ))}
             </motion.div>
@@ -315,7 +316,7 @@ const PUNotices: React.FC = () => {
                 href="https://exam.pu.edu.np:9094/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center space-x-2 bg-white text-indigo-600 hover:bg-indigo-50 px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="inline-flex items-center justify-center space-x-2.5 bg-white text-indigo-600 hover:bg-indigo-50 px-6 py-3.5 rounded-xl font-semibold transition-all duration-300 shadow-md hover:shadow-lg hover:translate-y-[-2px]"
               >
                 <ExternalLink className="h-5 w-5" />
                 <span>PU Result Portal</span>
@@ -324,7 +325,7 @@ const PUNotices: React.FC = () => {
               {isAdmin && (
                 <button
                   onClick={() => setShowUploadModal(true)}
-                  className="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
+                  className="inline-flex items-center justify-center space-x-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-6 py-3.5 rounded-xl font-semibold transition-all duration-300 shadow-md hover:shadow-lg hover:translate-y-[-2px]"
                 >
                   <UploadCloud className="h-5 w-5" />
                   <span>Upload Notice</span>
@@ -334,10 +335,10 @@ const PUNotices: React.FC = () => {
           </div>
         </motion.section>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 mt-12">
           {/* Controls Section */}
           <motion.section 
-            className="py-6 sm:py-8 px-4 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-sm mb-8"
+            className="py-5 px-6 bg-white/70 backdrop-blur-md border border-slate-100 rounded-2xl shadow-premium mb-8"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
@@ -346,38 +347,38 @@ const PUNotices: React.FC = () => {
               {/* Search */}
               <div className="flex-1 max-w-md">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
                   <input
                     type="text"
                     placeholder="Search notices..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 bg-white text-slate-800 placeholder:text-slate-400"
                   />
                 </div>
               </div>
 
               {/* Controls */}
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-4">
                 <Button
                   variant="outline"
                   onClick={() => setShowFilters(!showFilters)}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 border-slate-200 text-slate-700 font-semibold"
                 >
                   <Filter className="w-4 h-4" />
                   Filters
                 </Button>
                 
-                <div className="flex bg-gray-100 rounded-lg p-1">
+                <div className="flex bg-slate-100 rounded-xl p-1 border border-slate-200/40">
                   <button
                     onClick={() => setViewMode('list')}
-                    className={`p-2 rounded ${viewMode === 'list' ? 'bg-white shadow-sm' : ''}`}
+                    className={`p-2 rounded-lg transition-all duration-200 ${viewMode === 'list' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
                   >
                     <List className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => setViewMode('grid')}
-                    className={`p-2 rounded ${viewMode === 'grid' ? 'bg-white shadow-sm' : ''}`}
+                    className={`p-2 rounded-lg transition-all duration-200 ${viewMode === 'grid' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
                   >
                     <Grid className="w-4 h-4" />
                   </button>
@@ -392,15 +393,15 @@ const PUNotices: React.FC = () => {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="mt-6 pt-6 border-t border-gray-200"
+                  className="mt-5 pt-5 border-t border-slate-100"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-1.5">Category</label>
                       <select
                         value={selectedCategory}
                         onChange={(e) => setSelectedCategory(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 text-slate-800"
                       >
                         <option value="">All Categories</option>
                         {categories.map((category) => (
@@ -413,8 +414,8 @@ const PUNotices: React.FC = () => {
                   </div>
                   
                   {(searchTerm || selectedCategory) && (
-                    <div className="mt-4 flex justify-between items-center">
-                      <span className="text-sm text-gray-600">
+                    <div className="mt-4 flex justify-between items-center text-xs font-semibold">
+                      <span className="text-slate-500">
                         Showing {filteredNotices.length} of {notices.length} notices
                       </span>
                       <button
@@ -422,7 +423,7 @@ const PUNotices: React.FC = () => {
                           setSearchTerm('');
                           setSelectedCategory('');
                         }}
-                        className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                        className="text-indigo-600 hover:text-indigo-800"
                       >
                         Clear Filters
                       </button>
@@ -448,20 +449,20 @@ const PUNotices: React.FC = () => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.4, delay: 0.1 * index }}
-                      whileHover={{ y: -4, scale: 1.02 }}
+                      transition={{ duration: 0.4, delay: 0.05 * index }}
+                      whileHover={{ y: -5 }}
                       className="group cursor-pointer"
                     >
-                      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-xl transition-all duration-300 overflow-hidden">
+                      <div className="bg-white rounded-2xl border border-slate-100 shadow-premium group-hover:shadow-premium-hover transition-all duration-300 overflow-hidden flex flex-col justify-between h-full">
                         {/* Notice Header */}
-                        <div className="p-6 pb-4">
-                          <div className="flex items-start justify-between mb-4">
-                            <div className={`flex items-center gap-2 px-3 py-1 rounded-full border ${getCategoryColor(notice.category)}`}>
+                        <div className="p-6">
+                          <div className="flex items-center justify-between mb-4">
+                            <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-semibold ${getCategoryColor(notice.category)}`}>
                               {getCategoryIcon(notice.category)}
-                              <span className="text-sm font-medium">{notice.category}</span>
+                              <span>{notice.category}</span>
                             </div>
-                            <div className="text-xs text-gray-500 flex items-center gap-1">
-                              <Calendar className="w-3 h-3" />
+                            <div className="text-xs text-slate-500 font-semibold flex items-center gap-1.5">
+                              <Calendar className="w-3.5 h-3.5 text-slate-400" />
                               {notice.date.toLocaleDateString('en-US', {
                                 month: 'short',
                                 day: 'numeric',
@@ -470,18 +471,16 @@ const PUNotices: React.FC = () => {
                             </div>
                           </div>
                           
-                          <h3 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-indigo-600 transition-colors">
+                          <h3 className="text-lg font-bold text-slate-800 mb-3 line-clamp-2 group-hover:text-indigo-600 transition-colors">
                             {notice.title}
                           </h3>
                           
-                          <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
-                            <div className="flex items-center gap-4">
-                              <div className="flex items-center gap-1">
-                                <FileText className="w-4 h-4" />
-                                <span className="truncate max-w-[120px]">{notice.fileName}</span>
-                              </div>
-                              <span className="text-xs bg-gray-100 px-2 py-1 rounded">{notice.fileSize}</span>
+                          <div className="flex items-center justify-between text-xs text-slate-500 mb-2 border-t border-slate-50 pt-4 mt-4">
+                            <div className="flex items-center gap-2">
+                              <FileText className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                              <span className="truncate max-w-[150px] font-semibold">{notice.fileName}</span>
                             </div>
+                            <span className="bg-slate-50 text-slate-500 border border-slate-100 px-2 py-0.5 rounded font-bold">{notice.fileSize}</span>
                           </div>
                         </div>
 
@@ -489,7 +488,7 @@ const PUNotices: React.FC = () => {
                         <div className="px-6 pb-6">
                           <button
                             onClick={() => handleDownload(notice)}
-                            className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-3 rounded-xl transition-colors duration-200 font-medium group-hover:bg-indigo-700"
+                            className="w-full flex items-center justify-center gap-2 bg-indigo-50 border border-indigo-100/50 hover:bg-indigo-600 text-indigo-600 hover:text-white px-4 py-3 rounded-xl transition-all duration-300 font-semibold group-hover:shadow-sm"
                           >
                             <Download className="w-4 h-4" />
                             <span>Download Notice</span>
@@ -508,11 +507,11 @@ const PUNotices: React.FC = () => {
                 transition={{ duration: 0.5 }}
                 className="text-center py-16"
               >
-                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <FileText className="w-8 h-8 text-gray-400" />
+                <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <FileText className="w-8 h-8 text-slate-400" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">No notices found</h3>
-                <p className="text-gray-600 mb-6">
+                <h3 className="text-xl font-bold text-slate-900 mb-2">No notices found</h3>
+                <p className="text-slate-600 mb-6 text-sm">
                   {searchTerm || selectedCategory 
                     ? "Try adjusting your search or filter criteria" 
                     : "Check back later for new notices"}
@@ -523,7 +522,7 @@ const PUNotices: React.FC = () => {
                       setSearchTerm('');
                       setSelectedCategory('');
                     }}
-                    className="text-indigo-600 hover:text-indigo-800 font-medium"
+                    className="text-indigo-600 hover:text-indigo-800 font-semibold text-sm"
                   >
                     Clear Search & Filters
                   </button>
@@ -537,24 +536,24 @@ const PUNotices: React.FC = () => {
         <AnimatePresence>
           {showUploadModal && isAdmin && (
             <motion.div 
-              className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4 sm:p-6 overflow-auto"
+              className="fixed inset-0 bg-slate-900/60 backdrop-blur-md flex items-center justify-center z-50 p-4 sm:p-6 overflow-auto"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
               <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
+                initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.8, opacity: 0 }}
-                className="bg-white p-6 rounded-2xl shadow-xl w-full max-w-lg space-y-4 max-h-[90vh] overflow-auto"
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="bg-white/95 backdrop-blur-lg border border-slate-100 p-6 rounded-2xl shadow-premium w-full max-w-lg space-y-4 max-h-[90vh] overflow-auto"
               >
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-2xl font-bold text-gray-900">Upload Notice</h2>
+                <div className="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
+                  <h2 className="text-xl font-bold text-slate-800">Upload Notice</h2>
                   <button
                     onClick={() => setShowUploadModal(false)}
-                    className="text-gray-400 hover:text-gray-600 transition-colors"
+                    className="text-slate-400 hover:text-slate-600 transition-colors p-1"
                   >
-                    <X className="w-6 h-6" />
+                    <X className="w-5 h-5" />
                   </button>
                 </div>
                 <UploadNoticeForm

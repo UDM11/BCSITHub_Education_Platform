@@ -222,4 +222,83 @@ export const chapterData: SubjectChapters[] = [
     ]
   },
   // End 3rd Semester
+
+  // Start 4th Semester
+  {
+    courseCode: "CMP 275",
+    chapters: [
+      { id: "Unit 1", title: "Unit 1: Introduction to Microprocessor" },
+      { id: "Unit 2", title: "Unit 2: Intel 8085" },
+      { id: "Unit 3", title: "Unit 3: Computer Architecture Basics" },
+      { id: "Unit 4", title: "Unit 4: Micro Operations" },
+      { id: "Unit 5", title: "Unit 5: Control Unit and Central Processing Unit" },
+      { id: "Unit 6", title: "Unit 6: Fixed Point Computer Arithmetic" },
+      { id: "Unit 7", title: "Unit 7: Input and Output Organization" },
+      { id: "Unit 8", title: "Unit 8: Memory Organization" },
+      { id: "Unit 9", title: "Unit 9: Pipelining" }
+    ]
+  },
+  {
+    courseCode: "CMP 274",
+    chapters: [
+      { id: "Unit I", title: "Unit I: Introduction" },
+      { id: "Unit II", title: "Unit II: Solution of non-linear equations" },
+      { id: "Unit III", title: "Unit III: Interpolation & Approximation" },
+      { id: "Unit IV", title: "Unit IV: Numerical Differentiation & Integration" },
+      { id: "Unit V", title: "Unit V: Solution of Ordinary Differential Equations" },
+      { id: "Unit VI", title: "Unit VI: Solution of Linear algebraic equations" },
+      { id: "Unit VII", title: "Unit VII: Solution Of Partial Differential Equations" }
+    ]
+  },
+  {
+    courseCode: "CMP 276",
+    chapters: [
+      { id: "Unit 1", title: "Unit 1: Software and software engineering" },
+      { id: "Unit 2", title: "Unit 2: Software process models" },
+      { id: "Unit 3", title: "Unit 3: Software requirement specification and modeling" },
+      { id: "Unit 4", title: "Unit 4: Design Concepts" },
+      { id: "Unit 5", title: "Unit 5: Software measurement and metrics" },
+      { id: "Unit 6", title: "Unit 6: Software testing and quality assurance" },
+      { id: "Unit 7", title: "Unit 7: Configuration management and software maintenance" },
+      { id: "Unit 8", title: "Unit 8: Software project management" },
+      { id: "Unit 9", title: "Unit 9: Project Scheduling" },
+      { id: "Unit 10", title: "Unit 10: Risk Management" },
+      { id: "Unit 11", title: "Unit 11: Concept of software re-engineering" },
+      { id: "Unit 12", title: "Unit 12: Emerging trends in software engineering" }
+    ]
+  },
+  {
+    courseCode: "CMP 277",
+    chapters: [
+      { id: "Unit I", title: "Unit I: Introduction to Data Communication" },
+      { id: "Unit 2", title: "Unit 2: Introduction to Computer Networks" },
+      { id: "Unit 3", title: "Unit 3: Physical Layer and its Design Issues" },
+      { id: "Unit 4", title: "Unit 4: Data Link Layer" },
+      { id: "Unit 5", title: "Unit 5: Network Layer" },
+      { id: "Unit 6", title: "Unit 6: Transport Layer" },
+      { id: "Unit 7", title: "Unit 7: Application Layers" },
+      { id: "Unit 8", title: "Unit 8: Network Management and Network Security" }
+    ]
+  },
+  {
+    courseCode: "FIN 222",
+    chapters: [
+      { id: "Unit 1", title: "Unit 1: Introduction to Financial Management" },
+      { id: "Unit 2", title: "Unit 2: Financial Statement Analysis" },
+      { id: "Unit 3", title: "Unit 3: Time Value of Money" },
+      { id: "Unit 4", title: "Unit 4: Fundamentals of Risk and Return" },
+      { id: "Unit 5", title: "Unit 5: Capital Structure and Financing Decision" },
+      { id: "Unit 6", title: "Unit 6: Basics of Capital Budgeting Decisions" }
+    ]
+  },
+  {
+    courseCode: "PRI 281",
+    chapters: [
+      { id: "Phase 1", title: "Phase 1: Conceptual Framework and Proposal" },
+      { id: "Phase 2", title: "Phase 2: Progress Report & System Design" },
+      { id: "Phase 3", title: "Phase 3: Final Presentation and Defense" }
+    ]
+  }
+  // End 4th Semester
 ];
+

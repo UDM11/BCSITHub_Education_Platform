@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 8: Memory Organization - Comprehensive Notes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0px;
+    }
+    h1 {
+        text-align: center;
+        color: #0f172a;
+        font-size: 20pt;
+        font-weight: bold;
+        margin-bottom: 40px;
+        border-bottom: 3px double #cbd5e1;
+        padding-bottom: 15px;
+    }
+    h2 {
+      color: #1e3a8a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 30px;
+      font-size: 15pt;
+    }
+    h3 {
+      color: #2563eb;
+      font-size: 13pt;
+      margin-top: 20px;
+    }
+    .section {
+      background: #ffffff;
+      padding: 30px;
+      margin-bottom: 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 25px;
+    }
+    li {
+      margin-bottom: 12px;
+    }
+    pre {
+      background-color: #0f172a;
+      color: #38bdf8;
+      padding: 20px;
+      overflow-x: auto;
+      border-radius: 8px;
+      font-size: 11pt;
+      margin: 20px 0;
+      font-family: Consolas, Monaco, monospace;
+      border-left: 4px solid #3b82f6;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      background-color: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #0f172a;
+    }
+    pre code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+      color: inherit;
+    }
+    .highlight {
+      background-color: #fef08a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .diagram-container {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .table-container {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 11pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .note-box {
+      background-color: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px; }
+      .section { padding: 20px; }
+      pre { font-size: 10pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 8: Memory Organization [5 Hours] - Detailed Study Guide</b></h1>
+
+  <div class="section">
+    <h2><b>8.1 The Memory Hierarchy and Cache Memory</b></h2>
+    <p>A computer's memory system is organized as a hierarchy to optimize performance, capacity, and cost per bit. As we go down the hierarchy, access speed decreases, storage capacity increases, and cost per bit decreases:</p>
+    <ol>
+      <li><b>CPU Registers:</b> Temporary storage inside the CPU. Fastest access time (sub-nanosecond), capacity up to a few hundred bytes.</li>
+      <li><b>Cache Memory (L1, L2, L3):</b> Implemented using high-speed Static RAM (SRAM). Stores recently accessed instruction blocks to speed up execution.</li>
+      <li><b>Primary/Main Memory (RAM & ROM):</b> Implemented using Dynamic RAM (DRAM). Holds active programs and data currently being processed. ROM holds system initialization code (BIOS/UEFI).</li>
+      <li><b>Auxiliary Memory (SSD, Magnetic Disk, Tape):</b> Non-volatile, high-capacity, low-cost secondary storage. Used for long-term file storage.</li>
+    </ol>
+
+    <div class="note-box">
+      <b>Locality of Reference:</b> The memory hierarchy is effective because of the Locality of Reference principle. Programs tend to access instructions and data near locations they have recently accessed (temporal and spatial locality).
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><b>8.2 Primary Memory and Address Decoding</b></h2>
+    <p>Memory chips require addressing and selection lines to read and write data. <b>Address Decoding</b> is the process of generating chip select (CS) signals from the CPU address bus to enable the correct memory chip.</p>
+
+    <h3><b>Address Decoding Example:</b></h3>
+    <p>Design a memory system with a 16-bit address bus (A0-A15) containing:
+      <br>- Two 1024x8 RAM chips (RAM 1 and RAM 2).
+      <br>- One 2048x8 ROM chip.
+      <br>
+      <br><b>Required Address Lines per Chip:</b>
+      <br>- RAM chips: 1024 bytes = 2^10, so they require 10 address lines (A0-A9).
+      <br>- ROM chip: 2048 bytes = 2^11, so it requires 11 address lines (A0-A10).
+    </p>
+
+    <h3><b>Memory Address Map:</b></h3>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>A15 - A12</th>
+            <th>A11</th>
+            <th>A10</th>
+            <th>A9 - A0</th>
+            <th>Address Range (Hex)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>RAM 1</td>
+            <td>0 0 0 0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0000000000 to 1111111111</td>
+            <td>0000H - 03FFH</td>
+          </tr>
+          <tr>
+            <td>RAM 2</td>
+            <td>0 0 0 0</td>
+            <td>0</td>
+            <td>1</td>
+            <td>0000000000 to 1111111111</td>
+            <td>0400H - 07FFH</td>
+          </tr>
+          <tr>
+            <td>ROM</td>
+            <td>0 0 0 0</td>
+            <td>1</td>
+            <td>X</td>
+            <td>0000000000 to 1111111111</td>
+            <td>0800H - 0FFFH</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3><b>Decoding Logic Equations:</b></h3>
+    <p>We use address lines A15-A11 to select the chips:
+      <br>- General Select (all chips require A15-A12 = 0000): <code>GS = A15' & A14' & A13' & A12'</code>
+      <br>- RAM 1 Chip Select: <code>CS1 = GS & A11' & A10'</code>
+      <br>- RAM 2 Chip Select: <code>CS2 = GS & A11' & A10</code>
+      <br>- ROM Chip Select: <code>CS3 = GS & A11</code>
+    </p>
+  </div>
+
+  <div class="section">
+    <h2><b>8.3 Virtual Memory and Page Replacement</b></h2>
+    <p><b>Virtual Memory</b> is an address mapping scheme that gives programs the illusion of having a large, contiguous memory space, even if the physical RAM is small and fragmented. The physical addresses in RAM are mapped to logical addresses used by the program.</p>
+
+    <h3><b>Address Translation:</b></h3>
+    <p>The CPU generates a <b>Virtual Address</b> consisting of a Page Number and a Line Offset. The Memory Management Unit (MMU) translates it to a <b>Physical Address</b> (Block Frame Number + Line Offset) using a Page Table:</p>
+    <div class="diagram-container">
+   Virtual Address:  [ Page Number (p) ] [ Offset (d) ]
+                             |                 |
+                             v                 |
+                     +---------------+         |
+                     |  Page Table   |         |
+                     +---------------+         |
+                     | p -> Frame (f)|         |
+                     +-------+-------+         |
+                             |                 |
+                             v                 v
+   Physical Address: [ Frame Number (f) ] [ Offset (d) ]
+    </div>
+
+    <h3><b>Page Replacement Algorithm Simulation:</b></h3>
+    <p>When a page is not in RAM, a <b>Page Fault</b> occurs, and the page must be loaded from disk. If RAM is full, the OS must evict a page.
+      <br>Let's simulate page replacement with 3 page frames for the reference string: <code>2, 3, 2, 1, 5, 2, 4</code>.</p>
+
+    <h4><b>1. FIFO (First-In, First-Out):</b></h4>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Reference String</th>
+            <th>2</th>
+            <th>3</th>
+            <th>2</th>
+            <th>1</th>
+            <th>5</th>
+            <th>2</th>
+            <th>4</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Frame 1</td>
+            <td>2</td>
+            <td>2</td>
+            <td>2</td>
+            <td>2</td>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>Frame 2</td>
+            <td>-</td>
+            <td>3</td>
+            <td>3</td>
+            <td>3</td>
+            <td>3</td>
+            <td>2</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>Frame 3</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td>Status</td>
+            <td>Fault</td>
+            <td>Fault</td>
+            <td>Hit</td>
+            <td>Fault</td>
+            <td>Fault</td>
+            <td>Fault</td>
+            <td>Fault</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4><b>2. LRU (Least Recently Used):</b></h4>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Reference String</th>
+            <th>2</th>
+            <th>3</th>
+            <th>2</th>
+            <th>1</th>
+            <th>5</th>
+            <th>2</th>
+            <th>4</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Frame 1</td>
+            <td>2</td>
+            <td>2</td>
+            <td>2</td>
+            <td>2</td>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>Frame 2</td>
+            <td>-</td>
+            <td>3</td>
+            <td>3</td>
+            <td>3</td>
+            <td>3</td>
+            <td>2</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>Frame 3</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td>Status</td>
+            <td>Fault</td>
+            <td>Fault</td>
+            <td>Hit</td>
+            <td>Fault</td>
+            <td>Fault</td>
+            <td>Fault</td>
+            <td>Fault</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><b>8.4 Memory Management Hardware</b></h2>
+    <p>The **Memory Management Unit (MMU)** handles address translation and protection at runtime:</p>
+    <ul>
+      <li><b>Segmented Page Mapping:</b> Logical memory is divided into segments (e.g., Code, Data, Stack) based on program logic. Each segment is further divided into fixed-size pages. This provides logical organization and efficient physical allocation.</li>
+      <li><b>Memory Protection:</b> Prevents programs from accessing unauthorized memory regions (e.g., preventing user programs from writing to OS memory). It uses base/limit registers or access-control bits in page tables to enforce protection.</li>
+    </ul>
+  </div>
+</body>
+</html>

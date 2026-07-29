@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 4: Data Link Layer</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 4: Data Link Layer [8 Hrs.]</b></h1>
+
+  <!-- 4.1 - 4.3 Duties & Framing -->
+  <div class="section">
+    <h2><b>4.1 Duties of Data Link Layer and Framing Techniques</b></h2>
+
+    <h3>Role and Sublayers</h3>
+    <p>
+      The <b>Data Link Layer (DLL)</b> is responsible for node-to-node (hop-by-hop) delivery of data.
+      It transforms the physical layer's raw bit transmission channel into a reliable link.
+      The IEEE 802 standard divides the Data Link Layer into two sublayers:
+    </p>
+    <ul>
+      <li><b>Logical Link Control (LLC):</b> Manages flow control, error control, and interface
+        with the network layer protocols. Independent of physical media.</li>
+      <li><b>Media Access Control (MAC):</b> Coordinates shared access to physical media.
+        Deals with MAC addresses, collisions, and framing.</li>
+    </ul>
+
+    <h3>Framing</h3>
+    <p>
+      Since physical channels are continuous streams of bits, the DLL must break the stream into
+      discrete, manageable blocks called <b>frames</b>. There are three framing methods:
+    </p>
+
+    <h4>1. Character Count Method</h4>
+    <p>
+      The first byte in the frame header contains the total count of characters (bytes) in the frame,
+      including the count byte itself.
+      <br><span class="warning">Major issue: If the count byte is corrupted in transmission,
+      the receiver falls out of sync and cannot determine where the next frame begins.</span>
+    </p>
+
+    <h4>2. Character Stuffing (Byte Stuffing)</h4>
+    <p>
+      Frames begin and end with special boundary bytes called <b>flags</b> (e.g., <code>FLAG</code> or <code>DLE STX</code>).
+      If the actual data contains the flag pattern, an escape character (<code>ESC</code> or <code>DLE</code>)
+      is stuffed before it. The receiver strips the escape character.
+    </p>
+
+    <h4>3. Bit Stuffing</h4>
+    <p>
+      A frame boundary is defined by a special bit pattern, typically <code>01111110</code> (six consecutive 1s).
+      To prevent this pattern from occurring inside the data payload, the sender's physical layer
+      inserts (stuffs) a <code>0</code> bit after every five consecutive <code>1</code> bits in the data stream.
+      The receiver detects five 1s followed by a 0 and automatically strips the 0.
+    </p>
+    <pre>
+  Bit Stuffing Example:
+
+  Input Data:     0 1 1 1 1 1 1 0 1 1 1 1 1 0
+  After Stuffing: 0 1 1 1 1 1 0 1 0 1 1 1 1 1 0 0
+                              ^ stuffed bit
+    </pre>
+  </div>
+
+  <!-- 4.4 Flow Control -->
+  <div class="section">
+    <h2><b>4.2 Flow Control Mechanisms (ARQ Protocols)</b></h2>
+    <p>
+      Flow control prevents the sender from overwhelming the receiver with data.
+      Automatic Repeat Request (ARQ) protocols combine flow control and error control.
+    </p>
+
+    <h3>1. Simple Stop-and-Wait ARQ</h3>
+    <p>
+      The sender transmits one frame and waits for an acknowledgment (ACK) from the receiver
+      before sending the next frame.
+      <br><b>Efficiency:</b> Low, especially over links with high propagation delay (satellite links).
+    </p>
+
+    <h3>2. Sliding Window Protocols</h3>
+    <p>
+      The sender can transmit multiple frames before receiving an acknowledgment.
+      The frames are assigned sequence numbers. The window size ($W$) defines the maximum
+      number of outstanding unacknowledged frames allowed.
+    </p>
+
+    <h4>Go-Back-N (GBN) ARQ</h4>
+    <ul>
+      <li>Sender Window Size ($W_s$): Up to $2^m - 1$ (where $m$ is bits in sequence number).</li>
+      <li>Receiver Window Size ($W_r$): Always 1.</li>
+      <li><b>Action on Loss:</b> If frame $i$ is lost, the receiver discards all subsequent frames
+        ($i+1, i+2$, etc.) even if they arrive without error, because they are out of order.
+        The sender's timer for frame $i$ expires, and the sender must retransmit frame $i$ and
+        all subsequent frames in the window.</li>
+    </ul>
+    <pre>
+  Go-Back-N ARQ (Window Size = 3):
+
+  Sender               Receiver
+   │─── Frame 0 ───────&gt;│ [ACK 1 sent]
+   │─── Frame 1 ───────&gt;│ [X lost in transit]
+   │─── Frame 2 ───────&gt;│ [Discarded: out of order]
+   │                    │
+   │ (Timer 1 expires)  │
+   │─── Frame 1 ───────&gt;│ [ACK 2 sent]
+   │─── Frame 2 ───────&gt;│ [ACK 3 sent]
+    </pre>
+
+    <h4>Selective Repeat (SR) ARQ</h4>
+    <ul>
+      <li>Sender Window Size ($W_s$): Maximum $2^{m-1}$.</li>
+      <li>Receiver Window Size ($W_r$): Equal to Sender Window ($2^{m-1}$).</li>
+      <li><b>Action on Loss:</b> The receiver buffers out-of-order frames. It sends a Negative
+        Acknowledgment (NAK) for the missing frame. The sender retransmits only the specific
+        lost frame.</li>
+    </ul>
+  </div>
+
+  <!-- 4.5 Error Detection and Correction -->
+  <div class="section">
+    <h2><b>4.3 Error Detection and Correction</b></h2>
+
+    <h3>1. Parity Check</h3>
+    <ul>
+      <li><b>Simple Parity:</b> Adds one extra bit (parity bit) to make the total number of 1s
+        even (even parity) or odd (odd parity). Detects only single-bit errors.</li>
+      <li><b>Two-Dimensional Parity:</b> Arranges data in a grid and calculates parity for
+        each row and column. Can detect burst errors and correct single-bit errors.</li>
+    </ul>
+
+    <h3>2. Internet Checksum</h3>
+    <p>
+      Used by IP, TCP, and UDP:
+    </p>
+    <ol>
+      <li>Divide the data into 16-bit blocks.</li>
+      <li>Add all blocks using 1's complement addition.</li>
+      <li>Complement the final sum (convert 1s to 0s and vice versa) to get the checksum.</li>
+      <li>The receiver sums all blocks including the checksum; the result must be all 1s.</li>
+    </ol>
+
+    <h3>3. Cyclic Redundancy Check (CRC)</h3>
+    <p>
+      A powerful mathematical error detection scheme using binary division.
+      The sender and receiver agree on a generator polynomial $G(x)$.
+    </p>
+    <pre>
+  CRC Calculation Example:
+
+  Data (D) = 1010000 (7 bits)
+  Generator Polynomial G(x) = x³ + x + 1 => divisor = 1011 (degree r = 3)
+
+  Step 1: Append r zeros to data: D_prime = 1010000000
+  Step 2: Perform modulo-2 division of D_prime by divisor:
+
+             1001110
+       1011 ┌────────────
+            │1010000000
+             1011
+             ────
+              001000
+                1011
+                ────
+                 01110
+                  1011
+                  ────
+                   1010
+                   1011
+                   ────
+                    001  <-- Remainder (CRC)
+
+  Step 3: Transmit Data + Remainder = 1010000001
+    </pre>
+
+    <h3>4. Hamming Code (Error Correction)</h3>
+    <p>
+      Hamming code adds redundant parity bits at specific positions ($2^0, 2^1, 2^2$, etc.) to detect
+      and correct a single-bit error.
+    </p>
+    <ul>
+      <li><b>Redundant bits formula:</b> $2^r \ge d + r + 1$, where $d$ is data bits and $r$ is parity bits.</li>
+      <li>For 7 data bits, we need 4 parity bits ($2^4 \ge 7 + 4 + 1 \implies 16 \ge 12$). Total size = 11 bits.</li>
+    </ul>
+  </div>
+
+  <!-- 4.7 - 4.9 Multiple Access & VLAN -->
+  <div class="section">
+    <h2><b>4.4 Multiple Access and Local Area Networks</b></h2>
+
+    <h3>Channel Allocation Techniques</h3>
+    <p>
+      How a shared medium is allocated among multiple competing stations:
+    </p>
+    <ul>
+      <li><b>Pure ALOHA:</b> Stations transmit whenever they have data. If a collision occurs (no ACK),
+        they wait a random time and retransmit.
+        <br><b>Max Efficiency:</b> 18.4% (attained when packet arrival rate is 0.5).</li>
+      <li><b>Slotted ALOHA:</b> Time is divided into discrete slots. Stations can only transmit
+        at the beginning of a time slot.
+        <br><b>Max Efficiency:</b> 36.8% (double that of Pure ALOHA).</li>
+      <li><b>CSMA (Carrier Sense Multiple Access):</b> "Listen before you talk". Stations check the
+        medium before transmitting.
+        <ul>
+          <li><i>1-persistent:</i> If busy, keep listening. If idle, transmit immediately.</li>
+          <li><i>Non-persistent:</i> If busy, wait a random time and check again.</li>
+          <li><i>p-persistent:</i> If idle, transmit with probability $p$.</li>
+        </ul>
+      </li>
+      <li><b>CSMA/CD (with Collision Detection):</b> "Listen while talking". Used in wired Ethernet.
+        If a station detects a collision during transmission, it stops transmitting immediately and
+        sends a jam signal to alert all devices.</li>
+      <li><b>CSMA/CA (with Collision Avoidance):</b> Used in wireless networks (Wi-Fi) where collision
+        detection is difficult due to the "hidden node problem". Uses virtual sensing via RTS/CTS
+        (Request to Send / Clear to Send) exchanges.</li>
+    </ul>
+
+    <h3>Virtual LANs (VLANs)</h3>
+    <p>
+      A <b>VLAN</b> logically segments a physical LAN into multiple distinct broadcast domains.
+      Devices on different VLANs cannot communicate directly unless routed through a Layer 3 router.
+      VLAN trunking (IEEE 802.1Q) tags frames with a 12-bit VLAN ID to identify their broadcast domain
+      as they cross switch-to-switch links.
+    </p>
+  </div>
+
+  <!-- Code Snippet -->
+  <div class="section">
+    <h2><b>4.5 Implementation of Cyclic Redundancy Check (CRC)</b></h2>
+    <p>
+      The following is a complete Python program illustrating CRC generation and verification using modulo-2 division:
+    </p>
+    <pre>
+<code>
+def xor(a, b):
+    # Perform modulo-2 bitwise XOR operation
+    result = []
+    for i in range(1, len(b)):
+        if a[i] == b[i]:
+            result.append('0')
+        else:
+            result.append('1')
+    return ''.join(result)
+
+def mod2div(dividend, divisor):
+    # Modulo-2 division implementation
+    pick = len(divisor)
+    tmp = dividend[0 : pick]
+    
+    while pick < len(dividend):
+        if tmp[0] == '1':
+            tmp = xor(divisor, tmp) + dividend[pick]
+        else:
+            tmp = xor('0'*pick, tmp) + dividend[pick]
+        pick += 1
+        
+    if tmp[0] == '1':
+        tmp = xor(divisor, tmp)
+    else:
+        tmp = xor('0'*pick, tmp)
+        
+    return tmp
+
+def encode_data(data, key):
+    # Appends CRC remainder to original data
+    l_key = len(key)
+    appended_data = data + '0'*(l_key - 1)
+    remainder = mod2div(appended_data, key)
+    return data + remainder
+
+def verify_data(received_data, key):
+    # Verifies integrity by dividing received data by key
+    remainder = mod2div(received_data, key)
+    if '1' in remainder:
+        return False # Error detected
+    return True # No error detected
+
+# Example usage:
+data = "1010000"
+key = "1011"
+transmitted = encode_data(data, key)
+print(f"Original Data: {data}")
+print(f"Divisor:       {key}")
+print(f"Transmitted:   {transmitted}")
+
+# Simulating no error:
+is_valid = verify_data(transmitted, key)
+print(f"Verification (No Error): {'Valid' if is_valid else 'Corrupted'}")
+
+# Simulating a single-bit error:
+corrupted = list(transmitted)
+corrupted[4] = '1' if corrupted[4] == '0' else '0' # Flip bit
+corrupted_str = "".join(corrupted)
+is_valid_error = verify_data(corrupted_str, key)
+print(f"Corrupted Data: {corrupted_str}")
+print(f"Verification (With Error): {'Valid' if is_valid_error else 'Corrupted'}")
+</code>
+    </pre>
+  </div>
+
+  <!-- Sliding Window Efficiency Math -->
+  <div class="section">
+    <h2><b>4.6 Sliding Window Protocol Efficiency Analysis</b></h2>
+    <p>
+      The efficiency (or utilization, $\eta$) of flow control protocols is heavily affected by
+      propagation delay and transmission delay. Let:
+      <br>
+      $$a = \frac{T_p}{T_t} = \frac{\text{Propagation Delay}}{\text{Transmission Delay}}$$
+    </p>
+    <ul>
+      <li><b>Stop-and-Wait ARQ Efficiency:</b>
+        <br>
+        $$\eta_{\text{SW}} = \frac{1}{1 + 2a}$$
+      </li>
+      <li><b>Go-Back-N ARQ Efficiency:</b>
+        <br>
+        $$\eta_{\text{GBN}} = \frac{W}{1 + 2a} \quad (\text{if } W < 1 + 2a), \quad \text{else } \eta = 1$$
+      </li>
+      <li><b>Selective Repeat ARQ Efficiency:</b>
+        <br>
+        $$\eta_{\text{SR}} = \frac{W}{1 + 2a} \quad (\text{if } W < 1 + 2a), \quad \text{else } \eta = 1$$
+      </li>
+    </ul>
+
+    <div class="note">
+      <h4>Numerical Example: Protocol Efficiency</h4>
+      <p><b>Problem:</b> A satellite link has a bandwidth of 1 Mbps and a round-trip propagation delay of
+        540 ms (270 ms one way). Frame size is 1000 bytes. Calculate the efficiency of:
+        <br>1. Stop-and-Wait ARQ
+        <br>2. Go-Back-N ARQ with a window size of 7
+        <br>3. Go-Back-N ARQ with a window size of 127</p>
+      <p><b>Solution:</b>
+        <br>Bandwidth = 1 Mbps = $10^6$ bps.
+        <br>Frame size = 1000 bytes = 8000 bits.
+        <br>$T_p = 270$ ms = 0.27 seconds.
+        <br>$T_t = \text{Frame Size} / \text{Bandwidth} = 8000 / 10^6 = 0.008$ seconds = 8 ms.
+        <br>
+        <br>Calculate parameter $a$:
+        <br>$a = T_p / T_t = 270 / 8 = 33.75$.
+        <br>
+        <br><b>1. Stop-and-Wait ARQ Efficiency:</b>
+        <br>$\eta = 1 / (1 + 2a) = 1 / (1 + 2 \times 33.75) = 1 / 68.5 \approx 0.0146 \approx 1.46\%$.
+        <br>
+        <br><b>2. GBN ARQ with Window Size W = 7:</b>
+        <br>Since $W = 7 < 1 + 2a = 68.5$:
+        <br>$\eta = W / (1 + 2a) = 7 / 68.5 \approx 0.102 \approx 10.2\%$.
+        <br>
+        <br><b>3. GBN ARQ with Window Size W = 127:</b>
+        <br>Since $W = 127 \ge 1 + 2a = 68.5$, the window is large enough to keep the channel saturated.
+        <br>$\eta = 1 = 100\%$.
+      </p>
+    </div>
+  </div>
+
+  <!-- Hamming Code Calculation -->
+  <div class="section">
+    <h2><b>4.7 Hamming Code Construction and Error Correction</b></h2>
+    <p>
+      The Hamming code uses parity bits located at power-of-2 indices to detect and correct single-bit errors.
+    </p>
+    <div class="note">
+      <h4>Hamming Code Numerical Example</h4>
+      <p><b>Problem:</b> Encode the 4-bit message <code>1011</code> using an even-parity Hamming code.
+        Show how the receiver corrects a 1-bit error at position 6.</p>
+      <p><b>Solution:</b>
+        <br>1. Data bits $d = 4$. Redundant bits $r$ must satisfy:
+        <br>$2^r \ge d + r + 1 \implies 2^3 \ge 4 + 3 + 1 \implies 8 \ge 8$. So $r = 3$.
+        <br>Total bits = 7. Parity bits reside at positions 1, 2, and 4.
+        <br>
+        <br><b>Grid Representation:</b>
+        <br>Position: 1 (P1), 2 (P2), 3 (D3), 4 (P4), 5 (D5), 6 (D6), 7 (D7)
+        <br>Data values: D3=1, D5=0, D6=1, D7=1.
+        <br>
+        <br>2. Calculate Parity Bits:
+        <br>- P1 checks positions 1, 3, 5, 7.
+        <br>$\text{P1} \oplus \text{D3} \oplus \text{D5} \oplus \text{D7} = 0 \implies \text{P1} \oplus 1 \oplus 0 \oplus 1 = 0 \implies \text{P1} = 0$.
+        <br>- P2 checks positions 2, 3, 6, 7.
+        <br>$\text{P2} \oplus \text{D3} \oplus \text{D6} \oplus \text{D7} = 0 \implies \text{P2} \oplus 1 \oplus 1 \oplus 1 = 0 \implies \text{P2} = 1$.
+        <br>- P4 checks positions 4, 5, 6, 7.
+        <br>$\text{P4} \oplus \text{D5} \oplus \text{D6} \oplus \text{D7} = 0 \implies \text{P4} \oplus 0 \oplus 1 \oplus 1 = 0 \implies \text{P4} = 0$.
+        <br>
+        <br><b>Encoded Codeword:</b> <code>0110011</code> (P1=0, P2=1, D3=1, P4=0, D5=0, D6=1, D7=1).
+        <br>
+        <br><b>3. Error Detection and Correction at Receiver:</b>
+        <br>Suppose an error occurs at position 6: received codeword is <code>0110001</code> (bit 6 flipped from 1 to 0).
+        <br>Calculate syndome bits:
+        <br>- S1 (checks 1, 3, 5, 7) = $\text{P1} \oplus \text{D3} \oplus \text{D5} \oplus \text{D7} = 0 \oplus 1 \oplus 0 \oplus 1 = 0$.
+        <br>- S2 (checks 2, 3, 6, 7) = $\text{P2} \oplus \text{D3} \oplus \text{D6} \oplus \text{D7} = 1 \oplus 1 \oplus 0 \oplus 1 = 1$.
+        <br>- S4 (checks 4, 5, 6, 7) = $\text{P4} \oplus \text{D5} \oplus \text{D6} \oplus \text{D7} = 0 \oplus 0 \oplus 0 \oplus 1 = 1$.
+        <br>
+        <br>Syndome $S = S_4 S_2 S_1 = 110_2 = 6$.
+        <br>Since the syndrome is non-zero (6), an error is detected at position 6.
+        <br>The receiver flips bit 6 back to its correct state, yielding the correct codeword <code>0110011</code>.
+      </p>
+    </div>
+  </div>
+
+  <!-- ALOHA Throughput Equations -->
+  <div class="section">
+    <h2><b>4.8 Pure ALOHA vs. Slotted ALOHA Performance Analysis</b></h2>
+    <p>
+      Let $G$ be the average number of frames generated by all stations during one frame transmission time.
+    </p>
+    <ul>
+      <li><b>Pure ALOHA:</b>
+        <ul>
+          <li>Vulnerable time: $2 \times T_{fr}$ (collisions can happen with frames starting before or during the current frame).</li>
+          <li>Throughput:
+            <br>
+            $$S = G \times e^{-2G}$$
+          </li>
+          <li>Maximum Throughput: occurs at $G = 0.5 \implies S_{max} = 0.5 \times e^{-1} \approx 0.184 \quad (18.4\%)$.</li>
+        </ul>
+      </li>
+      <li><b>Slotted ALOHA:</b>
+        <ul>
+          <li>Vulnerable time: $1 \times T_{fr}$ (frames can only start at the beginning of a slot).</li>
+          <li>Throughput:
+            <br>
+            $$S = G \times e^{-G}$$
+          </li>
+          <li>Maximum Throughput: occurs at $G = 1.0 \implies S_{max} = 1.0 \times e^{-1} \approx 0.368 \quad (36.8\%)$.</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <!-- IEEE 802.1Q Frame Format -->
+  <div class="section">
+    <h2><b>4.9 VLAN Tagging (IEEE 802.1Q)</b></h2>
+    <p>
+      To support VLANs over switch-to-switch trunk links, an extra 4-byte 802.1Q header is inserted
+      into the standard Ethernet frame between the Source MAC address and EtherType fields:
+    </p>
+    <pre>
+  Standard Ethernet Frame:
+  ┌───────────┬───────────┬───────────┬──────────────┬───────┐
+  │ Dest MAC  │ Src MAC   │ EtherType │ Data Payload │  FCS  │
+  │ (6 bytes) │ (6 bytes) │ (2 bytes) │ (Variable)   │ (4B)  │
+  └───────────┴───────────┴───────────┴──────────────┴───────┘
+
+  Tagged 802.1Q Ethernet Frame:
+  ┌───────────┬───────────┬───────────────┬───────────┬──────────────┬───────┐
+  │ Dest MAC  │ Src MAC   │ 802.1Q Tag    │ EtherType │ Data Payload │  FCS  │
+  │ (6 bytes) │ (6 bytes) │ (4 bytes)     │ (2 bytes) │ (Variable)   │ (4B)  │
+  └───────────┴───────────┴───────┬───────┴───────────┴──────────────┴───────┘
+                                  │
+          ┌───────────────────────┴────────────────────────┐
+          │ TPID (2 bytes) = 0x8100                        │
+          │ TCI (2 bytes):                                 │
+          │   ├── Priority (3 bits)                        │
+          │   ├── CFI / DEI (1 bit)                        │
+          │   └── VLAN ID (12 bits) -- Supports 4096 VLANs │
+          └────────────────────────────────────────────────┘
+    </pre>
+  </div>
+
+  <!-- Standard Ethernet Frame Structure (IEEE 802.3) -->
+  <div class="section">
+    <h2><b>4.10 IEEE 802.3 Standard Ethernet Frame Format</b></h2>
+    <p>
+      An Ethernet frame consists of several fields that facilitate synchronization, addressing, and payload delivery:
+    </p>
+    <pre>
+  Standard IEEE 802.3 Ethernet Frame Layout:
+  ┌───────────┬───────────┬───────────┬───────────┬───────────┬──────────────┬───────┐
+  │ Preamble  │    SFD    │ Dest MAC  │  Src MAC  │ Len/Type  │ Data Payload │  FCS  │
+  │ (7 bytes) │ (1 byte)  │ (6 bytes) │ (6 bytes) │ (2 bytes) │ (Variable)   │ (4B)  │
+  └───────────┴───────────┴───────────┴───────────┴───────────┴──────────────┴───────┘
+    </pre>
+    <ul>
+      <li><b>Preamble:</b> 7 bytes containing alternating 0s and 1s (pattern <code>10101010</code>).
+        Used by the receiver's physical layer to synchronize clock frequency.</li>
+      <li><b>SFD (Start Frame Delimiter):</b> 1 byte containing the pattern <code>10101011</code>.
+        The last two consecutive 1s alert the receiver that actual frame headers begin in the next byte.</li>
+      <li><b>Destination MAC Address:</b> 6 bytes (48 bits) specifying the recipient device's physical address.</li>
+      <li><b>Source MAC Address:</b> 6 bytes (48 bits) specifying the sender device's physical address.</li>
+      <li><b>Length or Type (EtherType):</b> 2 bytes. If the value is less than 1536 (0x0600), it represents
+        the payload length (IEEE 802.3). If greater or equal, it indicates the network layer protocol
+        (e.g., 0x0800 for IPv4, 0x86DD for IPv6).</li>
+      <li><b>Data (Payload):</b> 46 to 1500 bytes. The minimum payload size is 46 bytes to ensure the frame
+        is at least 64 bytes long (needed for proper CSMA/CD collision detection). If payload is smaller
+        than 46 bytes, padding bytes are appended.</li>
+      <li><b>FCS (Frame Check Sequence):</b> 4 bytes. Contains the CRC-32 remainder value. The receiver
+        recalculates CRC and drops the frame if it does not match.</li>
+    </ul>
+
+    <h3>Error Detection vs. Error Correction Trade-offs</h3>
+    <p>
+      In error control design, there is a trade-off between error detection and error correction:
+    </p>
+    <ul>
+      <li><b>Error Detection (with Retransmission / ARQ):</b> Relies on simple validation codes (like CRC) and
+        retransmitting lost frames.
+        <br><b>Pros:</b> Low header overhead (few redundant bits needed).
+        <br><b>Cons:</b> High latency when errors occur due to round-trip propagation times for retransmission.
+        Best for low-error channels (e.g., fiber, copper).</li>
+      <li><b>Error Correction (Forward Error Correction - FEC):</b> Relies on self-correcting codes (like Hamming codes)
+        where the receiver resolves errors on-the-fly without requesting retransmission.
+        <br><b>Pros:</b> Low latency, no reverse channel needed.
+        <br><b>Cons:</b> High overhead (requires many redundant bits), reducing usable bandwidth.
+        Best for noisy channels (e.g., satellite, deep-space, wireless).</li>
+    </ul>
+  </div>
+
+</body>
+</html>

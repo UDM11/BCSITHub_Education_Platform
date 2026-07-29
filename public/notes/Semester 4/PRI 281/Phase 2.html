@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phase 2: Progress Report & System Design</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Phase 2: Progress Report & System Design</b></h1>
+
+  <!-- Requirements Specification -->
+  <div class="section">
+    <h2><b>2.1 Software Requirements Specification (SRS)</b></h2>
+    <p>
+      During Phase 2, students translate the conceptual framework from Phase 1 into a detailed technical design.
+      The first step is defining the exact requirements of the software system:
+    </p>
+
+    <h3>1. Functional Requirements (FR)</h3>
+    <p>
+      Functional requirements define what the software must do—its inputs, behaviors, and outputs. They represent
+      the core features visible to the user:
+    </p>
+    <ul>
+      <li><b>User Authentication:</b> Users must be able to register, log in, reset passwords, and log out securely.</li>
+      <li><b>Role-Based Access Control (RBAC):</b> Admins see dashboard reports, Doctors edit prescriptions, and Receptionists schedule bookings.</li>
+      <li><b>CRUD Operations:</b> Authorized staff must be able to Create, Read, Update, and Delete patients, appointments, and bills.</li>
+      <li><b>Search & Filtering:</b> Users can filter medical logs by Patient ID, Name, or Date Range.</li>
+      <li><b>Invoice Generation:</b> The system must compile billing transactions and export them as clean, printable PDF invoices.</li>
+    </ul>
+
+    <h3>2. Non-Functional Requirements (NFR)</h3>
+    <p>
+      Non-functional requirements describe how the system performs those functions. They represent operational standards:
+    </p>
+    <table>
+      <tr>
+        <th>NFR Category</th>
+        <th>Standard Target</th>
+        <th>System Specifics</th>
+      </tr>
+      <tr>
+        <td><b>Security</b></td>
+        <td>Zero plaintext storage.</td>
+        <td>Password hashing using bcrypt; session authorization via JWT tokens.</td>
+      </tr>
+      <tr>
+        <td><b>Performance</b></td>
+        <td>Response time &lt; 2 seconds.</td>
+        <td>Database queries optimized with indexes; assets minified for fast loading.</td>
+      </tr>
+      <tr>
+        <td><b>Usability</b></td>
+        <td>Responsive design.</td>
+        <td>Bootstrap or custom CSS grids to support mobile, tablet, and desktop viewports.</td>
+      </tr>
+      <tr>
+        <td><b>Reliability</b></td>
+        <td>99.5% Uptime.</td>
+        <td>Local database backups automated daily; graceful exception handling.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Use Case Modeling & Specifications -->
+  <div class="section">
+    <h2><b>2.2 Use Case Modeling & Specifications</b></h2>
+    <p>
+      Use case diagrams model the interaction between system components (Actors) and system actions (Use Cases).
+      Each major use case must have a written **Use Case Specification** table:
+    </p>
+
+    <div class="note">
+      <h4>Use Case Specification: Book Appointment</h4>
+      <table>
+        <tr>
+          <td><b>Use Case ID:</b></td>
+          <td>UC-03</td>
+        </tr>
+        <tr>
+          <td><b>Use Case Name:</b></td>
+          <td>Book Patient Appointment</td>
+        </tr>
+        <tr>
+          <td><b>Primary Actor:</b></td>
+          <td>Receptionist</td>
+        </tr>
+        <tr>
+          <td><b>Pre-conditions:</b></td>
+          <td>Receptionist is logged in; Patient record already exists in database.</td>
+        </tr>
+        <tr>
+          <td><b>Basic Flow (Step-by-Step):</b></td>
+          <td>
+            1. Receptionist clicks on "Add Appointment."
+            <br>2. System displays search field for Patient ID.
+            <br>3. Receptionist inputs ID and selects Doctor and requested Date/Time.
+            <br>4. System verifies slot availability against Doctor's schedule.
+            <br>5. System confirms slot and saves booking.
+            <br>6. Success notification is shown.
+          </td>
+        </tr>
+        <tr>
+          <td><b>Alternative Flows (Errors):</b></td>
+          <td>
+            4a. Doctor is unavailable at requested slot.
+            <br>  - System shows error: "Doctor Schedule Conflict."
+            <br>  - Receptionist is prompted to select a different date or doctor.
+          </td>
+        </tr>
+        <tr>
+          <td><b>Post-conditions:</b></td>
+          <td>Appointment record is saved in database; the selected time slot is locked.</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Structural and Behavioral Modeling -->
+  <div class="section">
+    <h2><b>2.3 UML Structural and Behavioral Modeling</b></h2>
+    <p>
+      Students must construct standard Unified Modeling Language (UML) diagrams to model class relationships,
+      chronological message flows, and conditional operational states:
+    </p>
+
+    <h3>1. Class Diagram</h3>
+    <p>
+      Represents the static structure of the system by showing classes, attributes, methods, and associations:
+    </p>
+    <pre>
+  ┌──────────────────────────────────┐         ┌──────────────────────────────────┐
+  │             Patient              │         │           Appointment            │
+  ├──────────────────────────────────┤         ├──────────────────────────────────┤
+  │ - patient_id: INT {PK}           │1       *│ - appointment_id: INT {PK}       │
+  │ - name: VARCHAR(100)             │─────────│ - patient_id: INT {FK}           │
+  │ - phone: VARCHAR(15)             │         │ - doctor_id: INT {FK}            │
+  │ - email: VARCHAR(100)            │         │ - date_time: DATETIME            │
+  ├──────────────────────────────────┤         │ - status: VARCHAR(20)            │
+  │ + registerPatient(): Boolean     │         ├──────────────────────────────────┤
+  │ + updateProfile(): Boolean       │         │ + bookSlot(): Boolean            │
+  └──────────────────────────────────┘         │ + cancelSlot(): Boolean          │
+                                               └──────────────────────────────────┘
+    </pre>
+
+    <h3>2. Sequence Diagram</h3>
+    <p>
+      Models the dynamic flow of messages between objects in chronological order:
+    </p>
+    <pre>
+  Receptionist         AppointmentController              Database (MySQL)
+       │                         │                               │
+       │─── bookAppointment() ──►│                               │
+       │                         │─── checkSlotAvailability() ──►│
+       │                         │◄─── [Available / Yes] ────────│
+       │                         │                               │
+       │                         │─── saveAppointmentRecord() ──►│
+       │                         │◄─── [Success / Saved] ────────│
+       │◄── Display Success ─────│                               │
+       │                         │                               │
+    </pre>
+
+    <h3>3. Activity Diagram</h3>
+    <p>
+      Represents the procedural workflow of the system, including decision nodes and concurrent branches.
+    </p>
+  </div>
+
+  <!-- Database Design and Normalization -->
+  <div class="section">
+    <h2><b>2.4 Relational Database Design and Normalization</b></h2>
+    <p>
+      Designing the database is the most critical backend task in Project II. Students must create an
+      Entity-Relationship Diagram (ERD), map it to tables, and normalize those tables to prevent anomalies.
+    </p>
+
+    <h3>Database Normalization Worked Example</h3>
+    <p>
+      Normalization systematically splits tables to eliminate redundant data and update anomalies:
+    </p>
+    <div class="note">
+      <h4>Unnormalized Form (UNF) Table</h4>
+      <p>Suppose a student hostel project records room allocations in this format:</p>
+      <table>
+        <tr>
+          <th>StudentID</th>
+          <th>StudentName</th>
+          <th>RoomNo</th>
+          <th>HostelFee</th>
+          <th>WardenName</th>
+          <th>WardenPhone</th>
+        </tr>
+        <tr>
+          <td>101</td>
+          <td>Umesh Darlami</td>
+          <td>A-2</td>
+          <td>$5,000</td>
+          <td>Ram Prasad</td>
+          <td>9851000111</td>
+        </tr>
+        <tr>
+          <td>102</td>
+          <td>Hari Thapa</td>
+          <td>A-2</td>
+          <td>$5,000</td>
+          <td>Ram Prasad</td>
+          <td>9851000111</td>
+        </tr>
+      </table>
+      <p>
+        <b>Anomalies present:</b> Redundancy (WardenName and Phone are repeated for every student in Room A-2).
+        If Ram Prasad's phone changes, we must edit multiple rows (Update Anomaly). If we delete student 102,
+        we might lose Warden phone details if he was the only student in that block (Delete Anomaly).
+      </p>
+    </div>
+
+    <div class="note">
+      <h4>Converting to First Normal Form (1NF)</h4>
+      <p>Requires that all column values are atomic (no comma-separated lists of phone numbers or items in a single cell). Our initial table satisfies 1NF.</p>
+    </div>
+
+    <div class="note">
+      <h4>Converting to Second Normal Form (2NF)</h4>
+      <p>Requires satisfying 1NF and ensuring that all non-key attributes are fully functionally dependent on the primary key (no partial dependencies where a column depends on only part of a composite primary key).</p>
+    </div>
+
+    <div class="note">
+      <h4>Converting to Third Normal Form (3NF)</h4>
+      <p>Requires satisfying 2NF and ensuring that no transitive dependencies exist (no non-key attribute depends on another non-key attribute).</p>
+      <p>In our hostel table, `WardenName` and `WardenPhone` depend on `RoomNo`, which in turn depends on `StudentID`. This is a transitive dependency:
+        <br>$$\text{StudentID} \to \text{RoomNo} \to \text{WardenName}$$
+        To fix this, we split the table into two separate tables:
+      </p>
+      <p><b>Table 1: Student_Allocation</b></p>
+      <table>
+        <tr>
+          <th>StudentID (PK)</th>
+          <th>StudentName</th>
+          <th>RoomNo (FK)</th>
+        </tr>
+        <tr>
+          <td>101</td>
+          <td>Umesh Darlami</td>
+          <td>A-2</td>
+        </tr>
+        <tr>
+          <td>102</td>
+          <td>Hari Thapa</td>
+          <td>A-2</td>
+        </tr>
+      </table>
+
+      <p><b>Table 2: Room_Warden_Details</b></p>
+      <table>
+        <tr>
+          <th>RoomNo (PK)</th>
+          <th>HostelFee</th>
+          <th>WardenName</th>
+          <th>WardenPhone</th>
+        </tr>
+        <tr>
+          <td>A-2</td>
+          <td>$5,000</td>
+          <td>Ram Prasad</td>
+          <td>9851000111</td>
+        </tr>
+      </table>
+      <p>
+        The tables are now in **3NF**. Redundancy is minimized, and update/deletion anomalies are eliminated.
+      </p>
+    </div>
+  </div>
+
+  <!-- System Architecture -->
+  <div class="section">
+    <h2><b>2.5 Software Architecture Patterns</b></h2>
+    <p>
+      Project II requires implementing a structured software pattern rather than unstructured spaghetti coding:
+    </p>
+
+    <h3>1. Model-View-Controller (MVC) Pattern</h3>
+    <ul>
+      <li><b>Model:</b> Manages the business data, schema definitions, and direct database queries (e.g., MySQL schemas or ORM models).</li>
+      <li><b>View:</b> The user interface presentation layer (HTML pages, CSS sheets, client-side JS views).</li>
+      <li><b>Controller:</b> The logical brain. Resolves incoming requests, queries the model, and passes the parsed data to the view.</li>
+    </ul>
+
+    <h3>2. Three-Tier System Architecture</h3>
+    <pre>
+  ┌─────────────────────────────────────────┐
+  │   Presentation Layer (HTML, CSS, JS)     │  &lt;-- Client Web Browser
+  └────────────────────┬────────────────────┘
+                       │ HTTP Request / Response
+  ┌────────────────────▼────────────────────┐
+  │   Business Logic Layer (NodeJS/Express)  │  &lt;-- Application Server
+  └────────────────────┬────────────────────┘
+                       │ SQL Query / Data Stream
+  ┌────────────────────▼────────────────────┐
+  │       Data Layer (MySQL / PostgreSQL)   │  &lt;-- Database Engine
+  └─────────────────────────────────────────┘
+    </pre>
+  </div>
+
+  <!-- Sample Progress Report Template -->
+  <div class="section">
+    <h2><b>2.6 Sample Mid-Term Progress Report Template</b></h2>
+    <p>
+      Below is a professional, complete sample progress report that students can customize for submission:
+    </p>
+
+    <div class="note">
+      <h3><b>MID-TERM PROGRESS REPORT ON CLINIC MANAGEMENT SYSTEM (MEDCARE)</b></h3>
+      <p><b>Date:</b> July 2026</p>
+      <p><b>Submitted By:</b> Umesh Darlami & Team</p>
+      <hr>
+
+      <h4>1. Work Completed So Far</h4>
+      <p>
+        Since the approval of our project proposal, our team has completed the following milestones:
+        <br>- <b>Requirements Elicitation:</b> Compiled the Software Requirements Specification (SRS) listing 12 functional and 5 non-functional requirements.
+        <br>- <b>UML Design:</b> Completed the Use Case diagrams, Class diagrams, and Sequence diagrams mapping receptionist registration flows.
+        <br>- <b>Database Setup:</b> Designed the ERD, converted it into relational schemas, and normalized the structure to 3NF. Tables were created in MySQL.
+        <br>- <b>Frontend Base:</b> Designed the dashboard layout using mobile-responsive CSS grids and navigation panels.
+        <br>- <b>Backend Base:</b> Set up the Node.js development server, configured Express routing, and established the database connection pool.
+      </p>
+
+      <h4>2. Database Schema DDL Scripts</h4>
+      <pre>
+  -- Creation of Patients table
+  CREATE TABLE patients (
+      patient_id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(100) NOT NULL,
+      phone VARCHAR(15) UNIQUE NOT NULL,
+      email VARCHAR(100),
+      dob DATE NOT NULL,
+      gender ENUM('Male', 'Female', 'Other') NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+
+  -- Creation of Appointments table
+  CREATE TABLE appointments (
+      appointment_id INT AUTO_INCREMENT PRIMARY KEY,
+      patient_id INT NOT NULL,
+      doctor_id INT NOT NULL,
+      date_time DATETIME NOT NULL,
+      status ENUM('Scheduled', 'Completed', 'Cancelled') DEFAULT 'Scheduled',
+      FOREIGN KEY (patient_id) REFERENCES patients(patient_id) ON DELETE CASCADE
+  );
+      </pre>
+
+      <h4>3. Remaining Work</h4>
+      <p>
+        The remaining tasks to be completed before the final defense include:
+        <br>1. Connecting the Appointment booking frontend form to Node Express API routes.
+        <br>2. Setting up JWT authentication cookies for secure Doctor logins.
+        <br>3. Implementing the printable HTML-to-PDF invoice rendering engine.
+        <br>4. Conducting Jest integration tests and black-box validations.
+        <br>5. Writing the final Project II Report chapters.
+      </p>
+
+      <h4>4. Encountered Challenges & Solutions</h4>
+      <p>
+        During database design, we encountered a double-booking schedule issue where multiple receptionists could book
+        the same doctor at the same slot. To solve this, we implemented a composite unique constraint in MySQL on
+        `(doctor_id, date_time)`, forcing database-level prevention of scheduling conflicts.
+      </p>
+    </div>
+  </div>
+
+  <!-- BCNF Normalization Details -->
+  <div class="section">
+    <h2><b>2.7 Boyce-Codd Normal Form (BCNF) Analysis</b></h2>
+    <p>
+      <b>Boyce-Codd Normal Form (BCNF)</b> is an extension of Third Normal Form (3NF), often referred to as 3.5NF.
+      A table is in BCNF if and only if:
+      <br>For every non-trivial functional dependency $X \to Y$, **$X$ is a super key** (a primary key or candidate key).
+    </p>
+    <div class="note">
+      <h4>BCNF Violation and Decomposition Case Study</h4>
+      <p><b>Scenario:</b> A clinic stores doctor specialization details:
+        <br>- Table: <code>Doctor_Specialty(PatientID, Area, DoctorName)</code>
+        <br>- Assumptions:
+        <br>1. A patient can consult multiple doctors, but only one doctor per medical specialty (Area).
+        <br>2. A doctor can only practice in one specialty (Area).
+        <br>
+        <br>Functional Dependencies:
+        <br>1. <code>(PatientID, Area) -> DoctorName</code> (Candidate Key is `(PatientID, Area)`)
+        <br>2. <code>DoctorName -> Area</code> (Since each doctor has only one specialty)
+      </p>
+      <p><b>The Problem:</b>
+        In dependency 2 (<code>DoctorName -> Area</code>), the determinant `DoctorName` is NOT a candidate key/super key
+        because a doctor can treat multiple patients. This violates BCNF!
+      </p>
+      <p><b>Solution (Decomposition):</b>
+        We decompose the table into two tables to satisfy BCNF:
+        <br>1. <code>Doctor_Area(DoctorName {PK}, Area)</code>
+        <br>2. <code>Patient_Consultation(PatientID {PK}, DoctorName {FK})</code>
+        Now, in both tables, the determinants are super keys, and no BCNF violation exists.
+      </p>
+    </div>
+  </div>
+
+  <!-- REST API endpoint matrix -->
+  <div class="section">
+    <h2><b>2.8 RESTful API Route Mapping</b></h2>
+    <p>
+      During system design, the communication interface between frontend and backend must be mapped in detail:
+    </p>
+    <table>
+      <tr>
+        <th>Method</th>
+        <th>Endpoint</th>
+        <th>Request Body (JSON)</th>
+        <th>Expected Response (Success)</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td><b>POST</b></td>
+        <td><code>/api/auth/register</code></td>
+        <td><code>{ "username", "email", "password" }</code></td>
+        <td><code>201 Created</code></td>
+        <td>Register a new user account.</td>
+      </tr>
+      <tr>
+        <td><b>POST</b></td>
+        <td><code>/api/auth/login</code></td>
+        <td><code>{ "email", "password" }</code></td>
+        <td><code>200 OK + JWT Cookie</code></td>
+        <td>Authenticate user and generate token.</td>
+      </tr>
+      <tr>
+        <td><b>GET</b></td>
+        <td><code>/api/patients</code></td>
+        <td><i>None</i></td>
+        <td><code>200 OK [ { patient_data } ]</code></td>
+        <td>Fetch list of all patients (authorized).</td>
+      </tr>
+      <tr>
+        <td><b>POST</b></td>
+        <td><code>/api/appointments</code></td>
+        <td><code>{ "patient_id", "doctor_id", "date_time" }</code></td>
+        <td><code>201 Created</code></td>
+        <td>Create a new appointment.</td>
+      </tr>
+      <tr>
+        <td><b>DELETE</b></td>
+        <td><code>/api/patients/:id</code></td>
+        <td><i>None</i></td>
+        <td><code>200 OK { "deleted": true }</code></td>
+        <td>Delete patient record (Admin only).</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- UI/UX layout principles -->
+  <div class="section">
+    <h2><b>2.9 UI/UX Design and Wireframing Principles</b></h2>
+    <p>
+      Designing clean, functional user interfaces is crucial for project adoption and reports:
+    </p>
+    <ul>
+      <li><b>Wireframe Levels:</b>
+        <br>- *Low-Fidelity:* Hand-drawn sketches on paper mapping layout blocks and page flows quickly.
+        <br>- *Mid-Fidelity:* Digital blocks (using Balsamiq or Figma) showing input placement, buttons, and titles without detailed styling.
+        <br>- *High-Fidelity:* Complete UI mockups with exact colors, typography, real text, and clickable transitions.
+      </li>
+      <li><b>UI Guidelines:</b>
+        <br>- *Consistency:* Keep headers, sidebars, buttons, and font sizes matching across all user role dashboards.
+        <br>- *Color Strategy:* Use soft neutral backgrounds (white/light gray) with a single distinct primary brand color (e.g., deep blue or teal) and semantic indicators (green for success, orange/red for errors/warnings).
+        <br>- *Alerts & Feedback:* Always display toast messages or notifications when users complete operations (e.g., "Patient Saved successfully").
+      </li>
+    </ul>
+    <h3>3. Recommended Prototyping Tools</h3>
+    <ul>
+      <li><b>Figma (Recommended):</b> A collaborative web-based design tool widely used for vector graphics, UI wireframing, and interactive prototyping.</li>
+      <li><b>Balsamiq Mockups:</b> Excellent for low-to-mid-fidelity wireframing due to its hand-drawn sketch style that focuses on content structure over color.</li>
+    </ul>
+    <p>
+      <b>UI Design Checklist:</b>
+      <br>1. *Whitespace:* Ensure adequate breathing room (padding/margin) around text blocks.
+      <br>2. *Contrast:* Text color must contrast strongly with background color to ensure readability.
+    </p>
+  </div>
+
+</body>
+</html>

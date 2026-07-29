@@ -27,7 +27,7 @@ const semesters = [
     label: '4th Semester', 
     subjects: 6, 
     notes: 41, 
-    available: false, 
+    available: true, 
     color: 'from-pink-500 to-rose-500',
     subjectList: [
       'Computer Architecture and Microprocessor',

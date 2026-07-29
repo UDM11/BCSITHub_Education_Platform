@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 11: Concept of Software Re-engineering</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 11: Concept of Software Re-engineering [3 Hrs.]</b></h1>
+
+  <!-- 11.1 Steps in Re-engineering -->
+  <div class="section">
+    <h2><b>11.1 Steps in Re-engineering</b></h2>
+
+    <h3>What is Software Re-engineering?</h3>
+    <p>
+      <b>Software re-engineering</b> is the examination and alteration of a system to reconstitute
+      it in a new form. It takes an existing system and re-implements it to improve
+      maintainability, performance, or evolve it to meet new requirements.
+      Re-engineering is different from building new software — it starts with an
+      existing legacy system.
+    </p>
+
+    <h3>When is Re-engineering Needed?</h3>
+    <ul>
+      <li>The system is still useful but maintenance costs are escalating</li>
+      <li>The technology stack is obsolete (old languages, platforms, databases)</li>
+      <li>The system has poor documentation and is difficult to understand</li>
+      <li>The architecture cannot accommodate new requirements</li>
+      <li>Performance has degraded over years of patches and modifications</li>
+      <li>Security vulnerabilities cannot be adequately addressed</li>
+      <li>Integration with modern systems is difficult or impossible</li>
+      <li>The cost of maintaining the system exceeds the cost of re-engineering</li>
+    </ul>
+
+    <h3>Steps in the Re-engineering Process</h3>
+    <ol>
+      <li><b>Inventory Analysis:</b>
+        <ul>
+          <li>Catalog all existing applications in the organization</li>
+          <li>Assess each application's business value, technical quality, and maintenance history</li>
+          <li>Prioritize applications for re-engineering based on business criticality and condition</li>
+          <li>Create a cost-benefit analysis for re-engineering vs. replacement</li>
+        </ul>
+      </li>
+      <li><b>Document Restructuring:</b>
+        <ul>
+          <li>Review existing documentation; update where outdated or missing</li>
+          <li>Create documentation for undocumented aspects of the system</li>
+          <li>Organize documentation in a standardized format</li>
+          <li>Consider automated documentation generation tools</li>
+        </ul>
+      </li>
+      <li><b>Reverse Engineering:</b>
+        <ul>
+          <li>Analyze the existing source code to understand its structure and behavior</li>
+          <li>Extract design information from the code</li>
+          <li>Create design models (class diagrams, sequence diagrams, DFDs) from the existing code</li>
+          <li>Understand the data structures and database schema</li>
+        </ul>
+      </li>
+      <li><b>Code Restructuring:</b>
+        <ul>
+          <li>Analyze and restructure the existing source code</li>
+          <li>Apply coding standards and best practices</li>
+          <li>Remove dead code, redundant code, and spaghetti code</li>
+          <li>Improve variable naming, function decomposition, and modularity</li>
+        </ul>
+      </li>
+      <li><b>Data Restructuring:</b>
+        <ul>
+          <li>Analyze existing data architecture</li>
+          <li>Normalize database schema if needed</li>
+          <li>Migrate data to new formats or databases</li>
+          <li>Clean and validate data during migration</li>
+        </ul>
+      </li>
+      <li><b>Forward Engineering:</b>
+        <ul>
+          <li>Using the recovered design information, build the new system</li>
+          <li>Implement using modern technologies, languages, and frameworks</li>
+          <li>Apply current best practices in design and architecture</li>
+          <li>Test thoroughly to ensure functional equivalence with the old system</li>
+        </ul>
+      </li>
+    </ol>
+
+    <pre>
+  Re-engineering Process Flow:
+
+  Existing          Inventory    Document     Reverse      Code        Data         Forward      New
+  Legacy    ──→     Analysis ──→ Restructuring──→ Engineering──→ Restructuring──→ Restructuring──→ Engineering ──→ System
+  System                                                                                        
+    </pre>
+  </div>
+
+  <!-- 11.2 Re-engineering Process and Process Models -->
+  <div class="section">
+    <h2><b>11.2 Re-engineering Process and Process Models</b></h2>
+
+    <h3>Re-engineering Process Model</h3>
+    <p>
+      The re-engineering process model defines a sequence of activities for
+      transforming an existing system. The process is cyclical and may require
+      multiple iterations:
+    </p>
+
+    <pre>
+  ┌─────────────────────────────────────────────────┐
+  │                                                 │
+  │   ┌───────────┐     ┌───────────┐              │
+  │   │ Reverse   │────→│ Forward   │              │
+  │   │Engineering│     │Engineering│              │
+  │   └───────────┘     └───────────┘              │
+  │        ↑                   │                    │
+  │        │                   ↓                    │
+  │   ┌───────────┐     ┌───────────┐              │
+  │   │  Code     │←────│  Testing  │              │
+  │   │Restructure│     │& Validation│              │
+  │   └───────────┘     └───────────┘              │
+  │                                                 │
+  │        Re-engineering Cycle                     │
+  └─────────────────────────────────────────────────┘
+    </pre>
+
+    <h3>Re-engineering Approaches</h3>
+    <table>
+      <tr>
+        <th>Approach</th>
+        <th>Description</th>
+        <th>Risk Level</th>
+        <th>Cost</th>
+      </tr>
+      <tr>
+        <td>Big Bang</td>
+        <td>Replace the entire system at once</td>
+        <td>Very High</td>
+        <td>High upfront</td>
+      </tr>
+      <tr>
+        <td>Incremental</td>
+        <td>Replace the system piece by piece over time</td>
+        <td>Moderate</td>
+        <td>Spread over time</td>
+      </tr>
+      <tr>
+        <td>Strangler Fig Pattern</td>
+        <td>Gradually replace parts while both old and new run side by side</td>
+        <td>Low</td>
+        <td>Moderate</td>
+      </tr>
+      <tr>
+        <td>Wrapping</td>
+        <td>Wrap the legacy system with a new interface without changing internals</td>
+        <td>Low</td>
+        <td>Low</td>
+      </tr>
+    </table>
+
+    <h3>Re-engineering vs. Other Activities</h3>
+    <table>
+      <tr>
+        <th>Activity</th>
+        <th>Definition</th>
+        <th>Scope</th>
+      </tr>
+      <tr>
+        <td>Maintenance</td>
+        <td>Fixing bugs, adapting to environment changes, adding small features</td>
+        <td>Small, incremental changes</td>
+      </tr>
+      <tr>
+        <td>Refactoring</td>
+        <td>Improving internal code structure without changing external behavior</td>
+        <td>Code-level improvements</td>
+      </tr>
+      <tr>
+        <td>Re-engineering</td>
+        <td>Comprehensive examination and reconstruction of the system</td>
+        <td>System-level transformation</td>
+      </tr>
+      <tr>
+        <td>Replacement</td>
+        <td>Building an entirely new system from scratch</td>
+        <td>Complete new development</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 11.3 Forward Engineering, Reverse Engineering -->
+  <div class="section">
+    <h2><b>11.3 Forward Engineering and Reverse Engineering Process</b></h2>
+
+    <h3>Forward Engineering</h3>
+    <p>
+      <b>Forward engineering</b> is the traditional process of moving from high-level
+      abstractions and logical, implementation-independent designs to the physical
+      implementation of a system. It follows the natural flow:
+    </p>
+    <pre>
+  Requirements → Analysis → Design → Implementation → Testing → Deployment
+
+  Forward Engineering = Taking recovered design and building new system
+    </pre>
+
+    <h3>Reverse Engineering</h3>
+    <p>
+      <b>Reverse engineering</b> is the process of analyzing a system to identify the
+      system's components and their interrelationships, and to create representations
+      of the system in another form or at a higher level of abstraction.
+      It is essentially the opposite of forward engineering:
+    </p>
+    <pre>
+  Source Code → Design Recovery → Architecture Recovery → Requirements Recovery
+
+  Reverse Engineering = Analyzing existing system to recover design knowledge
+    </pre>
+
+    <h3>Types of Reverse Engineering</h3>
+    <ul>
+      <li><b>Code-Level Reverse Engineering:</b>
+        <ul>
+          <li>Analyzing source code to understand logic, algorithms, and data structures</li>
+          <li>Generating flowcharts or pseudocode from source code</li>
+          <li>Identifying design patterns used in the code</li>
+        </ul>
+      </li>
+      <li><b>Data Reverse Engineering:</b>
+        <ul>
+          <li>Analyzing database schemas to understand data relationships</li>
+          <li>Creating ER diagrams from existing database structures</li>
+          <li>Understanding data transformations and business rules embedded in data</li>
+        </ul>
+      </li>
+      <li><b>Architecture-Level Reverse Engineering:</b>
+        <ul>
+          <li>Understanding the overall system architecture from code and configuration</li>
+          <li>Identifying modules, components, and their interactions</li>
+          <li>Creating component diagrams, deployment diagrams</li>
+        </ul>
+      </li>
+      <li><b>Process Reverse Engineering:</b>
+        <ul>
+          <li>Understanding the business processes implemented by the software</li>
+          <li>Recovering business rules from code</li>
+          <li>Creating process flow diagrams</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Reverse Engineering Tools</h3>
+    <table>
+      <tr>
+        <th>Tool Category</th>
+        <th>Purpose</th>
+        <th>Examples</th>
+      </tr>
+      <tr>
+        <td>Static Analysis Tools</td>
+        <td>Analyze source code without executing it</td>
+        <td>SonarQube, PMD, Checkstyle, Understand</td>
+      </tr>
+      <tr>
+        <td>Dynamic Analysis Tools</td>
+        <td>Analyze code during execution</td>
+        <td>Profilers, debuggers, trace tools</td>
+      </tr>
+      <tr>
+        <td>UML Generation Tools</td>
+        <td>Generate UML diagrams from source code</td>
+        <td>Enterprise Architect, Visual Paradigm, Doxygen</td>
+      </tr>
+      <tr>
+        <td>Database Reverse Engineering</td>
+        <td>Generate ER diagrams from database schemas</td>
+        <td>MySQL Workbench, pgModeler, DbVisualizer</td>
+      </tr>
+      <tr>
+        <td>Decompilers</td>
+        <td>Convert binary code back to source code</td>
+        <td>JD-GUI (Java), dnSpy (.NET), Ghidra (binary)</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 11.4 Characteristics of Forward and Reverse Engineering -->
+  <div class="section">
+    <h2><b>11.4 Characteristics of Forward and Reverse Engineering</b></h2>
+
+    <table>
+      <tr>
+        <th>Characteristic</th>
+        <th>Forward Engineering</th>
+        <th>Reverse Engineering</th>
+      </tr>
+      <tr>
+        <td>Direction</td>
+        <td>High-level abstraction → Implementation</td>
+        <td>Implementation → High-level abstraction</td>
+      </tr>
+      <tr>
+        <td>Starting Point</td>
+        <td>Requirements/Design documents</td>
+        <td>Existing source code/system</td>
+      </tr>
+      <tr>
+        <td>Output</td>
+        <td>Working software system</td>
+        <td>Design documents, models, specifications</td>
+      </tr>
+      <tr>
+        <td>Goal</td>
+        <td>Build a new system</td>
+        <td>Understand an existing system</td>
+      </tr>
+      <tr>
+        <td>When Used</td>
+        <td>New development, re-engineering (reconstruction phase)</td>
+        <td>Legacy system analysis, re-engineering (understanding phase)</td>
+      </tr>
+      <tr>
+        <td>Creativity</td>
+        <td>High (creating new solutions)</td>
+        <td>Analytical (discovering existing solutions)</td>
+      </tr>
+      <tr>
+        <td>Documentation</td>
+        <td>Documentation drives development</td>
+        <td>Development artifacts are analyzed to create documentation</td>
+      </tr>
+    </table>
+
+    <pre>
+  Forward vs. Reverse Engineering:
+
+  Forward Engineering:
+  Requirements ──→ Design ──→ Code ──→ Testing ──→ System
+  (Abstract)                                     (Concrete)
+
+  Reverse Engineering:
+  System ──→ Code Analysis ──→ Design Recovery ──→ Requirements Recovery
+  (Concrete)                                     (Abstract)
+
+  Re-engineering = Reverse Engineering + Forward Engineering
+    </pre>
+  </div>
+
+  <!-- 11.5 Restructuring -->
+  <div class="section">
+    <h2><b>11.5 Restructuring</b></h2>
+
+    <h3>What is Restructuring?</h3>
+    <p>
+      <b>Restructuring</b> is the transformation of code from one form to another at the
+      same relative level of abstraction, while preserving the subject system's external
+      behavior (functionality and semantics). Restructuring is a subset of re-engineering
+      that focuses on modifying the code's structure without changing its function.
+    </p>
+
+    <h3>Types of Restructuring</h3>
+
+    <h4>1. Code Restructuring</h4>
+    <ul>
+      <li>Converting spaghetti code to structured code</li>
+      <li>Replacing GOTO statements with structured control flow</li>
+      <li>Extracting methods/functions from long procedures</li>
+      <li>Renaming variables for clarity</li>
+      <li>Removing dead code and unreachable code</li>
+      <li>Simplifying complex conditional expressions</li>
+      <li>Applying coding standards consistently</li>
+    </ul>
+
+    <h4>2. Data Restructuring</h4>
+    <ul>
+      <li>Normalizing database tables to reduce redundancy</li>
+      <li>Converting flat files to relational databases</li>
+      <li>Changing data types for better precision or performance</li>
+      <li>Reorganizing data structures for better access patterns</li>
+      <li>Migrating from one database system to another</li>
+    </ul>
+
+    <h4>3. Architecture Restructuring</h4>
+    <ul>
+      <li>Decomposing monolithic applications into modular components</li>
+      <li>Moving from client-server to web-based architecture</li>
+      <li>Transitioning from monolith to microservices</li>
+      <li>Introducing layers (presentation, business logic, data access)</li>
+      <li>Implementing design patterns to improve structure</li>
+    </ul>
+
+    <h3>Benefits of Restructuring</h3>
+    <ul>
+      <li>Improved readability and understandability</li>
+      <li>Reduced complexity (lower cyclomatic complexity)</li>
+      <li>Easier maintenance and modification</li>
+      <li>Better testability</li>
+      <li>Reduced technical debt</li>
+      <li>Improved performance (in some cases)</li>
+    </ul>
+  </div>
+
+  <!-- 11.6 & 11.8 Economics of Re-engineering -->
+  <div class="section">
+    <h2><b>11.6 The Economy of Re-engineering</b></h2>
+
+    <h3>Cost-Benefit Analysis</h3>
+    <p>
+      Before deciding to re-engineer a system, organizations must evaluate whether
+      the investment is justified. The decision framework considers:
+    </p>
+
+    <table>
+      <tr>
+        <th>Factor</th>
+        <th>Re-engineer</th>
+        <th>Replace (New Development)</th>
+      </tr>
+      <tr>
+        <td>Cost</td>
+        <td>Typically 30-70% of replacement cost</td>
+        <td>Full development cost</td>
+      </tr>
+      <tr>
+        <td>Time</td>
+        <td>Generally faster than replacement</td>
+        <td>Longer development timeline</td>
+      </tr>
+      <tr>
+        <td>Risk</td>
+        <td>Lower (existing business rules are preserved)</td>
+        <td>Higher (may miss critical business rules)</td>
+      </tr>
+      <tr>
+        <td>Business Rules</td>
+        <td>Preserved from existing system</td>
+        <td>Must be rediscovered and reimplemented</td>
+      </tr>
+      <tr>
+        <td>Quality</td>
+        <td>Improved but may carry some legacy issues</td>
+        <td>Can be designed for optimal quality</td>
+      </tr>
+      <tr>
+        <td>Technology</td>
+        <td>Can modernize incrementally</td>
+        <td>Can use latest technology throughout</td>
+      </tr>
+    </table>
+
+    <h3>When to Re-engineer vs. Replace</h3>
+    <ul>
+      <li><b>Re-engineer when:</b>
+        <ul>
+          <li>The system has significant business value that cannot be easily replicated</li>
+          <li>The core business logic is sound but the technology is outdated</li>
+          <li>The risk of replacement is too high (mission-critical systems)</li>
+          <li>Budget constraints prevent full replacement</li>
+          <li>The system must remain operational during the transition</li>
+        </ul>
+      </li>
+      <li><b>Replace when:</b>
+        <ul>
+          <li>The system architecture is fundamentally flawed</li>
+          <li>The business requirements have changed so drastically that the existing system is irrelevant</li>
+          <li>The technology stack is completely obsolete with no migration path</li>
+          <li>Re-engineering costs would approach or exceed replacement costs</li>
+          <li>A suitable commercial off-the-shelf (COTS) product exists</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 11.7 Software Reuse -->
+  <div class="section">
+    <h2><b>11.7 Software Reuse</b></h2>
+
+    <h3>What is Software Reuse?</h3>
+    <p>
+      <b>Software reuse</b> is the process of using existing software artifacts — code,
+      design, specifications, documentation — in the development of new software.
+      Reuse is a fundamental strategy for reducing development cost, improving quality,
+      and accelerating time-to-market.
+    </p>
+
+    <h3>Levels of Software Reuse</h3>
+    <table>
+      <tr>
+        <th>Level</th>
+        <th>What is Reused</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>Code Reuse</td>
+        <td>Functions, classes, modules, libraries</td>
+        <td>Using jQuery library, Apache Commons</td>
+      </tr>
+      <tr>
+        <td>Component Reuse</td>
+        <td>Self-contained software components</td>
+        <td>Using a PDF generation component, payment gateway SDK</td>
+      </tr>
+      <tr>
+        <td>Design Pattern Reuse</td>
+        <td>Proven design solutions (patterns)</td>
+        <td>Using MVC pattern, Singleton pattern</td>
+      </tr>
+      <tr>
+        <td>Architecture Reuse</td>
+        <td>System architecture and frameworks</td>
+        <td>Using Spring Framework, Django, React</td>
+      </tr>
+      <tr>
+        <td>Application Reuse</td>
+        <td>Entire applications or application families</td>
+        <td>Using WordPress as a CMS, configuring ERP systems</td>
+      </tr>
+      <tr>
+        <td>Knowledge Reuse</td>
+        <td>Domain knowledge, requirements, test cases</td>
+        <td>Reusing requirements templates, test case libraries</td>
+      </tr>
+    </table>
+
+    <h3>Benefits of Software Reuse</h3>
+    <ul>
+      <li><b>Reduced development cost:</b> Don't build what already exists</li>
+      <li><b>Improved quality:</b> Reused components have been tested and proven</li>
+      <li><b>Faster development:</b> Assemble from existing components rather than building from scratch</li>
+      <li><b>Reduced risk:</b> Using proven components reduces technical uncertainty</li>
+      <li><b>Standardization:</b> Promotes consistency across applications</li>
+    </ul>
+
+    <h3>Barriers to Software Reuse</h3>
+    <ul>
+      <li><b>Not-Invented-Here (NIH) syndrome:</b> Developers prefer to build from scratch</li>
+      <li><b>Cost of making components reusable:</b> Creating truly reusable components
+        requires additional design effort (estimated 3-5x more than single-use)</li>
+      <li><b>Finding reusable components:</b> Lack of catalogs and repositories</li>
+      <li><b>Trust:</b> Reluctance to use components built by others</li>
+      <li><b>Maintenance:</b> Who maintains reusable components when bugs are found?</li>
+      <li><b>Licensing:</b> Legal issues with third-party components</li>
+    </ul>
+
+    <div class="note">
+      <b>Summary:</b> Software re-engineering is a disciplined approach to modernizing
+      legacy systems through reverse engineering (understanding), restructuring (improving),
+      and forward engineering (rebuilding). It offers a cost-effective alternative to
+      complete replacement while preserving valuable business logic. Software reuse
+      is a key strategy for reducing costs and improving quality, but requires
+      organizational commitment and investment in reusable component infrastructure.
+    </div>
+  </div>
+
+</body>
+</html>

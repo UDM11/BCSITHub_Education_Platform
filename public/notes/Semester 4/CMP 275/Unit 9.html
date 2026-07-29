@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 9: Pipelining - Comprehensive Notes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0px;
+    }
+    h1 {
+        text-align: center;
+        color: #0f172a;
+        font-size: 20pt;
+        font-weight: bold;
+        margin-bottom: 40px;
+        border-bottom: 3px double #cbd5e1;
+        padding-bottom: 15px;
+    }
+    h2 {
+      color: #1e3a8a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 30px;
+      font-size: 15pt;
+    }
+    h3 {
+      color: #2563eb;
+      font-size: 13pt;
+      margin-top: 20px;
+    }
+    .section {
+      background: #ffffff;
+      padding: 30px;
+      margin-bottom: 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 25px;
+    }
+    li {
+      margin-bottom: 12px;
+    }
+    pre {
+      background-color: #0f172a;
+      color: #38bdf8;
+      padding: 20px;
+      overflow-x: auto;
+      border-radius: 8px;
+      font-size: 11pt;
+      margin: 20px 0;
+      font-family: Consolas, Monaco, monospace;
+      border-left: 4px solid #3b82f6;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      background-color: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #0f172a;
+    }
+    pre code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+      color: inherit;
+    }
+    .highlight {
+      background-color: #fef08a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .diagram-container {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .table-container {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 11pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .note-box {
+      background-color: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px; }
+      .section { padding: 20px; }
+      pre { font-size: 10pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 9: Pipelining [4 Hours] - Detailed Study Guide</b></h1>
+
+  <div class="section">
+    <h2><b>9.1 Pipelining Performance and Flynn's Classification</b></h2>
+    <p><b>Pipelining</b> is a technique of decomposing a sequential process into sub-operations, with each sub-operation being executed in a dedicated segment that operates concurrently with all other segments. It allows multiple instructions to overlap in execution, increasing instruction throughput.</p>
+
+    <h3><b>Pipelining Performance Formulas:</b></h3>
+    <p>Consider a <b>k-segment</b> pipeline with clock cycle time <b>tp</b>. To execute <b>n</b> tasks:</p>
+    <ul>
+      <li><b>Time in Pipeline (Tp):</b> <code>Tp = (k + n - 1) * tp</code></li>
+      <li><b>Time in Non-Pipeline (Tn):</b> <code>Tn = n * tn</code> (where tn is the time to execute a single task sequentially).</li>
+      <li><b>Speedup Ratio (S):</b> <code>S = Tn / Tp = (n * tn) / ((k + n - 1) * tp)</code></li>
+      <li>As <b>n</b> becomes very large (approaches infinity), the Speedup approaches the theoretical maximum: <code>S_max = tn / tp</code>. If tn = k * tp, then maximum speedup is exactly <b>k</b> (the number of pipeline segments).</li>
+    </ul>
+
+    <h3><b>Flynn's Classification of Computer Systems:</b></h3>
+    <p>Flynn's taxonomy classifies computers into four categories based on the number of concurrent instruction streams and data streams:</p>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Hardware Structure</th>
+            <th>Examples</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>SISD</b></td>
+            <td>Single Instruction Stream, Single Data Stream</td>
+            <td>Single CU, Single ALU. Serial execution.</td>
+            <td>Traditional uniprocessor systems (Intel 8085).</td>
+          </tr>
+          <tr>
+            <td><b>SIMD</b></td>
+            <td>Single Instruction Stream, Multiple Data Stream</td>
+            <td>Single CU, Multiple ALUs. Same instruction processes different data.</td>
+            <td>Vector/Array Processors, GPUs (Graphics Processing Units).</td>
+          </tr>
+          <tr>
+            <td><b>MISD</b></td>
+            <td>Multiple Instruction Stream, Single Data Stream</td>
+            <td>Multiple CUs, Single ALU. Multiple instructions process same data.</td>
+            <td>Rarely implemented (mainly used for fault-tolerant systems).</td>
+          </tr>
+          <tr>
+            <td><b>MIMD</b></td>
+            <td>Multiple Instruction Stream, Multiple Data Stream</td>
+            <td>Multiple CUs, Multiple ALUs. Independent parallel execution.</td>
+            <td>Multi-core CPUs, distributed clusters, supercomputers.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><b>9.2 Arithmetic Pipeline</b></h2>
+    <p>Arithmetic pipelines decompose arithmetic operations (like floating-point addition/multiplication) into sub-operations that can be pipelined.</p>
+
+    <h3><b>Floating-Point Addition and Subtraction Pipeline:</b></h3>
+    <p>Floating-point operations are performed on numbers of the form <code>X = A * 2^a</code> and <code>Y = B * 2^b</code>. The operation consists of 4 segments:</p>
+    <div class="diagram-container">
+[Input X, Y] ---> [ Segment 1: Compare Exponents ]
+                           |
+                           v
+                  [ Segment 2: Align Mantissas ]
+                           |
+                           v
+                  [ Segment 3: Add/Subtract Mantissas ]
+                           |
+                           v
+                  [ Segment 4: Normalize Result ] ---> [Output]
+    </div>
+
+    <h3><b>Detailed Arithmetic Pipeline Step Example:</b></h3>
+    <p>Let's add <code>X = 0.95 * 10^3</code> and <code>Y = 0.82 * 10^2</code>:</p>
+    <ul>
+      <li><b>Segment 1 (Compare Exponents):</b> The exponents are 3 and 2. The difference is <code>3 - 2 = 1</code>.</li>
+      <li><b>Segment 2 (Align Mantissas):</b> Shift the mantissa of Y right by 1 position to match exponents. Y becomes <code>0.082 * 10^3</code>.</li>
+      <li><b>Segment 3 (Add Mantissas):</b> Add the aligned mantissas: <code>0.95 + 0.082 = 1.032</code>. Temporary result: <code>1.032 * 10^3</code>.</li>
+      <li><b>Segment 4 (Normalize Result):</b> Shift the mantissa right by 1 position and increment the exponent to maintain standard form. Final result: <code>0.1032 * 10^4</code>.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><b>9.3 Instruction Pipeline</b></h2>
+    <p>An Instruction Pipeline executes stream instructions by overlapping the fetch, decode, and execute phases of different instructions. A typical <b>4-Segment Instruction Pipeline</b> consists of:</p>
+    <ol>
+      <li><b>FI (Fetch Instruction):</b> Fetches the next instruction from memory.</li>
+      <li><b>DA (Decode Instruction and calculate effective address):</b> Decodes opcode and evaluates the operand address.</li>
+      <li><b>FO (Fetch Operand):</b> Fetches the operand from RAM.</li>
+      <li><b>EX (Execute):</b> Performs the operation and writes back results.</li>
+    </ol>
+
+    <h3><b>Timing Diagram of a 4-Segment Instruction Pipeline:</b></h3>
+    <div class="diagram-container">
+   Clock Cycle:    1    2    3    4    5    6    7    8
+   Instruction 1: [FI][DA][FO][EX]
+   Instruction 2:     [FI][DA][FO][EX]
+   Instruction 3:         [FI][DA][FO][EX]
+   Instruction 4:             [FI][DA][FO][EX]
+   Instruction 5:                 [FI][DA][FO][EX]
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><b>9.4 Pipeline Hazards and Mitigation</b></h2>
+    <p>Pipeline hazards are situations that prevent the next instruction in the instruction stream from executing in its designated clock cycle. Hazards reduce pipeline efficiency.</p>
+
+    <h3><b>1. Structural Hazards (Resource Conflicts):</b></h3>
+    <p>Occur when two instructions in the pipeline require access to the same physical resource at the same time (e.g., fetching an instruction from memory while reading data from memory).
+      <br><b>Mitigation:</b> Use separate Instruction Memory and Data Memory (Harvard architecture) or separate L1 cache blocks for instructions and data.</p>
+
+    <h3><b>2. Data Dependency Hazards (Data Hazards):</b></h3>
+    <p>Occur when an instruction depends on the result of a previous instruction that has not yet completed execution.
+      <br><b>Types of Data Hazards:</b>
+      <br>- <b>RAW (Read-After-Write):</b> The current instruction tries to read a register before the previous instruction writes to it (most common).
+      <br>- <b>WAR (Write-After-Read):</b> The current instruction tries to write to a register before a previous instruction reads it.
+      <br>- <b>WAW (Write-After-Write):</b> The current instruction tries to write to a register before a previous instruction writes to it.
+      <br><b>Mitigation:</b>
+      <br>- <b>Operand Forwarding (Bypassing):</b> Route intermediate ALU results directly to the ALU inputs of the next cycle, bypassing register writes.
+      <br>- <b>Register Renaming:</b> Use physical registers to eliminate false dependencies.
+      <br>- <b>Software Delay Slots:</b> Compiler inserts independent instructions or NOP bubbles between dependent operations.</p>
+
+    <h3><b>3. Control Hazards (Branch Hazards):</b></h3>
+    <p>Occur when a branch/jump instruction changes the Program Counter (PC). The pipeline does not know the next instruction address until the branch is evaluated, causing flushed cycles.
+      <br><b>Mitigation:</b>
+      <br>- <b>Branch Prediction:</b> Guess the branch outcome. Static prediction always guesses "taken" or "not taken." Dynamic prediction uses a Branch Target Buffer (BTB) to predict based on execution history.
+      <br>- <b>Delay Slot Branching:</b> The compiler inserts independent instructions right after the branch that execute regardless of the branch outcome, avoiding wasted cycles.</p>
+  </div>
+</body>
+</html>

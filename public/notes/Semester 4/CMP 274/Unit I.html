@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit I: Introduction to Numerical Methods - Comprehensive Notes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0px;
+    }
+    h1 {
+        text-align: center;
+        color: #0f172a;
+        font-size: 20pt;
+        font-weight: bold;
+        margin-bottom: 40px;
+        border-bottom: 3px double #cbd5e1;
+        padding-bottom: 15px;
+    }
+    h2 {
+      color: #1e3a8a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 30px;
+      font-size: 15pt;
+    }
+    h3 {
+      color: #2563eb;
+      font-size: 13pt;
+      margin-top: 20px;
+    }
+    .section {
+      background: #ffffff;
+      padding: 30px;
+      margin-bottom: 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 25px;
+    }
+    li {
+      margin-bottom: 12px;
+    }
+    pre {
+      background-color: #0f172a;
+      color: #38bdf8;
+      padding: 20px;
+      overflow-x: auto;
+      border-radius: 8px;
+      font-size: 11pt;
+      margin: 20px 0;
+      font-family: Consolas, Monaco, monospace;
+      border-left: 4px solid #3b82f6;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      background-color: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #0f172a;
+    }
+    pre code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+      color: inherit;
+    }
+    .highlight {
+      background-color: #fef08a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .diagram-container {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .table-container {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 11pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .note-box {
+      background-color: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px; }
+      .section { padding: 20px; }
+      pre { font-size: 10pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit I: Introduction [2 Hours] - Comprehensive Study Notes</b></h1>
+
+  <div class="section">
+    <h2><b>1.1 Errors in Numerical Calculations</b></h2>
+    <p>Numerical calculations represent approximations of continuous mathematical functions. Real numbers must be represented within the finite memory architecture of a computer, which naturally introduces discrepancies between the mathematical theoretical value and the computed output.</p>
+    
+    <h3><b>Accuracy vs. Precision:</b></h3>
+    <ul>
+      <li><b>Accuracy:</b> Refers to how close a computed or measured value is to the true value. High accuracy means low systematic bias.</li>
+      <li><b>Precision:</b> Refers to how closely individual calculated values agree with each other under repeated computations. High precision means low random variance.</li>
+    </ul>
+
+    <h3><b>Significant Digits:</b></h3>
+    <p>Significant digits are those digits in a number that carry meaningful information about its precision.
+      <br><b>Rules for determining significant digits:</b>
+      <br>1. All non-zero digits are significant (e.g., <code>123.45</code> has 5 significant digits).
+      <br>2. Zeros between non-zero digits are significant (e.g., <code>100.02</code> has 5 significant digits).
+      <br>3. Leading zeros are NOT significant; they serve only as placeholders (e.g., <code>0.00045</code> has 2 significant digits).
+      <br>4. Trailing zeros after a decimal point are significant (e.g., <code>45.00</code> has 4 significant digits).
+    </p>
+
+    <h3><b>Sources of Numerical Errors:</b></h3>
+    <ol>
+      <li><b>Inherent Errors (Input Errors):</b> These arise from physical constraints of measurements or limits of data gathering systems. For instance, measuring a temperature to the nearest tenth of a degree carries an inherent error of ±0.05 degrees.</li>
+      <li><b>Round-Off Errors:</b> These occur because computers use binary floating-point representation (such as the IEEE 754 standard) to represent real numbers. Representing numbers like <code>1/3</code> or <code>π</code> requires rounding off trailing infinite decimal/binary places.
+        <br><i>Chopping:</i> Truncating all digits past the allowed word length. (e.g., <code>0.56789</code> chopped to 3 digits is <code>0.567</code>).
+        <br><i>Symmetric Rounding:</i> Rounding to the nearest value. (e.g., <code>0.56789</code> rounded to 3 digits is <code>0.568</code>).
+      </li>
+      <li><b>Truncation Errors:</b> These occur when an infinite mathematical process is terminated after a finite number of terms. For example, approximating the infinite sum representing <code>sin(x)</code> using a finite polynomial introduces truncation error.</li>
+    </ol>
+
+    <h3><b>Mathematical Formulas for Error Metrics:</b></h3>
+    <p>Let <code>X</code> be the true value and <code>X_a</code> be the approximated value.</p>
+    <ul>
+      <li><b>Absolute Error (E_a):</b>
+        <br><code>E_a = |X - X_a|</code></li>
+      <li><b>Relative Error (E_r):</b>
+        <br><code>E_r = |X - X_a| / |X| = E_a / |X|</code> (provided <code>X != 0</code>)</li>
+      <li><b>Percentage Error (E_p):</b>
+        <br><code>E_p = E_r * 100%</code></li>
+    </ul>
+
+    <h3><b>Detailed Solved Mathematical Example:</b></h3>
+    <p><b>Question:</b> Let <code>X = 2/3</code> and its approximate value be <code>X_a = 0.667</code>. Compute the absolute, relative, and percentage errors. State the number of significant digits in <code>X_a</code>.</p>
+    <pre><code>
+True Value (X) = 2/3 = 0.666666666666...
+Approximate Value (X_a) = 0.667
+
+1. Absolute Error (E_a):
+   E_a = |X - X_a| 
+       = |0.666666... - 0.667000|
+       = 0.000333333... = 1/3000
+
+2. Relative Error (E_r):
+   E_r = E_a / |X|
+       = (1/3000) / (2/3)
+       = (1/3000) * (3/2) = 3/6000 = 1/2000 = 0.0005
+
+3. Percentage Error (E_p):
+   E_p = E_r * 100%
+       = 0.0005 * 100% = 0.05%
+
+4. Significant Digits check:
+   X_a = 0.667 has 3 significant digits (leading zero is placeholder).
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>1.2 Computer Floating-Point Representation (IEEE 754 Standard)</b></h2>
+    <p>Computers represent real numbers using the **IEEE 754 Standard**. Numbers are stored in a normalized scientific notation binary format: <code>±1.mantissa * 2^exponent</code>.</p>
+    
+    <h3><b>1. Single Precision (32-bit):</b></h3>
+    <ul>
+      <li><b>Sign bit (S):</b> 1 bit (0 for positive, 1 for negative).</li>
+      <li><b>Exponent (E):</b> 8 bits. Biased by <code>127</code>. True Exponent <code>e = E - 127</code>.</li>
+      <li><b>Mantissa/Fraction (M):</b> 23 bits. The leading 1 before the decimal point is implicit (not stored).</li>
+    </ul>
+    
+    <h3><b>2. Double Precision (64-bit):</b></h3>
+    <ul>
+      <li><b>Sign bit (S):</b> 1 bit.</li>
+      <li><b>Exponent (E):</b> 11 bits. Biased by <code>1023</code>. True Exponent <code>e = E - 1023</code>.</li>
+      <li><b>Mantissa/Fraction (M):</b> 52 bits.</li>
+    </ul>
+
+    <h3><b>Detailed Step-by-Step Conversion Example:</b></h3>
+    <p><b>Question:</b> Convert the decimal number <code>-12.625</code> into IEEE 754 Single Precision 32-bit binary format.</p>
+    <pre><code>
+Step 1: Convert decimal magnitude to binary:
+  - Integer part: 12 = 1100 (binary)
+  - Fractional part: 0.625
+    0.625 * 2 = 1.250 -> 1
+    0.250 * 2 = 0.500 -> 0
+    0.500 * 2 = 1.000 -> 1
+    0.625 (decimal) = 0.101 (binary)
+  - Combined magnitude: 1100.101 (binary)
+
+Step 2: Normalize the binary number:
+  Shift the decimal point left 3 positions so there is exactly one non-zero leading digit:
+  1100.101 = 1.100101 * 2^3
+  - True Exponent (e) = 3
+  - Normalized Mantissa (excluding leading 1) = 100101
+
+Step 3: Calculate Biased Exponent (E):
+  E = e + Bias = 3 + 127 = 130
+  Convert 130 to 8-bit binary:
+  130 / 2 = 65 remainder 0
+  65 / 2 = 32 remainder 1
+  32 / 2 = 16 remainder 0
+  16 / 2 = 8 remainder 0
+  8 / 2 = 4 remainder 0
+  4 / 2 = 2 remainder 0
+  2 / 2 = 1 remainder 0
+  1 / 2 = 0 remainder 1
+  E = 10000010 (binary)
+
+Step 4: Layout final 32 bits:
+  - Sign (S): 1 (Negative number)
+  - Exponent (E): 10000010
+  - Mantissa (M, padded to 23 bits): 10010100000000000000000
+  
+  Final Binary String:
+  1 10000010 10010100000000000000000
+  
+  Hexadecimal representation:
+  1100 0001 0100 1010 0000 0000 0000 0000 = C14A0000H
+    </code></pre>
+
+    <h3><b>C Program to inspect Float Binary Layout:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+
+// Union to map float and int to same memory space
+union FloatParts {
+    float f;
+    struct {
+        unsigned int mantissa : 23;
+        unsigned int exponent : 8;
+        unsigned int sign : 1;
+    } parts;
+};
+
+int main() {
+    union FloatParts num;
+    num.f = -12.625;
+    
+    printf("Inspecting float representation of %f:\n", num.f);
+    printf("Sign Bit: %d\n", num.parts.sign);
+    printf("Biased Exponent (Decimal): %d\n", num.parts.exponent);
+    printf("Mantissa bits (Hex): 0x%X\n", num.parts.mantissa);
+    
+    // Print binary representation
+    printf("Binary layout: %d ", num.parts.sign);
+    for (int i = 7; i &gt;= 0; i--) {
+        printf("%d", (num.parts.exponent &gt;&gt; i) & 1);
+    }
+    printf(" ");
+    for (int i = 22; i &gt;= 0; i--) {
+        printf("%d", (num.parts.mantissa &gt;&gt; i) & 1);
+    }
+    printf("\n");
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>1.3 Computer Software Environments (C vs. MATLAB/Octave)</b></h2>
+    <p>Solving numerical problems requires choosing an appropriate programming model. Below is a detailed analysis of the two primary software methodologies:</p>
+
+    <h3><b>Compiled Language: C programming</b></h3>
+    <ul>
+      <li><b>Design Philosophy:</b> High performance, manual memory allocation, compiled down to native machine codes.</li>
+      <li><b>Advantages:</b> Executed extremely fast. Best for production systems and resource-constrained microcontrollers.</li>
+      <li><b>Disadvantages:</b> Lacks built-in support for vector and matrix operations. Plotting graphs requires complex third-party GUI or OpenGL libraries.</li>
+    </ul>
+
+    <h3><b>Interpreted Environment: MATLAB / GNU Octave</b></h3>
+    <ul>
+      <li><b>Design Philosophy:</b> High-level, interactive matrix laboratory. All data structures are inherently treated as matrices.</li>
+      <li><b>Advantages:</b> Native support for linear algebra, easy plotting commands, rapid prototyping.</li>
+      <li><b>Disadvantages:</b> Interpreted execution is slower than compiled C code. Requires higher runtime memory.</li>
+    </ul>
+
+    <h3><b>Comparative Implementation Example (Calculating Vector Dot Product):</b></h3>
+    <p>Let's compare the code required to calculate the dot product of two vectors <code>A</code> and <code>B</code>:</p>
+    
+    <h4><b>C Language Implementation:</b></h4>
+    <pre><code>
+#include &lt;stdio.h&gt;
+
+int main() {
+    double A[] = {1.0, 2.0, 3.0};
+    double B[] = {4.0, 5.0, 6.0};
+    int n = sizeof(A) / sizeof(A[0]);
+    double dot_product = 0.0;
+    
+    for (int i = 0; i &lt; n; i++) {
+        dot_product += A[i] * B[i];
+    }
+    
+    printf("Dot Product in C: %lf\n", dot_product);
+    return 0;
+}
+    </code></pre>
+
+    <h4><b>MATLAB / GNU Octave Implementation:</b></h4>
+    <pre><code>
+A = [1.0, 2.0, 3.0];
+B = [4.0, 5.0, 6.0];
+dot_product = dot(A, B);
+disp(['Dot Product in MATLAB: ', num2str(dot_product)]);
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>1.4 Mathematical Preliminaries: Taylor Series and Expansions</b></h2>
+    <p>The <b>Taylor Series Expansion</b> is a fundamental mathematical tool in numerical analysis. It allows us to approximate any infinitely differentiable function near a point using a polynomial.</p>
+
+    <h3><b>Taylor Series Theorem:</b></h3>
+    <p>If a function <code>f(x)</code> is continuous and has derivatives of all orders on an interval containing <code>a</code>, the Taylor series expansion of <code>f(x)</code> centered at <code>x = a</code> is given by:</p>
+    <pre><code>
+f(x) = f(a) + f'(a)*(x-a)/1! + f''(a)*(x-a)^2/2! + f'''(a)*(x-a)^3/3! + ... + f^(n)(a)*(x-a)^n/n! + R_n(x)
+
+Where:
+- R_n(x) is the Lagrange Remainder Term representing the truncation error:
+  R_n(x) = [ f^(n+1)(c) * (x - a)^(n+1) ] / (n+1)!
+  for some value c lying strictly between a and x.
+    </code></pre>
+
+    <h3><b>Maclaurin Series (Taylor Series centered at a = 0):</b></h3>
+    <p>Setting <code>a = 0</code> simplifies the formula:</p>
+    <pre><code>
+f(x) = f(0) + f'(0)*x/1! + f''(0)*x^2/2! + f'''(0)*x^3/3! + ... + f^(n)(0)*x^n/n! + R_n(x)
+    </code></pre>
+
+    <h3><b>Complete Derivation of Maclaurin Expansions:</b></h3>
+
+    <h4><b>1. Exponential Function f(x) = e^x</b></h4>
+    <p>Let's calculate the derivatives of <code>f(x) = e^x</code> and evaluate them at <code>x = 0</code>:</p>
+    <pre><code>
+f(x) = e^x        =>  f(0) = e^0 = 1
+f'(x) = e^x       =>  f'(0) = 1
+f''(x) = e^x      =>  f''(0) = 1
+f'''(x) = e^x     =>  f'''(0) = 1
+...
+f^(n)(x) = e^x    =>  f^(n)(0) = 1
+
+Substituting these values into the Maclaurin series formula yields:
+e^x = 1 + x + x^2/2! + x^3/3! + x^4/4! + ... + x^n/n!
+    </code></pre>
+
+    <h4><b>2. Sine Function f(x) = sin(x)</b></h4>
+    <p>Let's calculate the derivatives of <code>f(x) = sin(x)</code> and evaluate them at <code>x = 0</code>:</p>
+    <pre><code>
+f(x) = sin(x)     =>  f(0) = sin(0) = 0
+f'(x) = cos(x)    =>  f'(0) = cos(0) = 1
+f''(x) = -sin(x)  =>  f''(0) = 0
+f'''(x) = -cos(x) =>  f'''(0) = -1
+f^(4)(x) = sin(x) =>  f^(4)(0) = 0
+
+Substituting these values yields only odd power terms with alternating signs:
+sin(x) = x - x^3/3! + x^5/5! - x^7/7! + ...
+    </code></pre>
+
+    <h4><b>3. Cosine Function f(x) = cos(x)</b></h4>
+    <p>Let's calculate the derivatives of <code>f(x) = cos(x)</code> and evaluate them at <code>x = 0</code>:</p>
+    <pre><code>
+f(x) = cos(x)     =>  f(0) = cos(0) = 1
+f'(x) = -sin(x)   =>  f'(0) = 0
+f''(x) = -cos(x)  =>  f''(0) = -1
+f'''(x) = sin(x)  =>  f'''(0) = 0
+f^(4)(x) = cos(x) =>  f^(4)(0) = 1
+
+Substituting these values yields only even power terms with alternating signs:
+cos(x) = 1 - x^2/2! + x^4/4! - x^6/6! + ...
+    </code></pre>
+
+    <h3><b>Complete C Code to Calculate Expansions and Track Truncation Errors:</b></h3>
+    <p>The following C program calculates <code>e^x</code> using its Taylor series expansion up to <code>N</code> terms, compares the result with the built-in math function value, and displays the truncation error:</p>
+    <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+// Function to calculate factorial
+double factorial(int n) {
+    double fact = 1.0;
+    for (int i = 1; i &lt;= n; i++) {
+        fact *= i;
+    }
+    return fact;
+}
+
+// Function to approximate e^x
+double approximate_exp(double x, int terms) {
+    double sum = 0.0;
+    for (int i = 0; i &lt; terms; i++) {
+        sum += pow(x, i) / factorial(i);
+    }
+    return sum;
+}
+
+int main() {
+    double x = 1.2;
+    printf("Evaluating e^%lf:\n\n", x);
+    printf("%-10s %-20s %-20s %-20s\n", "Terms", "Approx Value", "True Value", "Abs Error");
+    
+    double true_val = exp(x);
+    for (int t = 1; t &lt;= 10; t++) {
+        double approx = approximate_exp(x, t);
+        double abs_err = fabs(true_val - approx);
+        printf("%-10d %-20.10f %-20.10f %-20.10e\n", t, approx, true_val, abs_err);
+    }
+    return 0;
+}
+    </code></pre>
+  </div>
+</body>
+</html>

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit VI: Solution of Linear Algebraic Equations - Comprehensive Notes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0px;
+    }
+    h1 {
+        text-align: center;
+        color: #0f172a;
+        font-size: 20pt;
+        font-weight: bold;
+        margin-bottom: 40px;
+        border-bottom: 3px double #cbd5e1;
+        padding-bottom: 15px;
+    }
+    h2 {
+      color: #1e3a8a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 30px;
+      font-size: 15pt;
+    }
+    h3 {
+      color: #2563eb;
+      font-size: 13pt;
+      margin-top: 20px;
+    }
+    .section {
+      background: #ffffff;
+      padding: 30px;
+      margin-bottom: 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 25px;
+    }
+    li {
+      margin-bottom: 12px;
+    }
+    pre {
+      background-color: #0f172a;
+      color: #38bdf8;
+      padding: 20px;
+      overflow-x: auto;
+      border-radius: 8px;
+      font-size: 11pt;
+      margin: 20px 0;
+      font-family: Consolas, Monaco, monospace;
+      border-left: 4px solid #3b82f6;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      background-color: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #0f172a;
+    }
+    pre code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+      color: inherit;
+    }
+    .highlight {
+      background-color: #fef08a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .diagram-container {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .table-container {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 11pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .note-box {
+      background-color: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px; }
+      .section { padding: 20px; }
+      pre { font-size: 10pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit VI: Solution of Linear Algebraic Equations [10 Hours] - Study Notes</b></h1>
+
+  <div class="section">
+    <h2><b>6.1 Gauss Elimination with Partial Pivoting</b></h2>
+    <p>Converts the coefficient matrix into an upper triangular form, followed by back-substitution. Pivoting swaps rows to place the largest coefficient in the pivot position before performing row operations, minimizing round-off error.</p>
+
+    <h3><b>Gauss Elimination C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+#define N 3
+
+void gauss_elimination(double a[N][N+1]) {
+    // Step 1: Forward Elimination with Partial Pivoting
+    for (int i = 0; i &lt; N-1; i++) {
+        // Pivot check and row swap
+        int max_row = i;
+        for (int k = i+1; k &lt; N; k++) {
+            if (fabs(a[k][i]) &gt; fabs(a[max_row][i])) {
+                max_row = k;
+            }
+        }
+        
+        // Swap rows
+        for (int col = 0; col &lt;= N; col++) {
+            double temp = a[i][col];
+            a[i][col] = a[max_row][col];
+            a[max_row][col] = temp;
+        }
+        
+        // Eliminate column elements
+        for (int k = i+1; k &lt; N; k++) {
+            double factor = a[k][i] / a[i][i];
+            for (int j = i; j &lt;= N; j++) {
+                a[k][j] -= factor * a[i][j];
+            }
+        }
+    }
+    
+    // Step 2: Back-Substitution
+    double x[N];
+    for (int i = N - 1; i &gt;= 0; i--) {
+        x[i] = a[i][N];
+        for (int j = i + 1; j &lt; N; j++) {
+            x[i] -= a[i][j] * x[j];
+        }
+        x[i] /= a[i][i];
+    }
+    
+    printf("\nSolution vector by Gauss Elimination:\n");
+    for (int i = 0; i &lt; N; i++) {
+        printf("x[%d] = %lf\n", i, x[i]);
+    }
+}
+
+int main() {
+    double a[N][N+1] = {
+        {2.0, 1.0, 1.0, 10.0},
+        {1.0, 4.0, 2.0, 21.0},
+        {1.0, 2.0, 5.0, 30.0}
+    };
+    gauss_elimination(a);
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>6.2 Gauss-Jordan Method</b></h2>
+    <p>Converts the coefficient matrix directly into a diagonal identity matrix using row operations, eliminating the need for back-substitution.</p>
+
+    <h3><b>Gauss-Jordan C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+#define N 3
+
+void gauss_jordan(double a[N][N+1]) {
+    for (int i = 0; i &lt; N; i++) {
+        // Pivot selection
+        double pivot = a[i][i];
+        
+        // Normalize pivot row
+        for (int j = 0; j &lt;= N; j++) {
+            a[i][j] /= pivot;
+        }
+        
+        // Eliminate other column entries
+        for (int k = 0; k &lt; N; k++) {
+            if (k != i) {
+                double factor = a[k][i];
+                for (int j = 0; j &lt;= N; j++) {
+                    a[k][j] -= factor * a[i][j];
+                }
+            }
+        }
+    }
+    
+    printf("\nSolution vector by Gauss-Jordan:\n");
+    for (int i = 0; i &lt; N; i++) {
+        printf("x[%d] = %lf\n", i, a[i][N]);
+    }
+}
+
+int main() {
+    double a[N][N+1] = {
+        {2.0, 1.0, 1.0, 10.0},
+        {1.0, 4.0, 2.0, 21.0},
+        {1.0, 2.0, 5.0, 30.0}
+    };
+    gauss_jordan(a);
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>6.3 LU Decomposition (Doolittle Method)</b></h2>
+    <p>Decomposes coefficient matrix <code>A</code> into Lower triangular <code>L</code> (with diagonal elements 1) and Upper triangular <code>U</code> such that <code>A = L * U</code>.</p>
+
+    <h3><b>LU Decomposition C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+
+#define N 3
+
+void lu_decomposition(double a[N][N], double b[N]) {
+    double L[N][N] = {0};
+    double U[N][N] = {0};
+    
+    for (int i = 0; i &lt; N; i++) {
+        L[i][i] = 1.0;
+    }
+    
+    for (int i = 0; i &lt; N; i++) {
+        // Upper Triangular
+        for (int k = i; k &lt; N; k++) {
+            double sum = 0.0;
+            for (int j = 0; j &lt; i; j++) {
+                sum += L[i][j] * U[j][k];
+            }
+            U[i][k] = a[i][k] - sum;
+        }
+        
+        // Lower Triangular
+        for (int k = i + 1; k &lt; N; k++) {
+            double sum = 0.0;
+            for (int j = 0; j &lt; i; j++) {
+                sum += L[k][j] * U[j][i];
+            }
+            L[k][i] = (a[k][i] - sum) / U[i][i];
+        }
+    }
+    
+    // Solve L*y = b (Forward Substitution)
+    double y[N];
+    for (int i = 0; i &lt; N; i++) {
+        y[i] = b[i];
+        for (int j = 0; j &lt; i; j++) {
+            y[i] -= L[i][j] * y[j];
+        }
+    }
+    
+    // Solve U*x = y (Back-Substitution)
+    double x[N];
+    for (int i = N - 1; i &gt;= 0; i--) {
+        x[i] = y[i];
+        for (int j = i + 1; j &lt; N; j++) {
+            x[i] -= U[i][j] * x[j];
+        }
+        x[i] /= U[i][i];
+    }
+    
+    printf("\nSolution vector by LU Decomposition:\n");
+    for (int i = 0; i &lt; N; i++) {
+        printf("x[%d] = %lf\n", i, x[i]);
+    }
+}
+
+int main() {
+    double a[N][N] = {
+        {2.0, 1.0, 1.0},
+        {1.0, 4.0, 2.0},
+        {1.0, 2.0, 5.0}
+    };
+    double b[N] = {10.0, 21.0, 30.0};
+    lu_decomposition(a, b);
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>6.4 Gauss-Seidel Iterative Method</b></h2>
+    <p>An iterative method that updates variables step-by-step. It uses the newly calculated values of variables immediately in the current iteration step to speed up convergence.</p>
+
+    <h3><b>Gauss-Seidel C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+#define N 3
+
+void gauss_seidel(double a[N][N], double b[N], double tol) {
+    double x[N] = {0.0}; // Initial guesses
+    double prev_x[N];
+    int max_iterations = 100;
+    
+    printf("\nGauss-Seidel Iterations:\n");
+    printf("%-10s %-12s %-12s %-12s\n", "Iter", "x[0]", "x[1]", "x[2]");
+    
+    for (int iter = 1; iter &lt;= max_iterations; iter++) {
+        for (int i = 0; i &lt; N; i++) {
+            prev_x[i] = x[i];
+        }
+        
+        for (int i = 0; i &lt; N; i++) {
+            double sum = b[i];
+            for (int j = 0; j &lt; N; j++) {
+                if (j != i) {
+                    sum -= a[i][j] * x[j];
+                }
+            }
+            x[i] = sum / a[i][i];
+        }
+        
+        printf("%-10d %-12.6f %-12.6f %-12.6f\n", iter, x[0], x[1], x[2]);
+        
+        // Convergence check
+        double max_err = 0.0;
+        for (int i = 0; i &lt; N; i++) {
+            double err = fabs(x[i] - prev_x[i]);
+            if (err &gt; max_err) max_err = err;
+        }
+        
+        if (max_err &lt; tol) {
+            printf("\nConverged in %d iterations.\n", iter);
+            break;
+        }
+    }
+}
+
+int main() {
+    double a[N][N] = {
+        {5.0, -1.0, 1.0},
+        {1.0,  6.0, 2.0},
+        {1.0,  2.0, 7.0}
+    };
+    double b[N] = {10.0, 21.0, 30.0};
+    gauss_seidel(a, b, 0.0001);
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>6.5 The Power Method (Eigenvalues & Eigenvectors)</b></h2>
+    <p>An iterative procedure used to find the dominant eigenvalue (largest in absolute value) and its corresponding eigenvector.</p>
+
+    <h3><b>Power Method C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+#define N 3
+
+void power_method(double a[N][N], double tol) {
+    double x[N] = {1.0, 1.0, 1.0}; // Initial eigenvector guess
+    double y[N];
+    double lambda_old = 0.0;
+    double lambda_new = 0.0;
+    int max_iter = 100;
+    
+    printf("\nPower Method Iterations:\n");
+    for (int step = 1; step &lt;= max_iter; step++) {
+        // Compute y = A * x
+        for (int i = 0; i &lt; N; i++) {
+            y[i] = 0.0;
+            for (int j = 0; j &lt; N; j++) {
+                y[i] += a[i][j] * x[j];
+            }
+        }
+        
+        // Find dominant scale factor
+        lambda_new = y[0];
+        for (int i = 1; i &lt; N; i++) {
+            if (fabs(y[i]) &gt; fabs(lambda_new)) {
+                lambda_new = y[i];
+            }
+        }
+        
+        // Normalize vector
+        for (int i = 0; i &lt; N; i++) {
+            x[i] = y[i] / lambda_new;
+        }
+        
+        printf("Iter %2d: Eigenvalue = %lf, Vector = [%.3f, %.3f, %.3f]^T\n", 
+               step, lambda_new, x[0], x[1], x[2]);
+               
+        if (fabs(lambda_new - lambda_old) &lt; tol) {
+            printf("\nPower Method converged to Dominant Eigenvalue: %lf\n", lambda_new);
+            break;
+        }
+        lambda_old = lambda_new;
+    }
+}
+
+int main() {
+    double a[N][N] = {
+        {4.0, 1.0, 0.0},
+        {1.0, 3.0, 1.0},
+        {0.0, 1.0, 2.0}
+    };
+    power_method(a, 0.0001);
+    return 0;
+}
+    </code></pre>
+  </div>
+</body>
+</html>

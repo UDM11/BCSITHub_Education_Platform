@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 5: Network Layer</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 5: Network Layer [10 Hrs.]</b></h1>
+
+  <!-- 5.1 - 5.3 IPv4 and Addressing -->
+  <div class="section">
+    <h2><b>5.1 Network Layer Functions, IPv4 Headers and Classes</b></h2>
+
+    <h3>Role and Primary Functions</h3>
+    <p>
+      The <b>Network Layer</b> (Layer 3) is responsible for routing packets from their source to their
+      final destination across multiple networks. It provides logical addressing, routing path selection,
+      packet forwarding, and handles fragmentation when packet size exceeds a physical link's Maximum
+      Transmission Unit (MTU).
+    </p>
+
+    <h3>IPv4 Datagram Header Format</h3>
+    <p>
+      An IPv4 header has a variable size (minimum 20 bytes, maximum 60 bytes):
+    </p>
+    <pre>
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |Version|  IHL  |Type of Service|          Total Length         |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |         Identification        |Flags|      Fragment Offset    |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |  Time to Live |    Protocol   |        Header Checksum        |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                         Source IP Address                     |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                      Destination IP Address                   |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                Options (0 to 40 bytes, if IHL > 5)            |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    </pre>
+
+    <h3>Classful IPv4 Addressing</h3>
+    <p>
+      IPv4 addresses are 32-bit logical addresses written in dotted-decimal format (e.g., 192.168.1.1).
+      In classful addressing, the address space is divided into 5 classes:
+    </p>
+    <table>
+      <tr>
+        <th>Class</th>
+        <th>First Octet Range (Binary)</th>
+        <th>First Octet Range (Decimal)</th>
+        <th>Default Subnet Mask</th>
+        <th>Network/Host Split</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td>Class A</td>
+        <td>00000000 to 01111111</td>
+        <td>1 - 127 (127 reserved)</td>
+        <td>255.0.0.0 (/8)</td>
+        <td>8 bits Net, 24 bits Host</td>
+        <td>Large networks</td>
+      </tr>
+      <tr>
+        <td>Class B</td>
+        <td>10000000 to 10111111</td>
+        <td>128 - 191</td>
+        <td>255.255.0.0 (/16)</td>
+        <td>16 bits Net, 16 bits Host</td>
+        <td>Medium networks</td>
+      </tr>
+      <tr>
+        <td>Class C</td>
+        <td>11000000 to 11011111</td>
+        <td>192 - 223</td>
+        <td>255.255.255.0 (/24)</td>
+        <td>24 bits Net, 8 bits Host</td>
+        <td>Small networks</td>
+      </tr>
+      <tr>
+        <td>Class D</td>
+        <td>11100000 to 11101111</td>
+        <td>224 - 239</td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>Multicasting</td>
+      </tr>
+      <tr>
+        <td>Class E</td>
+        <td>11110000 to 11111111</td>
+        <td>240 - 254</td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>Research/Experimental</td>
+      </tr>
+    </table>
+    <p class="note">
+      <b>Loopback Address:</b> Class A address range <code>127.0.0.0</code> to <code>127.255.255.255</code> (specifically 127.0.0.1)
+      is reserved for loopback testing (local system).
+    </p>
+
+    <h3>Public vs. Private IP Addresses</h3>
+    <ul>
+      <li><b>Public IP Address:</b> Globally unique, routable on the public Internet.
+        Assigned by ISPs or regional registries (IANA/APNIC).</li>
+      <li><b>Private IP Address:</b> Non-routable on the Internet, used within local networks.
+        They can be reused across different organizations. RFC 1918 defines private address spaces:
+        <ul>
+          <li>Class A: <code>10.0.0.0</code> to <code>10.255.255.255</code></li>
+          <li>Class B: <code>172.16.0.0</code> to <code>172.31.255.255</code></li>
+          <li>Class C: <code>192.168.0.0</code> to <code>192.168.255.255</code></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 5.4 - 5.5 Subnetting & Cases -->
+  <div class="section">
+    <h2><b>5.2 Subnetting: FLSM, VLSM and Practical Cases</b></h2>
+
+    <h3>What is Subnetting?</h3>
+    <p>
+      <b>Subnetting</b> is the process of dividing a single large network into smaller, logically
+      distinct sub-networks (subnets). It reduces broadcast traffic, enhances security, and
+      allows efficient IP utilization.
+    </p>
+    <ul>
+      <li><b>FLSM (Fixed Length Subnet Masking):</b> All subnets are of equal size and use the same mask.</li>
+      <li><b>VLSM (Variable Length Subnet Masking):</b> Subnets can be of different sizes, allowing
+        customized subnet masks based on the host requirements of each sub-network. Prevents IP wastage.</li>
+    </ul>
+
+    <h3>Subnetting Case Study 1: FLSM</h3>
+    <div class="note">
+      <p><b>Problem:</b> Given the network IP <code>192.168.1.0/24</code>, divide it into 4 equal subnets.
+        Provide network IDs, usable range, broadcast addresses, and subnet mask.</p>
+      <p><b>Solution:</b>
+        <br>1. Original mask /24 has 24 network bits and 8 host bits.
+        <br>2. We need 4 subnets: $2^n \ge 4 \implies n = 2$ bits. We must borrow 2 bits from host portion.
+        <br>3. New subnet prefix: $24 + 2 = /26$. Subnet mask: 26 bits = 255.255.255.192.
+        <br>4. Borrowing 2 bits leaves $8 - 2 = 6$ host bits. Usable hosts per subnet = $2^6 - 2 = 62$.
+        <br>5. Subnet block size = $2^6 = 64$.
+        <br>
+        <br><b>Subnet Table:</b>
+      </p>
+      <table>
+        <tr>
+          <th>Subnet #</th>
+          <th>Network ID</th>
+          <th>Usable IP Range</th>
+          <th>Broadcast Address</th>
+        </tr>
+        <tr>
+          <td>Subnet 0</td>
+          <td>192.168.1.0/26</td>
+          <td>192.168.1.1 to 192.168.1.62</td>
+          <td>192.168.1.63</td>
+        </tr>
+        <tr>
+          <td>Subnet 1</td>
+          <td>192.168.1.64/26</td>
+          <td>192.168.1.65 to 192.168.1.126</td>
+          <td>192.168.1.127</td>
+        </tr>
+        <tr>
+          <td>Subnet 2</td>
+          <td>192.168.1.128/26</td>
+          <td>192.168.1.129 to 192.168.1.190</td>
+          <td>192.168.1.191</td>
+        </tr>
+        <tr>
+          <td>Subnet 3</td>
+          <td>192.168.1.192/26</td>
+          <td>192.168.1.193 to 192.168.1.254</td>
+          <td>192.168.1.255</td>
+        </tr>
+      </table>
+    </div>
+
+    <h3>Subnetting Case Study 2: VLSM</h3>
+    <div class="note">
+      <p><b>Problem:</b> Given the network IP <code>192.168.10.0/24</code>, design a VLSM scheme for:
+        <br>- Sales Dept: 100 hosts
+        <br>- IT Dept: 50 hosts
+        <br>- Admin Dept: 20 hosts
+        <br>- WAN Link: 2 hosts
+      </p>
+      <p><b>Solution:</b> Always allocate subnets starting with the largest host requirement:
+        <br>
+        <br><b>1. Sales Dept (100 hosts):</b>
+        <br>Required size: $2^h - 2 \ge 100 \implies h = 7$ bits. Usable hosts = $2^7 - 2 = 126$.
+        <br>Subnet bits: $32 - 7 = 25$ prefix (/25). Subnet Mask: 255.255.255.128.
+        <br>Network ID: <b>192.168.10.0/25</b>
+        <br>Range: 192.168.10.1 to 192.168.10.126, Broadcast: 192.168.10.127.
+        <br>
+        <br><b>2. IT Dept (50 hosts):</b>
+        <br>Next available address: 192.168.10.128.
+        <br>Required size: $2^h - 2 \ge 50 \implies h = 6$ bits. Usable hosts = $2^6 - 2 = 62$.
+        <br>Subnet bits: $32 - 6 = 26$ prefix (/26). Subnet Mask: 255.255.255.192.
+        <br>Network ID: <b>192.168.10.128/26</b>
+        <br>Range: 192.168.10.129 to 192.168.10.190, Broadcast: 192.168.10.191.
+        <br>
+        <br><b>3. Admin Dept (20 hosts):</b>
+        <br>Next available address: 192.168.10.192.
+        <br>Required size: $2^h - 2 \ge 20 \implies h = 5$ bits. Usable hosts = $2^5 - 2 = 30$.
+        <br>Subnet bits: $32 - 5 = 27$ prefix (/27). Subnet Mask: 255.255.255.224.
+        <br>Network ID: <b>192.168.10.192/27</b>
+        <br>Range: 192.168.10.193 to 192.168.10.222, Broadcast: 192.168.10.223.
+        <br>
+        <br><b>4. WAN Link (2 hosts):</b>
+        <br>Next available address: 192.168.10.224.
+        <br>Required size: $2^h - 2 \ge 2 \implies h = 2$ bits. Usable hosts = $2^2 - 2 = 2$.
+        <br>Subnet bits: $32 - 2 = 30$ prefix (/30). Subnet Mask: 255.255.255.252.
+        <br>Network ID: <b>192.168.10.224/30</b>
+        <br>Range: 192.168.10.225 to 192.168.10.226, Broadcast: 192.168.10.227.
+      </p>
+    </div>
+  </div>
+
+  <!-- 5.6 - 5.8 IPv6 and Transitions -->
+  <div class="section">
+    <h2><b>5.3 Issues with IPv4, Overview of IPv6 and Transition Strategies</b></h2>
+
+    <h3>Issues with IPv4</h3>
+    <ul>
+      <li><b>Address Exhaustion:</b> The 32-bit address space provides only $\approx 4.3$ billion addresses,
+        which have been completely exhausted due to the global explosion of devices.</li>
+      <li><b>Lack of Security:</b> Security (IPsec) was not designed as a mandatory feature of IPv4.</li>
+      <li><b>Routing Table Growth:</b> Classless routing leads to massive routing tables on core internet routers.</li>
+      <li><b>Configuration Complexity:</b> Requires manual setup or DHCP.</li>
+    </ul>
+
+    <h3>Overview of IPv6</h3>
+    <p>
+      IPv6 uses 128-bit addresses written in hexadecimal format (e.g., <code>2001:db8::1</code>).
+      It supports $2^{128} \approx 3.4 \times 10^{38}$ unique addresses.
+    </p>
+
+    <h4>IPv6 Header Format (Fixed 40 Bytes)</h4>
+    <pre>
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |Version| Traffic Class |           Flow Label                  |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |         Payload Length        |  Next Header  |   Hop Limit   |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                                                               |
+   +                                                               +
+   |                                                               |
+   +                         Source Address                        +
+   |                           (16 bytes)                          |
+   +                                                               +
+   |                                                               |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                                                               |
+   +                                                               +
+   |                                                               |
+   +                      Destination Address                      +
+   |                           (16 bytes)                          |
+   +                                                               +
+   |                                                               |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    </pre>
+
+    <h3>Transition Strategies from IPv4 to IPv6</h3>
+    <p>
+      IPv4 and IPv6 are not backward compatible. Three transition technologies are used:
+    </p>
+    <ol>
+      <li><b>Dual-Stack:</b> Networking devices run both IPv4 and IPv6 stacks concurrently.
+        The device chooses which IP version to use based on DNS responses.</li>
+      <li><b>Tunneling:</b> IPv6 packets are encapsulated inside IPv4 packet headers to cross
+        legacy IPv4-only networks.</li>
+      <li><b>Header Translation (NAT64):</b> Relies on a translation gateway that modifies IPv6 packet
+        headers into IPv4 headers and vice versa, enabling direct communication between incompatible devices.</li>
+    </ol>
+  </div>
+
+  <!-- 5.9 - 5.11 Routing and Troubleshooting -->
+  <div class="section">
+    <h2><b>5.4 Routing Algorithms, Protocols, ICMP and NAT</b></h2>
+
+    <h3>Routing Algorithms Classification</h3>
+    <ul>
+      <li><b>Static (Non-Adaptive) Routing:</b> Routing table entries are manually configured by network
+        administrators. Routes do not change dynamically when network topologies change.</li>
+      <li><b>Dynamic (Adaptive) Routing:</b> Routers exchange information with neighbors to construct
+        routing tables dynamically.
+        <ul>
+          <li><b>Distance Vector Routing:</b> Routers periodically send their entire routing tables
+            to direct neighbors. Based on Bellman-Ford algorithm (e.g., RIP).
+            <br><span class="warning">Suffer from "count-to-infinity" routing loops.</span></li>
+          <li><b>Link State Routing:</b> Routers broadcast link-state packets (containing state of direct links)
+            to all routers in the network. Each router builds a complete map and runs Dijkstra's algorithm
+            to find the shortest path tree (e.g., OSPF).</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Famous Routing Protocols</h3>
+    <table>
+      <tr>
+        <th>Protocol</th>
+        <th>Type</th>
+        <th>Algorithm Used</th>
+        <th>Metric</th>
+        <th>Use Case</th>
+      </tr>
+      <tr>
+        <td><b>RIP</b> (Routing Info Protocol)</td>
+        <td>IGP (Interior)</td>
+        <td>Distance Vector</td>
+        <td>Hop Count (Max 15)</td>
+        <td>Small networks</td>
+      </tr>
+      <tr>
+        <td><b>OSPF</b> (Open Shortest Path First)</td>
+        <td>IGP (Interior)</td>
+        <td>Link State (Dijkstra)</td>
+        <td>Cost (Based on bandwidth)</td>
+        <td>Large enterprise networks</td>
+      </tr>
+      <tr>
+        <td><b>EIGRP</b> (Enhanced IGP)</td>
+        <td>IGP (Interior)</td>
+        <td>Hybrid (DUAL)</td>
+        <td>Bandwidth, Delay, Load, Reliability</td>
+        <td>Cisco-dominated networks</td>
+      </tr>
+      <tr>
+        <td><b>BGP</b> (Border Gateway Protocol)</td>
+        <td>EGP (Exterior)</td>
+        <td>Path Vector</td>
+        <td>Path attributes</td>
+        <td>Internet routing between ISPs</td>
+      </tr>
+    </table>
+
+    <h3>ICMP and NATing</h3>
+    <ul>
+      <li><b>ICMP (Internet Control Message Protocol):</b> Used by network hosts and routers to send
+        control and error messages (e.g., Host Unreachable, Time Exceeded for traceroute).
+        `ping` utilizes ICMP Type 8 (Echo Request) and Type 0 (Echo Reply).</li>
+      <li><b>NAT (Network Address Translation):</b> Translates multiple private IP addresses inside
+        a local network to a single public IP address before forwarding packets to the public Internet.
+        <ul>
+          <li><i>Static NAT:</i> 1-to-1 mapping (fixed).</li>
+          <li><i>Dynamic NAT:</i> Multi-to-multi mapping using an IP pool.</li>
+          <li><i>PAT (Port Address Translation / NAT Overload):</i> Maps multiple private IPs
+            to a single public IP by tracking unique TCP/UDP port numbers.</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Dijkstra's Algorithm Worked Example -->
+  <div class="section">
+    <h2><b>5.5 Dijkstra's Shortest Path Routing Algorithm (OSPF)</b></h2>
+    <p>
+      Link-state routing protocols like OSPF run **Dijkstra's Algorithm** to calculate the shortest
+      path to all destinations.
+    </p>
+    <div class="note">
+      <h4>Dijkstra's Algorithm Worked Example</h4>
+      <p><b>Problem:</b> Given the network topology graph below with node weights (representing link costs),
+        find the shortest path and total cost from Source Node <b>A</b> to all other nodes.</p>
+      <pre>
+             (Cost = 2)
+          A ─────────── B
+          │            │ \
+  (Cost=4)│    (Cost=3)│  \(Cost=5)
+          │            │   \
+          C ─────────── D ── E
+             (Cost=1)     (Cost=2)
+      </pre>
+      <p><b>Solution:</b>
+        <br>1. Initialize distances: $dist(A) = 0$, all other nodes = $\infty$. Set of unvisited nodes $U = \{A, B, C, D, E\}$.
+        <br>
+        <br><b>Iteration 1:</b>
+        <br>- Current node = <b>A</b> (minimum distance = 0).
+        <br>- Update neighbors:
+        <br>  $dist(B) = \min(\infty, 0 + 2) = 2$ via A.
+        <br>  $dist(C) = \min(\infty, 0 + 4) = 4$ via A.
+        <br>- Mark A visited. $U = \{B, C, D, E\}$.
+        <br>
+        <br><b>Iteration 2:</b>
+        <br>- Select node from $U$ with minimum distance: <b>B</b> ($dist = 2$).
+        <br>- Update neighbors:
+        <br>  $dist(D) = \min(\infty, 2 + 3) = 5$ via B.
+        <br>  $dist(E) = \min(\infty, 2 + 5) = 7$ via B.
+        <br>- Mark B visited. $U = \{C, D, E\}$.
+        <br>
+        <br><b>Iteration 3:</b>
+        <br>- Select node with minimum distance: <b>C</b> ($dist = 4$).
+        <br>- Update neighbors of C:
+        <br>  $dist(D) = \min(5, 4 + 1) = 5$ (no change, cost remains 5 via B or C).
+        <br>- Mark C visited. $U = \{D, E\}$.
+        <br>
+        <br><b>Iteration 4:</b>
+        <br>- Select node: <b>D</b> ($dist = 5$).
+        <br>- Update neighbors of D:
+        <br>  $dist(E) = \min(7, 5 + 2) = 7$ (no change).
+        <br>- Mark D visited. $U = \{E\}$.
+        <br>
+        <br><b>Iteration 5:</b>
+        <br>- Select node: <b>E</b> ($dist = 7$). Mark E visited.
+        <br>
+        <br><b>Final Shortest Path Table from Source A:</b>
+      </p>
+      <table>
+        <tr>
+          <th>Destination Node</th>
+          <th>Shortest Path Path</th>
+          <th>Total Routing Cost</th>
+        </tr>
+        <tr>
+          <td>A</td>
+          <td>Direct</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>B</td>
+          <td>A → B</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>C</td>
+          <td>A → C</td>
+          <td>4</td>
+        </tr>
+        <tr>
+          <td>D</td>
+          <td>A → B → D (or A → C → D)</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>E</td>
+          <td>A → B → E (or A → B → D → E)</td>
+          <td>7</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Distance Vector Table Updates -->
+  <div class="section">
+    <h2><b>5.6 Distance Vector Table Update (Bellman-Ford)</b></h2>
+    <p>
+      In distance vector routing, nodes periodically advertise their routing vectors.
+      Upon receiving vector $\vec{D}$ from neighbor $X$, router $Y$ updates its routing table:
+      <br>
+      $$dist_Y(Dest) = \min\left(dist_Y(Dest), \text{cost}(Y, X) + dist_X(Dest)\right)$$
+    </p>
+    <div class="note">
+      <h4>Routing Table Update Example</h4>
+      <p><b>Problem:</b> Router $C$ is connected directly to $A$ (cost = 2) and $B$ (cost = 5).
+        C's current routing table has paths to destinations $X$ and $Y$ with costs 10 and 8.
+        C receives a routing update from neighbor A:
+        <br>  - A to $X$ cost = 6
+        <br>  - A to $Y$ cost = 12
+        <br>Update C's routing table entries for $X$ and $Y$.
+      </p>
+      <p><b>Solution:</b>
+        <br><b>1. For Destination X:</b>
+        <br>Current cost = 10.
+        <br>New cost via neighbor A = $\text{cost}(C, A) + \text{cost}(A, X) = 2 + 6 = 8$.
+        <br>Since $8 < 10$, C updates its path to $X$ to go via $A$ with a cost of 8.
+        <br>
+        <br><b>2. For Destination Y:</b>
+        <br>Current cost = 8.
+        <br>New cost via neighbor A = $\text{cost}(C, A) + \text{cost}(A, Y) = 2 + 12 = 14$.
+        <br>Since $14 > 8$, C keeps its current path to $Y$ (no change).
+      </p>
+    </div>
+  </div>
+
+  <!-- PAT Port Mapping Tables -->
+  <div class="section">
+    <h2><b>5.7 PAT (Port Address Translation) Table Analysis</b></h2>
+    <p>
+      PAT allows multiple private hosts to share a single public IP by modifying TCP/UDP ports:
+    </p>
+    <table>
+      <tr>
+        <th colspan="2">Private (Inside Local)</th>
+        <th colspan="2">Public (Inside Global)</th>
+      </tr>
+      <tr>
+        <th>Source Private IP</th>
+        <th>Source Port</th>
+        <th>NAT Public IP</th>
+        <th>NAT Assigned Port</th>
+      </tr>
+      <tr>
+        <td>192.168.1.10</td>
+        <td>51234</td>
+        <td>202.45.144.5</td>
+        <td>60001</td>
+      </tr>
+      <tr>
+        <td>192.168.1.11</td>
+        <td>51234</td>
+        <td>202.45.144.5</td>
+        <td>60002</td>
+      </tr>
+      <tr>
+        <td>192.168.1.10</td>
+        <td>51235</td>
+        <td>202.45.144.5</td>
+        <td>60003</td>
+      </tr>
+    </table>
+    <p>
+      When an external server responds, it sends packets to destination port <code>60001</code>.
+      The NAT router looks up its translation table and forwards the packet to <code>192.168.1.10:51234</code>.
+    </p>
+  </div>
+
+</body>
+</html>

@@ -35,9 +35,9 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     };
 
     return (
-      <div className={`flex flex-col space-y-1 ${containerClassName}`}>
+      <div className={`flex flex-col space-y-1.5 ${containerClassName}`}>
         {label && (
-          <label className="text-sm font-medium text-gray-700">
+          <label className="text-sm font-semibold text-slate-700">
             {label}
             {rest.required && <span className="text-red-500 ml-1">*</span>}
           </label>
@@ -48,10 +48,11 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           onChange={handleChange} // Use our handler
           disabled={disabled}
           className={`
-            border border-gray-300 rounded-md px-3 py-2
-            focus:outline-none focus:ring-2 focus:ring-indigo-500
-            disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed
-            ${error ? 'border-red-500 focus:ring-red-500' : ''}
+            border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800
+            focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500
+            disabled:bg-slate-50 disabled:text-slate-400 disabled:cursor-not-allowed
+            transition-all duration-300 bg-white
+            ${error ? 'border-red-300 focus:ring-red-500/10 focus:border-red-500' : ''}
             ${className}
           `}
           {...rest}

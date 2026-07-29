@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 5: Software Measurement and Metrics</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 5: Software Measurement and Metrics [2 Hrs.]</b></h1>
+
+  <!-- 6.1 Software Measurement -->
+  <div class="section">
+    <h2><b>6.1 Software Measurement</b></h2>
+
+    <h3>What is Software Measurement?</h3>
+    <p>
+      <b>Software measurement</b> is the process of quantifying software attributes to understand,
+      control, predict, and improve software development and maintenance. Measurement provides
+      objective data to support decision-making throughout the software lifecycle.
+    </p>
+    <p>
+      Lord Kelvin stated: <i>"When you can measure what you are speaking about, and express it in
+      numbers, you know something about it; but when you cannot measure it, your knowledge is of
+      a meager and unsatisfactory kind."</i> This principle applies directly to software engineering.
+    </p>
+
+    <h3>Why Measure Software?</h3>
+    <ul>
+      <li><b>Characterize:</b> Gain understanding of processes, products, resources, and environments.
+        Establish baselines for future comparisons.</li>
+      <li><b>Evaluate:</b> Determine the status of the project and product with respect to plans.
+        Assess whether quality, schedule, and budget targets are being met.</li>
+      <li><b>Predict:</b> Develop models to estimate future effort, cost, schedule, and quality.
+        Plan resources and make informed decisions about project direction.</li>
+      <li><b>Improve:</b> Identify bottlenecks, inefficiencies, and opportunities for improvement.
+        Quantify the impact of process changes and new techniques.</li>
+    </ul>
+
+    <h3>Categories of Software Measures</h3>
+    <table>
+      <tr>
+        <th>Category</th>
+        <th>What is Measured</th>
+        <th>Examples</th>
+      </tr>
+      <tr>
+        <td>Process Measures</td>
+        <td>The software process itself</td>
+        <td>Time and effort per phase, defect detection rate, review coverage</td>
+      </tr>
+      <tr>
+        <td>Product Measures</td>
+        <td>The software product (deliverables)</td>
+        <td>Size (LOC, FP), complexity, quality, reliability</td>
+      </tr>
+      <tr>
+        <td>Project Measures</td>
+        <td>Project characteristics</td>
+        <td>Cost, schedule, staffing levels, productivity</td>
+      </tr>
+    </table>
+
+    <h3>Measurement Principles</h3>
+    <ol>
+      <li><b>Formulation:</b> Derive the measures and metrics appropriate for the representation of the software</li>
+      <li><b>Collection:</b> Accumulate data needed for the formulated metrics</li>
+      <li><b>Analysis:</b> Compute the metrics and apply mathematical tools</li>
+      <li><b>Interpretation:</b> Evaluate the metrics results to gain insight</li>
+      <li><b>Feedback:</b> Use insights to make recommendations for improvement</li>
+    </ol>
+
+    <h3>Measure vs. Metric vs. Indicator</h3>
+    <ul>
+      <li><b>Measure:</b> A quantitative indication of extent, amount, dimension, capacity, or size of some attribute.
+        Example: Number of errors found during testing = 42</li>
+      <li><b>Metric:</b> A quantitative measure of the degree to which a system, component, or process possesses a given attribute.
+        A metric is derived from one or more measures.
+        Example: Error density = errors / KLOC = 42 / 10 = 4.2 errors per KLOC</li>
+      <li><b>Indicator:</b> A metric or combination of metrics that provides insight into the software process, product, or project.
+        Example: If error density exceeds 5 errors/KLOC, the module needs additional review.</li>
+    </ul>
+  </div>
+
+  <!-- 6.2 Software Metrics -->
+  <div class="section">
+    <h2><b>6.2 Software Metrics, Review Metrics and Their Use</b></h2>
+
+    <h3>Size-Oriented Metrics</h3>
+    <p>
+      Size-oriented metrics use <b>Lines of Code (LOC)</b> as the primary measure:
+    </p>
+    <table>
+      <tr>
+        <th>Metric</th>
+        <th>Formula</th>
+        <th>Interpretation</th>
+      </tr>
+      <tr>
+        <td>Productivity</td>
+        <td>KLOC / person-months</td>
+        <td>Higher = more productive</td>
+      </tr>
+      <tr>
+        <td>Quality</td>
+        <td>Defects / KLOC</td>
+        <td>Lower = higher quality</td>
+      </tr>
+      <tr>
+        <td>Cost</td>
+        <td>$ / LOC</td>
+        <td>Lower = more cost-effective</td>
+      </tr>
+      <tr>
+        <td>Documentation</td>
+        <td>Documentation pages / KLOC</td>
+        <td>Indicates documentation thoroughness</td>
+      </tr>
+    </table>
+
+    <h4>Advantages of LOC</h4>
+    <ul>
+      <li>Simple and easy to count (automated tools available)</li>
+      <li>Widely used and understood</li>
+      <li>Useful for comparing similar projects in the same language</li>
+    </ul>
+
+    <h4>Disadvantages of LOC</h4>
+    <ul>
+      <li>Language-dependent (can't compare Java LOC with Python LOC)</li>
+      <li>Penalizes well-designed, concise programs</li>
+      <li>Difficult to estimate early in the project</li>
+      <li>No direct correlation with functionality delivered</li>
+    </ul>
+
+    <h3>Function-Oriented Metrics (Function Points)</h3>
+    <p>
+      <b>Function Point Analysis (FPA)</b>, developed by Allan Albrecht at IBM in 1979,
+      measures software size based on the <b>functionality</b> delivered to the user,
+      independent of the programming language used.
+    </p>
+
+    <h4>Five Information Domain Characteristics</h4>
+    <table>
+      <tr>
+        <th>Characteristic</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>External Inputs (EI)</td>
+        <td>Data entering the system from outside</td>
+        <td>User login form, data entry screen</td>
+      </tr>
+      <tr>
+        <td>External Outputs (EO)</td>
+        <td>Data leaving the system to the user</td>
+        <td>Reports, error messages, screens</td>
+      </tr>
+      <tr>
+        <td>External Inquiries (EQ)</td>
+        <td>Input that results in immediate output</td>
+        <td>Search query, lookup</td>
+      </tr>
+      <tr>
+        <td>Internal Logical Files (ILF)</td>
+        <td>Data stores maintained by the system</td>
+        <td>Database tables, config files</td>
+      </tr>
+      <tr>
+        <td>External Interface Files (EIF)</td>
+        <td>Data stores referenced but not maintained</td>
+        <td>Third-party data files, external APIs</td>
+      </tr>
+    </table>
+
+    <h4>Complexity Weights</h4>
+    <table>
+      <tr>
+        <th>Measurement Parameter</th>
+        <th>Simple</th>
+        <th>Average</th>
+        <th>Complex</th>
+      </tr>
+      <tr>
+        <td>External Inputs (EI)</td>
+        <td>3</td>
+        <td>4</td>
+        <td>6</td>
+      </tr>
+      <tr>
+        <td>External Outputs (EO)</td>
+        <td>4</td>
+        <td>5</td>
+        <td>7</td>
+      </tr>
+      <tr>
+        <td>External Inquiries (EQ)</td>
+        <td>3</td>
+        <td>4</td>
+        <td>6</td>
+      </tr>
+      <tr>
+        <td>Internal Logical Files (ILF)</td>
+        <td>7</td>
+        <td>10</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>External Interface Files (EIF)</td>
+        <td>5</td>
+        <td>7</td>
+        <td>10</td>
+      </tr>
+    </table>
+
+    <h4>Function Point Calculation</h4>
+    <pre>
+  Step 1: Calculate Unadjusted Function Points (UFP)
+    UFP = Σ (count × weight) for all five categories
+
+  Step 2: Calculate Value Adjustment Factor (VAF)
+    VAF = 0.65 + 0.01 × Σ(Fi)
+    where Fi (i = 1 to 14) are General System Characteristics
+    rated from 0 (no influence) to 5 (strong influence)
+
+  Step 3: Calculate Adjusted Function Points (AFP)
+    AFP = UFP × VAF
+
+  Example:
+    EI: 3 Simple × 3 = 9,  2 Average × 4 = 8    → 17
+    EO: 2 Simple × 4 = 8,  1 Complex × 7 = 7    → 15
+    EQ: 1 Average × 4 = 4                         →  4
+    ILF: 2 Simple × 7 = 14, 1 Average × 10 = 10  → 24
+    EIF: 1 Simple × 5 = 5                         →  5
+    ─────────────────────────────────────────────
+    UFP = 17 + 15 + 4 + 24 + 5 = 65
+
+    If Σ(Fi) = 42, then VAF = 0.65 + 0.01 × 42 = 1.07
+    AFP = 65 × 1.07 = 69.55 Function Points
+    </pre>
+
+    <h3>Review Metrics</h3>
+    <p>
+      <b>Formal Technical Reviews (FTRs)</b> are a quality assurance mechanism.
+      Metrics from reviews help evaluate their effectiveness:
+    </p>
+
+    <table>
+      <tr>
+        <th>Review Metric</th>
+        <th>Formula</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td>Preparation Rate</td>
+        <td>Pages reviewed / preparation hours</td>
+        <td>Ensures reviewers spend adequate time</td>
+      </tr>
+      <tr>
+        <td>Review Rate</td>
+        <td>LOC (or pages) / review hours</td>
+        <td>Optimal: 150-200 LOC/hour for code reviews</td>
+      </tr>
+      <tr>
+        <td>Defect Density</td>
+        <td>Defects found / size (KLOC or pages)</td>
+        <td>Quality indicator</td>
+      </tr>
+      <tr>
+        <td>Defect Detection Rate</td>
+        <td>Defects found in review / total defects</td>
+        <td>Review effectiveness (typically 60-90%)</td>
+      </tr>
+      <tr>
+        <td>Review Effort Ratio</td>
+        <td>Review effort / total development effort</td>
+        <td>Typically 10-15% of total effort</td>
+      </tr>
+    </table>
+
+    <h3>Formal Technical Reviews (FTR)</h3>
+    <p>
+      An FTR is a software quality assurance activity performed by software engineers:
+    </p>
+    <ol>
+      <li><b>Meeting preparation:</b> Each reviewer reviews the work product individually</li>
+      <li><b>Review meeting:</b> Reviewers present findings; errors are identified and recorded</li>
+      <li><b>Rework:</b> The author fixes identified issues</li>
+      <li><b>Follow-up:</b> Verification that all issues have been addressed</li>
+    </ol>
+
+    <h4>FTR Guidelines</h4>
+    <ul>
+      <li>Review the product, not the producer</li>
+      <li>Set an agenda and maintain it</li>
+      <li>Limit debate and rebuttal</li>
+      <li>Enunciate problem areas but don't attempt to solve every problem</li>
+      <li>Take written notes</li>
+      <li>Limit the number of participants (3-5 reviewers optimal)</li>
+      <li>Develop a checklist for each product to be reviewed</li>
+      <li>Allocate resources and time schedule for FTRs</li>
+      <li>Conduct meaningful training for all reviewers</li>
+      <li>Review earlier reviews</li>
+    </ul>
+  </div>
+
+  <!-- 6.3 Control Flow Graph -->
+  <div class="section">
+    <h2><b>6.3 Control Flow Graph (CFG)</b></h2>
+
+    <h3>What is a Control Flow Graph?</h3>
+    <p>
+      A <b>Control Flow Graph (CFG)</b> is a graphical representation of the flow of control
+      through a program. Each node represents a <b>basic block</b> (a sequence of statements
+      with no branches), and each edge represents a transfer of control between blocks.
+    </p>
+
+    <h3>CFG Elements</h3>
+    <ul>
+      <li><b>Nodes:</b> Represent one or more procedural statements</li>
+      <li><b>Edges:</b> Represent flow of control between nodes</li>
+      <li><b>Predicate Node:</b> A node with two or more edges emanating from it (decision point)</li>
+      <li><b>Region:</b> An area bounded by edges and nodes (including the area outside the graph)</li>
+    </ul>
+
+    <h3>Example: CFG Construction</h3>
+    <pre>
+  Source Code:                   Control Flow Graph:
+
+  1. void example(int x) {
+  2.   int result = 0;           ┌───┐
+  3.   if (x &gt; 0) {              │ 1 │ (Statements 1-2)
+  4.     result = x * 2;         └─┬─┘
+  5.     if (x &gt; 10) {               │
+  6.       result += 5;          ┌───┴───┐
+  7.     }                       │   2   │ (Predicate: x &gt; 0)
+  8.   } else {                  └───┬───┘
+  9.     result = -x;           Y/     \N
+  10.  }                     ┌───┐     ┌───┐
+  11.  printf("%d", result); │ 3 │     │ 6 │ (result = -x)
+  12. }                      └─┬─┘     └─┬─┘
+                               │         │
+                           ┌───┴───┐     │
+                           │   4   │     │ (Predicate: x &gt; 10)
+                           └───┬───┘     │
+                          Y/     \N      │
+                       ┌───┐  ┌───┐      │
+                       │ 5 │  │   │      │
+                       └─┬─┘  └─┬─┘      │
+                         │      │        │
+                         └──┬───┘        │
+                            └─────┬──────┘
+                              ┌───┴───┐
+                              │   7   │ (printf)
+                              └───────┘
+    </pre>
+  </div>
+
+  <!-- 6.4 Cyclomatic Complexity -->
+  <div class="section">
+    <h2><b>6.4 Cyclomatic Complexity</b></h2>
+
+    <h3>What is Cyclomatic Complexity?</h3>
+    <p>
+      <b>Cyclomatic complexity</b>, defined by <b>Thomas McCabe</b>, is a software metric
+      that provides a quantitative measure of the logical complexity of a program.
+      It measures the number of <b>linearly independent paths</b> through a program's
+      source code.
+    </p>
+
+    <h3>Calculation Methods</h3>
+    <p>There are three ways to compute cyclomatic complexity V(G):</p>
+
+    <h4>Method 1: Edges and Nodes</h4>
+    <pre>
+  V(G) = E - N + 2
+
+  Where:
+    E = number of edges in the control flow graph
+    N = number of nodes in the control flow graph
+    </pre>
+
+    <h4>Method 2: Predicate Nodes</h4>
+    <pre>
+  V(G) = P + 1
+
+  Where:
+    P = number of predicate nodes (decision points/conditions)
+    </pre>
+
+    <h4>Method 3: Regions</h4>
+    <pre>
+  V(G) = Number of regions in the control flow graph
+
+  (A region is an area bounded by edges and nodes,
+   including the exterior unbounded region)
+    </pre>
+
+    <h3>Worked Example</h3>
+    <pre>
+  Consider this code:
+
+  1. void analyze(int a, int b) {
+  2.   if (a &gt; 0 &amp;&amp; b &gt; 0) {      // Predicate 1 (two conditions = 2 predicates)
+  3.     printf("Both positive");
+  4.   } else if (a == 0) {         // Predicate 3
+  5.     printf("A is zero");
+  6.   } else {
+  7.     printf("Other case");
+  8.   }
+  9.   printf("Done");
+  10. }
+
+  Predicate nodes: 3 (a &gt; 0, b &gt; 0, a == 0)
+  V(G) = 3 + 1 = 4
+
+  This means there are 4 linearly independent paths:
+  Path 1: a &gt; 0, b &gt; 0  → "Both positive" → "Done"
+  Path 2: a &gt; 0, b ≤ 0, a == 0  → "A is zero" → "Done"
+  Path 3: a &gt; 0, b ≤ 0, a ≠ 0  → "Other case" → "Done"
+  Path 4: a ≤ 0, a == 0  → "A is zero" → "Done"
+    </pre>
+
+    <h3>Interpreting Cyclomatic Complexity</h3>
+    <table>
+      <tr>
+        <th>V(G) Range</th>
+        <th>Risk Evaluation</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td>1 - 10</td>
+        <td>Simple, low risk</td>
+        <td>Well-structured, easy to test</td>
+      </tr>
+      <tr>
+        <td>11 - 20</td>
+        <td>Moderate complexity, moderate risk</td>
+        <td>Consider refactoring</td>
+      </tr>
+      <tr>
+        <td>21 - 50</td>
+        <td>Complex, high risk</td>
+        <td>Refactoring recommended</td>
+      </tr>
+      <tr>
+        <td>&gt; 50</td>
+        <td>Very complex, very high risk</td>
+        <td>Must refactor; untestable</td>
+      </tr>
+    </table>
+
+    <h3>Significance of Cyclomatic Complexity</h3>
+    <ul>
+      <li>Provides the <b>minimum number of test cases</b> needed for basis path testing</li>
+      <li>Identifies modules that are too complex and need refactoring</li>
+      <li>Provides an objective measure of code quality</li>
+      <li>Can be automated (tools: SonarQube, PMD, Lizard, radon)</li>
+      <li>Useful as a quality gate in CI/CD pipelines</li>
+    </ul>
+  </div>
+
+  <!-- 6.5 Object-Oriented Metrics -->
+  <div class="section">
+    <h2><b>6.5 Object-Oriented Metrics</b></h2>
+
+    <h3>CK Metrics Suite (Chidamber and Kemerer)</h3>
+    <p>
+      The <b>CK metrics suite</b> is the most widely used set of object-oriented metrics:
+    </p>
+
+    <table>
+      <tr>
+        <th>Metric</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Ideal</th>
+      </tr>
+      <tr>
+        <td>WMC</td>
+        <td>Weighted Methods per Class</td>
+        <td>Sum of complexities of all methods in a class</td>
+        <td>Low (≤ 20)</td>
+      </tr>
+      <tr>
+        <td>DIT</td>
+        <td>Depth of Inheritance Tree</td>
+        <td>Maximum depth from class to root of hierarchy</td>
+        <td>Low (≤ 5)</td>
+      </tr>
+      <tr>
+        <td>NOC</td>
+        <td>Number of Children</td>
+        <td>Number of immediate subclasses</td>
+        <td>Moderate</td>
+      </tr>
+      <tr>
+        <td>CBO</td>
+        <td>Coupling Between Object classes</td>
+        <td>Number of other classes to which a class is coupled</td>
+        <td>Low (≤ 14)</td>
+      </tr>
+      <tr>
+        <td>RFC</td>
+        <td>Response For a Class</td>
+        <td>Number of methods that can be executed in response to a message</td>
+        <td>Low</td>
+      </tr>
+      <tr>
+        <td>LCOM</td>
+        <td>Lack of Cohesion in Methods</td>
+        <td>Degree to which methods in a class are unrelated</td>
+        <td>Low (0 = perfect cohesion)</td>
+      </tr>
+    </table>
+
+    <h3>Additional OO Metrics</h3>
+    <ul>
+      <li><b>Lines of Code per Method:</b> Average method size (ideal: 10-20 lines)</li>
+      <li><b>Number of Methods per Class:</b> Class size indicator (ideal: ≤ 20)</li>
+      <li><b>Fan-in/Fan-out:</b> Number of modules calling/called by a module</li>
+      <li><b>Code Coverage:</b> Percentage of code executed during testing</li>
+    </ul>
+  </div>
+
+  <!-- 6.6 Lossless Decomposition -->
+  <div class="section">
+    <h2><b>6.6 Lossless Decomposition</b></h2>
+
+    <h3>What is Lossless Decomposition?</h3>
+    <p>
+      In the context of software measurement and metrics, <b>lossless decomposition</b>
+      refers to the principle that when a large software component is decomposed into
+      smaller components, the total measured attributes should be preserved.
+      No information or functionality should be lost during decomposition.
+    </p>
+
+    <h3>Application in Software Engineering</h3>
+    <ul>
+      <li><b>Functional Decomposition:</b> When a function is broken into sub-functions,
+        the sum of functionality should equal the original function</li>
+      <li><b>Metric Preservation:</b> When measuring decomposed components, the total
+        function points or LOC should sum to the original measurement</li>
+      <li><b>Requirements Decomposition:</b> When a high-level requirement is broken into
+        sub-requirements, all aspects of the original requirement should be covered</li>
+      <li><b>Database Normalization:</b> Lossless-join decomposition ensures no data is lost
+        when a relation is decomposed into sub-relations (related to database design theory)</li>
+    </ul>
+
+    <h3>Significance in Metrics</h3>
+    <p>
+      Lossless decomposition is important because it ensures that metrics remain
+      meaningful and accurate when systems are broken down for analysis. If decomposition
+      introduces loss, measurements at the component level will not accurately reflect
+      the system-level characteristics, leading to flawed conclusions about quality,
+      complexity, and effort.
+    </p>
+
+    <div class="note">
+      <b>Summary:</b> Software measurement and metrics provide the quantitative foundation
+      for managing software projects and improving software quality. Key metrics include
+      LOC, function points, cyclomatic complexity, and OO metrics (CK suite).
+      Formal technical reviews are one of the most effective quality assurance mechanisms.
+      Understanding and applying these metrics enables data-driven decision making
+      throughout the software development lifecycle.
+    </div>
+  </div>
+
+</body>
+</html>

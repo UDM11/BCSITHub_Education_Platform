@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Button } from '../components/ui/Button';
 import { toast } from 'sonner';
 import Backendless from 'backendless';
+import { UploadCloud, FileText, Sparkles, BookOpen, ArrowLeft, ShieldCheck } from 'lucide-react';
+import { Card, CardContent } from '../components/ui/Card';
+import { motion } from 'framer-motion';
 
 const UploadPaper: React.FC = () => {
   const { user } = useAuth();
@@ -87,163 +90,202 @@ const UploadPaper: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-12">
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-              </svg>
-            </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Upload Past Paper</h1>
-            <p className="text-gray-600">Share your knowledge with the community</p>
-          </div>
+    <div className="min-h-screen bg-slate-50/30 py-12 relative overflow-hidden">
+      {/* Background Glow */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
+        <motion.div 
+          className="absolute top-20 left-10 w-64 h-64 bg-indigo-200/20 rounded-full blur-3xl animate-pulse"
+          animate={{ x: [0, 40, 0], y: [0, -20, 0] }}
+          transition={{ duration: 10, repeat: Infinity }}
+        />
+        <motion.div 
+          className="absolute bottom-20 right-10 w-80 h-80 bg-purple-200/20 rounded-full blur-3xl"
+          animate={{ x: [0, -30, 0], y: [0, 30, 0] }}
+          transition={{ duration: 12, repeat: Infinity }}
+        />
+      </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Paper Title *
-              </label>
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleInputChange}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                placeholder="e.g., Data Structures Final Exam 2023"
-              />
-            </div>
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Navigation */}
+        <motion.div 
+          className="mb-6"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+        >
+          <button 
+            onClick={() => navigate(-1)}
+            className="flex items-center text-slate-655 hover:text-purple-650 transition-colors text-sm font-semibold bg-transparent border-0 cursor-pointer"
+          >
+            <ArrowLeft className="w-4 h-4 mr-1.5" />
+            Back to Dashboard
+          </button>
+        </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Subject *
-                </label>
-                <input
-                  type="text"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  placeholder="e.g., Data Structures"
-                />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <Card hover={false} className="border border-slate-105 shadow-premium bg-white/90 backdrop-blur-md rounded-2xl overflow-hidden">
+            <CardContent className="p-8">
+              <div className="text-center mb-8">
+                <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-650 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md">
+                  <UploadCloud className="w-7 h-7 text-white" />
+                </div>
+                <h1 className="text-2xl font-extrabold text-slate-805 mb-2 tracking-tight">Upload Past Paper</h1>
+                <p className="text-xs font-bold text-slate-455 uppercase tracking-widest">Share exam resources with the student community</p>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Semester *
-                </label>
-                <select
-                  name="semester"
-                  value={formData.semester}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                >
-                  <option value="">Select Semester</option>
-                  {[1, 2, 3, 4, 5, 6, 7, 8].map(sem => (
-                    <option key={sem} value={sem}>Semester {sem}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-550 mb-1.5 uppercase tracking-wider">
+                    Paper Title *
+                  </label>
+                  <input
+                    type="text"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-semibold transition-all"
+                    placeholder="e.g., Data Structures Final Exam 2023"
+                  />
+                </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Exam Type *
-                </label>
-                <select
-                  name="examType"
-                  value={formData.examType}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                >
-                  <option value="">Select Type</option>
-                  <option value="Final">Final Exam</option>
-                  <option value="Midterm">Midterm Exam</option>
-                  <option value="Quiz">Quiz</option>
-                  <option value="Assignment">Assignment</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  College *
-                </label>
-                <input
-                  type="text"
-                  name="college"
-                  value={formData.college}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  placeholder="e.g., Pokhara University"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Upload File *
-              </label>
-              <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-green-400 transition-colors">
-                <input
-                  type="file"
-                  onChange={handleFileChange}
-                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                  required
-                  className="hidden"
-                  id="file-upload"
-                />
-                <label htmlFor="file-upload" className="cursor-pointer">
-                  <div className="space-y-2">
-                    <svg className="w-12 h-12 text-gray-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                    </svg>
-                    <div className="text-gray-600">
-                      <span className="font-medium text-green-600">Click to upload</span> or drag and drop
-                    </div>
-                    <p className="text-sm text-gray-500">PDF, DOC, DOCX, JPG, PNG up to 10MB</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-555 mb-1.5 uppercase tracking-wider">
+                      Subject Name *
+                    </label>
+                    <input
+                      type="text"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-semibold transition-all"
+                      placeholder="e.g., Data Structures"
+                    />
                   </div>
-                </label>
-                {formData.file && (
-                  <p className="mt-2 text-sm text-green-600 font-medium">
-                    Selected: {formData.file.name}
-                  </p>
-                )}
-              </div>
-            </div>
 
-            <div className="flex gap-4 pt-6">
-              <Button
-                type="button"
-                onClick={() => navigate(-1)}
-                className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 rounded-xl transition-all duration-300"
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                disabled={isUploading}
-                className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white py-3 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isUploading ? (
-                  <div className="flex items-center justify-center gap-2">
-                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
-                    Uploading...
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-555 mb-1.5 uppercase tracking-wider">
+                      Semester *
+                    </label>
+                    <select
+                      name="semester"
+                      value={formData.semester}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-bold transition-all"
+                    >
+                      <option value="">Select Semester</option>
+                      {[1, 2, 3, 4, 5, 6, 7, 8].map(sem => (
+                        <option key={sem} value={sem}>Semester {sem}</option>
+                      ))}
+                    </select>
                   </div>
-                ) : (
-                  'Upload Paper'
-                )}
-              </Button>
-            </div>
-          </form>
-        </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-555 mb-1.5 uppercase tracking-wider">
+                      Exam Type *
+                    </label>
+                    <select
+                      name="examType"
+                      value={formData.examType}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-705 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-bold transition-all"
+                    >
+                      <option value="">Select Type</option>
+                      <option value="Final">Final Exam</option>
+                      <option value="Midterm">Midterm Exam</option>
+                      <option value="Quiz">Quiz</option>
+                      <option value="Assignment">Assignment</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-555 mb-1.5 uppercase tracking-wider">
+                      Affiliated College *
+                    </label>
+                    <input
+                      type="text"
+                      name="college"
+                      value={formData.college}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-semibold transition-all"
+                      placeholder="e.g., Pokhara University"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-555 mb-1.5 uppercase tracking-wider">
+                    Select File Resource *
+                  </label>
+                  <div className="border-2 border-dashed border-indigo-150 hover:border-indigo-400 bg-indigo-50/5 hover:bg-indigo-50/10 rounded-2xl p-6 text-center transition-colors">
+                    <input
+                      type="file"
+                      onChange={handleFileChange}
+                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                      required
+                      className="hidden"
+                      id="file-upload"
+                    />
+                    <label htmlFor="file-upload" className="cursor-pointer">
+                      <div className="space-y-2">
+                        <UploadCloud className="w-10 h-10 text-slate-400 mx-auto" />
+                        <div className="text-xs font-semibold text-slate-600">
+                          <span className="text-indigo-650 hover:text-indigo-800 underline">Click to browse file</span> or drag & drop here
+                        </div>
+                        <p className="text-[10px] font-bold text-slate-455 uppercase tracking-wide">PDF, DOC, DOCX, JPG, PNG (Max 10MB)</p>
+                      </div>
+                    </label>
+                    {formData.file && (
+                      <div className="mt-4 p-3 bg-emerald-50 border border-emerald-100 rounded-xl flex items-center justify-center gap-2">
+                        <FileText className="w-4 h-4 text-emerald-650" />
+                        <span className="text-xs font-bold text-emerald-805">
+                          Selected: {formData.file.name}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex gap-4 pt-4 border-t border-slate-50">
+                  <button
+                    type="button"
+                    onClick={() => navigate(-1)}
+                    className="flex-1 py-3 border border-slate-205 text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-xl font-bold text-xs transition-all duration-300"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isUploading}
+                    className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-650 hover:brightness-110 text-white font-bold py-3 rounded-xl shadow-md border-0 text-xs flex items-center justify-center gap-1.5 transition-all"
+                  >
+                    {isUploading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4.5 w-4.5 border-2 border-white border-t-transparent"></div>
+                        <span>Uploading...</span>
+                      </>
+                    ) : (
+                      <>
+                        <ShieldCheck className="w-4 h-4 text-yellow-350" />
+                        <span>Upload Paper</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+        </motion.div>
       </div>
     </div>
   );

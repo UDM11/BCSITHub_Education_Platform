@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 10: Risk Management</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 10: Risk Management [2 Hrs.]</b></h1>
+
+  <!-- 10.1 Software Risk -->
+  <div class="section">
+    <h2><b>10.1 Software Risk</b></h2>
+
+    <h3>What is Risk?</h3>
+    <p>
+      In the context of software engineering, <b>risk</b> is a potential problem — it might
+      happen, it might not. But regardless of the outcome, it is a really good idea to
+      identify it, assess its probability of occurrence, estimate its impact, and establish
+      a contingency plan should the problem actually occur.
+    </p>
+    <p>
+      According to <b>Robert Charette</b>, risk is characterized by:
+    </p>
+    <ul>
+      <li><b>Uncertainty:</b> The event characterizing the risk may or may not happen;
+        there are no 100% probable risks (those are constraints or facts).</li>
+      <li><b>Loss:</b> If the risk becomes a reality, unwanted consequences or losses
+        will occur. The losses can be in terms of time, money, quality, or reputation.</li>
+    </ul>
+
+    <h3>Categories of Software Risks</h3>
+
+    <h4>1. Project Risks</h4>
+    <p>
+      Threaten the <b>project plan</b> — if they become real, it is likely that the
+      project schedule will slip and costs will increase:
+    </p>
+    <ul>
+      <li>Budget, schedule, and resource risks</li>
+      <li>Staff turnover and availability</li>
+      <li>Scope changes and requirements volatility</li>
+      <li>Organizational and political risks</li>
+      <li>Contractual and procurement risks</li>
+    </ul>
+
+    <h4>2. Technical Risks</h4>
+    <p>
+      Threaten the <b>quality and timeliness</b> of the software to be produced:
+    </p>
+    <ul>
+      <li>Design, implementation, interface, and verification risks</li>
+      <li>Technology is new and unproven</li>
+      <li>Requirements are ambiguous or incomplete</li>
+      <li>Integration complexity is underestimated</li>
+      <li>Performance requirements may be difficult to meet</li>
+      <li>Maintenance difficulty due to poor design</li>
+    </ul>
+
+    <h4>3. Business Risks</h4>
+    <p>
+      Threaten the <b>viability of the software</b> to be built:
+    </p>
+    <ul>
+      <li><b>Market risk:</b> Building a product that nobody wants</li>
+      <li><b>Strategic risk:</b> Product doesn't fit the company's business strategy</li>
+      <li><b>Sales risk:</b> Product cannot be sold or marketed effectively</li>
+      <li><b>Management risk:</b> Loss of senior management support</li>
+      <li><b>Budget risk:</b> Loss of budget or financial commitment</li>
+    </ul>
+
+    <h3>Known Risks vs. Predictable Risks vs. Unpredictable Risks</h3>
+    <table>
+      <tr>
+        <th>Risk Type</th>
+        <th>Description</th>
+        <th>Example</th>
+        <th>Handling</th>
+      </tr>
+      <tr>
+        <td>Known Risks</td>
+        <td>Can be uncovered after careful evaluation of the project plan and environment</td>
+        <td>Unrealistic delivery date, lack of documented requirements</td>
+        <td>Direct planning and mitigation</td>
+      </tr>
+      <tr>
+        <td>Predictable Risks</td>
+        <td>Extrapolated from past project experience</td>
+        <td>Staff turnover, poor communication with customer</td>
+        <td>Historical data analysis, contingency planning</td>
+      </tr>
+      <tr>
+        <td>Unpredictable Risks</td>
+        <td>Very difficult to identify in advance</td>
+        <td>Natural disaster, pandemic, sudden regulation change</td>
+        <td>General contingency reserve, insurance</td>
+      </tr>
+    </table>
+
+    <h3>Top 10 Software Risks (Barry Boehm)</h3>
+    <ol>
+      <li>Personnel shortfalls</li>
+      <li>Unrealistic schedules and budgets</li>
+      <li>Developing the wrong functions and properties</li>
+      <li>Developing the wrong user interface</li>
+      <li>Gold plating (adding unnecessary features)</li>
+      <li>Continuing stream of requirements changes</li>
+      <li>Shortfalls in externally furnished components or tasks</li>
+      <li>Shortfalls in externally performed tasks</li>
+      <li>Real-time performance shortfalls</li>
+      <li>Straining computer science capabilities</li>
+    </ol>
+  </div>
+
+  <!-- 10.2 Risk Identification -->
+  <div class="section">
+    <h2><b>10.2 Risk Identification, Projection and Refinement</b></h2>
+
+    <h3>Risk Identification</h3>
+    <p>
+      <b>Risk identification</b> is a systematic attempt to specify threats to the project plan.
+      By identifying known and predictable risks, the project manager takes a first step
+      toward avoiding them when possible and controlling them when necessary.
+    </p>
+
+    <h3>Risk Identification Techniques</h3>
+
+    <h4>1. Checklist-Based Identification</h4>
+    <p>
+      Use a checklist of common software project risks organized by categories:
+    </p>
+    <ul>
+      <li><b>Product size risks:</b> Is the estimated size of the product realistic?
+        What is the confidence level of the size estimate?</li>
+      <li><b>Business impact risks:</b> How important is this product to the business?
+        What are the consequences of failure?</li>
+      <li><b>Customer characteristics risks:</b> Is the customer willing to participate?
+        Is the customer technically sophisticated?</li>
+      <li><b>Process definition risks:</b> Has the organization defined a software process?
+        Is it being followed?</li>
+      <li><b>Development environment risks:</b> Are the tools available? Are they adequate?</li>
+      <li><b>Technology risks:</b> Is the technology new to the organization? Is it proven?</li>
+      <li><b>Staff size and experience risks:</b> Are people available? Do they have the right skills?</li>
+    </ul>
+
+    <h4>2. Brainstorming</h4>
+    <ul>
+      <li>Team members identify risks in an open forum</li>
+      <li>All risks are recorded without judgment initially</li>
+      <li>Risks are then categorized, evaluated, and prioritized</li>
+    </ul>
+
+    <h4>3. Expert Judgment (Delphi Technique)</h4>
+    <ul>
+      <li>Multiple experts independently identify risks</li>
+      <li>Results are compiled and shared anonymously</li>
+      <li>Process repeats until consensus is reached</li>
+    </ul>
+
+    <h4>4. SWOT Analysis</h4>
+    <ul>
+      <li><b>Strengths:</b> Internal advantages (experienced team, proven technology)</li>
+      <li><b>Weaknesses:</b> Internal vulnerabilities (skill gaps, tight budget)</li>
+      <li><b>Opportunities:</b> External factors that could benefit the project</li>
+      <li><b>Threats:</b> External factors that could harm the project</li>
+    </ul>
+
+    <h4>5. Root Cause Analysis</h4>
+    <ul>
+      <li>Look at past project failures and identify root causes</li>
+      <li>Proactively identify if similar root causes exist in the current project</li>
+    </ul>
+
+    <h3>Risk Components and Drivers</h3>
+    <p>
+      Each identified risk should be described in terms of four components:
+    </p>
+    <ul>
+      <li><b>Performance risk:</b> Degree of uncertainty that the product will meet its requirements
+        and be fit for its intended use</li>
+      <li><b>Cost risk:</b> Degree of uncertainty that the project budget will be maintained</li>
+      <li><b>Support risk:</b> Degree of uncertainty that the resultant software will be easy to correct,
+        adapt, and enhance</li>
+      <li><b>Schedule risk:</b> Degree of uncertainty that the project schedule will be maintained
+        and that the product will be delivered on time</li>
+    </ul>
+  </div>
+
+  <!-- 10.3 Risk Projection -->
+  <div class="section">
+    <h2><b>10.3 Risk Projection (Risk Estimation)</b></h2>
+
+    <h3>What is Risk Projection?</h3>
+    <p>
+      <b>Risk projection</b> (also called risk estimation) attempts to rate each risk
+      in two ways: (1) the <b>probability</b> that the risk will become reality, and
+      (2) the <b>consequences</b> or impact if the risk does become reality.
+    </p>
+
+    <h3>Risk Exposure (RE)</h3>
+    <pre>
+  Risk Exposure = Probability of Occurrence × Impact (Loss)
+
+  RE = P × L
+
+  Where:
+    P = Probability of the risk occurring (0 to 1)
+    L = Loss or impact if the risk occurs (monetary or other measure)
+    </pre>
+
+    <h3>Risk Assessment Table</h3>
+    <table>
+      <tr>
+        <th>Risk ID</th>
+        <th>Risk Description</th>
+        <th>Category</th>
+        <th>Probability</th>
+        <th>Impact</th>
+        <th>Risk Exposure</th>
+        <th>Priority</th>
+      </tr>
+      <tr>
+        <td>R001</td>
+        <td>Key developer leaves mid-project</td>
+        <td>Project</td>
+        <td>0.30</td>
+        <td>High ($50K)</td>
+        <td>$15K</td>
+        <td>High</td>
+      </tr>
+      <tr>
+        <td>R002</td>
+        <td>Requirements change significantly</td>
+        <td>Project</td>
+        <td>0.60</td>
+        <td>Medium ($20K)</td>
+        <td>$12K</td>
+        <td>High</td>
+      </tr>
+      <tr>
+        <td>R003</td>
+        <td>Third-party API becomes unavailable</td>
+        <td>Technical</td>
+        <td>0.15</td>
+        <td>High ($40K)</td>
+        <td>$6K</td>
+        <td>Medium</td>
+      </tr>
+      <tr>
+        <td>R004</td>
+        <td>Performance requirements not met</td>
+        <td>Technical</td>
+        <td>0.25</td>
+        <td>High ($30K)</td>
+        <td>$7.5K</td>
+        <td>Medium</td>
+      </tr>
+      <tr>
+        <td>R005</td>
+        <td>Competitor releases similar product first</td>
+        <td>Business</td>
+        <td>0.20</td>
+        <td>Very High ($100K)</td>
+        <td>$20K</td>
+        <td>Critical</td>
+      </tr>
+    </table>
+
+    <h3>Risk Probability/Impact Matrix</h3>
+    <pre>
+  Impact →      Negligible   Marginal   Critical   Catastrophic
+  Probability
+  ↓
+  Very High     Medium       High       Critical   Critical
+  High          Low          Medium     High       Critical
+  Medium        Low          Medium     Medium     High
+  Low           Low          Low        Medium     Medium
+  Very Low      Low          Low        Low        Low
+    </pre>
+
+    <h3>Qualitative vs. Quantitative Risk Assessment</h3>
+    <table>
+      <tr>
+        <th>Approach</th>
+        <th>Description</th>
+        <th>When to Use</th>
+      </tr>
+      <tr>
+        <td>Qualitative</td>
+        <td>Uses categories (High/Medium/Low) for probability and impact</td>
+        <td>Quick assessment, limited data available</td>
+      </tr>
+      <tr>
+        <td>Quantitative</td>
+        <td>Uses numerical values for probability and monetary impact</td>
+        <td>Detailed analysis, sufficient data available</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 10.4 Risk Refinement -->
+  <div class="section">
+    <h2><b>10.4 Risk Refinement</b></h2>
+
+    <h3>What is Risk Refinement?</h3>
+    <p>
+      During early stages of project planning, a risk may be stated in a general way.
+      As time passes and more is learned about the project and the risk, it may be possible
+      to <b>refine</b> the risk into a set of more detailed, more specific risks.
+    </p>
+
+    <h3>CTC (Condition-Transition-Consequence) Format</h3>
+    <p>
+      One way to refine a risk is to represent it using the CTC format:
+    </p>
+    <pre>
+  Given that [condition],
+  there is concern that [transition/event],
+  which would lead to [consequence].
+
+  Example:
+  General Risk: "Staff turnover might affect the project"
+
+  Refined Risks:
+  R1: Given that only one developer knows the payment module,
+      there is concern that this developer might leave,
+      which would lead to 3-month delay in payment feature delivery.
+
+  R2: Given that the team has no backup for the DevOps engineer,
+      there is concern that the DevOps engineer might become unavailable,
+      which would lead to inability to deploy to production.
+
+  R3: Given that two team members have received competing offers,
+      there is concern that they might resign simultaneously,
+      which would lead to loss of 40% of the development capacity.
+    </pre>
+
+    <h3>Risk Decomposition Tree</h3>
+    <pre>
+  Staff Turnover Risk
+  ├── Key Personnel Risk
+  │   ├── Lead Developer leaves
+  │   ├── Architect leaves
+  │   └── Domain Expert leaves
+  ├── Team Morale Risk
+  │   ├── Overwork/Burnout
+  │   ├── Salary dissatisfaction
+  │   └── Poor management
+  └── Market Competition Risk
+      ├── Better offers from competitors
+      └── Relocation of team members
+    </pre>
+  </div>
+
+  <!-- 10.5 Risk Analysis Management and Process -->
+  <div class="section">
+    <h2><b>10.5 Risk Analysis Management and Process</b></h2>
+
+    <h3>Risk Management Process</h3>
+    <p>
+      The risk management process is a continuous activity that occurs throughout the
+      software project lifecycle:
+    </p>
+
+    <pre>
+  Risk Management Process:
+
+  ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+  │    Risk      │──→│    Risk      │──→│    Risk      │
+  │ Identification│  │  Analysis    │   │ Prioritization│
+  └──────────────┘   └──────────────┘   └──────────────┘
+                                              │
+  ┌──────────────┐   ┌──────────────┐         │
+  │    Risk      │←──│    Risk      │←────────┘
+  │  Monitoring  │   │  Planning    │
+  └──────────────┘   └──────────────┘
+         │
+         ↓
+  ┌──────────────┐
+  │    Risk      │
+  │  Resolution  │
+  └──────────────┘
+    </pre>
+
+    <h3>Risk Management Strategies</h3>
+
+    <h4>1. Risk Avoidance</h4>
+    <p>
+      Changing the project plan to eliminate the risk or condition, or to protect
+      the project objectives from its impact:
+    </p>
+    <ul>
+      <li>Choose proven technology over cutting-edge technology</li>
+      <li>Reduce scope to avoid complex features</li>
+      <li>Hire experienced staff instead of training newcomers</li>
+    </ul>
+
+    <h4>2. Risk Mitigation</h4>
+    <p>
+      Taking actions to reduce the probability of occurrence or the impact:
+    </p>
+    <ul>
+      <li>Cross-train team members to reduce key-person dependency</li>
+      <li>Build prototypes to reduce technical uncertainty</li>
+      <li>Use incremental delivery to get early customer feedback</li>
+      <li>Implement quality assurance processes to reduce defects</li>
+    </ul>
+
+    <h4>3. Risk Transfer</h4>
+    <p>
+      Shifting the impact of a risk to a third party:
+    </p>
+    <ul>
+      <li>Outsource risky components to experienced vendors</li>
+      <li>Purchase insurance for catastrophic risks</li>
+      <li>Use warranties and service level agreements (SLAs)</li>
+    </ul>
+
+    <h4>4. Risk Acceptance</h4>
+    <p>
+      Acknowledging the risk and choosing not to take action unless the risk occurs:
+    </p>
+    <ul>
+      <li><b>Active acceptance:</b> Develop a contingency plan (Plan B)</li>
+      <li><b>Passive acceptance:</b> Accept the consequences if the risk occurs;
+        appropriate only for low-impact, low-probability risks</li>
+    </ul>
+
+    <h3>Risk Monitoring</h3>
+    <p>
+      Risk monitoring is the ongoing tracking of identified risks, identifying new risks,
+      and evaluating the effectiveness of risk management strategies:
+    </p>
+    <ul>
+      <li>Regular risk review meetings (weekly or bi-weekly)</li>
+      <li>Update risk register with new information</li>
+      <li>Track risk indicators (early warning signs)</li>
+      <li>Reassess probability and impact as the project progresses</li>
+      <li>Close risks that are no longer applicable</li>
+      <li>Identify new risks that emerge during the project</li>
+    </ul>
+  </div>
+
+  <!-- 10.6 The RMMM Plan -->
+  <div class="section">
+    <h2><b>10.6 The RMMM Plan</b></h2>
+
+    <h3>What is an RMMM Plan?</h3>
+    <p>
+      The <b>RMMM (Risk Mitigation, Monitoring, and Management) Plan</b> is a document
+      that describes the risk management strategy for a software project. It is part
+      of the Software Project Plan and documents how risks will be handled throughout
+      the project lifecycle.
+    </p>
+
+    <h3>Components of an RMMM Plan</h3>
+
+    <h4>1. Risk Identification Summary</h4>
+    <ul>
+      <li>List of all identified risks</li>
+      <li>Risk categories (project, technical, business)</li>
+      <li>Risk descriptions and context</li>
+    </ul>
+
+    <h4>2. Risk Analysis Summary</h4>
+    <ul>
+      <li>Probability assessment for each risk</li>
+      <li>Impact assessment for each risk</li>
+      <li>Risk exposure calculations</li>
+      <li>Priority ranking</li>
+    </ul>
+
+    <h4>3. Mitigation Strategy</h4>
+    <ul>
+      <li>Specific actions to reduce probability or impact of each high-priority risk</li>
+      <li>Responsible person for each mitigation action</li>
+      <li>Timeline for implementing mitigation actions</li>
+      <li>Resources required for mitigation</li>
+    </ul>
+
+    <h4>4. Monitoring Strategy</h4>
+    <ul>
+      <li>Risk indicators (measurable factors that signal risk is becoming reality)</li>
+      <li>Monitoring frequency and methods</li>
+      <li>Trigger conditions for escalation</li>
+      <li>Reporting mechanisms</li>
+    </ul>
+
+    <h4>5. Contingency Plan</h4>
+    <ul>
+      <li>Actions to take if the risk becomes a reality</li>
+      <li>Fallback positions and alternative approaches</li>
+      <li>Emergency procedures and escalation paths</li>
+    </ul>
+
+    <h3>RMMM Plan Example</h3>
+    <table>
+      <tr>
+        <th>Risk ID</th>
+        <th>R001</th>
+      </tr>
+      <tr>
+        <td><b>Risk</b></td>
+        <td>Key developer (lead backend engineer) leaves the project</td>
+      </tr>
+      <tr>
+        <td><b>Category</b></td>
+        <td>Project Risk — Personnel</td>
+      </tr>
+      <tr>
+        <td><b>Probability</b></td>
+        <td>0.30 (30%)</td>
+      </tr>
+      <tr>
+        <td><b>Impact</b></td>
+        <td>High — 3-month delay, $50K additional cost</td>
+      </tr>
+      <tr>
+        <td><b>Risk Exposure</b></td>
+        <td>$15,000</td>
+      </tr>
+      <tr>
+        <td><b>Mitigation</b></td>
+        <td>
+          1. Cross-train at least two other developers on backend systems (by Week 4)<br>
+          2. Document all critical system architecture and design decisions<br>
+          3. Implement pair programming on critical modules<br>
+          4. Ensure competitive compensation and engagement
+        </td>
+      </tr>
+      <tr>
+        <td><b>Monitoring</b></td>
+        <td>
+          Indicators: Employee satisfaction surveys, 1-on-1 meeting feedback,
+          job market activity<br>
+          Frequency: Monthly monitoring<br>
+          Trigger: Developer expresses dissatisfaction or receives outside offers
+        </td>
+      </tr>
+      <tr>
+        <td><b>Contingency</b></td>
+        <td>
+          1. Immediately assign cross-trained developer to lead backend<br>
+          2. Engage contractor for temporary support (pre-identified vendor list)<br>
+          3. Adjust schedule by 4 weeks for knowledge transfer period<br>
+          4. Escalate to management for resource reallocation
+        </td>
+      </tr>
+      <tr>
+        <td><b>Owner</b></td>
+        <td>Project Manager</td>
+      </tr>
+      <tr>
+        <td><b>Status</b></td>
+        <td>Active — Monitoring</td>
+      </tr>
+    </table>
+
+    <h3>Risk Register</h3>
+    <p>
+      A <b>risk register</b> (or risk log) is a living document that captures all identified
+      risks along with their analysis, mitigation strategies, owners, and current status.
+      It is updated throughout the project lifecycle.
+    </p>
+
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Description</th>
+        <th>Prob.</th>
+        <th>Impact</th>
+        <th>RE</th>
+        <th>Strategy</th>
+        <th>Owner</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td>R001</td>
+        <td>Key developer leaves</td>
+        <td>0.30</td>
+        <td>High</td>
+        <td>$15K</td>
+        <td>Mitigate (cross-train)</td>
+        <td>PM</td>
+        <td>Active</td>
+      </tr>
+      <tr>
+        <td>R002</td>
+        <td>Requirements volatility</td>
+        <td>0.60</td>
+        <td>Medium</td>
+        <td>$12K</td>
+        <td>Mitigate (agile sprints)</td>
+        <td>BA</td>
+        <td>Active</td>
+      </tr>
+      <tr>
+        <td>R003</td>
+        <td>API unavailability</td>
+        <td>0.15</td>
+        <td>High</td>
+        <td>$6K</td>
+        <td>Avoid (build in-house)</td>
+        <td>Tech Lead</td>
+        <td>Monitoring</td>
+      </tr>
+      <tr>
+        <td>R004</td>
+        <td>Performance issues</td>
+        <td>0.25</td>
+        <td>High</td>
+        <td>$7.5K</td>
+        <td>Mitigate (early testing)</td>
+        <td>QA Lead</td>
+        <td>Active</td>
+      </tr>
+      <tr>
+        <td>R005</td>
+        <td>Competitor launches first</td>
+        <td>0.20</td>
+        <td>V. High</td>
+        <td>$20K</td>
+        <td>Accept (differentiate)</td>
+        <td>Product Owner</td>
+        <td>Monitoring</td>
+      </tr>
+    </table>
+
+    <div class="note">
+      <b>Summary:</b> Risk management is a proactive approach to identifying, analyzing,
+      and responding to potential problems before they become crises. The RMMM plan
+      provides a structured framework for mitigation (reducing probability/impact),
+      monitoring (tracking indicators), and management (contingency planning).
+      Effective risk management significantly increases the probability of project success
+      by preventing small issues from becoming project-ending catastrophes.
+    </div>
+  </div>
+
+</body>
+</html>

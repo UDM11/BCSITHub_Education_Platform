@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit II: Solution of Non-Linear Equations - Comprehensive Notes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0px;
+    }
+    h1 {
+        text-align: center;
+        color: #0f172a;
+        font-size: 20pt;
+        font-weight: bold;
+        margin-bottom: 40px;
+        border-bottom: 3px double #cbd5e1;
+        padding-bottom: 15px;
+    }
+    h2 {
+      color: #1e3a8a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 30px;
+      font-size: 15pt;
+    }
+    h3 {
+      color: #2563eb;
+      font-size: 13pt;
+      margin-top: 20px;
+    }
+    .section {
+      background: #ffffff;
+      padding: 30px;
+      margin-bottom: 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 25px;
+    }
+    li {
+      margin-bottom: 12px;
+    }
+    pre {
+      background-color: #0f172a;
+      color: #38bdf8;
+      padding: 20px;
+      overflow-x: auto;
+      border-radius: 8px;
+      font-size: 11pt;
+      margin: 20px 0;
+      font-family: Consolas, Monaco, monospace;
+      border-left: 4px solid #3b82f6;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      background-color: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #0f172a;
+    }
+    pre code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+      color: inherit;
+    }
+    .highlight {
+      background-color: #fef08a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .diagram-container {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .table-container {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 11pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .note-box {
+      background-color: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px; }
+      .section { padding: 20px; }
+      pre { font-size: 10pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit II: Solution of Non-Linear Equations [8 Hours] - Study Guide</b></h1>
+
+  <div class="section">
+    <h2><b>2.1 Bisection Method</b></h2>
+    <p>The <b>Bisection Method</b> is a bracketing method based on the <b>Intermediate Value Theorem</b>: if a continuous function <code>f(x)</code> changes sign over an interval <code>[a, b]</code> (meaning <code>f(a) * f(b) &lt; 0</code>), then there exists at least one real root in that interval.</p>
+
+    <h3><b>Derivation of Maximum Iterations Formula:</b></h3>
+    <p>In each step, the interval width is halved. After <code>N</code> iterations, the width of the final interval containing the root is:</p>
+    <pre><code>
+Width = (b - a) / 2^N
+
+To achieve a tolerance 'E', we require:
+(b - a) / 2^N <= E
+2^N >= (b - a) / E
+
+Taking the base-2 logarithm of both sides:
+N >= log2((b - a) / E)
+    </code></pre>
+    <p>This formula allows us to pre-calculate the exact number of iterations required to guarantee a specified tolerance.</p>
+
+    <h3><b>Bisection Method C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+// Define function f(x) = x^3 - x - 2
+double f(double x) {
+    return x*x*x - x - 2.0;
+}
+
+void bisection(double a, double b, double tol) {
+    if (f(a) * f(b) &gt;= 0) {
+        printf("Error: Function does not change signs in interval [%lf, %lf]\n", a, b);
+        return;
+    }
+    
+    double c = a;
+    int iter = 1;
+    printf("%-10s %-12s %-12s %-12s %-12s\n", "Iter", "a", "b", "c (Mid)", "f(c)");
+    
+    while ((b - a) &gt;= tol) {
+        c = (a + b) / 2.0;
+        printf("%-10d %-12.6f %-12.6f %-12.6f %-12.6f\n", iter++, a, b, c, f(c));
+        
+        if (fabs(f(c)) &lt; 1e-9) {
+            break;
+        } else if (f(c) * f(a) &lt; 0) {
+            b = c;
+        } else {
+            a = c;
+        }
+    }
+    printf("\nRoot found by Bisection: %lf\n", c);
+}
+
+int main() {
+    bisection(1.0, 2.0, 0.0001);
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>2.2 False Position (Regula Falsi) Method</b></h2>
+    <p>The <b>False Position Method</b> connects the points <code>(a, f(a))</code> and <code>(b, f(b))</code> with a straight line. The intersection of this line with the x-axis provides the next root estimate <code>c</code>, which is closer to the root than the simple midpoint.</p>
+
+    <h3><b>Formula Derivation:</b></h3>
+    <p>The slope of the line connecting <code>(a, f(a))</code> and <code>(b, f(b))</code> is:
+      <br><code>Slope = [ f(b) - f(a) ] / (b - a)</code>
+      <br>
+      <br>Using point-slope form with the intersection point <code>(c, 0)</code>:
+      <br><code>0 - f(b) = Slope * (c - b)</code>
+      <br><code>-f(b) = ( (f(b) - f(a)) / (b - a) ) * (c - b)</code>
+      <br>
+      <br>Rearranging for <code>c</code> yields:
+      <br><code>c = b - [ f(b) * (b - a) ] / [ f(b) - f(a) ]</code>
+    </p>
+
+    <h3><b>False Position C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+double f(double x) {
+    return x*x*x - x - 2.0;
+}
+
+void falsePosition(double a, double b, double tol) {
+    if (f(a) * f(b) &gt;= 0) {
+        printf("Error: Sign change condition not met.\n");
+        return;
+    }
+    
+    double c = a;
+    int iter = 1;
+    printf("%-10s %-12s %-12s %-12s %-12s\n", "Iter", "a", "b", "c (Regula)", "f(c)");
+    
+    for (int i = 0; i &lt; 100; i++) {
+        c = (a * f(b) - b * f(a)) / (f(b) - f(a));
+        printf("%-10d %-12.6f %-12.6f %-12.6f %-12.6f\n", iter++, a, b, c, f(c));
+        
+        if (fabs(f(c)) &lt; tol) {
+            break;
+        }
+        
+        if (f(c) * f(a) &lt; 0) {
+            b = c;
+        } else {
+            a = c;
+        }
+    }
+    printf("\nRoot found by Regula Falsi: %lf\n", c);
+}
+
+int main() {
+    falsePosition(1.0, 2.0, 0.0001);
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>2.3 Newton-Raphson Method</b></h2>
+    <p>An open method that uses the value of the function and its first derivative at a single point to approximate the root.</p>
+
+    <h3><b>Proof of Quadratic Convergence (Order = 2):</b></h3>
+    <p>Let <code>r</code> be the true root such that <code>f(r) = 0</code>.
+      <br>Let <code>e_i = x_i - r</code> represent the error at iteration <code>i</code>.
+      <br>
+      <br>Using Taylor series to expand <code>f(r)</code> around the current guess <code>x_i</code>:
+      <br><code>f(r) = f(x_i - e_i) = f(x_i) - e_i * f'(x_i) + (e_i^2 / 2) * f''(c) = 0</code> (where c is between r and x_i)
+      <br>
+      <br>Rearranging terms:
+      <br><code>f(x_i) = e_i * f'(x_i) - (e_i^2 / 2) * f''(c)</code>
+      <br>
+      <br>Now substitute this expression into the Newton-Raphson iteration formula:
+      <br><code>x_i+1 = x_i - f(x_i) / f'(x_i)</code>
+      <br><code>x_i+1 - r = x_i - r - [ e_i * f'(x_i) - (e_i^2 / 2) * f''(c) ] / f'(x_i)</code>
+      <br><code>e_i+1 = e_i - e_i + (e_i^2 / 2) * ( f''(c) / f'(x_i) )</code>
+      <br><code>e_i+1 = e_i^2 * [ f''(c) / (2 * f'(x_i)) ]</code>
+      <br>
+      <br>This shows that the error in the next iteration <code>e_i+1</code> is proportional to the square of the current error <code>e_i^2</code>.
+      <br><b>Order of Convergence = 2 (Quadratic Convergence)</b>.
+    </p>
+
+    <h3><b>Newton-Raphson C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+double f(double x) {
+    return x*x*x - x - 2.0;
+}
+
+double df(double x) {
+    return 3.0*x*x - 1.0;
+}
+
+void newtonRaphson(double x0, double tol) {
+    double x1 = x0;
+    int iter = 1;
+    printf("%-10s %-15s %-15s %-15s\n", "Iter", "x_i", "f(x_i)", "f'(x_i)");
+    
+    while (1) {
+        double fx = f(x0);
+        double dfx = df(x0);
+        
+        if (fabs(dfx) &lt; 1e-9) {
+            printf("Error: Slope is zero. Method fails.\n");
+            return;
+        }
+        
+        x1 = x0 - fx / dfx;
+        printf("%-10d %-15.6f %-15.6f %-15.6f\n", iter++, x0, fx, dfx);
+        
+        if (fabs(x1 - x0) &lt; tol) {
+            break;
+        }
+        x0 = x1;
+    }
+    printf("\nRoot found by Newton-Raphson: %lf\n", x1);
+}
+
+int main() {
+    newtonRaphson(1.5, 0.0001);
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>2.4 Secant Method</b></h2>
+    <p>Similar to Newton-Raphson but approximates the derivative using two previous points rather than evaluating it analytically.</p>
+
+    <h3><b>Secant Method C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+double f(double x) {
+    return x*x*x - x - 2.0;
+}
+
+void secant(double x0, double x1, double tol) {
+    double x2;
+    int iter = 1;
+    printf("%-10s %-15s %-15s %-15s\n", "Iter", "x0", "x1", "x2");
+    
+    while (1) {
+        double fx0 = f(x0);
+        double fx1 = f(x1);
+        
+        if (fabs(fx1 - fx0) &lt; 1e-9) {
+            printf("Error: division by zero.\n");
+            return;
+        }
+        
+        x2 = x1 - fx1 * (x1 - x0) / (fx1 - fx0);
+        printf("%-10d %-15.6f %-15.6f %-15.6f\n", iter++, x0, x1, x2);
+        
+        if (fabs(x2 - x1) &lt; tol) {
+            break;
+        }
+        x0 = x1;
+        x1 = x2;
+    }
+    printf("\nRoot found by Secant: %lf\n", x2);
+}
+
+int main() {
+    secant(1.0, 2.0, 0.0001);
+    return 0;
+}
+    </code></pre>
+  </div>
+
+  <div class="section">
+    <h2><b>2.5 Fixed Point Iteration Method</b></h2>
+    <p>Solves <code>f(x) = 0</code> by rewriting it in the form <code>x = g(x)</code> and iterating: <code>x_i+1 = g(x_i)</code>.</p>
+
+    <h3><b>Convergence proof & criteria:</b></h3>
+    <p>Let <code>r</code> be the fixed point such that <code>r = g(r)</code>.
+      <br>The error in step <code>i+1</code> is:
+      <br><code>e_i+1 = x_i+1 - r = g(x_i) - g(r)</code>
+      <br>
+      <br>Applying the Mean Value Theorem to the right side:
+      <br><code>g(x_i) - g(r) = g'(c) * (x_i - r)</code> (where c is between x_i and r)
+      <br><code>e_i+1 = g'(c) * e_i</code>
+      <br>
+      <br>Taking absolute values:
+      <br><code>|e_i+1| = |g'(c)| * |e_i|</code>
+      <br>
+      <br>For the error to decrease with each iteration (converge), we require:
+      <br><b><code>|g'(x)| &lt; 1</code></b> in the interval enclosing the root.
+    </p>
+
+    <h3><b>Fixed Point Iteration C Implementation:</b></h3>
+    <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+// f(x) = x^3 - x - 2 = 0
+// We choose g(x) = (x + 2)^(1/3)
+// Check derivative: g'(x) = (1/3)*(x + 2)^(-2/3)
+// Near x=1.5, g'(1.5) = (1/3)*(3.5)^(-2/3) ≈ 0.14 < 1 (guaranteed to converge)
+double g(double x) {
+    return cbrt(x + 2.0);
+}
+
+void fixedPoint(double x0, double tol) {
+    double x1;
+    int iter = 1;
+    printf("%-10s %-15s %-15s\n", "Iter", "x_i", "x_i+1");
+    
+    while (1) {
+        x1 = g(x0);
+        printf("%-10d %-15.6f %-15.6f\n", iter++, x0, x1);
+        if (fabs(x1 - x0) &lt; tol) {
+            break;
+        }
+        x0 = x1;
+    }
+    printf("\nRoot found by Fixed Point: %lf\n", x1);
+}
+
+int main() {
+    fixedPoint(1.5, 0.0001);
+    return 0;
+}
+    </code></pre>
+  </div>
+</body>
+</html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 3: Time Value of Money</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 3: Time Value of Money [7 Hrs.]</b></h1>
+
+  <!-- 3.1 - 3.2 Concept & Annuity Nature -->
+  <div class="section">
+    <h2><b>3.1 Concept of Time Value of Money and Timelines</b></h2>
+
+    <h3>What is the Time Value of Money (TVM)?</h3>
+    <p>
+      The **Time Value of Money (TVM)** is the core principle of finance stating that a dollar in hand today
+      is worth more than a dollar to be received in the future. This is true due to three primary reasons:
+    </p>
+    <ul>
+      <li><b>Opportunity Cost (Interest / Investment):</b> Money in hand today can be invested to earn interest, growing into a larger amount.</li>
+      <li><b>Inflation:</b> Inflation erodes the purchasing power of money over time, meaning a dollar in the future buys fewer goods than a dollar today.</li>
+      <li><b>Risk / Uncertainty:</b> Future cash flows are uncertain and risky. Cash today has zero default risk.</li>
+    </ul>
+
+    <h3>Cash Flow Timelines</h3>
+    <p>
+      A **cash flow timeline** is an essential tool used to visualize the timing of cash inflows and outflows.
+      Tick marks represent the end of periods:
+    </p>
+    <pre>
+  Example Timeline: 5-Year project with a $1,000 initial investment and $300 annual inflows.
+
+  Period:     0          1          2          3          4          5
+              ├──────────┼──────────┼──────────┼──────────┼──────────┤
+  Cash Flow: -$1,000    +$300      +$300      +$300      +$300      +$300
+    </pre>
+    <p>
+      - Period 0 represents **today**. It is the start of Period 1.
+      <br>- Period 1 tick mark represents the **end of Period 1** (or start of Period 2).
+    </p>
+
+    <h3>Types of Cash Flows</h3>
+    <ul>
+      <li><b>Single Cash Flow:</b> A lump sum transaction occurring once (e.g., investing $1,000 today and receiving $1,500 in Year 5).</li>
+      <li><b>Annuity:</b> A series of equal cash payments/receipts occurring at equal intervals over a finite period (e.g., $100 paid every year for 5 years).
+        <ul>
+          <li><i>Ordinary Annuity:</i> Cash flows occur at the **end** of each period. (Standard bank loans, interest payments).</li>
+          <li><i>Annuity Due:</i> Cash flows occur at the **beginning** of each period. (Rent payments, lease contracts, insurance premiums).</li>
+        </ul>
+      </li>
+      <li><b>Uneven Cash Flows:</b> A stream of cash flows where the payments vary in size (e.g., Year 1: $100, Year 2: $250, Year 3: $50).</li>
+      <li><b>Perpetuity:</b> An annuity that continues indefinitely (forever) (e.g., preferred stock dividends).</li>
+    </ul>
+  </div>
+
+  <!-- 3.3 Math Formulas and Calculations -->
+  <div class="section">
+    <h2><b>3.2 Mathematical Formulas for PV and FV</b></h2>
+    <p>
+      Here are the mathematical formulas for valuing single amounts and annuities:
+    </p>
+
+    <h3>1. Single Cash Flows</h3>
+    <ul>
+      <li><b>Future Value (Compounding):</b> Finding the value of a current sum in the future.
+        <br>
+        $$FV_n = PV \times (1 + r)^n$$
+      </li>
+      <li><b>Present Value (Discounting):</b> Finding the value of a future sum today.
+        <br>
+        $$PV = \frac{FV_n}{(1 + r)^n} = FV_n \times (1 + r)^{-n}$$
+      </li>
+    </ul>
+
+    <h3>2. Annuities (Equal Cash Flows)</h3>
+    <ul>
+      <li><b>Future Value of an Ordinary Annuity (FVOA):</b>
+        <br>
+        $$FVOA_n = PMT \times \left[ \frac{(1 + r)^n - 1}{r} \right]$$
+      </li>
+      <li><b>Future Value of an Annuity Due (FVAD):</b> Since payments occur at the beginning, they earn interest for one extra period.
+        <br>
+        $$FVAD_n = FVOA_n \times (1 + r) = PMT \times \left[ \frac{(1 + r)^n - 1}{r} \right] \times (1 + r)$$
+      </li>
+      <li><b>Present Value of an Ordinary Annuity (PVOA):</b>
+        <br>
+        $$PVOA_n = PMT \times \left[ \frac{1 - (1 + r)^{-n}}{r} \right]$$
+      </li>
+      <li><b>Present Value of an Annuity Due (PVAD):</b>
+        <br>
+        $$PVAD_n = PVOA_n \times (1 + r) = PMT \times \left[ \frac{1 - (1 + r)^{-n}}{r} \right] \times (1 + r)$$
+      </li>
+    </ul>
+
+    <h3>3. Perpetuities (Infinite Streams)</h3>
+    <p>The present value of a perpetuity is calculated as:
+      <br>
+      $$PV_{perpetuity} = \frac{PMT}{r}$$
+    </p>
+  </div>
+
+  <!-- 3.4 Nominal vs. Effective Rates -->
+  <div class="section">
+    <h2><b>3.3 Nominal, Periodic, and Effective Interest Rates</b></h2>
+    <p>
+      When interest is compounded more than once a year (e.g., semi-annually, quarterly, monthly),
+      we must distinguish between different rates:
+    </p>
+    <ul>
+      <li><b>Nominal Interest Rate ($I_{NOM}$ / APR):</b> The stated or advertised annual rate. It does
+        not account for compounding within the year.</li>
+      <li><b>Periodic Interest Rate ($I_{PER}$):</b> The rate charged per compounding period.
+        <br>
+        $$I_{PER} = \frac{I_{NOM}}{m}$$
+        Where $m$ is the number of compounding periods per year (e.g., $m=2$ for semi-annual, $m=4$ for quarterly, $m=12$ for monthly).
+      </li>
+      <li><b>Effective Annual Rate ($EAR$):</b> The actual annual rate of interest earned, accounting for
+        compounding. Used to compare loans with different compounding frequencies.
+        <br>
+        $$EAR = \left( 1 + \frac{I_{NOM}}{m} \right)^m - 1$$
+      </li>
+    </ul>
+
+    <div class="note">
+      <h4>Worked Example: Rate Comparison</h4>
+      <p><b>Problem:</b> A bank offers a credit card with a nominal rate of 12% APR. Compare the Effective
+        Annual Rate (EAR) under: (1) Semi-annual, (2) Quarterly, and (3) Monthly compounding.</p>
+      <p><b>Solution:</b>
+        <br><b>1. Semi-annual ($m=2$):</b>
+        <br>$EAR = (1 + 0.12/2)^2 - 1 = (1.06)^2 - 1 = 1.1236 - 1 = 0.1236 \quad (12.36\%)$.
+        <br><b>2. Quarterly ($m=4$):</b>
+        <br>$EAR = (1 + 0.12/4)^4 - 1 = (1.03)^4 - 1 = 1.1255 - 1 = 0.1255 \quad (12.55\%)$.
+        <br><b>3. Monthly ($m=12$):</b>
+        <br>$EAR = (1 + 0.12/12)^{12} - 1 = (1.01)^{12} - 1 = 1.1268 - 1 = 0.1268 \quad (12.68\%)$.
+        <br><i>Conclusion: As compounding frequency increases, the effective rate of interest (EAR) increases.</i>
+      </p>
+    </div>
+  </div>
+
+  <!-- 3.5 Amortization Schedule -->
+  <div class="section">
+    <h2><b>3.4 Loan Amortization Schedule</b></h2>
+    <p>
+      An **amortized loan** requires equal periodic payments (PMT) that pay off the entire principal
+      and interest by maturity. Each payment consists of:
+      <br>1. Interest payment (based on remaining unpaid principal).
+      <br>2. Principal repayment (the rest of the payment which reduces the outstanding balance).
+    </p>
+
+    <div class="note">
+      <h4>Worked Example: Complete Amortization Table</h4>
+      <p><b>Problem:</b> Prepare a complete loan amortization schedule for a $10,000 loan, to be repaid
+        in 3 equal annual installments at an interest rate of 10% per annum.</p>
+      <p><b>Solution:</b>
+        <br><b>Step 1: Calculate the annual installment payment (PMT):</b>
+        <br>Use the PVOA formula:
+        <br>$10,000 = PMT \times \left[ \frac{1 - (1.10)^{-3}}{0.10} \right]$
+        <br>$10,000 = PMT \times 2.48685$
+        <br>$PMT = 10,000 / 2.48685 \approx \$4,021.15$ per year.
+        <br>
+        <br><b>Step 2: Calculate Year-by-Year allocations:</b>
+        <br><b>Year 1:</b>
+        <br>- Beginning Balance = $10,000.00
+        <br>- Interest expense = $10,000 \times 10\% = \$1,000.00$
+        <br>- Principal Repayment = Payment - Interest = $4,021.15 - 1,000.00 = \$3,021.15$
+        <br>- Ending Balance = Beginning Balance - Principal Repayment = $10,000.00 - 3,021.15 = \$6,978.85$
+        <br>
+        <br><b>Year 2:</b>
+        <br>- Beginning Balance = $6,978.85
+        <br>- Interest expense = $6,978.85 \times 10\% = \$697.89$
+        <br>- Principal Repayment = $4,021.15 - 697.89 = \$3,323.26$
+        <br>- Ending Balance = $6,978.85 - 3,323.26 = \$3,655.59$
+        <br>
+        <br><b>Year 3:</b>
+        <br>- Beginning Balance = $3,655.59
+        <br>- Interest expense = $3,655.59 \times 10\% = \$365.56$
+        <br>- Principal Repayment = $4,021.15 - 365.56 = \$3,655.59$ (due to rounding)
+        <br>- Ending Balance = $3,655.59 - 3,655.59 = \$0.00$
+      </p>
+
+      <h4>Amortization Schedule Table</h4>
+      <table>
+        <tr>
+          <th>Year</th>
+          <th>Beginning Balance</th>
+          <th>Annual Payment (PMT)</th>
+          <th>Interest Expense (10%)</th>
+          <th>Principal Repayment</th>
+          <th>Ending Balance</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>$10,000.00</td>
+          <td>$4,021.15</td>
+          <td>$1,000.00</td>
+          <td>$3,021.15</td>
+          <td>$6,978.85</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>$6,978.85</td>
+          <td>$4,021.15</td>
+          <td>$697.89</td>
+          <td>$3,323.26</td>
+          <td>$3,655.59</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>$3,655.59</td>
+          <td>$4,021.15</td>
+          <td>$365.56</td>
+          <td>$3,655.59</td>
+          <td>$0.00</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Uneven Cash Flows and Growth Perpetuities -->
+  <div class="section">
+    <h2><b>3.5 Uneven Cash Flows and Growing Perpetuities</b></h2>
+    <p>
+      In practice, business cash flows are rarely uniform annuities. For instance, a software startup
+      may experience small initial revenues that scale rapidly:
+    </p>
+
+    <h3>1. Present Value of Uneven Cash Flows</h3>
+    <p>
+      To find the PV of an uneven cash flow stream, discount each cash flow individually to Year 0 and sum them:
+      <br>
+      $$PV = \sum_{t=1}^n \frac{CF_t}{(1 + r)^t}$$
+    </p>
+    <div class="note">
+      <h4>Worked Example: Uneven Cash Flows</h4>
+      <p><b>Problem:</b> An IT project generates the following cash inflows: Year 1: $1,000, Year 2: $3,000,
+        and Year 3: $5,000. If the discount rate is 10%, calculate the total present value today.</p>
+      <p><b>Solution:</b>
+        <br>- $PV(CF_1) = 1,000 / (1.10)^1 = \$909.09$
+        <br>- $PV(CF_2) = 3,000 / (1.10)^2 = 3,000 / 1.21 = \$2,479.34$
+        <br>- $PV(CF_3) = 5,000 / (1.10)^3 = 5,000 / 1.331 = \$3,756.57$
+        <br>- Total Present Value = $909.09 + 2,479.34 + 3,756.57 = \$7,145.00$.
+      </p>
+    </div>
+
+    <h3>2. Growing Perpetuities</h3>
+    <p>
+      If a cash flow stream is expected to grow at a constant rate ($g$) forever:
+      <br>
+      $$PV = \frac{PMT}{r - g} \quad (\text{where } r > g)$$
+      Useful for valuing stocks with constant dividend growth.
+    </p>
+  </div>
+
+  <!-- Solving for Missing Variables -->
+  <div class="section">
+    <h2><b>3.6 Solving for Missing Variables ($N$ and $r$)</b></h2>
+    <p>
+      We can rearrange the single cash flow formula to solve for the number of periods ($N$) or the rate ($r$):
+    </p>
+
+    <h3>1. Solving for Interest Rate ($r$)</h3>
+    <p>
+      $$r = \left( \frac{FV_n}{PV} \right)^{\frac{1}{n}} - 1$$
+    </p>
+    <div class="note">
+      <h4>Worked Example: Finding Interest Rate</h4>
+      <p><b>Problem:</b> You purchase a domain name for $5,000 today and sell it for $10,000 after 4 years.
+        Calculate the annual compounded rate of return on this investment.</p>
+      <p><b>Solution:</b>
+        <br>$r = (10,000 / 5,000)^{1/4} - 1 = (2)^{0.25} - 1 = 1.1892 - 1 = 0.1892 \quad (18.92\%)$.
+        <br>The annual compounded return is 18.92%.
+      </p>
+    </div>
+
+    <h3>2. Solving for Time Periods ($N$)</h3>
+    <p>
+      $$N = \frac{\ln(FV_n / PV)}{\ln(1 + r)}$$
+    </p>
+    <div class="note">
+      <h4>Worked Example: Finding Time Periods</h4>
+      <p><b>Problem:</b> How long will it take for an investment of $10,000 to double to $20,000
+        in an account earning a 6% annual interest rate?</p>
+      <p><b>Solution:</b>
+        <br>$N = \frac{\ln(20,000 / 10,000)}{\ln(1 + 0.06)} = \frac{\ln(2)}{\ln(1.06)} = \frac{0.69315}{0.05827} \approx 11.90$ years.
+        <br>It will take approximately 11.9 years to double.
+      </p>
+    </div>
+  </div>
+
+  <!-- Continuous Compounding -->
+  <div class="section">
+    <h2><b>3.7 Continuous Compounding</b></h2>
+    <p>
+      As compounding frequency approaches infinity ($m \to \infty$), it becomes **continuous compounding**.
+      The formulas use Euler's constant ($e \approx 2.71828$):
+    </p>
+    <ul>
+      <li><b>Future Value:</b>
+        <br>
+        $$FV_n = PV \times e^{r \cdot n}$$
+      </li>
+      <li><b>Present Value:</b>
+        <br>
+        $$PV = FV_n \times e^{-r \cdot n}$$
+      </li>
+      <li><b>Effective Annual Rate (EAR):</b>
+        <br>
+        $$EAR = e^r - 1$$
+      </li>
+    </ul>
+    <div class="note">
+      <h4>Worked Example: Continuous Compounding</h4>
+      <p><b>Problem:</b> If you invest $1,000 at a nominal annual interest rate of 8% compounded
+        continuously, find the future value after 5 years and the EAR.</p>
+      <p><b>Solution:</b>
+        <br>$FV_5 = 1,000 \times e^{0.08 \times 5} = 1,000 \times e^{0.40} = 1,000 \times 1.49182 = \$1,491.82$.
+        <br>$EAR = e^{0.08} - 1 = 1.08329 - 1 = 0.08329 \quad (8.33\%)$.
+      </p>
+    </div>
+  </div>
+
+  <!-- Rules of Thumb & Proofs -->
+  <div class="section">
+    <h2><b>3.8 Rules of Thumb and Annuity Relationship Proofs</b></h2>
+
+    <h3>1. The Rule of 72 and Rule of 115</h3>
+    <p>
+      For quick mental approximations, financial managers use the following rules of thumb:
+    </p>
+    <ul>
+      <li><b>Rule of 72 (Doubling Time):</b>
+        <br>
+        $$\text{Years to Double } (N) \approx \frac{72}{\text{Interest Rate } (r\%)} $$
+        For example, at a 6% interest rate: $N \approx 72 / 6 = 12$ years. (Exact calculation is 11.90 years, showing highly accurate approximation).
+      </li>
+      <li><b>Rule of 115 (Tripling Time):</b>
+        <br>
+        $$\text{Years to Triple } (N) \approx \frac{115}{\text{Interest Rate } (r\%)} $$
+        For example, at a 10% interest rate: $N \approx 115 / 10 = 11.5$ years. (Exact calculation is 11.52 years).
+      </li>
+    </ul>
+
+    <h3>2. Algebraic Relationship: Ordinary Annuity vs. Annuity Due</h3>
+    <p>
+      An <b>Annuity Due</b> differs from an **Ordinary Annuity** only because every payment is shifted
+      backwards by one period. Thus, every single cash flow earns interest for exactly one more compounding period:
+    </p>
+    <pre>
+  Ordinary Annuity Cash Flows:
+  Year:    0         1         2         3         4 (Payments at end of years)
+           ├─────────┼─────────┼─────────┼─────────┤
+                    PMT       PMT       PMT       PMT
+
+  Annuity Due Cash Flows:
+  Year:    0         1         2         3         4 (Payments at start of years)
+           ├─────────┼─────────┼─────────┼─────────┤
+          PMT       PMT       PMT       PMT
+    </pre>
+    <p>
+      Because each payment is compound-multiplied by $(1 + r)^1$ once more:
+      <br>
+      $$FV_{\text{Annuity Due}} = \sum_{t=0}^{n-1} PMT \cdot (1 + r)^{n-t} = \left[ \sum_{t=1}^{n} PMT \cdot (1 + r)^{n-t} \right] \cdot (1 + r) = FVOA_n \cdot (1 + r)$$
+      The same mathematical shift holds true for present values:
+      <br>
+      $$PV_{\text{Annuity Due}} = PVOA_n \cdot (1 + r)$$
+    </p>
+  </div>
+
+  <!-- Multi-Stage Financial Case Study -->
+  <div class="section">
+    <h2><b>3.9 Complex Financial Case Study: Multi-Stage Retirement Planning</b></h2>
+    <p>
+      Real-world applications of the time value of money often combine multiple stages of compounding and discounting:
+    </p>
+    <div class="note">
+      <h4>Two-Stage Retirement Case Study</h4>
+      <p><b>Scenario:</b> A software engineer is currently 30 years old and plans to retire in 30 years (at age 60).
+        During this accumulation phase, they plan to save $6,000 at the end of each year. The retirement account will earn
+        an annual rate of 8%.
+        <br>Upon retiring at age 60, they plan to make 20 equal annual withdrawals at the end of each year to fund their retirement.
+        During this distribution phase, the remaining retirement pool balance will earn a safer interest rate of 5%.
+        <br>Calculate: (1) The total accumulated pool at retirement age 60, and (2) The maximum annual withdrawal amount.
+      </p>
+      <p><b>Solution:</b>
+        <br>
+        <br><b>Stage 1: Calculate the Future Value of Ordinary Annuity (FVOA) at age 60:</b>
+        <br>- PMT = $6,000
+        <br>- interest rate $r = 8\% = 0.08$
+        <br>- periods $n = 30$ years
+        <br>$$FVOA_{30} = 6,000 \times \left[ \frac{(1.08)^{30} - 1}{0.08} \right]$$
+        <br>$(1.08)^{30} \approx 10.06266$
+        <br>$$FVOA_{30} = 6,000 \times \left[ \frac{10.06266 - 1}{0.08} \right] = 6,000 \times 113.2832 = \$679,699.20$$
+        <br>The engineer accumulates **$679,699.20** by age 60.
+        <br>
+        <br><b>Stage 2: Calculate the Annual Withdrawal during retirement:</b>
+        <br>The accumulated pool of $679,699.20 is now the Present Value (PVOA) of a 20-year retirement annuity:
+        <br>- $PVOA = \$679,699.20$
+        <br>- interest rate $r = 5\% = 0.05$
+        <br>- periods $n = 20$ years
+        <br>$$679,699.20 = \text{Withdrawal} \times \left[ \frac{1 - (1.05)^{-20}}{0.05} \right]$$
+        <br>$(1.05)^{-20} \approx 0.37689$
+        <br>$$679,699.20 = \text{Withdrawal} \times \left[ \frac{1 - 0.37689}{0.05} \right] = \text{Withdrawal} \times 12.4622$$
+        <br>$$\text{Withdrawal} = \frac{679,699.20}{12.4622} \approx \$54,540.87$$
+        <br>The software engineer can safely withdraw **$54,540.87** each year for 20 years during retirement.
+      </p>
+    </div>
+  </div>
+
+  <!-- Bond Pricing & Lease Decisions -->
+  <div class="section">
+    <h2><b>3.10 Practical Applications: Corporate Bond Valuation and Leasing</b></h2>
+
+    <h3>1. Valuation of Corporate Bonds</h3>
+    <p>
+      A corporate bond is a long-term contract where a borrower agrees to make periodic interest payments
+      (coupons) and pay a principal amount (par value) at maturity to the holder:
+      <br>
+      $$V_B = \sum_{t=1}^n \frac{\text{Coupon}_t}{(1 + r_d)^t} + \frac{\text{Par Value}_n}{(1 + r_d)^n} = \text{Coupon} \times \left[ PVOA_{r_d, n} \right] + \text{Par} \times (1 + r_d)^{-n}$$
+      Where $r_d$ is the required market rate of interest.
+    </p>
+    <div class="note">
+      <h4>Worked Example: Bond Valuation</h4>
+      <p><b>Problem:</b> Calculate the value of a $1,000 par value, 10-year bond paying a 10% annual coupon
+        ($100 coupon payment per year) when the market required rate of interest ($r_d$) is: (1) 8%, and (2) 12%.</p>
+      <p><b>Solution:</b>
+        <br>
+        <br><b>1. Market rate $r_d = 8\%$ (Premium Bond):</b>
+        <br>- $PV(\text{Coupons}) = 100 \times \left[ \frac{1 - (1.08)^{-10}}{0.08} \right] = 100 \times 6.71008 = \$671.01$
+        <br>- $PV(\text{Principal}) = 1,000 \times (1.08)^{-10} = 1,000 \times 0.46319 = \$463.19$
+        <br>- Bond Value $V_B = 671.01 + 463.19 = \$1,134.20$.
+        <br>Since required rate (8%) &lt; coupon rate (10%), the bond sells at a **premium** above par value.
+        <br>
+        <br><b>2. Market rate $r_d = 12\%$ (Discount Bond):</b>
+        <br>- $PV(\text{Coupons}) = 100 \times \left[ \frac{1 - (1.12)^{-10}}{0.12} \right] = 100 \times 5.65022 = \$565.02$
+        <br>- $PV(\text{Principal}) = 1,000 \times (1.12)^{-10} = 1,000 \times 0.32197 = \$321.97$
+        <br>- Bond Value $V_B = 565.02 + 321.97 = \$886.99$.
+        <br>Since required rate (12%) &gt; coupon rate (10%), the bond sells at a **discount** below par value.
+      </p>
+    </div>
+
+    <h3>2. Lease vs. Buy Decisions</h3>
+    <p>
+      Firms use present value techniques to evaluate whether to acquire assets through leasing or purchase.
+      Lease payments are tax-deductible expenses (operating lease), whereas buying allows the firm to claim
+      tax deductions for depreciation and interest expense. The firm discounts the after-tax cash flows of both options
+      at its after-tax cost of debt and chooses the option with the lower present value of cash outflows.
+    </p>
+  </div>
+
+  <!-- Growing Annuities -->
+  <div class="section">
+    <h2><b>3.11 Valuation of Growing Annuities</b></h2>
+    <p>
+      A **Growing Annuity** is a stream of cash flows that grows at a constant rate ($g$) for a finite number
+      of periods ($n$):
+      <br>
+      $$PV = \frac{PMT}{r - g} \times \left[ 1 - \left( \frac{1 + g}{1 + r} \right)^n \right] \quad (\text{where } r \neq g)$$
+      Where $PMT$ is the initial payment at the end of Year 1.
+    </p>
+    <div class="note">
+      <h4>Growing Annuity Worked Example</h4>
+      <p><b>Problem:</b> A firm signs a 5-year lease contract for office space. The payment for Year 1 is $10,000,
+        and payments will increase by 4% each year thereafter (growth rate $g = 4\%$). If the appropriate discount
+        rate is 8%, find the present value of the lease lease obligations.</p>
+      <p><b>Solution:</b>
+        <br>- $PMT = \$10,000$
+        <br>- discount rate $r = 8\% = 0.08$
+        <br>- growth rate $g = 4\% = 0.04$
+        <br>- years $n = 5$
+        <br>$$PV = \frac{10,000}{0.08 - 0.04} \times \left[ 1 - \left( \frac{1.04}{1.08} \right)^5 \right]$$
+        <br>$$PV = \frac{10,000}{0.04} \times \left[ 1 - (0.96296)^5 \right]$$
+        <br>$$PV = 250,000 \times [ 1 - 0.8284 ] = 250,000 \times 0.1716 = \$42,900$$
+        <br>The present value of the lease obligations is $42,900.
+      </p>
+    </div>
+    <p>
+      <b>Key Applications:</b>
+      <br>1. *Pension Plans:* Valuation of retirement packages that grow annually to keep pace with inflation (COLA).
+      <br>2. *Corporate Dividends:* Valuing stocks whose dividends grow at a constant rate over a finite horizon.
+      <br>3. *Multi-Year Contracts:* Valuing corporate partnerships or player contracts in sports which feature yearly salary escalations.
+    </p>
+  </div>
+
+</body>
+</html>

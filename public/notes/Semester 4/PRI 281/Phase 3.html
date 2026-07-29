@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phase 3: Final Presentation and Defense</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Phase 3: Final Presentation and Defense</b></h1>
+
+  <!-- Code Implementation & Project Architecture -->
+  <div class="section">
+    <h2><b>3.1 Coding, Directory Organization, and API Standards</b></h2>
+    <p>
+      In the final phase of Project II, students build the actual system, write the source code, and run tests.
+      An organized codebase is essential for a clean review by external examiners:
+    </p>
+
+    <h3>1. Standard Project Directory Structure (Node/Express Backend)</h3>
+    <pre>
+  medcare-backend/
+  ├── config/             # Database connection pool setup
+  │   └── db.js
+  ├── controllers/        # Logical controllers processing requests
+  │   ├── authController.js
+  │   ├── patientController.js
+  │   └── appointmentController.js
+  ├── middleware/         # Auth verify token middlewares
+  │   └── authMiddleware.js
+  ├── models/             # Schema/Query definitions
+  │   └── patientModel.js
+  ├── routes/             # API route endpoints
+  │   ├── authRoutes.js
+  │   └── patientRoutes.js
+  ├── tests/              # Jest/Supertest testing files
+  │   └── patient.test.js
+  ├── .env                # Environment keys (DB_HOST, JWT_SECRET)
+  ├── package.json
+  └── server.js           # Server starter file
+    </pre>
+
+    <h3>2. Version Control Workflows</h3>
+    <p>
+      Maintain clean git commits. Commits should describe *what* changed and *why*:
+    </p>
+    <ul>
+      <li><code>git checkout -b feature/appointment-booking</code>: Create a separate working branch for new features.</li>
+      <li><code>git commit -m "feat: add appointment schedule validation endpoint"</code>: Standard commit prefixes
+        (feat, fix, docs, refactor, test).</li>
+      <li><code>git merge dev</code>: Integrate features into the development branch for joint team testing.</li>
+    </ul>
+
+    <h3>3. RESTful API HTTP Status Code standards</h3>
+    <table>
+      <tr>
+        <th>Code</th>
+        <th>Meaning</th>
+        <th>Application scenario in Project</th>
+      </tr>
+      <tr>
+        <td><b>200 OK</b></td>
+        <td>Successful request.</td>
+        <td>Retrieving patient list, searching appointment slots.</td>
+      </tr>
+      <tr>
+        <td><b>201 Created</b></td>
+        <td>Resource successfully created.</td>
+        <td>New patient registered, bill successfully paid.</td>
+      </tr>
+      <tr>
+        <td><b>400 Bad Request</b></td>
+        <td>Invalid inputs/validation error.</td>
+        <td>Missing patient name, invalid phone number format.</td>
+      </tr>
+      <tr>
+        <td><b>401 Unauthorized</b></td>
+        <td>Missing/Invalid JWT token.</td>
+        <td>Receptionist trying to delete patient without logging in.</td>
+      </tr>
+      <tr>
+        <td><b>404 Not Found</b></td>
+        <td>Resource does not exist.</td>
+        <td>Searching for Patient ID that is deleted.</td>
+      </tr>
+      <tr>
+        <td><b>500 Server Error</b></td>
+        <td>Database crash/Unhandled code exception.</td>
+        <td>MySQL server is down, server routing error.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Software Testing & QA -->
+  <div class="section">
+    <h2><b>3.2 Software Testing & Quality Assurance</b></h2>
+    <p>
+      Software testing proves the reliability of your system. External examiners often request to see
+      your test logs and test cases during the viva:
+    </p>
+
+    <h3>1. Testing Levels</h3>
+    <ul>
+      <li><b>Unit Testing:</b> Testing individual modules or code blocks in isolation (e.g., verifying if the
+        VAT calculation function returns correct values).</li>
+      <li><b>Integration Testing:</b> Verifying that different modules interact correctly (e.g., checking if
+        booking an appointment correctly decreases the doctor's free slots count in the database).</li>
+      <li><b>System Testing:</b> Testing the entire system end-to-end to ensure it meets the SRS specifications.</li>
+      <li><b>User Acceptance Testing (UAT):</b> Letting a receptionist or administrator test the system to see
+        if it fits daily workflow expectations.</li>
+    </ul>
+
+    <h3>2. Standard Test Case Specification Table</h3>
+    <p>
+      Prepare a test case table detailing inputs, expected outputs, and actual outcomes:
+    </p>
+    <table>
+      <tr>
+        <th>Test ID</th>
+        <th>Feature Tested</th>
+        <th>Input Data</th>
+        <th>Expected Output</th>
+        <th>Actual Output</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td>TC-01</td>
+        <td>User Login Validation</td>
+        <td>Username: admin, Password: wrongpass</td>
+        <td>Show error: "Invalid Credentials"</td>
+        <td>Show error: "Invalid Credentials"</td>
+        <td><b style="color: green;">PASS</b></td>
+      </tr>
+      <tr>
+        <td>TC-02</td>
+        <td>Patient Registration</td>
+        <td>Name: Umesh, Phone: 9851... (valid)</td>
+        <td>Save patient; return ID; show success.</td>
+        <td>Patient saved, ID 104 generated, success.</td>
+        <td><b style="color: green;">PASS</b></td>
+      </tr>
+      <tr>
+        <td>TC-03</td>
+        <td>Empty Name Field Validation</td>
+        <td>Name: [Empty], Phone: 9841000000</td>
+        <td>Block request; show validation error.</td>
+        <td>Request blocked; warning toast shown.</td>
+        <td><b style="color: green;">PASS</b></td>
+      </tr>
+      <tr>
+        <td>TC-04</td>
+        <td>Double Booking Prevention</td>
+        <td>Book Doctor Ram, 2026-08-01 10:00 AM (already booked)</td>
+        <td>Show conflict message: "Slot Unavailable"</td>
+        <td>Show conflict message: "Slot Unavailable"</td>
+        <td><b style="color: green;">PASS</b></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Deployment & Maintenance -->
+  <div class="section">
+    <h2><b>3.3 Deployment and Maintenance</b></h2>
+    <p>
+      An application must run outside the developer's localhost to be useful. Students should understand
+      basic deployment workflows:
+    </p>
+    <ul>
+      <li><b>Local Network Hosting:</b> Setting up the server IP locally (e.g., <code>192.168.1.15:5000</code>) so that other
+        devices on the same router can log in and test.</li>
+      <li><b>Cloud Hosting:</b> Deploying the frontend to Vercel/Netlify and the backend to Render, Railway, or AWS EC2 instances.</li>
+      <li><b>Database Backups:</b> Scheduling automated backups using cron jobs or batch files to prevent data loss.
+        <br><i>MySQL Backup Script:</i>
+        <pre>mysqldump -u root -p clinic_db > C:\backups\backup_date.sql</pre>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Final Report Formatting -->
+  <div class="section">
+    <h2><b>3.4 Final Project Report Formatting Guidelines</b></h2>
+    <p>
+      The project report is a formal record of your project. Pokhara University guidelines specify the following layout:
+    </p>
+
+    <h3>1. Page Setup & Typography</h3>
+    <ul>
+      <li><b>Paper Size:</b> Standard A4.</li>
+      <li><b>Margins:</b> Left = 1.5 inches (extra margin for report binding), Top, Bottom, Right = 1.0 inch.</li>
+      <li><b>Line Spacing:</b> 1.5 throughout the body text.</li>
+      <li><b>Font Style & Size:</b> Times New Roman, Size = 12pt (Regular body text).
+        <ul>
+          <li><i>Chapter Headings (H1):</i> 16pt, Bold, Centered, ALL CAPS.</li>
+          <li><i>Section Headings (H2):</i> 14pt, Bold, Left-aligned.</li>
+          <li><i>Sub-section Headings (H3):</i> 12pt, Bold, Left-aligned.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>2. Chapter Structure Outlines</h3>
+    <ol>
+      <li><b>Preliminary Pages:</b> Title Page, Letter of Approval, Acknowledgments, Abstract, Table of Contents, List of Figures, List of Tables.</li>
+      <li><b>Chapter 1: Introduction:</b> Project background, problem statement, objectives, scope, and limitations.</li>
+      <li><b>Chapter 2: Literature Review:</b> Technical and business systems overview, theoretical framework, study gaps.</li>
+      <li><b>Chapter 3: System Analysis and Design:</b> SRS details, feasibility reports, UML diagrams (Use Case, Activity, Class, Sequence), ERD database schema design.</li>
+      <li><b>Chapter 4: Implementation and Testing:</b> Programming environments, key code segments, system testing levels, test case tables.</li>
+      <li><b>Chapter 5: Conclusion and Recommendations:</b> Final project summary, future extensions, recommendations for clinic owners.</li>
+      <li><b>References & Appendices:</b> APA references bibliography, user manuals, core DDL SQL scripts.</li>
+    </ol>
+  </div>
+
+  <!-- Preparing for the Project Defense -->
+  <div class="section">
+    <h2><b>3.5 Preparing for the Project Defense (Viva)</b></h2>
+    <p>
+      The final defense decides 50% of your marks. Prepare a concise 12-15 slide presentation deck:
+    </p>
+
+    <div class="note">
+      <h4>Standard Project Defense Slide Layout</h4>
+      <ul>
+        <li><b>Slide 1:</b> Project Title, Student Names, supervisor name, college name. (1 min)</li>
+        <li><b>Slide 2:</b> Problem Statement & Objectives. (2 mins)</li>
+        <li><b>Slide 3:</b> System Architecture and MVC flow. (1 min)</li>
+        <li><b>Slide 4:</b> Database ERD and normalization details. (2 mins)</li>
+        <li><b>Slide 5:</b> Key Use Cases and Class Diagram. (2 mins)</li>
+        <li><b>Slide 6:</b> Key Implementation details (Tech Stack). (1 min)</li>
+        <li><b>Slide 7:</b> Demo of the running application. (4 mins)</li>
+        <li><b>Slide 8:</b> Test case table and testing results. (1 min)</li>
+        <li><b>Slide 9:</b> Conclusion & Future enhancements. (1 min)</li>
+      </ul>
+    </div>
+
+    <h3>25 Frequently Asked Defense Questions by External Examiners</h3>
+    <p>
+      Be prepared to answer these common questions:
+    </p>
+    <ol>
+      <li><b>Why did you choose this project topic?</b>
+        <br><i>Answer:</i> Explain the business gap in manual tracking systems and how this solution improves efficiency.
+      </li>
+      <li><b>What methodology did you adopt, and why?</b>
+        <br><i>Answer:</i> We used Agile Scrum because it allowed iterative progress, regular feedback, and quick adaptions to requirements.
+      </li>
+      <li><b>Explain the primary keys and foreign keys in your database.</b>
+        <br><i>Answer:</i> Be prepared to show your ERD and point out how relationships (like `patient_id` in appointments linking to the patients table) are structured.
+      </li>
+      <li><b>How does your system handle double-booking of appointments?</b>
+        <br><i>Answer:</i> Detail the SQL check logic or unique compound indexes placed on doctor schedules.
+      </li>
+      <li><b>Is your database normalized? If yes, to what form?</b>
+        <br><i>Answer:</i> Yes, normalized to 3NF. Explain how transitive dependencies were removed by splitting student/warden or patient/doctor details.
+      </li>
+      <li><b>What is a foreign key constraint? What does ON DELETE CASCADE do?</b>
+        <br><i>Answer:</i> It ensures referential integrity. `ON DELETE CASCADE` means if a patient is deleted, all their corresponding appointments are automatically deleted.
+      </li>
+      <li><b>How did you handle authentication security?</b>
+        <br><i>Answer:</i> We used bcrypt to hash passwords on register, and JWT cookies on login to keep sessions secure.
+      </li>
+      <li><b>What is JWT? What does it consist of?</b>
+        <br><i>Answer:</i> JSON Web Token. It consists of Header (algorithm), Payload (user claims/metadata), and Signature (verification key).
+      </li>
+      <li><b>What is MVC? Why is it better than procedural programming?</b>
+        <br><i>Answer:</i> Model-View-Controller separation. It makes the codebase modular, reusable, and easy to maintain by separating data queries, UI, and business logic.
+      </li>
+      <li><b>How did you test your application? Show your test cases.</b>
+        <br><i>Answer:</i> Point to your test case table in the report. Explain unit testing (Jest) and manual black-box testing.
+      </li>
+      <li><b>What are non-functional requirements? Give examples from your project.</b>
+        <br><i>Answer:</i> Page load speed under 2 seconds, secure cookie hashing, responsive mobile layout.
+      </li>
+      <li><b>How did you design your user interfaces to be mobile-responsive?</b>
+        <br><i>Answer:</i> Used CSS flexbox/grid layout and CSS media queries (`@media (max-width: 768px)`).
+      </li>
+      <li><b>What is sql injection? How does your code prevent it?</b>
+        <br><i>Answer:</i> SQL injection is inserting malicious SQL queries into inputs. We prevent it by using parameterized prepared statements.
+      </li>
+      <li><b>Show us the code for your database connection configuration.</b>
+        <br><i>Answer:</i> Be ready to open `config/db.js` or equivalent and explain connection pool creation.
+      </li>
+      <li><b>Explain the difference between local storage and cookie sessions.</b>
+        <br><i>Answer:</i> Cookies are sent with every HTTP request automatically and can be set to HttpOnly (preventing XSS), while LocalStorage is accessible by client JavaScript.
+      </li>
+      <li><b>What is git? How did your team collaborate using Git?</b>
+        <br><i>Answer:</i> A distributed version control system. We worked on separate feature branches and merged them into a main development branch via Pull Requests.
+      </li>
+      <li><b>Where is your application hosted?</b>
+        <br><i>Answer:</i> (If deployed) State Render, Netlify, or Vercel URLs. (If local) Explain local network IP setup.
+      </li>
+      <li><b>What is a RESTful API? What HTTP methods did you use?</b>
+        <br><i>Answer:</i> Representational State Transfer API. We used GET (read), POST (create), PUT (update), and DELETE (remove).
+      </li>
+      <li><b>What is CORS? How did you handle it?</b>
+        <br><i>Answer:</i> Cross-Origin Resource Sharing. Handled by configuring cors middleware in Express to allow requests from the React frontend port.
+      </li>
+      <li><b>How do you prevent cross-site scripting (XSS)?</b>
+        <br><i>Answer:</i> By sanitizing user input data before rendering it in the HTML DOM.
+      </li>
+      <li><b>What are the limitations of your project?</b>
+        <br><i>Answer:</i> Point out limitations in your scope (e.g. no real-time video consultation module, lacks SMS prescription alerts).
+      </li>
+      <li><b>What would you improve if you had 6 more months?</b>
+        <br><i>Answer:</i> Mention enhancements like payment gateway integration, automatic doctor consultation schedules, or offline support.
+      </li>
+      <li><b>How did you estimate project costs? Show your CBA results.</b>
+        <br><i>Answer:</i> Point to your ROI and Payback calculations in Chapter 3.
+      </li>
+      <li><b>Explain the difference between GET and POST requests.</b>
+        <br><i>Answer:</i> GET appends parameters to the URL and is used to retrieve data. POST sends data in the request body and is used to modify server state.
+      </li>
+      <li><b>What was your role in this project group?</b>
+        <br><i>Answer:</i> Clearly describe your contributions (e.g., database design, backend API routing, frontend interface coding).
+      </li>
+    </ol>
+  </div>
+
+  <!-- Code Snippets for Reference -->
+  <div class="section">
+    <h2><b>3.6 Reference Code Implementation Snippets</b></h2>
+    <p>
+      Students must be prepared to write or explain core snippets of code during their final defense:
+    </p>
+
+    <h3>1. Secure Password Hashing & Registration (Node.js/Express)</h3>
+    <pre>
+  const express = require('express');
+  const bcrypt = require('bcryptjs');
+  const db = require('../config/db');
+  const router = express.Router();
+
+  // Registration Route
+  router.post('/register', async (req, res) => {
+      const { username, email, password } = req.body;
+      if (!username || !email || !password) {
+          return res.status(400).json({ error: "Missing required fields" });
+      }
+      try {
+          // Hash password using bcrypt (10 salt rounds)
+          const salt = await bcrypt.genSalt(10);
+          const hashPassword = await bcrypt.hash(password, salt);
+
+          // Parameterized query prevents SQL Injection
+          const query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+          db.query(query, [username, email, hashPassword], (err, result) => {
+              if (err) {
+                  if (err.code === 'ER_DUP_ENTRY') {
+                      return res.status(400).json({ error: "Email already registered" });
+                  }
+                  return res.status(500).json({ error: err.message });
+              }
+              res.status(201).json({ message: "User registered successfully", id: result.insertId });
+          });
+      } catch (error) {
+          res.status(500).json({ error: "Internal server exception" });
+      }
+  });
+
+  module.exports = router;
+    </pre>
+
+    <h3>2. Unit Testing a Controller Endpoint using Jest & Supertest</h3>
+    <pre>
+  const request = require('supertest');
+  const app = require('../server'); // Express app instance
+  const db = require('../config/db');
+
+  describe('POST /api/auth/register', () => {
+      // Clear test table entries before running test suite
+      beforeAll((done) => {
+          db.query("DELETE FROM users WHERE email = 'testuser@gmail.com'", () => {
+              done();
+          });
+      });
+
+      it('should successfully register a new user and return status 201', async () => {
+          const res = await request(app)
+              .post('/api/auth/register')
+              .send({
+                  username: 'testuser',
+                  email: 'testuser@gmail.com',
+                  password: 'password123'
+              });
+          expect(res.statusCode).toEqual(201);
+          expect(res.body).toHaveProperty('message');
+          expect(res.body.message).toEqual('User registered successfully');
+      });
+
+      it('should fail registration if email is missing and return status 400', async () => {
+          const res = await request(app)
+              .post('/api/auth/register')
+              .send({
+                  username: 'testuser',
+                  password: 'password123'
+              });
+          expect(res.statusCode).toEqual(400);
+      });
+  });
+    </pre>
+  </div>
+
+  <!-- CI/CD Workflows -->
+  <div class="section">
+    <h2><b>3.7 Continuous Integration and Deployment (CI/CD)</b></h2>
+    <p>
+      In professional software engineering, code changes are automatically validated and built using
+      **CI/CD Pipelines**. Students should be aware of these automation pipelines:
+    </p>
+    <ul>
+      <li><b>Continuous Integration (CI):</b> Automatically compiles code and runs test suites whenever a developer
+        pushes changes to the GitHub repository. This prevents broken code from being integrated into the master branch.</li>
+      <li><b>Continuous Deployment (CD):</b> Automatically deploys the validated master branch to public hosting servers
+        (e.g., Render, Netlify) once all tests pass.</li>
+    </ul>
+    <div class="note">
+      <h4>Sample GitHub Actions Workflow (<code>.github/workflows/ci.yml</code>)</h4>
+      <pre>
+  name: Node.js CI
+
+  on:
+    push:
+      branches: [ main, dev ]
+    pull_request:
+      branches: [ main ]
+
+  jobs:
+    build-and-test:
+      runs-on: ubuntu-latest
+      steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Linting checks
+        run: npm run lint --if-present
+
+      - name: Run Test Suite
+        run: npm test
+      </pre>
+    </div>
+  </div>
+
+  <!-- Database Seed Scripts -->
+  <div class="section">
+    <h2><b>3.8 Database Seeding and Migration Scripts</b></h2>
+    <p>
+      When deploying to production, database structures must be initialized, and test records must be populated.
+      Instead of adding rows manually, developers use **Seed Scripts**:
+    </p>
+    <div class="note">
+      <h4>Sample Node.js Seed Script (<code>seed.js</code>)</h4>
+      <pre>
+  const db = require('./config/db');
+
+  const seedData = async () => {
+      console.log('Seeding database tables...');
+      
+      const insertUser = `
+          INSERT INTO users (username, email, password) 
+          VALUES ('admin', 'admin@medcare.com', 'hashed_pass_here')
+          ON DUPLICATE KEY UPDATE username=username;
+      `;
+      
+      const insertPatients = `
+          INSERT INTO patients (name, phone, email, dob, gender) 
+          VALUES 
+          ('Hari Bahadur', '9851020304', 'hari@gmail.com', '1990-05-12', 'Male'),
+          ('Sita Kumari', '9841020304', 'sita@gmail.com', '1995-10-22', 'Female')
+          ON DUPLICATE KEY UPDATE name=name;
+      `;
+
+      db.query(insertUser, (err) => {
+          if (err) throw err;
+          console.log('Default admin seeded.');
+          
+          db.query(insertPatients, (err2) => {
+              if (err2) throw err2;
+              console.log('Initial test patients seeded successfully.');
+              process.exit(0);
+          });
+      });
+  };
+
+  seedData();
+      </pre>
+    </div>
+  </div>
+
+</body>
+</html>

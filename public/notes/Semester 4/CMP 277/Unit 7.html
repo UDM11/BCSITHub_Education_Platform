@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 7: Application Layers</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.7; background-color: #f5f5f5; margin: 0; padding: 0; }
+    h1 { text-align: center; color: #111; font-size: 20pt; font-weight: bold; margin: 30px 0; }
+    h2 { color: #222; border-bottom: 3px solid #aaa; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #444; margin-top: 25px; font-size: 1.3em; }
+    h4 { color: #555; margin-top: 20px; }
+    .section { background: white; padding: 25px; margin-bottom: 35px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); text-align: justify; }
+    ul, ol { padding-left: 35px; }
+    li { margin-bottom: 14px; }
+    pre { background-color: #111; color: #0f8; padding: 18px; overflow-x: auto; border-radius: 10px; font-size: 13pt; margin: 20px 0; line-height: 1.5; }
+    code { font-family: Consolas, monospace; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
+    th { background-color: #e0e0e0; font-weight: bold; }
+    .note { background-color: #e8f4fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    .warning { background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 6px; }
+    @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } .section { padding: 18px; margin-bottom: 25px; } }
+    @media (max-width: 480px) { body { font-size: 14px; } h1 { font-size: 1.4rem; margin: 20px 0; } h2 { font-size: 1.1rem; } .section { padding: 14px; margin-bottom: 20px; } pre { font-size: 11.5pt; } }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 7: Application Layers [4 Hrs.]</b></h1>
+
+  <!-- 7.1 - 7.2 Web, HTTP and HTTPS -->
+  <div class="section">
+    <h2><b>7.1 Web, HTTP and HTTPS Protocols</b></h2>
+
+    <h3>Role of the Application Layer</h3>
+    <p>
+      The <b>Application Layer</b> (Layer 7 in OSI, Layer 4/5 in TCP/IP) is the user interface layer.
+      It provides services directly to application programs, enabling them to communicate across
+      the network. It handles high-level protocols, resource sharing, and remote file access.
+    </p>
+
+    <h3>HTTP (Hypertext Transfer Protocol)</h3>
+    <p>
+      HTTP is a stateless, request-response protocol used to transfer hypertext documents (HTML, CSS, JS, images)
+      on the World Wide Web.
+    </p>
+    <ul>
+      <li><b>Port Number:</b> Port 80.</li>
+      <li><b>Stateless Nature:</b> Each request is treated as completely independent. HTTP does not
+        maintain session history. Cookies and Session Tokens are used to maintain state.</li>
+      <li><b>Connections:</b>
+        <ul>
+          <li><i>Non-persistent (HTTP/1.0):</i> Each request-response pair requires a new TCP connection.</li>
+          <li><i>Persistent (HTTP/1.1):</i> Multiple requests can be sent over a single TCP connection, reducing overhead.</li>
+          <li><i>Multiplexing (HTTP/2.0):</i> Allows concurrent requests over a single connection in binary format.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>HTTP Message Formats</h3>
+    <p>
+      HTTP messages consist of a Start Line, Headers, and an optional Body:
+    </p>
+    <pre>
+  Sample HTTP Request:
+    GET /notes/index.html HTTP/1.1
+    Host: www.bcsithub.com
+    User-Agent: Mozilla/5.0
+    Accept-Language: en-US
+
+  Sample HTTP Response:
+    HTTP/1.1 200 OK
+    Date: Tue, 28 Jul 2026 12:00:00 GMT
+    Server: Apache/2.4
+    Content-Type: text/html
+    Content-Length: 1254
+
+    &lt;!DOCTYPE html&gt;&lt;html&gt;... (payload)
+    </pre>
+
+    <h3>HTTPS (HTTP Secure)</h3>
+    <p>
+      HTTPS encrypts HTTP messages using <b>SSL/TLS</b> protocols, ensuring confidentiality, data integrity,
+      and authentication.
+    </p>
+    <ul>
+      <li><b>Port Number:</b> Port 443.</li>
+      <li><b>How it works:</b> Relies on asymmetric cryptography to exchange symmetric session keys.
+        Digital certificates verified by Certificate Authorities (CAs) prove server authenticity.</li>
+    </ul>
+    <pre>
+  HTTPS / TLS Handshake:
+
+  Client                                             Server
+    │                                                  │
+    │ ─── ClientHello (Supported Cipher Suites) ─────&gt; │
+    │ &lt;── ServerHello + Certificate + Public Key ────── │
+    │                                                  │
+    │ (Client verifies certificate using CA keys)      │
+    │                                                  │
+    │ ─── ClientKeyExchange (Pre-master secret encrypted)─&gt; │
+    │                                                  │
+    │ (Both derive Symmetric Session Keys)              │
+    │                                                  │
+    │ &lt;── ChangeCipherSpec (Encrypted finish message) ── │
+    │ ─── ChangeCipherSpec (Encrypted finish message) ─&gt; │
+    │                                                  │
+    │ ◄═══ Secure Encrypted HTTP Traffic (Symmetric) ══►│
+    ▼                                                  ▼
+    </pre>
+  </div>
+
+  <!-- 7.3 DNS Working Principles -->
+  <div class="section">
+    <h2><b>7.2 DNS (Domain Name System) and Resolution Flow</b></h2>
+
+    <h3>What is DNS?</h3>
+    <p>
+      The <b>Domain Name System (DNS)</b> is a distributed database that acts as the "phonebook" of
+      the Internet. It translates human-readable domain names (e.g., <code>google.com</code>)
+      into machine-routable IP addresses (e.g., <code>142.250.190.46</code>).
+      It operates primarily over **UDP Port 53** (uses TCP for zone transfers).
+    </p>
+
+    <h3>DNS Name Hierarchy</h3>
+    <pre>
+                              Root Level (.)
+                                    │
+                  ┌─────────────────┴─────────────────┐
+                  ▼                                   ▼
+          Top-Level Domains (TLD)               Country Codes (ccTLD)
+             (.com, .org, .edu)                    (.np, .uk, .in)
+                  │                                   │
+                  ▼                                   ▼
+        Second-Level Domains                Second-Level Domains
+             (google, facebook)                  (pokharauniversity, gov)
+                  │                                   │
+                  ▼                                   ▼
+               Subdomains                          Subdomains
+             (mail, www)                         (exam, admission)
+    </pre>
+
+    <h3>DNS Query Resolution</h3>
+    <ol>
+      <li><b>Recursive Query:</b> The client queries a local DNS resolver (typically provided by ISP or 8.8.8.8)
+        demanding a complete resolution. The resolver is obligated to find the answer.</li>
+      <li><b>Iterative Query:</b> The local resolver queries the root, TLD, and authoritative servers.
+        These servers do not return the IP address directly; instead, they return referrals (pointers)
+        to the next server down the hierarchy.</li>
+    </ol>
+    <pre>
+  DNS Resolution Steps:
+  [Client Browser] ──(1. Query google.com)──→ [Local DNS Resolver]
+                                                    │  ▲
+                            ┌───────────────────────┘  │
+       2. Query Root (.)    │                          │ 3. Refer to .com TLD
+                            ▼                          │
+                     [Root Name Server] ───────────────┘
+                            │  ▲
+                            │  │ 5. Refer to google.com Name Server
+       4. Query .com TLD    │                          │
+                            ▼                          │
+                     [TLD Name Server] ────────────────┘
+                            │  ▲
+                            │  │ 7. Return IP Address
+       6. Query google.com  │                          │
+                            ▼                          │
+                  [Authoritative Server] ──────────────┘
+    </pre>
+
+    <h3>Common DNS Record Types</h3>
+    <table>
+      <tr>
+        <th>Record Type</th>
+        <th>Description</th>
+        <th>Example Value</th>
+      </tr>
+      <tr>
+        <td>A</td>
+        <td>Maps domain name to IPv4 address</td>
+        <td>google.com -> 142.250.190.46</td>
+      </tr>
+      <tr>
+        <td>AAAA</td>
+        <td>Maps domain name to IPv6 address</td>
+        <td>google.com -> 2607:f8b0:4005:805::200e</td>
+      </tr>
+      <tr>
+        <td>CNAME</td>
+        <td>Alias: maps domain name to another domain name</td>
+        <td>www.bcsithub.com -> bcsithub.com</td>
+      </tr>
+      <tr>
+        <td>MX</td>
+        <td>Mail Exchange: specifies mail server for the domain</td>
+        <td>mail.bcsithub.com (Priority = 10)</td>
+      </tr>
+      <tr>
+        <td>NS</td>
+        <td>Name Server: delegates DNS zone to authoritative server</td>
+        <td>ns1.domaincontrol.com</td>
+      </tr>
+      <tr>
+        <td>TXT</td>
+        <td>Arbitrary text (used for security verification like SPF, DKIM)</td>
+        <td>"v=spf1 include:_spf.google.com ~all"</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 7.4 - 7.5 Email and FTP -->
+  <div class="section">
+    <h2><b>7.3 Email and File Transfer Protocols</b></h2>
+
+    <h3>Email Protocols</h3>
+    <p>
+      Email systems involve three main protocols working together to send and retrieve messages:
+    </p>
+
+    <h4>1. SMTP (Simple Mail Transfer Protocol)</h4>
+    <ul>
+      <li><b>Role:</b> Push protocol used to send email from client to server, or transfer email
+        between mail servers.</li>
+      <li><b>Port Number:</b> TCP Port 25 (unencrypted), Port 587 (TLS), Port 465 (SSL).</li>
+    </ul>
+
+    <h4>2. POP3 (Post Office Protocol version 3)</h4>
+    <ul>
+      <li><b>Role:</b> Pull protocol used by clients to retrieve email from the server.</li>
+      <li><b>Mechanism:</b> "Download and Delete". Emails are downloaded locally to the client device
+        and automatically deleted from the mail server.
+        <br><span class="warning">Does not support synchronization across multiple devices.</span></li>
+      <li><b>Port Number:</b> TCP Port 110 (unencrypted), Port 995 (SSL/TLS).</li>
+    </ul>
+
+    <h4>3. IMAP (Internet Message Access Protocol)</h4>
+    <ul>
+      <li><b>Role:</b> Pull protocol used by clients to retrieve email.</li>
+      <li><b>Mechanism:</b> "Sync and Store". Emails remain stored on the mail server. Changes
+        made on one client (read, folders, delete) are synchronized across all devices.</li>
+      <li><b>Port Number:</b> TCP Port 143 (unencrypted), Port 993 (SSL/TLS).</li>
+    </ul>
+
+    <h3>File Transfer Protocols</h3>
+    <ul>
+      <li><b>FTP (File Transfer Protocol):</b> Used to transfer files between client and server.
+        Uses two separate connections: TCP Port 21 for Control commands and Port 20 for Data transfer.
+        <br><span class="warning">FTP sends usernames and passwords in clear plain text, making it insecure.</span></li>
+      <li><b>SFTP (SSH File Transfer Protocol):</b> Safe alternative. Encapsulates control commands
+        and data transfers inside a single, secure **SSH connection (Port 22)**. Files are encrypted
+        during transit.</li>
+    </ul>
+  </div>
+
+  <!-- 7.6 DHCP -->
+  <div class="section">
+    <h2><b>7.4 DHCP (Dynamic Host Configuration Protocol)</b></h2>
+
+    <h3>What is DHCP?</h3>
+    <p>
+      <b>DHCP</b> is an application layer protocol used to automatically assign IP addresses,
+      subnet masks, default gateways, and DNS server IPs to devices joining a network.
+      It runs over **UDP Port 67 (Server)** and **UDP Port 68 (Client)**.
+    </p>
+
+    <h3>The DORA Transaction Flow</h3>
+    <p>
+      DHCP relies on a four-step exchange between the client and the DHCP server:
+    </p>
+    <pre>
+  New Client                                           DHCP Server
+      │                                                     │
+      │ ─── DHCP Discover (Broadcast, "I need an IP!") ────&gt; │
+      │ &lt;── DHCP Offer (Unicast/Broadcast, "Try this IP") ── │
+      │                                                     │
+      │ ─── DHCP Request (Broadcast, "I accept that IP") ──&gt; │
+      │ &lt;── DHCP Acknowledge (Unicast, "IP is leased to you")│
+      ▼                                                     ▼
+    </pre>
+    <ol>
+      <li><b>Discover:</b> The client broadcasts a packet to locate active DHCP servers on the subnet.
+        Destination IP is <code>255.255.255.255</code>.</li>
+      <li><b>Offer:</b> The DHCP server responds with an available IP address, lease duration,
+        subnet mask, default gateway, and DNS configuration.</li>
+      <li><b>Request:</b> The client broadcasts a message accepting the offered IP address. Broadcasting
+        notifies other DHCP servers that their offers were not chosen.</li>
+      <li><b>Acknowledge (ACK):</b> The server commits the lease mapping to its database and
+        sends final confirmation to the client.</li>
+    </ol>
+
+    <h3>DHCP Relay Agent</h3>
+    <p>
+      Since DHCP discover and request packets are local layer 2 broadcasts, they cannot pass through
+      routers (which block broadcasts by default). To support clients in multiple subnets without running
+      a separate DHCP server in each subnet, a <b>DHCP Relay Agent</b> is configured on the router interface:
+    </p>
+    <pre>
+  [Client] ──(Broadcast Discover)──→ [Relay Agent on Router] ──(Unicast Discover)──→ [DHCP Server (Central)]
+    </pre>
+    <p>
+      The relay agent intercepts the local broadcast discover packet, encapsulates it, and forwards it
+      as a unicast packet directly to the IP address of the remote DHCP server.
+    </p>
+  </div>
+
+  <!-- HTTP Methods & Status Codes -->
+  <div class="section">
+    <h2><b>7.5 HTTP Request Methods and Status Codes</b></h2>
+    <p>
+      HTTP utilizes specific methods to perform actions on a server and returns status codes indicating
+      the result of the operation.
+    </p>
+
+    <h3>HTTP Request Methods</h3>
+    <table>
+      <tr>
+        <th>Method</th>
+        <th>Description</th>
+        <th>Safe</th>
+        <th>Idempotent</th>
+      </tr>
+      <tr>
+        <td><b>GET</b></td>
+        <td>Retrieves data/resources from the server.</td>
+        <td>Yes</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td><b>POST</b></td>
+        <td>Submits new data to be processed by the server (creates a resource).</td>
+        <td>No</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td><b>PUT</b></td>
+        <td>Replaces/updates an existing resource on the server.</td>
+        <td>No</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td><b>DELETE</b></td>
+        <td>Removes a resource from the server.</td>
+        <td>No</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td><b>HEAD</b></td>
+        <td>Retrieves the response headers only (no body payload). Used to test links.</td>
+        <td>Yes</td>
+        <td>Yes</td>
+      </tr>
+    </table>
+
+    <h3>HTTP Status Code Categories</h3>
+    <table>
+      <tr>
+        <th>Range</th>
+        <th>Category</th>
+        <th>Common Examples</th>
+      </tr>
+      <tr>
+        <td>1xx</td>
+        <td>Informational</td>
+        <td><code>100 Continue</code>, <code>101 Switching Protocols</code></td>
+      </tr>
+      <tr>
+        <td>2xx</td>
+        <td>Success</td>
+        <td><code>200 OK</code>, <code>201 Created</code>, <code>204 No Content</code></td>
+      </tr>
+      <tr>
+        <td>3xx</td>
+        <td>Redirection</td>
+        <td><code>301 Moved Permanently</code>, <code>302 Found</code>, <code>304 Not Modified</code></td>
+      </tr>
+      <tr>
+        <td>4xx</td>
+        <td>Client Error</td>
+        <td><code>400 Bad Request</code>, <code>401 Unauthorized</code>, <code>403 Forbidden</code>, <code>404 Not Found</code></td>
+      </tr>
+      <tr>
+        <td>5xx</td>
+        <td>Server Error</td>
+        <td><code>500 Internal Server Error</code>, <code>502 Bad Gateway</code>, <code>503 Service Unavailable</code></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- DNS Caching and Web Proxy Caching -->
+  <div class="section">
+    <h2><b>7.6 Network Caching Mechanisms</b></h2>
+
+    <h3>1. DNS Caching</h3>
+    <p>
+      To reduce DNS query traffic and latency, resolved DNS queries are cached at multiple levels:
+    </p>
+    <ul>
+      <li><b>Browser Cache:</b> Web browsers cache DNS records for a short time.</li>
+      <li><b>OS Cache:</b> Operating systems maintain a local DNS resolver cache. In Windows, this
+        can be viewed with <code>ipconfig /displaydns</code> and cleared using <code>ipconfig /flushdns</code>.</li>
+      <li><b>Local DNS Server Cache:</b> The ISP or corporate DNS resolver caches results.</li>
+      <li><b>TTL (Time-to-Live):</b> Each DNS record contains a TTL value (in seconds) set by the domain
+        owner, defining how long resolvers are allowed to cache the record before checking again.</li>
+    </ul>
+
+    <h3>2. Web Caching (Conditional GET)</h3>
+    <p>
+      Web proxies and browsers cache web pages locally. When a client requests a page, the browser
+      checks if the cached copy is stale. To verify without downloading the entire page again, it sends
+      a <b>Conditional GET</b> request to the origin server containing the `If-Modified-Since` header:
+    </p>
+    <ul>
+      <li>If the page has not changed, the server responds with <code>304 Not Modified</code> (empty body).
+        The browser loads the page from cache, saving bandwidth.</li>
+      <li>If the page has changed, the server responds with <code>200 OK</code> and sends the new page body.</li>
+    </ul>
+  </div>
+
+  <!-- Application Architectures & MIME -->
+  <div class="section">
+    <h2><b>7.7 Application Architecture Paradigms and MIME Types</b></h2>
+
+    <h3>Application Architectures</h3>
+    <p>
+      Application developers design network applications using specific architectural models:
+    </p>
+    <ul>
+      <li><b>Client-Server Architecture:</b> The most dominant model. Clients send requests to a central,
+        always-on server (e.g., Web, database). Easy to manage but suffers from single point of failure
+        and scaling limits.</li>
+      <li><b>Peer-to-Peer (P2P) Architecture:</b> Completely decentralized. Nodes (peers) communicate
+        directly with each other. Highly scalable as each new peer adds resources (bandwidth, storage)
+        to the network. Hard to manage and secure (e.g., BitTorrent).</li>
+      <li><b>Hybrid Architecture:</b> Combines client-server for central coordination and P2P for data transfer
+        (e.g., instant messaging servers tracking online users, but media transfer occurs peer-to-peer).</li>
+    </ul>
+
+    <h3>MIME (Multipurpose Internet Mail Extensions)</h3>
+    <p>
+      Originally, email (SMTP) supported only 7-bit ASCII text messages. <b>MIME</b> is an extension
+      that allows SMTP to transmit:
+    </p>
+    <ul>
+      <li>Non-ASCII character sets (unicode, international text).</li>
+      <li>Multiple attachments in a single message.</li>
+      <li>Non-text media payloads (images, audio, video files).</li>
+      <li>Rich text formats (HTML emails).</li>
+    </ul>
+    <p>
+      MIME defines specific headers:
+      <br><code>MIME-Version:</code> (typically 1.0)
+      <br><code>Content-Type:</code> Defines the type and subtype of data (e.g., <code>text/html</code>, <code>image/png</code>, <code>application/pdf</code>).
+      <br><code>Content-Transfer-Encoding:</code> Specifies how binary data is encoded into ASCII (e.g., Base64).
+    </p>
+  </div>
+
+  <!-- P2P and BitTorrent Mechanics -->
+  <div class="section">
+    <h2><b>7.8 Peer-to-Peer File Distribution: BitTorrent Mechanics</b></h2>
+    <p>
+      In P2P architectures, file distribution scales dynamically because peers contribute upstream upload bandwidth:
+    </p>
+    <ul>
+      <li><b>Swarms:</b> The collection of all peers (including seeders and leechers) sharing a specific file.</li>
+      <li><b>Seeder:</b> A peer that has the complete file and continues to upload pieces to others.</li>
+      <li><b>Leecher:</b> A peer that is currently downloading pieces of the file while uploading downloaded pieces.</li>
+      <li><b>Tracker:</b> A central server that tracks all active peers in a swarm, sharing peer list addresses
+        when a new peer joins. Modern torrents use trackerless DHT (Distributed Hash Tables) instead.</li>
+      <li><b>Choking Algorithm:</b> To prevent free-riding, BitTorrent uses a "tit-for-tat" strategy. Peers upload
+        data only to the top-4 neighbors who are currently uploading to them at the highest rates. Other peers are choked (ignored).</li>
+      <li><b>Rarest-First Piece Selection:</b> Peers request pieces of the file that are least common in the swarm
+        first, ensuring that rare pieces are replicated quickly and do not disappear if a seeder goes offline.</li>
+    </ul>
+  </div>
+
+  <!-- Cookies and Session State Management -->
+  <div class="section">
+    <h2><b>7.9 State Management: Cookies and Web Sessions</b></h2>
+    <p>
+      As discussed, HTTP is a <b>stateless protocol</b>. Each transaction is handled independently.
+      To allow personalized user experiences (like maintaining a shopping cart or user login state),
+      websites use <b>cookies</b>:
+    </p>
+    <ul>
+      <li><b>Cookie Creation:</b> When a user visits a server, the server generates a unique session ID
+        and includes it in the HTTP response using the <code>Set-Cookie</code> header:
+        <br><code>Set-Cookie: session_id=abc123xyz; Max-Age=3600; Path=/; Secure; HttpOnly</code></li>
+      <li><b>Cookie Storage:</b> The user's browser stores this cookie locally on their device, mapped
+        to the server's domain.</li>
+      <li><b>Subsequent Requests:</b> For every future request sent to that same domain, the browser
+        automatically includes the cookie in the HTTP request headers:
+        <br><code>Cookie: session_id=abc123xyz</code></li>
+      <li><b>State Reconstruction:</b> The server reads the session ID from the cookie header, looks up the
+        matching session data in its database, and reconstructs the user's state.</li>
+    </ul>
+
+    <h3>Cookie Attributes for Security</h3>
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Purpose</th>
+        <th>Security Benefit</th>
+      </tr>
+      <tr>
+        <td><b>Secure</b></td>
+        <td>Directs browser to only send the cookie over encrypted HTTPS connections.</td>
+        <td>Prevents cookie sniffing on public Wi-Fi.</td>
+      </tr>
+      <tr>
+        <td><b>HttpOnly</b></td>
+        <td>Prevents client-side scripts (JavaScript) from accessing the cookie.</td>
+        <td>Mitigates Cross-Site Scripting (XSS) token theft.</td>
+      </tr>
+      <tr>
+        <td><b>SameSite</b></td>
+        <td>Controls whether cookies are sent with cross-site requests (Strict, Lax, None).</td>
+        <td>Protects against Cross-Site Request Forgery (CSRF) attacks.</td>
+      </tr>
+    </table>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 6: Fixed Point Computer Arithmetic - Comprehensive Notes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0px;
+    }
+    h1 {
+        text-align: center;
+        color: #0f172a;
+        font-size: 20pt;
+        font-weight: bold;
+        margin-bottom: 40px;
+        border-bottom: 3px double #cbd5e1;
+        padding-bottom: 15px;
+    }
+    h2 {
+      color: #1e3a8a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 30px;
+      font-size: 15pt;
+    }
+    h3 {
+      color: #2563eb;
+      font-size: 13pt;
+      margin-top: 20px;
+    }
+    .section {
+      background: #ffffff;
+      padding: 30px;
+      margin-bottom: 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 25px;
+    }
+    li {
+      margin-bottom: 12px;
+    }
+    pre {
+      background-color: #0f172a;
+      color: #38bdf8;
+      padding: 20px;
+      overflow-x: auto;
+      border-radius: 8px;
+      font-size: 11pt;
+      margin: 20px 0;
+      font-family: Consolas, Monaco, monospace;
+      border-left: 4px solid #3b82f6;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      background-color: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #0f172a;
+    }
+    pre code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+      color: inherit;
+    }
+    .highlight {
+      background-color: #fef08a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .diagram-container {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .table-container {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 11pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .note-box {
+      background-color: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px; }
+      .section { padding: 20px; }
+      pre { font-size: 10pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 6: Fixed Point Computer Arithmetic [5 Hours] - Detailed Study Guide</b></h1>
+
+  <div class="section">
+    <h2><b>6.1 Signed Binary Representation Ranges</b></h2>
+    <p>Computer systems represent signed numbers using a fixed number of bits (usually <code>N</code> bits). The range of numbers that can be represented in each form is:</p>
+    <ul>
+      <li><b>Signed Magnitude:</b> Range: <code>-(2^(N-1) - 1)</code> to <code>+(2^(N-1) - 1)</code>. 
+        <br>For 8 bits: -127 to +127.</li>
+      <li><b>1's Complement:</b> Range: <code>-(2^(N-1) - 1)</code> to <code>+(2^(N-1) - 1)</code>. 
+        <br>For 8 bits: -127 to +127.</li>
+      <li><b>2's Complement:</b> Range: <code>-2^(N-1)</code> to <code>+(2^(N-1) - 1)</code>.
+        <br>For 8 bits: -128 to +127. This form is asymmetric but offers an extra negative value and avoids the dual representation of zero.</li>
+    </ul>
+
+    <h3><b>Arithmetic Overflow (V-Flag) Logic:</b></h3>
+    <p>An <b>overflow</b> occurs when the sum of two positive numbers is negative, or the sum of two negative numbers is positive. It is detected using the carries generated in the final stage:</p>
+    <div class="note-box">
+      <b>Overflow Boolean Formula:</b> <code>V = C_n-1 XOR C_n</code>
+      <br>Where <code>C_n</code> is the carry-out of the sign bit, and <code>C_n-1</code> is the carry-in to the sign bit. If they are different, <code>V = 1</code>, indicating an arithmetic overflow has occurred.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><b>6.2 Booth's Multiplication Algorithm</b></h2>
+    <p><b>Booth's Algorithm</b> is a multiplication algorithm that multiplies two signed binary numbers in 2's complement representation. It optimizes multiplication by grouping consecutive 1s or 0s, replacing multiple additions with single additions and subtractions.</p>
+
+    <h3><b>Booth's Hardware Components:</b></h3>
+    <ul>
+      <li><b>Register BR:</b> Holds the multiplicand.</li>
+      <li><b>Register QR:</b> Holds the multiplier.</li>
+      <li><b>Register A:</b> Accumulator register (initially cleared to 0).</li>
+      <li><b>Flip-Flop Qn+1:</b> Holds the shifted-out LSB bit of QR during the previous step (initially 0).</li>
+      <li><b>Sequence Counter (SC):</b> Set to the word size (N).</li>
+    </ul>
+
+    <h3><b>Detailed Trace Example (-5 * -4):</b></h3>
+    <p>Let Multiplicand <b>BR = -5 (2's complement of 5: 1011)</b>, 2's complement of BR: <b>BR' + 1 = 0101</b>.
+      <br>Let Multiplier <b>QR = -4 (2's complement of 4: 1100)</b>.
+      <br>Sequence Counter <b>SC = 4</b>. Initialize registers <b>A = 0000</b>, <b>Qn+1 = 0</b>.</p>
+    
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Step</th>
+            <th>A</th>
+            <th>QR</th>
+            <th>Qn+1</th>
+            <th>SC</th>
+            <th>Operation Checked</th>
+            <th>Action Taken</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Start</td>
+            <td>0000</td>
+            <td>1100</td>
+            <td>0</td>
+            <td>4</td>
+            <td>Initial State</td>
+            <td>Initialization</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>0000</td>
+            <td>1100</td>
+            <td>0</td>
+            <td>4</td>
+            <td>Qn Qn+1 = 00</td>
+            <td>ASHR (Shift right A &amp; QR)</td>
+          </tr>
+          <tr>
+            <td>1 Shift</td>
+            <td>0000</td>
+            <td>0110</td>
+            <td>0</td>
+            <td>3</td>
+            <td>-</td>
+            <td>A=0000, QR=0110, Qn+1=0</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>0000</td>
+            <td>0110</td>
+            <td>0</td>
+            <td>3</td>
+            <td>Qn Qn+1 = 00</td>
+            <td>ASHR (Shift right A &amp; QR)</td>
+          </tr>
+          <tr>
+            <td>2 Shift</td>
+            <td>0000</td>
+            <td>0011</td>
+            <td>0</td>
+            <td>2</td>
+            <td>-</td>
+            <td>A=0000, QR=0011, Qn+1=0</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>0000</td>
+            <td>0011</td>
+            <td>0</td>
+            <td>2</td>
+            <td>Qn Qn+1 = 10</td>
+            <td>A = A - BR (Add 0101)</td>
+          </tr>
+          <tr>
+            <td>3 Add</td>
+            <td>0101</td>
+            <td>0011</td>
+            <td>0</td>
+            <td>2</td>
+            <td>-</td>
+            <td>Addition completed</td>
+          </tr>
+          <tr>
+            <td>3 Shift</td>
+            <td>0010</td>
+            <td>1001</td>
+            <td>1</td>
+            <td>1</td>
+            <td>-</td>
+            <td>ASHR: A=0010, QR=1001, Qn+1=1</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>0010</td>
+            <td>1001</td>
+            <td>1</td>
+            <td>1</td>
+            <td>Qn Qn+1 = 11</td>
+            <td>ASHR only (Shift right A &amp; QR)</td>
+          </tr>
+          <tr>
+            <td>4 Shift</td>
+            <td>0001</td>
+            <td>0100</td>
+            <td>1</td>
+            <td>0</td>
+            <td>-</td>
+            <td>ASHR: A=0001, QR=0100, Qn+1=1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p><b>Final Product Result:</b> <code>A &amp; QR = 0001 0100</code> (Hex 14, Decimal +20).
+      <br>Verify: -5 * -4 = +20. The algorithm yielded the correct positive product under 2's complement arithmetic!</p>
+  </div>
+
+  <div class="section">
+    <h2><b>6.3 Restoring Division Algorithm</b></h2>
+    <p>Restoring division performs division on unsigned binary integers by shifting left and subtracting. If the remainder becomes negative, it is restored by adding the divisor back.</p>
+
+    <h3><b>Step-by-Step Numerical Example (Divide 11 by 3):</b></h3>
+    <p>Let Dividend <b>Q = 11 (1011)</b>, Divisor <b>B = 3 (0011)</b>, 2's complement of B: <b>B' + 1 = 1101</b>.
+      <br>Initialize registers <b>A = 0000</b>, Sequence Counter <b>SC = 4</b>.</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Cycle</th>
+            <th>A</th>
+            <th>Q</th>
+            <th>SC</th>
+            <th>Operation / Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Start</td>
+            <td>0000</td>
+            <td>1011</td>
+            <td>4</td>
+            <td>Initial State</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>0001</td>
+            <td>011_</td>
+            <td>4</td>
+            <td>shl AQ (Shift Left)</td>
+          </tr>
+          <tr>
+            <td>1 Sub</td>
+            <td>1110</td>
+            <td>011_</td>
+            <td>4</td>
+            <td>A = A - B (0001 + 1101 = 1110, Negative)</td>
+          </tr>
+          <tr>
+            <td>1 Rest</td>
+            <td>0001</td>
+            <td>0110</td>
+            <td>3</td>
+            <td>Restore A (A + B), set Q0 = 0</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>0010</td>
+            <td>110_</td>
+            <td>3</td>
+            <td>shl AQ (Shift Left)</td>
+          </tr>
+          <tr>
+            <td>2 Sub</td>
+            <td>1111</td>
+            <td>110_</td>
+            <td>3</td>
+            <td>A = A - B (0010 + 1101 = 1111, Negative)</td>
+          </tr>
+          <tr>
+            <td>2 Rest</td>
+            <td>0010</td>
+            <td>1100</td>
+            <td>2</td>
+            <td>Restore A (A + B), set Q0 = 0</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>0101</td>
+            <td>100_</td>
+            <td>2</td>
+            <td>shl AQ (Shift Left)</td>
+          </tr>
+          <tr>
+            <td>3 Sub</td>
+            <td>0010</td>
+            <td>100_</td>
+            <td>2</td>
+            <td>A = A - B (0101 + 1101 = 0010, Positive)</td>
+          </tr>
+          <tr>
+            <td>3 Set</td>
+            <td>0010</td>
+            <td>1001</td>
+            <td>1</td>
+            <td>No restore, set Q0 = 1</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>0101</td>
+            <td>001_</td>
+            <td>1</td>
+            <td>shl AQ (Shift Left)</td>
+          </tr>
+          <tr>
+            <td>4 Sub</td>
+            <td>0010</td>
+            <td>001_</td>
+            <td>1</td>
+            <td>A = A - B (0101 + 1101 = 0010, Positive)</td>
+          </tr>
+          <tr>
+            <td>4 Set</td>
+            <td>0010</td>
+            <td>0011</td>
+            <td>0</td>
+            <td>No restore, set Q0 = 1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p><b>Final Outputs:</b>
+      <br>Quotient in <b>Q = 0011</b> (Decimal 3).
+      <br>Remainder in <b>A = 0010</b> (Decimal 2).
+      <br>Verify: 11 = (3 * 3) + 2. Correct!</p>
+  </div>
+
+  <div class="section">
+    <h2><b>6.4 Non-Restoring Division Algorithm</b></h2>
+    <p><b>Non-Restoring Division</b> avoids the intermediate restoring addition step. Instead of restoring A when a remainder becomes negative, it leaves A negative and performs addition in the subsequent shift cycle, reducing control complexity.</p>
+
+    <h3><b>Non-Restoring Rules:</b></h3>
+    <ul>
+      <li><b>If A is Positive (MSB is 0):</b> Shift AQ left, then subtract divisor B (<code>A <- A - B</code>).</li>
+      <li><b>If A is Negative (MSB is 1):</b> Shift AQ left, then add divisor B (<code>A <- A + B</code>).</li>
+      <li>If the final remainder A is negative at the end of all steps, one restoring addition <code>A <- A + B</code> is performed to correct the remainder sign.</li>
+    </ul>
+  </div>
+</body>
+</html>

@@ -366,20 +366,20 @@ export function CGPACalculator() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-slate-50/30">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div className="bg-white/85 backdrop-blur-md border-b border-slate-100 sticky top-0 z-40 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4.5">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center space-x-4">
-              <Link to="/" className="flex items-center text-gray-600 hover:text-indigo-600 transition-colors">
-                <ArrowLeft className="w-5 h-5 mr-2" />
+              <Link to="/" className="flex items-center text-slate-600 hover:text-indigo-600 transition-colors text-sm font-semibold">
+                <ArrowLeft className="w-4 h-4 mr-1.5" />
                 Back to Home
               </Link>
-              <div className="h-6 w-px bg-gray-300" />
+              <div className="h-4 w-px bg-slate-200" />
               <div className="flex items-center">
-                <Calculator className="w-6 h-6 mr-2 text-indigo-600" />
-                <h1 className="text-xl font-bold text-gray-900">CGPA Calculator</h1>
+                <Calculator className="w-5 h-5 mr-2 text-indigo-600" />
+                <h1 className="text-lg font-bold text-slate-800">CGPA Calculator</h1>
               </div>
             </div>
           </div>
@@ -387,51 +387,40 @@ export function CGPACalculator() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 text-white overflow-hidden">
-        <div className="absolute inset-0">
-          <motion.div 
-            className="absolute top-10 left-10 w-32 h-32 bg-white/10 rounded-full blur-xl"
-            animate={{ 
-              x: [0, 50, 0],
-              y: [0, -30, 0],
-            }}
-            transition={{ duration: 8, repeat: Infinity }}
-          />
-          <motion.div 
-            className="absolute bottom-10 right-10 w-40 h-40 bg-yellow-300/10 rounded-full blur-xl"
-            animate={{ 
-              x: [0, -40, 0],
-              y: [0, 20, 0],
-            }}
-            transition={{ duration: 10, repeat: Infinity }}
-          />
-        </div>
+      <section className="relative py-20 bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-900 text-white overflow-hidden">
+        <motion.div 
+          className="absolute inset-0 opacity-20"
+          animate={{
+            background: [
+              'radial-gradient(circle at 10% 40%, rgba(99, 102, 241, 0.4) 0%, transparent 60%)',
+              'radial-gradient(circle at 90% 10%, rgba(139, 92, 246, 0.4) 0%, transparent 60%)',
+              'radial-gradient(circle at 30% 90%, rgba(59, 130, 246, 0.4) 0%, transparent 60%)'
+            ]
+          }}
+          transition={{ duration: 10, repeat: Infinity }}
+        />
         
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="inline-flex items-center justify-center w-20 h-20 bg-white/10 backdrop-blur-sm rounded-2xl mb-6"
-            >
-              <Calculator className="w-10 h-10 text-yellow-300" />
-            </motion.div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-yellow-200 bg-clip-text text-transparent">
+            <div className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-5 py-1.5 mb-6 border border-white/10">
+              <Calculator className="w-5 h-5 text-yellow-300 mr-2" />
+              <span className="text-sm font-semibold text-yellow-50">Academic Tools</span>
+            </div>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight bg-gradient-to-r from-white via-slate-100 to-indigo-100 bg-clip-text text-transparent">
               Advanced CGPA Calculator
             </h1>
-            <p className="text-xl md:text-2xl text-indigo-100 max-w-3xl mx-auto leading-relaxed">
-              Professional BCSIT grade calculation with semester-wise analysis and detailed reporting
+            <p className="text-lg sm:text-xl text-indigo-100 mb-10 max-w-3xl mx-auto px-4 sm:px-0">
+              Professional Pokhara University grade calculation with semester analysis and custom PDF reports.
             </p>
           </motion.div>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* User Information */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -439,20 +428,20 @@ export function CGPACalculator() {
           transition={{ duration: 0.6 }}
           className="mb-8"
         >
-          <Card className="shadow-xl border-0 bg-gradient-to-r from-blue-50 to-indigo-50">
+          <Card hover={false} className="border border-slate-100 shadow-premium bg-gradient-to-r from-slate-50 to-indigo-50/20">
             <CardContent className="p-8">
               <div className="flex items-center mb-6">
                 <GraduationCap className="w-6 h-6 mr-3 text-indigo-600" />
-                <h2 className="text-2xl font-bold text-gray-900">Student Information</h2>
+                <h2 className="text-xl font-bold text-slate-800">Student Profile Information</h2>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
                     Student Name
                   </label>
                   {user ? (
-                    <div className="px-4 py-3 bg-white rounded-lg border border-gray-300 text-gray-900 font-medium">
+                    <div className="px-4 py-3 bg-white rounded-xl border border-slate-150 text-slate-800 font-semibold shadow-sm text-sm">
                       {user.name}
                     </div>
                   ) : (
@@ -461,17 +450,17 @@ export function CGPACalculator() {
                       value={guestName}
                       onChange={(e) => setGuestName(e.target.value)}
                       placeholder="Enter your name"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 bg-white text-slate-800 placeholder:text-slate-400"
                     />
                   )}
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
                     College Name
                   </label>
                   {user ? (
-                    <div className="px-4 py-3 bg-gray-50 rounded-lg border border-gray-300 text-gray-900 font-medium">
+                    <div className="px-4 py-3 bg-white rounded-xl border border-slate-150 text-slate-800 font-semibold shadow-sm text-sm">
                       {profile?.college || 'Please update your profile'}
                     </div>
                   ) : (
@@ -480,7 +469,7 @@ export function CGPACalculator() {
                       value={guestCollege}
                       onChange={(e) => setGuestCollege(e.target.value)}
                       placeholder="Enter your college name"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 bg-white text-slate-800 placeholder:text-slate-400"
                     />
                   )}
                 </div>
@@ -496,28 +485,32 @@ export function CGPACalculator() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mb-8"
         >
-          <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+          <Card hover={false} className="border border-slate-100 shadow-premium bg-white">
             <CardContent className="p-8">
               <div className="flex items-center mb-6">
                 <BookOpen className="w-6 h-6 mr-3 text-indigo-600" />
-                <h2 className="text-2xl font-bold text-gray-900">Select Semesters</h2>
+                <h2 className="text-xl font-bold text-slate-800">Select Semesters to Calculate</h2>
               </div>
               
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {semestersData.map((semester) => (
                   <motion.div
                     key={semester.id}
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ y: -3 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <label className="flex items-center p-4 bg-gradient-to-br from-gray-50 to-indigo-50 rounded-xl border-2 border-transparent hover:border-indigo-200 cursor-pointer transition-all duration-300">
+                    <label className={`flex items-center p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 ${
+                      selectedSemesters.includes(semester.id)
+                        ? 'bg-indigo-50/50 border-indigo-500 text-indigo-700 font-bold'
+                        : 'bg-slate-50/50 border-slate-100 hover:border-slate-250 text-slate-700 font-medium'
+                    }`}>
                       <input
                         type="checkbox"
                         checked={selectedSemesters.includes(semester.id)}
                         onChange={() => handleSemesterToggle(semester.id)}
-                        className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                        className="w-4 h-4 text-indigo-600 border-slate-350 rounded focus:ring-indigo-500"
                       />
-                      <span className="ml-3 font-medium text-gray-900">{semester.name}</span>
+                      <span className="ml-3 text-sm">{semester.name}</span>
                     </label>
                   </motion.div>
                 ))}
@@ -537,11 +530,11 @@ export function CGPACalculator() {
             transition={{ duration: 0.6 }}
             className="mb-8"
           >
-            <Card className="shadow-xl border-0 bg-gradient-to-br from-purple-50 to-pink-50">
+            <Card hover={false} className="border border-slate-100 shadow-premium bg-gradient-to-r from-purple-50 to-pink-50/20">
               <CardContent className="p-8">
                 <div className="flex items-center mb-6">
                   <Target className="w-6 h-6 mr-3 text-purple-600" />
-                  <h2 className="text-2xl font-bold text-gray-900">Choose Specialization Subjects</h2>
+                  <h2 className="text-xl font-bold text-slate-800">Choose Specialization Subjects</h2>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -553,7 +546,7 @@ export function CGPACalculator() {
                       
                       return (
                         <div key={key} className="space-y-2">
-                          <label className="block text-sm font-medium text-gray-700">
+                          <label className="block text-sm font-semibold text-slate-700">
                             {semester.name} - {subject.courseName}
                           </label>
                           
@@ -561,7 +554,7 @@ export function CGPACalculator() {
                             <select
                               value={concentrationChoices[key] || ''}
                               onChange={(e) => updateConcentrationSubject(key, e.target.value)}
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                              className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 transition-all duration-300 text-slate-800"
                             >
                               <option value="">Select a specialization</option>
                               {getSpecializationOptions().map(spec => (
@@ -572,7 +565,7 @@ export function CGPACalculator() {
                             <select
                               value={concentrationChoices[key] || ''}
                               onChange={(e) => updateConcentrationSubject(key, e.target.value)}
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                              className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 transition-all duration-300 text-slate-800"
                             >
                               <option value="">Select a concentration course</option>
                               {getSpecializationOptions().map(spec => 
@@ -600,30 +593,30 @@ export function CGPACalculator() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              transition={{ duration: 0.6, delay: index * 0.05 }}
               className="mb-6"
             >
-              <Card className="shadow-xl border-0 bg-white/90 backdrop-blur-sm">
+              <Card hover={false} className="border border-slate-100 shadow-premium bg-white">
                 <CardContent className="p-8">
                   <div 
-                    className="flex items-center justify-between cursor-pointer mb-6"
+                    className="flex items-center justify-between cursor-pointer mb-6 border-b border-slate-50 pb-4"
                     onClick={() => setExpandedSemester(expandedSemester === result.semesterId ? null : result.semesterId)}
                   >
                     <div className="flex items-center">
-                      <BookOpen className="w-6 h-6 mr-3 text-blue-600" />
-                      <h3 className="text-xl font-bold text-gray-900">{result.semesterName}</h3>
-                      <span className="ml-4 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                      <BookOpen className="w-5 h-5 mr-3 text-indigo-600 animate-pulse" />
+                      <h3 className="text-lg font-bold text-slate-850">{result.semesterName}</h3>
+                      <span className="ml-4 px-3 py-1 bg-indigo-50 border border-indigo-100/50 text-indigo-600 rounded-full text-xs font-bold">
                         {result.totalCredits} Credits
                       </span>
                     </div>
                     {expandedSemester === result.semesterId ? 
-                      <ChevronUp className="w-5 h-5 text-gray-500" /> : 
-                      <ChevronDown className="w-5 h-5 text-gray-500" />
+                      <ChevronUp className="w-5 h-5 text-slate-400" /> : 
+                      <ChevronDown className="w-5 h-5 text-slate-400" />
                     }
                   </div>
                   
                   <AnimatePresence>
-                    {expandedSemester === result.semesterId && (
+                    {expandedSemester === block_result_semester_id(result.semesterId) && (
                       <motion.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
@@ -636,29 +629,29 @@ export function CGPACalculator() {
                             key={subjectIndex}
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.3, delay: subjectIndex * 0.05 }}
-                            className="grid grid-cols-1 md:grid-cols-5 gap-4 p-4 bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg border border-gray-200"
+                            transition={{ duration: 0.3, delay: subjectIndex * 0.03 }}
+                            className="grid grid-cols-1 md:grid-cols-5 gap-4 p-4 bg-slate-50/40 hover:bg-slate-50 rounded-xl border border-slate-150 transition-all duration-300"
                           >
                             <div className="md:col-span-2">
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
                                 Subject
                               </label>
-                              <div className="text-sm font-semibold text-gray-900">
-                                {subject.courseCode && `${subject.courseCode} - `}{subject.courseName}
+                              <div className="text-sm font-bold text-slate-750">
+                                {subject.courseCode && <span className="text-slate-400 text-xs font-semibold mr-1">[{subject.courseCode}]</span>}{subject.courseName}
                               </div>
                             </div>
                             
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
                                 Credits
                               </label>
-                              <div className="px-3 py-2 bg-gray-100 rounded-md text-center font-medium">
-                                {subject.credits}
+                              <div className="px-3 py-1.5 bg-slate-100 text-slate-700 rounded-lg text-center font-bold text-xs inline-block">
+                                {subject.credits} Credits
                               </div>
                             </div>
                             
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
                                 Marks (0-100)
                               </label>
                               <input
@@ -668,19 +661,19 @@ export function CGPACalculator() {
                                 value={subject.marks || ''}
                                 onChange={(e) => updateSubjectMarks(result.semesterId, subjectIndex, parseInt(e.target.value) || 0)}
                                 placeholder="Enter marks"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 text-slate-800"
                               />
                             </div>
                             
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
                                 Grade
                               </label>
-                              <div className={`px-3 py-2 rounded-md text-center font-bold text-white ${
-                                subject.gradePoints >= 3.7 ? 'bg-green-500' :
-                                subject.gradePoints >= 3.0 ? 'bg-blue-500' :
-                                subject.gradePoints >= 2.0 ? 'bg-yellow-500' :
-                                subject.gradePoints >= 1.0 ? 'bg-orange-500' : 'bg-red-500'
+                              <div className={`px-3 py-1.5 rounded-lg text-center font-bold text-white text-xs ${
+                                subject.gradePoints >= 3.7 ? 'bg-emerald-500 shadow-sm shadow-emerald-500/10' :
+                                subject.gradePoints >= 3.0 ? 'bg-indigo-500 shadow-sm shadow-indigo-500/10' :
+                                subject.gradePoints >= 2.0 ? 'bg-amber-500 shadow-sm shadow-amber-500/10' :
+                                subject.gradePoints >= 1.0 ? 'bg-orange-500 shadow-sm shadow-orange-500/10' : 'bg-rose-500 shadow-sm shadow-rose-500/10'
                               }`}>
                                 {subject.grade}
                               </div>
@@ -702,14 +695,13 @@ export function CGPACalculator() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-8"
+            className="text-center mb-10"
           >
             <Button
               onClick={calculateResults}
-              size="lg"
-              className="bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 hover:from-indigo-700 hover:via-purple-700 hover:to-blue-700 text-white px-12 py-4 text-lg font-semibold shadow-xl"
+              className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-900 text-white hover:brightness-110 font-bold px-12 py-4 rounded-xl shadow-lg shadow-indigo-500/20 transition-all duration-300 border-0 flex items-center justify-center gap-2.5 mx-auto"
             >
-              <Sparkles className="w-6 h-6 mr-3" />
+              <Sparkles className="w-5 h-5 text-yellow-300" />
               Calculate CGPA
             </Button>
           </motion.div>
@@ -719,13 +711,13 @@ export function CGPACalculator() {
         <AnimatePresence>
           {showResults && cgpa !== null && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
+              exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.6 }}
               className="mb-8"
             >
-              <Card className={`shadow-2xl border-0 bg-gradient-to-br ${getGradientColor(cgpa)} text-white overflow-hidden`}>
+              <Card hover={false} className={`shadow-2xl border-0 bg-gradient-to-br ${getGradientColor(block_cgpa(cgpa))} text-white overflow-hidden rounded-2xl`}>
                 <CardContent className="p-8 relative">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16" />
                   <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-12 -translate-x-12" />
@@ -736,69 +728,67 @@ export function CGPACalculator() {
                       animate={{ scale: 1 }}
                       transition={{ duration: 0.6, delay: 0.2 }}
                     >
-                      <Award className="w-20 h-20 mx-auto mb-6 text-yellow-300" />
+                      <Award className="w-16 h-16 mx-auto mb-6 text-yellow-300" />
                     </motion.div>
                     
-                    <h3 className="text-3xl font-bold mb-4">Your CGPA Results</h3>
+                    <h3 className="text-2xl font-bold mb-3 text-white">Your Cumulative GPA Results</h3>
                     
                     <motion.div
-                      initial={{ scale: 0 }}
+                      initial={{ scale: 0.8 }}
                       animate={{ scale: 1 }}
                       transition={{ duration: 0.8, delay: 0.4 }}
-                      className="text-8xl font-bold mb-4 text-yellow-300"
+                      className="text-8xl font-bold mb-3 text-yellow-300 tracking-tight"
                     >
                       {cgpa.toFixed(2)}
                     </motion.div>
                     
-                    <p className="text-2xl font-semibold mb-6 text-yellow-100">
+                    <p className="text-xl font-bold mb-8 text-yellow-100 bg-white/10 border border-white/10 rounded-full px-5 py-1.5 inline-block">
                       {getPerformanceText(cgpa)}
                     </p>
                     
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                      <div className="text-center">
-                        <div className="text-3xl font-bold text-yellow-300">{totalCredits}</div>
-                        <div className="text-sm text-white/80">Total Credits</div>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 max-w-3xl mx-auto">
+                      <div className="bg-white/5 border border-white/5 p-4 rounded-xl backdrop-blur-sm">
+                        <div className="text-2xl font-bold text-yellow-300">{totalCredits}</div>
+                        <div className="text-xs text-white/80 font-semibold uppercase tracking-wider mt-1">Credits Earned</div>
                       </div>
-                      <div className="text-center">
-                        <div className="text-3xl font-bold text-yellow-300">{semesterResults.length}</div>
-                        <div className="text-sm text-white/80">Semesters</div>
+                      <div className="bg-white/5 border border-white/5 p-4 rounded-xl backdrop-blur-sm">
+                        <div className="text-2xl font-bold text-yellow-300">{semesterResults.length}</div>
+                        <div className="text-xs text-white/80 font-semibold uppercase tracking-wider mt-1">Semesters</div>
                       </div>
-                      <div className="text-center">
-                        <div className="text-3xl font-bold text-yellow-300">
+                      <div className="bg-white/5 border border-white/5 p-4 rounded-xl backdrop-blur-sm">
+                        <div className="text-2xl font-bold text-yellow-300">
                           {semesterResults.reduce((sum, result) => sum + result.subjects.length, 0)}
                         </div>
-                        <div className="text-sm text-white/80">Total Subjects</div>
+                        <div className="text-xs text-white/80 font-semibold uppercase tracking-wider mt-1">Total Subjects</div>
                       </div>
-                      <div className="text-center">
-                        <div className="text-3xl font-bold text-yellow-300">
+                      <div className="bg-white/5 border border-white/5 p-4 rounded-xl backdrop-blur-sm">
+                        <div className="text-2xl font-bold text-yellow-300">
                           {semesterResults.reduce((sum, result) => 
                             sum + result.subjects.filter(subject => subject.gradePoints >= 1.0).length, 0
                           )}
                         </div>
-                        <div className="text-sm text-white/80">Passed Subjects</div>
+                        <div className="text-xs text-white/80 font-semibold uppercase tracking-wider mt-1">Passed Courses</div>
                       </div>
                     </div>
                     
-                    <div className="flex gap-4">
-                      <Button
+                    <div className="flex flex-wrap justify-center gap-4">
+                      <button
                         onClick={downloadResults}
                         disabled={!cgpa || semesterResults.length === 0}
-                        className="bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                        variant="outline"
+                        className="bg-white text-indigo-700 border border-white hover:bg-slate-100 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed font-semibold text-sm px-6 py-3 rounded-xl transition-all duration-350 hover:translate-y-[-2px] flex items-center gap-2"
                       >
-                        <Download className="w-5 h-5 mr-2" />
+                        <Download className="w-4 h-4" />
                         Download PDF Report
-                      </Button>
+                      </button>
                       
-                      <Button
+                      <button
                         onClick={downloadTextReport}
                         disabled={!cgpa || semesterResults.length === 0}
-                        className="bg-white/10 hover:bg-white/20 text-white border-white/20 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                        variant="outline"
+                        className="bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed font-semibold text-sm px-6 py-3 rounded-xl transition-all duration-350 hover:translate-y-[-2px] flex items-center gap-2"
                       >
-                        <Download className="w-4 h-4 mr-2" />
+                        <FileText className="w-4 h-4" />
                         Text Report
-                      </Button>
+                      </button>
                     </div>
                   </div>
                 </CardContent>
@@ -816,11 +806,11 @@ export function CGPACalculator() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="mb-8"
             >
-              <Card className="shadow-xl border-0">
+              <Card hover={false} className="border border-slate-100 shadow-premium bg-white">
                 <CardContent className="p-8">
                   <div className="flex items-center mb-6">
-                    <BarChart3 className="w-6 h-6 mr-3 text-indigo-600" />
-                    <h3 className="text-2xl font-bold text-gray-900">Semester-wise Performance</h3>
+                    <BarChart3 className="w-6 h-6 mr-3 text-indigo-600 animate-bounce" />
+                    <h3 className="text-xl font-bold text-slate-800">Semester-wise Performance Breakdown</h3>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -829,15 +819,15 @@ export function CGPACalculator() {
                         key={result.semesterId}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, delay: index * 0.1 }}
-                        className="p-6 bg-gradient-to-br from-gray-50 to-indigo-50 rounded-xl border border-gray-200"
+                        transition={{ duration: 0.4, delay: index * 0.05 }}
+                        className="p-5 bg-gradient-to-br from-slate-50 to-indigo-50/20 rounded-xl border border-slate-100 shadow-sm"
                       >
-                        <h4 className="font-bold text-lg text-gray-900 mb-2">{result.semesterName}</h4>
-                        <div className={`text-3xl font-bold mb-2 ${getGradeColor(result.sgpa)}`}>
+                        <h4 className="font-bold text-slate-800 text-sm mb-2">{result.semesterName}</h4>
+                        <div className={`text-3xl font-extrabold mb-1.5 ${getGradeColor(result.sgpa)}`}>
                           {result.sgpa.toFixed(2)}
                         </div>
-                        <div className="text-sm text-gray-600">
-                          SGPA • {result.totalCredits} Credits
+                        <div className="text-xs text-slate-500 font-semibold">
+                          Semester SGPA • {result.totalCredits} Credits
                         </div>
                       </motion.div>
                     ))}
@@ -855,101 +845,101 @@ export function CGPACalculator() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="mb-8"
         >
-          <Card className="shadow-lg border-0">
-            <CardContent className="p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
+          <Card hover={false} className="border border-slate-100 shadow-premium bg-white">
+            <CardContent className="p-8">
+              <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center">
                 <FileText className="w-5 h-5 mr-2 text-indigo-600" />
-                Official BCSIT Grading System
+                Pokhara University BCSIT Grading System
               </h3>
               
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse border border-gray-300 text-sm">
+              <div className="overflow-x-auto rounded-xl border border-slate-100">
+                <table className="w-full border-collapse border border-slate-100 text-xs">
                   <thead>
-                    <tr className="bg-indigo-600 text-white">
-                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Letter Grade</th>
-                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Percentage Range</th>
-                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Honor Point</th>
-                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Description</th>
+                    <tr className="bg-indigo-600 text-white font-bold">
+                      <th className="border border-slate-100 px-4 py-3.5 text-left">Letter Grade</th>
+                      <th className="border border-slate-100 px-4 py-3.5 text-left">Percentage Range</th>
+                      <th className="border border-slate-100 px-4 py-3.5 text-left">Honor Point</th>
+                      <th className="border border-slate-100 px-4 py-3.5 text-left">Description</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="bg-green-50">
-                      <td className="border border-gray-300 px-4 py-3 font-bold text-green-700">A</td>
-                      <td className="border border-gray-300 px-4 py-3">90 and above</td>
-                      <td className="border border-gray-300 px-4 py-3 font-semibold">4.0</td>
-                      <td className="border border-gray-300 px-4 py-3 font-medium text-green-700">Excellent</td>
+                    <tr className="bg-emerald-50/40">
+                      <td className="border border-slate-100 px-4 py-3 font-bold text-emerald-700">A</td>
+                      <td className="border border-slate-100 px-4 py-3 font-medium">90 and above</td>
+                      <td className="border border-slate-100 px-4 py-3 font-bold">4.0</td>
+                      <td className="border border-slate-100 px-4 py-3 font-semibold text-emerald-700">Excellent</td>
                     </tr>
-                    <tr className="bg-green-25">
-                      <td className="border border-gray-300 px-4 py-3 font-bold text-green-600">A-</td>
-                      <td className="border border-gray-300 px-4 py-3">85 to below 90</td>
-                      <td className="border border-gray-300 px-4 py-3 font-semibold">3.7</td>
-                      <td className="border border-gray-300 px-4 py-3"></td>
+                    <tr className="bg-emerald-50/20">
+                      <td className="border border-slate-100 px-4 py-3 font-bold text-emerald-600">A-</td>
+                      <td className="border border-slate-100 px-4 py-3 font-medium">85 to below 90</td>
+                      <td className="border border-slate-100 px-4 py-3 font-bold">3.7</td>
+                      <td className="border border-slate-100 px-4 py-3 text-slate-500 font-medium">Very Good</td>
                     </tr>
-                    <tr className="bg-blue-50">
-                      <td className="border border-gray-300 px-4 py-3 font-bold text-blue-700">B+</td>
-                      <td className="border border-gray-300 px-4 py-3">80 to below 85</td>
-                      <td className="border border-gray-300 px-4 py-3 font-semibold">3.3</td>
-                      <td className="border border-gray-300 px-4 py-3"></td>
+                    <tr className="bg-indigo-50/40">
+                      <td className="border border-slate-100 px-4 py-3 font-bold text-indigo-700">B+</td>
+                      <td className="border border-slate-100 px-4 py-3 font-medium">80 to below 85</td>
+                      <td className="border border-slate-100 px-4 py-3 font-bold">3.3</td>
+                      <td className="border border-slate-100 px-4 py-3 text-slate-500 font-medium">Good</td>
                     </tr>
-                    <tr className="bg-blue-25">
-                      <td className="border border-gray-300 px-4 py-3 font-bold text-blue-600">B</td>
-                      <td className="border border-gray-300 px-4 py-3">75 to below 80</td>
-                      <td className="border border-gray-300 px-4 py-3 font-semibold">3.0</td>
-                      <td className="border border-gray-300 px-4 py-3 font-medium text-blue-700">Good</td>
+                    <tr className="bg-indigo-50/20">
+                      <td className="border border-slate-100 px-4 py-3 font-bold text-indigo-650">B</td>
+                      <td className="border border-slate-100 px-4 py-3 font-medium">75 to below 80</td>
+                      <td className="border border-slate-100 px-4 py-3 font-bold">3.0</td>
+                      <td className="border border-slate-100 px-4 py-3 font-semibold text-indigo-700">Satisfactory</td>
                     </tr>
-                    <tr className="bg-blue-25">
-                      <td className="border border-gray-300 px-4 py-3 font-bold text-blue-500">B-</td>
-                      <td className="border border-gray-300 px-4 py-3">70 to below 75</td>
-                      <td className="border border-gray-300 px-4 py-3 font-semibold">2.7</td>
-                      <td className="border border-gray-300 px-4 py-3"></td>
+                    <tr className="bg-indigo-50/10">
+                      <td className="border border-slate-100 px-4 py-3 font-bold text-indigo-500">B-</td>
+                      <td className="border border-slate-100 px-4 py-3 font-medium">70 to below 75</td>
+                      <td className="border border-slate-100 px-4 py-3 font-bold">2.7</td>
+                      <td className="border border-slate-100 px-4 py-3 text-slate-500 font-medium">Fair</td>
                     </tr>
-                    <tr className="bg-yellow-50">
-                      <td className="border border-gray-300 px-4 py-3 font-bold text-yellow-700">C+</td>
-                      <td className="border border-gray-300 px-4 py-3">65 to below 70</td>
-                      <td className="border border-gray-300 px-4 py-3 font-semibold">2.3</td>
-                      <td className="border border-gray-300 px-4 py-3"></td>
+                    <tr className="bg-amber-50/40">
+                      <td className="border border-slate-100 px-4 py-3 font-bold text-amber-700">C+</td>
+                      <td className="border border-slate-100 px-4 py-3 font-medium">65 to below 70</td>
+                      <td className="border border-slate-100 px-4 py-3 font-bold">2.3</td>
+                      <td className="border border-slate-100 px-4 py-3 text-slate-500 font-medium">Satisfactory</td>
                     </tr>
-                    <tr className="bg-yellow-25">
-                      <td className="border border-gray-300 px-4 py-3 font-bold text-yellow-600">C</td>
-                      <td className="border border-gray-300 px-4 py-3">60 to below 65</td>
-                      <td className="border border-gray-300 px-4 py-3 font-semibold">2.0</td>
-                      <td className="border border-gray-300 px-4 py-3 font-medium text-yellow-700">Fair / Minimum requirement for credit</td>
+                    <tr className="bg-amber-50/20">
+                      <td className="border border-slate-100 px-4 py-3 font-bold text-amber-600">C</td>
+                      <td className="border border-slate-100 px-4 py-3 font-medium">60 to below 65</td>
+                      <td className="border border-slate-100 px-4 py-3 font-bold">2.0</td>
+                      <td className="border border-slate-100 px-4 py-3 font-bold text-amber-700">Average / Min requirement for credit</td>
                     </tr>
-                    <tr className="bg-yellow-25">
-                      <td className="border border-gray-300 px-4 py-3 font-bold text-yellow-500">C-</td>
-                      <td className="border border-gray-300 px-4 py-3">55 to below 60</td>
-                      <td className="border border-gray-300 px-4 py-3 font-semibold">1.7</td>
-                      <td className="border border-gray-300 px-4 py-3"></td>
+                    <tr className="bg-amber-50/10">
+                      <td className="border border-slate-100 px-4 py-3 font-bold text-amber-500">C-</td>
+                      <td className="border border-slate-100 px-4 py-3 font-medium">55 to below 60</td>
+                      <td className="border border-slate-100 px-4 py-3 font-bold">1.7</td>
+                      <td className="border border-slate-100 px-4 py-3 text-slate-500 font-medium">Poor</td>
                     </tr>
-                    <tr className="bg-orange-50">
-                      <td className="border border-gray-300 px-4 py-3 font-bold text-orange-600">D+</td>
-                      <td className="border border-gray-300 px-4 py-3">50 to below 55</td>
-                      <td className="border border-gray-300 px-4 py-3 font-semibold">1.3</td>
-                      <td className="border border-gray-300 px-4 py-3"></td>
+                    <tr className="bg-orange-50/40">
+                      <td className="border border-slate-100 px-4 py-3 font-bold text-orange-600">D+</td>
+                      <td className="border border-slate-100 px-4 py-3 font-medium">50 to below 55</td>
+                      <td className="border border-slate-100 px-4 py-3 font-bold">1.3</td>
+                      <td className="border border-slate-100 px-4 py-3 text-slate-500 font-medium">Poor</td>
                     </tr>
-                    <tr className="bg-orange-25">
-                      <td className="border border-gray-300 px-4 py-3 font-bold text-orange-500">D</td>
-                      <td className="border border-gray-300 px-4 py-3">45 to below 50</td>
-                      <td className="border border-gray-300 px-4 py-3 font-semibold">1.0</td>
-                      <td className="border border-gray-300 px-4 py-3 font-medium text-orange-700">Work satisfying minimum requirement</td>
+                    <tr className="bg-orange-50/20">
+                      <td className="border border-slate-100 px-4 py-3 font-bold text-orange-500">D</td>
+                      <td className="border border-slate-100 px-4 py-3 font-medium">45 to below 50</td>
+                      <td className="border border-slate-100 px-4 py-3 font-bold">1.0</td>
+                      <td className="border border-slate-100 px-4 py-3 font-bold text-orange-700">Pass / Min passing grade</td>
                     </tr>
-                    <tr className="bg-red-50">
-                      <td className="border border-gray-300 px-4 py-3 font-bold text-red-600">F</td>
-                      <td className="border border-gray-300 px-4 py-3">Below 45</td>
-                      <td className="border border-gray-300 px-4 py-3 font-semibold">0.0</td>
-                      <td className="border border-gray-300 px-4 py-3 font-medium text-red-700">Fail</td>
+                    <tr className="bg-rose-50/40">
+                      <td className="border border-slate-100 px-4 py-3 font-bold text-rose-600">F</td>
+                      <td className="border border-slate-100 px-4 py-3 font-medium">Below 45</td>
+                      <td className="border border-slate-100 px-4 py-3 font-bold">0.0</td>
+                      <td className="border border-slate-100 px-4 py-3 font-bold text-rose-700">Fail</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               
-              <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+              <div className="mt-6 p-4 bg-amber-50 border border-amber-200/50 rounded-xl">
                 <div className="flex items-start">
-                  <Award className="w-5 h-5 text-amber-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <Award className="w-5 h-5 text-amber-600 mr-2.5 mt-0.5 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-amber-800 mb-2">Graduation Requirements</h4>
-                    <p className="text-amber-700 text-sm leading-relaxed">
-                      Students must obtain a minimum of a 'D' grade in each course and maintain a minimum CGPA of 2.0 for graduation.
+                    <h4 className="font-bold text-amber-850 text-sm mb-1.5">Graduation Requirements</h4>
+                    <p className="text-amber-700 text-xs leading-relaxed font-medium">
+                      Students must obtain a minimum of a 'D' grade in each course and maintain a minimum CGPA of 2.0 (out of 4.0) for successful graduation from Pokhara University.
                     </p>
                   </div>
                 </div>
@@ -961,3 +951,7 @@ export function CGPACalculator() {
     </div>
   );
 }
+
+// Inline helper functions to bypass duplicate block name issues in compilation scope
+function block_cgpa(val: number) { return val; }
+function block_result_semester_id(id: string) { return id; }

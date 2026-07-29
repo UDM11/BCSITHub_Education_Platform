@@ -132,42 +132,34 @@ export function Navbar() {
           position: relative;
           display: inline-block;
         }
-        .hover-underline::after,
-        .hover-underline::before {
+        .hover-underline::after {
           content: '';
           position: absolute;
           width: 100%;
           height: 2px;
-          background: linear-gradient(to right, #ff0000, #00ffff);
-          bottom: -5px;
+          background: linear-gradient(to right, #6366f1, #8b5cf6);
+          bottom: -4px;
           left: 0;
           transform: scaleX(0);
-          transition: transform 0.4s ease-out;
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          transform-origin: left;
           pointer-events: none;
         }
-        .hover-underline::before {
-          top: -5px;
-          transform-origin: left;
-        }
-        .hover-underline::after {
-          transform-origin: right;
-        }
-        .hover-underline:hover::after,
-        .hover-underline:hover::before {
+        .hover-underline:hover::after {
           transform: scaleX(1);
         }
         /* Active page box style */
         .active-link {
-          background: linear-gradient(90deg, #ff0000, #00ffff);
-          border-radius: 0.375rem; /* rounded-md */
-          padding: 0.125rem 0.5rem; /* top/bottom 2px, left/right 8px */
+          background: linear-gradient(135deg, #4f46e5, #7c3aed);
+          border-radius: 0.5rem; /* rounded-lg */
+          padding: 0.25rem 0.625rem; /* top/bottom 4px, left/right 10px */
           color: white !important;
           font-weight: 600;
-          box-shadow: 0 0 8px rgb(255 0 0 / 0.6), 0 0 8px rgb(0 255 255 / 0.6);
+          box-shadow: 0 4px 12px 0 rgba(79, 70, 229, 0.2);
         }
       `}</style>
 
-      <nav className="bg-white shadow-lg border-b border-gray-200 sticky top-0 z-50">
+      <nav className="bg-white/80 backdrop-blur-md shadow-premium border-b border-slate-100/80 sticky top-0 z-50">
         {/* Tools Row - Large Devices Only */}
         <div className={`${isTablet ? 'hidden lg:block' : 'hidden md:block'} bg-gradient-to-r from-indigo-500 to-purple-600 w-full`}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

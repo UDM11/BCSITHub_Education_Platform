@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 1: Software and Software Engineering</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.7;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      text-align: center;
+      color: #111;
+      font-size: 20pt;
+      font-weight: bold;
+      margin: 30px 0;
+    }
+    h2 {
+      color: #222;
+      border-bottom: 3px solid #aaa;
+      padding-bottom: 10px;
+      margin-top: 40px;
+    }
+    h3 {
+      color: #444;
+      margin-top: 25px;
+      font-size: 1.3em;
+    }
+    .section {
+      background: white;
+      padding: 25px;
+      margin-bottom: 35px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+      text-align: justify;
+    }
+    ul, ol {
+      padding-left: 35px;
+    }
+    li {
+      margin-bottom: 14px;
+    }
+    pre {
+      background-color: #111;
+      color: #0f8;
+      padding: 18px;
+      overflow-x: auto;
+      border-radius: 10px;
+      font-size: 13pt;
+      margin: 20px 0;
+      line-height: 1.5;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.95em;
+      display: block;
+      overflow-x: auto;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #e0e0e0;
+      font-weight: bold;
+    }
+    .note {
+      background-color: #e8f4fd;
+      border-left: 5px solid #2196f3;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 6px;
+    }
+    @media (max-width: 768px) {
+      body { font-size: 15px; }
+      h1 { font-size: 1.6rem; }
+      h2 { font-size: 1.3rem; }
+      .section { padding: 18px; margin-bottom: 25px; }
+    }
+    @media (max-width: 480px) {
+      body { font-size: 14px; }
+      h1 { font-size: 1.4rem; margin: 20px 0; }
+      h2 { font-size: 1.1rem; }
+      .section { padding: 14px; margin-bottom: 20px; }
+      pre { font-size: 11.5pt; }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>Unit 1: Software and Software Engineering [4 Hrs.]</b></h1>
+
+  <!-- 1.1 The Nature of Software -->
+  <div class="section">
+    <h2><b>1.1 The Nature of Software</b></h2>
+
+    <h3>What is Software?</h3>
+    <p>
+      Software is a collection of <b>instructions (computer programs)</b> that, when executed,
+      provide desired features, function, and performance. It also includes <b>data structures</b>
+      that enable the programs to adequately manipulate information, and <b>descriptive information</b>
+      (documents) in both hard copy and virtual forms that describe the operation and use of the programs.
+    </p>
+
+    <h3>Characteristics of Software</h3>
+    <ul>
+      <li><b>Software is developed or engineered; it is not manufactured in the classical sense.</b>
+        Unlike hardware, software does not have physical components that are assembled.
+        It is created through a process of analysis, design, coding, and testing.
+        Although similarities exist between software development and hardware manufacturing,
+        the two activities are fundamentally different.</li>
+      <li><b>Software doesn't "wear out."</b>
+        Hardware components are subject to environmental effects such as dust, vibration,
+        abuse, temperature, and humidity that cause them to wear out over time. Software
+        is not susceptible to these environmental maladies. However, software does
+        <b>deteriorate</b> — when changes are made, errors can be introduced, and as changes
+        accumulate, the software degrades.</li>
+      <li><b>Although the industry is moving toward component-based construction,
+        most software continues to be custom built.</b>
+        Reusable software components have been developed, but wide-scale reuse
+        is still limited. A software component should be designed and implemented
+        so that it can be reused in many different programs.</li>
+    </ul>
+
+    <h3>The Software "Bathtub Curve" vs. Hardware Failure Rate</h3>
+    <p>
+      Hardware exhibits a failure rate curve called the "bathtub curve." Early failures
+      (infant mortality) decline, followed by a steady-state period of low failure, and
+      finally a rise in failure rate as components age (wear-out). Software, in contrast,
+      does not exhibit wear-out failures. Instead:
+    </p>
+    <ul>
+      <li>Initially, defect rate is high (undiscovered bugs), then declines as defects are corrected.</li>
+      <li>However, <b>each change (patch/update)</b> introduces side effects (new defects),
+        causing occasional spikes in defect rate.</li>
+      <li>Over time, the defect rate increases due to accumulated changes,
+        making the software progressively harder to maintain.</li>
+    </ul>
+
+    <div class="note">
+      <b>Key Insight:</b> Software does not wear out, but it <b>deteriorates</b> due to
+      the cumulative effect of change. This is why <b>software maintenance</b> is
+      one of the most expensive phases of the software lifecycle.
+    </div>
+
+    <h3>Dual Role of Software</h3>
+    <p>
+      Software is both a <b>product</b> and a <b>vehicle for delivering a product</b>.
+      As a product, it delivers computing potential. As a vehicle, it acts as the
+      basis for the operation of a computer (operating system), the communication
+      of information (networks), and the creation and control of other programs
+      (software tools and environments).
+    </p>
+  </div>
+
+  <!-- 1.2 Software Application Domains -->
+  <div class="section">
+    <h2><b>1.2 Software Application Domains</b></h2>
+
+    <p>
+      Software can be applied in any situation for which a pre-specified set of procedural
+      steps has been defined. The following application domains describe the breadth
+      of software applications:
+    </p>
+
+    <h3>1. System Software</h3>
+    <p>
+      A collection of programs written to service other programs. System software
+      processes complex but determinate information structures. Examples include:
+      compilers, editors, file management utilities, operating system components,
+      networking software, and telecommunications processors.
+    </p>
+
+    <h3>2. Application Software</h3>
+    <p>
+      Stand-alone programs that solve a specific business need. Applications in
+      this area process business or technical data in a way that facilitates
+      business operations or management/technical decision making. Examples:
+      point-of-sale transaction processing, real-time manufacturing process control.
+    </p>
+
+    <h3>3. Engineering/Scientific Software</h3>
+    <p>
+      Software that has been characterized by "number crunching" algorithms.
+      Applications range from astronomy to volcanology, from automotive stress
+      analysis to orbital dynamics of the space shuttle, and from molecular biology
+      to automated manufacturing. Modern engineering/scientific software uses
+      computer-aided design, system simulation, and other interactive applications.
+    </p>
+
+    <h3>4. Embedded Software</h3>
+    <p>
+      Software that resides within a product or system and is used to implement
+      and control features and functions for the end user and for the system itself.
+      Examples: digital functions in an automobile (fuel control, dashboard displays,
+      braking systems), microwave oven controls, and industrial robots.
+    </p>
+
+    <h3>5. Product-Line Software</h3>
+    <p>
+      Software designed to provide a specific capability for use by many different
+      customers. It can focus on a limited and esoteric marketplace (e.g.,
+      inventory control products) or address mass consumer markets
+      (e.g., word processing, spreadsheets, computer graphics, multimedia,
+      entertainment, database management, personal and business financial
+      applications).
+    </p>
+
+    <h3>6. Web/Mobile Applications</h3>
+    <p>
+      This broad category encompasses a wide array of applications spanning
+      the network. Web applications encompass everything from simple informational
+      pages to sophisticated e-commerce applications, social media platforms,
+      and cloud-based SaaS products. Mobile applications extend the reach
+      to smartphones and tablets with native and hybrid development approaches.
+    </p>
+
+    <h3>7. Artificial Intelligence Software</h3>
+    <p>
+      Software that makes use of non-numerical algorithms to solve complex
+      problems that are not amenable to computation or straightforward analysis.
+      Applications include robotics, expert systems, pattern recognition
+      (image and voice), artificial neural networks, theorem proving,
+      game playing, natural language processing, and machine learning systems.
+    </p>
+
+    <table>
+      <tr>
+        <th>Application Domain</th>
+        <th>Key Characteristics</th>
+        <th>Examples</th>
+      </tr>
+      <tr>
+        <td>System Software</td>
+        <td>Heavy interaction with hardware, multi-user, concurrent</td>
+        <td>OS, compilers, drivers</td>
+      </tr>
+      <tr>
+        <td>Application Software</td>
+        <td>Business data processing, transaction-oriented</td>
+        <td>ERP, CRM, POS</td>
+      </tr>
+      <tr>
+        <td>Engineering/Scientific</td>
+        <td>Number crunching, simulations, CAD</td>
+        <td>MATLAB, AutoCAD, SPICE</td>
+      </tr>
+      <tr>
+        <td>Embedded Software</td>
+        <td>Real-time constraints, limited memory/processing</td>
+        <td>Automotive ECU, IoT firmware</td>
+      </tr>
+      <tr>
+        <td>Product-Line Software</td>
+        <td>Mass market, configurable, reusable</td>
+        <td>MS Office, Adobe Suite</td>
+      </tr>
+      <tr>
+        <td>Web/Mobile Applications</td>
+        <td>Network-centric, responsive, cloud-based</td>
+        <td>Gmail, Facebook, Uber</td>
+      </tr>
+      <tr>
+        <td>AI Software</td>
+        <td>Non-numerical algorithms, learning capability</td>
+        <td>ChatGPT, Tesla Autopilot</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 1.3 Legacy Software -->
+  <div class="section">
+    <h2><b>1.3 Legacy Software</b></h2>
+
+    <h3>Definition</h3>
+    <p>
+      <b>Legacy software</b> refers to older programs that were developed decades ago
+      and have been continually modified to meet changes in business requirements
+      and computing platforms. These systems are often critical to business operations
+      but may use outdated technologies, designs, or coding standards.
+    </p>
+
+    <h3>Characteristics of Legacy Software</h3>
+    <ul>
+      <li><b>Longevity:</b> These systems were developed many years ago (sometimes 20-30+ years ago)
+        and continue to serve critical business needs.</li>
+      <li><b>Poor Quality:</b> Over decades of modification, the original design may have degraded.
+        The code may be poorly documented, difficult to understand, and hard to test.</li>
+      <li><b>Inextensible Design:</b> The architecture may not readily accommodate extension
+        to interoperate in a network environment, or to integrate with modern databases.</li>
+      <li><b>Spaghetti Code:</b> Decades of patches, fixes, and modifications may have resulted
+        in convoluted code with complex interdependencies.</li>
+      <li><b>Business Critical:</b> Despite all their problems, legacy systems often contain
+        business rules and processes that are vital to the organization.</li>
+    </ul>
+
+    <h3>Why Legacy Software Must Be Updated</h3>
+    <p>
+      Legacy software must evolve for one or more of these reasons:
+    </p>
+    <ul>
+      <li>The software must be <b>adapted</b> to meet the needs of new computing environments or technology.</li>
+      <li>The software must be <b>enhanced</b> to implement new business requirements.</li>
+      <li>The software must be <b>extended</b> to make it interoperable with other more modern systems or databases.</li>
+      <li>The software must be <b>re-architected</b> to make it viable within an evolving computing environment.</li>
+    </ul>
+
+    <div class="note">
+      <b>Legacy Dilemma:</b> The cost of replacing legacy software is often enormous, but the cost of
+      maintaining it continues to grow. Organizations face the difficult decision of whether to
+      invest in modernization (re-engineering) or continue with costly maintenance.
+    </div>
+  </div>
+
+  <!-- 1.4 The Unique Nature of WebApps -->
+  <div class="section">
+    <h2><b>1.4 The Unique Nature of WebApps</b></h2>
+
+    <h3>What Are WebApps?</h3>
+    <p>
+      Web applications (WebApps) are a category of software that is network-intensive,
+      content-driven, and continuously evolving. They are accessed through web browsers
+      and delivered over the internet or an intranet. WebApps have several unique
+      attributes that distinguish them from conventional software:
+    </p>
+
+    <h3>Attributes of WebApps</h3>
+    <ul>
+      <li><b>Network Intensiveness:</b> WebApps reside on a network and must serve the needs
+        of a diverse community of clients. They operate across the internet, intranet, or extranet.</li>
+      <li><b>Concurrency:</b> A large number of users may access the WebApp at the same time.
+        Usage patterns are unpredictable, and the system must handle variable loads.</li>
+      <li><b>Unpredictable Load:</b> The number of users can vary by orders of magnitude from day to day.
+        The system must handle peak loads without degradation.</li>
+      <li><b>Performance:</b> If a WebApp user must wait too long (beyond a few seconds),
+        the user may go elsewhere. Performance is critical for user retention.</li>
+      <li><b>Availability:</b> Users expect 24/7/365 availability. Downtime is unacceptable
+        for many web-based applications, especially e-commerce and financial services.</li>
+      <li><b>Data Driven:</b> The primary function of many WebApps is to use hypermedia
+        to present text, graphics, audio, and video content to the end user.
+        Content management is a critical concern.</li>
+      <li><b>Content Sensitive:</b> The quality and aesthetic nature of content remains an
+        important determinant of the quality of a WebApp.</li>
+      <li><b>Continuous Evolution:</b> Unlike conventional applications where updates are released
+        at defined intervals, WebApps evolve continuously. Content and functionality
+        are updated frequently, sometimes multiple times per day.</li>
+      <li><b>Immediacy:</b> The time-to-market for WebApps is often a matter of days or weeks,
+        requiring agile and rapid development methodologies.</li>
+      <li><b>Security:</b> Because WebApps are available via network access, it is difficult
+        to limit the population of end users. Protecting sensitive content and providing
+        secure data transmission is essential.</li>
+      <li><b>Aesthetics:</b> The "look and feel" of a WebApp is arguably more important
+        than for other software categories. Attractive UI/UX design directly impacts
+        user engagement and satisfaction.</li>
+    </ul>
+
+    <table>
+      <tr>
+        <th>WebApp Attribute</th>
+        <th>Impact on Development</th>
+      </tr>
+      <tr>
+        <td>Network Intensive</td>
+        <td>Must design for distributed architecture and network latency</td>
+      </tr>
+      <tr>
+        <td>Concurrency</td>
+        <td>Must design for scalability and load balancing</td>
+      </tr>
+      <tr>
+        <td>Continuous Evolution</td>
+        <td>Must use agile process models and CI/CD pipelines</td>
+      </tr>
+      <tr>
+        <td>Security</td>
+        <td>Must implement authentication, authorization, encryption</td>
+      </tr>
+      <tr>
+        <td>Aesthetics</td>
+        <td>Must emphasize UX/UI design and responsive layouts</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 1.5 Software Engineering -->
+  <div class="section">
+    <h2><b>1.5 Software Engineering</b></h2>
+
+    <h3>Definition</h3>
+    <p>
+      <b>Software Engineering</b> is the application of a <b>systematic, disciplined,
+      quantifiable approach</b> to the development, operation, and maintenance of software;
+      that is, the application of engineering to software. (IEEE Definition)
+    </p>
+    <p>
+      According to <b>Fritz Bauer</b>: "Software Engineering is the establishment and use
+      of sound engineering principles in order to obtain economically software that is
+      reliable and works efficiently on real machines."
+    </p>
+
+    <h3>Why Software Engineering?</h3>
+    <ul>
+      <li><b>Software Crisis:</b> In the late 1960s-1970s, software projects were consistently
+        being delivered late, over budget, and with defects. The "software crisis" led to
+        the recognition that engineering discipline was needed for software development.</li>
+      <li><b>Growing Complexity:</b> Modern software systems are incredibly complex,
+        involving millions of lines of code, distributed architectures, and
+        integration with numerous external systems.</li>
+      <li><b>Quality Requirements:</b> Users demand high-quality, reliable, and secure software.
+        Ad-hoc development approaches cannot consistently deliver this quality.</li>
+      <li><b>Cost Control:</b> Software development is expensive. Engineering practices help
+        manage costs through better planning, estimation, and process management.</li>
+      <li><b>Maintenance:</b> 60-80% of all software costs are maintenance costs.
+        Well-engineered software is easier and less expensive to maintain.</li>
+    </ul>
+
+    <h3>Software Engineering Layers</h3>
+    <p>
+      Software engineering is a <b>layered technology</b> with four fundamental layers:
+    </p>
+    <ol>
+      <li><b>Quality Focus (Foundation):</b> The bedrock that supports software engineering.
+        Any engineering approach must rest on an organizational commitment to quality.
+        Total quality management (TQM), Six Sigma, and similar philosophies foster
+        a continuous process improvement culture.</li>
+      <li><b>Process:</b> The foundation for software engineering. Process defines a
+        framework that establishes the context in which the methods are applied,
+        the work products are produced, milestones are established, quality is ensured,
+        and change is properly managed.</li>
+      <li><b>Methods:</b> Provide the technical "how-to's" for building software.
+        Methods encompass a broad array of tasks: communication, requirements analysis,
+        design modeling, program construction, testing, and support.</li>
+      <li><b>Tools:</b> Provide automated or semi-automated support for the process and methods.
+        When tools are integrated so that information created by one tool can be used by another,
+        a system called <b>Computer-Aided Software Engineering (CASE)</b> is established.</li>
+    </ol>
+
+    <pre>
+    ┌─────────────────────────────┐
+    │          TOOLS              │  ← Automated support
+    ├─────────────────────────────┤
+    │         METHODS             │  ← Technical how-to's
+    ├─────────────────────────────┤
+    │         PROCESS             │  ← Framework and context
+    ├─────────────────────────────┤
+    │     A QUALITY FOCUS         │  ← Foundation (bedrock)
+    └─────────────────────────────┘
+    </pre>
+  </div>
+
+  <!-- 1.6 The Software Process -->
+  <div class="section">
+    <h2><b>1.6 The Software Process</b></h2>
+
+    <h3>Definition</h3>
+    <p>
+      A <b>software process</b> is a framework for the activities, actions, and tasks
+      that are required to build high-quality software. A process defines the approach
+      that is taken as software is engineered. It also encompasses a set of umbrella activities
+      that are applicable across the entire software process.
+    </p>
+
+    <h3>Generic Process Framework</h3>
+    <p>A process framework establishes the foundation for a complete software engineering process.
+      It identifies a small number of <b>framework activities</b> that are applicable to all
+      software projects, regardless of size or complexity:</p>
+    <ol>
+      <li><b>Communication:</b> Involves heavy communication and collaboration with the customer
+        (and other stakeholders). The intent is to understand the stakeholders' objectives
+        for the project and to gather requirements that help define software features and functions.</li>
+      <li><b>Planning:</b> Creates a "map" that guides the team as it makes the journey.
+        The map defines the software engineering work by describing the technical tasks to be
+        conducted, the risks that are likely, the resources that will be required,
+        the work products to be produced, and a work schedule.</li>
+      <li><b>Modeling:</b> Creates models (analysis and design) to better understand
+        software requirements and the design that will achieve those requirements.
+        Models include data models, functional models, and behavioral models.</li>
+      <li><b>Construction:</b> Combines code generation (either manual or automated)
+        and the testing that is required to uncover errors in the code.
+        This includes both coding and unit testing activities.</li>
+      <li><b>Deployment:</b> The software is delivered to the customer who evaluates the
+        delivered product and provides feedback based on the evaluation.
+        Includes installation, training, and support activities.</li>
+    </ol>
+
+    <h3>Umbrella Activities</h3>
+    <p>
+      In addition to framework activities, software engineering also includes
+      <b>umbrella activities</b> that are applied throughout the process:
+    </p>
+    <ul>
+      <li><b>Software project tracking and control</b> — assessing progress against the project plan</li>
+      <li><b>Risk management</b> — assessing risks that may affect the project outcome</li>
+      <li><b>Software quality assurance</b> — defining and conducting activities to ensure quality</li>
+      <li><b>Technical reviews</b> — assessing work products to uncover and remove errors before propagation</li>
+      <li><b>Measurement</b> — defining and collecting process, project, and product measures</li>
+      <li><b>Software configuration management</b> — managing the effects of change</li>
+      <li><b>Reusability management</b> — defining criteria for work product reuse and establishing mechanisms</li>
+      <li><b>Work product preparation and production</b> — creating models, documents, logs, forms, and lists</li>
+    </ul>
+  </div>
+
+  <!-- 1.7 Software Engineering Practice -->
+  <div class="section">
+    <h2><b>1.7 Software Engineering Practice</b></h2>
+
+    <h3>The Essence of Practice</h3>
+    <p>
+      George Pólya, in his book <i>How to Solve It</i>, outlined the essence of problem
+      solving (and hence the essence of software engineering practice):
+    </p>
+    <ol>
+      <li><b>Understand the Problem</b> (Communication and Analysis)
+        <ul>
+          <li>Who has a stake in the solution? (stakeholders)</li>
+          <li>What are the unknowns? (data, functions, features, behavior)</li>
+          <li>Can the problem be compartmentalized? (sub-problems)</li>
+          <li>Can the problem be represented graphically? (analysis model)</li>
+        </ul>
+      </li>
+      <li><b>Plan a Solution</b> (Modeling and Software Design)
+        <ul>
+          <li>Have you seen similar problems before?</li>
+          <li>Has a similar problem been solved? (reusable patterns)</li>
+          <li>Can sub-problems be defined? (design decomposition)</li>
+          <li>Can you represent a solution in a way that leads to effective implementation? (design model)</li>
+        </ul>
+      </li>
+      <li><b>Carry Out the Plan</b> (Construction / Code Generation)
+        <ul>
+          <li>Does the solution conform to the plan? (design maps to code)</li>
+          <li>Is each component part of the solution provably correct? (code reviews, unit tests)</li>
+        </ul>
+      </li>
+      <li><b>Examine the Result</b> (Testing and Quality Assurance)
+        <ul>
+          <li>Is it possible to test each component part of the solution?</li>
+          <li>Does the solution produce results that conform to the data, functions, and features required?</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3>General Principles of Practice</h3>
+    <p>
+      David Hooker has proposed seven principles that focus on software engineering
+      practice as a whole. These complement the "how-to" steps described above.
+    </p>
+  </div>
+
+  <!-- 1.8 General Principles -->
+  <div class="section">
+    <h2><b>1.8 General Principles</b></h2>
+
+    <p>
+      David Hooker's <b>Seven Principles</b> of software engineering provide guidelines
+      for both practitioners and managers:
+    </p>
+
+    <ol>
+      <li><b>The Reason It All Exists:</b>
+        A software system exists for one reason — to provide value to its users.
+        All decisions should be made with this in mind. Before specifying a system requirement,
+        before noting a piece of system functionality, before determining the hardware platforms
+        or development processes, ask yourself: "Does this add real value to the system?"
+        If the answer is no, don't do it.</li>
+
+      <li><b>KISS (Keep It Simple, Stupid!):</b>
+        All design should be as simple as possible, but no simpler. This facilitates
+        having a more easily understood and easily maintained system. This is not to say
+        that features, even internal features, should be discarded in the name of simplicity.
+        Rather, the design should not be more complicated than it needs to be.</li>
+
+      <li><b>Maintain the Vision:</b>
+        A clear vision is essential to the success of a software project.
+        Without one, a project almost always ends up being "two-faced."
+        Without conceptual integrity, a system threatens to become a patchwork
+        of incompatible designs held together by the wrong kind of screws.</li>
+
+      <li><b>What You Produce, Others Will Consume:</b>
+        Always specify, design, and implement knowing that someone else will have to
+        understand what you are doing. The audience for any product of software
+        development is potentially large. Specify with an eye to the users.
+        Design keeping the implementers in mind. Code with concern for those
+        who must maintain and extend the system.</li>
+
+      <li><b>Be Open to the Future:</b>
+        A system with a long lifetime has more value. In today's computing environments,
+        software lifetimes are measured in months or years, not decades.
+        However, true "industrial-strength" software systems must endure far longer.
+        Never design yourself into a corner. Always ask "what if" and prepare
+        for all possible answers by creating systems that solve the general problem,
+        not just the specific one.</li>
+
+      <li><b>Plan Ahead for Reuse:</b>
+        Reuse saves time and effort. Achieving a high level of reuse is arguably the
+        hardest goal to accomplish in developing a software system. The reuse of code
+        and designs has been proclaimed as a major benefit of using OO technologies,
+        and yet the return on this investment is not always realized.</li>
+
+      <li><b>Think!</b>
+        This last principle is probably the most overlooked. Placing clear, complete
+        thought before action almost always produces better results.
+        When you think about something, you are more likely to do it right.
+        You also gain knowledge about how to do it right again.</li>
+    </ol>
+
+    <table>
+      <tr>
+        <th>Principle</th>
+        <th>Core Idea</th>
+        <th>Application</th>
+      </tr>
+      <tr>
+        <td>The Reason It All Exists</td>
+        <td>Provide value to users</td>
+        <td>Validate every requirement against user value</td>
+      </tr>
+      <tr>
+        <td>KISS</td>
+        <td>Simplicity in design</td>
+        <td>Avoid over-engineering and unnecessary complexity</td>
+      </tr>
+      <tr>
+        <td>Maintain the Vision</td>
+        <td>Conceptual integrity</td>
+        <td>Have a clear architectural vision and stick to it</td>
+      </tr>
+      <tr>
+        <td>Others Will Consume</td>
+        <td>Think about the audience</td>
+        <td>Write clean, documented, maintainable code</td>
+      </tr>
+      <tr>
+        <td>Be Open to the Future</td>
+        <td>Design for change</td>
+        <td>Use abstractions, interfaces, and extensible architectures</td>
+      </tr>
+      <tr>
+        <td>Plan Ahead for Reuse</td>
+        <td>Maximize reusability</td>
+        <td>Create generic components, use design patterns</td>
+      </tr>
+      <tr>
+        <td>Think!</td>
+        <td>Deliberate thought</td>
+        <td>Analyze before coding, review before committing</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 1.9 Software Myths -->
+  <div class="section">
+    <h2><b>1.9 Software Myths</b></h2>
+
+    <p>
+      Software myths — erroneous beliefs about software and the process used to build it —
+      can be traced to the earliest days of computing. Myths have a number of attributes
+      that make them insidious: they appear to be reasonable statements of fact,
+      they have an intuitive feel, and they are often promulgated by experienced practitioners.
+    </p>
+
+    <h3>Management Myths</h3>
+    <ul>
+      <li><b>Myth:</b> "We already have a book that's full of standards and procedures for building software.
+        Won't that provide my people with everything they need to know?"
+        <br><b>Reality:</b> The book of standards may very well exist, but is it used? Are software
+        practitioners aware of its existence? Does it reflect modern software engineering practice?
+        Is it complete? Is it adaptable? In many cases, the answer to all of these questions is "no."</li>
+
+      <li><b>Myth:</b> "If we get behind schedule, we can add more programmers and catch up."
+        <br><b>Reality:</b> This is known as <b>Brooks's Law</b> — "Adding manpower to a late software
+        project makes it later." When new people are added, the existing staff must spend time
+        educating newcomers, thereby reducing productive development effort.
+        Communication overhead increases dramatically with more people (n(n-1)/2 communication paths).</li>
+
+      <li><b>Myth:</b> "If I decide to outsource the software project to a third party,
+        I can just relax and let that firm build it."
+        <br><b>Reality:</b> If an organization does not understand how to manage and control software
+        projects internally, it will invariably struggle when it outsources. Outsourcing requires
+        clear specifications, active management, and contractual oversight.</li>
+    </ul>
+
+    <h3>Customer Myths</h3>
+    <ul>
+      <li><b>Myth:</b> "A general statement of objectives is sufficient to begin writing programs —
+        we can fill in the details later."
+        <br><b>Reality:</b> A poor upfront definition is the major cause of failed software efforts.
+        A formal and detailed description of the information domain, function, behavior,
+        performance, interfaces, design constraints, and validation criteria is essential.
+        These characteristics can be determined only through thorough customer-developer communication.</li>
+
+      <li><b>Myth:</b> "Software requirements continually change, but change can be easily
+        accommodated because software is flexible."
+        <br><b>Reality:</b> It is true that software requirements change, but the impact of change
+        varies with the time at which it is introduced. If changes are requested early
+        (before design or code), the cost impact is relatively small. However, as time passes,
+        the cost impact grows rapidly — a change late in the project can be
+        <b>60 to 100 times more expensive</b> than the same change made early.</li>
+    </ul>
+
+    <h3>Practitioner's Myths</h3>
+    <ul>
+      <li><b>Myth:</b> "Once we write the program and get it to work, our job is done."
+        <br><b>Reality:</b> Industry data indicates that between <b>60% and 80%</b> of all effort
+        expended on software will be expended <b>after</b> it is delivered to the customer
+        for the first time. Maintenance is the most costly phase.</li>
+
+      <li><b>Myth:</b> "Until I get the program 'running,' I have no way of assessing its quality."
+        <br><b>Reality:</b> One of the most effective software quality assurance mechanisms can be
+        applied from the inception of a project — the <b>formal technical review</b>.
+        Software reviews are quality filters that have been found to be more effective than testing
+        for finding certain classes of software defects.</li>
+
+      <li><b>Myth:</b> "The only deliverable work product for a successful project is the working program."
+        <br><b>Reality:</b> A working program is only one part of a software configuration that includes
+        many elements: documentation (requirements, design, test plans), models, source code,
+        test cases, and user manuals. These work products provide the foundation for
+        successful engineering and ongoing maintenance.</li>
+
+      <li><b>Myth:</b> "Software engineering will make us create voluminous and unnecessary documentation
+        and will invariably slow us down."
+        <br><b>Reality:</b> Software engineering is not about creating documents. It is about creating
+        quality through disciplined process. Better analysis means less rework. Better design means
+        fewer bugs. The result is faster delivery, not slower.
+        Documentation, when done properly, improves communication and reduces errors.</li>
+    </ul>
+
+    <div class="note">
+      <b>Summary:</b> Recognizing and challenging software myths is the first step toward
+      adopting proper software engineering practices. Many project failures can be traced
+      directly to the acceptance of these myths by management, customers, or practitioners.
+    </div>
+
+    <h3>Comparison: Myths vs. Realities</h3>
+    <table>
+      <tr>
+        <th>Category</th>
+        <th>Common Myth</th>
+        <th>Engineering Reality</th>
+      </tr>
+      <tr>
+        <td>Management</td>
+        <td>Add more programmers to catch up</td>
+        <td>Brooks's Law: adding people makes it later</td>
+      </tr>
+      <tr>
+        <td>Management</td>
+        <td>Standards book is sufficient</td>
+        <td>Standards must be used, modern, and complete</td>
+      </tr>
+      <tr>
+        <td>Customer</td>
+        <td>General objectives are enough to start</td>
+        <td>Detailed requirements prevent project failure</td>
+      </tr>
+      <tr>
+        <td>Customer</td>
+        <td>Changes are easily accommodated</td>
+        <td>Late changes are 60-100x more expensive</td>
+      </tr>
+      <tr>
+        <td>Practitioner</td>
+        <td>Job is done when the program works</td>
+        <td>60-80% of effort is post-delivery maintenance</td>
+      </tr>
+      <tr>
+        <td>Practitioner</td>
+        <td>Only deliverable is working code</td>
+        <td>Documentation, models, and test cases are equally important</td>
+      </tr>
+    </table>
+  </div>
+
+</body>
+</html>
