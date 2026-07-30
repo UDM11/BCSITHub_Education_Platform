@@ -19,6 +19,7 @@ import { useAuth } from '../context/AuthContext';
 import { UploadPaperModal } from '../components/Notes/UploadPaperModal';
 import Backendless from 'backendless';
 import LoginRedirectModal from '../components/common/LoginRedirectModal';
+import { useSEO } from '../hooks/useSEO';
 
 const semesters = [
   { value: '1', label: '1st Semester' },
@@ -74,6 +75,12 @@ interface Paper {
 }
 
 export function PastPapers() {
+  useSEO({
+    title: "Pokhara University BCSIT Past Question Papers & Solutions",
+    description: "Download Pokhara University BCSIT semester final past exam question papers, midterm questions, and student solutions for all core subjects.",
+    keywords: "bcsit past papers, pokhara university question papers, pu past papers, bcsit exam papers"
+  });
+
   const [papers, setPapers] = useState<Paper[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedSemester, setSelectedSemester] = useState('');

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../../components/ui/Button';
+import { useSEO } from '../../hooks/useSEO';
 import {
   ChevronLeft,
   BookOpen,
@@ -28,6 +29,12 @@ export default function SubjectChapters() {
   const [filterType, setFilterType] = useState<'all' | 'available' | 'coming-soon'>('all');
 
   const decodedSubjectId = decodeURIComponent(subjectId || '');
+
+  useSEO({
+    title: subjectChapters ? `${subjectChapters.courseName} Lecture Chapters` : "Subject Chapters",
+    description: subjectChapters ? `Browse and read class chapters, lecture notes, and syllabus guidelines for ${subjectChapters.courseName} (${decodedSubjectId}) of Pokhara University BCSIT.` : "Browse PU BCSIT Subject Chapters.",
+    keywords: subjectChapters ? `${subjectChapters.courseName} notes, ${decodedSubjectId} chapters, bcsit syllabus` : "bcsit course chapters"
+  });
 
   useEffect(() => {
     // Function to check if a note file exists

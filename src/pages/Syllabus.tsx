@@ -13,8 +13,15 @@ import {
   Info,
 } from 'lucide-react';
 import { semesterData, specializationData } from '../data/syllabusData';
+import { useSEO } from '../hooks/useSEO';
 
 export function Syllabus() {
+  useSEO({
+    title: "Pokhara University BCSIT Syllabus & Course Structure",
+    description: "Browse the complete credit distribution, core/elective lists, and subject details for all 8 semesters of the Pokhara University BCSIT program.",
+    keywords: "bcsit syllabus, pokhara university syllabus, pu bcsit syllabus, bcsit credit structure"
+  });
+
   const [expandedSemester, setExpandedSemester] = useState<string | null>(null);
   const [expandedSpecialization, setExpandedSpecialization] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');

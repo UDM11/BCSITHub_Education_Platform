@@ -23,6 +23,7 @@ import UploadNoticeForm from '../components/common/UploadNoticeForm';
 import { motion, AnimatePresence } from 'framer-motion';
 import Backendless from '../lib/backendless';
 import { useNavigate } from 'react-router-dom';
+import { useSEO } from '../hooks/useSEO';
 
 interface Notice {
   objectId: string;
@@ -101,6 +102,12 @@ interface BackendlessNoticeItem {
 }
 
 const PUNotices: React.FC = () => {
+  useSEO({
+    title: "Pokhara University Official Notices & Exam Schedules",
+    description: "Stay updated with official Pokhara University (PU) exam schedules, result publications, admission calls, and general notices.",
+    keywords: "pu notices, pokhara university notices, exam schedule, pu results"
+  });
+
   const { user } = useAuth();
   const isAdmin = user?.role === 'admin';
 

@@ -11,6 +11,7 @@ import { Card, CardContent } from '../components/ui/Card';
 import { semesterData, specializationData } from '../data/syllabusData';
 import { useAuth } from '../context/AuthContext';
 import { useProfile } from '../context/ProfileContext';
+import { useSEO } from '../hooks/useSEO';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -85,6 +86,12 @@ const defaultMarksForGrade: Record<string, number> = {
 };
 
 export function CGPACalculator() {
+  useSEO({
+    title: "Pokhara University SGPA & CGPA Calculator",
+    description: "Calculate, analyze, and project your Pokhara University BCSIT SGPA and overall CGPA using automated syllabus credit structures.",
+    keywords: "bcsit cgpa calculator, sgpa calculator, pokhara university cgpa, pu grade calculator"
+  });
+
   const { user } = useAuth();
   const { profile } = useProfile();
   

@@ -8,6 +8,7 @@ import { Button } from "../../components/ui/Button";
 import { Card, CardContent } from "../../components/ui/Card";
 import { toast } from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
+import { useSEO } from "../../hooks/useSEO";
 
 const testimonials = [
   {
@@ -31,6 +32,12 @@ const testimonials = [
 ];
 
 const EmailVerification = () => {
+  useSEO({
+    title: "Verify Your Email Address",
+    description: "Verify your email credentials to activate your student account on the BCSITHub portal.",
+    keywords: "email verification, activate bcsithub account"
+  });
+
   const { user, reloadUser } = useAuth();
   const navigate = useNavigate();
 

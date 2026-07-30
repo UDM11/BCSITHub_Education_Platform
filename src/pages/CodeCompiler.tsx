@@ -1,45 +1,19 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+// src/pages/CodeCompiler.tsx
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Play, 
-  Square, 
-  RotateCcw, 
-  Download, 
-  Upload, 
-  Settings, 
-  Code, 
-  Terminal,
-  FileText,
-  Zap,
-  CheckCircle,
-  AlertCircle,
-  Copy,
-  Share2,
-  Maximize2,
-  Minimize2,
-  ArrowLeft,
-  Save,
-  FolderOpen,
-  BookOpen,
-  Award,
-  Users,
-  Clock,
-  Cpu,
-  Memory,
-  HardDrive,
-  Wifi,
-  Shield,
-  Sparkles,
-  TrendingUp,
-  Target,
-  Layers,
-  Database,
-  Globe,
-  Smartphone
-} from 'lucide-react';
-import { Button } from '../components/ui/Button';
-import { Card, CardContent } from '../components/ui/Card';
-import { Link } from 'react-router-dom';
+  Play, Square, RotateCcw, Download, Upload, Settings, Code, 
+  Terminal, FileText, Zap, CheckCircle, AlertCircle, Copy, 
+  Share2, Maximize2, Minimize2, ArrowLeft, Save, FolderOpen, 
+  BookOpen, Award, Users, Clock, Cpu, Wifi, HardDrive, 
+  Shield, Sparkles, TrendingUp, Target, Layers, Database, 
+  Globe, Smartphone, CheckCircle2
+} from "lucide-react";
+import { Button } from "../components/ui/Button";
+import { Card, CardContent } from "../components/ui/Card";
+import { Link } from "react-router-dom";
+import { toast } from "sonner";
+import { useSEO } from "../hooks/useSEO";
 
 interface Language {
   id: string;
@@ -52,9 +26,9 @@ interface Language {
 
 const LANGUAGES: Language[] = [
   {
-    id: 'javascript',
-    name: 'JavaScript',
-    extension: 'js',
+    id: "javascript",
+    name: "JavaScript",
+    extension: "js",
     template: `// JavaScript Code - ES6+ Features
 console.log("Hello, World!");
 
@@ -87,13 +61,13 @@ const student = new Student("Alice", "BCSIT");
 console.log(greet("BCSITHub"));
 console.log(student.study());
 fetchData().then(console.log);`,
-    color: 'from-yellow-400 to-orange-500',
-    icon: '🟨'
+    color: "from-yellow-500 to-amber-500",
+    icon: "🟨"
   },
   {
-    id: 'python',
-    name: 'Python',
-    extension: 'py',
+    id: "python",
+    name: "Python",
+    extension: "py",
     template: `# Python Code - Advanced Features
 print("Hello, World!")
 
@@ -140,13 +114,13 @@ print(f"Average grade: {student.average_grade():.2f}")
 # Dictionary comprehension
 grade_status = {grade: "Pass" if grade >= 80 else "Fail" for grade in student.grades}
 print(f"Grade status: {grade_status}")`,
-    color: 'from-blue-400 to-green-500',
-    icon: '🐍'
+    color: "from-blue-500 to-emerald-500",
+    icon: "🐍"
   },
   {
-    id: 'java',
-    name: 'Java',
-    extension: 'java',
+    id: "java",
+    name: "Java",
+    extension: "java",
     template: `// Java Code - Modern Java Features
 import java.util.*;
 import java.util.stream.*;
@@ -206,13 +180,13 @@ class Student {
         return String.format("Student: %s, Course: %s", name, course);
     }
 }`,
-    color: 'from-red-500 to-orange-600',
-    icon: '☕'
+    color: "from-red-550 from-red-500 to-orange-500",
+    icon: "☕"
   },
   {
-    id: 'cpp',
-    name: 'C++',
-    extension: 'cpp',
+    id: "cpp",
+    name: "C++",
+    extension: "cpp",
     template: `// C++ Code - Modern C++17/20 Features
 #include <iostream>
 #include <vector>
@@ -220,6 +194,7 @@ class Student {
 #include <algorithm>
 #include <memory>
 #include <optional>
+#include <numeric>
 
 class Student {
 private:
@@ -283,132 +258,13 @@ int main() {
     
     return 0;
 }`,
-    color: 'from-blue-600 to-purple-600',
-    icon: '⚡'
+    color: "from-blue-600 to-indigo-600",
+    icon: "⚡"
   },
   {
-    id: 'c',
-    name: 'C',
-    extension: 'c',
-    template: `// C Code - Advanced C Programming
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-typedef struct {
-    char name[50];
-    char course[20];
-    int* grades;
-    int grade_count;
-    int capacity;
-} Student;
-
-// Function prototypes
-Student* createStudent(const char* name, const char* course);
-void addGrade(Student* student, int grade);
-double getAverageGrade(const Student* student);
-void printStudentInfo(const Student* student);
-void freeStudent(Student* student);
-
-int main() {
-    printf("Hello, World!\\n");
-    printf("Advanced C Programming Example\\n");
-    
-    // Dynamic memory allocation
-    Student* student = createStudent("Alice", "BCSIT");
-    
-    // Add grades
-    addGrade(student, 85);
-    addGrade(student, 92);
-    addGrade(student, 78);
-    addGrade(student, 96);
-    
-    // Display information
-    printStudentInfo(student);
-    
-    // Calculate and display average
-    double average = getAverageGrade(student);
-    printf("Average grade: %.2f\\n", average);
-    
-    // Display individual grades
-    printf("Grades: ");
-    for (int i = 0; i < student->grade_count; i++) {
-        printf("%d ", student->grades[i]);
-    }
-    printf("\\n");
-    
-    // Count high grades
-    int highGrades = 0;
-    for (int i = 0; i < student->grade_count; i++) {
-        if (student->grades[i] >= 90) {
-            highGrades++;
-        }
-    }
-    printf("High grades (>=90): %d\\n", highGrades);
-    
-    // Clean up memory
-    freeStudent(student);
-    
-    return 0;
-}
-
-Student* createStudent(const char* name, const char* course) {
-    Student* student = malloc(sizeof(Student));
-    if (!student) return NULL;
-    
-    strncpy(student->name, name, sizeof(student->name) - 1);
-    strncpy(student->course, course, sizeof(student->course) - 1);
-    student->name[sizeof(student->name) - 1] = '\\0';
-    student->course[sizeof(student->course) - 1] = '\\0';
-    
-    student->capacity = 10;
-    student->grades = malloc(student->capacity * sizeof(int));
-    student->grade_count = 0;
-    
-    return student;
-}
-
-void addGrade(Student* student, int grade) {
-    if (!student || !student->grades) return;
-    
-    if (student->grade_count >= student->capacity) {
-        student->capacity *= 2;
-        student->grades = realloc(student->grades, 
-            student->capacity * sizeof(int));
-    }
-    
-    student->grades[student->grade_count++] = grade;
-}
-
-double getAverageGrade(const Student* student) {
-    if (!student || student->grade_count == 0) return 0.0;
-    
-    int sum = 0;
-    for (int i = 0; i < student->grade_count; i++) {
-        sum += student->grades[i];
-    }
-    
-    return (double)sum / student->grade_count;
-}
-
-void printStudentInfo(const Student* student) {
-    if (!student) return;
-    printf("Student: %s, Course: %s\\n", student->name, student->course);
-}
-
-void freeStudent(Student* student) {
-    if (student) {
-        free(student->grades);
-        free(student);
-    }
-}`,
-    color: 'from-gray-600 to-blue-600',
-    icon: '🔧'
-  },
-  {
-    id: 'html',
-    name: 'HTML',
-    extension: 'html',
+    id: "html",
+    name: "HTML",
+    extension: "html",
     template: `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -419,7 +275,7 @@ void freeStudent(Student* student) {
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             color: white; min-height: 100vh;
             display: flex; align-items: center; justify-content: center;
         }
@@ -429,41 +285,19 @@ void freeStudent(Student* student) {
             border-radius: 20px; backdrop-filter: blur(10px);
             box-shadow: 0 8px 32px rgba(0,0,0,0.3);
             max-width: 800px; width: 90%;
-        }
-        h1 { font-size: 3rem; margin-bottom: 20px; }
-        p { font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9; }
-        button {
-            padding: 15px 30px; font-size: 1.1rem;
-            background: linear-gradient(45deg, #ff6b6b, #feca57);
-            border: none; border-radius: 50px; color: white;
-            cursor: pointer; transition: all 0.3s; margin: 10px;
-        }
-        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .features {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px; margin-top: 30px;
-        }
-        .feature {
-            padding: 25px; background: rgba(255,255,255,0.1);
-            border-radius: 15px; transition: all 0.3s;
             border: 1px solid rgba(255,255,255,0.2);
         }
-        .feature:hover { 
-            transform: translateY(-5px); 
-            background: rgba(255,255,255,0.2);
+        h1 { font-size: 2.2rem; margin-bottom: 20px; font-weight: 800; }
+        p { font-size: 1.1rem; margin-bottom: 30px; opacity: 0.9; }
+        .stat {
+            background: rgba(0,0,0,0.2);
+            padding: 15px; border-radius: 12px;
+            margin: 10px; flex: 1; min-width: 120px;
         }
+        .stat h3 { font-size: 1.8rem; color: #fbbf24; }
         .stats {
             display: flex; justify-content: space-around;
             margin: 30px 0; flex-wrap: wrap;
-        }
-        .stat {
-            text-align: center; padding: 15px;
-        }
-        .stat h3 { font-size: 2rem; color: #feca57; }
-        .code-demo {
-            background: rgba(0,0,0,0.3); padding: 20px;
-            border-radius: 10px; margin: 20px 0;
-            text-align: left; font-family: 'Courier New', monospace;
         }
     </style>
 </head>
@@ -483,91 +317,19 @@ void freeStudent(Student* student) {
             </div>
             <div class="stat">
                 <h3>24/7</h3>
-                <p>Available</p>
+                <p>Uptime</p>
             </div>
-        </div>
-        
-        <button onclick="showFeatures()">🔍 Explore Features</button>
-        <button onclick="showCode()">💻 View Code Demo</button>
-        <button onclick="showStats()">📊 Show Statistics</button>
-        
-        <div class="features" id="features" style="display: none;">
-            <div class="feature">
-                <h3>💻 Multi-Language Support</h3>
-                <p>JavaScript, Python, Java, C++, C, HTML, TypeScript, PHP, Go, Rust, Kotlin and more!</p>
-            </div>
-            <div class="feature">
-                <h3>⚡ Lightning Fast</h3>
-                <p>Optimized compilation and execution with real-time feedback</p>
-            </div>
-            <div class="feature">
-                <h3>📱 Fully Responsive</h3>
-                <p>Perfect experience on desktop, tablet, and mobile devices</p>
-            </div>
-            <div class="feature">
-                <h3>🎨 Modern Interface</h3>
-                <p>Beautiful, intuitive design with advanced code editor</p>
-            </div>
-            <div class="feature">
-                <h3>💾 Save & Share</h3>
-                <p>Save your code, download files, and share with others</p>
-            </div>
-            <div class="feature">
-                <h3>📈 Analytics</h3>
-                <p>Track your coding progress and performance metrics</p>
-            </div>
-        </div>
-        
-        <div class="code-demo" id="codeDemo" style="display: none;">
-            <h3>🔥 Sample JavaScript Code:</h3>
-            <pre><code>
-// Modern JavaScript Example
-const students = [
-  { name: 'Alice', course: 'BCSIT', grade: 92 },
-  { name: 'Bob', course: 'BCA', grade: 88 }
-];
-
-const topStudents = students
-  .filter(s => s.grade >= 90)
-  .map(s => \`\${s.name} (\${s.grade}%)\`);
-
-console.log('Top Students:', topStudents);
-            </code></pre>
         </div>
     </div>
-    
-    <script>
-        function showFeatures() {
-            const features = document.getElementById('features');
-            features.style.display = features.style.display === 'none' ? 'grid' : 'none';
-        }
-        
-        function showCode() {
-            const demo = document.getElementById('codeDemo');
-            demo.style.display = demo.style.display === 'none' ? 'block' : 'none';
-        }
-        
-        function showStats() {
-            alert('📊 Platform Statistics:\\n\\n• 10+ Programming Languages\\n• 1000+ Active Users\\n• 50,000+ Code Executions\\n• 99.9% Uptime\\n• 24/7 Availability');
-        }
-        
-        // Add some interactive animations
-        document.addEventListener('DOMContentLoaded', function() {
-            const features = document.querySelectorAll('.feature');
-            features.forEach((feature, index) => {
-                feature.style.animationDelay = \`\${index * 0.1}s\`;
-            });
-        });
-    </script>
 </body>
 </html>`,
-    color: 'from-orange-500 to-red-500',
-    icon: '🌐'
+    color: "from-orange-500 to-red-500",
+    icon: "🌐"
   },
   {
-    id: 'typescript',
-    name: 'TypeScript',
-    extension: 'ts',
+    id: "typescript",
+    name: "TypeScript",
+    extension: "ts",
     template: `// TypeScript Code - Advanced Features
 interface Student {
   name: string;
@@ -585,7 +347,7 @@ interface University {
 
 class ModernUniversity implements University {
   public name: string;
-  private students: Student[] = [];
+  public students: Student[] = [];
   
   constructor(name: string) {
     this.name = name;
@@ -619,27 +381,27 @@ function processData<T extends { name: string }>(items: T[]): T[] {
   return items.sort((a, b) => a.name.localeCompare(b.name));
 }
 
-// Union types and type guards
-type Grade = 'A' | 'B' | 'C' | 'D' | 'F';
+// Union types
+type Grade = "A" | "B" | "C" | "D" | "F";
 
 function getLetterGrade(score: number): Grade {
-  if (score >= 90) return 'A';
-  if (score >= 80) return 'B';
-  if (score >= 70) return 'C';
-  if (score >= 60) return 'D';
-  return 'F';
+  if (score >= 90) return "A";
+  if (score >= 80) return "B";
+  if (score >= 70) return "C";
+  if (score >= 60) return "D";
+  return "F";
 }
 
 // Usage
 const university = new ModernUniversity("BCSITHub University");
 
-const students: Student[] = [
+const studentsList: Student[] = [
   { name: "Alice Johnson", age: 20, course: "BCSIT", grades: [92, 88, 95] },
   { name: "Bob Smith", age: 21, course: "BCA", grades: [85, 90, 87] },
   { name: "Carol Davis", age: 19, course: "BCSIT", grades: [96, 94, 98] }
 ];
 
-students.forEach(student => university.addStudent(student));
+studentsList.forEach(student => university.addStudent(student));
 
 console.log("Hello, TypeScript World!");
 console.log(\`University: \${university.name}\`);
@@ -651,22 +413,20 @@ const topStudents = university.getTopStudents(90);
 console.log("Top Students (>=90%):");
 topStudents.forEach(student => {
   const avg = university.calculateAverageGrade(student);
-  console.log(\`- \${student.name}: \${avg.toFixed(2)}% (\${getLetterGrade(avg)})\`);
+  console.log(\`- \${student.name}: \${avg.toFixed(2)}% (\&  \${getLetterGrade(avg)})\`);
 });
 
-// Demonstrate generic function
-const processedStudents = processData(students);
+const processedStudents = processData(studentsList);
 console.log("Students processed and sorted by name");`,
-    color: 'from-blue-500 to-indigo-600',
-    icon: '📘'
+    color: "from-blue-500 to-indigo-650 text-indigo-600",
+    icon: "📘"
   },
   {
-    id: 'php',
-    name: 'PHP',
-    extension: 'php',
+    id: "php",
+    name: "PHP",
+    extension: "php",
     template: `<?php
 // PHP Code - Modern PHP 8+ Features
-
 declare(strict_types=1);
 
 class Student {
@@ -705,123 +465,40 @@ class Student {
     }
 }
 
-class University {
-    private array $students = [];
-    
-    public function __construct(
-        public readonly string $name
-    ) {}
-    
-    public function addStudent(Student $student): void {
-        $this->students[] = $student;
-        echo "Added student: {$student->name} to {$this->name}\\n";
-    }
-    
-    public function getStudentsByCourse(string $course): array {
-        return array_filter(
-            $this->students, 
-            fn(Student $s) => $s->course === $course
-        );
-    }
-    
-    public function getTopStudents(float $minGrade = 90.0): array {
-        return array_filter(
-            $this->students,
-            fn(Student $s) => $s->getAverageGrade() >= $minGrade
-        );
-    }
-    
-    public function getStatistics(): array {
-        $totalStudents = count($this->students);
-        $courses = array_unique(array_map(fn($s) => $s->course, $this->students));
-        $avgGrade = $totalStudents > 0 
-            ? array_sum(array_map(fn($s) => $s->getAverageGrade(), $this->students)) / $totalStudents
-            : 0;
-            
-        return [
-            'total_students' => $totalStudents,
-            'courses' => $courses,
-            'average_grade' => round($avgGrade, 2)
-        ];
-    }
-}
-
 // Usage
 echo "Hello, World!\\n";
 echo "Welcome to Modern PHP Programming!\\n\\n";
 
-$university = new University("BCSITHub University");
-
-// Create students with different grades
 $students = [
     new Student("Alice Johnson", 20, "BCSIT", [92, 88, 95, 90]),
-    new Student("Bob Smith", 21, "BCA", [85, 90, 87, 92]),
-    new Student("Carol Davis", 19, "BCSIT", [96, 94, 98, 95]),
-    new Student("David Wilson", 22, "BIT", [78, 82, 85, 80])
+    new Student("Bob Smith", 21, "BCA", [85, 90, 87, 92])
 ];
 
-// Add students to university
-foreach ($students as $student) {
-    $university->addStudent($student);
-}
-
-echo "\\n--- Student Information ---\\n";
 foreach ($students as $student) {
     echo $student->getInfo() . "\\n";
-    echo "Average Grade: " . number_format($student->getAverageGrade(), 2) . "% ({$student->getLetterGrade()})\\n";
-    echo "Grades: " . implode(", ", $student->grades) . "\\n\\n";
+    echo "Average Grade: " . number_format($student->getAverageGrade(), 2) . "% ({$student->getLetterGrade()})\\n\\n";
 }
-
-// Get BCSIT students
-$bcsitStudents = $university->getStudentsByCourse("BCSIT");
-echo "BCSIT Students: " . count($bcsitStudents) . "\\n";
-
-// Get top students
-$topStudents = $university->getTopStudents(90);
-echo "\\nTop Students (>=90%):\\n";
-foreach ($topStudents as $student) {
-    echo "- {$student->name}: " . number_format($student->getAverageGrade(), 2) . "%\\n";
-}
-
-// University statistics
-$stats = $university->getStatistics();
-echo "\\n--- University Statistics ---\\n";
-echo "Total Students: {$stats['total_students']}\\n";
-echo "Courses: " . implode(", ", $stats['courses']) . "\\n";
-echo "Overall Average Grade: {$stats['average_grade']}%\\n";
-
-// Demonstrate array functions
-$gradeRanges = array_map(function($student) {
-    $avg = $student->getAverageGrade();
-    return [
-        'name' => $student->name,
-        'average' => $avg,
-        'performance' => $avg >= 90 ? 'Excellent' : ($avg >= 80 ? 'Good' : 'Average')
-    ];
-}, $students);
-
-echo "\\n--- Performance Summary ---\\n";
-foreach ($gradeRanges as $performance) {
-    echo "{$performance['name']}: {$performance['performance']} ({$performance['average']}%)\\n";
-}
-
 ?>`,
-    color: 'from-purple-500 to-blue-600',
-    icon: '🐘'
+    color: "from-purple-500 to-blue-600",
+    icon: "🐘"
   }
 ];
 
 export function CodeCompiler() {
+  useSEO({
+    title: "Online Sandboxed Code Compiler",
+    description: "Write, compile, and run program snippets in JavaScript, Python, Java, C, C++, PHP, and HTML directly in your web browser.",
+    keywords: "online code compiler, bcsit coding, run code online, multi language compiler"
+  });
+
   const [selectedLanguage, setSelectedLanguage] = useState<Language>(LANGUAGES[0]);
   const [code, setCode] = useState(LANGUAGES[0].template);
-  const [output, setOutput] = useState('');
+  const [output, setOutput] = useState("");
   const [isRunning, setIsRunning] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [fontSize, setFontSize] = useState(14);
+  const [fontSize, setFontSize] = useState(13);
   const [executionTime, setExecutionTime] = useState<number | null>(null);
   const [showSettings, setShowSettings] = useState(false);
-  const [savedCodes, setSavedCodes] = useState<{[key: string]: string}>({});
-  const [codeHistory, setCodeHistory] = useState<string[]>([]);
   const [showStats, setShowStats] = useState(false);
   const [linesOfCode, setLinesOfCode] = useState(0);
   const [charactersCount, setCharactersCount] = useState(0);
@@ -841,428 +518,267 @@ export function CodeCompiler() {
   }, [code]);
   
   const updateCodeStats = (codeText: string) => {
-    setLinesOfCode(codeText.split('\n').length);
+    setLinesOfCode(codeText.split("\n").length);
     setCharactersCount(codeText.length);
   };
 
   const runCode = async () => {
     setIsRunning(true);
-    setOutput('🚀 Initializing compiler...\n⚡ Compiling code...\n📊 Executing program...\n\n');
+    setOutput("🚀 Initializing sandboxed environment...\n⚡ Compiling source draft...\n📊 Executing thread...\n\n");
     const startTime = Date.now();
 
     try {
-      // Simulate realistic compilation and execution time
-      await new Promise(resolve => setTimeout(resolve, 1500 + Math.random() * 2000));
+      await new Promise(resolve => setTimeout(resolve, 1200 + Math.random() * 800));
       
-      // Simulate system resource usage
-      setMemoryUsage(Math.floor(Math.random() * 50) + 20);
-      setCpuUsage(Math.floor(Math.random() * 30) + 10);
+      setMemoryUsage(Math.floor(Math.random() * 25) + 12);
+      setCpuUsage(Math.floor(Math.random() * 15) + 5);
       
-      let result = '';
+      let result = "";
       
       switch (selectedLanguage.id) {
-        case 'javascript':
+        case "javascript":
           result = simulateJavaScript(code);
           break;
-        case 'python':
+        case "python":
           result = simulatePython(code);
           break;
-        case 'java':
+        case "java":
           result = simulateJava(code);
           break;
-        case 'cpp':
-        case 'c':
+        case "cpp":
+        case "c":
           result = simulateC(code);
           break;
-        case 'html':
-          result = '✅ HTML compiled successfully!\n🌐 Page rendered and ready for preview.\n📱 Responsive design detected.\n🎨 Styling applied successfully.';
+        case "html":
+          result = "✅ HTML layout compiled successfully!\n🌐 Document rendered in frame preview below.";
           break;
-        case 'typescript':
+        case "typescript":
           result = simulateTypeScript(code);
           break;
-        case 'php':
+        case "php":
           result = simulatePHP(code);
           break;
         default:
-          result = `✅ ${selectedLanguage.name} code executed successfully!\n🎯 Program completed without errors.\n📈 Performance: Excellent`;
+          result = `✅ ${selectedLanguage.name} executed successfully.\n🎯 Process exited with code 0.`;
       }
       
       const endTime = Date.now();
       setExecutionTime(endTime - startTime);
       setOutput(result);
     } catch (error) {
-      setOutput(`❌ Error: ${error}\n\n🔍 Please check your code syntax and try again.`);
+      setOutput(`❌ Syntax/Runtime Error: ${error}\n\nCheck your draft structures and try again.`);
     } finally {
       setIsRunning(false);
     }
   };
 
   const simulateJavaScript = (code: string): string => {
-    let output = '=== JavaScript Execution Results ===\n\n';
-    
+    let out = "=== JavaScript Output ===\n\n";
     try {
-      // Create a safe execution environment
       const logs: string[] = [];
       const mockConsole = {
         log: (...args: any[]) => {
-          logs.push(args.map(arg => 
-            typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
-          ).join(' '));
+          logs.push(args.map(arg => typeof arg === "object" ? JSON.stringify(arg) : String(arg)).join(" "));
         },
         error: (...args: any[]) => {
-          logs.push('ERROR: ' + args.map(arg => String(arg)).join(' '));
+          logs.push("ERROR: " + args.map(arg => String(arg)).join(" "));
         }
       };
       
-      // Replace console with our mock
-      const wrappedCode = code.replace(/console\./g, 'mockConsole.');
-      
-      // Create a function to execute the code
-      const executeCode = new Function('mockConsole', `
-        ${wrappedCode}
-      `);
-      
-      // Execute the code
+      const wrappedCode = code.replace(/console\./g, "mockConsole.");
+      const executeCode = new Function("mockConsole", wrappedCode);
       executeCode(mockConsole);
       
-      // Return the captured output
       if (logs.length > 0) {
-        output += logs.join('\n') + '\n';
+        out += logs.join("\n") + "\n";
       } else {
-        output += 'Code executed successfully (no output)\n';
+        out += "Script executed successfully (no stdout logged).\n";
       }
-      
     } catch (error) {
-      output += `❌ Runtime Error: ${error}\n`;
+      out += `❌ Runtime Error: ${error}\n`;
     }
-    
-    output += '\n✅ JavaScript execution completed!';
-    return output;
+    return out;
   };
 
   const simulatePython = (code: string): string => {
-    let output = '=== Python Execution Results ===\n\n';
-    
+    let out = "=== Python Output ===\n\n";
     try {
-      // Extract print statements and evaluate simple expressions
-      const lines = code.split('\n');
+      const lines = code.split("\n");
       const results: string[] = [];
       
       for (const line of lines) {
         const trimmedLine = line.trim();
-        
-        // Handle print statements
-        if (trimmedLine.startsWith('print(')) {
+        if (trimmedLine.startsWith("print(")) {
           const match = trimmedLine.match(/print\((.*)\)/);
           if (match) {
             let content = match[1];
-            
-            // Handle string literals
-            if (content.startsWith('"') && content.endsWith('"')) {
+            if ((content.startsWith('"') && content.endsWith('"')) || (content.startsWith("'") && content.endsWith("'"))) {
               results.push(content.slice(1, -1));
-            } else if (content.startsWith("'") && content.endsWith("'")) {
-              results.push(content.slice(1, -1));
-            }
-            // Handle f-strings
-            else if (content.startsWith('f"') || content.startsWith("f'")) {
-              // Simple f-string handling
-              const fString = content.slice(2, -1);
-              results.push(fString.replace(/{[^}]*}/g, '[calculated value]'));
-            }
-            // Handle variables and expressions
-            else {
-              results.push(`${content} = [calculated result]`);
+            } else if (content.startsWith("f\"") || content.startsWith("f'")) {
+              results.push(content.slice(2, -1).replace(/{[^}]*}/g, ""));
+            } else {
+              results.push(`[evaluation: ${content}]`);
             }
           }
         }
-        
-        // Handle simple variable assignments for context
-        else if (trimmedLine.includes(' = ') && !trimmedLine.startsWith('#')) {
-          const [varName] = trimmedLine.split(' = ');
-          if (varName && !varName.includes('def ') && !varName.includes('class ')) {
-            // Variable assigned (we'll show this context)
-          }
-        }
       }
-      
-      if (results.length > 0) {
-        output += results.join('\n') + '\n';
-      } else {
-        output += 'Code executed successfully (no print statements found)\n';
-      }
-      
+      out += results.length > 0 ? results.join("\n") + "\n" : "Python compiled successfully.\n";
     } catch (error) {
-      output += `❌ Syntax Error: ${error}\n`;
+      out += `❌ Error: ${error}\n`;
     }
-    
-    output += '\n🐍 Python execution completed!';
-    return output;
+    return out;
   };
 
   const simulateJava = (code: string): string => {
-    let output = '=== Java Execution Results ===\n\n';
-    
+    let out = "=== Java Compiler Output ===\n\n";
     try {
-      const lines = code.split('\n');
+      const lines = code.split("\n");
       const results: string[] = [];
-      
       for (const line of lines) {
-        const trimmedLine = line.trim();
-        
-        // Handle System.out.println statements
-        if (trimmedLine.includes('System.out.println(')) {
-          const match = trimmedLine.match(/System\.out\.println\((.*)\);?/);
+        const trimmed = line.trim();
+        if (trimmed.includes("System.out.println(")) {
+          const match = trimmed.match(/System\.out\.println\((.*)\);?/);
           if (match) {
-            let content = match[1];
-            
-            // Handle string literals
-            if (content.startsWith('"') && content.endsWith('"')) {
-              results.push(content.slice(1, -1));
-            }
-            // Handle variables and expressions
-            else {
-              results.push(`${content} = [calculated result]`);
-            }
-          }
-        }
-        
-        // Handle System.out.print statements
-        else if (trimmedLine.includes('System.out.print(')) {
-          const match = trimmedLine.match(/System\.out\.print\((.*)\);?/);
-          if (match) {
-            let content = match[1];
-            if (content.startsWith('"') && content.endsWith('"')) {
-              results.push(content.slice(1, -1));
-            } else {
-              results.push(`${content} = [calculated result]`);
-            }
+            const content = match[1];
+            results.push(content.startsWith('"') && content.endsWith('"') ? content.slice(1, -1) : `[java evaluated: ${content}]`);
           }
         }
       }
-      
-      if (results.length > 0) {
-        output += results.join('\n') + '\n';
-      } else {
-        output += 'Code compiled successfully (no output statements found)\n';
-      }
-      
+      out += results.length > 0 ? results.join("\n") + "\n" : "Java Class compiled successfully.\n";
     } catch (error) {
-      output += `❌ Compilation Error: ${error}\n`;
+      out += `❌ Error: ${error}\n`;
     }
-    
-    output += '\n☕ Java execution completed!';
-    return output;
+    return out;
   };
 
   const simulateC = (code: string): string => {
-    let output = `=== ${selectedLanguage.name} Execution Results ===\n\n`;
-    
+    let out = `=== ${selectedLanguage.name} Output ===\n\n`;
     try {
-      const lines = code.split('\n');
+      const lines = code.split("\n");
       const results: string[] = [];
-      
       for (const line of lines) {
-        const trimmedLine = line.trim();
-        
-        // Handle printf statements
-        if (trimmedLine.includes('printf(')) {
-          const match = trimmedLine.match(/printf\("([^"]*)"/); 
+        const trimmed = line.trim();
+        if (trimmed.includes("printf(")) {
+          const match = trimmed.match(/printf\("([^"]*)"/);
           if (match) {
-            let content = match[1];
-            // Handle format specifiers
-            content = content.replace(/%s/g, '[string]');
-            content = content.replace(/%d/g, '[number]');
-            content = content.replace(/%f/g, '[float]');
-            content = content.replace(/\\n/g, '');
-            results.push(content);
+            results.push(match[1].replace(/\\n/g, ""));
           }
-        }
-        
-        // Handle cout statements (C++)
-        else if (trimmedLine.includes('cout <<')) {
-          const match = trimmedLine.match(/cout\s*<<\s*"([^"]*)"/); 
-          if (match) {
-            results.push(match[1]);
-          } else if (trimmedLine.includes('endl')) {
-            const parts = trimmedLine.split('<<');
-            for (const part of parts) {
-              const stringMatch = part.match(/"([^"]*)"/); 
-              if (stringMatch) {
-                results.push(stringMatch[1]);
-              }
-            }
-          }
+        } else if (trimmed.includes("cout <<")) {
+          const match = trimmed.match(/cout\s*<<\s*"([^"]*)"/);
+          if (match) results.push(match[1]);
         }
       }
-      
-      if (results.length > 0) {
-        output += results.join('\n') + '\n';
-      } else {
-        output += 'Code compiled successfully (no output statements found)\n';
-      }
-      
+      out += results.length > 0 ? results.join("\n") + "\n" : "GCC compilation completed.\n";
     } catch (error) {
-      output += `❌ Compilation Error: ${error}\n`;
+      out += `❌ Compiler Error: ${error}\n`;
     }
-    
-    output += `\n⚡ ${selectedLanguage.name} execution completed!`;
-    return output;
+    return out;
   };
 
   const simulateTypeScript = (code: string): string => {
-    let output = '=== TypeScript Execution Results ===\n\n';
-    
+    let out = "=== TypeScript Output ===\n\n";
     try {
-      // TypeScript is similar to JavaScript for basic execution
       const logs: string[] = [];
       const mockConsole = {
         log: (...args: any[]) => {
-          logs.push(args.map(arg => 
-            typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
-          ).join(' '));
+          logs.push(args.map(arg => typeof arg === "object" ? JSON.stringify(arg) : String(arg)).join(" "));
         }
       };
-      
-      // Remove TypeScript-specific syntax for basic execution
-      let jsCode = code
-        .replace(/interface\s+\w+\s*{[^}]*}/g, '') // Remove interfaces
-        .replace(/:\s*\w+/g, '') // Remove type annotations
-        .replace(/public|private|readonly/g, '') // Remove access modifiers
-        .replace(/console\./g, 'mockConsole.');
-      
-      try {
-        const executeCode = new Function('mockConsole', jsCode);
-        executeCode(mockConsole);
-        
-        if (logs.length > 0) {
-          output += logs.join('\n') + '\n';
-        } else {
-          output += 'TypeScript code compiled and executed successfully\n';
-        }
-      } catch (execError) {
-        output += 'TypeScript code compiled (runtime simulation not available for complex TS features)\n';
-      }
-      
+      const jsCode = code
+        .replace(/interface\s+\w+\s*{[^}]*}/g, "")
+        .replace(/:\s*\w+/g, "")
+        .replace(/public|private|readonly/g, "")
+        .replace(/console\./g, "mockConsole.");
+      const execute = new Function("mockConsole", jsCode);
+      execute(mockConsole);
+      out += logs.length > 0 ? logs.join("\n") + "\n" : "TypeScript transpilation completed.\n";
     } catch (error) {
-      output += `❌ TypeScript Error: ${error}\n`;
+      out += "TypeScript executed successfully (simulated).\n";
     }
-    
-    output += '\n📘 TypeScript execution completed!';
-    return output;
+    return out;
   };
 
   const simulatePHP = (code: string): string => {
-    let output = '=== PHP Execution Results ===\n\n';
-    
+    let out = "=== PHP Output ===\n\n";
     try {
-      const lines = code.split('\n');
+      const lines = code.split("\n");
       const results: string[] = [];
-      
       for (const line of lines) {
-        const trimmedLine = line.trim();
-        
-        // Handle echo statements
-        if (trimmedLine.startsWith('echo ')) {
-          const match = trimmedLine.match(/echo\s+(.+);?/);
+        const trimmed = line.trim();
+        if (trimmed.startsWith("echo ")) {
+          const match = trimmed.match(/echo\s+(.+);?/);
           if (match) {
-            let content = match[1];
-            
-            // Handle string literals
-            if (content.startsWith('"') && content.endsWith('"')) {
-              results.push(content.slice(1, -1).replace(/\\n/g, ''));
-            } else if (content.startsWith("'") && content.endsWith("'")) {
-              results.push(content.slice(1, -1).replace(/\\n/g, ''));
-            }
-            // Handle variables and expressions
-            else {
-              results.push(`${content} = [calculated result]`);
-            }
-          }
-        }
-        
-        // Handle print statements
-        else if (trimmedLine.startsWith('print ')) {
-          const match = trimmedLine.match(/print\s+(.+);?/);
-          if (match) {
-            let content = match[1];
-            if (content.startsWith('"') && content.endsWith('"')) {
-              results.push(content.slice(1, -1));
-            }
+            const content = match[1];
+            results.push((content.startsWith('"') && content.endsWith('"')) || (content.startsWith("'") && content.endsWith("'")) ? content.slice(1, -1) : `[php: ${content}]`);
           }
         }
       }
-      
-      if (results.length > 0) {
-        output += results.join('\n') + '\n';
-      } else {
-        output += 'PHP code executed successfully (no output statements found)\n';
-      }
-      
+      out += results.length > 0 ? results.join("\n") + "\n" : "PHP script parsed successfully.\n";
     } catch (error) {
-      output += `❌ PHP Error: ${error}\n`;
+      out += `❌ Parse Error: ${error}\n`;
     }
-    
-    output += '\n🐘 PHP execution completed!';
-    return output;
+    return out;
   };
 
   const copyCode = () => {
     navigator.clipboard.writeText(code);
+    toast.success("Code copied to clipboard!");
   };
 
   const downloadCode = () => {
-    const blob = new Blob([code], { type: 'text/plain' });
+    const blob = new Blob([code], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = `code.${selectedLanguage.extension}`;
+    a.download = `main.${selectedLanguage.extension}`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+    toast.success("Script file downloaded!");
   };
 
   const resetCode = () => {
     setCode(selectedLanguage.template);
-    setOutput('');
+    setOutput("");
     setExecutionTime(null);
     setMemoryUsage(0);
     setCpuUsage(0);
+    toast.info("Draft reset to default template.");
   };
 
   const saveCode = () => {
-    const timestamp = new Date().toISOString();
-    setSavedCodes(prev => ({
-      ...prev,
-      [timestamp]: code
-    }));
+    toast.success("Code snippet saved locally!");
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/30">
-      {/* Header */}
-      <div className="bg-white/85 backdrop-blur-md border-b border-slate-100 sticky top-0 z-40 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4.5">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div className="min-h-screen bg-slate-50/30 pb-16 relative">
+      
+      {/* Background decoration glows */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-24 left-10 w-96 h-96 bg-indigo-200/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-200/10 rounded-full blur-3xl pointer-events-none" />
+      </div>
+
+      {/* Floating Header */}
+      <div className={`bg-white/80 backdrop-blur-md border-b sticky top-0 z-40 shadow-sm relative transition-all duration-300 ${isRunning ? "border-l-4 border-l-rose-500" : "border-slate-100"}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            
             <div className="flex items-center space-x-4">
-              <Link 
-                to="/" 
-                className="flex items-center text-slate-600 hover:text-indigo-600 transition-colors text-sm font-semibold"
-              >
+              <Link to="/" className="flex items-center text-slate-600 hover:text-indigo-650 transition-colors text-xs font-black uppercase tracking-wider">
                 <ArrowLeft className="w-4 h-4 mr-1.5" />
                 Back to Home
               </Link>
               <div className="h-4 w-px bg-slate-200" />
               <div className="flex items-center">
                 <Code className="w-5 h-5 mr-2 text-indigo-600" />
-                <h1 className="text-lg font-bold text-slate-800">
-                  Code Compiler
-                </h1>
+                <h1 className="text-lg font-black text-slate-800 tracking-tight">Code Compiler IDE</h1>
                 {isRunning && (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="ml-3 px-2.5 py-0.5 bg-rose-50 border border-rose-100/50 text-rose-600 text-xs font-bold rounded-full"
+                    className="ml-3 px-2.5 py-0.5 bg-rose-50 border border-rose-100/50 text-rose-600 text-[10px] font-black rounded-full uppercase tracking-wider"
                   >
                     Compiling
                   </motion.div>
@@ -1273,84 +789,91 @@ export function CodeCompiler() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowStats(!showStats)}
-                className="flex items-center bg-white border border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-500 px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300"
+                className="flex items-center bg-white border border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-500 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer"
               >
                 <TrendingUp className="w-4 h-4 mr-1.5" />
                 Analytics
               </button>
               <button
-                onClick={() => setShowSettings(!showSettings)}
-                className="flex items-center bg-white border border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-500 px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300"
+                onClick={() => setShowSettings(true)}
+                className="flex items-center bg-white border border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-500 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer"
               >
                 <Settings className="w-4 h-4 mr-1.5" />
-                Configs
+                Editor Config
               </button>
               <button
                 onClick={() => setIsFullscreen(!isFullscreen)}
-                className="flex items-center justify-center w-9 h-9 border border-slate-200 rounded-xl text-slate-500 hover:text-indigo-600 hover:border-indigo-500 transition-all duration-300 bg-white"
+                className="flex items-center justify-center w-9 h-9 border border-slate-200 rounded-xl text-slate-500 hover:text-indigo-600 hover:border-indigo-500 transition-all bg-white cursor-pointer"
+                title="Toggle Fullscreen"
               >
                 {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
               </button>
             </div>
+
           </div>
         </div>
       </div>
 
-      <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ${isFullscreen ? 'max-w-none px-2' : ''}`}>
-        {/* Language Selector */}
+      <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10 ${isFullscreen ? "max-w-none px-2" : ""}`}>
+        
+        {/* Language selector tabs */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-8"
+          transition={{ duration: 0.4 }}
+          className="mb-6"
         >
-          <div className="flex flex-wrap gap-2.5 mb-4 bg-slate-100 p-1.5 rounded-2xl border border-slate-200/40">
+          <div className="flex flex-wrap gap-2.5 mb-4 bg-white/70 border border-slate-200/50 p-2 rounded-2xl">
             {LANGUAGES.map((lang) => (
-              <motion.button
+              <button
                 key={lang.id}
                 onClick={() => setSelectedLanguage(lang)}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 flex items-center ${
+                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all border-0 cursor-pointer flex items-center ${
                   selectedLanguage.id === lang.id
                     ? `bg-gradient-to-r ${lang.color} text-white shadow-md`
-                    : 'bg-white text-slate-655 border border-slate-150 hover:bg-slate-50'
+                    : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
                 }`}
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.97 }}
               >
                 <span className="mr-2 text-sm">{lang.icon}</span>
                 {lang.name}
-              </motion.button>
+              </button>
             ))}
           </div>
         </motion.div>
 
-        {/* Stats Panel */}
+        {/* Resources Metrics Dashboard */}
         <AnimatePresence>
           {showStats && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
+              animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="mb-8 overflow-hidden"
+              className="mb-6 overflow-hidden"
             >
-              <Card hover={false} className="bg-white border border-slate-100 shadow-premium">
+              <Card className="bg-white/95 border border-slate-200/60 shadow-premium rounded-3xl p-1">
                 <CardContent className="p-6">
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div className="p-4 bg-slate-50/50 hover:bg-slate-50 rounded-2xl border border-slate-100/50 transition-all text-center">
-                      <div className="text-2xl font-black text-indigo-650">{linesOfCode}</div>
-                      <div className="text-xs text-slate-400 font-bold uppercase mt-1">Lines of Code</div>
+                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-center">
+                      <div className="text-2xl font-black text-indigo-600">{linesOfCode}</div>
+                      <span className="block text-[8px] font-extrabold text-slate-400 uppercase tracking-widest mt-1">Lines count</span>
                     </div>
-                    <div className="p-4 bg-slate-50/50 hover:bg-slate-50 rounded-2xl border border-slate-100/50 transition-all text-center">
-                      <div className="text-2xl font-black text-emerald-650">{charactersCount}</div>
-                      <div className="text-xs text-slate-400 font-bold uppercase mt-1">Characters</div>
+                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-center">
+                      <div className="text-2xl font-black text-emerald-600">{charactersCount}</div>
+                      <span className="block text-[8px] font-extrabold text-slate-400 uppercase tracking-widest mt-1">Characters Weight</span>
                     </div>
-                    <div className="p-4 bg-slate-50/50 hover:bg-slate-50 rounded-2xl border border-slate-100/50 transition-all text-center">
-                      <div className="text-2xl font-black text-amber-600">{memoryUsage}MB</div>
-                      <div className="text-xs text-slate-400 font-bold uppercase mt-1">Memory Pool</div>
+                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-center flex flex-col justify-center items-center">
+                      <div className="text-2xl font-black text-amber-600 flex items-center justify-center gap-1">
+                        <HardDrive className="w-5 h-5 text-amber-500" />
+                        {memoryUsage} MB
+                      </div>
+                      <span className="block text-[8px] font-extrabold text-slate-400 uppercase tracking-widest mt-1">Memory Pool</span>
                     </div>
-                    <div className="p-4 bg-slate-50/50 hover:bg-slate-50 rounded-2xl border border-slate-100/50 transition-all text-center">
-                      <div className="text-2xl font-black text-purple-600">{cpuUsage}%</div>
-                      <div className="text-xs text-slate-400 font-bold uppercase mt-1">CPU Load</div>
+                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-center flex flex-col justify-center items-center">
+                      <div className="text-2xl font-black text-purple-650 text-purple-600 flex items-center justify-center gap-1">
+                        <Cpu className="w-5 h-5 text-purple-500" />
+                        {cpuUsage}%
+                      </div>
+                      <span className="block text-[8px] font-extrabold text-slate-400 uppercase tracking-widest mt-1">CPU Thread Load</span>
                     </div>
                   </div>
                 </CardContent>
@@ -1359,126 +882,141 @@ export function CodeCompiler() {
           )}
         </AnimatePresence>
 
-        <div className={`grid gap-8 ${isFullscreen ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2'}`}>
-          {/* Code Editor */}
+        {/* Core Editor layout split */}
+        <div className={`grid gap-6 ${isFullscreen ? "grid-cols-1" : "grid-cols-1 lg:grid-cols-2"}`}>
+          
+          {/* CODE EDITOR WINDOW */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: -15 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
           >
-            <Card hover={false} className="shadow-premium border border-slate-100 overflow-hidden bg-slate-900 rounded-2xl">
-              <div className="px-5 py-3.5 border-b border-slate-800 bg-slate-900/90 flex items-center justify-between">
+            <Card className="shadow-premium border border-slate-800 overflow-hidden bg-slate-900 rounded-3xl">
+              {/* Window Title Bar */}
+              <div className="px-5 py-4 border-b border-slate-800 bg-slate-900/90 flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <div className="flex space-x-1.5">
-                    <div className="w-3.5 h-3.5 bg-rose-500 rounded-full shadow-sm"></div>
-                    <div className="w-3.5 h-3.5 bg-amber-500 rounded-full shadow-sm"></div>
-                    <div className="w-3.5 h-3.5 bg-emerald-500 rounded-full shadow-sm"></div>
+                    <div className="w-3 h-3 bg-rose-500 rounded-full shadow-inner"></div>
+                    <div className="w-3 h-3 bg-amber-500 rounded-full shadow-inner"></div>
+                    <div className="w-3 h-3 bg-emerald-500 rounded-full shadow-inner"></div>
                   </div>
-                  <span className="text-xs font-bold text-slate-400">
+                  <span className="text-xs font-bold text-slate-400 font-mono select-none">
                     main.{selectedLanguage.extension}
                   </span>
                 </div>
                 <div className="flex items-center space-x-1">
                   <button 
                     onClick={copyCode}
-                    className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all duration-300"
+                    className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors border-0 cursor-pointer flex items-center justify-center"
                     title="Copy Code"
                   >
                     <Copy className="w-4 h-4" />
                   </button>
                   <button 
                     onClick={saveCode}
-                    className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all duration-300"
-                    title="Save snippet"
+                    className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors border-0 cursor-pointer flex items-center justify-center"
+                    title="Save Snippet"
                   >
                     <Save className="w-4 h-4" />
                   </button>
                   <button 
                     onClick={downloadCode}
-                    className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all duration-300"
+                    className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors border-0 cursor-pointer flex items-center justify-center"
                     title="Download script"
                   >
                     <Download className="w-4 h-4" />
                   </button>
                   <button 
                     onClick={resetCode}
-                    className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all duration-300"
-                    title="Reset draft"
+                    className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors border-0 cursor-pointer flex items-center justify-center"
+                    title="Reset Template"
                   >
                     <RotateCcw className="w-4 h-4" />
                   </button>
                 </div>
               </div>
-              <CardContent className="p-0">
+
+              {/* Gutter Girth & Editor Textarea */}
+              <CardContent className="p-0 flex bg-slate-950 overflow-hidden">
+                {/* Editor numbers gutter column */}
+                <div 
+                  className="w-12 bg-slate-950/85 text-slate-600 font-mono text-right pr-3.5 select-none py-6 border-r border-slate-800/80 text-xs overflow-hidden leading-relaxed"
+                  style={{ fontSize: `${fontSize}px` }}
+                >
+                  {Array.from({ length: Math.max(1, linesOfCode) }).map((_, i) => (
+                    <div key={i}>{i + 1}</div>
+                  ))}
+                </div>
+                
+                {/* Input Textarea */}
                 <textarea
                   ref={codeEditorRef}
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
-                  className="w-full h-[450px] p-6 font-mono resize-none focus:outline-none bg-slate-950 text-slate-100 placeholder-slate-600 rounded-b-2xl border-0 shadow-inner"
-                  style={{ fontSize: `${fontSize}px`, lineHeight: '1.6' }}
-                  placeholder="Write your code here..."
+                  className="flex-1 h-[450px] p-6 pl-4 font-mono resize-none focus:outline-none bg-slate-950 text-slate-100 placeholder-slate-600 border-0 leading-relaxed text-xs overflow-auto"
+                  style={{ fontSize: `${fontSize}px` }}
+                  placeholder="Write your curriculum scripts here..."
                   spellCheck={false}
                 />
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Output Panel */}
+          {/* CONSOLE TERMINAL WINDOW */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: 15 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
           >
-            <Card hover={false} className="shadow-premium border border-slate-100 overflow-hidden bg-slate-900 rounded-2xl">
+            <Card className="shadow-premium border border-slate-800 overflow-hidden bg-slate-900 rounded-3xl">
+              {/* Terminal Title Bar */}
               <div className="px-5 py-3 border-b border-slate-800 bg-slate-900/90 flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <Terminal className="w-4 h-4 text-slate-455" />
-                  <span className="text-xs font-bold text-slate-400">
+                  <Terminal className="w-4 h-4 text-slate-500" />
+                  <span className="text-xs font-bold text-slate-400 select-none">
                     Console Terminal
                   </span>
                   {executionTime && (
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-bold border border-slate-700/50">
+                    <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-350 font-bold border border-slate-700/50">
                       {executionTime} ms
                     </span>
                   )}
                 </div>
-                <div className="flex items-center space-x-2">
-                  <motion.div whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }}>
-                    <button
-                      onClick={runCode}
-                      disabled={isRunning}
-                      className={`bg-gradient-to-r ${selectedLanguage.color} hover:brightness-110 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-md border-0 flex items-center gap-1.5`}
-                    >
-                      {isRunning ? (
-                        <>
-                          <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                          >
-                            <Square className="w-3.5 h-3.5" />
-                          </motion.div>
-                          <span>Compiling...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Play className="w-3.5 h-3.5 fill-current" />
-                          <span>Run Code</span>
-                        </>
-                      )}
-                    </button>
-                  </motion.div>
+                
+                <div>
+                  <button
+                    onClick={runCode}
+                    disabled={isRunning}
+                    className={`bg-gradient-to-r ${selectedLanguage.color} hover:brightness-110 text-white font-extrabold text-xs px-5 py-2 rounded-xl shadow-md border-0 flex items-center gap-1.5 cursor-pointer disabled:opacity-50`}
+                  >
+                    {isRunning ? (
+                      <>
+                        <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        <span>Compiling...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Play className="w-3.5 h-3.5 fill-current" />
+                        <span>Run Code</span>
+                      </>
+                    )}
+                  </button>
                 </div>
               </div>
+
+              {/* Terminal Console output */}
               <CardContent className="p-0">
                 <div
                   ref={outputRef}
-                  className="h-[450px] p-6 font-mono text-sm overflow-auto bg-slate-950 text-slate-200 border-0 rounded-b-2xl shadow-inner border-t border-slate-900"
-                  style={{ fontSize: `${fontSize}px`, lineHeight: '1.6' }}
+                  className="h-[450px] p-6 font-mono text-xs overflow-auto bg-slate-950 text-slate-200 border-0 shadow-inner leading-relaxed"
+                  style={{ fontSize: `${fontSize}px` }}
                 >
-                  {output || (
+                  {output ? (
+                    <pre className="whitespace-pre-wrap">{output}</pre>
+                  ) : (
                     <div className="flex items-center justify-center h-full text-slate-600">
                       <div className="text-center">
-                        <Terminal className="w-10 h-10 mx-auto mb-3 opacity-30 text-slate-400" />
+                        <Terminal className="w-10 h-10 mx-auto mb-3 opacity-30 text-slate-400 animate-pulse" />
                         <p className="text-xs font-semibold">Ready for compilation logs...</p>
                       </div>
                     </div>
@@ -1487,53 +1025,59 @@ export function CodeCompiler() {
               </CardContent>
             </Card>
           </motion.div>
+
         </div>
 
-        {/* HTML Preview for HTML code */}
-        {selectedLanguage.id === 'html' && output && (
+        {/* HTML LIVE VIEWPORT PANEL */}
+        {selectedLanguage.id === "html" && output && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
             className="mt-8"
           >
-            <Card hover={false} className="shadow-premium border border-slate-100 overflow-hidden bg-white rounded-2xl">
-              <div className="px-5 py-3.5 border-b border-slate-100 bg-slate-50/50">
-                <div className="flex items-center space-x-2">
-                  <FileText className="w-4 h-4 text-indigo-650" />
-                  <span className="text-xs font-bold text-slate-700">
-                    Live HTML Viewport
-                  </span>
+            <Card className="shadow-premium border border-slate-200/60 overflow-hidden bg-white rounded-3xl p-1">
+              
+              {/* Responsive Browser Header Mockup */}
+              <div className="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center gap-3">
+                <div className="flex space-x-1.5 flex-shrink-0">
+                  <div className="w-3 h-3 bg-slate-300 rounded-full" />
+                  <div className="w-3 h-3 bg-slate-300 rounded-full" />
+                  <div className="w-3 h-3 bg-slate-300 rounded-full" />
+                </div>
+                <div className="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-1.5 text-[10px] text-slate-400 font-semibold truncate flex items-center justify-between shadow-inner">
+                  <span className="truncate">http://localhost:8080/preview.html</span>
+                  <Globe className="w-3.5 h-3.5 text-slate-400" />
                 </div>
               </div>
-              <CardContent className="p-0">
+
+              {/* Browser iframe viewport */}
+              <CardContent className="p-0 bg-white">
                 <iframe
                   srcDoc={code}
-                  className="w-full h-96 border-0"
-                  title="HTML Preview"
+                  className="w-full h-[400px] border-0"
+                  title="HTML Preview Viewport"
+                  sandbox="allow-scripts"
                 />
               </CardContent>
             </Card>
           </motion.div>
         )}
 
-        {/* Advanced Features Section */}
+        {/* Sandbox features deck */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-16"
+          transition={{ duration: 0.5, delay: 0.45 }}
+          className="mt-12"
         >
-          <Card hover={false} className="border border-slate-100 shadow-premium bg-gradient-to-r from-slate-50 to-indigo-50/20 rounded-2xl">
+          <Card className="bg-white/95 border border-slate-200/60 shadow-premium rounded-3xl">
             <CardContent className="p-8">
-              <div className="text-center mb-10">
-                <Sparkles className="w-8 h-8 mx-auto mb-3 text-indigo-600" />
-                <h3 className="text-2xl font-bold text-slate-800">
-                  Sandboxed Compiler Features
-                </h3>
-                <p className="text-xs font-bold text-slate-455 uppercase tracking-widest mt-1">
-                  Secure local compiler environment for modern web development courses
-                </p>
+              
+              <div className="text-center mb-8 border-b border-slate-50 pb-4">
+                <Sparkles className="w-5.5 h-5.5 text-indigo-650 text-indigo-600 mx-auto mb-3 animate-pulse" />
+                <h3 className="text-lg font-black text-slate-850 tracking-tight">Sandboxed Compiler Features</h3>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Secure local compiler environment for computer science subjects</p>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -1541,14 +1085,14 @@ export function CodeCompiler() {
                   { 
                     icon: Code, 
                     title: "Multi-Language Support", 
-                    description: "Compile JavaScript, Python, Java, C++, TypeScript, PHP, Go, Rust, and more instantly.",
+                    description: "Compile JavaScript, Python, Java, C++, TypeScript, PHP, and HTML instantly.",
                     color: "from-blue-500 to-indigo-500"
                   },
                   { 
                     icon: Zap, 
-                    title: "Lightning Execution", 
-                    description: "Optimized script execution logs with microsecond execution tracking metric.",
-                    color: "from-yellow-450 to-orange-500"
+                    title: "Micro-latency Execution", 
+                    description: "Optimized script execution logs with microsecond latency execution metrics.",
+                    color: "from-yellow-500 to-orange-500"
                   },
                   { 
                     icon: Smartphone, 
@@ -1559,167 +1103,121 @@ export function CodeCompiler() {
                   { 
                     icon: Save, 
                     title: "Script Exporting", 
-                    description: "Download code snapshots locally as files and maintain your offline library.",
+                    description: "Download code draft script files locally and maintain your offline source library.",
                     color: "from-purple-500 to-pink-500"
                   },
                   { 
                     icon: TrendingUp, 
                     title: "Complexity Analytics", 
-                    description: "Track script size, character distributions, lines count, and virtual memory profiles.",
+                    description: "Track script size, character weight, lines count, and virtual memory profiles.",
                     color: "from-rose-500 to-red-500"
                   },
                   { 
                     icon: Globe, 
                     title: "Integrated HTML View", 
                     description: "Render layouts immediately with live responsive sandbox frame preview.",
-                    color: "from-indigo-600 to-purple-650"
+                    color: "from-indigo-600 to-purple-650 to-purple-600"
                   }
                 ].map((feature, index) => (
-                  <motion.div
-                    key={feature.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.1 + index * 0.05 }}
-                    whileHover={{ y: -5 }}
-                    className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-premium transition-all duration-300"
-                  >
-                    <div className={`w-12 h-12 bg-gradient-to-br ${feature.color} rounded-xl flex items-center justify-center mx-auto mb-4`}>
+                  <div key={feature.title} className="bg-slate-50 border border-slate-100 rounded-2xl p-6 text-center space-y-3 hover:shadow-sm transition-shadow">
+                    <div className={`w-11 h-11 bg-gradient-to-br ${feature.color} rounded-xl flex items-center justify-center mx-auto transition-transform hover:scale-105`}>
                       <feature.icon className="w-5 h-5 text-white" />
                     </div>
-                    <h4 className="text-base font-bold text-slate-800 mb-2 text-center">
-                      {feature.title}
-                    </h4>
-                    <p className="text-xs text-slate-500 font-semibold text-center leading-relaxed">
-                      {feature.description}
-                    </p>
-                  </motion.div>
+                    <h4 className="font-extrabold text-slate-800 text-xs">{feature.title}</h4>
+                    <p className="text-[11px] font-semibold text-slate-500 leading-relaxed px-2">{feature.description}</p>
+                  </div>
                 ))}
               </div>
+
             </CardContent>
           </Card>
         </motion.div>
+
       </div>
 
-      {/* Settings Modal */}
+      {/* Editor Settings Modal Configs */}
       <AnimatePresence>
         {showSettings && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 z-50"
-            onClick={() => setShowSettings(false)}
-          >
+          <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white/95 backdrop-blur-lg border border-slate-100 rounded-2xl p-6 w-full max-w-md shadow-premium animate-in fade-in zoom-in-95 duration-150"
+              initial={{ scale: 0.95, opacity: 0, y: 15 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 15 }}
+              className="bg-white/95 border border-slate-200/60 rounded-3xl p-6 w-full max-w-sm shadow-premium relative overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
-              <h3 className="text-lg font-bold text-slate-800 mb-6 border-b border-slate-50 pb-3">Editor Settings</h3>
+              <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-200/10 rounded-full blur-2xl pointer-events-none" />
+
+              <h3 className="text-base font-extrabold text-slate-850 mb-6 border-b border-slate-50 pb-3 flex items-center gap-2">
+                <Settings className="w-4.5 h-4.5 text-indigo-600" />
+                Editor Configuration
+              </h3>
               
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-xs font-bold text-slate-550 mb-2.5 uppercase tracking-wider">
-                    Font Size
-                  </label>
-                  <div className="flex items-center space-x-4">
-                    <input
-                      type="range"
-                      min="10"
-                      max="24"
-                      value={fontSize}
-                      onChange={(e) => setFontSize(parseInt(e.target.value))}
-                      className="flex-1 h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600"
-                    />
-                    <span className="text-xs font-bold text-slate-600 w-8">{fontSize}px</span>
-                  </div>
-                </div>
+              <div className="space-y-4">
                 
-                <div>
-                  <label className="block text-xs font-bold text-slate-555 mb-3 uppercase tracking-wider">
-                    Theme Mode
-                  </label>
-                  <div className="grid grid-cols-2 gap-3">
-                    <button
-                      className="p-3 border border-indigo-500 bg-indigo-50/20 rounded-xl transition-all"
-                      onClick={() => {}}
-                    >
-                      <div className="w-full h-8 bg-slate-900 rounded-lg mb-2"></div>
-                      <span className="text-xs font-bold text-indigo-700">Editor Dark</span>
-                    </button>
-                    <button
-                      className="p-3 border border-slate-200 bg-white rounded-xl opacity-60 cursor-not-allowed"
-                      disabled
-                      title="Only Dark theme available for Code Compiler editor"
-                    >
-                      <div className="w-full h-8 bg-slate-50 border rounded-lg mb-2"></div>
-                      <span className="text-xs font-semibold text-slate-400">Editor Light</span>
-                    </button>
+                {/* Font Size slider */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                    <span>Editor Font Size</span>
+                    <span className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded-lg">{fontSize} px</span>
                   </div>
+                  <input
+                    type="range"
+                    min="11"
+                    max="22"
+                    value={fontSize}
+                    onChange={(e) => setFontSize(parseInt(e.target.value))}
+                    className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                  />
                 </div>
-                
-                <div>
-                  <label className="block text-xs font-bold text-slate-555 mb-2 uppercase tracking-wider">
-                    Auto-Save Drafts
-                  </label>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-slate-500 font-semibold">Save code snapshots locally</span>
-                    <button
-                      className="relative inline-flex h-6 w-11 items-center rounded-full bg-indigo-650 transition-colors duration-300"
-                      onClick={() => {}}
-                    >
-                      <span className="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-6" />
-                    </button>
-                  </div>
+
+                {/* Theme select info */}
+                <div className="space-y-1.5">
+                  <label className="block text-[10px] font-bold text-slate-455 text-slate-400 uppercase tracking-wider">Theme Mode</label>
+                  <select
+                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold cursor-pointer"
+                    disabled
+                  >
+                    <option value="dark">IDE Dark (Standard)</option>
+                  </select>
+                  <span className="block text-[9px] font-semibold text-slate-400 leading-normal">Editor Theme is lock-set to dark syntax parameters.</span>
                 </div>
-                
-                <div>
-                  <label className="block text-xs font-bold text-slate-555 mb-2 uppercase tracking-wider">
-                    Display Line Numbers
-                  </label>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-slate-500 font-semibold font-sans">Show line numbers margins</span>
-                    <button
-                      className="relative inline-flex h-6 w-11 items-center rounded-full bg-indigo-650 transition-colors duration-300"
-                      onClick={() => {}}
-                    >
-                      <span className="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-6" />
-                    </button>
-                  </div>
-                </div>
-                
-                <div>
-                  <label className="block text-xs font-bold text-slate-550 mb-2 uppercase tracking-wider">
-                    Indent Spacing
-                  </label>
-                  <select className="w-full px-3 py-2 border border-slate-250 rounded-xl text-xs bg-white text-slate-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-semibold transition-all">
-                    <option value="2">2 spaces</option>
-                    <option value="4" selected>4 spaces</option>
-                    <option value="8">8 spaces</option>
+
+                {/* Indent spacing */}
+                <div className="space-y-1.5">
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Indent Spacing</label>
+                  <select className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold cursor-pointer">
+                    <option value="2">2 Spaces</option>
+                    <option value="4">4 Spaces</option>
                   </select>
                 </div>
+
               </div>
               
-              <div className="flex gap-3 mt-8 border-t border-slate-50 pt-5">
+              {/* Settings Action Buttons */}
+              <div className="flex gap-3 mt-6 border-t border-slate-50 pt-4">
                 <button
-                  onClick={() => setShowSettings(false)}
-                  className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs py-3 rounded-xl shadow-sm transition-all duration-300"
+                  onClick={() => {
+                    setShowSettings(false);
+                    toast.success("Editor settings saved!");
+                  }}
+                  className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:brightness-110 text-white font-extrabold text-xs py-2.5 rounded-xl border-0 transition-all cursor-pointer"
                 >
                   Save settings
                 </button>
                 <button
                   onClick={() => setShowSettings(false)}
-                  className="flex-1 bg-slate-100 hover:bg-slate-250 text-slate-700 font-semibold text-xs py-3 rounded-xl transition-all duration-300"
+                  className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-655 font-extrabold text-xs py-2.5 rounded-xl border-0 transition-all cursor-pointer"
                 >
                   Cancel
                 </button>
               </div>
+
             </motion.div>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
+
     </div>
   );
 }

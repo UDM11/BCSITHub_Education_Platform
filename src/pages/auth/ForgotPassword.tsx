@@ -23,6 +23,7 @@ import { Button } from "../../components/ui/Button";
 import { Card, CardContent } from "../../components/ui/Card";
 import Backendless from "backendless";
 import { toast } from "react-hot-toast";
+import { useSEO } from "../../hooks/useSEO";
 
 const schema = yup.object({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -54,6 +55,12 @@ const testimonials = [
 ];
 
 export function ForgotPassword() {
+  useSEO({
+    title: "Recover Forgotten Password",
+    description: "Submit your account email to request a reset link and recover password credentials.",
+    keywords: "forgot password, reset password bcsithub"
+  });
+
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");

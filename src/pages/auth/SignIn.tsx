@@ -24,6 +24,7 @@ import { Button } from "../../components/ui/Button";
 import { Card, CardContent } from "../../components/ui/Card";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-hot-toast";
+import { useSEO } from "../../hooks/useSEO";
 
 const schema = yup.object({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -62,6 +63,12 @@ const testimonials = [
 ];
 
 export function SignIn() {
+  useSEO({
+    title: "Sign In to Your Account",
+    description: "Access your BCSITHub dashboard to download papers, upload study materials, and track your achievements.",
+    keywords: "bcsit login, bcsithub signin, pu student login"
+  });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);

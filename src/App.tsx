@@ -45,6 +45,9 @@ import TeacherDashboard from './dashboard/teacher/TeacherDashboard';
 // Email Verification Page
 import OTPVerification from './pages/auth/EmailVerification';
 
+// Not Found Page
+import { NotFound } from './pages/NotFound';
+
 function AppContent() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin-dashboard');
@@ -129,6 +132,7 @@ function AppContent() {
               </ProtectedRoute>
             }
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
 

@@ -38,6 +38,7 @@ import { useAuth } from "../../context/AuthContext";
 import AuthRequiredModal from "../../components/common/AuthRequiredModal";
 import { chapterData } from "../../data/chapterData";
 import { toast } from "react-hot-toast";
+import { useSEO } from "../../hooks/useSEO";
 
 export default function ChapterNotes() {
   const { semesterId, subjectId, chapterId } = useParams();
@@ -290,9 +291,11 @@ export default function ChapterNotes() {
     return () => window.removeEventListener("scroll", handleScrollSpy);
   }, [headings, htmlContent]);
 
-  useEffect(() => {
-    if (chapterId) document.title = `${chapterId.toUpperCase()} Notes | BCSITHub`;
-  }, [chapterId]);
+  useSEO({
+    title: chapterId ? `${chapterId.toUpperCase()} Lecture Notes` : "Chapter Notes",
+    description: `Read the lecture notes, study references, and key guidelines for ${chapterId} under subject ${subjectId} of Pokhara University BCSIT.`,
+    keywords: `${chapterId} notes, ${subjectId} lecture notes, pu computer science`
+  });
 
   const downloadAsPDF = () => {
     if (!isAuthenticated) {

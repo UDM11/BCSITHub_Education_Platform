@@ -13,6 +13,7 @@ import {
   Clock,
   FileText,
 } from 'lucide-react';
+import { useSEO } from '../../hooks/useSEO';
 
 const semesters = [
   { value: '1', label: '1st Semester', subjects: 5, notes: 41, available: true, color: 'from-blue-600 to-cyan-600' },
@@ -118,6 +119,12 @@ const stats = [
 ];
 
 export function Notes() {
+  useSEO({
+    title: "Pokhara University BCSIT Notes & Lecture Reference Materials",
+    description: "Browse academic lecture notes, subject syllabus details, and solved past questions for all Pokhara University BCSIT semesters.",
+    keywords: "bcsit notes, lecture notes, study materials, pu computer science"
+  });
+
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [activeFilter, setActiveFilter] = useState<'all' | 'available' | 'coming-soon'>('all');

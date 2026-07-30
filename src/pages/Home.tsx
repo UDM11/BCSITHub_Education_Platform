@@ -41,6 +41,7 @@ import { useProfile } from '../context/ProfileContext';
 import { useInstallModal } from '@/context/InstallModalContext';
 import { collegesData } from '../data/collegesData';
 import { semesterData } from '../data/syllabusData';
+import { useSEO } from '../hooks/useSEO';
 
 // Stepped how-it-works steps
 const howItWorksSteps = [
@@ -162,6 +163,12 @@ const testimonials = [
 ];
 
 export function Home() {
+  useSEO({
+    title: "Master BCSIT Courses & Exams with Confidence",
+    description: "Welcome to BCSITHub, the complete student portal for Pokhara University BCSIT studies. Access semester subject notes, syllabus indices, solved past exam papers, and study toolkits.",
+    keywords: "bcsit course, bcsit notes, bcsit syllabus, bcsithub, pokhara university, pu notes"
+  });
+
   const [activeSemester, setActiveSemester] = useState('1'); // Semester Explorer
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [email, setEmail] = useState('');

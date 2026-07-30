@@ -18,8 +18,15 @@ import {
 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { College, collegesData } from '../data/collegesData';
+import { useSEO } from '../hooks/useSEO';
 
 export function Colleges() {
+  useSEO({
+    title: "Pokhara University Affiliated BCSIT Colleges Directory",
+    description: "Search and compare all Pokhara University affiliated colleges offering the BCSIT course, including contact info, address details, and student intakes.",
+    keywords: "bcsit colleges, pokhara university colleges, bcsit admission, pu bcsit"
+  });
+
   const [searchTerm, setSearchTerm] = useState('');
   const [colleges] = useState<College[]>(collegesData);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');

@@ -28,6 +28,7 @@ import { Button } from "../../components/ui/Button";
 import { Card, CardContent } from "../../components/ui/Card";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-hot-toast";
+import { useSEO } from "../../hooks/useSEO";
 
 const schema = yup.object({
   name: yup.string().required("Name is required"),
@@ -121,6 +122,12 @@ const testimonials = [
 ];
 
 export function SignUp() {
+  useSEO({
+    title: "Create Your Account",
+    description: "Sign up to BCSITHub to unlock custom study trackers, download past papers, and access computing lecture notes.",
+    keywords: "bcsit signup, register bcsithub, pu student registration"
+  });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);

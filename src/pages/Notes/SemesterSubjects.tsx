@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { semestersData } from '../../data/notesData';
+import { useSEO } from '../../hooks/useSEO';
 import { motion } from 'framer-motion';
 import {
   BookOpen,
@@ -40,6 +41,12 @@ export default function SemesterSubjects() {
 
     return { ...foundSemester, subjects: enhancedSubjects };
   }, [semesterId]);
+
+  useSEO({
+    title: semester ? `${semester.name} Course Notes` : "Semester Subjects",
+    description: semester ? `Access and download course notes, class lecture materials, and syllabus details for subjects in ${semester.name} of PU BCSIT.` : "Browse PU BCSIT Semester Subjects.",
+    keywords: semester ? `${semester.name} notes, bcsit semester ${semesterId}` : "bcsit semester subjects"
+  });
 
   const getCourseCategory = (code?: string) => {
     if (!code) return { label: 'Elective', bg: 'bg-teal-50 text-teal-600 border-teal-100/50' };
