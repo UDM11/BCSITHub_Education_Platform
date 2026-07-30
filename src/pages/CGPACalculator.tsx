@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calculator, Download, BookOpen, Award, TrendingUp, GraduationCap, FileText, BarChart3, Target, Sparkles, ChevronDown, ChevronUp, ArrowLeft } from 'lucide-react';
+import { 
+  Calculator, Download, BookOpen, Award, TrendingUp, GraduationCap, 
+  FileText, BarChart3, Target, Sparkles, ChevronDown, ChevronUp, ArrowLeft,
+  Percent, Sliders
+} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Card, CardContent } from '../components/ui/Card';
@@ -8,8 +12,7 @@ import { semesterData, specializationData } from '../data/syllabusData';
 import { useAuth } from '../context/AuthContext';
 import { useProfile } from '../context/ProfileContext';
 import jsPDF from 'jspdf';
-
-
+import autoTable from 'jspdf-autotable';
 
 interface SubjectGrade {
   courseCode: string;
@@ -52,9 +55,46 @@ const getSpecializationOptions = () => {
   }));
 };
 
+// Grading mapping system
+const gradePointsMap: Record<string, number> = {
+  'A': 4.0,
+  'A-': 3.7,
+  'B+': 3.3,
+  'B': 3.0,
+  'B-': 2.7,
+  'C+': 2.3,
+  'C': 2.0,
+  'C-': 1.7,
+  'D+': 1.3,
+  'D': 1.0,
+  'F': 0.0
+};
+
+const defaultMarksForGrade: Record<string, number> = {
+  'A': 95,
+  'A-': 87,
+  'B+': 82,
+  'B': 77,
+  'B-': 72,
+  'C+': 67,
+  'C': 62,
+  'C-': 57,
+  'D+': 52,
+  'D': 47,
+  'F': 30
+};
+
 export function CGPACalculator() {
   const { user } = useAuth();
   const { profile } = useProfile();
+  
+  // Tab states
+  const [activeTab, setActiveTab] = useState<'calculator' | 'analytics' | 'grading'>('calculator');
+  
+  // Mode states
+  const [calculationMode, setCalculationMode] = useState<'marks' | 'grades'>('marks');
+  
+  // Selection states
   const [selectedSemesters, setSelectedSemesters] = useState<number[]>([]);
   const [semesterResults, setSemesterResults] = useState<SemesterResult[]>([]);
   const [cgpa, setCgpa] = useState<number | null>(null);
@@ -62,8 +102,21 @@ export function CGPACalculator() {
   const [showResults, setShowResults] = useState(false);
   const [expandedSemester, setExpandedSemester] = useState<number | null>(null);
   const [concentrationChoices, setConcentrationChoices] = useState<{ [key: string]: string }>({});
+  
+  // User info states
   const [guestName, setGuestName] = useState('');
   const [guestCollege, setGuestCollege] = useState('');
+  
+  // Goal planner states
+  const [targetCGPA, setTargetCGPA] = useState<number>(3.0);
+  const [targetAnalysis, setTargetAnalysis] = useState<{
+    status: 'impossible' | 'achieved' | 'possible';
+    requiredSGPA?: number;
+    remainingCredits?: number;
+    completedCredits?: number;
+    earnedPoints?: number;
+    totalCreditsPossible?: number;
+  } | null>(null);
 
   const getGradeFromMarks = (marks: number): { grade: string; gradePoints: number } => {
     if (marks >= 90) return { grade: 'A', gradePoints: 4.0 };
@@ -89,7 +142,7 @@ export function CGPACalculator() {
         ? concentrationChoices[`${semesterId}-${subject.courseName}`] || subject.courseName
         : subject.courseName,
       credits: subject.credits,
-      marks: 0,
+      marks: calculationMode === 'marks' ? 0 : defaultMarksForGrade['F'],
       grade: 'F',
       gradePoints: 0.0
     }));
@@ -99,6 +152,9 @@ export function CGPACalculator() {
     if (selectedSemesters.includes(semesterId)) {
       setSelectedSemesters(selectedSemesters.filter(id => id !== semesterId));
       setSemesterResults(semesterResults.filter(result => result.semesterId !== semesterId));
+      if (expandedSemester === semesterId) {
+        setExpandedSemester(null);
+      }
     } else {
       setSelectedSemesters([...selectedSemesters, semesterId]);
       const semester = semestersData.find(s => s.id === semesterId);
@@ -111,6 +167,7 @@ export function CGPACalculator() {
           totalCredits: semester.subjects.reduce((sum, s) => sum + s.credits, 0)
         };
         setSemesterResults([...semesterResults, newResult]);
+        setExpandedSemester(semesterId); // Expand the newly added semester automatically
       }
     }
   };
@@ -125,6 +182,43 @@ export function CGPACalculator() {
             ? { ...subject, marks, grade, gradePoints: points }
             : subject
         );
+        return { ...result, subjects: updatedSubjects };
+      }
+      return result;
+    }));
+  };
+
+  const updateSubjectGrade = (semesterId: number, subjectIndex: number, grade: string) => {
+    const points = gradePointsMap[grade] || 0.0;
+    const defaultMarks = defaultMarksForGrade[grade] || 0;
+    
+    setSemesterResults(semesterResults.map(result => {
+      if (result.semesterId === semesterId) {
+        const updatedSubjects = result.subjects.map((subject, index) => 
+          index === subjectIndex 
+            ? { ...subject, grade, gradePoints: points, marks: defaultMarks }
+            : subject
+        );
+        return { ...result, subjects: updatedSubjects };
+      }
+      return result;
+    }));
+  };
+
+  // Quick fill grades for a semester
+  const handleBulkFillGrades = (semesterId: number, grade: string) => {
+    if (!grade) return;
+    const points = gradePointsMap[grade] || 0.0;
+    const defaultMarks = defaultMarksForGrade[grade] || 0;
+    
+    setSemesterResults(semesterResults.map(result => {
+      if (result.semesterId === semesterId) {
+        const updatedSubjects = result.subjects.map(subject => ({
+          ...subject,
+          grade,
+          gradePoints: points,
+          marks: defaultMarks
+        }));
         return { ...result, subjects: updatedSubjects };
       }
       return result;
@@ -174,14 +268,78 @@ export function CGPACalculator() {
     setCgpa(Math.round(calculatedCGPA * 100) / 100);
     setTotalCredits(totalCreditHours);
     setShowResults(true);
+    
+    // Switch to analytics tab to show the gorgeous circular gauge and target planner
+    setActiveTab('analytics');
   };
+
+  // Goal Planner Logic
+  useEffect(() => {
+    if (cgpa === null || semesterResults.length === 0) {
+      setTargetAnalysis(null);
+      return;
+    }
+    
+    // Total credits in standard Pokhara University BCSIT program
+    const totalProgramCredits = 126;
+    const completedCreditsCount = semesterResults.reduce((sum, res) => sum + res.totalCredits, 0);
+    const remainingCreditsCount = totalProgramCredits - completedCreditsCount;
+    
+    let earnedGradePoints = 0;
+    semesterResults.forEach(res => {
+      res.subjects.forEach(sub => {
+        earnedGradePoints += sub.gradePoints * sub.credits;
+      });
+    });
+    
+    if (remainingCreditsCount <= 0) {
+      if (cgpa >= targetCGPA) {
+        setTargetAnalysis({ status: 'achieved', completedCredits: completedCreditsCount });
+      } else {
+        setTargetAnalysis({ status: 'impossible', completedCredits: completedCreditsCount });
+      }
+      return;
+    }
+    
+    const requiredTotalPoints = targetCGPA * totalProgramCredits;
+    const neededPoints = requiredTotalPoints - earnedGradePoints;
+    const requiredAvgSGPA = neededPoints / remainingCreditsCount;
+    
+    if (requiredAvgSGPA > 4.001) {
+      setTargetAnalysis({
+        status: 'impossible',
+        requiredSGPA: requiredAvgSGPA,
+        remainingCredits: remainingCreditsCount,
+        completedCredits: completedCreditsCount,
+        earnedPoints: earnedGradePoints,
+        totalCreditsPossible: totalProgramCredits
+      });
+    } else if (requiredAvgSGPA <= 0.0) {
+      setTargetAnalysis({
+        status: 'achieved',
+        requiredSGPA: 0.0,
+        remainingCredits: remainingCreditsCount,
+        completedCredits: completedCreditsCount,
+        earnedPoints: earnedGradePoints,
+        totalCreditsPossible: totalProgramCredits
+      });
+    } else {
+      setTargetAnalysis({
+        status: 'possible',
+        requiredSGPA: Math.round(requiredAvgSGPA * 100) / 100,
+        remainingCredits: remainingCreditsCount,
+        completedCredits: completedCreditsCount,
+        earnedPoints: earnedGradePoints,
+        totalCreditsPossible: totalProgramCredits
+      });
+    }
+  }, [cgpa, targetCGPA, semesterResults]);
 
   const downloadResults = () => {
     try {
       generatePDFReport();
     } catch (error) {
       console.error('Error generating PDF:', error);
-      // Fallback to text download
       downloadTextReport();
     }
   };
@@ -193,7 +351,7 @@ export function CGPACalculator() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `BCSIT_Report_${user?.name?.replace(/\s+/g, '_') || 'Student'}_${new Date().toISOString().split('T')[0]}.txt`;
+      a.download = `BCSIT_Report_${user?.name?.replace(/\s+/g, '_') || guestName.replace(/\s+/g, '_') || 'Student'}_${new Date().toISOString().split('T')[0]}.txt`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -209,119 +367,149 @@ export function CGPACalculator() {
     
     try {
       const doc = new jsPDF();
-      let yPos = 20;
-
-      // Header
-      doc.setFontSize(18);
-      doc.text('BCSIT ACADEMIC TRANSCRIPT', 105, yPos, { align: 'center' });
-      yPos += 10;
-      doc.setFontSize(12);
-      doc.text('Pokhara University', 105, yPos, { align: 'center' });
-      yPos += 20;
-
-      // Student Information
-      doc.setFontSize(12);
-      doc.text('Student Information:', 20, yPos);
-      yPos += 10;
+      
+      // Top header band (Indigo)
+      doc.setFillColor(79, 70, 229);
+      doc.rect(0, 0, 210, 40, 'F');
+      
+      // Header Text
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(22);
+      doc.text('BCSIT ACADEMIC TRANSCRIPT', 15, 22);
+      
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.text('POKHARA UNIVERSITY CURRICULUM • GRADE EVALUATION DOCUMENT', 15, 30);
+      
+      // Metadata Panel
+      doc.setTextColor(51, 65, 85);
       doc.setFontSize(10);
-      doc.text(`Name: ${user?.name || guestName || 'N/A'}`, 20, yPos);
-      yPos += 8;
-      doc.text(`College: ${profile?.college || guestCollege || 'N/A'}`, 20, yPos);
-      yPos += 8;
-      doc.text(`Program: Bachelor of Computer Science and Information Technology (BCSIT)`, 20, yPos);
-      yPos += 8;
-      doc.text(`Overall CGPA: ${cgpa?.toFixed(2) || '0.00'}`, 20, yPos);
-      yPos += 8;
-      doc.text(`Total Credits: ${totalCredits}`, 20, yPos);
-      yPos += 20;
-
-      // Semester Results
-      semesterResults.forEach((result) => {
-        if (yPos > 250) {
-          doc.addPage();
-          yPos = 20;
-        }
-
-        doc.setFontSize(14);
-        doc.text(`${result.semesterName} - SGPA: ${result.sgpa.toFixed(2)}`, 20, yPos);
-        yPos += 15;
-
-        // Table headers
-        doc.setFontSize(8);
-        doc.text('S.N.', 20, yPos);
-        doc.text('Code', 35, yPos);
-        doc.text('Subject Name', 60, yPos);
-        doc.text('Credits', 130, yPos);
-        doc.text('Marks', 150, yPos);
-        doc.text('Grade', 170, yPos);
-        doc.text('Points', 185, yPos);
-        yPos += 8;
-
-        // Draw line
-        doc.line(20, yPos - 2, 200, yPos - 2);
-
-        // Subject data
-        result.subjects.forEach((subject, idx) => {
-          if (yPos > 270) {
-            doc.addPage();
-            yPos = 20;
-          }
-          
-          doc.text((idx + 1).toString(), 20, yPos);
-          doc.text(subject.courseCode || 'N/A', 35, yPos);
-          doc.text(subject.courseName.substring(0, 25), 60, yPos);
-          doc.text(subject.credits.toString(), 130, yPos);
-          doc.text(subject.marks.toString(), 150, yPos);
-          doc.text(subject.grade, 170, yPos);
-          doc.text(subject.gradePoints.toFixed(1), 185, yPos);
-          yPos += 6;
-        });
-
-        yPos += 10;
-      });
-
-      // Footer
+      doc.setFont('helvetica', 'bold');
+      doc.text('STUDENT INFORMATION', 15, 52);
+      doc.line(15, 54, 195, 54);
+      
+      doc.setFont('helvetica', 'normal');
+      doc.text('Student Name:', 15, 62);
+      doc.setFont('helvetica', 'bold');
+      doc.text(user?.name || guestName || 'N/A', 45, 62);
+      
+      doc.setFont('helvetica', 'normal');
+      doc.text('Affiliated College:', 15, 69);
+      doc.setFont('helvetica', 'bold');
+      doc.text(profile?.college || guestCollege || 'N/A', 45, 69);
+      
+      doc.setFont('helvetica', 'normal');
+      doc.text('Program:', 15, 76);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Bachelor of Computer Science & Information Technology (BCSIT)', 45, 76);
+      
+      // Summary cards in PDF
+      doc.setFillColor(243, 244, 246);
+      doc.roundedRect(145, 56, 50, 24, 3, 3, 'F');
+      
+      doc.setTextColor(79, 70, 229);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(18);
+      doc.text(cgpa.toFixed(2), 150, 68);
+      
       doc.setFontSize(8);
-      doc.text('Generated by BCSITHub CGPA Calculator', 105, 280, { align: 'center' });
-
-      // Save PDF
-      const fileName = `BCSIT_Report_${new Date().toISOString().split('T')[0]}.pdf`;
+      doc.setTextColor(100, 116, 139);
+      doc.text('OVERALL CGPA', 150, 74);
+      
+      // Total Credits Summary Card
+      doc.setFillColor(243, 244, 246);
+      doc.roundedRect(145, 84, 50, 24, 3, 3, 'F');
+      
+      doc.setTextColor(79, 70, 229);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(18);
+      doc.text(`${totalCredits} Credits`, 150, 96);
+      
+      doc.setFontSize(8);
+      doc.setTextColor(100, 116, 139);
+      doc.text('COMPLETED CREDIT HOURS', 150, 102);
+      
+      let currentY = 92;
+      
+      // Print semester results
+      semesterResults.forEach((result) => {
+        if (currentY > 230) {
+          doc.addPage();
+          currentY = 20;
+        } else {
+          currentY += 10;
+        }
+        
+        doc.setFontSize(11);
+        doc.setTextColor(51, 65, 85);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`${result.semesterName.toUpperCase()} — SGPA: ${result.sgpa.toFixed(2)}`, 15, currentY);
+        currentY += 3;
+        
+        const tableData = result.subjects.map((sub, index) => [
+          (index + 1).toString(),
+          sub.courseCode || 'N/A',
+          sub.courseName,
+          sub.credits.toString(),
+          calculationMode === 'marks' ? sub.marks.toString() : '-',
+          sub.grade,
+          sub.gradePoints.toFixed(1)
+        ]);
+        
+        autoTable(doc, {
+          startY: currentY,
+          head: [['S.N.', 'Course Code', 'Course Title', 'Credits', 'Marks', 'Grade', 'Points']],
+          body: tableData,
+          theme: 'striped',
+          headStyles: { fillColor: [79, 70, 229], fontSize: 8 },
+          bodyStyles: { fontSize: 8 },
+          columnStyles: {
+            0: { cellWidth: 10 },
+            1: { cellWidth: 25 },
+            2: { cellWidth: 75 },
+            3: { cellWidth: 15 },
+            4: { cellWidth: 15 },
+            5: { cellWidth: 15 },
+            6: { cellWidth: 15 },
+          },
+          margin: { left: 15, right: 15 },
+          didDrawPage: (data) => {
+            currentY = data.cursor ? data.cursor.y : currentY;
+          }
+        });
+      });
+      
+      // Footer text for pages
+      const pageCount = doc.internal.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(8);
+        doc.setTextColor(148, 163, 184);
+        doc.text(`Page ${i} of ${pageCount}`, 105, 287, { align: 'center' });
+        doc.text('BCSITHub Academic Evaluation Utility', 15, 287);
+        doc.text('Generative Student Document', 160, 287);
+      }
+      
+      const fileName = `BCSIT_Transcript_${user?.name?.replace(/\s+/g, '_') || guestName.replace(/\s+/g, '_') || 'Student'}.pdf`;
       doc.save(fileName);
     } catch (error) {
-      console.error('PDF Error:', error);
-      alert('PDF generation failed. Please try again.');
+      console.error('PDF generation error:', error);
+      alert('Could not render professional PDF report. Downloading text report instead.');
+      downloadTextReport();
     }
-  };
-
-  const getGradeFromGPA = (gpa: number): string => {
-    if (gpa >= 3.7) return 'A';
-    if (gpa >= 3.3) return 'B+';
-    if (gpa >= 3.0) return 'B';
-    if (gpa >= 2.7) return 'B-';
-    if (gpa >= 2.3) return 'C+';
-    if (gpa >= 2.0) return 'C';
-    if (gpa >= 1.7) return 'C-';
-    if (gpa >= 1.3) return 'D+';
-    if (gpa >= 1.0) return 'D';
-    return 'F';
-  };
-
-  const getRemarks = (gradePoints: number): string => {
-    if (gradePoints >= 3.7) return 'Excellent';
-    if (gradePoints >= 3.0) return 'Good';
-    if (gradePoints >= 2.0) return 'Satisfactory';
-    if (gradePoints >= 1.0) return 'Pass';
-    return 'Fail';
   };
 
   const generateResultsContent = () => {
     if (!cgpa || semesterResults.length === 0) {
-      alert('Please calculate CGPA first before downloading the report.');
+      alert('Please calculate CGPA first.');
       return '';
     }
     
     let content = `BCSIT CGPA CALCULATION REPORT\n`;
     content += `Generated on: ${new Date().toLocaleDateString()}\n`;
+    content += `Student Name: ${user?.name || guestName || 'N/A'}\n`;
+    content += `College: ${profile?.college || guestCollege || 'N/A'}\n`;
     content += `===========================================\n\n`;
     
     semesterResults.forEach(result => {
@@ -338,620 +526,883 @@ export function CGPACalculator() {
     content += `===========================================\n`;
     content += `OVERALL CGPA: ${cgpa}\n`;
     content += `Total Credits: ${totalCredits}\n`;
-    content += `Total Subjects: ${semesterResults.reduce((sum, result) => sum + result.subjects.length, 0)}\n`;
     content += `Performance: ${getPerformanceText(cgpa || 0)}\n`;
     
     return content;
   };
 
   const getGradeColor = (gpa: number) => {
-    if (gpa >= 3.7) return 'text-emerald-600';
-    if (gpa >= 3.0) return 'text-blue-600';
-    if (gpa >= 2.0) return 'text-amber-600';
-    return 'text-red-600';
+    if (gpa >= 3.7) return 'text-emerald-500';
+    if (gpa >= 3.0) return 'text-indigo-500';
+    if (gpa >= 2.0) return 'text-amber-500';
+    return 'text-red-500';
   };
 
   const getPerformanceText = (gpa: number) => {
-    if (gpa >= 3.7) return 'Excellent Performance';
-    if (gpa >= 3.0) return 'Good Performance';
-    if (gpa >= 2.0) return 'Satisfactory Performance';
-    return 'Needs Improvement';
+    if (gpa >= 3.7) return 'Excellent (First Division with Distinction)';
+    if (gpa >= 3.0) return 'Good (First Division)';
+    if (gpa >= 2.0) return 'Satisfactory (Second Division)';
+    return 'Needs Improvement (Fail)';
   };
 
   const getGradientColor = (gpa: number) => {
-    if (gpa >= 3.7) return 'from-emerald-500 to-green-600';
-    if (gpa >= 3.0) return 'from-blue-500 to-indigo-600';
-    if (gpa >= 2.0) return 'from-amber-500 to-orange-600';
-    return 'from-red-500 to-pink-600';
+    if (gpa >= 3.7) return 'from-emerald-600 via-emerald-500 to-teal-600';
+    if (gpa >= 3.0) return 'from-indigo-600 via-purple-600 to-indigo-800';
+    if (gpa >= 2.0) return 'from-amber-500 via-orange-500 to-amber-600';
+    return 'from-rose-600 via-red-500 to-pink-600';
   };
 
-  return (
-    <div className="min-h-screen bg-slate-50/30">
-      {/* Header */}
-      <div className="bg-white/85 backdrop-blur-md border-b border-slate-100 sticky top-0 z-40 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4.5">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div className="flex items-center space-x-4">
-              <Link to="/" className="flex items-center text-slate-600 hover:text-indigo-600 transition-colors text-sm font-semibold">
-                <ArrowLeft className="w-4 h-4 mr-1.5" />
-                Back to Home
-              </Link>
-              <div className="h-4 w-px bg-slate-200" />
-              <div className="flex items-center">
-                <Calculator className="w-5 h-5 mr-2 text-indigo-600" />
-                <h1 className="text-lg font-bold text-slate-800">CGPA Calculator</h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  // Dynamically tags courses by their codes for extra styling context (matching Syllabus design)
+  const getCourseCategory = (code?: string) => {
+    if (!code) return { label: 'Specialization', bg: 'bg-teal-50 text-teal-600 border-teal-100/50' };
+    const prefix = code.split(' ')[0];
+    switch (prefix) {
+      case 'ENG':
+        return { label: 'Communication', bg: 'bg-sky-50 text-sky-600 border-sky-100/50' };
+      case 'MTH':
+      case 'STT':
+      case 'RCH':
+        return { label: 'Math & Research', bg: 'bg-rose-50 text-rose-600 border-rose-100/50' };
+      case 'CMP':
+      case 'PRJ':
+      case 'PRI':
+      case 'INT':
+        return { label: 'Computer Science', bg: 'bg-indigo-50 text-indigo-600 border-indigo-100/50' };
+      case 'MGT':
+      case 'MKT':
+      case 'ECO':
+      case 'FIN':
+      case 'LAW':
+        return { label: 'Business & Law', bg: 'bg-amber-50 text-amber-600 border-amber-100/50' };
+      default:
+        return { label: 'Core', bg: 'bg-slate-50 text-slate-600 border-slate-100/50' };
+    }
+  };
 
-      {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-900 text-white overflow-hidden">
-        <motion.div 
-          className="absolute inset-0 opacity-20"
-          animate={{
-            background: [
-              'radial-gradient(circle at 10% 40%, rgba(99, 102, 241, 0.4) 0%, transparent 60%)',
-              'radial-gradient(circle at 90% 10%, rgba(139, 92, 246, 0.4) 0%, transparent 60%)',
-              'radial-gradient(circle at 30% 90%, rgba(59, 130, 246, 0.4) 0%, transparent 60%)'
-            ]
-          }}
-          transition={{ duration: 10, repeat: Infinity }}
-        />
+  // SVGs circular metrics parameters
+  const radius = 64;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = cgpa !== null ? circumference - (cgpa / 4.00) * circumference : circumference;
+
+  return (
+    <div className="min-h-screen bg-slate-50/50 text-slate-800 pb-20">
+      
+      {/* Hero Banner (styled identical to Notes.tsx without Academic Suite badge) */}
+      <section className="relative text-white py-24 px-4 overflow-hidden bg-slate-955 bg-slate-905 bg-slate-950">
+        {/* Soft Glowing Background Orbs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/2 left-1/4 w-[400px] h-[400px] bg-indigo-600/10 rounded-full blur-[100px]" />
+          <div className="absolute bottom-0 right-1/4 w-[350px] h-[350px] bg-purple-600/10 rounded-full blur-[120px]" />
+        </div>
         
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
+        <div className="relative max-w-6xl mx-auto text-center z-10 space-y-6">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-5 py-1.5 mb-6 border border-white/10">
-              <Calculator className="w-5 h-5 text-yellow-300 mr-2" />
-              <span className="text-sm font-semibold text-yellow-50">Academic Tools</span>
-            </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight bg-gradient-to-r from-white via-slate-100 to-indigo-100 bg-clip-text text-transparent">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-200 bg-clip-text text-transparent mb-4">
               Advanced CGPA Calculator
             </h1>
-            <p className="text-lg sm:text-xl text-indigo-100 mb-10 max-w-3xl mx-auto px-4 sm:px-0">
-              Professional Pokhara University grade calculation with semester analysis and custom PDF reports.
+            <p className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">
+              Professional evaluation with double inputs (percentage marks or letter grades), target planners, and official PDF evaluation document downloads.
             </p>
           </motion.div>
         </div>
       </section>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* User Information */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-8"
-        >
-          <Card hover={false} className="border border-slate-100 shadow-premium bg-gradient-to-r from-slate-50 to-indigo-50/20">
-            <CardContent className="p-8">
-              <div className="flex items-center mb-6">
-                <GraduationCap className="w-6 h-6 mr-3 text-indigo-600" />
-                <h2 className="text-xl font-bold text-slate-800">Student Profile Information</h2>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">
-                    Student Name
-                  </label>
-                  {user ? (
-                    <div className="px-4 py-3 bg-white rounded-xl border border-slate-150 text-slate-800 font-semibold shadow-sm text-sm">
-                      {user.name}
-                    </div>
-                  ) : (
-                    <input
-                      type="text"
-                      value={guestName}
-                      onChange={(e) => setGuestName(e.target.value)}
-                      placeholder="Enter your name"
-                      className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 bg-white text-slate-800 placeholder:text-slate-400"
+      {/* Sticky Interactive Dashboard Navigation Controls (styled identical to Notes.tsx controls) */}
+      <div className="sticky top-16 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200/60 py-4 px-4 shadow-sm">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+          
+          <div className="flex items-center space-x-3">
+            <Link to="/" className="flex items-center text-slate-500 hover:text-indigo-700 transition-colors text-xs font-bold uppercase tracking-wider">
+              <ArrowLeft className="w-4.5 h-4.5 mr-1.5" />
+              Home
+            </Link>
+            <div className="h-4.5 w-px bg-slate-200" />
+            <div className="flex items-center gap-2">
+              <Calculator className="w-5 h-5 text-indigo-600" />
+              <h2 className="text-xs font-black text-slate-800 uppercase tracking-wider">PU Evaluation</h2>
+            </div>
+          </div>
+          
+          {/* Sliding Pill Tab Selector - Grid on mobile, Flex on desktop */}
+          <div className="grid grid-cols-3 sm:flex bg-slate-100 rounded-xl p-1 border border-slate-200/40 w-full sm:w-auto">
+            {[
+              { key: 'calculator', label: 'Calculator' },
+              { key: 'analytics', label: 'Analytics & Target' },
+              { key: 'grading', label: 'Grading Scheme' },
+            ].map((tab) => {
+              const isActive = activeTab === tab.key;
+              return (
+                <button
+                  key={tab.key}
+                  onClick={() => setActiveTab(tab.key as any)}
+                  className={`relative px-2 sm:px-4 py-2 rounded-lg text-[10px] sm:text-xs font-bold transition-colors z-10 uppercase tracking-wider bg-transparent border-0 cursor-pointer ${
+                    isActive ? 'text-indigo-600' : 'text-slate-500 hover:text-slate-800'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeTabBackground"
+                      className="absolute inset-0 bg-white shadow-sm rounded-lg border border-slate-200/20"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
+                  <span className="relative z-20 block truncate text-center">{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        {/* TAB 1: CALCULATOR */}
+        {activeTab === 'calculator' && (
+          <div className="space-y-6">
+            
+            {/* Student Info Card */}
+            <Card hover={false} className="border border-slate-200/60 shadow-premium bg-white/90 backdrop-blur-md rounded-2xl">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-4.5">
+                  <GraduationCap className="w-5 h-5 mr-2.5 text-indigo-600" />
+                  <h2 className="text-sm font-extrabold text-slate-800 uppercase tracking-wider">Student Credentials</h2>
                 </div>
                 
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">
-                    College Name
-                  </label>
-                  {user ? (
-                    <div className="px-4 py-3 bg-white rounded-xl border border-slate-150 text-slate-800 font-semibold shadow-sm text-sm">
-                      {profile?.college || 'Please update your profile'}
-                    </div>
-                  ) : (
-                    <input
-                      type="text"
-                      value={guestCollege}
-                      onChange={(e) => setGuestCollege(e.target.value)}
-                      placeholder="Enter your college name"
-                      className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 bg-white text-slate-800 placeholder:text-slate-400"
-                    />
-                  )}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">
+                      Student Name
+                    </label>
+                    {user ? (
+                      <div className="px-4 py-2.5 bg-slate-50 border border-slate-200/60 rounded-xl text-slate-800 text-xs font-semibold">
+                        {user.name}
+                      </div>
+                    ) : (
+                      <input
+                        type="text"
+                        value={guestName}
+                        onChange={(e) => setGuestName(e.target.value)}
+                        placeholder="Enter your full name"
+                        className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-semibold transition-all"
+                      />
+                    )}
+                  </div>
+                  
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">
+                      College Name
+                    </label>
+                    {user ? (
+                      <div className="px-4 py-2.5 bg-slate-50 border border-slate-200/60 rounded-xl text-slate-800 text-xs font-semibold">
+                        {profile?.college || 'Please edit your profile to add college'}
+                      </div>
+                    ) : (
+                      <input
+                        type="text"
+                        value={guestCollege}
+                        onChange={(e) => setGuestCollege(e.target.value)}
+                        placeholder="Enter affiliated college name"
+                        className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-semibold transition-all"
+                      />
+                    )}
+                  </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
+              </CardContent>
+            </Card>
 
-        {/* Semester Selection */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-8"
-        >
-          <Card hover={false} className="border border-slate-100 shadow-premium bg-white">
-            <CardContent className="p-8">
-              <div className="flex items-center mb-6">
-                <BookOpen className="w-6 h-6 mr-3 text-indigo-600" />
-                <h2 className="text-xl font-bold text-slate-800">Select Semesters to Calculate</h2>
-              </div>
-              
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {semestersData.map((semester) => (
-                  <motion.div
-                    key={semester.id}
-                    whileHover={{ y: -3 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <label className={`flex items-center p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 ${
-                      selectedSemesters.includes(semester.id)
-                        ? 'bg-indigo-50/50 border-indigo-500 text-indigo-700 font-bold'
-                        : 'bg-slate-50/50 border-slate-100 hover:border-slate-250 text-slate-700 font-medium'
-                    }`}>
+            {/* Semester Select Grid */}
+            <Card hover={false} className="border border-slate-200/60 shadow-premium bg-white/90 backdrop-blur-md rounded-2xl">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between mb-4.5">
+                  <div className="flex items-center">
+                    <BookOpen className="w-5 h-5 mr-2.5 text-indigo-600" />
+                    <h2 className="text-sm font-extrabold text-slate-800 uppercase tracking-wider">Select Evaluated Semesters</h2>
+                  </div>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider bg-slate-100 px-2.5 py-1 rounded-md">
+                    {selectedSemesters.length} Selected
+                  </span>
+                </div>
+                
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {semestersData.map((semester) => (
+                    <motion.label
+                      key={semester.id}
+                      whileHover={{ y: -2 }}
+                      whileTap={{ scale: 0.98 }}
+                      className={`flex items-center p-3.5 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
+                        selectedSemesters.includes(semester.id)
+                          ? 'bg-indigo-50/20 border-indigo-600 text-indigo-700 font-bold shadow-sm'
+                          : 'bg-slate-50/50 border-slate-100 text-slate-600 font-semibold hover:border-slate-200'
+                      }`}
+                    >
                       <input
                         type="checkbox"
                         checked={selectedSemesters.includes(semester.id)}
                         onChange={() => handleSemesterToggle(semester.id)}
-                        className="w-4 h-4 text-indigo-600 border-slate-350 rounded focus:ring-indigo-500"
+                        className="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 cursor-pointer"
                       />
-                      <span className="ml-3 text-sm">{semester.name}</span>
-                    </label>
-                  </motion.div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Specialization Subjects Selection */}
-        {selectedSemesters.some(id => {
-          const semester = semestersData.find(s => s.id === id);
-          return semester?.subjects.some(s => s.courseName === 'Specialization Course' || s.courseName.includes('Concentration'));
-        }) && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8"
-          >
-            <Card hover={false} className="border border-slate-100 shadow-premium bg-gradient-to-r from-purple-50 to-pink-50/20">
-              <CardContent className="p-8">
-                <div className="flex items-center mb-6">
-                  <Target className="w-6 h-6 mr-3 text-purple-600" />
-                  <h2 className="text-xl font-bold text-slate-800">Choose Specialization Subjects</h2>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {selectedSemesters.map(semesterId => {
-                    const semester = semestersData.find(s => s.id === semesterId);
-                    return semester?.subjects.filter(s => s.courseName === 'Specialization Course' || s.courseName.includes('Concentration')).map((subject, index) => {
-                      const key = `${semesterId}-${subject.courseName}`;
-                      const isSpecialization = subject.courseName === 'Specialization Course';
-                      
-                      return (
-                        <div key={key} className="space-y-2">
-                          <label className="block text-sm font-semibold text-slate-700">
-                            {semester.name} - {subject.courseName}
-                          </label>
-                          
-                          {isSpecialization ? (
-                            <select
-                              value={concentrationChoices[key] || ''}
-                              onChange={(e) => updateConcentrationSubject(key, e.target.value)}
-                              className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 transition-all duration-300 text-slate-800"
-                            >
-                              <option value="">Select a specialization</option>
-                              {getSpecializationOptions().map(spec => (
-                                <option key={spec.value} value={spec.label}>{spec.label}</option>
-                              ))}
-                            </select>
-                          ) : (
-                            <select
-                              value={concentrationChoices[key] || ''}
-                              onChange={(e) => updateConcentrationSubject(key, e.target.value)}
-                              className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 transition-all duration-300 text-slate-800"
-                            >
-                              <option value="">Select a concentration course</option>
-                              {getSpecializationOptions().map(spec => 
-                                spec.courses.map(course => (
-                                  <option key={course.name} value={course.name}>{course.name}</option>
-                                ))
-                              )}
-                            </select>
-                          )}
-                        </div>
-                      );
-                    });
-                  })}
+                      <span className="ml-2.5 text-xs">{semester.name}</span>
+                    </motion.label>
+                  ))}
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
-        )}
 
-        {/* Grade Input for Selected Semesters */}
-        <AnimatePresence>
-          {semesterResults.map((result, index) => (
-            <motion.div
-              key={result.semesterId}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.6, delay: index * 0.05 }}
-              className="mb-6"
-            >
-              <Card hover={false} className="border border-slate-100 shadow-premium bg-white">
-                <CardContent className="p-8">
-                  <div 
-                    className="flex items-center justify-between cursor-pointer mb-6 border-b border-slate-50 pb-4"
-                    onClick={() => setExpandedSemester(expandedSemester === result.semesterId ? null : result.semesterId)}
-                  >
-                    <div className="flex items-center">
-                      <BookOpen className="w-5 h-5 mr-3 text-indigo-600 animate-pulse" />
-                      <h3 className="text-lg font-bold text-slate-850">{result.semesterName}</h3>
-                      <span className="ml-4 px-3 py-1 bg-indigo-50 border border-indigo-100/50 text-indigo-600 rounded-full text-xs font-bold">
-                        {result.totalCredits} Credits
-                      </span>
-                    </div>
-                    {expandedSemester === result.semesterId ? 
-                      <ChevronUp className="w-5 h-5 text-slate-400" /> : 
-                      <ChevronDown className="w-5 h-5 text-slate-400" />
-                    }
+            {/* Specialization Options Selection */}
+            {selectedSemesters.some(id => {
+              const semester = semestersData.find(s => s.id === id);
+              return semester?.subjects.some(s => s.courseName === 'Specialization Course' || s.courseName.includes('Concentration'));
+            }) && (
+              <Card hover={false} className="border border-purple-100 bg-gradient-to-r from-purple-50/20 to-pink-50/10 rounded-2xl shadow-premium">
+                <CardContent className="p-6">
+                  <div className="flex items-center mb-4.5">
+                    <Target className="w-5 h-5 mr-2.5 text-purple-600" />
+                    <h2 className="text-sm font-extrabold text-slate-800 uppercase tracking-wider">Configure Specialized Tracks</h2>
                   </div>
                   
-                  <AnimatePresence>
-                    {expandedSemester === block_result_semester_id(result.semesterId) && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {selectedSemesters.map(semesterId => {
+                      const semester = semestersData.find(s => s.id === semesterId);
+                      return semester?.subjects.filter(s => s.courseName === 'Specialization Course' || s.courseName.includes('Concentration')).map((subject) => {
+                        const key = `${semesterId}-${subject.courseName}`;
+                        const isSpecialization = subject.courseName === 'Specialization Course';
+                        
+                        return (
+                          <div key={key} className="space-y-1.5">
+                            <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                              {semester.name} — {subject.courseName}
+                            </label>
+                            
+                            {isSpecialization ? (
+                              <select
+                                value={concentrationChoices[key] || ''}
+                                onChange={(e) => updateConcentrationSubject(key, e.target.value)}
+                                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-800 font-bold focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 transition-all cursor-pointer"
+                              >
+                                <option value="">-- Choose Specialization Track --</option>
+                                {getSpecializationOptions().map(spec => (
+                                  <option key={spec.value} value={spec.label}>{spec.label}</option>
+                                ))}
+                              </select>
+                            ) : (
+                              <select
+                                value={concentrationChoices[key] || ''}
+                                onChange={(e) => updateConcentrationSubject(key, e.target.value)}
+                                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-800 font-bold focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 transition-all cursor-pointer"
+                              >
+                                <option value="">-- Select Concentration Course --</option>
+                                {getSpecializationOptions().map(spec => 
+                                  spec.courses.map(course => (
+                                    <option key={course.name} value={course.name}>{course.name}</option>
+                                  ))
+                                )}
+                              </select>
+                            )}
+                          </div>
+                        );
+                      });
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Input System Toggles */}
+            {semesterResults.length > 0 && (
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-5 bg-white border border-slate-200/60 rounded-2xl gap-4 shadow-sm">
+                <div>
+                  <h3 className="text-xs font-extrabold text-slate-700 uppercase tracking-wider">Evaluation Input Scheme</h3>
+                  <p className="text-[10px] text-slate-400 font-bold mt-0.5 uppercase tracking-wider">Select between raw percentage marks or letter grades directly</p>
+                </div>
+                
+                <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200/40 w-full sm:w-auto">
+                  <button
+                    onClick={() => setCalculationMode('marks')}
+                    className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-[10px] font-extrabold uppercase tracking-wide border-0 cursor-pointer transition-all ${
+                      calculationMode === 'marks' 
+                        ? 'bg-indigo-600 text-white shadow-sm' 
+                        : 'text-slate-600 bg-transparent hover:text-slate-800'
+                    }`}
+                  >
+                    <Percent className="w-3.5 h-3.5 inline mr-1" />
+                    Percentage Marks
+                  </button>
+                  <button
+                    onClick={() => setCalculationMode('grades')}
+                    className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-[10px] font-extrabold uppercase tracking-wide border-0 cursor-pointer transition-all ${
+                      calculationMode === 'grades' 
+                        ? 'bg-indigo-600 text-white shadow-sm' 
+                        : 'text-slate-600 bg-transparent hover:text-slate-800'
+                    }`}
+                  >
+                    <Sliders className="w-3.5 h-3.5 inline mr-1" />
+                    Letter Grades
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Interactive Subject list */}
+            <div className="space-y-4">
+              {semesterResults.map((result) => (
+                <div key={result.semesterId} className="border border-slate-200/60 rounded-2xl bg-white shadow-premium overflow-hidden">
+                  
+                  {/* Collapsible Header */}
+                  <div 
+                    onClick={() => setExpandedSemester(expandedSemester === result.semesterId ? null : result.semesterId)}
+                    className="flex items-center justify-between p-4.5 bg-slate-50/50 hover:bg-slate-50 cursor-pointer select-none transition-colors border-b border-slate-200/60"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 bg-indigo-50 border border-indigo-100/50 rounded-xl flex items-center justify-center text-indigo-600">
+                        <BookOpen className="w-4.5 h-4.5" />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">{result.semesterName}</h4>
+                        <span className="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest mt-0.5 block">
+                          {result.totalCredits} Credit Hours • {result.subjects.length} courses
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-4">
+                      {/* Bulk set grade widget */}
+                      <div onClick={(e) => e.stopPropagation()} className="hidden sm:flex items-center gap-1.5 bg-white border border-slate-200 rounded-lg px-2 py-1 shadow-sm">
+                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Bulk Fill:</span>
+                        <select
+                          onChange={(e) => {
+                            handleBulkFillGrades(result.semesterId, e.target.value);
+                            e.target.value = ''; // Reset option index
+                          }}
+                          className="bg-transparent border-0 text-[10px] font-black text-indigo-600 focus:outline-none cursor-pointer uppercase tracking-wider"
+                        >
+                          <option value="">-- Grade --</option>
+                          {Object.keys(gradePointsMap).map(g => (
+                            <option key={g} value={g}>{g}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {expandedSemester === result.semesterId ? (
+                        <ChevronUp className="w-4.5 h-4.5 text-slate-400" />
+                      ) : (
+                        <ChevronDown className="w-4.5 h-4.5 text-slate-400" />
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Expanded view */}
+                  <AnimatePresence initial={false}>
+                    {expandedSemester === result.semesterId && (
                       <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="space-y-4"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25 }}
+                        className="overflow-hidden"
                       >
-                        {result.subjects.map((subject, subjectIndex) => (
-                          <motion.div
-                            key={subjectIndex}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.3, delay: subjectIndex * 0.03 }}
-                            className="grid grid-cols-1 md:grid-cols-5 gap-4 p-4 bg-slate-50/40 hover:bg-slate-50 rounded-xl border border-slate-150 transition-all duration-300"
-                          >
-                            <div className="md:col-span-2">
-                              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
-                                Subject
-                              </label>
-                              <div className="text-sm font-bold text-slate-750">
-                                {subject.courseCode && <span className="text-slate-400 text-xs font-semibold mr-1">[{subject.courseCode}]</span>}{subject.courseName}
+                        <div className="p-4 bg-white divide-y divide-slate-100">
+                          
+                          {/* Bulk fill widget for mobile */}
+                          <div className="flex sm:hidden justify-between items-center pb-3 border-b border-slate-100">
+                            <span className="text-[10px] font-black text-slate-500 uppercase tracking-wider">Quick Fill Semester:</span>
+                            <select
+                              onChange={(e) => {
+                                handleBulkFillGrades(result.semesterId, e.target.value);
+                                e.target.value = ''; // Reset option index
+                              }}
+                              className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-1 text-xs font-bold text-indigo-600 focus:outline-none cursor-pointer uppercase tracking-wider"
+                            >
+                              <option value="">-- Select Grade --</option>
+                              {Object.keys(gradePointsMap).map(g => (
+                                <option key={g} value={g}>{g}</option>
+                              ))}
+                            </select>
+                          </div>
+                          
+                          {/* Subject Header (desktop only) */}
+                          <div className="hidden md:grid grid-cols-6 gap-4 pb-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                            <div className="col-span-3">Course Code & Title</div>
+                            <div className="text-center">Credits</div>
+                            <div className="text-center">{calculationMode === 'marks' ? 'Marks (0-100)' : 'Letter Grade'}</div>
+                            <div className="text-center">Earned Grade</div>
+                          </div>
+
+                          {/* Subject Rows */}
+                          {result.subjects.map((subject, idx) => (
+                            <div key={idx} className="grid grid-cols-1 md:grid-cols-6 gap-3 py-3 items-center">
+                              
+                              {/* Subject Title */}
+                              <div className="col-span-1 md:col-span-3">
+                                <div className="text-xs font-extrabold text-slate-800 tracking-tight flex flex-wrap items-center gap-1.5">
+                                  {subject.courseCode && (
+                                    <span className="text-[9px] bg-slate-100 text-slate-500 font-bold px-2 py-0.5 rounded border border-slate-200/60">
+                                      {subject.courseCode}
+                                    </span>
+                                  )}
+                                  
+                                  {/* Subject Category Badge */}
+                                  <span className={`text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full border ${getCourseCategory(subject.courseCode).bg}`}>
+                                    {getCourseCategory(subject.courseCode).label}
+                                  </span>
+                                  
+                                  <span className="text-slate-800">{subject.courseName}</span>
+                                </div>
                               </div>
-                            </div>
-                            
-                            <div>
-                              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
-                                Credits
-                              </label>
-                              <div className="px-3 py-1.5 bg-slate-100 text-slate-700 rounded-lg text-center font-bold text-xs inline-block">
-                                {subject.credits} Credits
+
+                              {/* Details (Credits, Input, Grade Output) in a responsive grid/flex */}
+                              <div className="col-span-1 md:col-span-3 grid grid-cols-3 md:grid-cols-3 gap-2 items-center text-center">
+                                
+                                {/* Credits Column */}
+                                <div className="flex flex-col md:block items-center">
+                                  <span className="md:hidden text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Credits</span>
+                                  <span className="text-xs font-bold text-slate-600 bg-slate-50 border border-slate-200/60 rounded-xl px-2.5 py-1">
+                                    {subject.credits} Cr
+                                  </span>
+                                </div>
+
+                                {/* Input Column */}
+                                <div className="flex flex-col md:block items-center">
+                                  <span className="md:hidden text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1.5">
+                                    {calculationMode === 'marks' ? 'Enter Marks' : 'Select Grade'}
+                                  </span>
+                                  
+                                  {calculationMode === 'marks' ? (
+                                    <input
+                                      type="number"
+                                      min="0"
+                                      max="100"
+                                      value={subject.marks || ''}
+                                      onChange={(e) => updateSubjectMarks(result.semesterId, idx, parseInt(e.target.value) || 0)}
+                                      placeholder="Marks"
+                                      className="w-full max-w-[80px] text-center px-2 py-1.5 border border-slate-200 rounded-lg text-xs font-bold focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-slate-800"
+                                    />
+                                  ) : (
+                                    <select
+                                      value={subject.grade}
+                                      onChange={(e) => updateSubjectGrade(result.semesterId, idx, e.target.value)}
+                                      className="w-full max-w-[85px] px-1 py-1.5 border border-slate-200 rounded-lg text-xs font-bold bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-slate-800 uppercase tracking-wide cursor-pointer"
+                                    >
+                                      {Object.keys(gradePointsMap).map(g => (
+                                        <option key={g} value={g}>{g}</option>
+                                      ))}
+                                    </select>
+                                  )}
+                                </div>
+
+                                {/* Earned Grade Column */}
+                                <div className="flex flex-col md:block items-center">
+                                  <span className="md:hidden text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Grade</span>
+                                  <span className={`inline-block w-12 text-center text-[10px] font-black text-white px-2 py-0.5 rounded-md shadow-sm ${
+                                    subject.gradePoints >= 3.7 ? 'bg-emerald-500' :
+                                    subject.gradePoints >= 3.0 ? 'bg-indigo-500' :
+                                    subject.gradePoints >= 2.0 ? 'bg-amber-500' :
+                                    subject.gradePoints >= 1.0 ? 'bg-orange-500' : 'bg-rose-500'
+                                  }`}>
+                                    {subject.grade}
+                                  </span>
+                                </div>
+
                               </div>
+
                             </div>
-                            
-                            <div>
-                              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
-                                Marks (0-100)
-                              </label>
-                              <input
-                                type="number"
-                                min="0"
-                                max="100"
-                                value={subject.marks || ''}
-                                onChange={(e) => updateSubjectMarks(result.semesterId, subjectIndex, parseInt(e.target.value) || 0)}
-                                placeholder="Enter marks"
-                                className="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 text-slate-800"
-                              />
-                            </div>
-                            
-                            <div>
-                              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
-                                Grade
-                              </label>
-                              <div className={`px-3 py-1.5 rounded-lg text-center font-bold text-white text-xs ${
-                                subject.gradePoints >= 3.7 ? 'bg-emerald-500 shadow-sm shadow-emerald-500/10' :
-                                subject.gradePoints >= 3.0 ? 'bg-indigo-500 shadow-sm shadow-indigo-500/10' :
-                                subject.gradePoints >= 2.0 ? 'bg-amber-500 shadow-sm shadow-amber-500/10' :
-                                subject.gradePoints >= 1.0 ? 'bg-orange-500 shadow-sm shadow-orange-500/10' : 'bg-rose-500 shadow-sm shadow-rose-500/10'
-                              }`}>
-                                {subject.grade}
-                              </div>
-                            </div>
-                          </motion.div>
-                        ))}
+                          ))}
+                        </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </AnimatePresence>
 
-        {/* Calculate Button */}
-        {semesterResults.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-10"
-          >
-            <Button
-              onClick={calculateResults}
-              className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-900 text-white hover:brightness-110 font-bold px-12 py-4 rounded-xl shadow-lg shadow-indigo-500/20 transition-all duration-300 border-0 flex items-center justify-center gap-2.5 mx-auto"
-            >
-              <Sparkles className="w-5 h-5 text-yellow-300" />
-              Calculate CGPA
-            </Button>
-          </motion.div>
+                </div>
+              ))}
+            </div>
+
+            {/* Calculate Trigger Block */}
+            {semesterResults.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-center pt-4"
+              >
+                <Button
+                  onClick={calculateResults}
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold px-10 py-3.5 rounded-xl shadow-lg border-0 flex items-center justify-center gap-2 mx-auto cursor-pointer text-xs uppercase tracking-wider"
+                >
+                  <Sparkles className="w-4 h-4 text-yellow-350" />
+                  Evaluate Academic GPA
+                </Button>
+              </motion.div>
+            )}
+
+          </div>
         )}
 
-        {/* Results Display */}
-        <AnimatePresence>
-          {showResults && cgpa !== null && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.6 }}
-              className="mb-8"
-            >
-              <Card hover={false} className={`shadow-2xl border-0 bg-gradient-to-br ${getGradientColor(block_cgpa(cgpa))} text-white overflow-hidden rounded-2xl`}>
-                <CardContent className="p-8 relative">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16" />
-                  <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-12 -translate-x-12" />
-                  
-                  <div className="relative z-10 text-center">
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ duration: 0.6, delay: 0.2 }}
-                    >
-                      <Award className="w-16 h-16 mx-auto mb-6 text-yellow-300" />
-                    </motion.div>
+        {/* TAB 2: ANALYTICS & TARGET PLANNER */}
+        {activeTab === 'analytics' && (
+          <div className="space-y-6">
+            
+            {/* Displaying metrics (CGPA Dial / Visual representation) */}
+            {cgpa !== null ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                {/* Visual Circle Gauge Card (Styled like stats box in Notes.tsx) */}
+                <Card hover={false} className="md:col-span-1 border border-slate-200/60 shadow-premium bg-slate-900 text-white overflow-hidden relative">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none" />
+                  <CardContent className="p-6 flex flex-col items-center justify-center min-h-[280px] text-center">
                     
-                    <h3 className="text-2xl font-bold mb-3 text-white">Your Cumulative GPA Results</h3>
-                    
-                    <motion.div
-                      initial={{ scale: 0.8 }}
-                      animate={{ scale: 1 }}
-                      transition={{ duration: 0.8, delay: 0.4 }}
-                      className="text-8xl font-bold mb-3 text-yellow-300 tracking-tight"
-                    >
-                      {cgpa.toFixed(2)}
-                    </motion.div>
-                    
-                    <p className="text-xl font-bold mb-8 text-yellow-100 bg-white/10 border border-white/10 rounded-full px-5 py-1.5 inline-block">
+                    <div className="relative mb-4">
+                      {/* SVG Gauge */}
+                      <svg className="w-36 h-36 transform -rotate-90" viewBox="0 0 160 160">
+                        <defs>
+                          <linearGradient id="circleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#4f46e5" />
+                            <stop offset="50%" stopColor="#8b5cf6" />
+                            <stop offset="100%" stopColor="#ec4899" />
+                          </linearGradient>
+                        </defs>
+                        
+                        <circle
+                          cx="80"
+                          cy="80"
+                          r={radius}
+                          fill="transparent"
+                          stroke="rgba(255, 255, 255, 0.08)"
+                          strokeWidth="10"
+                        />
+                        
+                        <motion.circle
+                          cx="80"
+                          cy="80"
+                          r={radius}
+                          fill="transparent"
+                          stroke="url(#circleGrad)"
+                          strokeWidth="10"
+                          strokeDasharray={circumference}
+                          initial={{ strokeDashoffset: circumference }}
+                          animate={{ strokeDashoffset }}
+                          transition={{ duration: 1.0, ease: "easeOut" }}
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                      
+                      {/* CGPA Text Inner Overlay */}
+                      <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        <span className="text-3xl font-black text-white leading-none">{cgpa.toFixed(2)}</span>
+                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-1.5">CGPA / 4.00</span>
+                      </div>
+                    </div>
+
+                    <h3 className="text-[10px] font-black uppercase text-indigo-400 tracking-widest mb-1.5">Status</h3>
+                    <p className="text-[11px] font-bold text-white px-3.5 py-1 bg-white/10 rounded-full border border-white/5 inline-block">
                       {getPerformanceText(cgpa)}
                     </p>
+                  </CardContent>
+                </Card>
+
+                {/* Scorecards */}
+                <div className="md:col-span-2 space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
                     
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 max-w-3xl mx-auto">
-                      <div className="bg-white/5 border border-white/5 p-4 rounded-xl backdrop-blur-sm">
-                        <div className="text-2xl font-bold text-yellow-300">{totalCredits}</div>
-                        <div className="text-xs text-white/80 font-semibold uppercase tracking-wider mt-1">Credits Earned</div>
+                    <div className="p-5 bg-white border border-slate-200/60 rounded-2xl shadow-sm">
+                      <div className="w-9 h-9 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 mb-3.5">
+                        <Award className="w-5 h-5" />
                       </div>
-                      <div className="bg-white/5 border border-white/5 p-4 rounded-xl backdrop-blur-sm">
-                        <div className="text-2xl font-bold text-yellow-300">{semesterResults.length}</div>
-                        <div className="text-xs text-white/80 font-semibold uppercase tracking-wider mt-1">Semesters</div>
-                      </div>
-                      <div className="bg-white/5 border border-white/5 p-4 rounded-xl backdrop-blur-sm">
-                        <div className="text-2xl font-bold text-yellow-300">
-                          {semesterResults.reduce((sum, result) => sum + result.subjects.length, 0)}
-                        </div>
-                        <div className="text-xs text-white/80 font-semibold uppercase tracking-wider mt-1">Total Subjects</div>
-                      </div>
-                      <div className="bg-white/5 border border-white/5 p-4 rounded-xl backdrop-blur-sm">
-                        <div className="text-2xl font-bold text-yellow-300">
-                          {semesterResults.reduce((sum, result) => 
-                            sum + result.subjects.filter(subject => subject.gradePoints >= 1.0).length, 0
-                          )}
-                        </div>
-                        <div className="text-xs text-white/80 font-semibold uppercase tracking-wider mt-1">Passed Courses</div>
-                      </div>
+                      <div className="text-2xl font-black text-slate-800">{cgpa.toFixed(2)}</div>
+                      <div className="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider mt-1">CUMULATIVE CGPA</div>
                     </div>
                     
-                    <div className="flex flex-wrap justify-center gap-4">
+                    <div className="p-5 bg-white border border-slate-200/60 rounded-2xl shadow-sm">
+                      <div className="w-9 h-9 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 mb-3.5">
+                        <GraduationCap className="w-5 h-5" />
+                      </div>
+                      <div className="text-2xl font-black text-slate-800">{totalCredits} hrs</div>
+                      <div className="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider mt-1">CREDITS COMPLETED</div>
+                    </div>
+
+                  </div>
+
+                  {/* PDF Transcripts generation card */}
+                  <div className="p-5 bg-gradient-to-br from-indigo-50/20 to-purple-50/20 border border-slate-200/60 rounded-2xl shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">Transcript Export</h4>
+                      <p className="text-[10px] text-slate-500 font-bold uppercase mt-0.5">Generate a professional grade report containing all evaluated subject details</p>
+                    </div>
+                    
+                    {/* Grid column on mobile, flex on desktop */}
+                    <div className="grid grid-cols-2 sm:flex gap-2 w-full sm:w-auto">
                       <button
                         onClick={downloadResults}
-                        disabled={!cgpa || semesterResults.length === 0}
-                        className="bg-white text-indigo-700 border border-white hover:bg-slate-100 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed font-semibold text-sm px-6 py-3 rounded-xl transition-all duration-350 hover:translate-y-[-2px] flex items-center gap-2"
+                        className="flex-grow sm:flex-grow-0 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-[10px] uppercase tracking-wider px-4.5 py-2.5 rounded-xl border border-transparent flex items-center justify-center gap-1.5 shadow transition-all cursor-pointer"
                       >
-                        <Download className="w-4 h-4" />
-                        Download PDF Report
+                        <Download className="w-4 h-4 text-white" />
+                        PDF Report
                       </button>
-                      
                       <button
                         onClick={downloadTextReport}
-                        disabled={!cgpa || semesterResults.length === 0}
-                        className="bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed font-semibold text-sm px-6 py-3 rounded-xl transition-all duration-350 hover:translate-y-[-2px] flex items-center gap-2"
+                        className="flex-grow sm:flex-grow-0 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-extrabold text-[10px] uppercase tracking-wider px-4.5 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                       >
-                        <FileText className="w-4 h-4" />
-                        Text Report
+                        <FileText className="w-4 h-4 text-slate-500" />
+                        Text File
                       </button>
                     </div>
+                  </div>
+                </div>
+
+              </div>
+            ) : (
+              <div className="text-center p-12 bg-white border border-slate-200/60 rounded-2xl shadow-sm">
+                <Calculator className="w-12 h-12 text-slate-300 mx-auto mb-4 animate-bounce" />
+                <h3 className="text-sm font-black text-slate-800 uppercase tracking-wider">No evaluation data</h3>
+                <p className="text-xs text-slate-400 font-semibold max-w-sm mx-auto mt-2">
+                  Select your semesters, fill out the grades in the Calculator tab and press "Evaluate Academic GPA" to view full analytics.
+                </p>
+                <button
+                  onClick={() => setActiveTab('calculator')}
+                  className="mt-5 px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold uppercase tracking-wider rounded-xl border-0 cursor-pointer shadow-sm"
+                >
+                  Configure Calculator
+                </button>
+              </div>
+            )}
+
+            {/* Target Goal Planner Card */}
+            {cgpa !== null && (
+              <Card hover={false} className="border border-slate-200/60 shadow-premium bg-white rounded-2xl">
+                <CardContent className="p-6">
+                  <div className="flex items-center mb-6">
+                    <Target className="w-5 h-5 mr-2.5 text-indigo-600" />
+                    <div>
+                      <h3 className="text-sm font-black text-slate-800 uppercase tracking-wider">Target CGPA Planner</h3>
+                      <p className="text-[10px] text-slate-400 font-bold uppercase mt-0.5">Determine the average GPA needed in remaining semesters to achieve your goal</p>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    
+                    {/* Slider Selection */}
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs font-black text-slate-600 uppercase tracking-wider">Set Target CGPA:</span>
+                        <span className="text-2xl font-black text-indigo-600">{targetCGPA.toFixed(2)}</span>
+                      </div>
+                      
+                      <input
+                        type="range"
+                        min="2.00"
+                        max="4.00"
+                        step="0.05"
+                        value={targetCGPA}
+                        onChange={(e) => setTargetCGPA(parseFloat(e.target.value))}
+                        className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600 focus:outline-none"
+                      />
+                      
+                      <div className="flex justify-between text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                        <span>2.00 (Pass)</span>
+                        <span>3.00 (First Div)</span>
+                        <span>4.00 (Distinction)</span>
+                      </div>
+                    </div>
+
+                    {/* Result analysis block */}
+                    <div className="p-5 rounded-2xl border border-slate-200/60 bg-slate-50/50">
+                      {targetAnalysis && (
+                        <div>
+                          {targetAnalysis.status === 'impossible' && (
+                            <div className="space-y-2">
+                              <span className="text-[10px] font-black text-rose-650 bg-rose-50 border border-rose-100 px-3 py-1 rounded-full uppercase tracking-wider">
+                                Mathematically Out of Reach
+                              </span>
+                              <p className="text-xs text-slate-600 font-semibold leading-relaxed mt-2">
+                                Achieving a <strong className="text-slate-800">{targetCGPA.toFixed(2)}</strong> target requires an average SGPA of <strong className="text-rose-650">{targetAnalysis.requiredSGPA?.toFixed(2)}</strong> in the remaining {targetAnalysis.remainingCredits} credits, which exceeds the maximum possible GPA of 4.0.
+                              </p>
+                            </div>
+                          )}
+
+                          {targetAnalysis.status === 'achieved' && (
+                            <div className="space-y-2">
+                              <span className="text-[10px] font-black text-emerald-650 bg-emerald-50 border border-emerald-100 px-3 py-1 rounded-full uppercase tracking-wider">
+                                Goal Secured!
+                              </span>
+                              <p className="text-xs text-slate-600 font-semibold leading-relaxed mt-2">
+                                Excellent! Your current academic standing is high enough that you have already secured a <strong className="text-slate-800">{targetCGPA.toFixed(2)}</strong> overall CGPA, even with average passing grades in the future.
+                              </p>
+                            </div>
+                          )}
+
+                          {targetAnalysis.status === 'possible' && (
+                            <div className="space-y-2">
+                              <span className="text-[10px] font-black text-indigo-655 bg-indigo-50 border border-indigo-100 px-3 py-1 rounded-full uppercase tracking-wider">
+                                Goal Achievable
+                              </span>
+                              <p className="text-xs text-slate-600 font-semibold leading-relaxed mt-2">
+                                To graduate with a <strong className="text-slate-800">{targetCGPA.toFixed(2)}</strong> target, you must maintain an average SGPA of <strong className="text-indigo-600">{targetAnalysis.requiredSGPA?.toFixed(2)}</strong> over the remaining <strong className="text-slate-800">{targetAnalysis.remainingCredits}</strong> credit hours.
+                              </p>
+                            </div>
+                          )}
+
+                          <div className="border-t border-slate-205 mt-4.5 pt-3.5 grid grid-cols-2 gap-4 text-center">
+                            <div>
+                              <div className="text-sm font-black text-slate-805">{targetAnalysis.completedCredits}</div>
+                              <div className="text-[9px] text-slate-400 font-extrabold uppercase tracking-widest mt-0.5">Completed Credits</div>
+                            </div>
+                            <div>
+                              <div className="text-sm font-black text-slate-805">{targetAnalysis.remainingCredits || 0}</div>
+                              <div className="text-[9px] text-slate-400 font-extrabold uppercase tracking-widest mt-0.5">Remaining Credits</div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            )}
 
-        {/* Semester-wise Results */}
-        <AnimatePresence>
-          {showResults && semesterResults.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="mb-8"
-            >
-              <Card hover={false} className="border border-slate-100 shadow-premium bg-white">
-                <CardContent className="p-8">
+            {/* Semester-wise breakdown cards (Styled like Notes.tsx cards) */}
+            {cgpa !== null && (
+              <Card hover={false} className="border border-slate-200/60 shadow-premium bg-white rounded-2xl">
+                <CardContent className="p-6">
                   <div className="flex items-center mb-6">
-                    <BarChart3 className="w-6 h-6 mr-3 text-indigo-600 animate-bounce" />
-                    <h3 className="text-xl font-bold text-slate-800">Semester-wise Performance Breakdown</h3>
+                    <BarChart3 className="w-5 h-5 mr-2.5 text-indigo-600 animate-pulse" />
+                    <h3 className="text-sm font-black text-slate-800 uppercase tracking-wider">Evaluated Semester Breakdown</h3>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {semesterResults.map((result, index) => (
-                      <motion.div
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {semesterResults.map((result) => (
+                      <div 
                         key={result.semesterId}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, delay: index * 0.05 }}
-                        className="p-5 bg-gradient-to-br from-slate-50 to-indigo-50/20 rounded-xl border border-slate-100 shadow-sm"
+                        className="p-5 bg-gradient-to-br from-slate-50 to-indigo-50/10 border border-slate-200/60 rounded-2xl hover:border-slate-300 transition-all flex flex-col justify-between"
                       >
-                        <h4 className="font-bold text-slate-800 text-sm mb-2">{result.semesterName}</h4>
-                        <div className={`text-3xl font-extrabold mb-1.5 ${getGradeColor(result.sgpa)}`}>
-                          {result.sgpa.toFixed(2)}
+                        <div>
+                          <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1.5">{result.semesterName}</h4>
+                          <div className={`text-3xl font-extrabold ${getGradeColor(result.sgpa)}`}>
+                            {result.sgpa.toFixed(2)}
+                          </div>
                         </div>
-                        <div className="text-xs text-slate-500 font-semibold">
-                          Semester SGPA • {result.totalCredits} Credits
-                        </div>
-                      </motion.div>
+                        <span className="text-[9px] text-slate-400 font-extrabold uppercase tracking-widest mt-3.5 block border-t border-slate-100 pt-2">
+                          {result.totalCredits} Credits Completed
+                        </span>
+                      </div>
                     ))}
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            )}
 
-        {/* Official BCSIT Grading System */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mb-8"
-        >
-          <Card hover={false} className="border border-slate-100 shadow-premium bg-white">
-            <CardContent className="p-8">
-              <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center">
-                <FileText className="w-5 h-5 mr-2 text-indigo-600" />
-                Pokhara University BCSIT Grading System
-              </h3>
-              
-              <div className="overflow-x-auto rounded-xl border border-slate-100">
-                <table className="w-full border-collapse border border-slate-100 text-xs">
-                  <thead>
-                    <tr className="bg-indigo-600 text-white font-bold">
-                      <th className="border border-slate-100 px-4 py-3.5 text-left">Letter Grade</th>
-                      <th className="border border-slate-100 px-4 py-3.5 text-left">Percentage Range</th>
-                      <th className="border border-slate-100 px-4 py-3.5 text-left">Honor Point</th>
-                      <th className="border border-slate-100 px-4 py-3.5 text-left">Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="bg-emerald-50/40">
-                      <td className="border border-slate-100 px-4 py-3 font-bold text-emerald-700">A</td>
-                      <td className="border border-slate-100 px-4 py-3 font-medium">90 and above</td>
-                      <td className="border border-slate-100 px-4 py-3 font-bold">4.0</td>
-                      <td className="border border-slate-100 px-4 py-3 font-semibold text-emerald-700">Excellent</td>
-                    </tr>
-                    <tr className="bg-emerald-50/20">
-                      <td className="border border-slate-100 px-4 py-3 font-bold text-emerald-600">A-</td>
-                      <td className="border border-slate-100 px-4 py-3 font-medium">85 to below 90</td>
-                      <td className="border border-slate-100 px-4 py-3 font-bold">3.7</td>
-                      <td className="border border-slate-100 px-4 py-3 text-slate-500 font-medium">Very Good</td>
-                    </tr>
-                    <tr className="bg-indigo-50/40">
-                      <td className="border border-slate-100 px-4 py-3 font-bold text-indigo-700">B+</td>
-                      <td className="border border-slate-100 px-4 py-3 font-medium">80 to below 85</td>
-                      <td className="border border-slate-100 px-4 py-3 font-bold">3.3</td>
-                      <td className="border border-slate-100 px-4 py-3 text-slate-500 font-medium">Good</td>
-                    </tr>
-                    <tr className="bg-indigo-50/20">
-                      <td className="border border-slate-100 px-4 py-3 font-bold text-indigo-650">B</td>
-                      <td className="border border-slate-100 px-4 py-3 font-medium">75 to below 80</td>
-                      <td className="border border-slate-100 px-4 py-3 font-bold">3.0</td>
-                      <td className="border border-slate-100 px-4 py-3 font-semibold text-indigo-700">Satisfactory</td>
-                    </tr>
-                    <tr className="bg-indigo-50/10">
-                      <td className="border border-slate-100 px-4 py-3 font-bold text-indigo-500">B-</td>
-                      <td className="border border-slate-100 px-4 py-3 font-medium">70 to below 75</td>
-                      <td className="border border-slate-100 px-4 py-3 font-bold">2.7</td>
-                      <td className="border border-slate-100 px-4 py-3 text-slate-500 font-medium">Fair</td>
-                    </tr>
-                    <tr className="bg-amber-50/40">
-                      <td className="border border-slate-100 px-4 py-3 font-bold text-amber-700">C+</td>
-                      <td className="border border-slate-100 px-4 py-3 font-medium">65 to below 70</td>
-                      <td className="border border-slate-100 px-4 py-3 font-bold">2.3</td>
-                      <td className="border border-slate-100 px-4 py-3 text-slate-500 font-medium">Satisfactory</td>
-                    </tr>
-                    <tr className="bg-amber-50/20">
-                      <td className="border border-slate-100 px-4 py-3 font-bold text-amber-600">C</td>
-                      <td className="border border-slate-100 px-4 py-3 font-medium">60 to below 65</td>
-                      <td className="border border-slate-100 px-4 py-3 font-bold">2.0</td>
-                      <td className="border border-slate-100 px-4 py-3 font-bold text-amber-700">Average / Min requirement for credit</td>
-                    </tr>
-                    <tr className="bg-amber-50/10">
-                      <td className="border border-slate-100 px-4 py-3 font-bold text-amber-500">C-</td>
-                      <td className="border border-slate-100 px-4 py-3 font-medium">55 to below 60</td>
-                      <td className="border border-slate-100 px-4 py-3 font-bold">1.7</td>
-                      <td className="border border-slate-100 px-4 py-3 text-slate-500 font-medium">Poor</td>
-                    </tr>
-                    <tr className="bg-orange-50/40">
-                      <td className="border border-slate-100 px-4 py-3 font-bold text-orange-600">D+</td>
-                      <td className="border border-slate-100 px-4 py-3 font-medium">50 to below 55</td>
-                      <td className="border border-slate-100 px-4 py-3 font-bold">1.3</td>
-                      <td className="border border-slate-100 px-4 py-3 text-slate-500 font-medium">Poor</td>
-                    </tr>
-                    <tr className="bg-orange-50/20">
-                      <td className="border border-slate-100 px-4 py-3 font-bold text-orange-500">D</td>
-                      <td className="border border-slate-100 px-4 py-3 font-medium">45 to below 50</td>
-                      <td className="border border-slate-100 px-4 py-3 font-bold">1.0</td>
-                      <td className="border border-slate-100 px-4 py-3 font-bold text-orange-700">Pass / Min passing grade</td>
-                    </tr>
-                    <tr className="bg-rose-50/40">
-                      <td className="border border-slate-100 px-4 py-3 font-bold text-rose-600">F</td>
-                      <td className="border border-slate-100 px-4 py-3 font-medium">Below 45</td>
-                      <td className="border border-slate-100 px-4 py-3 font-bold">0.0</td>
-                      <td className="border border-slate-100 px-4 py-3 font-bold text-rose-700">Fail</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              
-              <div className="mt-6 p-4 bg-amber-50 border border-amber-200/50 rounded-xl">
-                <div className="flex items-start">
-                  <Award className="w-5 h-5 text-amber-600 mr-2.5 mt-0.5 flex-shrink-0" />
+          </div>
+        )}
+
+        {/* TAB 3: GRADING SCHEME */}
+        {activeTab === 'grading' && (
+          <div className="space-y-6">
+            <Card hover={false} className="border border-slate-200/60 shadow-premium bg-white rounded-2xl">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-6">
+                  <FileText className="w-5 h-5 mr-2.5 text-indigo-650" />
+                  <h3 className="text-sm font-black text-slate-800 uppercase tracking-wider">
+                    Pokhara University Official Grading Policies
+                  </h3>
+                </div>
+                
+                <div className="overflow-x-auto rounded-xl border border-slate-200/60 shadow-inner">
+                  <table className="w-full border-collapse text-left text-xs">
+                    <thead>
+                      <tr className="bg-indigo-600 text-white font-bold text-[10px] uppercase tracking-wider">
+                        <th className="px-4 py-3.5">Letter Grade</th>
+                        <th className="px-4 py-3.5">Percentage Threshold</th>
+                        <th className="px-4 py-3.5">Grade Honor Points</th>
+                        <th className="px-4 py-3.5">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 font-semibold text-slate-600">
+                      <tr className="bg-emerald-50/20 hover:bg-emerald-50/30">
+                        <td className="px-4 py-3 font-black text-emerald-600">A</td>
+                        <td className="px-4 py-3">90% and above</td>
+                        <td className="px-4 py-3 font-bold">4.0</td>
+                        <td className="px-4 py-3 text-emerald-700 font-black">Excellent</td>
+                      </tr>
+                      <tr className="bg-emerald-50/5 hover:bg-emerald-50/10">
+                        <td className="px-4 py-3 font-black text-emerald-600">A-</td>
+                        <td className="px-4 py-3">85% to below 90%</td>
+                        <td className="px-4 py-3 font-bold">3.7</td>
+                        <td className="px-4 py-3 text-slate-500">Very Good</td>
+                      </tr>
+                      <tr className="bg-indigo-50/20 hover:bg-indigo-50/30">
+                        <td className="px-4 py-3 font-black text-indigo-600">B+</td>
+                        <td className="px-4 py-3">80% to below 85%</td>
+                        <td className="px-4 py-3 font-bold">3.3</td>
+                        <td className="px-4 py-3 text-slate-500">Good</td>
+                      </tr>
+                      <tr className="bg-indigo-50/5 hover:bg-indigo-50/10">
+                        <td className="px-4 py-3 font-black text-indigo-500">B</td>
+                        <td className="px-4 py-3">75% to below 80%</td>
+                        <td className="px-4 py-3 font-bold">3.0</td>
+                        <td className="px-4 py-3 text-indigo-600">Satisfactory</td>
+                      </tr>
+                      <tr className="hover:bg-slate-50">
+                        <td className="px-4 py-3 font-black text-indigo-400">B-</td>
+                        <td className="px-4 py-3">70% to below 75%</td>
+                        <td className="px-4 py-3 font-bold">2.7</td>
+                        <td className="px-4 py-3 text-slate-500">Fair</td>
+                      </tr>
+                      <tr className="bg-amber-50/20 hover:bg-amber-50/30">
+                        <td className="px-4 py-3 font-black text-amber-600">C+</td>
+                        <td className="px-4 py-3">65% to below 70%</td>
+                        <td className="px-4 py-3 font-bold">2.3</td>
+                        <td className="px-4 py-3 text-slate-500">Satisfactory</td>
+                      </tr>
+                      <tr className="bg-amber-50/5 hover:bg-amber-50/10">
+                        <td className="px-4 py-3 font-black text-amber-500">C</td>
+                        <td className="px-4 py-3">60% to below 65%</td>
+                        <td className="px-4 py-3 font-bold">2.0</td>
+                        <td className="px-4 py-3 text-amber-700">Average (Min Credit Requirement)</td>
+                      </tr>
+                      <tr className="hover:bg-slate-50">
+                        <td className="px-4 py-3 font-black text-amber-400">C-</td>
+                        <td className="px-4 py-3">55% to below 60%</td>
+                        <td className="px-4 py-3 font-bold">1.7</td>
+                        <td className="px-4 py-3 text-slate-500">Poor</td>
+                      </tr>
+                      <tr className="bg-orange-50/20 hover:bg-orange-50/30">
+                        <td className="px-4 py-3 font-black text-orange-600">D+</td>
+                        <td className="px-4 py-3">50% to below 55%</td>
+                        <td className="px-4 py-3 font-bold">1.3</td>
+                        <td className="px-4 py-3 text-slate-500">Poor</td>
+                      </tr>
+                      <tr className="bg-orange-50/5 hover:bg-orange-50/10">
+                        <td className="px-4 py-3 font-black text-orange-500">D</td>
+                        <td className="px-4 py-3">45% to below 50%</td>
+                        <td className="px-4 py-3 font-bold">1.0</td>
+                        <td className="px-4 py-3 text-orange-700 font-bold">Pass (Min Passing Grade)</td>
+                      </tr>
+                      <tr className="bg-rose-50/20 hover:bg-rose-50/30">
+                        <td className="px-4 py-3 font-black text-rose-600">F</td>
+                        <td className="px-4 py-3">Below 45%</td>
+                        <td className="px-4 py-3 font-bold">0.0</td>
+                        <td className="px-4 py-3 text-rose-700 font-bold">Fail</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="mt-5 p-4.5 bg-amber-50/50 border border-amber-200/50 rounded-2xl flex gap-3 items-start">
+                  <Award className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="font-bold text-amber-850 text-sm mb-1.5">Graduation Requirements</h4>
-                    <p className="text-amber-700 text-xs leading-relaxed font-medium">
-                      Students must obtain a minimum of a 'D' grade in each course and maintain a minimum CGPA of 2.0 (out of 4.0) for successful graduation from Pokhara University.
+                    <h4 className="text-xs font-black text-amber-800 uppercase tracking-wider mb-1">Graduation Parameters</h4>
+                    <p className="text-[11px] text-amber-700 leading-relaxed font-semibold">
+                      To successfully complete the BCSIT degree from Pokhara University, students must secure a minimum grade of 'D' in all registered courses and maintain a minimum cumulative CGPA of 2.00.
                     </p>
                   </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
       </div>
     </div>
   );
 }
-
-// Inline helper functions to bypass duplicate block name issues in compilation scope
-function block_cgpa(val: number) { return val; }
-function block_result_semester_id(id: string) { return id; }

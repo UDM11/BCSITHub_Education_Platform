@@ -1,46 +1,53 @@
-import React from 'react';
+// src/components/common/AvatarInitials.tsx
+import React from "react";
 
 interface AvatarProps {
   role?: string; // 'student', 'teacher', 'admin' or undefined
   size?: number; // optional, default is 120px
 }
 
-const getInitialAndColor = (role: string = '') => {
+const getRoleConfig = (role: string = "") => {
   switch (role.toLowerCase()) {
-    case 'student':
-      return { initial: 'S', bg: '#DBEAFE', color: '#1D4ED8' }; // blue
-    case 'teacher':
-      return { initial: 'T', bg: '#FEF3C7', color: '#92400E' }; // yellow
-    case 'admin':
-      return { initial: 'A', bg: '#FECACA', color: '#991B1B' }; // red
+    case "student":
+      return {
+        initial: "S",
+        gradient: "from-blue-500 via-indigo-500 to-indigo-600",
+      };
+    case "teacher":
+      return {
+        initial: "T",
+        gradient: "from-emerald-500 via-teal-600 to-indigo-600",
+      };
+    case "admin":
+      return {
+        initial: "A",
+        gradient: "from-rose-500 via-indigo-600 to-purple-600",
+      };
     default:
-      return { initial: 'S', bg: '#E5E7EB', color: '#374151' }; // gray
+      return {
+        initial: "S",
+        gradient: "from-slate-400 to-slate-600",
+      };
   }
 };
 
-const AvatarInitials: React.FC<AvatarProps> = ({ role, size = 200 }) => {
-  const { initial, bg, color } = getInitialAndColor(role);
+const AvatarInitials: React.FC<AvatarProps> = ({ role, size = 120 }) => {
+  const { initial, gradient } = getRoleConfig(role);
 
   return (
     <div
       role="img"
-      aria-label={`${role} avatar initial`}
+      aria-label={`${role || "user"} avatar initial`}
+      className={`bg-gradient-to-tr ${gradient} rounded-full flex items-center justify-center font-black border-2 border-white shadow-lg select-none`}
       style={{
         width: size,
         height: size,
-        backgroundColor: bg,
-        color: color,
-        borderRadius: '50%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontWeight: 'bold',
-        fontSize: size / 1.5,
-        userSelect: 'none',
-        fontFamily: 'Arial, sans-serif',
+        fontSize: size / 2.2,
       }}
     >
-      {initial}
+      <span className="text-white tracking-tight leading-none">
+        {initial}
+      </span>
     </div>
   );
 };

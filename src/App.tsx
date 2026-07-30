@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
 import { AuthProvider } from './context/AuthContext';
 import { ProfileProvider } from './context/ProfileContext';
@@ -45,6 +45,100 @@ import TeacherDashboard from './dashboard/teacher/TeacherDashboard';
 // Email Verification Page
 import OTPVerification from './pages/auth/EmailVerification';
 
+function AppContent() {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin-dashboard');
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      {!isAdminRoute && <Navbar />}
+      <PWAInstallBanner />
+
+      <main className="flex-1">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/syllabus" element={<Syllabus />} />
+          <Route path="/notes" element={<Notes />} />
+          <Route path="/notes/semester/:semesterId" element={<SemesterSubjects />} />
+
+          {/* Subject chapters route with 'subject' segment */}
+          <Route
+            path="/notes/semester/:semesterId/subject/:subjectId"
+            element={<SubjectChapters />}
+          />
+
+          <Route
+            path="/notes/semester/:semesterId/subject/:subjectId/chapter/:chapterId"
+            element={<ChapterNotes />}
+          />
+
+          <Route path="/past-papers" element={<PastPapers />} />
+          <Route path="/colleges" element={<Colleges />} />
+          <Route path="/cgpa-calculator" element={<CGPACalculator />} />
+          <Route path="/pomodoro-timer" element={<PomodoroTimer />} />
+          <Route path="/code-compiler" element={<CodeCompiler />} />
+          <Route path="/quiz-generator" element={<QuizGenerator />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/pu-notices" element={<PUNotices />} />
+
+          <Route path="/verify" element={<OTPVerification />} />
+
+          {/* Protected Routes */}
+          <Route
+            path="/upload-paper"
+            element={
+              <ProtectedRoute>
+                <UploadPaper />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-dashboard"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/teacher-dashboard"
+            element={
+              <ProtectedRoute>
+                <TeacherDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <StudentProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <StudentProfile />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </main>
+
+      {!isAdminRoute && <Footer />}
+
+      <ToastContainer />
+    </div>
+  );
+}
+
 function App() {
   return (
     <AuthProvider>
@@ -53,92 +147,7 @@ function App() {
         <InstallModalProvider>
         <Router>
           <ScrollToTop />
-          <div className="flex flex-col min-h-screen">
-            <Navbar />
-            <PWAInstallBanner />
-
-            <main className="flex-1">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/signin" element={<SignIn />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/syllabus" element={<Syllabus />} />
-                <Route path="/notes" element={<Notes />} />
-                <Route path="/notes/semester/:semesterId" element={<SemesterSubjects />} />
-
-                {/* Subject chapters route with 'subject' segment */}
-                <Route
-                  path="/notes/semester/:semesterId/subject/:subjectId"
-                  element={<SubjectChapters />}
-                />
-
-                <Route
-                  path="/notes/semester/:semesterId/subject/:subjectId/chapter/:chapterId"
-                  element={<ChapterNotes />}
-                />
-
-                <Route path="/past-papers" element={<PastPapers />} />
-                <Route path="/colleges" element={<Colleges />} />
-                <Route path="/cgpa-calculator" element={<CGPACalculator />} />
-                <Route path="/pomodoro-timer" element={<PomodoroTimer />} />
-                <Route path="/code-compiler" element={<CodeCompiler />} />
-                <Route path="/quiz-generator" element={<QuizGenerator />} />
-                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                <Route path="/terms-of-service" element={<TermsOfService />} />
-                <Route path="/support" element={<Support />} />
-                <Route path="/pu-notices" element={<PUNotices />} />
-
-                <Route path="/verify" element={<OTPVerification />} />
-
-                {/* Protected Routes */}
-                <Route
-                  path="/upload-paper"
-                  element={
-                    <ProtectedRoute>
-                      <UploadPaper />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/admin-dashboard"
-                  element={
-                    <ProtectedRoute adminOnly>
-                      <AdminDashboard />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/teacher-dashboard"
-                  element={
-                    <ProtectedRoute>
-                      <TeacherDashboard />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/profile"
-                  element={
-                    <ProtectedRoute>
-                      <StudentProfile />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/dashboard"
-                  element={
-                    <ProtectedRoute>
-                      <StudentProfile />
-                    </ProtectedRoute>
-                  }
-                />
-              </Routes>
-            </main>
-
-            <Footer />
-
-            <ToastContainer />
-          </div>
+          <AppContent />
 
           <Toaster
             position="top-right"

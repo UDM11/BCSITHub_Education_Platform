@@ -34,8 +34,18 @@ export function PWAInstallProvider({ children }: { children: ReactNode }) {
       setInstallPrompt(e as BeforeInstallPromptEvent);
     };
 
+    const installedHandler = () => {
+      setIsInstalled(true);
+      setInstallPrompt(null);
+    };
+
     window.addEventListener('beforeinstallprompt', handler);
-    return () => window.removeEventListener('beforeinstallprompt', handler);
+    window.addEventListener('appinstalled', installedHandler);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handler);
+      window.removeEventListener('appinstalled', installedHandler);
+    };
   }, []);
 
   const triggerInstall = useCallback(async () => {

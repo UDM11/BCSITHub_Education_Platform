@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Upload, Download, Calendar, School, FileText,
-  Filter, Plus, Search, Eye, Star, TrendingUp, Users, Clock, BookOpen, Award, ChevronRight, Grid, List, SortAsc, X
+  Upload,
+  Download,
+  Calendar,
+  School,
+  FileText,
+  Filter,
+  Plus,
+  Search,
+  Users,
+  Clock,
+  Grid,
+  List,
 } from 'lucide-react';
-import { Card, CardContent, CardHeader } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { useAuth } from '../context/AuthContext';
 import { UploadPaperModal } from '../components/Notes/UploadPaperModal';
@@ -46,7 +55,7 @@ const colleges = [
   { value: 'Boston International College', label: 'Boston International College' },
   { value: 'Pokhara College of Management', label: 'Pokhara College of Management' },
   { value: 'Apex College', label: 'Apex College' },
-  { value: 'Other', label: 'Other College' }
+  { value: 'Other', label: 'Other College' },
 ];
 
 interface Paper {
@@ -87,7 +96,7 @@ export function PastPapers() {
       try {
         setLoading(true);
 
-        let queryBuilder = Backendless.DataQueryBuilder.create();
+        const queryBuilder = Backendless.DataQueryBuilder.create();
         queryBuilder.setSortBy(['uploadedAt DESC']);
         queryBuilder.setPageSize(50);
 
@@ -116,7 +125,7 @@ export function PastPapers() {
         const result = await Backendless.Data.of('PastPapers').find<Paper>(queryBuilder);
         setPapers(result);
       } catch (error) {
-        console.error("Error fetching papers:", error);
+        console.error('Error fetching papers:', error);
       } finally {
         setLoading(false);
       }
@@ -125,10 +134,21 @@ export function PastPapers() {
     fetchPapers();
   }, [selectedSemester, selectedExamType, selectedCollege]);
 
-  const filteredPapers = papers.filter(paper => {
-    if (searchQuery && !paper.subject.toLowerCase().includes(searchQuery.toLowerCase())) return false;
-    return paper.approved || (user?.role === 'admin') || (user?.objectId === paper.ownerId);
-  });
+  const filteredPapers = papers
+    .filter((paper) => {
+      if (searchQuery && !paper.subject.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+      return paper.approved || user?.role === 'admin' || user?.objectId === paper.ownerId;
+    })
+    .sort((a, b) => {
+      if (sortBy === 'downloads') {
+        return (b.downloads || 0) - (a.downloads || 0);
+      }
+      if (sortBy === 'name') {
+        return a.subject.localeCompare(b.subject);
+      }
+      // default: sort by date desc
+      return new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime();
+    });
 
   // Pagination calculations
   const totalPages = Math.ceil(filteredPapers.length / papersPerPage);
@@ -137,41 +157,45 @@ export function PastPapers() {
   const currentPapers = filteredPapers.slice(startIndex, endIndex);
 
   // Reset to first page when filters change
-  React.useEffect(() => {
+  useEffect(() => {
     setCurrentPage(1);
   }, [selectedSemester, selectedExamType, selectedCollege, searchQuery]);
 
   const getExamTypeColor = (type: string) => {
     switch (type) {
-      case 'midterm': return 'text-blue-600 bg-blue-100';
-      case 'pre-board': return 'text-yellow-600 bg-yellow-100';
-      case 'final': return 'text-red-600 bg-red-100';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'midterm':
+        return 'text-blue-600 bg-blue-50 border-blue-100/50';
+      case 'pre-board':
+        return 'text-amber-600 bg-amber-50 border-amber-100/50';
+      case 'final':
+        return 'text-rose-600 bg-rose-50 border-rose-100/50';
+      default:
+        return 'text-slate-600 bg-slate-50 border-slate-100/50';
     }
   };
 
   const handleDownload = async (paper: Paper) => {
     if (!user) {
-      setLoginModalMessage("Please login or signup to download papers.");
+      setLoginModalMessage('Please login or signup to download papers.');
       setShowLoginModal(true);
       return;
     }
-    
+
     try {
       window.open(paper.fileUrl, '_blank');
-      
+
       await Backendless.Data.of('PastPapers').save<Paper>({
         objectId: paper.objectId,
-        downloads: (paper.downloads || 0) + 1
+        downloads: (paper.downloads || 0) + 1,
       });
-      
-      setPapers(prev => prev.map(p => 
-        p.objectId === paper.objectId 
-          ? { ...p, downloads: (p.downloads || 0) + 1 } 
-          : p
-      ));
+
+      setPapers((prev) =>
+        prev.map((p) =>
+          p.objectId === paper.objectId ? { ...p, downloads: (p.downloads || 0) + 1 } : p
+        )
+      );
     } catch (error) {
-      console.error("Error updating download count:", error);
+      console.error('Error updating download count:', error);
     }
   };
 
@@ -184,7 +208,7 @@ export function PastPapers() {
 
   const handleUploadClick = () => {
     if (!user) {
-      setLoginModalMessage("Please login or signup to upload papers.");
+      setLoginModalMessage('Please login or signup to upload papers.');
       setShowLoginModal(true);
       return;
     }
@@ -195,10 +219,11 @@ export function PastPapers() {
     try {
       await Backendless.Data.of('PastPapers').save<Paper>({
         objectId: paperId,
-        approved: true
+        approved: true,
       });
-      setPapers((prev) => prev.map(p => p.objectId === paperId ? { ...p, approved: true } : p));
+      setPapers((prev) => prev.map((p) => (p.objectId === paperId ? { ...p, approved: true } : p)));
     } catch (error) {
+      console.error(error);
       alert('Failed to approve paper.');
     }
   };
@@ -207,424 +232,399 @@ export function PastPapers() {
     if (!window.confirm('Are you sure you want to reject and delete this paper?')) return;
     try {
       await Backendless.Data.of('PastPapers').remove(`objectId = '${paperId}'`);
-      setPapers((prev) => prev.filter(p => p.objectId !== paperId));
+      setPapers((prev) => prev.filter((p) => p.objectId !== paperId));
     } catch (error) {
+      console.error(error);
       alert('Failed to reject paper.');
     }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center">
-        <motion.div 
-          className="text-center"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
-        >
-          <motion.div 
-            className="relative w-20 h-20 mx-auto mb-6"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          >
-            <div className="absolute inset-0 rounded-full border-4 border-indigo-200"></div>
-            <div className="absolute inset-0 rounded-full border-4 border-indigo-600 border-t-transparent"></div>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <h3 className="text-xl font-semibold text-gray-700 mb-2">Loading Past Papers</h3>
-            <p className="text-gray-500">Preparing your study resources...</p>
-          </motion.div>
-        </motion.div>
-      </div>
-    );
-  }
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 15 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: 'spring',
+        stiffness: 120,
+        damping: 18,
+      },
+    },
+  };
 
   return (
-    <div className="min-h-screen bg-slate-50/30">
-      {/* Hero Section */}
-      <motion.section 
-        className="relative py-20 sm:py-24 px-4 overflow-hidden"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-900"></div>
-        <motion.div 
-          className="absolute inset-0 opacity-20"
-          animate={{
-            background: [
-              'radial-gradient(circle at 10% 40%, rgba(99, 102, 241, 0.4) 0%, transparent 60%)',
-              'radial-gradient(circle at 90% 10%, rgba(139, 92, 246, 0.4) 0%, transparent 60%)',
-              'radial-gradient(circle at 30% 90%, rgba(59, 130, 246, 0.4) 0%, transparent 60%)'
-            ]
-          }}
-          transition={{ duration: 10, repeat: Infinity }}
-        />
-        
-        <div className="relative max-w-6xl mx-auto text-center text-white z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
+    <div className="min-h-screen bg-slate-50/50 text-slate-800 pb-20">
+      
+      {/* Top Banner Hero Area */}
+      <section className="relative bg-slate-950 text-white py-24 px-4 overflow-hidden">
+        {/* Soft Glowing Background Orbs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/2 left-1/4 w-[400px] h-[400px] bg-indigo-600/10 rounded-full blur-[100px]" />
+          <div className="absolute bottom-0 right-1/4 w-[350px] h-[350px] bg-purple-600/10 rounded-full blur-[120px]" />
+        </div>
+
+        <div className="relative max-w-6xl mx-auto text-center z-10 space-y-6">
+          <motion.h1
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-200 bg-clip-text text-transparent"
           >
-            <div className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-5 py-1.5 mb-6 border border-white/10">
-              <FileText className="w-5 h-5 text-yellow-300 mr-2" />
-              <span className="text-sm font-semibold text-yellow-50">Resource Library</span>
-            </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight bg-gradient-to-r from-white via-slate-100 to-indigo-100 bg-clip-text text-transparent">
-              Past Question Papers
-            </h1>
-            <p className="text-lg sm:text-xl text-indigo-100 mb-10 max-w-3xl mx-auto px-4 sm:px-0">
-              Access and share previous exam papers from different semesters and colleges, tailored to PU.
-            </p>
-          </motion.div>
-          
-          {/* Stats */}
-          <motion.div 
-            className="grid grid-cols-2 sm:grid-cols-4 gap-4 lg:gap-6 max-w-4xl mx-auto mb-10"
-            initial={{ opacity: 0, y: 20 }}
+            Past Question Papers
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed"
+          >
+            Study smarter with previous exam papers. Access midterm, pre-board, and final papers shared by fellow BCSIT students across different affiliated colleges.
+          </motion.p>
+
+          {/* Quick Statistics Banner */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto pt-6"
           >
             {[
               { icon: FileText, label: 'Total Papers', value: papers.length },
-              { icon: School, label: 'Colleges', value: colleges.length },
+              { icon: School, label: 'Colleges', value: colleges.length - 1 },
               { icon: Users, label: 'Contributors', value: '50+' },
-              { icon: Download, label: 'Downloads', value: papers.reduce((sum, p) => sum + (p.downloads || 0), 0) }
-            ].map((stat, index) => (
-              <motion.div 
-                key={stat.label}
-                className="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/10 hover:border-white/20 transition-all duration-300 shadow-lg shadow-indigo-950/10"
-                whileHover={{ scale: 1.05 }}
+              { icon: Download, label: 'Downloads', value: papers.reduce((sum, p) => sum + (p.downloads || 0), 0) },
+            ].map((stat, idx) => (
+              <div
+                key={idx}
+                className="flex items-center space-x-3 bg-slate-900/60 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 text-left shadow-sm hover:border-slate-700/50 transition-colors"
               >
-                <stat.icon className="w-7 h-7 mx-auto mb-3 text-yellow-300" />
-                <div className="text-2xl sm:text-3xl font-bold">{stat.value}</div>
-                <div className="text-xs sm:text-sm text-indigo-200 font-semibold">{stat.label}</div>
-              </motion.div>
+                <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-indigo-400">
+                  <stat.icon className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-white">{stat.value}</p>
+                  <p className="text-[10px] text-slate-500 font-semibold">{stat.label}</p>
+                </div>
+              </div>
             ))}
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="flex justify-center"
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex justify-center pt-2"
           >
-            <Button 
-              onClick={handleUploadClick} 
-              className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:brightness-110 text-white font-bold px-10 py-3.5 rounded-xl shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 transition-all duration-300 border-0 w-full sm:w-auto flex items-center justify-center gap-2"
+            <Button
+              onClick={handleUploadClick}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-3 rounded-xl shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/35 transition-all flex items-center gap-2 border-0"
             >
-              <Plus className="w-5 h-5" />
-              Upload Paper
+              <Upload className="w-4 h-4" />
+              Upload Question Paper
             </Button>
           </motion.div>
         </div>
-      </motion.section>
+      </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 mt-12">
-        {/* Controls Section */}
-        <motion.section 
-          className="py-5 px-6 bg-white/70 backdrop-blur-md border border-slate-100 rounded-2xl shadow-premium mb-8"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
-          <div className="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4">
-            {/* Search */}
-            <div className="flex-1 max-w-md">
-              <div className="relative">
-                <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
-                <input
-                  type="text"
-                  placeholder="Search by subject..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 bg-white text-slate-800 placeholder:text-slate-400"
-                />
-              </div>
-            </div>
-
-            {/* Controls */}
-            <div className="flex flex-wrap items-center gap-4">
-              <Button
-                variant="outline"
-                onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center gap-2 border-slate-200 text-slate-700 font-semibold"
-              >
-                <Filter className="w-4 h-4" />
-                Filters
-              </Button>
-              
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
-                className="px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 font-semibold text-slate-700"
-              >
-                <option value="date">Latest</option>
-                <option value="downloads">Most Downloaded</option>
-                <option value="name">Name</option>
-              </select>
-              
-              <div className="flex bg-slate-100 rounded-xl p-1 border border-slate-200/40">
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded-lg transition-all duration-200 ${viewMode === 'grid' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
-                >
-                  <Grid className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setViewMode('list')}
-                  className={`p-2 rounded-lg transition-all duration-200 ${viewMode === 'list' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
-                >
-                  <List className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
+      {/* Sticky Interactive Dashboard Controls */}
+      <section className="sticky top-16 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200/60 py-4 px-4 shadow-sm">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+          
+          {/* Search bar */}
+          <div className="relative w-full md:w-80">
+            <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
+            <input
+              type="text"
+              placeholder="Search by subject (e.g. Java, DBMS)..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all bg-white text-slate-800 placeholder:text-slate-400"
+            />
           </div>
 
-          {/* Filters */}
-          <AnimatePresence>
-            {showFilters && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                className="mt-5 pt-5 border-t border-slate-100"
-              >
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">Semester</label>
-                    <select
-                      value={selectedSemester}
-                      onChange={(e) => setSelectedSemester(e.target.value)}
-                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 text-slate-800"
-                    >
-                      <option value="">All Semesters</option>
-                      {semesters.map((semester) => (
-                        <option key={semester.value} value={semester.value}>
-                          {semester.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">Exam Type</label>
-                    <select
-                      value={selectedExamType}
-                      onChange={(e) => setSelectedExamType(e.target.value)}
-                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 text-slate-800"
-                    >
-                      <option value="">All Types</option>
-                      {examTypes.map((type) => (
-                        <option key={type.value} value={type.value}>
-                          {type.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">College</label>
-                    <select
-                      value={selectedCollege}
-                      onChange={(e) => setSelectedCollege(e.target.value)}
-                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-300 text-slate-800"
-                    >
-                      <option value="">All Colleges</option>
-                      {colleges.map((college) => (
-                        <option key={college.value} value={college.value}>
-                          {college.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-                
-                {(selectedSemester || selectedExamType || selectedCollege) && (
-                  <div className="mt-4 flex justify-end">
-                    <Button variant="outline" onClick={handleResetFilters} className="text-xs border-slate-200 font-semibold">
-                      Clear Filters
-                    </Button>
-                  </div>
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.section>
+          {/* Filters & Display toggles */}
+          <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+            <Button
+              variant="outline"
+              onClick={() => setShowFilters(!showFilters)}
+              className={`flex items-center gap-2 border-slate-200 text-slate-700 font-semibold px-4 py-2 text-xs rounded-xl ${
+                showFilters ? 'bg-indigo-50 border-indigo-200 text-indigo-700' : ''
+              }`}
+            >
+              <Filter className="w-4 h-4" />
+              <span>Filters</span>
+            </Button>
 
-        {/* Papers Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' : 'space-y-4'}
-        >
-          <AnimatePresence>
-            {currentPapers.map((paper, index) => (
-              <motion.div
-                key={paper.objectId}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4, delay: 0.05 * index }}
-                whileHover={{ y: -5 }}
-                className="cursor-pointer group h-full"
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as 'date' | 'downloads' | 'name')}
+              className="px-3 py-2 border border-slate-200 rounded-xl text-xs bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all font-semibold text-slate-700"
+            >
+              <option value="date">Latest Uploads</option>
+              <option value="downloads">Most Downloaded</option>
+              <option value="name">Subject A-Z</option>
+            </select>
+
+            <div className="flex bg-slate-100 rounded-xl p-1 border border-slate-200/40">
+              <button
+                onClick={() => setViewMode('grid')}
+                className={`p-2 rounded-lg transition-all ${
+                  viewMode === 'grid' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500'
+                }`}
+                aria-label="Grid View"
               >
-                <Card hover={false} className="h-full bg-white rounded-2xl border border-slate-100 shadow-premium group-hover:shadow-premium-hover hover:border-indigo-500/10 transition-all duration-300 flex flex-col justify-between overflow-hidden">
-                  <CardHeader className="pb-4 border-b border-slate-100/50 bg-gradient-to-br from-slate-50 to-indigo-50/20">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h3 className="text-lg font-bold text-slate-800 mb-2 line-clamp-2">{paper.title}</h3>
-                        <div className="flex items-center space-x-2 text-xs text-slate-500 font-semibold mb-2">
-                          <School className="w-3.5 h-3.5 text-slate-400" />
+                <Grid className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`p-2 rounded-lg transition-all ${
+                  viewMode === 'list' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500'
+                }`}
+                aria-label="List View"
+              >
+                <List className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Expandable filter panel */}
+        <AnimatePresence>
+          {showFilters && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.25, ease: 'easeInOut' }}
+              className="max-w-6xl mx-auto overflow-hidden"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 mt-4 border-t border-slate-100">
+                <div>
+                  <label className="block text-[10px] font-bold uppercase text-slate-500 mb-1">Semester</label>
+                  <select
+                    value={selectedSemester}
+                    onChange={(e) => setSelectedSemester(e.target.value)}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-slate-800"
+                  >
+                    <option value="">All Semesters</option>
+                    {semesters.map((sem) => (
+                      <option key={sem.value} value={sem.value}>
+                        {sem.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold uppercase text-slate-500 mb-1">Exam Type</label>
+                  <select
+                    value={selectedExamType}
+                    onChange={(e) => setSelectedExamType(e.target.value)}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-slate-800"
+                  >
+                    <option value="">All Exams</option>
+                    {examTypes.map((type) => (
+                      <option key={type.value} value={type.value}>
+                        {type.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold uppercase text-slate-500 mb-1">College Origin</label>
+                  <select
+                    value={selectedCollege}
+                    onChange={(e) => setSelectedCollege(e.target.value)}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-slate-800"
+                  >
+                    <option value="">All Colleges</option>
+                    {colleges.map((college) => (
+                      <option key={college.value} value={college.value}>
+                        {college.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {(selectedSemester || selectedExamType || selectedCollege) && (
+                <div className="flex justify-end pt-3">
+                  <Button
+                    variant="outline"
+                    onClick={handleResetFilters}
+                    className="text-[10px] border-slate-200 font-bold px-3 py-1 bg-slate-50 hover:bg-slate-100"
+                  >
+                    Reset Filters
+                  </Button>
+                </div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </section>
+
+      {/* Main Papers Content */}
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
+        
+        {/* Localized Loading Skeleten Grid */}
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="animate-pulse bg-white border border-slate-100 rounded-2xl p-6 space-y-4 shadow-sm text-left">
+                <div className="space-y-2">
+                  <div className="h-4 bg-slate-100 rounded w-3/4"></div>
+                  <div className="h-3 bg-slate-100 rounded w-1/2"></div>
+                </div>
+                <div className="h-10 bg-slate-50 rounded-xl w-full mt-6"></div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentPage + '-' + sortBy}
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className={
+                viewMode === 'grid'
+                  ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start'
+                  : 'space-y-4 max-w-4xl mx-auto'
+              }
+            >
+              {currentPapers.map((paper, idx) => (
+                <motion.div
+                  key={paper.objectId || idx}
+                  variants={itemVariants}
+                  className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-indigo-150 transition-all duration-300 overflow-hidden flex flex-col h-full text-left"
+                >
+                  {/* Paper Header */}
+                  <div className="p-6 border-b border-slate-150/40 bg-gradient-to-b from-slate-50/50 to-transparent flex-1">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="space-y-2 flex-1">
+                        <span className={`inline-block text-[9px] font-bold px-2.5 py-0.5 rounded-full border ${getExamTypeColor(paper.examType)}`}>
+                          {paper.examType ? paper.examType.toUpperCase() : 'EXAM'}
+                        </span>
+                        
+                        <h3 className="text-sm font-bold text-slate-800 line-clamp-2">
+                          {paper.title}
+                        </h3>
+
+                        <div className="flex items-center space-x-1 text-[10px] text-slate-400 font-semibold">
+                          <School className="w-3.5 h-3.5 flex-shrink-0" />
                           <span className="truncate">{paper.college}</span>
                         </div>
-                        <div className="text-xs font-bold text-indigo-600">Subject: {paper.subject}</div>
                       </div>
-                      <div className="flex flex-col items-end space-y-1.5 ml-4 flex-shrink-0">
-                        <div className="bg-indigo-50 text-indigo-600 border border-indigo-100/50 px-2.5 py-1 rounded-full text-xs font-bold">
+
+                      <div className="flex flex-col items-end space-y-1.5 flex-shrink-0">
+                        <span className="inline-block px-2.5 py-1 rounded-lg bg-indigo-50 border border-indigo-100/40 text-[10px] font-bold text-indigo-650">
                           Sem {paper.semester}
-                        </div>
-                        <div className={`px-2.5 py-1 rounded-full text-xs font-semibold ${getExamTypeColor(paper.examType)}`}>
-                          {paper.examType ? paper.examType.charAt(0).toUpperCase() + paper.examType.slice(1) : 'Unknown'}
-                        </div>
+                        </span>
+
                         {!paper.approved && (
-                          <div className="bg-amber-50 text-amber-600 border border-amber-200/50 px-2.5 py-1 rounded-full text-xs font-semibold">
-                            {user?.objectId === paper.ownerId ? 'Your Upload' : 'Pending'}
-                          </div>
+                          <span className="inline-block px-2 py-0.5 rounded-md bg-amber-50 border border-amber-100 text-[8px] font-bold text-amber-600">
+                            {user?.objectId === paper.ownerId ? 'Your Draft' : 'Pending'}
+                          </span>
                         )}
                       </div>
                     </div>
-                  </CardHeader>
-                  
-                  <CardContent className="p-6 flex-1 flex flex-col justify-between">
-                    <div className="space-y-3 text-xs font-semibold text-slate-500 mb-6">
-                      <div className="flex items-center space-x-2">
-                        <Calendar className="w-4 h-4 text-slate-400" />
-                        <span>Uploaded {new Date(paper.uploadedAt).toLocaleDateString()}</span>
-                      </div>
-                      <div className="flex items-center justify-between border-t border-slate-50 pt-3">
-                        <span className="font-semibold text-slate-600">By: {paper.uploadedBy}</span>
-                        <div className="flex items-center space-x-1">
-                          <Download className="w-3.5 h-3.5 text-slate-400" />
-                          <span>{paper.downloads || 0}</span>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      {paper.approved ? (
-                        <Button 
-                          variant="primary"
-                          className="w-full text-sm font-semibold" 
-                          onClick={() => handleDownload(paper)}
-                        >
-                          <Download className="w-4 h-4 mr-2" />
-                          Download Paper
-                        </Button>
-                      ) : user?.role === 'admin' ? (
-                        <div className="flex space-x-2">
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            className="flex-1 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200 font-semibold border-slate-200 rounded-xl" 
-                            onClick={() => paper.objectId && handleApprove(paper.objectId)}
-                          >
-                            Approve
-                          </Button>
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            className="flex-1 hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 font-semibold border-slate-200 rounded-xl" 
-                            onClick={() => paper.objectId && handleReject(paper.objectId)}
-                          >
-                            Reject
-                          </Button>
-                        </div>
-                      ) : user?.objectId === paper.ownerId ? (
-                        <Button variant="ghost" className="w-full text-xs font-bold text-slate-400" disabled>
-                          <Clock className="w-4 h-4 mr-2" />
-                          Waiting for Approval
-                        </Button>
-                      ) : (
-                        <Button variant="ghost" className="w-full text-xs font-bold text-slate-400" disabled>
-                          <Clock className="w-4 h-4 mr-2" />
-                          Pending Approval
-                        </Button>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
 
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <motion.div 
-            className="flex justify-center items-center space-x-2 mt-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-          >
-            <Button
-              variant="outline"
-              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="px-3.5 py-2 border-slate-200 text-slate-700"
-            >
-              Previous
-            </Button>
-            
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <Button
-                key={page}
-                variant={currentPage === page ? "primary" : "outline"}
-                onClick={() => setCurrentPage(page)}
-                className={`px-3 py-2 min-w-[40px] rounded-xl border-slate-200 font-semibold ${
-                  currentPage === page 
-                    ? '' 
-                    : 'text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-700'
-                }`}
-              >
-                {page}
-              </Button>
-            ))}
-            
-            <Button
-              variant="outline"
-              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              className="px-3.5 py-2 border-slate-200 text-slate-700"
-            >
-              Next
-            </Button>
-          </motion.div>
+                    <div className="text-[10px] font-bold text-indigo-600 mt-3.5 flex items-center">
+                      <FileText className="w-3.5 h-3.5 mr-1" />
+                      <span>Subject: {paper.subject}</span>
+                    </div>
+                  </div>
+
+                  {/* Paper Footer Card Content */}
+                  <div className="p-5 bg-slate-50/40 border-t border-slate-100/60 flex flex-col justify-end space-y-4">
+                    <div className="flex items-center justify-between text-[10px] text-slate-405 font-semibold">
+                      <div className="flex items-center space-x-1">
+                        <Calendar className="w-3.5 h-3.5" />
+                        <span>{new Date(paper.uploadedAt).toLocaleDateString()}</span>
+                      </div>
+                      <div className="flex items-center space-x-1.5">
+                        <Download className="w-3.5 h-3.5" />
+                        <span>{paper.downloads || 0} Downloads</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between border-t border-slate-100/60 pt-3 text-[10px]">
+                      <span className="font-semibold text-slate-500">By: {paper.uploadedBy}</span>
+                      
+                      <div className="flex-shrink-0">
+                        {paper.approved ? (
+                          <Button
+                            variant="primary"
+                            className="text-[10px] font-bold px-4 py-2 rounded-xl"
+                            onClick={() => handleDownload(paper)}
+                          >
+                            <Download className="w-3.5 h-3.5 mr-1.5" />
+                            Download
+                          </Button>
+                        ) : user?.role === 'admin' ? (
+                          <div className="flex space-x-1">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="text-[9px] font-bold px-2 py-1.5 hover:bg-emerald-50 hover:text-emerald-700 border-slate-200"
+                              onClick={() => paper.objectId && handleApprove(paper.objectId)}
+                            >
+                              Approve
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="text-[9px] font-bold px-2 py-1.5 hover:bg-rose-50 hover:text-rose-700 border-slate-200"
+                              onClick={() => paper.objectId && handleReject(paper.objectId)}
+                            >
+                              Reject
+                            </Button>
+                          </div>
+                        ) : (
+                          <span className="text-slate-400 font-bold flex items-center space-x-1">
+                            <Clock className="w-3.5 h-3.5" />
+                            <span>Awaiting Approval</span>
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
         )}
 
         {/* Empty State */}
         {filteredPapers.length === 0 && !loading && (
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            transition={{ duration: 0.4 }} 
-            className="text-center py-16"
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-20 bg-white border border-slate-100 rounded-3xl p-8 max-w-lg mx-auto"
           >
-            <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <FileText className="w-8 h-8 text-slate-400" />
+            <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-slate-100">
+              <FileText className="w-6 h-6 text-slate-400" />
             </div>
-            <h3 className="text-xl font-bold text-slate-900 mb-2">No papers found</h3>
-            <p className="text-slate-600 mb-6 text-sm">Try adjusting your filters or be the first to upload a paper!</p>
+            <h3 className="text-base font-bold text-slate-800 mb-1">No question papers found</h3>
+            <p className="text-xs text-slate-500 mb-6 leading-relaxed">
+              No matching previous question papers are currently uploaded. Be the first contributor to share notes with your friends!
+            </p>
             {(selectedSemester || selectedExamType || selectedCollege) && (
               <Button
                 variant="outline"
-                className="mb-4 text-xs font-semibold border-slate-200"
+                className="mb-4 text-xs font-bold border-slate-200 px-4 py-2 mr-2"
                 onClick={handleResetFilters}
               >
                 Clear Filters
@@ -632,38 +632,77 @@ export function PastPapers() {
             )}
             <Button
               onClick={handleUploadClick}
-              className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:brightness-110 text-white font-semibold"
+              className="bg-indigo-650 hover:bg-indigo-700 text-white font-bold text-xs px-6 py-2 rounded-xl border-0 shadow-md shadow-indigo-150"
             >
-              <Plus className="w-4 h-4 mr-2" />
-              Upload Paper
+              <Plus className="w-4 h-4 mr-1.5" />
+              Upload Now
             </Button>
           </motion.div>
         )}
 
-        {/* Upload Modal */}
-        <AnimatePresence>
-          {showUploadModal && (
-            <UploadPaperModal
-              onClose={() => setShowUploadModal(false)}
-              user={user || {}}
-              onUploadSuccess={(newPaper) => {
-                setPapers(prev => [newPaper, ...prev]);
-                setSelectedSemester('');
-                setSelectedExamType('');
-                setSelectedCollege('');
-                setSearchQuery('');
-              }}
-            />
-          )}
-        </AnimatePresence>
+        {/* Pagination Buttons */}
+        {totalPages > 1 && !loading && (
+          <motion.div
+            className="flex justify-center items-center space-x-1.5 mt-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <Button
+              variant="outline"
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="px-3 py-2 border-slate-200 text-slate-700 text-xs rounded-xl"
+            >
+              Previous
+            </Button>
 
-        {/* Login Redirect Modal */}
-        <LoginRedirectModal
-          isOpen={showLoginModal}
-          onClose={() => setShowLoginModal(false)}
-          message={loginModalMessage}
-        />
-      </div>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <Button
+                key={page}
+                variant={currentPage === page ? 'primary' : 'outline'}
+                onClick={() => setCurrentPage(page)}
+                className={`px-3 py-2 min-w-[36px] text-xs rounded-xl border-slate-200 font-bold ${
+                  currentPage === page ? '' : 'text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-700'
+                }`}
+              >
+                {page}
+              </Button>
+            ))}
+
+            <Button
+              variant="outline"
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="px-3 py-2 border-slate-200 text-slate-700 text-xs rounded-xl"
+            >
+              Next
+            </Button>
+          </motion.div>
+        )}
+
+      </main>
+
+      {/* Upload Modal Drawer */}
+      <AnimatePresence>
+        {showUploadModal && (
+          <UploadPaperModal
+            onClose={() => setShowUploadModal(false)}
+            user={user || {}}
+            onUploadSuccess={(newPaper) => {
+              setPapers((prev) => [newPaper, ...prev]);
+              handleResetFilters();
+            }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Auth Gate Redirect Modal */}
+      <LoginRedirectModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        message={loginModalMessage}
+      />
+
     </div>
   );
 }

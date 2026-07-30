@@ -1,4 +1,6 @@
+// src/components/common/ProfileDetails.tsx
 import React from "react";
+import { User, Mail, GraduationCap, Building, Shield, Sparkles } from "lucide-react";
 
 interface ProfileData {
   name?: string;
@@ -31,10 +33,14 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ profile }) => {
     return (
       <section
         aria-live="polite"
-        className="w-full max-w-md bg-white shadow-md rounded-xl p-6"
+        className="w-full max-w-md bg-white/95 border border-slate-200/60 backdrop-blur-md rounded-3xl p-6 shadow-premium relative overflow-hidden"
       >
-        <h2 className="text-2xl font-semibold mb-4 text-center">Profile Information</h2>
-        <p className="text-center text-gray-500 py-8">No profile data available</p>
+        <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-200/10 rounded-full blur-2xl pointer-events-none" />
+        <h2 className="text-base font-extrabold text-slate-800 flex items-center gap-2 border-b border-slate-50 pb-2 mb-4">
+          <Sparkles className="w-4.5 h-4.5 text-indigo-500" />
+          Profile Information
+        </h2>
+        <p className="text-center text-slate-400 py-8 font-bold text-xs uppercase tracking-wider">No profile data available</p>
       </section>
     );
   }
@@ -42,47 +48,81 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ profile }) => {
   return (
     <section
       aria-label="User profile information"
-      className="w-full max-w-md bg-white shadow-md rounded-xl p-6"
+      className="w-full max-w-md bg-white/95 border border-slate-200/60 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-premium relative overflow-hidden"
     >
-      <h2 className="text-2xl font-semibold mb-6 text-center">Profile Information</h2>
+      {/* Decorative Glow */}
+      <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-200/10 rounded-full blur-2xl pointer-events-none" />
 
-      <dl className="flex flex-col gap-4 text-sm sm:text-base">
-        <div className="flex items-center justify-between">
-          <dt className="font-semibold text-gray-700">Name:</dt>
-          <dd className="text-gray-900 text-right">{profile.name || "-"}</dd>
-        </div>
+      <h2 className="text-base font-extrabold text-slate-800 flex items-center gap-2 border-b border-slate-50 pb-2 mb-6">
+        <Sparkles className="w-4.5 h-4.5 text-indigo-500" />
+        Profile Information
+      </h2>
 
-        <div className="flex items-center justify-between">
-          <dt className="font-semibold text-gray-700">Email:</dt>
-          <dd className="text-gray-900 text-right">{profile.email || "-"}</dd>
-        </div>
-
-        <div className="flex items-center justify-between">
-          <dt className="font-semibold text-gray-700">Semester:</dt>
-          <dd className="text-gray-900 text-right">{profile.semester || "-"}</dd>
-        </div>
-
-        <div className="flex items-center justify-between">
-          <dt className="font-semibold text-gray-700">College:</dt>
-          <dd className="text-gray-900 text-right">{profile.college || "-"}</dd>
-        </div>
-
-        <div className="flex items-center justify-between">
-          <dt className="font-semibold text-gray-700">Role:</dt>
-          <dd className="text-gray-900 text-right">{getRoleDisplay(profile.role)}</dd>
-        </div>
-
-        {profile.avatarUrl && (
-          <div className="flex flex-col items-center mt-6">
+      {/* Avatar preview block */}
+      {profile.avatarUrl && (
+        <div className="flex flex-col items-center mb-6">
+          <div className="relative w-24 h-24 flex items-center justify-center rounded-full p-1 bg-gradient-to-tr from-indigo-500 via-indigo-600 to-purple-600 shadow-lg">
             <img
               src={profile.avatarUrl}
               alt={`${profile.name || "User"}'s avatar`}
-              className="w-32 h-32 rounded-full object-cover border-2 border-gray-300"
+              className="w-full h-full rounded-full object-cover border-2 border-white shadow-inner"
               loading="lazy"
             />
           </div>
-        )}
-      </dl>
+        </div>
+      )}
+
+      {/* Metadata list */}
+      <div className="space-y-3.5">
+        
+        {/* Name item */}
+        <div className="flex items-center gap-3 p-3 bg-slate-50/70 border border-slate-100 rounded-2xl">
+          <User className="w-5 h-5 text-indigo-500 flex-shrink-0" />
+          <div className="min-w-0">
+            <span className="block text-[8px] font-extrabold text-slate-400 uppercase tracking-widest">Full Name</span>
+            <span className="text-xs font-bold text-slate-700 truncate block">{profile.name || "-"}</span>
+          </div>
+        </div>
+
+        {/* Email item */}
+        <div className="flex items-center gap-3 p-3 bg-slate-50/70 border border-slate-100 rounded-2xl">
+          <Mail className="w-5 h-5 text-indigo-500 flex-shrink-0" />
+          <div className="min-w-0">
+            <span className="block text-[8px] font-extrabold text-slate-400 uppercase tracking-widest">Email Address</span>
+            <span className="text-xs font-bold text-slate-700 truncate block">{profile.email || "-"}</span>
+          </div>
+        </div>
+
+        {/* Semester item */}
+        <div className="flex items-center gap-3 p-3 bg-slate-50/70 border border-slate-100 rounded-2xl">
+          <GraduationCap className="w-5 h-5 text-indigo-500 flex-shrink-0" />
+          <div className="min-w-0">
+            <span className="block text-[8px] font-extrabold text-slate-400 uppercase tracking-widest">Current Semester</span>
+            <span className="text-xs font-bold text-slate-700 truncate block">
+              {profile.semester ? `Semester ${profile.semester}` : "-"}
+            </span>
+          </div>
+        </div>
+
+        {/* College item */}
+        <div className="flex items-center gap-3 p-3 bg-slate-50/70 border border-slate-100 rounded-2xl">
+          <Building className="w-5 h-5 text-indigo-500 flex-shrink-0" />
+          <div className="min-w-0">
+            <span className="block text-[8px] font-extrabold text-slate-400 uppercase tracking-widest">Institution College</span>
+            <span className="text-xs font-bold text-slate-700 truncate block">{profile.college || "-"}</span>
+          </div>
+        </div>
+
+        {/* Role item */}
+        <div className="flex items-center gap-3 p-3 bg-slate-50/70 border border-slate-100 rounded-2xl">
+          <Shield className="w-5 h-5 text-indigo-500 flex-shrink-0" />
+          <div className="min-w-0">
+            <span className="block text-[8px] font-extrabold text-slate-400 uppercase tracking-widest">Access Role</span>
+            <span className="text-xs font-bold text-indigo-600 truncate block">{getRoleDisplay(profile.role)}</span>
+          </div>
+        </div>
+
+      </div>
     </section>
   );
 };

@@ -1,10 +1,13 @@
 // src/components/Notes/UploadPaperModal.tsx
-import React, { useState, useEffect } from 'react';
-import { Button } from '../ui/Button';
-import { Input } from '../ui/Input';
-import { Select } from '../ui/Select';
-import { motion } from 'framer-motion';
-import Backendless from '../../lib/backendless';
+import React, { useState, useEffect, useRef } from "react";
+import { Button } from "../ui/Button";
+import { Input } from "../ui/Input";
+import { Select } from "../ui/Select";
+import { motion, AnimatePresence } from "framer-motion";
+import Backendless from "../../lib/backendless";
+import { 
+  X, UploadCloud, FileText, CheckCircle2, AlertCircle 
+} from "lucide-react";
 
 interface User {
   name?: string;
@@ -18,81 +21,123 @@ interface UploadPaperModalProps {
 }
 
 const semesters = [
-  { value: '1', label: '1st Semester' },
-  { value: '2', label: '2nd Semester' },
-  { value: '3', label: '3rd Semester' },
-  { value: '4', label: '4th Semester' },
-  { value: '5', label: '5th Semester' },
-  { value: '6', label: '6th Semester' },
-  { value: '7', label: '7th Semester' },
-  { value: '8', label: '8th Semester' },
+  { value: "1", label: "1st Semester" },
+  { value: "2", label: "2nd Semester" },
+  { value: "3", label: "3rd Semester" },
+  { value: "4", label: "4th Semester" },
+  { value: "5", label: "5th Semester" },
+  { value: "6", label: "6th Semester" },
+  { value: "7", label: "7th Semester" },
+  { value: "8", label: "8th Semester" },
 ];
 
 const examTypes = [
-  { value: 'midterm', label: 'Midterm' },
-  { value: 'pre-board', label: 'Pre-board' },
-  { value: 'final', label: 'Final' },
+  { value: "midterm", label: "Midterm" },
+  { value: "pre-board", label: "Pre-board" },
+  { value: "final", label: "Final" },
 ];
 
 const colleges = [
-  { value: 'Pokhara University', label: 'Pokhara University' },
-  { value: 'Ace Institute of Management', label: 'Ace Institute of Management' },
-  { value: 'SAIM College', label: 'SAIM College' },
-  { value: 'Apollo International College', label: 'Apollo International College' },
-  { value: 'Quest International College', label: 'Quest International College' },
-  { value: 'Shubhashree College of Management', label: 'Shubhashree College of Management' },
-  { value: 'Liberty College', label: 'Liberty College' },
-  { value: 'Uniglobe College', label: 'Uniglobe College' },
-  { value: 'Medhavi College', label: 'Medhavi College' },
-  { value: 'Crimson College of Technology', label: 'Crimson College of Technology' },
-  { value: 'Rajdhani Model College', label: 'Rajdhani Model College' },
-  { value: 'Excel Business College', label: 'Excel Business College' },
-  { value: 'Malpi International College', label: 'Malpi International College' },
-  { value: 'Nobel College', label: 'Nobel College' },
-  { value: 'Boston International College', label: 'Boston International College' },
-  { value: 'Pokhara College of Management', label: 'Pokhara College of Management' },
-  { value: 'Apex College', label: 'Apex College' },
-  { value: 'Other', label: 'Other College' },
+  { value: "Pokhara University", label: "Pokhara University" },
+  { value: "Ace Institute of Management", label: "Ace Institute of Management" },
+  { value: "SAIM College", label: "SAIM College" },
+  { value: "Apollo International College", label: "Apollo International College" },
+  { value: "Quest International College", label: "Quest International College" },
+  { value: "Shubhashree College of Management", label: "Shubhashree College of Management" },
+  { value: "Liberty College", label: "Liberty College" },
+  { value: "Uniglobe College", label: "Uniglobe College" },
+  { value: "Medhavi College", label: "Medhavi College" },
+  { value: "Crimson College of Technology", label: "Crimson College of Technology" },
+  { value: "Rajdhani Model College", label: "Rajdhani Model College" },
+  { value: "Excel Business College", label: "Excel Business College" },
+  { value: "Malpi International College", label: "Malpi International College" },
+  { value: "Nobel College", label: "Nobel College" },
+  { value: "Boston International College", label: "Boston International College" },
+  { value: "Pokhara College of Management", label: "Pokhara College of Management" },
+  { value: "Apex College", label: "Apex College" },
+  { value: "Other", label: "Other College" },
 ];
 
 export function UploadPaperModal({ onClose, user, onUploadSuccess }: UploadPaperModalProps) {
-  const [title, setTitle] = useState('');
-  const [subject, setSubject] = useState('');
-  const [semester, setSemester] = useState('');
-  const [examType, setExamType] = useState('');
-  const [college, setCollege] = useState('');
+  const [title, setTitle] = useState("");
+  const [subject, setSubject] = useState("");
+  const [semester, setSemester] = useState("");
+  const [examType, setExamType] = useState("");
+  const [college, setCollege] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  
+  // Storing alerts
+  const [alert, setAlert] = useState<{ type: "success" | "error"; text: string } | null>(null);
+
+  // Drag and drop states
+  const [dragActive, setDragActive] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = originalOverflow;
     };
   }, []);
 
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const droppedFiles = Array.from(e.dataTransfer.files);
+      setFiles(prev => [...prev, ...droppedFiles]);
+    }
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const selectedFiles = Array.from(e.target.files);
+      setFiles(prev => [...prev, ...selectedFiles]);
+    }
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
+
+  const removeFile = (index: number) => {
+    setFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
   const handleUpload = async () => {
     if (!title || !subject || !semester || !examType || !college || files.length === 0) {
-      setMessage('Please fill all fields and upload at least one file.');
+      setAlert({ type: "error", text: "Please complete all fields and select at least one file." });
       return;
     }
 
-    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
+    const allowedTypes = ["application/pdf", "image/jpeg", "image/png", "image/jpg"];
     for (const file of files) {
       if (!allowedTypes.includes(file.type)) {
-        setMessage('Only PDF or image files (jpg, png) are allowed.');
+        setAlert({ type: "error", text: "Only PDF documents or image files (JPG, PNG) are permitted." });
         return;
       }
-      if (file.size > 5242880) { // 5MB = 5 * 1024 * 1024 bytes
-        setMessage(`File "${file.name}" exceeds the 5MB size limit.`);
+      if (file.size > 5242880) { // 5MB limit
+        setAlert({ type: "error", text: `File "${file.name}" exceeds the 5MB file size limit.` });
         return;
       }
     }
 
     setLoading(true);
-    setMessage('');
+    setAlert(null);
 
     try {
       for (const file of files) {
@@ -107,90 +152,203 @@ export function UploadPaperModal({ onClose, user, onUploadSuccess }: UploadPaper
           college,
           fileUrl: savedFile.fileURL,
           fileName: file.name,
-          fileSize: (file.size / 1024).toFixed(2) + ' KB',
-          uploadedBy: user?.name || user?.email || 'Unknown',
+          fileSize: (file.size / 1024).toFixed(2) + " KB",
+          uploadedBy: user?.name || user?.email || "Unknown",
           downloads: 0,
           approved: false,
           uploadedAt: new Date(),
         };
 
-        await Backendless.Data.of('PastPapers').save(newRecord);
+        await Backendless.Data.of("PastPapers").save(newRecord);
       }
 
-      setMessage('Your file has been uploaded and is now pending admin approval.');
-      setTitle('');
-      setSubject('');
-      setSemester('');
-      setExamType('');
-      setCollege('');
+      setAlert({
+        type: "success",
+        text: "Success! Your files have been uploaded and are now pending administrator verification.",
+      });
+      
+      setTitle("");
+      setSubject("");
+      setSemester("");
+      setExamType("");
+      setCollege("");
       setFiles([]);
 
-      if (typeof onUploadSuccess === 'function') onUploadSuccess();
+      if (typeof onUploadSuccess === "function") onUploadSuccess();
 
       setTimeout(() => {
-        const modal = document.querySelector('.UploadPaperModal');
-        if (modal) modal.scrollTo({ top: 0, behavior: 'smooth' });
+        const modal = document.querySelector(".UploadPaperModal");
+        if (modal) modal.scrollTo({ top: 0, behavior: "smooth" });
       }, 100);
 
       setTimeout(() => {
         onClose();
-      }, 3000);
+      }, 3500);
     } catch (error: any) {
-      console.error('Upload failed:', error);
-      setMessage(`Failed to upload. ${error.message || 'Try again.'}`);
+      console.error("Upload failed:", error);
+      setAlert({ type: "error", text: `Failed to upload. ${error.message || "Please try again."}` });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4 overflow-auto">
+    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4 overflow-auto">
       <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        className="UploadPaperModal bg-white p-6 rounded-lg shadow-xl w-full max-w-xl space-y-4 max-h-[90vh] overflow-auto"
+        initial={{ scale: 0.95, opacity: 0, y: 15 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.95, opacity: 0, y: 15 }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
+        className="UploadPaperModal bg-white/95 border border-slate-200/60 shadow-premium w-full max-w-xl rounded-3xl max-h-[90vh] overflow-y-auto relative overflow-hidden"
       >
-        <h2 className="text-2xl font-semibold text-gray-800">Upload Past Paper</h2>
+        {/* Decorative corner glow */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-200/20 rounded-full blur-2xl pointer-events-none" />
 
-        <Input
-          label="Paper Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="e.g. Database Final 2024"
-        />
+        <div className="p-6 sm:p-8 space-y-5">
+          
+          {/* Header */}
+          <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+            <h2 className="text-lg font-black bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-800 bg-clip-text text-transparent flex items-center gap-2">
+              <UploadCloud className="w-5.5 h-5.5 text-indigo-600" />
+              Upload Past Paper
+            </h2>
+            <button
+              type="button"
+              onClick={onClose}
+              className="p-1.5 rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors border-0 cursor-pointer flex items-center justify-center"
+              aria-label="Close"
+              disabled={loading}
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
 
-        <Input
-          label="Subject"
-          value={subject}
-          onChange={(e) => setSubject(e.target.value)}
-          placeholder="e.g. Database Management System"
-        />
+          {/* Form Fields */}
+          <div className="space-y-4">
+            <Input
+              label="Paper Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="e.g. Database Final 2024"
+              disabled={loading}
+            />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Select label="Semester" value={semester} onChange={(e) => setSemester(e.target.value)} options={semesters} />
-          <Select label="Exam Type" value={examType} onChange={(e) => setExamType(e.target.value)} options={examTypes} />
-          <Select label="College" value={college} onChange={(e) => setCollege(e.target.value)} options={colleges} />
-        </div>
+            <Input
+              label="Subject"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              placeholder="e.g. Database Management System"
+              disabled={loading}
+            />
 
-        <Input
-          type="file"
-          label="Upload Files"
-          accept="application/pdf,image/jpeg,image/png,image/jpg"
-          multiple
-          onChange={e => setFiles(e.target.files ? Array.from(e.target.files) : [])}
-        />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Select label="Semester" value={semester} onChange={(e) => setSemester(e.target.value)} options={semesters} disabled={loading} />
+              <Select label="Exam Type" value={examType} onChange={(e) => setExamType(e.target.value)} options={examTypes} disabled={loading} />
+              <Select label="College" value={college} onChange={(e) => setCollege(e.target.value)} options={colleges} disabled={loading} />
+            </div>
 
-        {message && (
-          <p className={`text-sm text-center ${message.includes('✅') ? 'text-green-600' : 'text-red-500'}`}>
-            {message}
-          </p>
-        )}
+            {/* Interactive Drag & Drop Area */}
+            <div className="space-y-2">
+              <span className="block text-xs font-bold text-slate-700">Attach Exam Documents</span>
+              
+              <div
+                onDragEnter={handleDrag}
+                onDragOver={handleDrag}
+                onDragLeave={handleDrag}
+                onDrop={handleDrop}
+                onClick={triggerFileInput}
+                className={`border-2 border-dashed rounded-2xl p-6 text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-2.5 ${
+                  dragActive 
+                    ? "border-indigo-500 bg-indigo-50/40" 
+                    : "border-slate-200 bg-slate-50/50 hover:bg-slate-50 hover:border-slate-300"
+                }`}
+              >
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  className="hidden"
+                  accept="application/pdf,image/jpeg,image/png,image/jpg"
+                  multiple
+                  onChange={handleFileSelect}
+                  disabled={loading}
+                />
+                <UploadCloud className={`w-8 h-8 ${dragActive ? "text-indigo-600 animate-bounce" : "text-slate-400"}`} />
+                <div className="space-y-1">
+                  <p className="text-xs font-bold text-slate-700">Drag & drop files here, or <span className="text-indigo-600 hover:text-indigo-800">browse files</span></p>
+                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wide">PDF, JPG, or PNG (Max 5MB each)</p>
+                </div>
+              </div>
 
-        <div className="flex justify-end space-x-3 pt-4">
-          <Button variant="outline" onClick={onClose}>Cancel</Button>
-          <Button onClick={handleUpload} disabled={loading}>
-            {loading ? 'Uploading...' : 'Submit'}
-          </Button>
+              {/* Staged files list */}
+              {files.length > 0 && (
+                <div className="space-y-2 max-h-[140px] overflow-y-auto pr-1">
+                  {files.map((file, idx) => (
+                    <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl text-xs">
+                      <div className="flex items-center gap-2 truncate">
+                        <FileText className="w-4 h-4 text-indigo-500 flex-shrink-0" />
+                        <span className="font-bold text-slate-700 truncate leading-snug">{file.name}</span>
+                        <span className="text-[9px] text-slate-400 font-bold uppercase flex-shrink-0">({(file.size / 1024).toFixed(0)} KB)</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeFile(idx);
+                        }}
+                        className="p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded-lg transition-colors border-0 cursor-pointer flex items-center justify-center"
+                        disabled={loading}
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Feedback Alerts */}
+          <AnimatePresence mode="wait">
+            {alert && (
+              <motion.div
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -5 }}
+                className={`p-3.5 rounded-xl border flex items-start gap-2.5 text-xs leading-relaxed font-semibold ${
+                  alert.type === "success" 
+                    ? "bg-emerald-50 border-emerald-100 text-emerald-800" 
+                    : "bg-rose-50 border-rose-100 text-rose-800"
+                }`}
+              >
+                {alert.type === "success" ? (
+                  <CheckCircle2 className="w-4.5 h-4.5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                ) : (
+                  <AlertCircle className="w-4.5 h-4.5 text-rose-600 flex-shrink-0 mt-0.5" />
+                )}
+                <span>{alert.text}</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Submit Actions */}
+          <div className="flex justify-end space-x-3 pt-3 border-t border-slate-100">
+            <Button 
+              variant="outline" 
+              onClick={onClose} 
+              disabled={loading}
+              className="px-5 py-2.5 rounded-xl text-xs font-bold transition-all border border-slate-200"
+            >
+              Cancel
+            </Button>
+            <button
+              onClick={handleUpload}
+              disabled={loading}
+              className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:brightness-110 text-white font-extrabold text-xs px-6 py-2.5 rounded-xl shadow-md border-0 transition-all cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
+            >
+              {loading ? "Uploading..." : "Submit Paper"}
+            </button>
+          </div>
+
         </div>
       </motion.div>
     </div>

@@ -1,5 +1,7 @@
-import React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+// src/components/common/EditProfileForm.tsx
+import React from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { User, Mail, GraduationCap, Building, Sparkles } from "lucide-react";
 
 interface ProfileData {
   name: string;
@@ -16,35 +18,35 @@ interface EditProfileFormProps {
 }
 
 const semesters = [
-  { value: '1', label: '1st Semester' },
-  { value: '2', label: '2nd Semester' },
-  { value: '3', label: '3rd Semester' },
-  { value: '4', label: '4th Semester' },
-  { value: '5', label: '5th Semester' },
-  { value: '6', label: '6th Semester' },
-  { value: '7', label: '7th Semester' },
-  { value: '8', label: '8th Semester' },
+  { value: "1", label: "1st Semester" },
+  { value: "2", label: "2nd Semester" },
+  { value: "3", label: "3rd Semester" },
+  { value: "4", label: "4th Semester" },
+  { value: "5", label: "5th Semester" },
+  { value: "6", label: "6th Semester" },
+  { value: "7", label: "7th Semester" },
+  { value: "8", label: "8th Semester" },
 ];
 
 const colleges = [
-  { value: 'Pokhara University', label: 'Pokhara University' },
-  { value: 'Ace Institute of Management', label: 'Ace Institute of Management' },
-  { value: 'SAIM College', label: 'SAIM College' },
-  { value: 'Apollo International College', label: 'Apollo International College' },
-  { value: 'Quest International College', label: 'Quest International College' },
-  { value: 'Shubhashree College of Management', label: 'Shubhashree College of Management' },
-  { value: 'Liberty College', label: 'Liberty College' },
-  { value: 'Uniglobe College', label: 'Uniglobe College' },
-  { value: 'Medhavi College', label: 'Medhavi College' },
-  { value: 'Crimson College of Technology', label: 'Crimson College of Technology' },
-  { value: 'Rajdhani Model College', label: 'Rajdhani Model College' },
-  { value: 'Excel Business College', label: 'Excel Business College' },
-  { value: 'Malpi International College', label: 'Malpi International College' },
-  { value: 'Nobel College', label: 'Nobel College' },
-  { value: 'Boston International College', label: 'Boston International College' },
-  { value: 'Pokhara College of Management', label: 'Pokhara College of Management' },
-  { value: 'Apex College', label: 'Apex College' },
-  { value: 'Other', label: 'Other College' },
+  { value: "Pokhara University", label: "Pokhara University" },
+  { value: "Ace Institute of Management", label: "Ace Institute of Management" },
+  { value: "SAIM College", label: "SAIM College" },
+  { value: "Apollo International College", label: "Apollo International College" },
+  { value: "Quest International College", label: "Quest International College" },
+  { value: "Shubhashree College of Management", label: "Shubhashree College of Management" },
+  { value: "Liberty College", label: "Liberty College" },
+  { value: "Uniglobe College", label: "Uniglobe College" },
+  { value: "Medhavi College", label: "Medhavi College" },
+  { value: "Crimson College of Technology", label: "Crimson College of Technology" },
+  { value: "Rajdhani Model College", label: "Rajdhani Model College" },
+  { value: "Excel Business College", label: "Excel Business College" },
+  { value: "Malpi International College", label: "Malpi International College" },
+  { value: "Nobel College", label: "Nobel College" },
+  { value: "Boston International College", label: "Boston International College" },
+  { value: "Pokhara College of Management", label: "Pokhara College of Management" },
+  { value: "Apex College", label: "Apex College" },
+  { value: "Other", label: "Other College" },
 ];
 
 const EditProfileForm: React.FC<EditProfileFormProps> = ({
@@ -63,46 +65,57 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-full max-w-md space-y-6 bg-white p-6 rounded-lg shadow-md"
+      className="w-full max-w-md space-y-5 bg-white/95 border border-slate-200/60 backdrop-blur-md p-6 sm:p-8 rounded-3xl shadow-premium relative overflow-hidden"
     >
-      {/* Name - Disabled */}
-      <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+      {/* Decorative Glow */}
+      <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-200/10 rounded-full blur-2xl pointer-events-none" />
+
+      <h2 className="text-base font-extrabold text-slate-800 flex items-center gap-2 border-b border-slate-50 pb-2">
+        <Sparkles className="w-4.5 h-4.5 text-indigo-500" />
+        Modify Profile Fields
+      </h2>
+
+      {/* Name - Read Only */}
+      <div className="space-y-1.5">
+        <label htmlFor="name" className="text-xs font-bold text-slate-655 flex items-center gap-1.5">
+          <User className="w-3.5 h-3.5 text-slate-400" />
           Full Name
         </label>
         <input
           id="name"
           type="text"
-          {...register('name')}
-          className="mt-1 block w-full rounded-md border-gray-300 bg-gray-100 text-gray-600 cursor-not-allowed"
+          {...register("name")}
+          className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-500 cursor-not-allowed focus:outline-none"
           disabled
         />
       </div>
 
-      {/* Email - Disabled */}
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+      {/* Email - Read Only */}
+      <div className="space-y-1.5">
+        <label htmlFor="email" className="text-xs font-bold text-slate-655 flex items-center gap-1.5">
+          <Mail className="w-3.5 h-3.5 text-slate-400" />
           Email Address
         </label>
         <input
           id="email"
           type="email"
-          {...register('email')}
-          className="mt-1 block w-full rounded-md border-gray-300 bg-gray-100 text-gray-600 cursor-not-allowed"
+          {...register("email")}
+          className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-500 cursor-not-allowed focus:outline-none"
           disabled
         />
       </div>
 
       {/* Semester - Editable */}
-      <div>
-        <label htmlFor="semester" className="block text-sm font-medium text-gray-700">
+      <div className="space-y-1.5">
+        <label htmlFor="semester" className="text-xs font-bold text-slate-655 flex items-center gap-1.5">
+          <GraduationCap className="w-3.5 h-3.5 text-slate-400" />
           Semester
         </label>
         <select
           id="semester"
-          {...register('semester', { required: 'Semester is required' })}
-          className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
-            errors.semester ? 'border-red-500' : ''
+          {...register("semester", { required: "Semester is required" })}
+          className={`w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all ${
+            errors.semester ? "border-red-500 ring-2 ring-red-200" : ""
           }`}
           disabled={isSubmitting}
         >
@@ -114,32 +127,33 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
           ))}
         </select>
         {errors.semester && (
-          <p className="mt-1 text-sm text-red-600">{errors.semester.message}</p>
+          <p className="text-[10px] font-bold text-red-550 mt-1">{errors.semester.message}</p>
         )}
       </div>
 
       {/* College - Editable */}
-      <div>
-        <label htmlFor="college" className="block text-sm font-medium text-gray-700">
-          College
+      <div className="space-y-1.5">
+        <label htmlFor="college" className="text-xs font-bold text-slate-655 flex items-center gap-1.5">
+          <Building className="w-3.5 h-3.5 text-slate-400" />
+          Institution College
         </label>
         <select
           id="college"
-          {...register('college', { required: 'College is required' })}
-          className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
-            errors.college ? 'border-red-500' : ''
+          {...register("college", { required: "College is required" })}
+          className={`w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all ${
+            errors.college ? "border-red-500 ring-2 ring-red-200" : ""
           }`}
           disabled={isSubmitting}
         >
           <option value="">Select College</option>
-          {colleges.map((college) => (
-            <option key={college.value} value={college.value}>
-              {college.label}
+          {colleges.map((col) => (
+            <option key={col.value} value={col.value}>
+              {col.label}
             </option>
           ))}
         </select>
         {errors.college && (
-          <p className="mt-1 text-sm text-red-600">{errors.college.message}</p>
+          <p className="text-[10px] font-bold text-red-550 mt-1">{errors.college.message}</p>
         )}
       </div>
 
@@ -147,9 +161,9 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md transition disabled:opacity-50"
+        className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:brightness-110 text-white font-extrabold text-xs py-3 rounded-xl shadow-md border-0 transition-all cursor-pointer flex items-center justify-center disabled:opacity-50 mt-2"
       >
-        {isSubmitting ? 'Saving...' : 'Save Changes'}
+        {isSubmitting ? "Saving Parameters..." : "Save Changes"}
       </button>
     </form>
   );

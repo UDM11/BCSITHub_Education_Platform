@@ -113,20 +113,25 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({ children }) =>
 
   const updateProfile = useCallback(
     async (data: Partial<ProfileData>) => {
-      if (!user?.objectId && !user?.id) return;
-
-      const userId = user.objectId || user.id;
+      const userId = user?.objectId || user?.id;
+      if (!userId) return;
 
       try {
-        const existing = await Backendless.Data.of("Users").findById(userId);
-        const updated = { ...existing, ...data };
+        const payload = {
+          objectId: userId,
+          ...data
+        };
 
-        updated.role = ["student", "teacher", "admin"].includes(updated.role)
-          ? updated.role
-          : "student";
+        if (payload.role) {
+          payload.role = ["student", "teacher", "admin"].includes(payload.role)
+            ? payload.role
+            : "student";
+        }
 
-        const saved = await Backendless.Data.of("Users").save(updated);
-        if (mountedRef.current) setProfile(saved);
+        const saved = await Backendless.Data.of("Users").save(payload);
+        if (mountedRef.current) {
+          setProfile(prev => prev ? { ...prev, ...saved } : (saved as ProfileData));
+        }
       } catch (err) {
         console.error("❌ Error updating profile:", err);
       }

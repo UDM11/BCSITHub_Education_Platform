@@ -48,35 +48,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     mountedRef.current = true;
-
-    // On mount, try to get current logged-in user
+    
     const fetchCurrentUser = async () => {
       try {
-        const currentUser = await Backendless.UserService.getCurrentUser() as BackendlessUser | null;
+        // Asynchronously check if the cached local session token is still valid on Backendless servers
+        const isValidSession = await Backendless.UserService.isValidLogin();
         if (!mountedRef.current) return;
 
-        if (currentUser) {
-          // Fetch extra properties if needed from Backendless database
-          const role = currentUser.role || 'user'; // fallback if role isn't set
-          const appUser: User = {
-            id: currentUser.objectId || '',
-            email: currentUser.email || '',
-            name: currentUser.name || '',
-            role,
-            created_at: currentUser.created || new Date().toISOString(),
-            emailVerified: currentUser.emailVerified, // Backendless may not provide this directly
-            ...currentUser,
-          };
-          setUser(appUser);
-          setIsAdmin(role === 'admin');
-          setIsAuthenticated(true);
+        if (isValidSession) {
+          const currentUser = await Backendless.UserService.getCurrentUser() as BackendlessUser | null;
+          if (currentUser && mountedRef.current) {
+            const role = currentUser.role || 'user';
+            const appUser: User = {
+              id: currentUser.objectId || '',
+              email: currentUser.email || '',
+              name: currentUser.name || '',
+              role,
+              created_at: currentUser.created || new Date().toISOString(),
+              emailVerified: currentUser.emailVerified,
+              ...currentUser,
+            };
+            setUser(appUser);
+            setIsAdmin(role === 'admin');
+            setIsAuthenticated(true);
+          } else {
+            setUser(null);
+            setIsAdmin(false);
+            setIsAuthenticated(false);
+          }
         } else {
+          // Token expired or invalid, reset local auth states
           setUser(null);
           setIsAdmin(false);
           setIsAuthenticated(false);
         }
       } catch (error) {
-        console.error('Error fetching Backendless user:', error);
+        console.error('Error verifying Backendless user session:', error);
         setUser(null);
         setIsAdmin(false);
         setIsAuthenticated(false);

@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Button } from '../components/ui/Button';
 import { toast } from 'sonner';
 import Backendless from 'backendless';
-import { UploadCloud, FileText, Sparkles, BookOpen, ArrowLeft, ShieldCheck } from 'lucide-react';
+import { UploadCloud, FileText, ArrowLeft, ShieldCheck } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/Card';
 import { motion } from 'framer-motion';
 
