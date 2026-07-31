@@ -43,8 +43,10 @@ export default function SubjectChapters() {
         const encodedSemester = encodeURIComponent(`Semester ${semesterId}`);
         const encodedSubject = encodeURIComponent(decodedSubjectId);
         const filePath = `/notes/${encodedSemester}/${encodedSubject}/${chapterId}.html`;
-        const response = await fetch(filePath, { method: 'HEAD' });
-        return response.ok;
+        const response = await fetch(filePath);
+        if (!response.ok) return false;
+        const text = await response.text();
+        return !text.includes('id="root"') && !text.includes("id='root'");
       } catch {
         return false;
       }

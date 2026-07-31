@@ -238,19 +238,34 @@ export default function ChapterNotes() {
         const res = await fetch(filePath);
         if (!res.ok) throw new Error("Note not found.");
 
+        const text = await res.text();
+        if (text.includes('id="root"') || text.includes("id='root'")) {
+          throw new Error("Note not found.");
+        }
+
         if ("caches" in window) {
           const cache = await caches.open(notesCacheName);
-          await cache.put(filePath, res.clone());
+          await cache.put(
+            filePath,
+            new Response(text, {
+              headers: { "Content-Type": "text/html" },
+            })
+          );
         }
-        return await res.text();
-      } catch {
+        return text;
+      } catch (err) {
         if ("caches" in window) {
           const cached =
             (await caches.match(filePath)) ||
             (await (await caches.open(notesCacheName)).match(filePath));
-          if (cached) return await cached.text();
+          if (cached) {
+            const cachedText = await cached.text();
+            if (!cachedText.includes('id="root"') && !cachedText.includes("id='root'")) {
+              return cachedText;
+            }
+          }
         }
-        throw new Error("Note not found.");
+        throw err instanceof Error ? err : new Error("Note not found.");
       }
     };
 

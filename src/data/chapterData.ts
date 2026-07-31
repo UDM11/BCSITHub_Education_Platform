@@ -270,7 +270,7 @@ export const chapterData: SubjectChapters[] = [
   {
     courseCode: "CMP 277",
     chapters: [
-      { id: "Unit I", title: "Unit I: Introduction to Data Communication" },
+      { id: "Unit 1", title: "Unit 1: Introduction to Data Communication" },
       { id: "Unit 2", title: "Unit 2: Introduction to Computer Networks" },
       { id: "Unit 3", title: "Unit 3: Physical Layer and its Design Issues" },
       { id: "Unit 4", title: "Unit 4: Data Link Layer" },
