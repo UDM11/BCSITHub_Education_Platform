@@ -78,24 +78,24 @@ const howItWorksSteps = [
 // FAQ data
 const faqs = [
   {
-    question: 'Is BCSITHub completely free to use?',
-    answer: 'Yes! BCSITHub is 100% free for all BCSIT students. We believe academic resources should be openly accessible to help students succeed.',
+    question: 'Where can I find Pokhara University BCSIT notes and syllabus guidelines?',
+    answer: 'BCSITHub offers complete semester-wise BCSIT notes, course syllabus breakdowns, and examination guidelines. You can access bcsit 1st sem notes, 2nd sem notes, 3rd sem notes, 4th sem notes, and upcoming senior modules for free.',
   },
   {
-    question: 'Are all 8 semesters covered under Pokhara University?',
-    answer: 'Absolutely. We cover the entire Pokhara University BCSIT curriculum, including syllabus details, credit structures, notes, and past papers for all semesters.',
+    question: 'How do I download BCSIT past question papers and solutions?',
+    answer: 'Navigate to the Past Papers section to search and download Pokhara University BCSIT question papers and solved answer keys. You can filter by subject code (e.g., CMP 271 Database Management System notes) and semester.',
   },
   {
-    question: 'Can I download materials for offline study?',
-    answer: 'Yes! The platform is built as a Progressive Web App (PWA). You can install it on your mobile or desktop and access cached notes and downloaded files offline.',
+    question: 'Which are the best BCSIT colleges in Nepal affiliated with Pokhara University?',
+    answer: 'You can explore our Colleges page for a comprehensive list of top BCSIT colleges in Nepal, including Nepal College of Information Technology (NCIT), Gandaki College of Engineering, Prime College, and others with address details.',
   },
   {
-    question: 'How do the academic tools (like Code Compiler & Quiz Generator) help me?',
-    answer: 'The Pomodoro Timer helps you maintain focus, the CGPA Calculator tracks your semester progress, the Code Compiler lets you run C/C++/Java/JS snippets, and the AI Quiz Generator tests your retention before exams.',
+    question: 'Where can I see the latest Pokhara University BCSIT notices?',
+    answer: 'We fetch and publish official exam schedules, result updates, and academic notifications in real-time under the PU Notices panel, keeping you updated instantly.',
   },
   {
-    question: 'Can I contribute my own study materials or notes?',
-    answer: 'Yes! BCSITHub is a community platform. Once registered, students and teachers can upload notes, past paper solutions, and guidelines for others to review.',
+    question: 'Does the portal provide study tools like a CGPA Calculator or Online Compiler?',
+    answer: 'Yes! BCSITHub includes built-in academic utilities: a PU SGPA/CGPA calculator, a Pomodoro timer for focus, an online multi-language compiler for running code draft scripts, and an AI quiz generator.',
   },
 ];
 

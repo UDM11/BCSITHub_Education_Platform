@@ -38,6 +38,17 @@ export function useSEO({ title, description, keywords }: SEOProps) {
       }
     }
 
+    // 4. Update Canonical URL
+    const canonicalUrl = `https://bcsithub.web.app${window.location.pathname}`;
+    let linkCanonical = document.querySelector('link[rel="canonical"]');
+    const originalCanonical = linkCanonical?.getAttribute("href") || "";
+    if (!linkCanonical) {
+      linkCanonical = document.createElement("link");
+      linkCanonical.setAttribute("rel", "canonical");
+      document.head.appendChild(linkCanonical);
+    }
+    linkCanonical.setAttribute("href", canonicalUrl);
+
     // Cleanup to restore previous meta tags when component unmounts
     return () => {
       document.title = originalTitle;
@@ -46,6 +57,13 @@ export function useSEO({ title, description, keywords }: SEOProps) {
       }
       if (keywords && metaKeywords) {
         metaKeywords.setAttribute("content", originalKeywords);
+      }
+      if (linkCanonical) {
+        if (originalCanonical) {
+          linkCanonical.setAttribute("href", originalCanonical);
+        } else {
+          linkCanonical.remove();
+        }
       }
     };
   }, [title, description, keywords]);
