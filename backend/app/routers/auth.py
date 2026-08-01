@@ -503,3 +503,333 @@ async def list_students(current_user: dict = Depends(get_teacher_or_admin_user))
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Failed to fetch students: {str(e)}"
         )
+
+
+# ═════════════════════════════════════════════════════════════════════════
+#  OAUTH SOCIAL SIGN-IN ENDPOINTS (GOOGLE, GITHUB, MICROSOFT)
+# ═════════════════════════════════════════════════════════════════════════
+
+from fastapi.responses import RedirectResponse
+import urllib.parse
+import json
+import httpx
+
+async def handle_social_login(email: str, name: str, provider: str, provider_id: str, avatar_url: str = "") -> RedirectResponse:
+    """Helper to handle database lookup/creation and redirect back to frontend."""
+    try:
+        email = email.lower().strip()
+        
+        # Check if user already exists
+        query = supabase_client.table("users").select("*").eq("email", email).execute()
+        now_str = datetime.utcnow().isoformat()
+        
+        if query.data:
+            profile = query.data[0]
+            if not profile.get("is_active", True):
+                # Redirect to login page on frontend with error query parameter
+                err_msg = urllib.parse.quote("Your account has been deactivated. Please contact support.")
+                return RedirectResponse(url=f"{settings.FRONTEND_URL}/signin?error={err_msg}")
+            
+            # Update user profile with OAuth provider metadata
+            update_payload = {
+                "auth_provider": provider,
+                "provider_id": provider_id,
+                "last_login": now_str,
+                "is_verified": True # Social accounts are verified
+            }
+            if not profile.get("avatar_url") and avatar_url:
+                update_payload["avatar_url"] = avatar_url
+                
+            supabase_client.table("users").update(update_payload).eq("id", profile["id"]).execute()
+            
+            # Refresh profile data
+            profile.update(update_payload)
+            profile["email_verified"] = True
+            profile["is_verified"] = True
+        else:
+            # Create a new verified user for this OAuth identity
+            user_id = str(uuid.uuid4())
+            new_user = {
+                "id": user_id,
+                "email": email,
+                "password": None, # OAuth user has no local password hash
+                "name": name or email.split("@")[0],
+                "role": "student", # Default signup role
+                "semester": 1,
+                "college": "",
+                "college_address": "",
+                "avatar_url": avatar_url,
+                "auth_provider": provider,
+                "provider_id": provider_id,
+                "is_active": True,
+                "is_verified": True,
+                "needs_password_change": False,
+                "created_at": now_str,
+                "updated_at": now_str,
+                "last_login": now_str
+            }
+            
+            insert_resp = supabase_client.table("users").insert(new_user).execute()
+            if not insert_resp.data:
+                err_msg = urllib.parse.quote("Failed to register OAuth user profile.")
+                return RedirectResponse(url=f"{settings.FRONTEND_URL}/signin?error={err_msg}")
+            
+            profile = insert_resp.data[0]
+            profile["email_verified"] = True
+            profile["is_verified"] = True
+
+        # Generate JWT session token
+        token = create_jwt_token(profile["id"])
+        
+        # Build user payload to return to frontend
+        user_data = build_user_response(profile)
+        user_json = json.dumps(user_data)
+        
+        # Redirect back to frontend OAuth callback route
+        redirect_url = (
+            f"{settings.FRONTEND_URL}/auth/callback"
+            f"?token={urllib.parse.quote(token)}"
+            f"&user={urllib.parse.quote(user_json)}"
+        )
+        return RedirectResponse(url=redirect_url)
+        
+    except Exception as e:
+        err_msg = urllib.parse.quote(f"Authentication failed: {str(e)}")
+        return RedirectResponse(url=f"{settings.FRONTEND_URL}/signin?error={err_msg}")
+
+
+# --- 1. GOOGLE OAUTH ---
+
+@router.get("/google/login")
+async def google_login() -> Any:
+    if not settings.GOOGLE_CLIENT_ID or not settings.GOOGLE_CLIENT_SECRET:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Google OAuth is not configured on this server."
+        )
+    
+    redirect_uri = f"{settings.BACKEND_URL}/api/auth/google/callback"
+    params = {
+        "client_id": settings.GOOGLE_CLIENT_ID,
+        "redirect_uri": redirect_uri,
+        "response_type": "code",
+        "scope": "openid email profile",
+        "access_type": "offline",
+        "prompt": "select_account"
+    }
+    google_auth_url = "https://accounts.google.com/o/oauth2/v2/auth?" + urllib.parse.urlencode(params)
+    return RedirectResponse(url=google_auth_url)
+
+
+@router.get("/google/callback")
+async def google_callback(code: str = None, error: str = None) -> Any:
+    if error:
+        err_msg = urllib.parse.quote(f"Google login failed: {error}")
+        return RedirectResponse(url=f"{settings.FRONTEND_URL}/signin?error={err_msg}")
+    if not code:
+        raise HTTPException(status_code=400, detail="Missing authorization code")
+        
+    try:
+        redirect_uri = f"{settings.BACKEND_URL}/api/auth/google/callback"
+        token_url = "https://oauth2.googleapis.com/token"
+        token_data = {
+            "code": code,
+            "client_id": settings.GOOGLE_CLIENT_ID,
+            "client_secret": settings.GOOGLE_CLIENT_SECRET,
+            "redirect_uri": redirect_uri,
+            "grant_type": "authorization_code"
+        }
+        
+        async with httpx.AsyncClient() as client:
+            # Exchange Auth Code for Access Token
+            token_resp = await client.post(token_url, data=token_data)
+            if token_resp.status_code != 200:
+                raise Exception("Failed to retrieve Google token")
+                
+            token_json = token_resp.json()
+            access_token = token_json.get("access_token")
+            
+            # Fetch User Profile
+            profile_url = "https://www.googleapis.com/oauth2/v3/userinfo"
+            profile_headers = {"Authorization": f"Bearer {access_token}"}
+            profile_resp = await client.get(profile_url, headers=profile_headers)
+            if profile_resp.status_code != 200:
+                raise Exception("Failed to retrieve Google user profile")
+                
+            profile_json = profile_resp.json()
+            
+        email = profile_json.get("email")
+        name = profile_json.get("name", "")
+        provider_id = profile_json.get("sub")
+        avatar_url = profile_json.get("picture", "")
+        
+        if not email:
+            raise Exception("No email address associated with your Google account")
+            
+        return await handle_social_login(email, name, "google", provider_id, avatar_url)
+        
+    except Exception as e:
+        err_msg = urllib.parse.quote(str(e))
+        return RedirectResponse(url=f"{settings.FRONTEND_URL}/signin?error={err_msg}")
+
+
+# --- 2. GITHUB OAUTH ---
+
+@router.get("/github/login")
+async def github_login() -> Any:
+    if not settings.GITHUB_CLIENT_ID or not settings.GITHUB_CLIENT_SECRET:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="GitHub OAuth is not configured on this server."
+        )
+        
+    redirect_uri = f"{settings.BACKEND_URL}/api/auth/github/callback"
+    params = {
+        "client_id": settings.GITHUB_CLIENT_ID,
+        "redirect_uri": redirect_uri,
+        "scope": "user:email"
+    }
+    github_auth_url = "https://github.com/login/oauth/authorize?" + urllib.parse.urlencode(params)
+    return RedirectResponse(url=github_auth_url)
+
+
+@router.get("/github/callback")
+async def github_callback(code: str = None, error: str = None) -> Any:
+    if error:
+        err_msg = urllib.parse.quote(f"GitHub login failed: {error}")
+        return RedirectResponse(url=f"{settings.FRONTEND_URL}/signin?error={err_msg}")
+    if not code:
+        raise HTTPException(status_code=400, detail="Missing authorization code")
+        
+    try:
+        redirect_uri = f"{settings.BACKEND_URL}/api/auth/github/callback"
+        token_url = "https://github.com/login/oauth/access_token"
+        token_headers = {"Accept": "application/json"}
+        token_data = {
+            "client_id": settings.GITHUB_CLIENT_ID,
+            "client_secret": settings.GITHUB_CLIENT_SECRET,
+            "code": code,
+            "redirect_uri": redirect_uri
+        }
+        
+        async with httpx.AsyncClient() as client:
+            # Exchange Auth Code for Access Token
+            token_resp = await client.post(token_url, data=token_data, headers=token_headers)
+            if token_resp.status_code != 200:
+                raise Exception("Failed to retrieve GitHub token")
+                
+            token_json = token_resp.json()
+            access_token = token_json.get("access_token")
+            
+            # Fetch User Profile
+            profile_url = "https://api.github.com/user"
+            profile_headers = {
+                "Authorization": f"token {access_token}",
+                "User-Agent": "BCSITHub-Backend"
+            }
+            profile_resp = await client.get(profile_url, headers=profile_headers)
+            if profile_resp.status_code != 200:
+                raise Exception("Failed to retrieve GitHub user profile")
+                
+            profile_json = profile_resp.json()
+            
+            # Fetch Emails (needed if user has email set to private)
+            emails_url = "https://api.github.com/user/emails"
+            emails_resp = await client.get(emails_url, headers=profile_headers)
+            email = None
+            if emails_resp.status_code == 200:
+                for email_info in emails_resp.json():
+                    if email_info.get("primary") and email_info.get("verified"):
+                        email = email_info.get("email")
+                        break
+                        
+        if not email:
+            email = profile_json.get("email")
+            
+        name = profile_json.get("name", "") or profile_json.get("login", "")
+        provider_id = str(profile_json.get("id"))
+        avatar_url = profile_json.get("avatar_url", "")
+        
+        if not email:
+            raise Exception("Could not retrieve a primary verified email address from your GitHub account")
+            
+        return await handle_social_login(email, name, "github", provider_id, avatar_url)
+        
+    except Exception as e:
+        err_msg = urllib.parse.quote(str(e))
+        return RedirectResponse(url=f"{settings.FRONTEND_URL}/signin?error={err_msg}")
+
+
+# --- 3. MICROSOFT OAUTH ---
+
+@router.get("/microsoft/login")
+async def microsoft_login() -> Any:
+    if not settings.MICROSOFT_CLIENT_ID or not settings.MICROSOFT_CLIENT_SECRET:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Microsoft OAuth is not configured on this server."
+        )
+        
+    redirect_uri = f"{settings.BACKEND_URL}/api/auth/microsoft/callback"
+    params = {
+        "client_id": settings.MICROSOFT_CLIENT_ID,
+        "response_type": "code",
+        "redirect_uri": redirect_uri,
+        "response_mode": "query",
+        "scope": "openid profile email User.Read"
+    }
+    microsoft_auth_url = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?" + urllib.parse.urlencode(params)
+    return RedirectResponse(url=microsoft_auth_url)
+
+
+@router.get("/microsoft/callback")
+async def microsoft_callback(code: str = None, error: str = None, error_description: str = None) -> Any:
+    if error:
+        err_msg = urllib.parse.quote(f"Microsoft login failed: {error_description or error}")
+        return RedirectResponse(url=f"{settings.FRONTEND_URL}/signin?error={err_msg}")
+    if not code:
+        raise HTTPException(status_code=400, detail="Missing authorization code")
+        
+    try:
+        redirect_uri = f"{settings.BACKEND_URL}/api/auth/microsoft/callback"
+        token_url = "https://login.microsoftonline.com/common/oauth2/v2.0/token"
+        token_data = {
+            "client_id": settings.MICROSOFT_CLIENT_ID,
+            "scope": "openid profile email User.Read",
+            "code": code,
+            "redirect_uri": redirect_uri,
+            "grant_type": "authorization_code",
+            "client_secret": settings.MICROSOFT_CLIENT_SECRET
+        }
+        
+        async with httpx.AsyncClient() as client:
+            # Exchange Auth Code for Access Token
+            token_resp = await client.post(token_url, data=token_data)
+            if token_resp.status_code != 200:
+                raise Exception("Failed to retrieve Microsoft token")
+                
+            token_json = token_resp.json()
+            access_token = token_json.get("access_token")
+            
+            # Fetch User Profile from Microsoft Graph API
+            profile_url = "https://graph.microsoft.com/v1.0/me"
+            profile_headers = {"Authorization": f"Bearer {access_token}"}
+            profile_resp = await client.get(profile_url, headers=profile_headers)
+            if profile_resp.status_code != 200:
+                raise Exception("Failed to retrieve Microsoft user profile")
+                
+            profile_json = profile_resp.json()
+            
+        email = profile_json.get("mail") or profile_json.get("userPrincipalName")
+        name = profile_json.get("displayName", "")
+        provider_id = profile_json.get("id")
+        
+        if not email:
+            raise Exception("No email address associated with your Microsoft account")
+            
+        return await handle_social_login(email, name, "microsoft", provider_id, "")
+        
+    except Exception as e:
+        err_msg = urllib.parse.quote(str(e))
+        return RedirectResponse(url=f"{settings.FRONTEND_URL}/signin?error={err_msg}")
+

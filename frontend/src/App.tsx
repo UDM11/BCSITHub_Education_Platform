@@ -45,6 +45,7 @@ import TeacherDashboard from './dashboard/teacher/TeacherDashboard';
 
 // Email Verification Page
 import OTPVerification from './pages/auth/EmailVerification';
+import OAuthCallback from './pages/auth/OAuthCallback';
 
 // Not Found Page
 import { NotFound } from './pages/NotFound';
@@ -92,6 +93,7 @@ function AppContent() {
           <Route path="/pu-notices" element={<PUNotices />} />
 
           <Route path="/verify" element={<OTPVerification />} />
+          <Route path="/auth/callback" element={<OAuthCallback />} />
 
           {/* Protected Routes */}
           <Route

@@ -1,13 +1,13 @@
 // src/pages/auth/SignIn.tsx
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {
   Mail,
-  Lock,
+  Lock as LockIcon,
   LogIn,
   BookOpen,
   Eye,
@@ -74,8 +74,19 @@ export function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { signIn } = useAuth();
+
+  // Show URL error parameter if present (OAuth callback error)
+  useEffect(() => {
+    const urlError = searchParams.get("error");
+    if (urlError) {
+      const decoded = decodeURIComponent(urlError);
+      setError(decoded);
+      toast.error(decoded);
+    }
+  }, [searchParams]);
 
   const {
     register,
@@ -363,7 +374,7 @@ export function SignIn() {
                         Password
                       </label>
                       <div className="relative group">
-                        <Lock className="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-650 transition-colors" />
+                        <LockIcon className="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-650 transition-colors" />
                         <input
                           type={showPassword ? "text" : "password"}
                           placeholder="Enter your security password"
@@ -437,7 +448,10 @@ export function SignIn() {
                     <div className="grid grid-cols-3 gap-3">
                       <button
                         type="button"
-                        onClick={() => toast.success("Google Sign-In integration ready.")}
+                        onClick={() => {
+                          const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+                          window.location.href = `${apiUrl}/auth/google/login`;
+                        }}
                         className="flex items-center justify-center py-2.5 px-4 border border-slate-200 hover:border-slate-300 hover:bg-slate-50/60 rounded-xl transition-all duration-200 active:scale-98"
                         title="Sign in with Google"
                       >
@@ -451,7 +465,10 @@ export function SignIn() {
 
                       <button
                         type="button"
-                        onClick={() => toast.success("GitHub Sign-In integration ready.")}
+                        onClick={() => {
+                          const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+                          window.location.href = `${apiUrl}/auth/github/login`;
+                        }}
                         className="flex items-center justify-center py-2.5 px-4 border border-slate-200 hover:border-slate-300 hover:bg-slate-50/60 rounded-xl transition-all duration-200 active:scale-98"
                         title="Sign in with GitHub"
                       >
@@ -462,7 +479,10 @@ export function SignIn() {
 
                       <button
                         type="button"
-                        onClick={() => toast.success("Microsoft Sign-In integration ready.")}
+                        onClick={() => {
+                          const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+                          window.location.href = `${apiUrl}/auth/microsoft/login`;
+                        }}
                         className="flex items-center justify-center py-2.5 px-4 border border-slate-200 hover:border-slate-300 hover:bg-slate-50/60 rounded-xl transition-all duration-200 active:scale-98"
                         title="Sign in with Microsoft"
                       >
