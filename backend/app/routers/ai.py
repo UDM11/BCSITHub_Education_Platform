@@ -59,7 +59,7 @@ async def chat_with_ai(
         
         genai.configure(api_key=settings.GEMINI_API_KEY)
         model = genai.GenerativeModel(
-            model_name="gemini-1.5-flash",
+            model_name="gemini-1.5-flash-latest",
             system_instruction=BCSIT_SYSTEM_PROMPT
         )
         
