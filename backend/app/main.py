@@ -10,10 +10,15 @@ app = FastAPI(
 )
 
 # Configure CORS so that the React frontend can talk to the backend
-# In production, specify exact origins instead of wildcard '*' if necessary
+# Whitelist only the production frontend URL and local development URL
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://bcsithub.web.app",
+        "https://bcsithub.firebaseapp.com",
+        "http://localhost:5173",
+        "http://localhost:3000"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
