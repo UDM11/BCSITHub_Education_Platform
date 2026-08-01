@@ -261,8 +261,12 @@ export function Navbar() {
                     onClick={() => setShowUserMenu(!showUserMenu)}
                     className="flex items-center space-x-2 px-2.5 py-1.5 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-slate-50 hover:border-slate-200 transition-all duration-200"
                   >
-                    <div className="w-7 h-7 bg-gradient-to-tr from-indigo-500 to-violet-600 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-sm flex-shrink-0">
-                      {user.name.charAt(0).toUpperCase()}
+                    <div className="w-7 h-7 bg-gradient-to-tr from-indigo-500 to-violet-600 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-sm flex-shrink-0 overflow-hidden">
+                      {user.avatar_url ? (
+                        <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                      ) : (
+                        user.name.charAt(0).toUpperCase()
+                      )}
                     </div>
                     <span className="text-sm font-medium text-slate-700 max-w-[100px] truncate whitespace-nowrap">{user.name}</span>
                     <ChevronDown className={`w-3.5 h-3.5 text-slate-400 flex-shrink-0 transition-transform duration-200 ${showUserMenu ? 'rotate-180' : ''}`} />
@@ -279,8 +283,12 @@ export function Navbar() {
                       >
                         {/* Profile Header */}
                         <div className="px-3 py-3 border-b border-slate-50 mb-1 flex items-center space-x-2.5">
-                          <div className="w-10 h-10 bg-gradient-to-tr from-indigo-500 to-violet-600 rounded-xl flex items-center justify-center text-white text-sm font-bold shadow-md shadow-indigo-100 flex-shrink-0">
-                            {user.name.charAt(0).toUpperCase()}
+                          <div className="w-10 h-10 bg-gradient-to-tr from-indigo-500 to-violet-600 rounded-xl flex items-center justify-center text-white text-sm font-bold shadow-md shadow-indigo-100 flex-shrink-0 overflow-hidden">
+                            {user.avatar_url ? (
+                              <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                            ) : (
+                              user.name.charAt(0).toUpperCase()
+                            )}
                           </div>
                           <div className="flex flex-col text-left min-w-0">
                             <span className="text-sm font-semibold text-slate-800 truncate">{user.name}</span>
@@ -486,7 +494,13 @@ export function Navbar() {
                             onClick={() => setIsOpen(false)}
                             className="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-slate-600 hover:text-indigo-600 hover:bg-slate-50 text-sm font-medium transition-all"
                           >
-                            <User className="w-4.5 h-4.5 flex-shrink-0" />
+                            <div className="w-8 h-8 bg-gradient-to-tr from-indigo-500 to-violet-600 rounded-lg flex items-center justify-center text-white text-xs font-bold flex-shrink-0 overflow-hidden">
+                              {user.avatar_url ? (
+                                <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                              ) : (
+                                <User className="w-4.5 h-4.5" />
+                              )}
+                            </div>
                             <div className="flex flex-col text-left">
                               <span className="text-sm font-semibold text-slate-700 truncate">{user.name}</span>
                               <span className="text-[10px] text-slate-400">View Profile</span>
