@@ -257,10 +257,14 @@ const TeacherDashboard: React.FC = () => {
                 
                 {/* Circular Gradient Avatar */}
                 <div className="relative w-24 h-24 mx-auto flex items-center justify-center rounded-full p-1 bg-gradient-to-tr from-emerald-500 via-indigo-600 to-purple-650 shadow-lg">
-                  <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center border-2 border-white shadow-inner">
-                    <span className="text-2xl font-black text-white tracking-tight">
-                      {getInitials(teacherName)}
-                    </span>
+                  <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center border-2 border-white shadow-inner overflow-hidden">
+                    {profile?.avatarUrl ? (
+                      <img src={profile.avatarUrl} alt={teacherName} className="w-full h-full object-cover rounded-full" referrerPolicy="no-referrer" />
+                    ) : (
+                      <span className="text-2xl font-black text-white tracking-tight">
+                        {getInitials(teacherName)}
+                      </span>
+                    )}
                   </div>
                   <div className="absolute bottom-0 right-0 w-7 h-7 bg-indigo-650 rounded-full border-4 border-white flex items-center justify-center" title="Verified Instructor">
                     <CheckCircle className="w-3.5 h-3.5 text-white" />

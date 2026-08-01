@@ -481,16 +481,13 @@ export function SignIn() {
                         type="button"
                         onClick={() => {
                           const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
-                          window.location.href = `${apiUrl}/auth/microsoft/login`;
+                          window.location.href = `${apiUrl}/auth/facebook/login`;
                         }}
                         className="flex items-center justify-center py-2.5 px-4 border border-slate-200 hover:border-slate-300 hover:bg-slate-50/60 rounded-xl transition-all duration-200 active:scale-98"
-                        title="Sign in with Microsoft"
+                        title="Sign in with Facebook"
                       >
-                        <svg className="w-5 h-5" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <rect width="10.5" height="10.5" fill="#F25022"/>
-                          <rect x="11.5" width="10.5" height="10.5" fill="#7FBA00"/>
-                          <rect y="11.5" width="10.5" height="10.5" fill="#00A4EF"/>
-                          <rect x="11.5" y="11.5" width="10.5" height="10.5" fill="#FFB900"/>
+                        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
                         </svg>
                       </button>
                     </div>

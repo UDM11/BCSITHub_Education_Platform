@@ -12,16 +12,20 @@ export default function OAuthCallback() {
   useEffect(() => {
     const token = searchParams.get("token");
     const userStr = searchParams.get("user");
+    const isNewUser = searchParams.get("new_user") === "true";
 
     if (token && userStr) {
       try {
         const user = JSON.parse(decodeURIComponent(userStr));
         setAuthSession(token, user);
         
-        // Reload authentication state and redirect
         reloadUser().then(() => {
-          toast.success("Successfully signed in!");
-          navigate("/");
+          if (isNewUser) {
+            navigate("/complete-profile");
+          } else {
+            toast.success("Successfully signed in!");
+            navigate("/");
+          }
         }).catch((err) => {
           console.error("Error reloading user session:", err);
           toast.error("Failed to load user session.");

@@ -251,10 +251,14 @@ const StudentProfile: React.FC = () => {
                 
                 {/* Custom circular gradient avatar */}
                 <div className="relative w-28 h-28 mx-auto flex items-center justify-center rounded-full p-1 bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 shadow-lg">
-                  <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center border-2 border-white shadow-inner">
-                    <span className="text-3xl font-black text-white tracking-tight">
-                      {getInitials(studentName)}
-                    </span>
+                  <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center border-2 border-white shadow-inner overflow-hidden">
+                    {profile?.avatarUrl ? (
+                      <img src={profile.avatarUrl} alt={studentName} className="w-full h-full object-cover rounded-full" referrerPolicy="no-referrer" />
+                    ) : (
+                      <span className="text-3xl font-black text-white tracking-tight">
+                        {getInitials(studentName)}
+                      </span>
+                    )}
                   </div>
                   <div className="absolute bottom-1 right-1 w-7 h-7 bg-emerald-500 rounded-full border-4 border-white flex items-center justify-center" title="Active Contributor">
                     <CheckCircle className="w-3.5 h-3.5 text-white" />

@@ -46,6 +46,7 @@ import TeacherDashboard from './dashboard/teacher/TeacherDashboard';
 // Email Verification Page
 import OTPVerification from './pages/auth/EmailVerification';
 import OAuthCallback from './pages/auth/OAuthCallback';
+import CompleteProfile from './pages/auth/CompleteProfile';
 
 // Not Found Page
 import { NotFound } from './pages/NotFound';
@@ -94,6 +95,7 @@ function AppContent() {
 
           <Route path="/verify" element={<OTPVerification />} />
           <Route path="/auth/callback" element={<OAuthCallback />} />
+          <Route path="/complete-profile" element={<CompleteProfile />} />
 
           {/* Protected Routes */}
           <Route

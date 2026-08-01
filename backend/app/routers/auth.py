@@ -577,12 +577,14 @@ async def handle_social_login(email: str, name: str, provider: str, provider_id:
             profile = insert_resp.data[0]
             profile["email_verified"] = True
             profile["is_verified"] = True
+            profile["_is_new_oauth_user"] = True
 
         # Generate JWT session token
         token = create_jwt_token(profile["id"])
         
         # Build user payload to return to frontend
         user_data = build_user_response(profile)
+        is_new = profile.pop("_is_new_oauth_user", False)
         user_json = json.dumps(user_data)
         
         # Redirect back to frontend OAuth callback route
@@ -590,6 +592,7 @@ async def handle_social_login(email: str, name: str, provider: str, provider_id:
             f"{settings.FRONTEND_URL}/auth/callback"
             f"?token={urllib.parse.quote(token)}"
             f"&user={urllib.parse.quote(user_json)}"
+            f"&new_user={'true' if is_new else 'false'}"
         )
         return RedirectResponse(url=redirect_url)
         
@@ -673,7 +676,81 @@ async def google_callback(code: str = None, error: str = None) -> Any:
         return RedirectResponse(url=f"{settings.FRONTEND_URL}/signin?error={err_msg}")
 
 
-# --- 2. GITHUB OAUTH ---
+# --- 3. FACEBOOK OAUTH ---
+
+@router.get("/facebook/login")
+async def facebook_login() -> Any:
+    if not settings.FACEBOOK_CLIENT_ID or not settings.FACEBOOK_CLIENT_SECRET:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Facebook OAuth is not configured on this server."
+        )
+
+    redirect_uri = f"{settings.BACKEND_URL}/api/auth/facebook/callback"
+    params = {
+        "client_id": settings.FACEBOOK_CLIENT_ID,
+        "redirect_uri": redirect_uri,
+        "scope": "email,public_profile",
+        "response_type": "code"
+    }
+    facebook_auth_url = "https://www.facebook.com/dialog/oauth?" + urllib.parse.urlencode(params)
+    return RedirectResponse(url=facebook_auth_url)
+
+
+@router.get("/facebook/callback")
+async def facebook_callback(code: str = None, error: str = None, error_description: str = None) -> Any:
+    if error:
+        err_msg = urllib.parse.quote(f"Facebook login failed: {error_description or error}")
+        return RedirectResponse(url=f"{settings.FRONTEND_URL}/signin?error={err_msg}")
+    if not code:
+        raise HTTPException(status_code=400, detail="Missing authorization code")
+
+    try:
+        redirect_uri = f"{settings.BACKEND_URL}/api/auth/facebook/callback"
+
+        async with httpx.AsyncClient() as client:
+            # Exchange code for access token
+            token_resp = await client.get(
+                "https://graph.facebook.com/oauth/access_token",
+                params={
+                    "client_id": settings.FACEBOOK_CLIENT_ID,
+                    "client_secret": settings.FACEBOOK_CLIENT_SECRET,
+                    "redirect_uri": redirect_uri,
+                    "code": code
+                }
+            )
+            if token_resp.status_code != 200:
+                raise Exception("Failed to retrieve Facebook token")
+
+            access_token = token_resp.json().get("access_token")
+
+            # Fetch user profile
+            profile_resp = await client.get(
+                "https://graph.facebook.com/me",
+                params={
+                    "fields": "id,name,email,picture.type(large)",
+                    "access_token": access_token
+                }
+            )
+            if profile_resp.status_code != 200:
+                raise Exception("Failed to retrieve Facebook user profile")
+
+            profile_json = profile_resp.json()
+
+        email = profile_json.get("email")
+        name = profile_json.get("name", "")
+        provider_id = profile_json.get("id")
+        avatar_url = profile_json.get("picture", {}).get("data", {}).get("url", "")
+
+        if not email:
+            raise Exception("No email address associated with your Facebook account. Please ensure your Facebook account has a verified email.")
+
+        return await handle_social_login(email, name, "facebook", provider_id, avatar_url)
+
+    except Exception as e:
+        err_msg = urllib.parse.quote(str(e))
+        return RedirectResponse(url=f"{settings.FRONTEND_URL}/signin?error={err_msg}")
+
 
 @router.get("/github/login")
 async def github_login() -> Any:
@@ -759,77 +836,4 @@ async def github_callback(code: str = None, error: str = None) -> Any:
         err_msg = urllib.parse.quote(str(e))
         return RedirectResponse(url=f"{settings.FRONTEND_URL}/signin?error={err_msg}")
 
-
-# --- 3. MICROSOFT OAUTH ---
-
-@router.get("/microsoft/login")
-async def microsoft_login() -> Any:
-    if not settings.MICROSOFT_CLIENT_ID or not settings.MICROSOFT_CLIENT_SECRET:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Microsoft OAuth is not configured on this server."
-        )
-        
-    redirect_uri = f"{settings.BACKEND_URL}/api/auth/microsoft/callback"
-    params = {
-        "client_id": settings.MICROSOFT_CLIENT_ID,
-        "response_type": "code",
-        "redirect_uri": redirect_uri,
-        "response_mode": "query",
-        "scope": "openid profile email User.Read"
-    }
-    microsoft_auth_url = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?" + urllib.parse.urlencode(params)
-    return RedirectResponse(url=microsoft_auth_url)
-
-
-@router.get("/microsoft/callback")
-async def microsoft_callback(code: str = None, error: str = None, error_description: str = None) -> Any:
-    if error:
-        err_msg = urllib.parse.quote(f"Microsoft login failed: {error_description or error}")
-        return RedirectResponse(url=f"{settings.FRONTEND_URL}/signin?error={err_msg}")
-    if not code:
-        raise HTTPException(status_code=400, detail="Missing authorization code")
-        
-    try:
-        redirect_uri = f"{settings.BACKEND_URL}/api/auth/microsoft/callback"
-        token_url = "https://login.microsoftonline.com/common/oauth2/v2.0/token"
-        token_data = {
-            "client_id": settings.MICROSOFT_CLIENT_ID,
-            "scope": "openid profile email User.Read",
-            "code": code,
-            "redirect_uri": redirect_uri,
-            "grant_type": "authorization_code",
-            "client_secret": settings.MICROSOFT_CLIENT_SECRET
-        }
-        
-        async with httpx.AsyncClient() as client:
-            # Exchange Auth Code for Access Token
-            token_resp = await client.post(token_url, data=token_data)
-            if token_resp.status_code != 200:
-                raise Exception("Failed to retrieve Microsoft token")
-                
-            token_json = token_resp.json()
-            access_token = token_json.get("access_token")
-            
-            # Fetch User Profile from Microsoft Graph API
-            profile_url = "https://graph.microsoft.com/v1.0/me"
-            profile_headers = {"Authorization": f"Bearer {access_token}"}
-            profile_resp = await client.get(profile_url, headers=profile_headers)
-            if profile_resp.status_code != 200:
-                raise Exception("Failed to retrieve Microsoft user profile")
-                
-            profile_json = profile_resp.json()
-            
-        email = profile_json.get("mail") or profile_json.get("userPrincipalName")
-        name = profile_json.get("displayName", "")
-        provider_id = profile_json.get("id")
-        
-        if not email:
-            raise Exception("No email address associated with your Microsoft account")
-            
-        return await handle_social_login(email, name, "microsoft", provider_id, "")
-        
-    except Exception as e:
-        err_msg = urllib.parse.quote(str(e))
-        return RedirectResponse(url=f"{settings.FRONTEND_URL}/signin?error={err_msg}")
 
