@@ -1,0 +1,27 @@
+from pydantic import BaseModel
+from typing import Optional
+from datetime import datetime
+
+class PaperCreate(BaseModel):
+    title: str
+    subject: str
+    semester: int
+    exam_type: str
+    college: str
+    file_url: str
+
+class PaperResponse(BaseModel):
+    id: str
+    title: str
+    subject: str
+    semester: int
+    exam_type: str
+    college: str
+    file_url: str
+    uploaded_by: Optional[str] = None
+    approved: bool
+    downloads: int
+    created_at: datetime
+
+    class Config:
+        from_attributes = True

@@ -7,27 +7,46 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Node modules
+node_modules/
+frontend/node_modules/
+
+# Production builds
+dist/
+dist-ssr/
+frontend/dist/
+frontend/dist-ssr/
+
+# Environment configurations
+.env
+.env.local
+frontend/.env
+frontend/.env.local
+backend/.env
+backend/.env.local
+
+# Python backend files
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+backend/.venv/
+backend/env/
+backend/ENV/
+backend/venv/
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-.env
 
-
-
-..firebase/
+# Firebase
 .firebase/
-
-dataconnect
-dataconnect-generated
+dataconnect/
+dataconnect-generated/
