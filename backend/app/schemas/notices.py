@@ -1,21 +1,24 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional
 
 class NoticeCreate(BaseModel):
     title: str
-    file_url: str
-    file_name: str
-    file_size: str
     category: str
+    file_url: Optional[str] = None
+    file_name: Optional[str] = None
+    file_size: Optional[str] = None
+    content: Optional[str] = None
 
 class NoticeResponse(BaseModel):
     id: str
     title: str
     date: datetime
-    file_url: str
-    file_name: str
-    file_size: str
     category: str
+    file_url: Optional[str] = None
+    file_name: Optional[str] = None
+    file_size: Optional[str] = None
+    content: Optional[str] = None
     created_at: datetime
 
     class Config:

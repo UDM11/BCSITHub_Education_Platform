@@ -8,6 +8,8 @@ import { apiClient } from "../../lib/apiClient";
 import { 
   X, UploadCloud, FileText, CheckCircle2, AlertCircle 
 } from "lucide-react";
+import { semestersData } from "../../data/notesData";
+import { specializationData } from "../../data/syllabusData";
 
 interface User {
   name?: string;
@@ -58,11 +60,17 @@ const colleges = [
   { value: "Other", label: "Other College" },
 ];
 
+const years = Array.from({ length: 10 }, (_, i) => {
+  const y = (new Date().getFullYear() - i).toString();
+  return { value: y, label: y };
+});
+
 export function UploadPaperModal({ onClose, user, onUploadSuccess }: UploadPaperModalProps) {
-  const [title, setTitle] = useState("");
-  const [subject, setSubject] = useState("");
   const [semester, setSemester] = useState("");
+  const [subject, setSubject] = useState("");
+  const [customSubject, setCustomSubject] = useState("");
   const [examType, setExamType] = useState("");
+  const [year, setYear] = useState("");
   const [college, setCollege] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
@@ -118,9 +126,64 @@ export function UploadPaperModal({ onClose, user, onUploadSuccess }: UploadPaper
     setFiles(prev => prev.filter((_, i) => i !== index));
   };
 
+  const getSubjectsForSemester = (semId: string) => {
+    if (!semId) return [];
+    const sem = semestersData.find(s => s.id.toString() === semId);
+    if (!sem) return [];
+
+    // Get base subjects
+    const baseSubjects = sem.subjects
+      .filter(sub => sub.courseName !== "Specialization" && !sub.courseName.startsWith("Concentration"))
+      .map(sub => sub.courseName);
+
+    // If semester has specialization/concentration courses, add the respective specialization courses
+    const additionalSubjects: string[] = [];
+    if (semId === "5" || semId === "6" || semId === "7" || semId === "8") {
+      Object.values(specializationData).forEach(spec => {
+        spec.courses.forEach(c => {
+          if (!additionalSubjects.includes(c.name)) {
+            additionalSubjects.push(c.name);
+          }
+        });
+      });
+    }
+
+    const allSubjects = [...baseSubjects, ...additionalSubjects].sort();
+    return allSubjects.map(name => ({ value: name, label: name }));
+  };
+
+  const examTypeLabel = examTypes.find(e => e.value === examType)?.label || examType;
+  const displaySubject = subject === "other" ? customSubject : subject;
+  const generatedTitle = displaySubject && examTypeLabel && year
+    ? `${displaySubject} ${examTypeLabel} Exam ${year}`
+    : "";
+
   const handleUpload = async () => {
-    if (!title || !subject || !semester || !examType || !college || files.length === 0) {
-      setAlert({ type: "error", text: "Please complete all fields and select at least one file." });
+    const finalSubject = subject === "other" ? customSubject.trim() : subject;
+    const finalTitle = generatedTitle;
+
+    if (!semester) {
+      setAlert({ type: "error", text: "Please select a semester." });
+      return;
+    }
+    if (!finalSubject) {
+      setAlert({ type: "error", text: "Please select or enter a subject." });
+      return;
+    }
+    if (!examType) {
+      setAlert({ type: "error", text: "Please select an exam type." });
+      return;
+    }
+    if (!year) {
+      setAlert({ type: "error", text: "Please select a year." });
+      return;
+    }
+    if (!college) {
+      setAlert({ type: "error", text: "Please select a college." });
+      return;
+    }
+    if (files.length === 0) {
+      setAlert({ type: "error", text: "Please select at least one file to upload." });
       return;
     }
 
@@ -142,8 +205,8 @@ export function UploadPaperModal({ onClose, user, onUploadSuccess }: UploadPaper
     try {
       for (const file of files) {
         const payload = new FormData();
-        payload.append('title', title);
-        payload.append('subject', subject);
+        payload.append('title', finalTitle);
+        payload.append('subject', finalSubject);
         payload.append('semester', semester);
         payload.append('exam_type', examType.toLowerCase());
         payload.append('college', college);
@@ -157,10 +220,11 @@ export function UploadPaperModal({ onClose, user, onUploadSuccess }: UploadPaper
         text: "Success! Your files have been uploaded and are now pending administrator verification.",
       });
       
-      setTitle("");
-      setSubject("");
       setSemester("");
+      setSubject("");
+      setCustomSubject("");
       setExamType("");
+      setYear("");
       setCollege("");
       setFiles([]);
 
@@ -215,27 +279,77 @@ export function UploadPaperModal({ onClose, user, onUploadSuccess }: UploadPaper
 
           {/* Form Fields */}
           <div className="space-y-4">
-            <Input
-              label="Paper Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="e.g. Database Final 2024"
-              disabled={loading}
-            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Select
+                label="Semester"
+                value={semester}
+                onChange={(e) => {
+                  setSemester(e.target.value);
+                  setSubject("");
+                  setCustomSubject("");
+                }}
+                options={semesters}
+                disabled={loading}
+              />
+              
+              <Select
+                label="Subject"
+                value={subject}
+                onChange={(e) => {
+                  setSubject(e.target.value);
+                  if (e.target.value !== "other") {
+                    setCustomSubject("");
+                  }
+                }}
+                options={semester ? [
+                  ...getSubjectsForSemester(semester),
+                  { value: "other", label: "Other / Custom Subject" }
+                ] : []}
+                disabled={loading || !semester}
+                placeholder={semester ? "Select a subject" : "Select semester first"}
+              />
+            </div>
 
-            <Input
-              label="Subject"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              placeholder="e.g. Database Management System"
-              disabled={loading}
-            />
+            {subject === "other" && (
+              <Input
+                label="Custom Subject Name"
+                value={customSubject}
+                onChange={(e) => setCustomSubject(e.target.value)}
+                placeholder="e.g. Database Management System"
+                disabled={loading}
+              />
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Select label="Semester" value={semester} onChange={(e) => setSemester(e.target.value)} options={semesters} disabled={loading} />
-              <Select label="Exam Type" value={examType} onChange={(e) => setExamType(e.target.value)} options={examTypes} disabled={loading} />
-              <Select label="College" value={college} onChange={(e) => setCollege(e.target.value)} options={colleges} disabled={loading} />
+              <Select
+                label="Exam Type"
+                value={examType}
+                onChange={(e) => setExamType(e.target.value)}
+                options={examTypes}
+                disabled={loading}
+              />
+              <Select
+                label="Year"
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+                options={years}
+                disabled={loading}
+              />
+              <Select
+                label="College"
+                value={college}
+                onChange={(e) => setCollege(e.target.value)}
+                options={colleges}
+                disabled={loading}
+              />
             </div>
+
+            {generatedTitle && (
+              <div className="p-4 rounded-2xl bg-indigo-50/40 border border-indigo-100/50 mt-2">
+                <span className="block text-[10px] font-bold text-indigo-500 uppercase tracking-wider mb-1">Generated Paper Title Preview</span>
+                <p className="text-sm font-extrabold text-slate-800">{generatedTitle}</p>
+              </div>
+            )}
 
             {/* Interactive Drag & Drop Area */}
             <div className="space-y-2">

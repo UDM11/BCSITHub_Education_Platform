@@ -3,17 +3,18 @@ import React, { useState, ChangeEvent, FormEvent, useRef } from "react";
 import { apiClient } from "../../lib/apiClient";
 import { Input } from "../ui/Input";
 import { Select } from "../ui/Select";
-import { UploadCloud, FileText, X, AlertCircle, Sparkles, CheckCircle2 } from "lucide-react";
+import { UploadCloud, FileText, X, AlertCircle, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Notice {
   id?: string;
   title: string;
   date: Date;
-  fileUrl: string;
-  fileName: string;
-  fileSize: string;
+  fileUrl?: string;
+  fileName?: string;
+  fileSize?: string;
   category: "Exam" | "Admission" | "Result" | "General";
+  content?: string;
 }
 
 interface UploadNoticeFormProps {
@@ -25,6 +26,7 @@ const categories: Notice["category"][] = ["Exam", "Admission", "Result", "Genera
 const UploadNoticeForm: React.FC<UploadNoticeFormProps> = ({ onUploadSuccess }) => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState<Notice["category"]>("Exam");
+  const [content, setContent] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [alert, setAlert] = useState<{ type: "success" | "error"; text: string } | null>(null);
@@ -92,8 +94,8 @@ const UploadNoticeForm: React.FC<UploadNoticeFormProps> = ({ onUploadSuccess }) 
       return;
     }
 
-    if (!file) {
-      setAlert({ type: "error", text: "Please select or drop a file to upload." });
+    if (!file && !content.trim()) {
+      setAlert({ type: "error", text: "Please upload a file attachment or write notice text content." });
       return;
     }
 
@@ -104,7 +106,14 @@ const UploadNoticeForm: React.FC<UploadNoticeFormProps> = ({ onUploadSuccess }) 
       const formData = new FormData();
       formData.append("title", title.trim());
       formData.append("category", category);
-      formData.append("file", file);
+      
+      if (content.trim()) {
+        formData.append("content", content.trim());
+      }
+      
+      if (file) {
+        formData.append("file", file);
+      }
 
       // Call Python backend
       const savedNotice = await apiClient.postMultipart("/notices/upload", formData);
@@ -118,11 +127,13 @@ const UploadNoticeForm: React.FC<UploadNoticeFormProps> = ({ onUploadSuccess }) 
         fileName: savedNotice.file_name,
         fileSize: savedNotice.file_size,
         category: savedNotice.category,
+        content: savedNotice.content,
       });
 
       // Reset form
       setTitle("");
       setCategory("Exam");
+      setContent("");
       setFile(null);
     } catch (err: any) {
       console.error("Upload failed:", err);
@@ -135,15 +146,8 @@ const UploadNoticeForm: React.FC<UploadNoticeFormProps> = ({ onUploadSuccess }) 
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white/95 border border-slate-200/60 dark:border-zinc-800 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-premium space-y-5 relative overflow-hidden"
+      className="space-y-5 w-full text-left"
     >
-      <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-200/10 rounded-full blur-2xl pointer-events-none" />
-
-      <h2 className="text-base font-extrabold text-slate-800 dark:text-white flex items-center gap-2 border-b border-slate-50 pb-2">
-        <Sparkles className="w-4.5 h-4.5 text-indigo-500" />
-        Upload New PU Notice
-      </h2>
-
       <Input
         id="title"
         label="Notice Title"
@@ -167,7 +171,21 @@ const UploadNoticeForm: React.FC<UploadNoticeFormProps> = ({ onUploadSuccess }) 
       />
 
       <div className="space-y-1.5">
-        <span className="block text-xs font-bold text-slate-700 dark:text-slate-300">File Attachment (PDF or Image)</span>
+        <label htmlFor="content" className="block text-xs font-bold text-slate-700 dark:text-slate-300">
+          Notice content / Announcements details (Text Only / Optional)
+        </label>
+        <textarea
+          id="content"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          disabled={uploading}
+          placeholder="Type the announcement description here if you want to publish a text notice without file attachment..."
+          className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all bg-white text-slate-800 placeholder:text-slate-400 min-h-[110px] resize-y leading-relaxed"
+        />
+      </div>
+
+      <div className="space-y-1.5">
+        <span className="block text-xs font-bold text-slate-700 dark:text-slate-300">File Attachment (PDF or Image - Optional)</span>
         
         <div
           onDragEnter={handleDrag}
@@ -192,7 +210,7 @@ const UploadNoticeForm: React.FC<UploadNoticeFormProps> = ({ onUploadSuccess }) 
           
           <UploadCloud className={`w-8 h-8 ${dragActive ? "text-indigo-600 animate-bounce" : "text-slate-400"}`} />
           <div className="space-y-0.5">
-            <p className="text-xs font-bold text-slate-700 dark:text-slate-200">Drag & drop files here, or <span className="text-indigo-600">browse</span></p>
+            <p className="text-xs font-bold text-slate-700 dark:text-slate-200">Drag & drop file here, or <span className="text-indigo-600 font-extrabold">browse</span></p>
             <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wide">PDF, PNG, or JPG (Max 8MB)</p>
           </div>
         </div>
@@ -210,7 +228,7 @@ const UploadNoticeForm: React.FC<UploadNoticeFormProps> = ({ onUploadSuccess }) 
                 e.stopPropagation();
                 removeFile();
               }}
-              className="p-1 text-slate-400 hover:text-slate-655 hover:bg-slate-200 dark:hover:bg-zinc-850 rounded-lg transition-colors border-0 cursor-pointer flex items-center justify-center"
+              className="p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-200 dark:hover:bg-zinc-800 rounded-lg transition-colors border-0 cursor-pointer flex items-center justify-center"
               disabled={uploading}
             >
               <X className="w-3.5 h-3.5" />

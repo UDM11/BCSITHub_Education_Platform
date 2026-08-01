@@ -18,7 +18,7 @@ async def list_papers(
 ):
     try:
         # Start constructing query
-        query = supabase_client.table("past_papers").select("*")
+        query = supabase_client.table("past_papers").select("*, users!uploaded_by(name, role)")
         
         # Filtering parameters
         if semester:
@@ -43,6 +43,10 @@ async def list_papers(
         res = query.order("created_at", desc=True).execute()
         
         papers_data = res.data or []
+        for p in papers_data:
+            user_info = p.get("users") or {}
+            p["uploader_name"] = user_info.get("name")
+            p["uploader_role"] = user_info.get("role")
         
         # If search query is present, do a client-side filter for simplicity
         if search:
@@ -106,7 +110,12 @@ async def upload_paper(
         if not db_resp.data:
             raise Exception("Failed to insert record into past_papers table.")
             
-        return db_resp.data[0]
+        paper = db_resp.data[0]
+        user_info = supabase_client.table("users").select("name, role").eq("id", current_user["id"]).execute()
+        if user_info.data:
+            paper["uploader_name"] = user_info.data[0]["name"]
+            paper["uploader_role"] = user_info.data[0]["role"]
+        return paper
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -130,7 +139,13 @@ async def approve_paper(
                 detail="Paper not found or approval failed"
             )
             
-        return update_resp.data[0]
+        paper = update_resp.data[0]
+        if paper.get("uploaded_by"):
+            user_info = supabase_client.table("users").select("name, role").eq("id", paper["uploaded_by"]).execute()
+            if user_info.data:
+                paper["uploader_name"] = user_info.data[0]["name"]
+                paper["uploader_role"] = user_info.data[0]["role"]
+        return paper
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -202,4 +217,41 @@ async def delete_paper(
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Deletion failed: {str(e)}"
+        )
+
+
+@router.patch("/{paper_id}", response_model=PaperResponse)
+async def update_paper(
+    paper_id: str,
+    payload: dict,
+    current_user: dict = Depends(get_admin_user)
+):
+    try:
+        update_payload = {}
+        for key in ["title", "subject", "semester", "exam_type", "college", "approved"]:
+            if key in payload:
+                update_payload[key] = payload[key]
+                
+        if not update_payload:
+            raise HTTPException(status_code=400, detail="No fields to update")
+            
+        update_resp = supabase_client.table("past_papers")\
+            .update(update_payload)\
+            .eq("id", paper_id)\
+            .execute()
+            
+        if not update_resp.data:
+            raise HTTPException(status_code=404, detail="Paper not found")
+            
+        paper = update_resp.data[0]
+        if paper.get("uploaded_by"):
+            user_info = supabase_client.table("users").select("name, role").eq("id", paper["uploaded_by"]).execute()
+            if user_info.data:
+                paper["uploader_name"] = user_info.data[0]["name"]
+                paper["uploader_role"] = user_info.data[0]["role"]
+        return paper
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Update failed: {str(e)}"
         )

@@ -13,10 +13,12 @@ import {
   Clock,
   Grid,
   List,
+  Eye,
 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { useAuth } from '../context/AuthContext';
 import { UploadPaperModal } from '../components/Notes/UploadPaperModal';
+import { PaperPreviewModal } from '../components/Notes/PaperPreviewModal';
 import { apiClient } from '../lib/apiClient';
 import LoginRedirectModal from '../components/common/LoginRedirectModal';
 import { useSEO } from '../hooks/useSEO';
@@ -72,6 +74,8 @@ interface Paper {
   approved: boolean;
   fileUrl: string;
   ownerId?: string;
+  uploaderName?: string;
+  uploaderRole?: string;
 }
 
 export function PastPapers() {
@@ -83,6 +87,8 @@ export function PastPapers() {
 
   const [papers, setPapers] = useState<Paper[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [selectedPaperForPreview, setSelectedPaperForPreview] = useState<Paper | null>(null);
   const [selectedSemester, setSelectedSemester] = useState('');
   const [selectedExamType, setSelectedExamType] = useState('');
   const [selectedCollege, setSelectedCollege] = useState('');
@@ -124,6 +130,8 @@ export function PastPapers() {
           approved: item.approved,
           fileUrl: item.file_url,
           ownerId: item.uploaded_by || '',
+          uploaderName: item.uploader_name || '',
+          uploaderRole: item.uploader_role || '',
         }));
         setPapers(mappedResult);
       } catch (error) {
@@ -134,7 +142,7 @@ export function PastPapers() {
     };
 
     fetchPapers();
-  }, [selectedSemester, selectedExamType, selectedCollege]);
+  }, [selectedSemester, selectedExamType, selectedCollege, refreshKey]);
 
   const filteredPapers = papers
     .filter((paper) => {
@@ -184,8 +192,29 @@ export function PastPapers() {
     }
 
     try {
-      window.open(paper.fileUrl, '_blank');
+      // Fetch the file as a blob
+      const response = await fetch(paper.fileUrl);
+      if (!response.ok) throw new Error("Failed to fetch file directly.");
+      
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      
+      // Create temporary download link
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      
+      // Extract file extension and construct safe filename
+      const urlParts = paper.fileUrl.split('?')[0].split('.');
+      const ext = urlParts.length > 1 ? urlParts[urlParts.length - 1] : 'pdf';
+      const safeTitle = paper.title.replace(/[^a-zA-Z0-9\s-_]/g, '').trim();
+      
+      link.download = `${safeTitle}.${ext}`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
 
+      // Increment download count in backend
       await apiClient.post(`/papers/${paper.objectId}/download`, {});
 
       setPapers((prev) =>
@@ -194,7 +223,16 @@ export function PastPapers() {
         )
       );
     } catch (error) {
-      console.error('Error updating download count:', error);
+      console.error('Error downloading file, falling back to tab redirection:', error);
+      // Fallback to opening in new tab
+      window.open(paper.fileUrl, '_blank');
+      
+      // Increment downloads count anyway
+      try {
+        await apiClient.post(`/papers/${paper.objectId}/download`, {});
+      } catch (err) {
+        console.error('Failed to increment download count:', err);
+      }
     }
   };
 
@@ -288,33 +326,6 @@ export function PastPapers() {
             Study smarter with previous exam papers. Access midterm, pre-board, and final papers shared by fellow BCSIT students across different affiliated colleges.
           </motion.p>
 
-          {/* Quick Statistics Banner */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto pt-6"
-          >
-            {[
-              { icon: FileText, label: 'Total Papers', value: papers.length },
-              { icon: School, label: 'Colleges', value: colleges.length - 1 },
-              { icon: Users, label: 'Contributors', value: '50+' },
-              { icon: Download, label: 'Downloads', value: papers.reduce((sum, p) => sum + (p.downloads || 0), 0) },
-            ].map((stat, idx) => (
-              <div
-                key={idx}
-                className="flex items-center space-x-3 bg-slate-900/60 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 text-left shadow-sm hover:border-slate-700/50 transition-colors"
-              >
-                <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-indigo-400">
-                  <stat.icon className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-white">{stat.value}</p>
-                  <p className="text-[10px] text-slate-500 font-semibold">{stat.label}</p>
-                </div>
-              </div>
-            ))}
-          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -504,17 +515,24 @@ export function PastPapers() {
                 <motion.div
                   key={paper.objectId || idx}
                   variants={itemVariants}
-                  className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-indigo-150 transition-all duration-300 overflow-hidden flex flex-col h-full text-left"
+                  whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                  onClick={() => setSelectedPaperForPreview(paper)}
+                  className="group bg-white rounded-2xl border border-slate-100 shadow-premium-sm hover:shadow-premium hover:border-indigo-200 transition-all duration-300 overflow-hidden flex flex-col h-full text-left cursor-pointer relative"
                 >
                   {/* Paper Header */}
-                  <div className="p-6 border-b border-slate-150/40 bg-gradient-to-b from-slate-50/50 to-transparent flex-1">
+                  <div className="p-6 border-b border-slate-150/40 bg-gradient-to-b from-slate-50/50 to-transparent flex-1 relative">
+                    {/* Hover Eye Icon Overlay */}
+                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity bg-indigo-50 border border-indigo-100 text-indigo-650 p-1.5 rounded-lg z-20 shadow-sm hidden md:block">
+                      <Eye className="w-3.5 h-3.5" />
+                    </div>
+
                     <div className="flex items-start justify-between gap-3">
                       <div className="space-y-2 flex-1">
                         <span className={`inline-block text-[9px] font-bold px-2.5 py-0.5 rounded-full border ${getExamTypeColor(paper.examType)}`}>
                           {paper.examType ? paper.examType.toUpperCase() : 'EXAM'}
                         </span>
                         
-                        <h3 className="text-sm font-bold text-slate-800 line-clamp-2">
+                        <h3 className="text-sm font-bold text-slate-805 line-clamp-2 pr-6">
                           {paper.title}
                         </h3>
 
@@ -557,14 +575,29 @@ export function PastPapers() {
                     </div>
 
                     <div className="flex items-center justify-between border-t border-slate-100/60 pt-3 text-[10px]">
-                      <span className="font-semibold text-slate-500">By: {paper.uploadedBy}</span>
+                      {paper.uploaderRole === 'admin' ? (
+                        <span className="font-bold text-indigo-650 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100/30">
+                          By: Administrator
+                        </span>
+                      ) : paper.uploaderName ? (
+                        <span className="font-semibold text-slate-505">
+                          By: {paper.uploaderName}
+                        </span>
+                      ) : (
+                        <span className="font-semibold text-slate-400 italic">
+                          By: Anonymous
+                        </span>
+                      )}
                       
                       <div className="flex-shrink-0">
                         {paper.approved ? (
                           <Button
                             variant="primary"
-                            className="text-[10px] font-bold px-4 py-2 rounded-xl"
-                            onClick={() => handleDownload(paper)}
+                            className="text-[10px] font-bold px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:brightness-105 border-0 text-white"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDownload(paper);
+                            }}
                           >
                             <Download className="w-3.5 h-3.5 mr-1.5" />
                             Download
@@ -574,16 +607,22 @@ export function PastPapers() {
                             <Button
                               variant="outline"
                               size="sm"
-                              className="text-[9px] font-bold px-2 py-1.5 hover:bg-emerald-50 hover:text-emerald-700 border-slate-200"
-                              onClick={() => paper.objectId && handleApprove(paper.objectId)}
+                              className="text-[9px] font-bold px-2 py-1.5 hover:bg-emerald-55 hover:text-emerald-705 border-slate-200"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                paper.objectId && handleApprove(paper.objectId);
+                              }}
                             >
                               Approve
                             </Button>
                             <Button
                               variant="outline"
                               size="sm"
-                              className="text-[9px] font-bold px-2 py-1.5 hover:bg-rose-50 hover:text-rose-700 border-slate-200"
-                              onClick={() => paper.objectId && handleReject(paper.objectId)}
+                              className="text-[9px] font-bold px-2 py-1.5 hover:bg-rose-55 hover:text-rose-705 border-slate-200"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                paper.objectId && handleReject(paper.objectId);
+                              }}
                             >
                               Reject
                             </Button>
@@ -684,9 +723,23 @@ export function PastPapers() {
           <UploadPaperModal
             onClose={() => setShowUploadModal(false)}
             user={user || {}}
-            onUploadSuccess={(newPaper) => {
-              setPapers((prev) => [newPaper, ...prev]);
+            onUploadSuccess={() => {
+              setRefreshKey((prev) => prev + 1);
               handleResetFilters();
+            }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Paper Preview Modal */}
+      <AnimatePresence>
+        {selectedPaperForPreview && (
+          <PaperPreviewModal
+            paper={selectedPaperForPreview}
+            onClose={() => setSelectedPaperForPreview(null)}
+            isAuthenticated={!!user}
+            onDownload={() => {
+              handleDownload(selectedPaperForPreview);
             }}
           />
         )}

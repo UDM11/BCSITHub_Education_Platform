@@ -1,7 +1,9 @@
 // src/dashboard/admin/AdminUsers.tsx
 import React, { useState } from "react";
 import { Card, CardContent } from "../../components/ui/Card";
-import { Users, Search, Filter } from "lucide-react";
+import { Users, Search, Filter, Trash2, ShieldAlert, Check } from "lucide-react";
+import { apiClient } from "../../lib/apiClient";
+import { toast } from "sonner";
 
 interface User {
   objectId: string;
@@ -15,15 +17,18 @@ interface AdminUsersProps {
   users: User[];
   totalUserCount: number;
   loading: boolean;
+  onUserUpdate: () => void;
 }
 
 export const AdminUsers: React.FC<AdminUsersProps> = ({
   users,
   totalUserCount,
-  loading
+  loading,
+  onUserUpdate
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState("all");
+  const [updatingUserId, setUpdatingUserId] = useState<string | null>(null);
 
   const filteredUsers = users.filter((u) => {
     const term = searchTerm.toLowerCase();
@@ -40,8 +45,41 @@ export const AdminUsers: React.FC<AdminUsersProps> = ({
     return matchesSearch && matchesRole;
   });
 
+  const handleRoleChange = async (userId: string, newRole: string) => {
+    setUpdatingUserId(userId);
+    try {
+      await apiClient.patch(`/auth/users/${userId}/role`, { role: newRole });
+      toast.success("User access role updated successfully!");
+      onUserUpdate();
+    } catch (err: any) {
+      console.error("Failed to update role:", err);
+      toast.error(err.message || "Failed to update user role");
+    } finally {
+      setUpdatingUserId(null);
+    }
+  };
+
+  const handleDeleteUser = async (userId: string, userEmail: string) => {
+    const confirmDelete = window.confirm(
+      `Warning: Are you sure you want to permanently delete user account ${userEmail}? This action is irreversible.`
+    );
+    if (!confirmDelete) return;
+
+    setUpdatingUserId(userId);
+    try {
+      await apiClient.delete(`/auth/users/${userId}`);
+      toast.success("User account deleted successfully!");
+      onUserUpdate();
+    } catch (err: any) {
+      console.error("Failed to delete user:", err);
+      toast.error(err.message || "Failed to delete user account");
+    } finally {
+      setUpdatingUserId(null);
+    }
+  };
+
   return (
-    <Card className="border border-slate-200/60 shadow-premium bg-white rounded-3xl p-1">
+    <Card className="border border-slate-200/60 shadow-premium bg-white rounded-3xl p-1 text-left">
       <CardContent className="p-6 sm:p-8">
         
         {/* Header and filters deck */}
@@ -96,15 +134,15 @@ export const AdminUsers: React.FC<AdminUsersProps> = ({
         </div>
 
         {/* Responsive Table */}
-        <div className="overflow-x-auto max-h-[400px] overflow-y-auto pr-1">
+        <div className="overflow-x-auto max-h-[450px] overflow-y-auto pr-1">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-100 sticky top-0 z-10">
                 <th className="p-4 font-bold text-slate-800 uppercase tracking-wider text-[10px]">User Profile</th>
                 <th className="p-4 font-bold text-slate-800 uppercase tracking-wider text-[10px]">Email Address</th>
-                <th className="p-4 font-bold text-slate-800 uppercase tracking-wider text-[10px]">Access Role</th>
+                <th className="p-4 font-bold text-slate-800 uppercase tracking-wider text-[10px]">Access Role (Full Access)</th>
                 <th className="p-4 font-bold text-slate-800 uppercase tracking-wider text-[10px]">Joined Date</th>
-                <th className="p-4 font-bold text-slate-800 uppercase tracking-wider text-[10px]">Status</th>
+                <th className="p-4 font-bold text-slate-800 uppercase tracking-wider text-[10px] text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -142,22 +180,44 @@ export const AdminUsers: React.FC<AdminUsersProps> = ({
                     </div>
                   </td>
                   <td className="p-4 font-semibold text-slate-600 break-all">{u.email}</td>
+                  
+                  {/* Access Role dropdown with update capability */}
                   <td className="p-4">
-                    <span className={`px-2.5 py-0.5 border rounded-full text-[9px] font-black uppercase tracking-wider ${
-                      u.role === "admin" 
-                        ? "bg-rose-50 border-rose-100 text-rose-700" 
-                        : u.role === "teacher"
-                        ? "bg-purple-50 border-purple-100 text-purple-700"
-                        : "bg-indigo-50 border-indigo-100 text-indigo-700"
-                    }`}>
-                      {u.role || "student"}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <select
+                        value={u.role || "student"}
+                        disabled={updatingUserId === u.objectId}
+                        onChange={(e) => handleRoleChange(u.objectId, e.target.value)}
+                        className={`px-2 py-1 border rounded-lg text-[10px] font-black uppercase tracking-wider cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500/20 ${
+                          u.role === "admin" 
+                            ? "bg-rose-50 border-rose-200 text-rose-700" 
+                            : u.role === "teacher"
+                            ? "bg-purple-50 border-purple-200 text-purple-700"
+                            : "bg-indigo-50 border-indigo-200 text-indigo-700"
+                        }`}
+                      >
+                        <option value="student">Student</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="admin">Admin</option>
+                      </select>
+                      {updatingUserId === u.objectId && (
+                        <div className="w-3.5 h-3.5 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+                      )}
+                    </div>
                   </td>
+                  
                   <td className="p-4 font-semibold text-slate-500">{new Date(u.created).toLocaleDateString()}</td>
-                  <td className="p-4">
-                    <span className="px-2.5 py-0.5 border border-emerald-100 bg-emerald-50 rounded-full text-[10px] font-bold text-emerald-700">
-                      Active Profile
-                    </span>
+                  
+                  {/* Action delete buttons */}
+                  <td className="p-4 text-center">
+                    <button
+                      onClick={() => handleDeleteUser(u.objectId, u.email)}
+                      disabled={updatingUserId === u.objectId}
+                      className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all border-0 cursor-pointer disabled:opacity-50 inline-flex items-center justify-center"
+                      title="Delete User Account"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
                   </td>
                 </tr>
               ))}

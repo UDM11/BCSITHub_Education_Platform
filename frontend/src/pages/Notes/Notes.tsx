@@ -111,12 +111,6 @@ const semesters = [
   },
 ];
 
-const stats = [
-  { icon: FileText, label: 'Total Notes', value: '350+', color: 'text-indigo-400' },
-  { icon: Download, label: 'Downloads', value: '15K+', color: 'text-indigo-400' },
-  { icon: Users, label: 'Active Users', value: '2.5K+', color: 'text-indigo-400' },
-  { icon: Star, label: 'Avg Rating', value: '4.8', color: 'text-indigo-400' },
-];
 
 export function Notes() {
   useSEO({
@@ -197,28 +191,6 @@ export function Notes() {
             Access comprehensive, study-ready notes prepared specifically for Pokhara University's BCSIT courses. Download resources, track subjects, and study offline.
           </motion.p>
 
-          {/* Quick Statistics Banner */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto pt-6"
-          >
-            {stats.map((stat, idx) => (
-              <div
-                key={idx}
-                className="flex items-center space-x-3 bg-slate-900/60 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 text-left shadow-sm"
-              >
-                <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-indigo-400">
-                  <stat.icon className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-white">{stat.value}</p>
-                  <p className="text-[10px] text-slate-500 font-semibold">{stat.label}</p>
-                </div>
-              </div>
-            ))}
-          </motion.div>
         </div>
       </section>
 

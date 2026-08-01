@@ -5,44 +5,19 @@ import { Button } from "../../components/ui/Button";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { apiClient } from "../../lib/apiClient";
-import ConfirmDialog from "../../components/common/ConfirmDialog";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from "../../components/ui/Card";
 import { 
-  FileText, CheckCircle, Clock, TrendingUp, Sparkles, 
-  ArrowLeft, LogOut, Settings, HelpCircle, Activity, 
-  PlusCircle, BookOpen, AlertCircle, Users, BarChart3, Download, Eye, ShieldAlert,
-  Shield, CheckSquare, Trash2, Database, Network, ChevronRight, Menu, X, Server, Cpu
+  Users, Shield, LogOut, ArrowLeft, Activity, Sparkles, ShieldAlert,
+  BarChart3, UserCheck, Menu, X, Clock, FileText, Bell, CheckSquare
 } from "lucide-react";
 
 // Import modular subcomponents
 import { AdminOverview } from "./AdminOverview";
-import { AdminApprovals } from "./AdminApprovals";
 import { AdminUsers } from "./AdminUsers";
+import { AdminPapers } from "./AdminPapers";
+import { AdminNotices } from "./AdminNotices";
 import { AdminAnalytics } from "./AdminAnalytics";
-
-interface Paper {
-  objectId: string;
-  title: string;
-  subject: string;
-  semester: number;
-  examType: string;
-  college: string;
-  uploadedAt: string | Date;
-  uploadedBy: string;
-  downloads: number;
-  approved: boolean;
-  fileUrl: string;
-}
-
-interface AdminStats {
-  totalPapers: number;
-  pendingApprovals: number;
-  approvedPapers: number;
-  totalUsers: number;
-  todayUploads: number;
-  totalDownloads: number;
-}
 
 interface User {
   objectId: string;
@@ -52,27 +27,36 @@ interface User {
   created: string;
 }
 
+interface AdminStats {
+  totalUsers: number;
+  totalTeachers: number;
+  totalStudents: number;
+  totalAdmins: number;
+  todayRegistrations: number;
+  totalPapers: number;
+  pendingPapers: number;
+  totalNotices: number;
+}
+
 export default function AdminDashboard() {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   
-  const [papers, setPapers] = useState<Paper[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [totalUserCount, setTotalUserCount] = useState(0);
   const [stats, setStats] = useState<AdminStats>({
-    totalPapers: 0,
-    pendingApprovals: 0,
-    approvedPapers: 0,
     totalUsers: 0,
-    todayUploads: 0,
-    totalDownloads: 0
+    totalTeachers: 0,
+    totalStudents: 0,
+    totalAdmins: 0,
+    todayRegistrations: 0,
+    totalPapers: 0,
+    pendingPapers: 0,
+    totalNotices: 0
   });
   
   const [loading, setLoading] = useState(true);
-  const [papersLoading, setPapersLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
-  const [confirmOpen, setConfirmOpen] = useState(false);
-  const [selectedPaper, setSelectedPaper] = useState<Paper | null>(null);
   
   // Mobile sidebar drawer state
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -88,11 +72,7 @@ export default function AdminDashboard() {
   const fetchAllData = async () => {
     setLoading(true);
     try {
-      await Promise.all([
-        fetchUnapprovedPapers(),
-        fetchUsers(),
-        fetchStats()
-      ]);
+      await fetchUsersAndStats();
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -100,111 +80,54 @@ export default function AdminDashboard() {
     }
   };
 
-  const fetchUnapprovedPapers = async () => {
+  const fetchUsersAndStats = async () => {
     try {
-      setPapersLoading(true);
-      const data = await apiClient.get("/papers?approved_only=false") as any[];
-      const mapped = data
-        .filter((item) => !item.approved)
-        .map((item) => ({
-          objectId: item.id,
-          title: item.title,
-          subject: item.subject,
-          semester: item.semester,
-          examType: item.exam_type,
-          college: item.college,
-          uploadedAt: item.created_at,
-          uploadedBy: item.uploaded_by || "",
-          downloads: item.downloads,
-          approved: item.approved,
-          fileUrl: item.file_url,
-        }));
-      setPapers(mapped);
-    } catch (error: any) {
-      console.error("Error fetching papers:", error);
-      toast.error(error.message || "Failed to fetch papers");
-    } finally {
-      setPapersLoading(false);
-    }
-  };
+      const [usersData, papersData, noticesData] = await Promise.all([
+        apiClient.get("/auth/users") as Promise<any[]>,
+        apiClient.get("/papers?approved_only=false") as Promise<any[]>,
+        apiClient.get("/notices") as Promise<any[]>
+      ]);
 
-  const fetchUsers = async () => {
-    try {
-      const data = await apiClient.get("/auth/users") as any[];
-      setTotalUserCount(data.length);
-      const mapped = data.map((item) => ({
+      setTotalUserCount(usersData.length);
+      const mappedUsers = usersData.map((item) => ({
         objectId: item.id,
         email: item.email,
         name: item.name,
         role: item.role,
         created: item.created_at,
       }));
-      setUsers(mapped);
-    } catch (error: any) {
-      console.error("Error fetching users:", error);
-    }
-  };
+      setUsers(mappedUsers);
 
-  const fetchStats = async () => {
-    try {
-      const [allPapers, allUsers] = await Promise.all([
-        apiClient.get("/papers?approved_only=false") as Promise<any[]>,
-        apiClient.get("/auth/users") as Promise<any[]>
-      ]);
-
+      // Compute statistics
+      const totalUsers = usersData.length;
+      const totalTeachers = usersData.filter((u: any) => u.role === "teacher").length;
+      const totalStudents = usersData.filter((u: any) => u.role === "student" || !u.role || u.role === "").length;
+      const totalAdmins = usersData.filter((u: any) => u.role === "admin").length;
+      
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      
-      const todayUploads = allPapers.filter((paper: any) => {
-        const uploadDate = new Date(paper.created_at);
-        return uploadDate >= today;
+      const todayRegistrations = usersData.filter((u: any) => {
+        const createdDate = new Date(u.created_at || u.created);
+        return createdDate >= today;
       }).length;
 
-      const totalDownloads = allPapers.reduce((sum: number, paper: any) => sum + (paper.downloads || 0), 0);
+      const totalPapers = papersData.length;
+      const pendingPapers = papersData.filter((p: any) => !p.approved).length;
+      const totalNotices = noticesData.length;
 
       setStats({
-        totalPapers: allPapers.length,
-        pendingApprovals: allPapers.filter((p: any) => !p.approved).length,
-        approvedPapers: allPapers.filter((p: any) => p.approved).length,
-        totalUsers: allUsers.length,
-        todayUploads,
-        totalDownloads
+        totalUsers,
+        totalTeachers,
+        totalStudents,
+        totalAdmins,
+        todayRegistrations,
+        totalPapers,
+        pendingPapers,
+        totalNotices
       });
     } catch (error: any) {
-      console.error("Error fetching stats:", error);
-    }
-  };
-
-  const approvePaper = async (id: string) => {
-    try {
-      await apiClient.post(`/papers/${id}/approve`, {});
-      toast.success("Paper approved successfully!");
-      await fetchAllData();
-    } catch (error: any) {
-      console.error("Error approving paper:", error);
-      toast.error(error.message || "Failed to approve paper");
-    }
-  };
-
-  const handleRejectClick = (paper: Paper) => {
-    setSelectedPaper(paper);
-    setConfirmOpen(true);
-  };
-
-  const handleConfirmReject = async () => {
-    if (!selectedPaper) return;
-    setConfirmOpen(false);
-
-    try {
-      await apiClient.delete(`/papers/${selectedPaper.objectId}`);
-
-      toast.success("Paper rejected and deleted successfully!");
-      await fetchAllData();
-    } catch (error: any) {
-      console.error("Error rejecting paper:", error);
-      toast.error(error.message || "Failed to delete paper");
-    } finally {
-      setSelectedPaper(null);
+      console.error("Error fetching users & stats:", error);
+      toast.error(error.message || "Failed to load dashboard statistics");
     }
   };
 
@@ -218,13 +141,13 @@ export default function AdminDashboard() {
 
   if (!user || user.role !== "admin") {
     return (
-      <div className="min-h-screen flex justify-center items-center bg-slate-50/30 px-4 relative">
+      <div className="min-h-screen flex justify-center items-center bg-slate-50/30 px-4 relative text-left">
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <div className="absolute -top-10 left-10 w-72 h-72 bg-rose-400/10 rounded-full blur-3xl" />
         </div>
         
         <div className="text-center max-w-sm mx-auto z-10 w-full">
-          <Card className="border border-slate-105 shadow-premium bg-white rounded-3xl p-1.5">
+          <Card className="border border-slate-205 shadow-premium bg-white rounded-3xl p-1.5">
             <CardContent className="p-8">
               <div className="w-14 h-14 bg-rose-50 border border-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <ShieldAlert className="w-7 h-7 text-rose-600 animate-pulse" />
@@ -247,13 +170,14 @@ export default function AdminDashboard() {
 
   const navigationItems = [
     { id: "overview", label: "Overview", icon: Activity },
-    { id: "approvals", label: "Paper Approvals", icon: CheckSquare },
     { id: "users", label: "User Management", icon: Users },
+    { id: "papers", label: "Manage Papers", icon: FileText },
+    { id: "notices", label: "Manage Notices", icon: Bell },
     { id: "analytics", label: "Platform Health", icon: BarChart3 },
   ];
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-slate-900 text-slate-200">
+    <div className="flex flex-col h-full bg-slate-900 text-slate-200 text-left">
       
       {/* Brand Header */}
       <div className="p-6 border-b border-slate-800 flex items-center gap-3 flex-shrink-0">
@@ -284,7 +208,7 @@ export default function AdminDashboard() {
                   : "text-slate-400 hover:bg-slate-800/60 hover:text-white"
               }`}
             >
-              <Icon className={`w-4.5 h-4.5 ${isActive ? "text-white" : "text-slate-455"}`} />
+              <Icon className={`w-4.5 h-4.5 ${isActive ? "text-white" : "text-slate-400"}`} />
               <span>{item.label}</span>
             </button>
           );
@@ -403,8 +327,9 @@ export default function AdminDashboard() {
             <h2 className="text-lg font-black text-slate-800 tracking-tight flex items-center gap-2">
               <Shield className="w-5 h-5 text-indigo-600" />
               {activeTab === "overview" && "Dashboard Overview"}
-              {activeTab === "approvals" && "Submission Review Approvals"}
-              {activeTab === "users" && "User Accounts Database"}
+              {activeTab === "users" && "User Accounts & Role Administration"}
+              {activeTab === "papers" && "Past Papers & Files Index"}
+              {activeTab === "notices" && "PU Announcements & Notices"}
               {activeTab === "analytics" && "Platform Operations & Analytics"}
             </h2>
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
@@ -426,35 +351,47 @@ export default function AdminDashboard() {
           {/* Greeting Banner */}
           <div className="bg-gradient-to-r from-indigo-900 via-[#1e1b4b] to-purple-950 text-white p-6 sm:p-8 rounded-3xl shadow-lg relative overflow-hidden flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="absolute right-0 top-0 w-44 h-44 bg-white/5 rounded-full blur-2xl pointer-events-none" />
-            <div>
+            <div className="text-left">
               <span className="px-2.5 py-1 rounded-full bg-white/10 border border-white/10 text-yellow-350 text-[9px] font-extrabold uppercase tracking-widest inline-flex items-center gap-1">
                 <Sparkles className="w-3 h-3" />
                 Root Terminal Console
               </span>
               <h2 className="text-2xl sm:text-3xl font-black mt-2">Console Operations</h2>
               <p className="text-xs text-indigo-200/80 font-medium mt-1 leading-relaxed max-w-md">
-                Verify submitted exam papers, audit student profiles, and maintain college resource indexes from the master dashboard.
+                Edit and delete syllabus resources, moderate registered profiles, and audit notice boards instantly.
               </p>
             </div>
-            <button
-              onClick={() => setActiveTab("approvals")}
-              className="bg-gradient-to-r from-yellow-400 to-amber-500 hover:brightness-110 text-slate-900 font-extrabold text-xs px-5 py-3 rounded-xl shadow-md border-0 transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap self-start sm:self-center group"
-            >
-              <CheckSquare className="w-4 h-4 transition-transform group-hover:scale-110" />
-              <span>Review Papers ({stats.pendingApprovals})</span>
-            </button>
+            
+            <div className="flex flex-wrap gap-2.5">
+              {stats.pendingPapers > 0 && (
+                <button
+                  onClick={() => setActiveTab("papers")}
+                  className="bg-amber-500 hover:bg-amber-650 text-slate-905 font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-md border-0 transition-all flex items-center gap-1.5 cursor-pointer"
+                >
+                  <CheckSquare className="w-4 h-4" />
+                  <span>Review Submissions ({stats.pendingPapers})</span>
+                </button>
+              )}
+              <button
+                onClick={() => setActiveTab("users")}
+                className="bg-white/10 hover:bg-white/15 text-white border border-white/10 font-bold text-xs px-4 py-2.5 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <UserCheck className="w-4 h-4" />
+                <span>Manage Users ({stats.totalUsers})</span>
+              </button>
+            </div>
           </div>
 
           {/* Stats Cards grid */}
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
             {[
-              { title: "Total Papers", value: stats.totalPapers, icon: FileText, color: "text-indigo-600 bg-indigo-50 border-indigo-100" },
-              { title: "Pending Verify", value: stats.pendingApprovals, icon: Clock, color: "text-amber-600 bg-amber-50 border-amber-100" },
-              { title: "Live Assets", value: stats.approvedPapers, icon: CheckCircle, color: "text-emerald-600 bg-emerald-50 border-emerald-100" },
-              { title: "Total Profiles", value: stats.totalUsers, icon: Users, color: "text-purple-600 bg-purple-50 border-purple-100" },
-              { title: "Downloads", value: stats.totalDownloads, icon: Download, color: "text-pink-600 bg-pink-50 border-pink-100" }
+              { title: "Total Profiles", value: stats.totalUsers, icon: Users, color: "text-indigo-600 bg-indigo-50 border-indigo-100" },
+              { title: "Syllabus Papers", value: stats.totalPapers, icon: FileText, color: "text-emerald-600 bg-emerald-50 border-emerald-100" },
+              { title: "Pending Papers", value: stats.pendingPapers, icon: Clock, color: "text-amber-600 bg-amber-50 border-amber-100" },
+              { title: "PU Notices", value: stats.totalNotices, icon: Bell, color: "text-purple-600 bg-purple-50 border-purple-100" },
+              { title: "Today Signups", value: stats.todayRegistrations, icon: Clock, color: "text-pink-600 bg-pink-50 border-pink-100" }
             ].map((stat, idx) => (
-              <div key={idx} className="bg-white border border-slate-200/60 p-5 rounded-2xl flex flex-col justify-between gap-2.5 shadow-sm hover:shadow-md transition-shadow">
+              <div key={idx} className="bg-white border border-slate-200/60 p-5 rounded-2xl flex flex-col justify-between gap-2.5 shadow-sm hover:shadow-md transition-shadow text-left">
                 <span className="block text-[8px] font-extrabold text-slate-400 uppercase tracking-widest">{stat.title}</span>
                 <div className="flex items-center justify-between gap-2">
                   {loading ? (
@@ -482,20 +419,10 @@ export default function AdminDashboard() {
               {activeTab === "overview" && (
                 <AdminOverview 
                   stats={stats} 
-                  papers={papers} 
+                  users={users} 
                   loading={loading} 
                   setActiveTab={setActiveTab} 
                   navigate={navigate} 
-                />
-              )}
-
-              {activeTab === "approvals" && (
-                <AdminApprovals 
-                  papers={papers} 
-                  loading={loading} 
-                  papersLoading={papersLoading} 
-                  approvePaper={approvePaper} 
-                  handleRejectClick={handleRejectClick} 
                 />
               )}
 
@@ -504,12 +431,32 @@ export default function AdminDashboard() {
                   users={users} 
                   totalUserCount={totalUserCount} 
                   loading={loading} 
+                  onUserUpdate={fetchUsersAndStats}
+                />
+              )}
+
+              {activeTab === "papers" && (
+                <AdminPapers 
+                  onPaperUpdate={fetchUsersAndStats}
+                />
+              )}
+
+              {activeTab === "notices" && (
+                <AdminNotices 
+                  onNoticeUpdate={fetchUsersAndStats}
                 />
               )}
 
               {activeTab === "analytics" && (
                 <AdminAnalytics 
-                  stats={stats} 
+                  stats={{
+                    totalPapers: stats.totalPapers,
+                    pendingApprovals: stats.pendingPapers,
+                    approvedPapers: stats.totalPapers - stats.pendingPapers,
+                    totalUsers: stats.totalUsers,
+                    todayUploads: stats.todayRegistrations,
+                    totalDownloads: 0
+                  }} 
                   loading={loading} 
                 />
               )}
@@ -518,18 +465,6 @@ export default function AdminDashboard() {
 
         </main>
       </div>
-
-      {/* Confirm Dialog reject/delete popup */}
-      <ConfirmDialog
-        isOpen={confirmOpen}
-        title="Reject Paper Submission"
-        message="Are you sure you want to reject this syllabus paper? This will permanently delete the resource from database indexes and storage servers."
-        onConfirm={handleConfirmReject}
-        onCancel={() => {
-          setConfirmOpen(false);
-          setSelectedPaper(null);
-        }}
-      />
     </div>
   );
 }

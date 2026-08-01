@@ -273,27 +273,7 @@ export function QuizGenerator() {
               Ace your Pokhara University semester exams with dynamic practice quizzes from the official BCSIT syllabus.
             </motion.p>
 
-            {/* Stats row */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 }}
-              className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto pt-4"
-            >
-              {[
-                { icon: Trophy, label: `${quizStats.totalQuizzes}`, sub: "Quizzes Completed" },
-                { icon: Target, label: `${quizStats.averageScore}%`, sub: "Average Score" },
-                { icon: Zap, label: `${quizStats.bestScore}%`, sub: "Best Score" },
-              ].map((s, i) => (
-                <div key={i} className="flex items-center gap-3.5 bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 text-left backdrop-blur-sm">
-                  <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-indigo-400 flex-shrink-0">
-                    <s.icon className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="text-base font-black text-white">{s.label}</p>
-                    <p className="text-[10px] text-slate-500 font-semibold">{s.sub}</p>
-                  </div>
-                </div>
-              ))}
-            </motion.div>
+
           </div>
         </section>
       )}

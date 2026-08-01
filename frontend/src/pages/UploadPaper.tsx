@@ -6,26 +6,57 @@ import { apiClient } from '../lib/apiClient';
 import { UploadCloud, FileText, ArrowLeft, ShieldCheck } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/Card';
 import { motion } from 'framer-motion';
+import { semestersData } from '../data/notesData';
+import { specializationData } from '../data/syllabusData';
+
+const colleges = [
+  { value: "Pokhara University", label: "Pokhara University" },
+  { value: "Ace Institute of Management", label: "Ace Institute of Management" },
+  { value: "SAIM College", label: "SAIM College" },
+  { value: "Apollo International College", label: "Apollo International College" },
+  { value: "Quest International College", label: "Quest International College" },
+  { value: "Shubhashree College of Management", label: "Shubhashree College of Management" },
+  { value: "Liberty College", label: "Liberty College" },
+  { value: "Uniglobe College", label: "Uniglobe College" },
+  { value: "Medhavi College", label: "Medhavi College" },
+  { value: "Crimson College of Technology", label: "Crimson College of Technology" },
+  { value: "Rajdhani Model College", label: "Rajdhani Model College" },
+  { value: "Excel Business College", label: "Excel Business College" },
+  { value: "Malpi International College", label: "Malpi International College" },
+  { value: "Nobel College", label: "Nobel College" },
+  { value: "Boston International College", label: "Boston International College" },
+  { value: "Pokhara College of Management", label: "Pokhara College of Management" },
+  { value: "Apex College", label: "Apex College" },
+  { value: "Other", label: "Other College" },
+];
 
 const UploadPaper: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [isUploading, setIsUploading] = useState(false);
   const [formData, setFormData] = useState({
-    title: '',
-    subject: '',
     semester: '',
+    subject: '',
+    customSubject: '',
     examType: '',
+    year: '',
     college: '',
     file: null as File | null
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => {
+      const next = { ...prev, [name]: value };
+      if (name === 'semester') {
+        next.subject = '';
+        next.customSubject = '';
+      }
+      if (name === 'subject' && value !== 'other') {
+        next.customSubject = '';
+      }
+      return next;
+    });
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,6 +69,41 @@ const UploadPaper: React.FC = () => {
     }
   };
 
+  const getSubjectsForSemester = (semId: string) => {
+    if (!semId) return [];
+    const sem = semestersData.find(s => s.id.toString() === semId);
+    if (!sem) return [];
+
+    // Get base subjects
+    const baseSubjects = sem.subjects
+      .filter(sub => sub.courseName !== "Specialization" && !sub.courseName.startsWith("Concentration"))
+      .map(sub => sub.courseName);
+
+    // If semester has specialization/concentration courses, add the respective specialization courses
+    const additionalSubjects: string[] = [];
+    if (semId === "5" || semId === "6" || semId === "7" || semId === "8") {
+      Object.values(specializationData).forEach(spec => {
+        spec.courses.forEach(c => {
+          if (!additionalSubjects.includes(c.name)) {
+            additionalSubjects.push(c.name);
+          }
+        });
+      });
+    }
+
+    const allSubjects = [...baseSubjects, ...additionalSubjects].sort();
+    return allSubjects;
+  };
+
+  const years = Array.from({ length: 10 }, (_, i) => {
+    return (new Date().getFullYear() - i).toString();
+  });
+
+  const displaySubject = formData.subject === "other" ? formData.customSubject : formData.subject;
+  const generatedTitle = displaySubject && formData.examType && formData.year
+    ? `${displaySubject} ${formData.examType} Exam ${formData.year}`
+    : "";
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -46,6 +112,29 @@ const UploadPaper: React.FC = () => {
       return;
     }
 
+    const finalSubject = formData.subject === 'other' ? formData.customSubject.trim() : formData.subject;
+    const finalTitle = generatedTitle;
+
+    if (!formData.semester) {
+      toast.error('Please select a semester');
+      return;
+    }
+    if (!finalSubject) {
+      toast.error('Please select or enter a subject');
+      return;
+    }
+    if (!formData.examType) {
+      toast.error('Please select an exam type');
+      return;
+    }
+    if (!formData.year) {
+      toast.error('Please select a year');
+      return;
+    }
+    if (!formData.college) {
+      toast.error('Please select a college');
+      return;
+    }
     if (!formData.file) {
       toast.error('Please select a file to upload');
       return;
@@ -55,8 +144,8 @@ const UploadPaper: React.FC = () => {
 
     try {
       const payload = new FormData();
-      payload.append('title', formData.title);
-      payload.append('subject', formData.subject);
+      payload.append('title', finalTitle);
+      payload.append('subject', finalSubject);
       payload.append('semester', formData.semester);
       payload.append('exam_type', formData.examType.toLowerCase());
       payload.append('college', formData.college);
@@ -122,37 +211,7 @@ const UploadPaper: React.FC = () => {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-5">
-                <div>
-                  <label className="block text-[10px] font-bold text-slate-550 mb-1.5 uppercase tracking-wider">
-                    Paper Title *
-                  </label>
-                  <input
-                    type="text"
-                    name="title"
-                    value={formData.title}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-semibold transition-all"
-                    placeholder="e.g., Data Structures Final Exam 2023"
-                  />
-                </div>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div>
-                    <label className="block text-[10px] font-bold text-slate-555 mb-1.5 uppercase tracking-wider">
-                      Subject Name *
-                    </label>
-                    <input
-                      type="text"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-semibold transition-all"
-                      placeholder="e.g., Data Structures"
-                    />
-                  </div>
-
                   <div>
                     <label className="block text-[10px] font-bold text-slate-555 mb-1.5 uppercase tracking-wider">
                       Semester *
@@ -166,13 +225,50 @@ const UploadPaper: React.FC = () => {
                     >
                       <option value="">Select Semester</option>
                       {[1, 2, 3, 4, 5, 6, 7, 8].map(sem => (
-                        <option key={sem} value={sem}>Semester {sem}</option>
+                        <option key={sem} value={sem.toString()}>Semester {sem}</option>
                       ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-555 mb-1.5 uppercase tracking-wider">
+                      Subject Name *
+                    </label>
+                    <select
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleInputChange}
+                      required
+                      disabled={!formData.semester}
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-bold transition-all disabled:bg-slate-50 disabled:text-slate-400"
+                    >
+                      <option value="">{formData.semester ? "Select Subject" : "Select Semester First"}</option>
+                      {formData.semester && getSubjectsForSemester(formData.semester).map(sub => (
+                        <option key={sub} value={sub}>{sub}</option>
+                      ))}
+                      {formData.semester && <option value="other">Other / Custom Subject</option>}
                     </select>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {formData.subject === 'other' && (
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-550 mb-1.5 uppercase tracking-wider">
+                      Custom Subject Name *
+                    </label>
+                    <input
+                      type="text"
+                      name="customSubject"
+                      value={formData.customSubject}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-semibold transition-all"
+                      placeholder="e.g., Database Management System"
+                    />
+                  </div>
+                )}
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                   <div>
                     <label className="block text-[10px] font-bold text-slate-555 mb-1.5 uppercase tracking-wider">
                       Exam Type *
@@ -194,19 +290,47 @@ const UploadPaper: React.FC = () => {
 
                   <div>
                     <label className="block text-[10px] font-bold text-slate-555 mb-1.5 uppercase tracking-wider">
+                      Year *
+                    </label>
+                    <select
+                      name="year"
+                      value={formData.year}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-750 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-bold transition-all"
+                    >
+                      <option value="">Select Year</option>
+                      {years.map(y => (
+                        <option key={y} value={y}>{y}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-555 mb-1.5 uppercase tracking-wider">
                       Affiliated College *
                     </label>
-                    <input
-                      type="text"
+                    <select
                       name="college"
                       value={formData.college}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-semibold transition-all"
-                      placeholder="e.g., Pokhara University"
-                    />
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-705 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-bold transition-all"
+                    >
+                      <option value="">Select College</option>
+                      {colleges.map(c => (
+                        <option key={c.value} value={c.value}>{c.label}</option>
+                      ))}
+                    </select>
                   </div>
                 </div>
+
+                {generatedTitle && (
+                  <div className="p-4 rounded-2xl bg-indigo-50/40 border border-indigo-100/50 mt-2 text-left">
+                    <span className="block text-[9px] font-bold text-indigo-500 uppercase tracking-wider mb-1">Generated Paper Title Preview</span>
+                    <p className="text-sm font-extrabold text-slate-800">{generatedTitle}</p>
+                  </div>
+                )}
 
                 <div>
                   <label className="block text-[10px] font-bold text-slate-555 mb-1.5 uppercase tracking-wider">

@@ -505,6 +505,50 @@ async def list_students(current_user: dict = Depends(get_teacher_or_admin_user))
         )
 
 
+@router.patch("/users/{user_id}/role")
+async def update_user_role(
+    user_id: str,
+    payload: dict,
+    current_user: dict = Depends(get_admin_user)
+) -> Any:
+    role = payload.get("role")
+    if role not in ["student", "teacher", "admin"]:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid role. Must be 'student', 'teacher', or 'admin'."
+        )
+    try:
+        res = supabase_client.table("users")\
+            .update({"role": role, "updated_at": datetime.utcnow().isoformat()})\
+            .eq("id", user_id)\
+            .execute()
+        if not res.data:
+            raise HTTPException(status_code=404, detail="User not found")
+        return build_user_response(res.data[0])
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
+
+
+@router.delete("/users/{user_id}")
+async def delete_user(
+    user_id: str,
+    current_user: dict = Depends(get_admin_user)
+) -> Any:
+    try:
+        res = supabase_client.table("users").delete().eq("id", user_id).execute()
+        if not res.data:
+            raise HTTPException(status_code=404, detail="User not found")
+        return {"message": "User deleted successfully"}
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
+
+
 # ═════════════════════════════════════════════════════════════════════════
 #  OAUTH SOCIAL SIGN-IN ENDPOINTS (GOOGLE, GITHUB, MICROSOFT)
 # ═════════════════════════════════════════════════════════════════════════

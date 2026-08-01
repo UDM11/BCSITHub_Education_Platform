@@ -11,15 +11,14 @@ import {
   List,
   Bell,
   Users,
-  TrendingUp,
   Award,
-  Clock,
   X,
   ChevronRight,
   BookOpen,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import UploadNoticeForm from '../components/common/UploadNoticeForm';
+import { NoticeReaderModal } from '../components/common/NoticeReaderModal';
 import { motion, AnimatePresence } from 'framer-motion';
 import { apiClient } from '../lib/apiClient';
 import { useNavigate } from 'react-router-dom';
@@ -29,10 +28,11 @@ interface Notice {
   objectId: string;
   title: string;
   date: Date;
-  fileUrl: string;
-  fileName: string;
-  fileSize: string;
+  fileUrl?: string;
+  fileName?: string;
+  fileSize?: string;
   category: 'Exam' | 'Admission' | 'Result' | 'General';
+  content?: string;
 }
 
 const categories = ['Exam', 'Admission', 'Result', 'General'];
@@ -64,27 +64,27 @@ const LoginRedirectModal: React.FC<{
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
       <motion.div
-        className="bg-white p-6 rounded-2xl shadow-xl w-full max-w-sm text-center"
-        initial={{ scale: 0.8, opacity: 0 }}
+        className="bg-white p-6 sm:p-8 rounded-3xl shadow-xl w-full max-w-sm text-center border border-slate-100"
+        initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
+        exit={{ scale: 0.9, opacity: 0 }}
       >
-        <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Bell className="w-8 h-8 text-indigo-600" />
+        <div className="w-16 h-16 bg-indigo-50 border border-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <Bell className="w-8 h-8 text-indigo-650" />
         </div>
-        <h2 className="text-xl font-semibold mb-3 text-gray-900">Login Required</h2>
-        <p className="text-gray-600 mb-6">{message}</p>
+        <h2 className="text-xl font-extrabold mb-3 text-slate-800 tracking-tight">Access Restricted</h2>
+        <p className="text-xs text-slate-500 font-semibold leading-relaxed mb-6">{message}</p>
         <button
           onClick={handleOk}
-          className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors font-medium w-full"
+          className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-xl hover:brightness-110 transition-all font-extrabold text-xs w-full shadow-md shadow-indigo-100 border-0 cursor-pointer"
         >
-          Login / Sign Up
+          Create Free Account
         </button>
       </motion.div>
     </motion.div>
@@ -95,10 +95,11 @@ interface PythonNoticeItem {
   id: string;
   title: string;
   date: string;
-  file_url: string;
-  file_name: string;
-  file_size: string;
+  file_url?: string;
+  file_name?: string;
+  file_size?: string;
   category: 'Exam' | 'Admission' | 'Result' | 'General';
+  content?: string;
 }
 
 const PUNotices: React.FC = () => {
@@ -117,8 +118,11 @@ const PUNotices: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
+  
+  // Notice Preview Modal State
+  const [selectedNoticeForPreview, setSelectedNoticeForPreview] = useState<Notice | null>(null);
 
   useEffect(() => {
     const fetchNotices = async () => {
@@ -133,6 +137,7 @@ const PUNotices: React.FC = () => {
           fileName: item.file_name,
           fileSize: item.file_size,
           category: item.category,
+          content: item.content,
         }));
 
         setNotices(formatted);
@@ -147,7 +152,7 @@ const PUNotices: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (showUploadModal || loginModalOpen) {
+    if (showUploadModal || loginModalOpen || selectedNoticeForPreview) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -155,11 +160,12 @@ const PUNotices: React.FC = () => {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [showUploadModal, loginModalOpen]);
+  }, [showUploadModal, loginModalOpen, selectedNoticeForPreview]);
 
   const filteredNotices = notices.filter((notice) => {
     const matchesSearch = searchTerm
-      ? notice.title.toLowerCase().includes(searchTerm.toLowerCase())
+      ? notice.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        (notice.content && notice.content.toLowerCase().includes(searchTerm.toLowerCase()))
       : true;
     const matchesCategory = selectedCategory ? notice.category === selectedCategory : true;
     return matchesSearch && matchesCategory;
@@ -168,15 +174,15 @@ const PUNotices: React.FC = () => {
   const getCategoryColor = (category: string) => {
     switch (category) {
       case 'Exam':
-        return 'bg-red-55/70 text-red-600 border-red-100/50';
+        return 'bg-rose-50 text-rose-600 border-rose-100';
       case 'Admission':
-        return 'bg-blue-50 text-blue-600 border-blue-100/50';
+        return 'bg-sky-50 text-sky-600 border-sky-100';
       case 'Result':
-        return 'bg-green-50 text-green-600 border-green-100/50';
+        return 'bg-emerald-50 text-emerald-600 border-emerald-100';
       case 'General':
-        return 'bg-slate-50 text-slate-600 border-slate-100/50';
+        return 'bg-slate-50 text-slate-600 border-slate-250';
       default:
-        return 'bg-slate-50 text-slate-600 border-slate-100/50';
+        return 'bg-slate-50 text-slate-605 border-slate-100';
     }
   };
 
@@ -195,21 +201,12 @@ const PUNotices: React.FC = () => {
     }
   };
 
-  const handleDownload = (notice: Notice) => {
+  const handleCardClick = (notice: Notice) => {
     if (!user) {
       setLoginModalOpen(true);
       return;
     }
-
-    if (notice.fileUrl && notice.fileUrl !== '#') {
-      const link = document.createElement('a');
-      link.href = notice.fileUrl;
-      link.download = notice.fileName;
-      link.target = '_blank';
-      link.click();
-    } else {
-      alert('File URL not available.');
-    }
+    setSelectedNoticeForPreview(notice);
   };
 
   const containerVariants = {
@@ -217,7 +214,7 @@ const PUNotices: React.FC = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.05,
+        staggerChildren: 0.04,
       },
     },
   };
@@ -229,7 +226,7 @@ const PUNotices: React.FC = () => {
       y: 0,
       transition: {
         type: 'spring',
-        stiffness: 120,
+        stiffness: 130,
         damping: 18,
       },
     },
@@ -242,7 +239,16 @@ const PUNotices: React.FC = () => {
           <LoginRedirectModal
             isOpen={loginModalOpen}
             onClose={() => setLoginModalOpen(false)}
-            message="Please login or signup to download notices."
+            message="Please sign up or log in to view and download PU notices."
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {selectedNoticeForPreview && (
+          <NoticeReaderModal
+            notice={selectedNoticeForPreview}
+            onClose={() => setSelectedNoticeForPreview(null)}
           />
         )}
       </AnimatePresence>
@@ -256,82 +262,50 @@ const PUNotices: React.FC = () => {
         </div>
 
         <div className="relative max-w-6xl mx-auto text-center z-10 space-y-6">
+
+
           <motion.h1
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-200 bg-clip-text text-transparent"
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-200 bg-clip-text text-transparent"
           >
-            PU Notices
+            PU Announcements & Notices
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed"
-          >
-            Official exam guidelines, admission alerts, result announcements, and general notices from Pokhara University for the BCSIT program.
-          </motion.p>
-
-          {/* Quick Statistics Banner */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto pt-6"
+            className="text-xs sm:text-sm text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium"
           >
-            {[
-              { icon: FileText, label: 'Total Notices', value: notices.length },
-              { icon: Bell, label: 'Alert Categories', value: categories.length },
-              {
-                icon: Clock,
-                label: 'This Month',
-                value: notices.filter(
-                  (n) => new Date(n.date).getMonth() === new Date().getMonth()
-                ).length,
-              },
-              { icon: TrendingUp, label: 'Downloads', value: '100+' },
-            ].map((stat, idx) => (
-              <div
-                key={idx}
-                className="flex items-center space-x-3 bg-slate-900/60 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 text-left shadow-sm hover:border-slate-700/50 transition-colors"
-              >
-                <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-indigo-400">
-                  <stat.icon className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-white">{stat.value}</p>
-                  <p className="text-[10px] text-slate-500 font-semibold">{stat.label}</p>
-                </div>
-              </div>
-            ))}
-          </motion.div>
+            Official examination routines, result declarations, admission updates, and administrative notices directly from Pokhara University (PU) for the BCSIT stream.
+          </motion.p>
 
           {/* Action Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-wrap justify-center gap-3 pt-2"
+            className="flex flex-wrap justify-center gap-3.5 pt-2"
           >
             <a
               href="https://exam.pu.edu.np:9094/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center space-x-2 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-white font-bold text-xs px-6 py-3 rounded-xl transition-all shadow-md"
+              className="inline-flex items-center justify-center gap-2 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-white font-bold text-xs px-6 py-3 rounded-xl transition-all shadow-md cursor-pointer hover:border-slate-700"
             >
-              <ExternalLink className="h-4 w-4" />
-              <span>Official PU Result Portal</span>
+              <ExternalLink className="h-4 w-4 text-slate-400" />
+              <span>Official Result Portal</span>
             </a>
 
             {isAdmin && (
               <Button
                 onClick={() => setShowUploadModal(true)}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-6 py-3 rounded-xl border-0 shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/35 transition-all flex items-center gap-2"
+                className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:brightness-105 border-0 text-white font-bold text-xs px-6 py-3 rounded-xl shadow-lg shadow-indigo-500/10 hover:shadow-indigo-500/20 transition-all flex items-center gap-2 cursor-pointer"
               >
                 <UploadCloud className="h-4 w-4" />
-                <span>Upload New Notice</span>
+                <span>Upload PU Notice</span>
               </Button>
             )}
           </motion.div>
@@ -347,7 +321,7 @@ const PUNotices: React.FC = () => {
             <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
             <input
               type="text"
-              placeholder="Search notices by title..."
+              placeholder="Search by title or description..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all bg-white text-slate-800 placeholder:text-slate-400"
@@ -355,7 +329,23 @@ const PUNotices: React.FC = () => {
           </div>
 
           {/* Filters & Display toggles */}
-          <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+          <div className="flex flex-wrap items-center justify-between md:justify-end gap-3 w-full md:w-auto">
+            <div className="flex bg-slate-100 rounded-xl p-1 border border-slate-200/40">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(selectedCategory === cat ? '' : cat)}
+                  className={`px-3 py-1.5 rounded-lg text-[10px] font-black tracking-wide uppercase transition-all ${
+                    selectedCategory === cat
+                      ? 'bg-white text-indigo-600 shadow-sm border border-slate-200/50'
+                      : 'text-slate-500 hover:text-slate-800'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
             <Button
               variant="outline"
               onClick={() => setShowFilters(!showFilters)}
@@ -364,7 +354,7 @@ const PUNotices: React.FC = () => {
               }`}
             >
               <Filter className="w-4 h-4" />
-              <span>Filters</span>
+              <span>More Filters</span>
             </Button>
 
             <div className="flex bg-slate-100 rounded-xl p-1 border border-slate-200/40">
@@ -375,7 +365,7 @@ const PUNotices: React.FC = () => {
                 }`}
                 aria-label="List View"
               >
-                <List className="w-4 h-4" />
+                <List className="w-4.5 h-4.5" />
               </button>
               <button
                 onClick={() => setViewMode('grid')}
@@ -384,7 +374,7 @@ const PUNotices: React.FC = () => {
                 }`}
                 aria-label="Grid View"
               >
-                <Grid className="w-4 h-4" />
+                <Grid className="w-4.5 h-4.5" />
               </button>
             </div>
           </div>
@@ -400,7 +390,7 @@ const PUNotices: React.FC = () => {
               transition={{ duration: 0.25, ease: 'easeInOut' }}
               className="max-w-6xl mx-auto overflow-hidden"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 mt-4 border-t border-slate-100">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 mt-4 border-t border-slate-100 text-left">
                 <div>
                   <label className="block text-[10px] font-bold uppercase text-slate-500 mb-1">Notice Category</label>
                   <select
@@ -429,7 +419,7 @@ const PUNotices: React.FC = () => {
                       setSearchTerm('');
                       setSelectedCategory('');
                     }}
-                    className="text-[10px] border-slate-200 font-bold px-3 py-1 bg-slate-50 hover:bg-slate-100"
+                    className="text-[10px] border-slate-200 font-bold px-3 py-1 bg-slate-50 hover:bg-slate-100 rounded-lg"
                   >
                     Reset Filters
                   </Button>
@@ -447,7 +437,7 @@ const PUNotices: React.FC = () => {
           /* Localized loading skeletons */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="animate-pulse bg-white border border-slate-100 rounded-2xl p-6 space-y-4 shadow-sm text-left">
+              <div key={i} className="animate-pulse bg-white border border-slate-100 rounded-3xl p-6 space-y-4 shadow-sm text-left">
                 <div className="space-y-2">
                   <div className="h-4 bg-slate-100 rounded w-1/4"></div>
                   <div className="h-4 bg-slate-100 rounded w-3/4"></div>
@@ -465,72 +455,166 @@ const PUNotices: React.FC = () => {
               animate="visible"
               className={
                 viewMode === 'grid'
-                  ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start'
+                  ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch'
                   : 'space-y-4 max-w-4xl mx-auto'
               }
             >
-              {filteredNotices.map((notice) => (
-                <motion.div
-                  key={notice.objectId}
-                  variants={itemVariants}
-                  className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-indigo-150 transition-all duration-300 overflow-hidden flex flex-col h-full text-left group"
-                >
-                  {/* Notice Content Header */}
-                  <div className="p-6 border-b border-slate-100/50 bg-gradient-to-b from-slate-50/50 to-transparent flex-1">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border text-[10px] font-bold ${getCategoryColor(notice.category)}`}>
-                        {getCategoryIcon(notice.category)}
-                        <span>{notice.category}</span>
+              {filteredNotices.map((notice) => {
+                const hasFile = !!notice.fileUrl;
+                
+                return viewMode === 'grid' ? (
+                  /* Grid View Card */
+                  <motion.div
+                    key={notice.objectId}
+                    variants={itemVariants}
+                    onClick={() => handleCardClick(notice)}
+                    className="bg-white rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md hover:border-indigo-400 transition-all duration-350 overflow-hidden flex flex-col h-full text-left group cursor-pointer"
+                  >
+                    {/* Notice Card Body */}
+                    <div className="p-6 flex flex-col flex-1 relative justify-between">
+                      <div>
+                        <div className="flex items-center justify-between mb-4.5">
+                          <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full border text-[9px] font-black tracking-wide uppercase ${getCategoryColor(notice.category)}`}>
+                            {getCategoryIcon(notice.category)}
+                            <span>{notice.category}</span>
+                          </div>
+                          
+                          <div className="text-[10px] text-slate-400 font-bold flex items-center gap-1.5">
+                            <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                            <span>
+                              {notice.date.toLocaleDateString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric',
+                              })}
+                            </span>
+                          </div>
+                        </div>
+
+                        <h3 className="text-sm sm:text-base font-extrabold text-slate-800 mb-3 group-hover:text-indigo-650 transition-colors leading-snug line-clamp-2">
+                          {notice.title}
+                        </h3>
+
+                        {notice.content && (
+                          <p className="text-xs text-slate-400 leading-relaxed font-medium line-clamp-3 mb-4">
+                            {notice.content}
+                          </p>
+                        )}
                       </div>
-                      <div className="text-[10px] text-slate-400 font-bold flex items-center gap-1.5">
-                        <Calendar className="w-3.5 h-3.5 text-slate-405" />
-                        <span>
-                          {notice.date.toLocaleDateString('en-US', {
-                            month: 'short',
-                            day: 'numeric',
-                            year: 'numeric',
-                          })}
-                        </span>
+
+                      <div className="flex items-center justify-between text-[10px] text-slate-400 font-semibold border-t border-slate-100/80 pt-3.5 mt-4">
+                        {hasFile ? (
+                          <>
+                            <div className="flex items-center gap-1.5 truncate max-w-[170px]">
+                              <FileText className="w-4 h-4 text-indigo-500 flex-shrink-0" />
+                              <span className="truncate font-bold text-slate-500">
+                                {notice.fileName}
+                              </span>
+                            </div>
+                            <span className="bg-slate-50 border border-slate-150 px-2 py-0.5 rounded text-[8px] font-black uppercase text-slate-500">
+                              {notice.fileSize}
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <div className="flex items-center gap-1.5">
+                              <Bell className="w-4 h-4 text-purple-500 flex-shrink-0" />
+                              <span className="font-bold text-purple-650">
+                                Text announcement
+                              </span>
+                            </div>
+                            <span className="bg-purple-50 border border-purple-100 px-2.5 py-0.5 rounded-full text-[8px] font-black uppercase text-purple-600">
+                              No attachment
+                            </span>
+                          </>
+                        )}
                       </div>
                     </div>
 
-                    <h3 className="text-sm font-bold text-slate-800 mb-3 line-clamp-2 group-hover:text-indigo-600 transition-colors">
-                      {notice.title}
-                    </h3>
-
-                    <div className="flex items-center justify-between text-[10px] text-slate-405 font-semibold border-t border-slate-100/60 pt-3.5 mt-4">
-                      <div className="flex items-center gap-2">
-                        <FileText className="w-4 h-4 text-slate-400 flex-shrink-0" />
-                        <span className="truncate max-w-[150px] font-bold text-slate-500">
-                          {notice.fileName}
-                        </span>
-                      </div>
-                      <span className="bg-slate-50 border border-slate-100 px-2 py-0.5 rounded text-[9px] font-extrabold text-slate-500">
-                        {notice.fileSize}
+                    {/* Footer Call-to-Action */}
+                    <div className="p-4 bg-slate-50/40 border-t border-slate-100/60 flex items-center justify-between group-hover:bg-slate-50/80 transition-colors">
+                      <span className="text-[10px] font-black text-indigo-600 flex items-center gap-1">
+                        {hasFile ? "View Attachment & Details" : "Read Announcement"}
+                        <ChevronRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
                       </span>
                     </div>
-                  </div>
+                  </motion.div>
+                ) : (
+                  /* List View Card */
+                  <motion.div
+                    key={notice.objectId}
+                    variants={itemVariants}
+                    onClick={() => handleCardClick(notice)}
+                    className="bg-white rounded-2xl border border-slate-200/50 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm hover:shadow-md hover:border-indigo-400 transition-all duration-300 cursor-pointer text-left group"
+                  >
+                    <div className="flex items-start gap-4 flex-1 min-w-0">
+                      {/* Left icon wrapper */}
+                      <div className={`w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0 ${
+                        notice.category === 'Exam' ? 'bg-rose-50 border border-rose-100 text-rose-600' :
+                        notice.category === 'Admission' ? 'bg-sky-50 border border-sky-100 text-sky-600' :
+                        notice.category === 'Result' ? 'bg-emerald-50 border border-emerald-100 text-emerald-600' :
+                        'bg-purple-50 border border-purple-100 text-purple-600'
+                      }`}>
+                        {getCategoryIcon(notice.category)}
+                      </div>
 
-                  {/* Notice Card Footer Action Button */}
-                  <div className="p-5 bg-slate-50/40 border-t border-slate-100/60">
-                    <button
-                      onClick={() => handleDownload(notice)}
-                      className="w-full flex items-center justify-center gap-2 bg-indigo-50 border border-indigo-100/40 hover:bg-indigo-600 text-indigo-600 hover:text-white px-4 py-2.5 rounded-xl transition-all duration-300 font-bold text-xs group-hover:shadow-sm"
-                    >
-                      <Download className="w-4 h-4" />
-                      <span>Download Notice Document</span>
-                      <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
+                      {/* Middle description columns */}
+                      <div className="space-y-1 flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="text-[9px] font-black uppercase tracking-wider text-slate-400">
+                            {notice.category} Notice
+                          </span>
+                          <span className="text-[9px] text-slate-400 font-bold">•</span>
+                          <span className="text-[9px] text-slate-400 font-bold flex items-center gap-1">
+                            <Calendar className="w-3 h-3 text-slate-400" />
+                            {notice.date.toLocaleDateString('en-US', {
+                              month: 'short',
+                              day: 'numeric',
+                              year: 'numeric',
+                            })}
+                          </span>
+                        </div>
+                        
+                        <h4 className="text-xs sm:text-sm font-extrabold text-slate-800 group-hover:text-indigo-650 transition-colors truncate">
+                          {notice.title}
+                        </h4>
+
+                        {notice.content && (
+                          <p className="text-[10px] text-slate-400 truncate leading-snug font-medium max-w-xl">
+                            {notice.content}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Right side attachment flags */}
+                    <div className="flex items-center gap-3 shrink-0 self-stretch sm:self-auto border-t sm:border-0 border-slate-100 pt-3 sm:pt-0 justify-between sm:justify-end">
+                      {hasFile ? (
+                        <div className="flex items-center gap-2 bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-xl text-[10px]">
+                          <FileText className="w-3.5 h-3.5 text-indigo-500" />
+                          <span className="font-bold text-slate-500">{notice.fileSize}</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2 bg-purple-50/50 border border-purple-100 px-3 py-1.5 rounded-xl text-[10px]">
+                          <Bell className="w-3.5 h-3.5 text-purple-500" />
+                          <span className="font-bold text-purple-600">Text-Only</span>
+                        </div>
+                      )}
+                      
+                      <button className="h-8 w-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-450 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-all">
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </motion.div>
           </AnimatePresence>
         ) : (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-20 bg-white border border-slate-100 rounded-3xl p-8 max-w-lg mx-auto"
+            className="text-center py-20 bg-white border border-slate-200/60 rounded-3xl p-8 max-w-lg mx-auto"
           >
             <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-slate-100">
               <FileText className="w-6 h-6 text-slate-400" />
@@ -542,7 +626,7 @@ const PUNotices: React.FC = () => {
             {(searchTerm || selectedCategory) && (
               <Button
                 variant="outline"
-                className="text-xs font-bold border-slate-200 px-4 py-2"
+                className="text-xs font-bold border-slate-200 px-4 py-2 rounded-xl"
                 onClick={() => {
                   setSearchTerm('');
                   setSelectedCategory('');
@@ -568,20 +652,30 @@ const PUNotices: React.FC = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white/95 backdrop-blur-lg border border-slate-100 p-6 rounded-2xl shadow-premium w-full max-w-lg space-y-4 max-h-[90vh] overflow-auto"
+              className="bg-white/95 backdrop-blur-lg border border-slate-200/60 p-6 rounded-3xl shadow-premium w-full max-w-lg space-y-4 max-h-[90vh] overflow-auto text-left"
             >
               <div className="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
-                <h2 className="text-xl font-bold text-slate-800">Upload PU Notice</h2>
+                <h2 className="text-lg sm:text-xl font-extrabold text-slate-805 tracking-tight">Upload PU Notice</h2>
                 <button
                   onClick={() => setShowUploadModal(false)}
-                  className="text-slate-400 hover:text-slate-600 transition-colors p-1"
+                  className="text-slate-400 hover:text-slate-600 transition-colors p-1 border-0 bg-transparent cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
               <UploadNoticeForm
                 onUploadSuccess={(newNotice) => {
-                  setNotices((prev) => [newNotice, ...prev]);
+                  const formattedNewNotice: Notice = {
+                    objectId: newNotice.id || Math.random().toString(),
+                    title: newNotice.title,
+                    date: new Date(newNotice.date),
+                    fileUrl: newNotice.fileUrl,
+                    fileName: newNotice.fileName,
+                    fileSize: newNotice.fileSize,
+                    category: newNotice.category,
+                    content: newNotice.content,
+                  };
+                  setNotices((prev) => [formattedNewNotice, ...prev]);
                   setShowUploadModal(false);
                 }}
               />
@@ -601,11 +695,11 @@ const Button: React.FC<{
   children: React.ReactNode;
 }> = ({ variant = 'default', onClick, className = '', children }) => {
   const baseClasses =
-    'px-4 py-2.5 rounded-lg font-semibold transition-colors duration-200 flex items-center gap-2 border';
+    'px-4 py-2.5 rounded-lg font-bold transition-all duration-200 flex items-center gap-2 border cursor-pointer';
   const variantClasses =
     variant === 'outline'
       ? 'border-slate-200 text-slate-700 bg-white hover:bg-slate-50'
-      : 'bg-indigo-600 border-indigo-650 text-white hover:bg-indigo-700';
+      : 'bg-indigo-650 border-indigo-650 text-white hover:brightness-105';
 
   return (
     <button onClick={onClick} className={`${baseClasses} ${variantClasses} ${className}`}>

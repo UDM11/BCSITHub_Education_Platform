@@ -19,6 +19,8 @@ class PaperResponse(BaseModel):
     college: str
     file_url: str
     uploaded_by: Optional[str] = None
+    uploader_name: Optional[str] = None
+    uploader_role: Optional[str] = None
     approved: bool
     downloads: int
     created_at: datetime
