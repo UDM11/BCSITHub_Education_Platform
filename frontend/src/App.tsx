@@ -9,6 +9,7 @@ import { InstallModalProvider } from './context/InstallModalContext';
 import { Navbar } from './components/Layout/Navbar';
 import { Footer } from './components/Layout/Footer';
 import { PWAInstallBanner } from './components/PWAInstallBanner';
+import { PWAUpdateToast } from './components/common/PWAUpdateToast';
 import ProtectedRoute from './components/routes/ProtectedRoute';
 import ScrollToTop from './components/ScrollToTop';
 import { useAuth } from './context/AuthContext';
@@ -60,6 +61,7 @@ function AppContent() {
     <div className="flex flex-col min-h-screen">
       {!isAdminRoute && <Navbar />}
       <PWAInstallBanner />
+      <PWAUpdateToast />
 
       <main className="flex-1">
         <Routes>

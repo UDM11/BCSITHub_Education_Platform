@@ -48,6 +48,32 @@ export function Navbar() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Lock body scroll when mobile drawer is open (prevents background scroll on mobile)
+  useEffect(() => {
+    if (isOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+    } else {
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+    }
+    return () => {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   // Handle scroll events to update navbar state (frosted transition)
   useEffect(() => {
     const handleScroll = () => {
@@ -137,14 +163,12 @@ export function Navbar() {
     <>
       <nav 
         className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-          isOpen
-            ? 'bg-transparent border-transparent shadow-none'
-            : isScrolled 
-              ? 'bg-white/80 backdrop-blur-lg shadow-lg shadow-slate-100/40 border-b border-slate-100' 
-              : 'bg-white border-b border-slate-100'
+          isScrolled 
+            ? 'bg-white/80 backdrop-blur-lg shadow-lg shadow-slate-100/40 border-b border-slate-100' 
+            : 'bg-white border-b border-slate-100'
         }`}
       >
-        <div className={`w-full px-4 sm:px-6 lg:px-8 transition-opacity duration-200 ${isOpen ? 'opacity-0 pointer-events-none' : ''}`}>
+        <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             
             {/* Brand Logo */}
@@ -369,15 +393,13 @@ export function Navbar() {
 
             {/* Mobile & Tablet Toggle Menu Button (Visible on screens smaller than 1280px) */}
             <div className="flex xl:hidden items-center">
-              {!isOpen && (
-                <button
-                  onClick={() => setIsOpen(true)}
-                  className="p-2 text-slate-600 hover:text-indigo-600 hover:bg-slate-50 rounded-xl transition-colors duration-200 focus:outline-none"
-                  aria-label="Open Menu"
-                >
-                  <Menu className="w-6 h-6" />
-                </button>
-              )}
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="p-2 text-slate-600 hover:text-indigo-600 hover:bg-slate-50 rounded-xl transition-colors duration-200 focus:outline-none"
+                aria-label={isOpen ? 'Close Menu' : 'Open Menu'}
+              >
+                {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
             </div>
           </div>
         </div>
