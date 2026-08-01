@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import auth, papers, notices, quiz, compiler
+from app.routers import auth, papers, notices, quiz, compiler, ai
 from app.config import settings
 
 app = FastAPI(
@@ -30,6 +30,7 @@ app.include_router(papers.router, prefix="/api")
 app.include_router(notices.router, prefix="/api")
 app.include_router(quiz.router, prefix="/api")
 app.include_router(compiler.router, prefix="/api")
+app.include_router(ai.router, prefix="/api")
 
 @app.get("/")
 async def root():

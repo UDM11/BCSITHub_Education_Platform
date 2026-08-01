@@ -10,6 +10,7 @@ import { Navbar } from './components/Layout/Navbar';
 import { Footer } from './components/Layout/Footer';
 import { PWAInstallBanner } from './components/PWAInstallBanner';
 import { PWAUpdateToast } from './components/common/PWAUpdateToast';
+import { AIChatBot } from './components/common/AIChatBot';
 import ProtectedRoute from './components/routes/ProtectedRoute';
 import ScrollToTop from './components/ScrollToTop';
 import { useAuth } from './context/AuthContext';
@@ -62,6 +63,7 @@ function AppContent() {
       {!isAdminRoute && <Navbar />}
       <PWAInstallBanner />
       <PWAUpdateToast />
+      <AIChatBot />
 
       <main className="flex-1">
         <Routes>
