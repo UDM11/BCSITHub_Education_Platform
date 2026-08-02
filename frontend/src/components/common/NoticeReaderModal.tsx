@@ -20,9 +20,11 @@ interface Notice {
 interface NoticeReaderModalProps {
   notice: Notice;
   onClose: () => void;
+  isAuthenticated: boolean;
+  onAuthRequired: () => void;
 }
 
-export function NoticeReaderModal({ notice, onClose }: NoticeReaderModalProps) {
+export function NoticeReaderModal({ notice, onClose, isAuthenticated, onAuthRequired }: NoticeReaderModalProps) {
   const [copied, setCopied] = useState(false);
   const [reported, setReported] = useState(false);
 
@@ -35,20 +37,39 @@ export function NoticeReaderModal({ notice, onClose }: NoticeReaderModalProps) {
   }, []);
 
   const handleShare = async () => {
+    const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+    const shareUrl = `${window.location.origin}/pu-notices/${slugify(notice.title)}`;
+    
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: notice.title,
+          text: `Check out this official Pokhara University notice: ${notice.title}`,
+          url: shareUrl,
+        });
+        return;
+      } catch (err: any) {
+        if (err.name === 'AbortError') return; // User cancelled, do nothing
+        console.error("Web Share failed, falling back to clipboard:", err);
+      }
+    }
+
+    // Fallback: Copy link to clipboard
     try {
-      const shareText = notice.fileUrl 
-        ? notice.fileUrl 
-        : `${notice.title} - ${notice.content || ""}`;
-      await navigator.clipboard.writeText(shareText);
+      await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error("Failed to copy:", err);
+      console.error("Failed to copy link:", err);
     }
   };
 
   const handleDownload = () => {
     if (!notice.fileUrl) return;
+    if (!isAuthenticated) {
+      onAuthRequired();
+      return;
+    }
     
     // Direct download trigger
     fetch(notice.fileUrl)
@@ -193,7 +214,7 @@ export function NoticeReaderModal({ notice, onClose }: NoticeReaderModalProps) {
                 onClick={handleDownload}
               >
                 <Download className="w-4 h-4" />
-                Download Attachment File
+                {isAuthenticated ? "Download Attachment File" : "Login to Download"}
               </Button>
             )}
 

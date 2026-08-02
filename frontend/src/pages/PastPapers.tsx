@@ -22,6 +22,13 @@ import { PaperPreviewModal } from '../components/Notes/PaperPreviewModal';
 import { apiClient } from '../lib/apiClient';
 import LoginRedirectModal from '../components/common/LoginRedirectModal';
 import { useSEO } from '../hooks/useSEO';
+import { useNavigate, useParams } from 'react-router-dom';
+
+const slugify = (text: string) =>
+  text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)+/g, '');
 
 const semesters = [
   { value: '1', label: '1st Semester' },
@@ -103,6 +110,8 @@ export function PastPapers() {
   const papersPerPage = 18;
 
   const { user } = useAuth();
+  const { paperId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPapers = async () => {
@@ -143,6 +152,22 @@ export function PastPapers() {
 
     fetchPapers();
   }, [selectedSemester, selectedExamType, selectedCollege, refreshKey]);
+
+  // Sync paper preview modal open state with URL path parameter
+  useEffect(() => {
+    if (papers.length > 0) {
+      if (paperId) {
+        const matched = papers.find(p => p.objectId === paperId || slugify(p.title) === paperId);
+        if (matched) {
+          setSelectedPaperForPreview(matched);
+        } else {
+          setSelectedPaperForPreview(null);
+        }
+      } else {
+        setSelectedPaperForPreview(null);
+      }
+    }
+  }, [paperId, papers]);
 
   const filteredPapers = papers
     .filter((paper) => {
@@ -516,7 +541,7 @@ export function PastPapers() {
                   key={paper.objectId || idx}
                   variants={itemVariants}
                   whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                  onClick={() => setSelectedPaperForPreview(paper)}
+                  onClick={() => navigate(`/past-papers/${slugify(paper.title)}`)}
                   className="group bg-white rounded-2xl border border-slate-100 shadow-premium-sm hover:shadow-premium hover:border-indigo-200 transition-all duration-300 overflow-hidden flex flex-col h-full text-left cursor-pointer relative"
                 >
                   {/* Paper Header */}
@@ -736,7 +761,7 @@ export function PastPapers() {
         {selectedPaperForPreview && (
           <PaperPreviewModal
             paper={selectedPaperForPreview}
-            onClose={() => setSelectedPaperForPreview(null)}
+            onClose={() => navigate('/past-papers')}
             isAuthenticated={!!user}
             onDownload={() => {
               handleDownload(selectedPaperForPreview);

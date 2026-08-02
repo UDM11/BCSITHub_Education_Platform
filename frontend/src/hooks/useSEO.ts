@@ -39,7 +39,7 @@ export function useSEO({ title, description, keywords }: SEOProps) {
     }
 
     // 4. Update Canonical URL
-    const canonicalUrl = `https://bcsithub.web.app${window.location.pathname}`;
+    const canonicalUrl = `https://bcsithub.umeshdarlami.com.np${window.location.pathname}`;
     let linkCanonical = document.querySelector('link[rel="canonical"]');
     const originalCanonical = linkCanonical?.getAttribute("href") || "";
     if (!linkCanonical) {

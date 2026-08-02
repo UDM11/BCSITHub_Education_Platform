@@ -44,8 +44,26 @@ export function PaperPreviewModal({ paper, onClose, onDownload, isAuthenticated 
   }, []);
 
   const handleShare = async () => {
+    const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+    const shareUrl = `${window.location.origin}/past-papers/${slugify(paper.title)}`;
+    
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: paper.title,
+          text: `Check out this past exam paper: ${paper.title} (${paper.subject})`,
+          url: shareUrl,
+        });
+        return;
+      } catch (err: any) {
+        if (err.name === 'AbortError') return; // User cancelled
+        console.error("Web Share failed, falling back to clipboard:", err);
+      }
+    }
+
+    // Fallback: copy link to clipboard
     try {
-      await navigator.clipboard.writeText(paper.fileUrl);
+      await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {

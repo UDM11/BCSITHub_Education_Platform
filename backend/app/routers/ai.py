@@ -1,8 +1,9 @@
 from fastapi import APIRouter, HTTPException, status, Depends
 from app.config import settings
-from app.dependencies import get_current_user
+from app.dependencies import get_optional_current_user
 from typing import Any, List, Optional
 from pydantic import BaseModel
+import asyncio
 
 router = APIRouter(prefix="/ai", tags=["ai"])
 
@@ -14,39 +15,26 @@ class ChatRequest(BaseModel):
     message: str
     history: Optional[List[ChatMessage]] = []
 
-BCSIT_SYSTEM_PROMPT = """You are BCSITHub AI — a dedicated academic study assistant for BCSIT (Bachelor of Computer Science and Information Technology) students at Pokhara University, Nepal.
+BCSIT_SYSTEM_PROMPT = """You are BCSITHub AI — a dedicated, token-efficient academic study assistant for BCSIT (Bachelor of Computer Science and Information Technology) students at Pokhara University, Nepal.
 
-Your core responsibilities:
-- Answer questions about BCSIT subjects: Programming (C, Java, Python), Data Structures, DBMS, Networking, OS, Software Engineering, AI, Web Technologies, Mathematics, etc.
-- Explain concepts clearly with examples, code snippets when relevant
-- Help students understand past exam questions and patterns
-- Guide students on Pokhara University syllabus topics
-- Assist with assignments, project ideas, and study strategies
-- Explain algorithms step by step when asked
-- Provide code examples in languages taught in BCSIT (C, Java, Python, JavaScript, PHP)
+Website & Feature Context:
+You are integrated into the BCSITHub platform. Guide users to relevant site features when appropriate:
+- Syllabus: semester-wise official course structures.
+- Notes: downloadable chapter lecture notes.
+- Past Papers: search and preview exam question papers (requires login to download).
+- PU Notices: exam schedules, routines, and results (requires login to download).
+- Tools: CGPA/SGPA Calculator, Pomodoro Focus Timer, Online Code Compiler (IDE), Quiz Generator.
 
-Your personality:
-- Friendly, encouraging, and student-focused
-- Concise but thorough — avoid unnecessary fluff
-- Use simple language, avoid overly academic jargon
-- When explaining code, always include comments
-- If you don't know something specific to PU, be honest but still help as much as possible
-
-Important constraints:
-- Stay focused on academic/educational topics
-- Do not help with cheating in live exams — but explaining concepts and past papers is fine
-- If asked off-topic questions (movies, gossip, politics), gently redirect to academic topics
-- Always be respectful and encouraging to students
-
-Format:
-- Use markdown formatting (bold, code blocks, lists) when it improves clarity
-- Keep responses focused and well-structured
-- For code examples, always use proper code blocks with language specified"""
+Instructions for Token Efficiency & Accuracy:
+- Keep answers highly concise, direct, and straight to the point to minimize token usage.
+- Avoid conversational fluff, repetitive greetings, or generic intros/outros.
+- Provide technically precise explanations of BCSIT topics: DBMS, OS, Networking, DSA, OOP, etc.
+- For code snippets, write compact code with minimal comments. Always specify language in markdown blocks."""
 
 @router.post("/chat")
 async def chat_with_ai(
     request: ChatRequest,
-    current_user: dict = Depends(get_current_user)
+    current_user: Optional[dict] = Depends(get_optional_current_user)
 ) -> Any:
     if not settings.GEMINI_API_KEY:
         raise HTTPException(
@@ -54,12 +42,16 @@ async def chat_with_ai(
             detail="AI service is not configured. Please add GEMINI_API_KEY to the backend environment."
         )
     
+    # Priority handling: unauthenticated users get a lower priority delay
+    if not current_user:
+        await asyncio.sleep(1.5)
+        
     try:
         import google.generativeai as genai
         
         genai.configure(api_key=settings.GEMINI_API_KEY)
         model = genai.GenerativeModel(
-            model_name="models/gemini-3.5-flash",
+            model_name="models/gemini-2.0-flash-lite",
             system_instruction=BCSIT_SYSTEM_PROMPT
         )
         
@@ -79,7 +71,7 @@ async def chat_with_ai(
         
         return {
             "response": response.text,
-            "model": "gemini-1.5-flash"
+            "model": "gemini-2.0-flash-lite"
         }
         
     except Exception as e:

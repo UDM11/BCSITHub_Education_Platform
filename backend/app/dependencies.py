@@ -85,3 +85,37 @@ async def get_teacher_or_admin_user(current_user: dict = Depends(get_current_use
             detail="Requires teacher or administrative role permissions"
         )
     return current_user
+
+async def get_optional_current_user(authorization: str = Header(None)):
+    if not authorization:
+        return None
+        
+    if not authorization.startswith("Bearer "):
+        return None
+        
+    token = authorization.split(" ")[1]
+    
+    try:
+        try:
+            payload = jwt.decode(token, settings.JWT_SECRET, algorithms=["HS256"])
+            user_id = payload.get("sub")
+        except jwt.PyJWTError:
+            return None
+            
+        if not user_id:
+            return None
+        
+        profile_query = supabase_client.table("users").select("*").eq("id", user_id).execute()
+        
+        if not profile_query.data:
+            return None
+            
+        profile = profile_query.data[0]
+
+        if not profile.get("is_active", True) or not profile.get("is_verified", False):
+            return None
+
+        profile["email_verified"] = True
+        return profile
+    except Exception:
+        return None

@@ -19,9 +19,10 @@ import {
 import { useAuth } from '../context/AuthContext';
 import UploadNoticeForm from '../components/common/UploadNoticeForm';
 import { NoticeReaderModal } from '../components/common/NoticeReaderModal';
+import LoginRedirectModal from '../components/common/LoginRedirectModal';
 import { motion, AnimatePresence } from 'framer-motion';
 import { apiClient } from '../lib/apiClient';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSEO } from '../hooks/useSEO';
 
 interface Notice {
@@ -35,61 +36,13 @@ interface Notice {
   content?: string;
 }
 
+const slugify = (text: string) =>
+  text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)+/g, '');
+
 const categories = ['Exam', 'Admission', 'Result', 'General'];
-
-const LoginRedirectModal: React.FC<{
-  isOpen: boolean;
-  onClose: () => void;
-  message: string;
-}> = ({ isOpen, onClose, message }) => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
-  const handleOk = () => {
-    onClose();
-    navigate('/signup');
-  };
-
-  return (
-    <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-    >
-      <motion.div
-        className="bg-white p-6 sm:p-8 rounded-3xl shadow-xl w-full max-w-sm text-center border border-slate-100"
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-      >
-        <div className="w-16 h-16 bg-indigo-50 border border-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-          <Bell className="w-8 h-8 text-indigo-650" />
-        </div>
-        <h2 className="text-xl font-extrabold mb-3 text-slate-800 tracking-tight">Access Restricted</h2>
-        <p className="text-xs text-slate-500 font-semibold leading-relaxed mb-6">{message}</p>
-        <button
-          onClick={handleOk}
-          className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-xl hover:brightness-110 transition-all font-extrabold text-xs w-full shadow-md shadow-indigo-100 border-0 cursor-pointer"
-        >
-          Create Free Account
-        </button>
-      </motion.div>
-    </motion.div>
-  );
-};
 
 interface PythonNoticeItem {
   id: string;
@@ -111,6 +64,8 @@ const PUNotices: React.FC = () => {
 
   const { user } = useAuth();
   const isAdmin = user?.role === 'admin';
+  const { noticeId } = useParams();
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
   const [notices, setNotices] = useState<Notice[]>([]);
@@ -150,6 +105,22 @@ const PUNotices: React.FC = () => {
 
     fetchNotices();
   }, []);
+
+  // Sync notice selection with URL path parameter
+  useEffect(() => {
+    if (notices.length > 0) {
+      if (noticeId) {
+        const matched = notices.find(n => n.objectId === noticeId || slugify(n.title) === noticeId);
+        if (matched) {
+          setSelectedNoticeForPreview(matched);
+        } else {
+          setSelectedNoticeForPreview(null);
+        }
+      } else {
+        setSelectedNoticeForPreview(null);
+      }
+    }
+  }, [noticeId, notices]);
 
   useEffect(() => {
     if (showUploadModal || loginModalOpen || selectedNoticeForPreview) {
@@ -202,11 +173,7 @@ const PUNotices: React.FC = () => {
   };
 
   const handleCardClick = (notice: Notice) => {
-    if (!user) {
-      setLoginModalOpen(true);
-      return;
-    }
-    setSelectedNoticeForPreview(notice);
+    navigate(`/pu-notices/${slugify(notice.title)}`);
   };
 
   const containerVariants = {
@@ -248,7 +215,9 @@ const PUNotices: React.FC = () => {
         {selectedNoticeForPreview && (
           <NoticeReaderModal
             notice={selectedNoticeForPreview}
-            onClose={() => setSelectedNoticeForPreview(null)}
+            onClose={() => navigate('/pu-notices')}
+            isAuthenticated={!!user}
+            onAuthRequired={() => setLoginModalOpen(true)}
           />
         )}
       </AnimatePresence>

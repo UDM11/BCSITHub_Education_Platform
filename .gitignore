@@ -50,3 +50,6 @@ backend/venv/
 .firebase/
 dataconnect/
 dataconnect-generated/
+
+# Aider
+.aider*

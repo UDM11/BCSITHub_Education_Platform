@@ -1,0 +1,16 @@
+# Ignore local dependencies and builds
+**/node_modules
+**/dist
+**/.venv
+**/.git
+**/.firebase
+**/.aider*
+**/.vscode
+**/.gemini
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/db.sqlite3
+**/.env
+**/static

@@ -87,6 +87,7 @@ function AppContent() {
           />
 
           <Route path="/past-papers" element={<PastPapers />} />
+          <Route path="/past-papers/:paperId" element={<PastPapers />} />
           <Route path="/colleges" element={<Colleges />} />
           <Route path="/cgpa-calculator" element={<CGPACalculator />} />
           <Route path="/pomodoro-timer" element={<PomodoroTimer />} />
@@ -96,6 +97,7 @@ function AppContent() {
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/support" element={<Support />} />
           <Route path="/pu-notices" element={<PUNotices />} />
+          <Route path="/pu-notices/:noticeId" element={<PUNotices />} />
 
           <Route path="/verify" element={<OTPVerification />} />
           <Route path="/auth/callback" element={<OAuthCallback />} />

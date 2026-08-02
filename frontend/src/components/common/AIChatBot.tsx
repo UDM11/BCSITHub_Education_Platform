@@ -87,17 +87,19 @@ export function AIChatBot() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [isConfigured, setIsConfigured] = useState<boolean | null>(null);
+  const [anonMessageCount, setAnonMessageCount] = useState<number>(() => {
+    const saved = localStorage.getItem('bcsithub_anon_ai_chats');
+    return saved ? parseInt(saved, 10) : 0;
+  });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // Check if AI is configured on mount
   useEffect(() => {
-    if (user) {
-      apiClient.get('/ai/health')
-        .then((res: any) => setIsConfigured(res.configured))
-        .catch(() => setIsConfigured(false));
-    }
-  }, [user]);
+    apiClient.get('/ai/health')
+      .then((res: any) => setIsConfigured(res.configured))
+      .catch(() => setIsConfigured(false));
+  }, []);
 
   // Scroll to bottom when new messages come
   useEffect(() => {
@@ -116,6 +118,10 @@ export function AIChatBot() {
   const sendMessage = async (text?: string) => {
     const messageText = text || input.trim();
     if (!messageText || loading) return;
+
+    if (!user && anonMessageCount >= 3) {
+      return;
+    }
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -147,6 +153,13 @@ export function AIChatBot() {
         timestamp: new Date()
       };
       setMessages(prev => [...prev, aiMessage]);
+      
+      // Increment anonymous message count
+      if (!user) {
+        const nextCount = anonMessageCount + 1;
+        setAnonMessageCount(nextCount);
+        localStorage.setItem('bcsithub_anon_ai_chats', nextCount.toString());
+      }
     } catch (err: any) {
       const errMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -170,9 +183,6 @@ export function AIChatBot() {
   const clearChat = () => {
     setMessages([]);
   };
-
-  // Don't show if user not logged in
-  if (!user) return null;
 
   return (
     <>
@@ -207,15 +217,15 @@ export function AIChatBot() {
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-indigo-600 to-violet-600 flex-shrink-0">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center">
-                  <Bot className="w-5 h-5 text-white" />
+                <div className="w-9 h-9 rounded-xl overflow-hidden bg-white/15 flex items-center justify-center">
+                  <img src="/logo.jpg" alt="BCSITHub Logo" className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <p className="text-sm font-extrabold text-white leading-snug">BCSITHub AI</p>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
                     <span className="text-[9px] font-bold text-indigo-200 uppercase tracking-wider">
-                      {isConfigured ? 'Online · Gemini Flash' : 'Not configured'}
+                      {isConfigured ? 'Online · Gemini 2.0 Flash Lite' : 'Not configured'}
                     </span>
                   </div>
                 </div>
@@ -246,9 +256,6 @@ export function AIChatBot() {
               {/* Welcome State (Empty) */}
               {messages.length === 0 && (
                 <div className="flex flex-col items-center justify-center h-full text-center pb-8">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-500 to-violet-600 flex items-center justify-center mb-4 shadow-lg shadow-indigo-200">
-                    <Sparkles className="w-7 h-7 text-white" />
-                  </div>
                   <h3 className="text-base font-extrabold text-slate-800">AI Study Assistant</h3>
                   <p className="text-xs text-slate-500 mt-1.5 max-w-[220px] leading-relaxed">
                     Ask any BCSIT question — concepts, code, exam prep, or past papers.
@@ -337,6 +344,21 @@ export function AIChatBot() {
               {isConfigured === false ? (
                 <div className="text-center py-2 text-xs text-rose-500 font-bold">
                   AI not configured. Add GEMINI_API_KEY to backend .env
+                </div>
+              ) : !user && anonMessageCount >= 3 ? (
+                <div className="text-center py-3.5 px-4 bg-indigo-50/70 border border-indigo-100 rounded-2xl space-y-2.5">
+                  <p className="text-[11px] font-semibold text-slate-700 leading-relaxed">
+                    You've reached the free limit of 3 preview messages.
+                  </p>
+                  <button
+                    onClick={() => {
+                      setIsOpen(false);
+                      window.location.href = '/signup';
+                    }}
+                    className="w-full py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:brightness-105 text-white rounded-xl text-[10px] font-bold shadow-md shadow-indigo-100 transition-all cursor-pointer border-0"
+                  >
+                    Sign up to continue chatting
+                  </button>
                 </div>
               ) : (
                 <div className="flex items-end gap-2">

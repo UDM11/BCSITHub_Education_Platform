@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Form
 from app.client import supabase_client
 from app.schemas.papers import PaperResponse
-from app.dependencies import get_current_user, get_admin_user, get_teacher_or_admin_user
+from app.dependencies import get_current_user, get_admin_user, get_teacher_or_admin_user, get_optional_current_user
 from typing import List, Optional
 import uuid
 
@@ -14,7 +14,7 @@ async def list_papers(
     college: Optional[str] = None,
     search: Optional[str] = None,
     approved_only: bool = True,
-    current_user: Optional[dict] = Depends(get_current_user)
+    current_user: Optional[dict] = Depends(get_optional_current_user)
 ):
     try:
         # Start constructing query

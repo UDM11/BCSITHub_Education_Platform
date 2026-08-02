@@ -1,6 +1,6 @@
 # =========================================================================
 #  BCSITHub Robots Configuration File
-#  Target Host: https://bcsithub.web.app/
+#  Target Host: https://bcsithub.umeshdarlami.com.np/
 #  Last Modified: 2026-07-30
 # =========================================================================
 
@@ -60,4 +60,4 @@ Disallow: /
 
 # SECTION 4: Global XML Sitemap Index
 # -------------------------------------------------------------------------
-Sitemap: https://bcsithub.web.app/sitemap.xml
+Sitemap: https://bcsithub.umeshdarlami.com.np/sitemap.xml
