@@ -110,7 +110,14 @@ export function PaperPreviewModal({ paper, onClose, onDownload, isAuthenticated 
                 className="max-w-full max-h-[440px] md:max-h-[702px] object-contain rounded-2xl shadow-premium border border-slate-900 bg-slate-900"
               />
             ) : (
-              <PDFViewer fileUrl={`${window.location.origin}${import.meta.env.VITE_API_URL || 'http://localhost:8000/api'}/papers/${paper.objectId}/pdf`} />
+              <PDFViewer 
+                fileUrl={(() => {
+                  const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+                  return apiBase.startsWith('http') 
+                    ? `${apiBase}/papers/${paper.objectId}/pdf` 
+                    : `${window.location.origin}${apiBase}/papers/${paper.objectId}/pdf`;
+                })()} 
+              />
             )}
           </div>
         </div>

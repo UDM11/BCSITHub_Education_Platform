@@ -127,7 +127,14 @@ export function NoticeReaderModal({ notice, onClose, isAuthenticated, onAuthRequ
                   className="max-w-full max-h-[380px] md:max-h-[672px] object-contain rounded-2xl shadow-premium border border-slate-900 bg-slate-900"
                 />
               ) : (
-                <PDFViewer fileUrl={`${window.location.origin}${import.meta.env.VITE_API_URL || 'http://localhost:8000/api'}/notices/${notice.id || (notice as any).objectId}/pdf`} />
+                <PDFViewer 
+                  fileUrl={(() => {
+                    const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+                    return apiBase.startsWith('http') 
+                      ? `${apiBase}/notices/${notice.id || (notice as any).objectId}/pdf` 
+                      : `${window.location.origin}${apiBase}/notices/${notice.id || (notice as any).objectId}/pdf`;
+                  })()} 
+                />
               )
             ) : (
               /* Text-Only Notice Design */
