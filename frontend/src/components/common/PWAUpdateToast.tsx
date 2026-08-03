@@ -1,75 +1,51 @@
 // src/components/common/PWAUpdateToast.tsx
-// Shows a banner when a new version of the app is deployed.
-// Uses the vite-plugin-pwa virtual module to detect service worker updates.
+// Silently and automatically triggers a hard refresh when a new version of the app is deployed.
+// Catches PWA service worker updates and global chunk load errors.
+import { useEffect } from 'react';
 import { useRegisterSW } from 'virtual:pwa-register/react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { RefreshCw, X, Sparkles } from 'lucide-react';
 
 export function PWAUpdateToast() {
   const {
-    needRefresh: [needRefresh, setNeedRefresh],
+    needRefresh: [needRefresh],
     updateServiceWorker,
   } = useRegisterSW({
     onRegistered(r) {
-      // Poll every 60 seconds to check for a new service worker
       if (r) {
+        // Poll for updates every 15 seconds to ensure near-instant detection of new deployments
         setInterval(() => {
-          r.update();
-        }, 60 * 1000);
+          r.update().catch(err => console.debug("PWA SW update check failed (offline or network fluctuation):", err));
+        }, 15 * 1000);
       }
     },
   });
 
-  const handleUpdate = () => {
-    updateServiceWorker(true);
-  };
+  // 1. Automatically update service worker and refresh the page when new content is available
+  useEffect(() => {
+    if (needRefresh) {
+      console.log("[PWA] New version detected. Executing automatic background update...");
+      updateServiceWorker(true);
+    }
+  }, [needRefresh, updateServiceWorker]);
 
-  const handleDismiss = () => {
-    setNeedRefresh(false);
-  };
+  // 2. Handle ChunkLoadError (fails to import lazy bundles because files changed on server)
+  useEffect(() => {
+    const handleGlobalError = (event: ErrorEvent) => {
+      const errorMsg = event.message || "";
+      const isChunkLoadFailed = 
+        errorMsg.includes("ChunkLoadError") || 
+        errorMsg.includes("Loading chunk") || 
+        errorMsg.includes("Failed to fetch dynamically imported module");
 
-  return (
-    <AnimatePresence>
-      {needRefresh && (
-        <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          transition={{ type: 'spring', damping: 20, stiffness: 200 }}
-          className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] w-full max-w-sm px-4"
-        >
-          <div className="bg-slate-900 text-white rounded-2xl shadow-2xl shadow-slate-900/40 border border-slate-700/60 p-4 flex items-center gap-3">
-            {/* Icon */}
-            <div className="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center flex-shrink-0">
-              <Sparkles className="w-4 h-4 text-white" />
-            </div>
+      if (isChunkLoadFailed) {
+        console.warn("[PWA] Chunk load failed. Force reloading to active build...");
+        window.location.reload();
+      }
+    };
 
-            {/* Text */}
-            <div className="flex-1 min-w-0">
-              <p className="text-xs font-extrabold text-white leading-snug">New version available!</p>
-              <p className="text-[10px] text-slate-400 font-semibold mt-0.5">Click update to get the latest features.</p>
-            </div>
+    window.addEventListener("error", handleGlobalError);
+    return () => window.removeEventListener("error", handleGlobalError);
+  }, []);
 
-            {/* Action buttons */}
-            <div className="flex items-center gap-2 flex-shrink-0">
-              <button
-                onClick={handleUpdate}
-                className="bg-indigo-600 hover:bg-indigo-500 text-white text-[10px] font-extrabold px-3 py-1.5 rounded-lg flex items-center gap-1.5 cursor-pointer border-0 transition-colors"
-              >
-                <RefreshCw className="w-3 h-3" />
-                Update
-              </button>
-              <button
-                onClick={handleDismiss}
-                className="text-slate-500 hover:text-slate-300 cursor-pointer border-0 bg-transparent p-1 rounded-lg transition-colors"
-                title="Dismiss"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
+  return null; // Runs invisibly and automatically in the background
 }
+export default PWAUpdateToast;
