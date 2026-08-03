@@ -5,8 +5,11 @@ import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCw, Loader2, FileText
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 
-// Set PDF.js worker URL using CDN to avoid bundling complications
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+// Set PDF.js worker URL using Vite native worker loader to bundle locally
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.js",
+  import.meta.url
+).toString();
 
 interface PDFViewerProps {
   fileUrl: string;

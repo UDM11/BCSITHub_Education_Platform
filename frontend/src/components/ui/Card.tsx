@@ -1,13 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-interface CardProps {
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   className?: string;
   hover?: boolean;
 }
 
-export function Card({ children, className = '', hover = true }: CardProps) {
+export function Card({ children, className = '', hover = true, ...props }: CardProps) {
   return (
     <motion.div
       whileHover={hover ? { y: -5 } : {}}
@@ -15,6 +15,7 @@ export function Card({ children, className = '', hover = true }: CardProps) {
       className={`bg-white rounded-2xl border border-slate-100 shadow-premium transition-all duration-300 ${
         hover ? 'hover:shadow-premium-hover hover:border-indigo-500/10' : ''
       } ${className}`}
+      {...props}
     >
       {children}
     </motion.div>

@@ -9,7 +9,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from "../../components/ui/Card";
 import { 
   Users, Shield, LogOut, ArrowLeft, Activity, Sparkles, ShieldAlert,
-  BarChart3, UserCheck, Menu, X, Clock, FileText, Bell, CheckSquare
+  BarChart3, UserCheck, Menu, X, Clock, FileText, Bell, CheckSquare,
+  ChevronLeft, ChevronRight
 } from "lucide-react";
 
 // Import modular subcomponents
@@ -60,6 +61,7 @@ export default function AdminDashboard() {
   
   // Mobile sidebar drawer state
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   useEffect(() => {
     if (user?.role !== "admin") {
@@ -131,7 +133,6 @@ export default function AdminDashboard() {
     }
   };
 
-  // Generate initials
   const getInitials = (nameString?: string) => {
     if (!nameString) return "A";
     const parts = nameString.trim().split(/\s+/);
@@ -150,10 +151,10 @@ export default function AdminDashboard() {
           <Card className="border border-slate-205 shadow-premium bg-white rounded-3xl p-1.5">
             <CardContent className="p-8">
               <div className="w-14 h-14 bg-rose-50 border border-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <ShieldAlert className="w-7 h-7 text-rose-600 animate-pulse" />
+                <ShieldAlert className="w-7 h-7 text-rose-605 animate-pulse" />
               </div>
               <h3 className="text-lg font-extrabold text-slate-800 mb-1.5">Access Denied</h3>
-              <p className="text-xs font-semibold text-slate-500 mb-6 leading-relaxed">
+              <p className="text-xs font-semibold text-slate-505 mb-6 leading-relaxed">
                 Administrator privileges are required to access this control center.
               </p>
               <Button onClick={() => navigate("/signin")} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold border-0 py-3 rounded-xl shadow-md transition-all">
@@ -176,22 +177,30 @@ export default function AdminDashboard() {
     { id: "analytics", label: "Platform Health", icon: BarChart3 },
   ];
 
-  const sidebarContent = (
+  const sidebarContent = (isCollapsed: boolean) => (
     <div className="flex flex-col h-full bg-slate-900 text-slate-200 text-left">
       
       {/* Brand Header */}
-      <div className="p-6 border-b border-slate-800 flex items-center gap-3 flex-shrink-0">
-        <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-rose-500 via-indigo-600 to-purple-600 flex items-center justify-center shadow-md">
-          <Shield className="w-5 h-5 text-white animate-pulse" />
-        </div>
-        <div>
-          <h2 className="text-sm font-black text-white leading-tight">BCSITHub</h2>
-          <span className="text-[9px] font-bold text-indigo-400 uppercase tracking-widest block mt-0.5">Control Terminal</span>
+      <div className={`p-4 border-b border-slate-800 flex items-center flex-shrink-0 ${isCollapsed ? "justify-center" : "justify-between"}`}>
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-rose-500 via-indigo-600 to-purple-600 flex items-center justify-center shadow-md flex-shrink-0">
+            <Shield className="w-5 h-5 text-white animate-pulse" />
+          </div>
+          {!isCollapsed && (
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="min-w-0"
+            >
+              <h2 className="text-sm font-black text-white leading-tight">BCSITHub</h2>
+              <span className="text-[9px] font-bold text-indigo-400 uppercase tracking-widest block mt-0.5">Control Terminal</span>
+            </motion.div>
+          )}
         </div>
       </div>
 
       {/* Nav Link Items */}
-      <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+      <nav className="flex-1 px-3 py-6 space-y-2 overflow-y-auto">
         {navigationItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -202,51 +211,80 @@ export default function AdminDashboard() {
                 setActiveTab(item.id);
                 setMobileMenuOpen(false);
               }}
-              className={`w-full px-4 py-3 rounded-xl text-xs font-bold transition-all duration-300 flex items-center gap-3 cursor-pointer border-0 ${
+              className={`w-full px-4 py-3 rounded-xl text-xs font-bold transition-all duration-300 flex items-center gap-3 cursor-pointer border-0 relative group ${
                 isActive
                   ? "bg-indigo-600 text-white shadow-md shadow-indigo-900/35"
                   : "text-slate-400 hover:bg-slate-800/60 hover:text-white"
-              }`}
+              } ${isCollapsed ? "justify-center" : ""}`}
+              title={isCollapsed ? item.label : undefined}
             >
-              <Icon className={`w-4.5 h-4.5 ${isActive ? "text-white" : "text-slate-400"}`} />
-              <span>{item.label}</span>
+              <Icon className={`w-4.5 h-4.5 flex-shrink-0 ${isActive ? "text-white" : "text-slate-400"}`} />
+              {!isCollapsed && <span>{item.label}</span>}
+              {isCollapsed && (
+                <div className="absolute left-full ml-2 px-2 py-1 bg-slate-950 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+                  {item.label}
+                </div>
+              )}
             </button>
           );
         })}
-
-        <div className="pt-4 mt-4 border-t border-slate-800">
-          <Link
-            to="/"
-            onClick={() => setMobileMenuOpen(false)}
-            className="w-full px-4 py-3 rounded-xl text-xs font-bold transition-all duration-300 flex items-center gap-3 text-slate-400 hover:bg-slate-800/60 hover:text-white"
-          >
-            <ArrowLeft className="w-4.5 h-4.5 text-slate-400" />
-            <span>Back to Website</span>
-          </Link>
-        </div>
       </nav>
 
-      {/* Identity Badge & Sign Out */}
-      <div className="p-4 border-t border-slate-800 flex-shrink-0 bg-slate-950/45 space-y-4">
+      {/* Identity Badge, Website Link & Sign Out */}
+      <div className="p-4 border-t border-slate-800 flex-shrink-0 bg-slate-955/45 space-y-3">
         
         {/* Identity row */}
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-white border border-slate-700 font-extrabold shadow-inner flex-shrink-0">
-            {getInitials(adminName)}
+        {!isCollapsed ? (
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-slate-805 flex items-center justify-center text-white border border-slate-700 font-extrabold shadow-inner flex-shrink-0">
+              {getInitials(adminName)}
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-extrabold text-white truncate leading-snug">{adminName}</p>
+              <p className="text-[9px] font-extrabold text-rose-500 uppercase tracking-wider mt-0.5">System Admin</p>
+            </div>
           </div>
-          <div className="min-w-0 flex-1">
-            <p className="text-xs font-extrabold text-white truncate leading-snug">{adminName}</p>
-            <p className="text-[9px] font-extrabold text-rose-500 uppercase tracking-wider mt-0.5">System Admin</p>
+        ) : (
+          <div className="flex justify-center">
+            <div className="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center text-white border border-slate-700 font-extrabold shadow-inner">
+              {getInitials(adminName)}
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Back to Website */}
+        <Link
+          to="/"
+          onClick={() => setMobileMenuOpen(false)}
+          className={`w-full px-4 py-3 rounded-xl text-xs font-bold transition-all duration-300 flex items-center gap-3 text-slate-400 hover:bg-slate-800/60 hover:text-white border-0 relative group ${
+            isCollapsed ? "justify-center" : ""
+          }`}
+          title={isCollapsed ? "Back to Home" : undefined}
+        >
+          <ArrowLeft className="w-4.5 h-4.5 text-slate-400 flex-shrink-0" />
+          {!isCollapsed && <span>Back to Home</span>}
+          {isCollapsed && (
+            <div className="absolute left-full ml-2 px-2 py-1 bg-slate-950 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+              Back to Home
+            </div>
+          )}
+        </Link>
 
         {/* Sign Out Button */}
         <button
           onClick={() => signOut()}
-          className="w-full bg-slate-800/80 hover:bg-rose-900/40 text-slate-300 hover:text-rose-200 border border-slate-700 hover:border-rose-900/50 font-bold text-xs px-4 py-2.5 rounded-xl transition-all duration-300 flex items-center justify-center gap-1.5 cursor-pointer"
+          className={`w-full bg-slate-800/80 hover:bg-rose-900/40 text-slate-300 hover:text-rose-205 border border-slate-700 hover:border-rose-900/50 font-bold text-xs py-2.5 rounded-xl transition-all duration-300 flex items-center gap-1.5 cursor-pointer relative group ${
+            isCollapsed ? "justify-center" : "px-4"
+          }`}
+          title={isCollapsed ? "Sign Out Session" : undefined}
         >
-          <LogOut className="w-4 h-4" />
-          <span>Sign Out Session</span>
+          <LogOut className="w-4 h-4 flex-shrink-0" />
+          {!isCollapsed && <span>Sign Out Session</span>}
+          {isCollapsed && (
+            <div className="absolute left-full ml-2 px-2 py-1 bg-rose-900 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+              Sign Out Session
+            </div>
+          )}
         </button>
 
       </div>
@@ -263,8 +301,19 @@ export default function AdminDashboard() {
       </div>
 
       {/* 1. PERSISTENT SIDEBAR NAVIGATION (Desktop viewports) */}
-      <aside className="hidden lg:block w-64 fixed left-0 top-0 bottom-0 z-30 flex-shrink-0 border-r border-slate-800/40 shadow-xl shadow-slate-900/30">
-        {sidebarContent}
+      <aside className={`hidden lg:block fixed left-0 top-0 bottom-0 z-30 flex-shrink-0 border-r border-slate-800/40 shadow-xl shadow-slate-900/30 transition-all duration-300 relative ${
+        isSidebarCollapsed ? "w-20" : "w-64"
+      }`}>
+        {sidebarContent(isSidebarCollapsed)}
+        
+        {/* Floating border collapse toggle */}
+        <button
+          onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+          className="hidden lg:flex absolute top-6 -right-3.5 w-7 h-7 bg-slate-900 border border-slate-800 rounded-full items-center justify-center cursor-pointer shadow-md z-50 text-slate-400 hover:bg-slate-800"
+          aria-label="Toggle Sidebar"
+        >
+          {isSidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+        </button>
       </aside>
 
       {/* 2. MOBILE TOP NAVIGATION BAR */}
@@ -285,7 +334,7 @@ export default function AdminDashboard() {
 
         <button
           onClick={() => signOut()}
-          className="p-2 bg-slate-800/80 rounded-lg border border-slate-700 hover:bg-rose-950/50 hover:border-rose-900/40 text-rose-400 flex items-center justify-center cursor-pointer transition-colors"
+          className="p-2 bg-slate-800/80 rounded-lg border border-slate-700 hover:bg-rose-950/50 hover:border-rose-900/40 text-rose-405 flex items-center justify-center cursor-pointer transition-colors"
           title="Sign Out"
         >
           <LogOut className="w-4 h-4" />
@@ -302,7 +351,7 @@ export default function AdminDashboard() {
               animate={{ opacity: 0.5 }}
               exit={{ opacity: 0 }}
               onClick={() => setMobileMenuOpen(false)}
-              className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm"
+              className="fixed inset-0 bg-slate-955/70 backdrop-blur-sm"
             />
             {/* Sliding navigation pane */}
             <motion.div
@@ -312,19 +361,21 @@ export default function AdminDashboard() {
               transition={{ type: "spring", damping: 25, stiffness: 220 }}
               className="relative w-64 max-w-[80vw] h-full shadow-2xl flex flex-col z-10"
             >
-              {sidebarContent}
+              {sidebarContent(false)}
             </motion.div>
           </div>
         )}
       </AnimatePresence>
 
-      {/* 4. MAIN WORKSPACE CONTAINER (Desktop offset: lg:pl-64) */}
-      <div className="flex-1 lg:pl-64 flex flex-col min-w-0 z-10">
+      {/* 4. MAIN WORKSPACE CONTAINER (Desktop offset adjusts dynamically) */}
+      <div className={`flex-1 flex flex-col min-w-0 z-10 transition-all duration-300 ${
+        isSidebarCollapsed ? "lg:pl-20" : "lg:pl-64"
+      }`}>
         
         {/* Desktop Header */}
         <header className="hidden lg:flex bg-white/80 backdrop-blur-md border-b border-slate-200/50 px-8 py-5 items-center justify-between flex-shrink-0">
           <div>
-            <h2 className="text-lg font-black text-slate-800 tracking-tight flex items-center gap-2">
+            <h2 className="text-lg font-black text-slate-805 tracking-tight flex items-center gap-2">
               <Shield className="w-5 h-5 text-indigo-600" />
               {activeTab === "overview" && "Dashboard Overview"}
               {activeTab === "users" && "User Accounts & Role Administration"}
@@ -341,7 +392,7 @@ export default function AdminDashboard() {
             <span className="text-[10px] font-bold bg-slate-100 text-slate-500 rounded-lg px-2.5 py-1 uppercase tracking-wider">
               Secure Session
             </span>
-            <div className="h-2 w-2 bg-emerald-500 rounded-full animate-pulse" title="System Connected" />
+            <div className="h-2 w-2 bg-emerald-505 rounded-full animate-pulse" title="System Connected" />
           </div>
         </header>
 
@@ -352,7 +403,7 @@ export default function AdminDashboard() {
           <div className="bg-gradient-to-r from-indigo-900 via-[#1e1b4b] to-purple-950 text-white p-6 sm:p-8 rounded-3xl shadow-lg relative overflow-hidden flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="absolute right-0 top-0 w-44 h-44 bg-white/5 rounded-full blur-2xl pointer-events-none" />
             <div className="text-left">
-              <span className="px-2.5 py-1 rounded-full bg-white/10 border border-white/10 text-yellow-350 text-[9px] font-extrabold uppercase tracking-widest inline-flex items-center gap-1">
+              <span className="px-2.5 py-1 rounded-full bg-white/10 border border-white/10 text-yellow-300 text-[9px] font-extrabold uppercase tracking-widest inline-flex items-center gap-1">
                 <Sparkles className="w-3 h-3" />
                 Root Terminal Console
               </span>
@@ -366,7 +417,7 @@ export default function AdminDashboard() {
               {stats.pendingPapers > 0 && (
                 <button
                   onClick={() => setActiveTab("papers")}
-                  className="bg-amber-500 hover:bg-amber-650 text-slate-905 font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-md border-0 transition-all flex items-center gap-1.5 cursor-pointer"
+                  className="bg-amber-500 hover:bg-amber-600 text-slate-900 font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-md border-0 transition-all flex items-center gap-1.5 cursor-pointer"
                 >
                   <CheckSquare className="w-4 h-4" />
                   <span>Review Submissions ({stats.pendingPapers})</span>

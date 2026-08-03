@@ -2,19 +2,22 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useProfile } from "../../context/ProfileContext";
-import EditProfileForm from "../../components/common/EditProfileForm";
-import ProfileDetails from "../../components/common/ProfileDetails";
-import { Button } from "../../components/ui/Button";
 import { useNavigate } from "react-router-dom";
 import { apiClient } from "../../lib/apiClient";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from "../../components/ui/Card";
 import { 
-  FileText, CheckCircle, Clock, TrendingUp, Sparkles, 
-  LogOut, Edit3, Settings, Activity, 
-  PlusCircle, BookOpen, AlertCircle, Award, Shield, User, GraduationCap, Building, Calendar, Mail, MapPin, ChevronRight
+  FileText, CheckCircle, Clock, LogOut, Settings, Activity, Menu, X,
+  PlusCircle, AlertCircle, Shield, User, GraduationCap, ArrowLeft, ChevronLeft, ChevronRight,
+  Building, Mail
 } from "lucide-react";
 import { toast } from "react-hot-toast";
+
+// Subcomponents
+import StudentOverview from "./StudentOverview";
+import StudentSubmissions from "./StudentSubmissions";
+import StudentProfileSettings from "./StudentProfileSettings";
+import StudentHistoryLog from "./StudentHistoryLog";
 
 interface Paper {
   objectId: string;
@@ -40,6 +43,8 @@ const StudentProfile: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [stats, setStats] = useState<DashboardStats>({
     totalPapers: 0,
     approvedPapers: 0,
@@ -119,7 +124,6 @@ const StudentProfile: React.FC = () => {
     navigate("/signin");
   };
 
-  // Generate initials from student name
   const getInitials = (nameString?: string) => {
     if (!nameString) return "S";
     const parts = nameString.trim().split(/\s+/);
@@ -127,7 +131,6 @@ const StudentProfile: React.FC = () => {
     return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
   };
 
-  // Gamified contribution rank & progress calculation
   const getRankProgress = (count: number) => {
     if (count === 0) {
       return { 
@@ -182,7 +185,7 @@ const StudentProfile: React.FC = () => {
                 <AlertCircle className="w-7 h-7 text-rose-600 animate-pulse" />
               </div>
               <h3 className="text-lg font-extrabold text-slate-800 mb-1.5">Authentication Required</h3>
-              <p className="text-xs font-semibold text-slate-500 mb-6 leading-relaxed">
+              <p className="text-xs font-semibold text-slate-505 mb-6 leading-relaxed">
                 Please sign in to access your customized student profile page dashboard.
               </p>
               <Button onClick={() => navigate("/signin")} className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:brightness-110 text-white font-bold border-0 py-3 rounded-xl shadow-md">
@@ -195,506 +198,324 @@ const StudentProfile: React.FC = () => {
     );
   }
 
-
-
   const tabs = [
-    { id: "overview", label: "Overview", icon: User },
-    { id: "profile", label: "Edit Profile", icon: Settings },
+    { id: "overview", label: "Dashboard", icon: User },
     { id: "papers", label: "My Submissions", icon: FileText },
+    { id: "profile", label: "Edit Profile", icon: Settings },
     { id: "activity", label: "History Log", icon: Activity },
   ];
 
   const studentName = profile?.name || user?.email?.split("@")[0] || "Student";
   const rank = getRankProgress(stats.totalPapers);
 
+  const sidebarContent = (isCollapsed: boolean) => (
+    <div className="flex flex-col h-full justify-between">
+      <div className="space-y-6">
+        {/* Sidebar Header */}
+        <div className={`flex items-center p-2 ${isCollapsed ? "justify-center" : "justify-between"}`}>
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/10 flex-shrink-0">
+              <GraduationCap className="w-5 h-5" />
+            </div>
+            {!isCollapsed && (
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="min-w-0"
+              >
+                <h1 className="text-sm font-black text-slate-800 dark:text-white leading-none">BCSITHub</h1>
+                <span className="text-[9px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest mt-1 block">Student Portal</span>
+              </motion.div>
+            )}
+          </div>
+        </div>
+
+        {/* Profile Overview (Inside Sidebar) */}
+        {!isCollapsed ? (
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="border border-slate-200/50 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 rounded-2xl p-4 text-center space-y-4 overflow-hidden"
+          >
+            <div className="relative w-16 h-16 mx-auto flex items-center justify-center rounded-full p-0.5 bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 shadow-md">
+              <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center border-2 border-white overflow-hidden">
+                {profile?.avatarUrl ? (
+                  <img src={profile.avatarUrl} alt={studentName} className="w-full h-full object-cover rounded-full" referrerPolicy="no-referrer" />
+                ) : (
+                  <span className="text-xl font-black text-white">
+                    {getInitials(studentName)}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div>
+              <h4 className="text-xs font-black text-slate-800 dark:text-white truncate max-w-[170px] mx-auto">{studentName}</h4>
+              <span className={`px-2 py-0.5 rounded-full border text-[8px] font-black uppercase tracking-wider inline-block mt-1 ${rank.class}`}>
+                {rank.current.split(" ")[0]}
+              </span>
+            </div>
+
+            <div className="space-y-1">
+              <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full"
+                  style={{ width: `${rank.percent}%` }}
+                />
+              </div>
+              <span className="text-[9px] font-extrabold text-slate-400 dark:text-slate-300 block text-right uppercase tracking-wider">{Math.round(rank.percent)}% Rank Progress</span>
+            </div>
+
+            {/* Personal Details Metadata */}
+            <div className="border-t border-slate-200/50 dark:border-slate-800 pt-3 text-left space-y-2 text-[10px] text-slate-500 dark:text-slate-400">
+              <div className="flex items-center gap-2 min-w-0">
+                <GraduationCap className="w-3.5 h-3.5 text-indigo-500 flex-shrink-0" />
+                <span className="truncate">{profile?.semester ? `${profile.semester} Semester` : "Semester: N/A"}</span>
+              </div>
+              <div className="flex items-center gap-2 min-w-0">
+                <Building className="w-3.5 h-3.5 text-indigo-500 flex-shrink-0" />
+                <span className="truncate" title={profile?.college}>{profile?.college || "College: N/A"}</span>
+              </div>
+              <div className="flex items-center gap-2 min-w-0">
+                <Mail className="w-3.5 h-3.5 text-indigo-500 flex-shrink-0" />
+                <span className="truncate" title={profile?.email || user?.email}>{profile?.email || user?.email}</span>
+              </div>
+            </div>
+          </motion.div>
+        ) : (
+          <div className="flex justify-center py-2">
+            <div className="relative w-10 h-10 flex items-center justify-center rounded-full p-0.5 bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 shadow-md">
+              <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center border border-white overflow-hidden">
+                {profile?.avatarUrl ? (
+                  <img src={profile.avatarUrl} alt={studentName} className="w-full h-full object-cover rounded-full" referrerPolicy="no-referrer" />
+                ) : (
+                  <span className="text-sm font-black text-white">
+                    {getInitials(studentName)}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Sidebar Tabs Navigation */}
+        <nav className="space-y-1.5">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  setIsMobileMenuOpen(false);
+                }}
+                className={`w-full px-4 py-3 rounded-xl text-xs font-bold transition-all duration-200 border-0 flex items-center gap-3 cursor-pointer relative group ${
+                  isActive
+                    ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/10"
+                    : "text-slate-400 hover:bg-slate-800/60 hover:text-white"
+                } ${isCollapsed ? "justify-center" : ""}`}
+                title={isCollapsed ? tab.label : undefined}
+              >
+                <Icon className="w-4 h-4 flex-shrink-0" />
+                {!isCollapsed && <span>{tab.label}</span>}
+                {isCollapsed && (
+                  <div className="absolute left-full ml-2 px-2 py-1 bg-slate-900 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+                    {tab.label}
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </nav>
+      </div>
+
+      {/* Sidebar Footer (Back to Website & Sign Out) */}
+      <div className="border-t border-slate-100 dark:border-slate-800 pt-4 space-y-2">
+        <button
+          onClick={() => navigate("/")}
+          className={`w-full px-4 py-3 rounded-xl text-xs font-bold transition-all duration-200 border-0 flex items-center gap-3 cursor-pointer text-slate-400 hover:bg-slate-800/60 hover:text-white relative group ${
+            isCollapsed ? "justify-center" : ""
+          }`}
+          title={isCollapsed ? "Back to Home" : undefined}
+        >
+          <ArrowLeft className="w-4 h-4 flex-shrink-0" />
+          {!isCollapsed && <span>Back to Home</span>}
+          {isCollapsed && (
+            <div className="absolute left-full ml-2 px-2 py-1 bg-slate-900 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+              Back to Home
+            </div>
+          )}
+        </button>
+
+        <button
+          onClick={handleSignOut}
+          className={`w-full flex items-center bg-rose-50 dark:bg-rose-950/20 hover:bg-rose-100 dark:hover:bg-rose-900/30 text-rose-600 dark:text-rose-400 font-extrabold text-xs py-3 rounded-xl transition-all duration-200 border-0 cursor-pointer shadow-sm shadow-rose-100 dark:shadow-none relative group ${
+            isCollapsed ? "justify-center" : "px-4"
+          }`}
+          title={isCollapsed ? "Sign Out" : undefined}
+        >
+          <LogOut className="w-4 h-4 flex-shrink-0" />
+          {!isCollapsed && <span className="ml-3">Sign Out Account</span>}
+          {isCollapsed && (
+            <div className="absolute left-full ml-2 px-2 py-1 bg-rose-900 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+              Sign Out Account
+            </div>
+          )}
+        </button>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-slate-50/30 pb-16 relative">
+    <div className="min-h-screen bg-slate-50/40 dark:bg-slate-50/40 flex flex-col md:flex-row relative text-slate-800 dark:text-slate-800 transition-all duration-300">
       
-      {/* Interactive Background Glows */}
+      {/* Background gradients */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute top-24 left-10 w-96 h-96 bg-indigo-200/20 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-200/20 rounded-full blur-3xl pointer-events-none" />
       </div>
 
-      {/* Floating Header */}
-      <div className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-40 shadow-sm relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <h1 className="text-lg font-black bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-800 bg-clip-text text-transparent">
-                Student Profile Hub
-              </h1>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
-                Dashboard Overview
-              </p>
-            </div>
-            <button
-              onClick={handleSignOut}
-              className="flex items-center bg-rose-50 border border-rose-100 hover:bg-rose-100 text-rose-600 font-bold text-xs px-4 py-2.5 rounded-xl transition-all duration-300 shadow-sm cursor-pointer"
-            >
-              <LogOut className="w-4 h-4 mr-1.5" />
-              Sign Out
-            </button>
-          </div>
+      {/* MOBILE HEADER BAR */}
+      <header className="md:hidden bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-800 px-4 py-4 flex items-center justify-between sticky top-0 z-40 w-full shadow-sm">
+        <div className="flex items-center gap-2">
+          <GraduationCap className="w-6 h-6 text-indigo-600" />
+          <span className="font-black text-slate-800 dark:text-white tracking-tight text-sm">BCSITHub</span>
         </div>
-      </div>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-350 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
+            aria-label="Open Menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+        </div>
+      </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10">
+      {/* 1. PERSISTENT SIDEBAR NAVIGATION (Desktop viewports) */}
+      <aside className={`hidden md:flex bg-white/95 dark:bg-slate-900/95 border-r border-slate-200/60 dark:border-slate-800 backdrop-blur-md flex-shrink-0 flex flex-col justify-between p-4 z-30 md:sticky md:top-0 md:h-screen transition-all duration-300 relative ${
+        isSidebarCollapsed ? "w-20" : "w-64"
+      }`}>
+        {sidebarContent(isSidebarCollapsed)}
         
-        {/* Core Layout Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* LEFT COLUMN: Student Profile Card & Progress */}
-          <aside className="lg:col-span-4 space-y-6">
-            <Card className="border border-slate-200/60 shadow-premium bg-white rounded-3xl p-1 overflow-hidden">
-              <CardContent className="p-6 text-center space-y-6">
-                
-                {/* Custom circular gradient avatar */}
-                <div className="relative w-28 h-28 mx-auto flex items-center justify-center rounded-full p-1 bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 shadow-lg">
-                  <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center border-2 border-white shadow-inner overflow-hidden">
-                    {profile?.avatarUrl ? (
-                      <img src={profile.avatarUrl} alt={studentName} className="w-full h-full object-cover rounded-full" referrerPolicy="no-referrer" />
-                    ) : (
-                      <span className="text-3xl font-black text-white tracking-tight">
-                        {getInitials(studentName)}
-                      </span>
-                    )}
-                  </div>
-                  <div className="absolute bottom-1 right-1 w-7 h-7 bg-emerald-500 rounded-full border-4 border-white flex items-center justify-center" title="Active Contributor">
-                    <CheckCircle className="w-3.5 h-3.5 text-white" />
-                  </div>
-                </div>
+        {/* Floating border collapse toggle */}
+        <button
+          onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+          className="hidden md:flex absolute top-6 -right-3.5 w-7 h-7 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-full items-center justify-center cursor-pointer shadow-md z-50 text-slate-500 dark:text-slate-350 hover:bg-slate-50 dark:hover:bg-slate-800"
+          aria-label="Toggle Sidebar"
+        >
+          {isSidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+        </button>
+      </aside>
 
-                {/* Name & Rank */}
-                <div className="space-y-2">
-                  <h3 className="text-xl font-extrabold text-slate-800 leading-tight">
-                    {studentName}
-                  </h3>
-                  <span className={`px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-wider inline-block ${rank.class}`}>
-                    {rank.current}
-                  </span>
-                </div>
-
-                {/* Gamified Progress Bar */}
-                <div className="border-t border-slate-100 pt-4 text-left space-y-2">
-                  <div className="flex justify-between items-center text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
-                    <span>Rank Progress</span>
-                    <span className="text-indigo-600">{Math.round(rank.percent)}%</span>
-                  </div>
-                  <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200/50">
-                    <motion.div 
-                      className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full"
-                      initial={{ width: 0 }}
-                      animate={{ width: `${rank.percent}%` }}
-                      transition={{ duration: 0.8, ease: "easeOut" }}
-                    />
-                  </div>
-                  <div className="flex justify-between items-center text-[9px] font-bold text-slate-400 leading-normal">
-                    {papersLoading ? (
-                      <span className="w-16 h-3 bg-slate-100 animate-pulse rounded block" />
-                    ) : (
-                      <span>{rank.currentCount} Submissions</span>
-                    )}
-                    <span>Next: {rank.next}</span>
-                  </div>
-                </div>
-
-                {/* Personal Academic Metadata Grid */}
-                <div className="border-t border-slate-100 pt-4 space-y-3 text-left">
-                  <div className="flex items-center gap-3 p-3 bg-slate-50/70 border border-slate-100 rounded-2xl">
-                    <Mail className="w-5 h-5 text-indigo-500 flex-shrink-0" />
-                    <div className="min-w-0">
-                      <span className="block text-[8px] font-extrabold text-slate-400 uppercase tracking-widest">Email</span>
-                      <span className="text-xs font-bold text-slate-700 break-all block">{profile?.email || user?.email}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 p-3 bg-slate-50/70 border border-slate-100 rounded-2xl">
-                    <Building className="w-5 h-5 text-indigo-500 flex-shrink-0" />
-                    <div className="min-w-0">
-                      <span className="block text-[8px] font-extrabold text-slate-400 uppercase tracking-widest">College</span>
-                      {profileLoading ? (
-                        <div className="h-4 w-28 bg-slate-200 animate-pulse rounded-md mt-1" />
-                      ) : (
-                        <span className="text-xs font-bold text-slate-700 truncate block">{profile?.college || "Not specified"}</span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 p-3 bg-slate-50/70 border border-slate-100 rounded-2xl">
-                    <Calendar className="w-5 h-5 text-indigo-500 flex-shrink-0" />
-                    <div className="min-w-0">
-                      <span className="block text-[8px] font-extrabold text-slate-400 uppercase tracking-widest">Semester</span>
-                      {profileLoading ? (
-                        <div className="h-4 w-20 bg-slate-200 animate-pulse rounded-md mt-1" />
-                      ) : (
-                        <span className="text-xs font-bold text-slate-700 block">{profile?.semester ? `${profile.semester} Semester` : "Not specified"}</span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 p-3 bg-slate-50/70 border border-slate-100 rounded-2xl">
-                    <GraduationCap className="w-5 h-5 text-indigo-500 flex-shrink-0" />
-                    <div className="min-w-0">
-                      <span className="block text-[8px] font-extrabold text-slate-400 uppercase tracking-widest">System Role</span>
-                      <span className="text-xs font-bold text-indigo-600 capitalize block">{user?.role || "Student"}</span>
-                    </div>
-                  </div>
-                </div>
-
-              </CardContent>
-            </Card>
-          </aside>
-
-          {/* RIGHT COLUMN: Greetings, Quick Stats, Navigation & Work Panel */}
-          <main className="lg:col-span-8 space-y-6">
-            
-            {/* Greetings Banner */}
-            <div className="bg-gradient-to-r from-indigo-900 to-[#1e1b4b] text-white p-6 sm:p-8 rounded-3xl shadow-lg relative overflow-hidden flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="absolute right-0 top-0 w-44 h-44 bg-white/5 rounded-full blur-2xl pointer-events-none" />
-              <div>
-                <span className="px-2.5 py-1 rounded-full bg-white/10 border border-white/10 text-yellow-300 text-[9px] font-extrabold uppercase tracking-widest inline-flex items-center gap-1">
-                  <Sparkles className="w-3 h-3" />
-                  Academic Profile
-                </span>
-                <h2 className="text-2xl sm:text-3xl font-black mt-2">Welcome back, {studentName.split(" ")[0]}!</h2>
-                <p className="text-xs text-indigo-200/80 font-medium mt-1 leading-relaxed max-w-md">
-                  Thank you for contributing resources. Keep uploading papers to build the community bank and climb the ranks!
-                </p>
+      {/* 2. MOBILE SIDEBAR DRAWER OVERLAY */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <div className="fixed inset-0 z-50 md:hidden flex">
+            {/* Backdrop shadow overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm"
+            />
+            {/* Sliding navigation drawer */}
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", stiffness: 260, damping: 30 }}
+              className="relative w-64 max-w-[80vw] h-full shadow-2xl z-50 flex flex-col bg-white dark:bg-slate-900 p-4"
+            >
+              {/* Close Button Inside Drawer */}
+              <div className="flex justify-end mb-4">
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="p-1.5 rounded-lg border border-slate-100 dark:border-slate-805 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer text-slate-500"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
-              <button
-                onClick={() => navigate("/past-papers")}
-                className="bg-gradient-to-r from-yellow-400 to-amber-500 hover:brightness-110 text-slate-900 font-extrabold text-xs px-5 py-3 rounded-xl shadow-md border-0 transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap self-start sm:self-center"
-              >
-                <PlusCircle className="w-4 h-4" />
-                Upload Paper
-              </button>
-            </div>
+              <div className="flex-1 overflow-y-auto">
+                {sidebarContent(false)}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
-            {/* Compact Stats Row */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              {[
-                { title: "Total Papers", value: stats.totalPapers, icon: FileText, color: "text-indigo-600 bg-indigo-50 border-indigo-100" },
-                { title: "Approved", value: stats.approvedPapers, icon: CheckCircle, color: "text-emerald-600 bg-emerald-50 border-emerald-100" },
-                { title: "Pending", value: stats.pendingPapers, icon: Clock, color: "text-amber-600 bg-amber-50 border-amber-100" },
-                { title: "Weekly uploads", value: stats.recentActivity, icon: TrendingUp, color: "text-purple-600 bg-purple-50 border-purple-100" }
-              ].map((stat, idx) => (
-                <div key={idx} className="bg-white border border-slate-200/60 p-5 rounded-2xl flex items-center justify-between gap-3 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="space-y-0.5">
-                    <span className="block text-[8px] font-extrabold text-slate-400 uppercase tracking-widest">{stat.title}</span>
-                    {papersLoading ? (
-                      <div className="h-6 w-8 bg-slate-100 animate-pulse rounded mt-1" />
-                    ) : (
-                      <span className="text-xl font-black text-slate-800">{stat.value}</span>
-                    )}
-                  </div>
-                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center border ${stat.color}`}>
-                    <stat.icon className="w-5 h-5" />
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Navigation Tabs Bar */}
-            <div className="bg-white/80 border border-slate-200/50 shadow-sm backdrop-blur-md rounded-2xl p-1.5 flex flex-wrap gap-2 w-fit">
-              {tabs.map((tab) => {
-                const Icon = tab.icon;
-                const isActive = activeTab === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 border-0 flex items-center gap-1.5 cursor-pointer ${
-                      isActive
-                        ? "bg-indigo-600 text-white shadow-md"
-                        : "text-slate-600 hover:bg-slate-100 hover:text-slate-800"
-                    }`}
-                  >
-                    <Icon className="w-4 h-4" />
-                    {tab.label}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Dynamic Content Details Card */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.25 }}
-              >
-                
-                {/* Tab: Overview (Quick Actions & Submissions Summary) */}
-                {activeTab === "overview" && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    
-                    {/* Quick Link Card */}
-                    <Card className="border border-slate-200/60 shadow-premium bg-white rounded-3xl p-1">
-                      <CardContent className="p-6 space-y-4">
-                        <h3 className="text-sm font-extrabold text-slate-800 border-b border-slate-50 pb-2">Academic Actions</h3>
-                        <div className="space-y-3">
-                          <button
-                            onClick={() => navigate("/past-papers")}
-                            className="w-full bg-slate-50 hover:bg-slate-100 border border-slate-200 p-3.5 rounded-2xl flex items-center justify-between text-xs font-bold text-slate-700 transition-all cursor-pointer group"
-                          >
-                            <span className="flex items-center gap-2">
-                              <PlusCircle className="w-4 h-4 text-indigo-600" />
-                              Submit a Past Paper
-                            </span>
-                            <ChevronRight className="w-4 h-4 opacity-50 group-hover:translate-x-0.5 transition-transform" />
-                          </button>
-
-                          <button
-                            onClick={() => setActiveTab("papers")}
-                            className="w-full bg-slate-50 hover:bg-slate-100 border border-slate-200 p-3.5 rounded-2xl flex items-center justify-between text-xs font-bold text-slate-700 transition-all cursor-pointer group"
-                          >
-                            <span className="flex items-center gap-2">
-                              <FileText className="w-4 h-4 text-purple-600" />
-                              View Your Upload History
-                            </span>
-                            <ChevronRight className="w-4 h-4 opacity-50 group-hover:translate-x-0.5 transition-transform" />
-                          </button>
-
-                          <button
-                            onClick={() => navigate("/past-papers")}
-                            className="w-full bg-slate-50 hover:bg-slate-100 border border-slate-200 p-3.5 rounded-2xl flex items-center justify-between text-xs font-bold text-slate-700 transition-all cursor-pointer group"
-                          >
-                            <span className="flex items-center gap-2">
-                              <BookOpen className="w-4 h-4 text-emerald-600" />
-                              Access past questions library
-                            </span>
-                            <ChevronRight className="w-4 h-4 opacity-50 group-hover:translate-x-0.5 transition-transform" />
-                          </button>
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    {/* Address details and notes */}
-                    <Card className="border border-slate-200/60 shadow-premium bg-white rounded-3xl p-1">
-                      <CardContent className="p-6 space-y-4">
-                        <h3 className="text-sm font-extrabold text-slate-800 border-b border-slate-50 pb-2">College Campus Details</h3>
-                        <div className="space-y-3.5">
-                          <div>
-                            <span className="block text-[8px] font-extrabold text-slate-400 uppercase tracking-widest">Assigned Institution</span>
-                            <span className="text-xs font-bold text-slate-700 mt-1 block">{profile?.college || "Not specified"}</span>
-                          </div>
-                          
-                          {profile?.college && profile?.college !== "Other" && (
-                            <div className="flex items-start gap-2.5 p-3.5 bg-indigo-50/40 border border-indigo-100/50 rounded-2xl text-[11px] font-semibold text-indigo-950">
-                              <MapPin className="w-5 h-5 text-indigo-600 mt-0.5 flex-shrink-0" />
-                              <span className="leading-relaxed">{profile?.collegeAddress || "Address synced"}</span>
-                            </div>
-                          )}
-
-                          <div className="bg-slate-50 border border-slate-100 p-3 rounded-2xl text-[10px] font-bold text-slate-400 flex items-start gap-2 leading-relaxed">
-                            <Shield className="w-3.5 h-3.5 text-slate-400 mt-0.5 flex-shrink-0" />
-                            <span>Your account role and details are synced with the Pokhara University board syllabus rules.</span>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                )}
-
-                {/* Tab: Edit Profile Details */}
-                {activeTab === "profile" && (
-                  <Card className="border border-slate-200/60 shadow-premium bg-white rounded-3xl p-1">
-                    <CardContent className="p-6 sm:p-8">
-                      <div className="flex items-center gap-4 mb-6 border-b border-slate-100 pb-4">
-                        <div className="w-11 h-11 bg-indigo-50 rounded-2xl flex items-center justify-center border border-indigo-100">
-                          <Settings className="w-5 h-5 text-indigo-600" />
-                        </div>
-                        <div>
-                          <h2 className="text-base font-extrabold text-slate-800">Edit Dashboard details</h2>
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Manage details and colleges</p>
-                        </div>
-                      </div>
-
-                      {!isEditing ? (
-                        <div className="space-y-6">
-                          <ProfileDetails profile={profile} />
-                          <button
-                            onClick={() => setIsEditing(true)}
-                            className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-6 py-3 rounded-xl shadow-md border-0 transition-all cursor-pointer"
-                          >
-                            Edit Account Details
-                          </button>
-                        </div>
-                      ) : (
-                        <div className="space-y-6">
-                          <EditProfileForm
-                            defaultValues={{
-                              name: profile?.name || "",
-                              email: profile?.email || "",
-                              semester: profile?.semester || "",
-                              college: profile?.college || "",
-                            }}
-                            onSubmit={handleProfileUpdate}
-                            isSubmitting={isSubmitting}
-                          />
-                          <div className="flex gap-3 border-t border-slate-100 pt-4">
-                            <button
-                              onClick={() => setIsEditing(false)}
-                              className="px-6 py-2.5 border border-slate-200 text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-xl font-bold text-xs transition-all duration-300 cursor-pointer"
-                            >
-                              Cancel Edit
-                            </button>
-                          </div>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                )}
-
-                {/* Tab: Past Paper Contributions */}
-                {activeTab === "papers" && (
-                  <Card className="border border-slate-200/60 shadow-premium bg-white rounded-3xl p-1">
-                    <CardContent className="p-6 sm:p-8">
-                      <div className="flex items-center justify-between mb-6 border-b border-slate-100 pb-4 flex-wrap gap-4">
-                        <div className="flex items-center gap-4">
-                          <div className="w-11 h-11 bg-purple-50 rounded-2xl flex items-center justify-center border border-purple-100">
-                            <FileText className="w-5.5 h-5.5 text-purple-650" />
-                          </div>
-                          <div>
-                            <h2 className="text-base font-extrabold text-slate-800">My Submissions</h2>
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Track reviews and approvals</p>
-                          </div>
-                        </div>
-                        <button 
-                          onClick={() => navigate("/past-papers")}
-                          className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:brightness-110 text-white font-bold text-xs px-6 py-3 rounded-xl shadow-md border-0 transition-all cursor-pointer"
-                        >
-                          Upload Paper
-                        </button>
-                      </div>
-
-                      {papersLoading ? (
-                        <div className="space-y-4">
-                          {[1, 2, 3].map((i) => (
-                            <div key={i} className="border border-slate-150 rounded-2xl p-5 bg-white animate-pulse flex items-center justify-between">
-                              <div className="space-y-2 flex-1">
-                                <div className="h-4 bg-slate-200 rounded w-2/3" />
-                                <div className="h-3 bg-slate-150 rounded w-1/4" />
-                              </div>
-                              <div className="h-6 bg-slate-200 rounded-full w-20" />
-                            </div>
-                          ))}
-                        </div>
-                      ) : papers.length > 0 ? (
-                        <div className="grid gap-4">
-                          {papers.map((paper) => (
-                            <div
-                              key={paper.objectId}
-                              className="border border-slate-150 rounded-2xl p-5 hover:border-slate-350 transition-all bg-gradient-to-r from-white to-slate-50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 group hover:shadow-sm"
-                            >
-                              <div className="flex-1">
-                                <h3 className="text-sm font-bold text-slate-800 mb-1.5 leading-snug group-hover:text-indigo-600 transition-colors">{paper.title}</h3>
-                                <div className="flex items-center gap-3 text-[9px] font-bold text-slate-400 uppercase tracking-widest">
-                                  <span className="flex items-center gap-1.5">
-                                    <Clock className="w-3.5 h-3.5 text-slate-450" />
-                                    {new Date(paper.uploadedAt).toLocaleDateString()}
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="flex items-center gap-3">
-                                {paper.approved ? (
-                                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-50 border border-emerald-100/50 text-emerald-700">
-                                    <CheckCircle className="w-3.5 h-3.5" />
-                                    Approved
-                                  </span>
-                                ) : (
-                                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-amber-50 border border-amber-100/50 text-amber-700">
-                                    <Clock className="w-3.5 h-3.5" />
-                                    Pending Review
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="text-center py-12">
-                          <div className="w-14 h-14 bg-slate-50 border border-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <FileText className="w-7 h-7 text-slate-400" />
-                          </div>
-                          <h3 className="text-sm font-bold text-slate-800 mb-1.5">No uploads discovered</h3>
-                          <p className="text-xs text-slate-500 mb-6 font-semibold max-w-sm mx-auto leading-relaxed">You haven't contributed any past papers yet. Share your resources with the community.</p>
-                          <button 
-                            onClick={() => navigate("/past-papers")}
-                            className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:brightness-110 text-white font-bold text-xs px-8 py-3 rounded-xl shadow-md border-0 transition-all cursor-pointer"
-                          >
-                            Upload Your First Paper
-                          </button>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                )}
-
-                {/* Tab: Chronological Activity Logs */}
-                {activeTab === "activity" && (
-                  <Card className="border border-slate-200/60 shadow-premium bg-white rounded-3xl p-1">
-                    <CardContent className="p-6 sm:p-8">
-                      <div className="flex items-center gap-4 mb-6 border-b border-slate-100 pb-4">
-                        <div className="w-11 h-11 bg-purple-50 rounded-2xl flex items-center justify-center border border-purple-100">
-                          <FileText className="w-6 h-6 text-purple-600" />
-                        </div>
-                        <div>
-                          <h2 className="text-base font-extrabold text-slate-850">Recent Activity Logs</h2>
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Chronological record of upload actions</p>
-                        </div>
-                      </div>
-
-                      <div className="space-y-4">
-                        {papersLoading ? (
-                          [1, 2, 3].map((i) => (
-                            <div key={i} className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100 animate-pulse">
-                              <div className="w-9 h-9 bg-slate-200 rounded-full flex-shrink-0" />
-                              <div className="flex-1 space-y-2">
-                                <div className="h-3 bg-slate-200 rounded w-1/2" />
-                                <div className="h-2 bg-slate-150 rounded w-1/4" />
-                              </div>
-                              <div className="h-5 bg-slate-200 rounded-full w-14" />
-                            </div>
-                          ))
-                        ) : papers.slice(0, 5).map((paper) => (
-                          <div key={paper.objectId} className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:border-slate-200 transition-all">
-                            <div className="w-9 h-9 bg-indigo-50 border border-indigo-100 rounded-full flex items-center justify-center flex-shrink-0 text-indigo-600">
-                              <FileText className="w-5 h-5" />
-                            </div>
-                            <div className="flex-1">
-                              <p className="text-xs font-bold text-slate-800 leading-snug">Uploaded "{paper.title}"</p>
-                              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">{new Date(paper.uploadedAt).toLocaleDateString()}</p>
-                            </div>
-                            <div className={`px-2.5 py-0.5 border rounded-full text-[10px] font-bold ${
-                              paper.approved 
-                                ? "bg-emerald-50 border-emerald-100 text-emerald-700" 
-                                : "bg-amber-50 border-amber-100 text-amber-700"
-                            }`}>
-                              {paper.approved ? "Approved" : "Pending"}
-                            </div>
-                          </div>
-                        ))}
-                        
-                        {papers.length === 0 && (
-                          <div className="text-center py-8">
-                            <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">No recent actions logged</p>
-                          </div>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
-
-              </motion.div>
-            </AnimatePresence>
-          </main>
+      {/* MAIN CONTENT AREA */}
+      <div className="flex-1 flex flex-col min-w-0 z-10 p-4 sm:p-8 lg:p-10 relative">
+        
+        {/* Breadcrumb / Section Header */}
+        <div className="flex items-center justify-between mb-8 flex-wrap gap-4 border-b border-slate-200/50 dark:border-slate-200/50 pb-5">
+          <div>
+            <h2 className="text-xl sm:text-2xl font-black text-slate-800 dark:text-slate-800 tracking-tight capitalize">
+              {tabs.find(t => t.id === activeTab)?.label}
+            </h2>
+            <p className="text-[10px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-widest mt-1">
+              Student Hub Dashboard / {activeTab}
+            </p>
+          </div>
+          
+          <button
+            onClick={() => navigate("/past-papers")}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs px-5 py-3 rounded-xl shadow-md border-0 transition-all flex items-center gap-1.5 cursor-pointer"
+          >
+            <PlusCircle className="w-4 h-4" />
+            Upload Past Paper
+          </button>
         </div>
 
+        {/* CONTENT SWITCH BOARD */}
+        <main className="space-y-8 flex-1">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+            >
+              {activeTab === "overview" && (
+                <StudentOverview
+                  studentName={studentName}
+                  stats={stats}
+                  papersLoading={papersLoading}
+                  profile={profile}
+                  setActiveTab={setActiveTab}
+                />
+              )}
+
+              {activeTab === "papers" && (
+                <StudentSubmissions
+                  papers={papers}
+                  papersLoading={papersLoading}
+                />
+              )}
+
+              {activeTab === "profile" && (
+                <StudentProfileSettings
+                  profile={profile}
+                  isEditing={isEditing}
+                  setIsEditing={setIsEditing}
+                  isSubmitting={isSubmitting}
+                  handleProfileUpdate={handleProfileUpdate}
+                />
+              )}
+
+              {activeTab === "activity" && (
+                <StudentHistoryLog
+                  papers={papers}
+                  papersLoading={papersLoading}
+                />
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </main>
       </div>
+
     </div>
   );
 };

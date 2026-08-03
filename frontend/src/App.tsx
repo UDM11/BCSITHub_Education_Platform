@@ -56,11 +56,13 @@ import { NotFound } from './pages/NotFound';
 function AppContent() {
   const { user } = useAuth();
   const location = useLocation();
-  const isAdminRoute = location.pathname.startsWith('/admin-dashboard');
+  const isDashboardRoute = location.pathname.startsWith('/admin-dashboard') || 
+                           location.pathname.startsWith('/dashboard') || 
+                           location.pathname.startsWith('/profile');
 
   return (
     <div className="flex flex-col min-h-screen">
-      {!isAdminRoute && <Navbar />}
+      {!isDashboardRoute && <Navbar />}
       <PWAInstallBanner />
       <PWAUpdateToast />
       <AIChatBot />
@@ -148,7 +150,7 @@ function AppContent() {
         </Routes>
       </main>
 
-      {!isAdminRoute && <Footer />}
+      {!isDashboardRoute && <Footer />}
 
       <ToastContainer />
     </div>

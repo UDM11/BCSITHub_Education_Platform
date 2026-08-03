@@ -269,7 +269,7 @@ async def get_paper_pdf(paper_id: str):
         file_url = res.data[0]["file_url"]
         
         async def stream_file():
-            async with httpx.AsyncClient() as client:
+            async with httpx.AsyncClient(follow_redirects=True) as client:
                 async with client.stream("GET", file_url) as r:
                     async for chunk in r.aiter_bytes():
                         yield chunk
