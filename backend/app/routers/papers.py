@@ -1,9 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Form
+from fastapi.responses import StreamingResponse
 from app.client import supabase_client
 from app.schemas.papers import PaperResponse
 from app.dependencies import get_current_user, get_admin_user, get_teacher_or_admin_user, get_optional_current_user
 from typing import List, Optional
 import uuid
+import httpx
 
 router = APIRouter(prefix="/papers", tags=["papers"])
 
@@ -254,4 +256,27 @@ async def update_paper(
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Update failed: {str(e)}"
+        )
+
+
+@router.get("/{paper_id}/pdf")
+async def get_paper_pdf(paper_id: str):
+    try:
+        # Fetch paper details
+        res = supabase_client.table("past_papers").select("file_url").eq("id", paper_id).execute()
+        if not res.data or not res.data[0].get("file_url"):
+            raise HTTPException(status_code=404, detail="Paper PDF not found")
+        file_url = res.data[0]["file_url"]
+        
+        async def stream_file():
+            async with httpx.AsyncClient() as client:
+                async with client.stream("GET", file_url) as r:
+                    async for chunk in r.aiter_bytes():
+                        yield chunk
+                        
+        return StreamingResponse(stream_file(), media_type="application/pdf")
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Failed to stream paper PDF: {str(e)}"
         )

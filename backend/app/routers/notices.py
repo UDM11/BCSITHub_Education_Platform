@@ -1,16 +1,19 @@
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Form
+from fastapi.responses import StreamingResponse
 from app.client import supabase_client
 from app.schemas.notices import NoticeResponse
-from app.dependencies import get_admin_user
+from app.dependencies import get_admin_user, get_optional_current_user
 from typing import List, Optional
 import uuid
+import httpx
 
 router = APIRouter(prefix="/notices", tags=["notices"])
 
 @router.get("", response_model=List[NoticeResponse])
 async def list_notices(
     category: Optional[str] = None,
-    search: Optional[str] = None
+    search: Optional[str] = None,
+    current_user: Optional[dict] = Depends(get_optional_current_user)
 ):
     try:
         query = supabase_client.table("pu_notices").select("*")
@@ -156,4 +159,26 @@ async def delete_notice(
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Deletion failed: {str(e)}"
+        )
+
+
+@router.get("/{notice_id}/pdf")
+async def get_notice_pdf(notice_id: str):
+    try:
+        res = supabase_client.table("pu_notices").select("file_url").eq("id", notice_id).execute()
+        if not res.data or not res.data[0].get("file_url"):
+            raise HTTPException(status_code=404, detail="Notice PDF not found")
+        file_url = res.data[0]["file_url"]
+        
+        async def stream_file():
+            async with httpx.AsyncClient() as client:
+                async with client.stream("GET", file_url) as r:
+                    async for chunk in r.aiter_bytes():
+                        yield chunk
+                        
+        return StreamingResponse(stream_file(), media_type="application/pdf")
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Failed to stream notice PDF: {str(e)}"
         )

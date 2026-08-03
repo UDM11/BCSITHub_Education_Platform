@@ -27,7 +27,7 @@ const LoginRedirectModal: React.FC<Props> = ({ isOpen, onClose, message }) => {
 
   const handleOk = () => {
     onClose();
-    navigate("/signup");
+    navigate("/login");
   };
 
   return (
@@ -54,7 +54,7 @@ const LoginRedirectModal: React.FC<Props> = ({ isOpen, onClose, message }) => {
             </button>
 
             <div className="flex flex-col items-center pt-2">
-              <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50 rounded-2xl flex items-center justify-center text-indigo-650 dark:text-indigo-400 mb-4">
+              <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50 rounded-2xl flex items-center justify-center text-indigo-655 dark:text-indigo-400 mb-4">
                 <AlertCircle className="w-6 h-6 animate-pulse" />
               </div>
 
@@ -71,7 +71,7 @@ const LoginRedirectModal: React.FC<Props> = ({ isOpen, onClose, message }) => {
                   onClick={handleOk}
                   className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:brightness-110 text-white font-extrabold text-xs py-3 rounded-xl shadow-md border-0 transition-all cursor-pointer flex items-center justify-center gap-1.5"
                 >
-                  <span>Sign Up / Sign In</span>
+                  <span>Sign In</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
                 <Button

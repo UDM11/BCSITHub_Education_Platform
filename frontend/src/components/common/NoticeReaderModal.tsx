@@ -2,9 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { 
-  X, Download, Share2, Calendar, FileText, Check, AlertTriangle, Info, Bell 
+  X, Download, Share2, Calendar, FileText, Check, AlertTriangle, Info, Bell, Lock 
 } from "lucide-react";
 import { Button } from "../ui/Button";
+import { PDFViewer } from "./PDFViewer";
 
 interface Notice {
   id?: string;
@@ -95,7 +96,7 @@ export function NoticeReaderModal({ notice, onClose, isAuthenticated, onAuthRequ
   };
 
   const isImage = notice.fileUrl && /\.(jpg|jpeg|png|webp)$/i.test(notice.fileUrl);
-  const hasFile = !!notice.fileUrl;
+  const hasFile = !!notice.fileUrl || !!notice.fileName;
 
   return (
     <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-md flex items-center justify-center z-[100] p-4 overflow-auto">
@@ -126,11 +127,7 @@ export function NoticeReaderModal({ notice, onClose, isAuthenticated, onAuthRequ
                   className="max-w-full max-h-[380px] md:max-h-[672px] object-contain rounded-2xl shadow-premium border border-slate-900 bg-slate-900"
                 />
               ) : (
-                <iframe
-                  src={`${notice.fileUrl}#toolbar=0`}
-                  className="w-full h-[380px] md:h-[672px] rounded-2xl border border-slate-900 shadow-premium bg-slate-900"
-                  title="Notice PDF Viewer"
-                />
+                <PDFViewer fileUrl={`${window.location.origin}${import.meta.env.VITE_API_URL || 'http://localhost:8000/api'}/notices/${notice.id || (notice as any).objectId}/pdf`} />
               )
             ) : (
               /* Text-Only Notice Design */

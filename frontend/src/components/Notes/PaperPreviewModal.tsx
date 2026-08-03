@@ -3,9 +3,10 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { 
   X, Download, Share2, AlertTriangle, Calendar, 
-  School, FileText, Check, User 
+  School, FileText, Check, User, Lock
 } from "lucide-react";
 import { Button } from "../ui/Button";
+import { PDFViewer } from "../common/PDFViewer";
 
 interface Paper {
   objectId?: string;
@@ -76,7 +77,7 @@ export function PaperPreviewModal({ paper, onClose, onDownload, isAuthenticated 
     setTimeout(() => setReported(false), 3000);
   };
 
-  const isImage = /\.(jpg|jpeg|png|webp)$/i.test(paper.fileUrl);
+  const isImage = paper.fileUrl && /\.(jpg|jpeg|png|webp)$/i.test(paper.fileUrl);
 
   return (
     <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-md flex items-center justify-center z-[100] p-4 overflow-auto">
@@ -109,11 +110,7 @@ export function PaperPreviewModal({ paper, onClose, onDownload, isAuthenticated 
                 className="max-w-full max-h-[440px] md:max-h-[702px] object-contain rounded-2xl shadow-premium border border-slate-900 bg-slate-900"
               />
             ) : (
-              <iframe
-                src={`${paper.fileUrl}#toolbar=0`}
-                className="w-full h-[440px] md:h-[702px] rounded-2xl border border-slate-900 shadow-premium bg-slate-900"
-                title="Paper PDF Preview"
-              />
+              <PDFViewer fileUrl={`${window.location.origin}${import.meta.env.VITE_API_URL || 'http://localhost:8000/api'}/papers/${paper.objectId}/pdf`} />
             )}
           </div>
         </div>
