@@ -181,29 +181,17 @@ export const AdminUsers: React.FC<AdminUsersProps> = ({
                   </td>
                   <td className="p-4 font-semibold text-slate-600 break-all">{u.email}</td>
                   
-                  {/* Access Role dropdown with update capability */}
+                  {/* Access Role Badge (Read-only) */}
                   <td className="p-4">
-                    <div className="flex items-center gap-2">
-                      <select
-                        value={u.role || "student"}
-                        disabled={updatingUserId === u.objectId}
-                        onChange={(e) => handleRoleChange(u.objectId, e.target.value)}
-                        className={`px-2 py-1 border rounded-lg text-[10px] font-black uppercase tracking-wider cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500/20 ${
-                          u.role === "admin" 
-                            ? "bg-rose-50 border-rose-200 text-rose-700" 
-                            : u.role === "teacher"
-                            ? "bg-purple-50 border-purple-200 text-purple-700"
-                            : "bg-indigo-50 border-indigo-200 text-indigo-700"
-                        }`}
-                      >
-                        <option value="student">Student</option>
-                        <option value="teacher">Teacher</option>
-                        <option value="admin">Admin</option>
-                      </select>
-                      {updatingUserId === u.objectId && (
-                        <div className="w-3.5 h-3.5 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
-                      )}
-                    </div>
+                    <span className={`px-2.5 py-1 border rounded-full text-[10px] font-black uppercase tracking-wider select-none ${
+                      u.role === "admin" 
+                        ? "bg-rose-50 border-rose-200 text-rose-700" 
+                        : u.role === "teacher"
+                        ? "bg-purple-50 border-purple-200 text-purple-700"
+                        : "bg-indigo-50 border-indigo-200 text-indigo-700"
+                    }`}>
+                      {u.role || "student"}
+                    </span>
                   </td>
                   
                   <td className="p-4 font-semibold text-slate-500">{new Date(u.created).toLocaleDateString()}</td>

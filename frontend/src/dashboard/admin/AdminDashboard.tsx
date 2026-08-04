@@ -299,9 +299,8 @@ export default function AdminDashboard() {
         <div className="absolute top-24 left-10 w-96 h-96 bg-indigo-200/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-200/10 rounded-full blur-3xl pointer-events-none" />
       </div>
-
       {/* 1. PERSISTENT SIDEBAR NAVIGATION (Desktop viewports) */}
-      <aside className={`hidden lg:block fixed left-0 top-0 bottom-0 z-30 flex-shrink-0 border-r border-slate-800/40 shadow-xl shadow-slate-900/30 transition-all duration-300 relative ${
+      <aside className={`hidden lg:block z-30 flex-shrink-0 border-r border-slate-800/40 shadow-xl shadow-slate-900/30 transition-all duration-300 relative ${
         isSidebarCollapsed ? "w-20" : "w-64"
       }`}>
         {sidebarContent(isSidebarCollapsed)}
@@ -367,11 +366,8 @@ export default function AdminDashboard() {
         )}
       </AnimatePresence>
 
-      {/* 4. MAIN WORKSPACE CONTAINER (Desktop offset adjusts dynamically) */}
-      <div className={`flex-1 flex flex-col min-w-0 z-10 transition-all duration-300 ${
-        isSidebarCollapsed ? "lg:pl-20" : "lg:pl-64"
-      }`}>
-        
+      {/* 4. MAIN WORKSPACE CONTAINER */}
+      <div className="flex-1 flex flex-col min-w-0 z-10 transition-all duration-300">
         {/* Desktop Header */}
         <header className="hidden lg:flex bg-white/80 backdrop-blur-md border-b border-slate-200/50 px-8 py-5 items-center justify-between flex-shrink-0">
           <div>

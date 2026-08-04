@@ -1,10 +1,11 @@
 // src/dashboard/admin/AdminPapers.tsx
 import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "../../components/ui/Card";
-import { FileText, Search, Filter, Edit, Trash2, CheckCircle, XCircle, ArrowRight } from "lucide-react";
+import { FileText, Search, Filter, Edit, Trash2, CheckCircle, XCircle, ArrowRight, Eye } from "lucide-react";
 import { apiClient } from "../../lib/apiClient";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
+import { PDFViewer } from "../../components/common/PDFViewer";
 
 interface Paper {
   objectId: string;
@@ -31,6 +32,7 @@ export const AdminPapers: React.FC<AdminPapersProps> = ({ onPaperUpdate }) => {
   const [semesterFilter, setSemesterFilter] = useState("all");
   const [approvedFilter, setApprovedFilter] = useState("all");
   const [editingPaper, setEditingPaper] = useState<Paper | null>(null);
+  const [previewPaper, setPreviewPaper] = useState<Paper | null>(null);
 
   // Edit form states
   const [editTitle, setEditTitle] = useState("");
@@ -247,6 +249,13 @@ export const AdminPapers: React.FC<AdminPapersProps> = ({ onPaperUpdate }) => {
                     </td>
                     <td className="p-4 text-center">
                       <div className="flex items-center justify-center gap-1.5">
+                        <button
+                          onClick={() => setPreviewPaper(p)}
+                          className="p-2 text-slate-500 hover:text-indigo-600 hover:bg-slate-50 rounded-xl transition-all border-0 cursor-pointer"
+                          title="Inspect Document"
+                        >
+                          <Eye className="w-4.5 h-4.5" />
+                        </button>
                         {!p.approved && (
                           <button
                             onClick={() => handleApprove(p.objectId)}
@@ -387,6 +396,119 @@ export const AdminPapers: React.FC<AdminPapersProps> = ({ onPaperUpdate }) => {
                   </button>
                 </div>
               </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* 5. Document Inspector Modal */}
+      <AnimatePresence>
+        {previewPaper && (
+          <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-md flex items-center justify-center z-[100] p-4">
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              className="bg-white border border-slate-200 shadow-2xl w-full max-w-5xl rounded-3xl flex flex-col md:flex-row relative text-left overflow-y-auto md:overflow-hidden max-h-[90vh] md:h-[680px]"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setPreviewPaper(null)}
+                className="absolute top-4 right-4 z-50 p-2.5 rounded-full bg-slate-900/80 hover:bg-slate-950 text-slate-200 hover:text-white transition-all border border-slate-800 shadow-lg backdrop-blur-md cursor-pointer flex items-center justify-center"
+                aria-label="Close"
+              >
+                <XCircle className="w-4.5 h-4.5" />
+              </button>
+
+              {/* PDF/Image Preview Panel */}
+              <div className="w-full md:flex-1 bg-slate-950 p-4 flex items-center justify-center relative min-h-[350px] md:h-full">
+                <div className="w-full h-full flex items-center justify-center">
+                  {previewPaper.fileUrl && /\.(jpg|jpeg|png|webp)$/i.test(previewPaper.fileUrl) ? (
+                    <img 
+                      src={previewPaper.fileUrl} 
+                      alt={previewPaper.title} 
+                      className="max-w-full max-h-[600px] object-contain rounded-2xl shadow-premium border border-slate-900 bg-slate-900"
+                    />
+                  ) : (
+                    <PDFViewer 
+                      fileUrl={(() => {
+                        const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+                        return apiBase.startsWith('http') 
+                          ? `${apiBase}/papers/${previewPaper.objectId}/pdf` 
+                          : `${window.location.origin}${apiBase}/papers/${previewPaper.objectId}/pdf`;
+                      })()} 
+                    />
+                  )}
+                </div>
+              </div>
+
+              {/* Side Action Details */}
+              <div className="w-full md:w-[350px] p-6 flex flex-col justify-between border-t md:border-t-0 md:border-l border-slate-100 md:h-full bg-white">
+                <div className="space-y-5">
+                  <div>
+                    <span className={`inline-block text-[9px] font-black px-2.5 py-0.5 rounded-full border mb-2 ${
+                      previewPaper.approved 
+                        ? "bg-emerald-50 border-emerald-100 text-emerald-700" 
+                        : "bg-amber-50 border-amber-100 text-amber-700"
+                    }`}>
+                      {previewPaper.approved ? "Approved" : "Pending Review"}
+                    </span>
+                    <h3 className="text-base font-extrabold text-slate-800 leading-tight">
+                      {previewPaper.title}
+                    </h3>
+                  </div>
+
+                  <div className="space-y-3.5 border-t border-b border-slate-50 py-4 text-xs font-semibold text-slate-600">
+                    <div>
+                      <span className="text-[9px] text-slate-400 block uppercase tracking-wider font-bold">Subject</span>
+                      <span className="text-slate-700">{previewPaper.subject}</span>
+                    </div>
+                    <div>
+                      <span className="text-[9px] text-slate-400 block uppercase tracking-wider font-bold">College</span>
+                      <span className="text-slate-700">{previewPaper.college}</span>
+                    </div>
+                    <div>
+                      <span className="text-[9px] text-slate-400 block uppercase tracking-wider font-bold">Academic Scope</span>
+                      <span className="text-slate-700">Semester {previewPaper.semester} • {previewPaper.examType}</span>
+                    </div>
+                    <div>
+                      <span className="text-[9px] text-slate-400 block uppercase tracking-wider font-bold">Uploaded By</span>
+                      <span className="text-slate-750 font-bold">{previewPaper.uploadedBy}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-2 pt-6">
+                  {!previewPaper.approved && (
+                    <button
+                      onClick={() => {
+                        handleApprove(previewPaper.objectId);
+                        setPreviewPaper(null);
+                      }}
+                      className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs border-0 transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <CheckCircle className="w-4 h-4" />
+                      <span>Approve Submission</span>
+                    </button>
+                  )}
+                  <button
+                    onClick={() => {
+                      handleDelete(previewPaper.objectId, previewPaper.title);
+                      setPreviewPaper(null);
+                    }}
+                    className="w-full py-2.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200/50 font-bold text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                    <span>Reject & Delete</span>
+                  </button>
+                  <button
+                    onClick={() => setPreviewPaper(null)}
+                    className="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs border-0 transition-all flex items-center justify-center cursor-pointer"
+                  >
+                    Close Inspector
+                  </button>
+                </div>
+              </div>
             </motion.div>
           </div>
         )}

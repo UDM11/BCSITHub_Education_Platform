@@ -21,7 +21,7 @@ export function PWAUpdateToast() {
 
   // 1. Automatically update service worker and refresh the page when new content is available
   useEffect(() => {
-    if (needRefresh) {
+    if (needRefresh && !import.meta.env.DEV) {
       console.log("[PWA] New version detected. Executing automatic background update...");
       updateServiceWorker(true);
     }

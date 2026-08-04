@@ -5,11 +5,10 @@ import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCw, Loader2, FileText
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 
-// Set PDF.js worker URL using Vite native worker loader to bundle locally
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.js",
-  import.meta.url
-).toString();
+// Set PDF.js worker URL using CDN to avoid local bundling / MIME-type / path issues in Vite
+// Handles .mjs for v4+ and .js for v3
+const isV4 = pdfjs.version && pdfjs.version.split('.')[0] !== '3';
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.${isV4 ? 'mjs' : 'js'}`;
 
 interface PDFViewerProps {
   fileUrl: string;
@@ -18,7 +17,7 @@ interface PDFViewerProps {
 export function PDFViewer({ fileUrl }: PDFViewerProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState<number>(1);
-  const [scale, setScale] = useState<number>(1.0);
+  const [scale, setScale] = useState<number>(0.75);
   const [rotation, setRotation] = useState<number>(0);
   const [containerWidth, setContainerWidth] = useState<number>(600);
   const containerRef = useRef<HTMLDivElement>(null);
