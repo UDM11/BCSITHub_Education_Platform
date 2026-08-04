@@ -208,7 +208,7 @@ const StudentOverview: React.FC<StudentOverviewProps> = ({
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
                 <h3 className="text-xs font-black text-slate-800 dark:text-slate-800 uppercase tracking-wider flex items-center gap-2">
                   <Bell className="w-4 h-4 text-indigo-500" />
-                  Live PU Notices
+                  PU Notices
                 </h3>
                 <button
                   onClick={() => navigate("/pu-notices")}

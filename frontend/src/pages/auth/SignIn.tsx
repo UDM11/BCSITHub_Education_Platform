@@ -64,9 +64,9 @@ const testimonials = [
 
 export function SignIn() {
   useSEO({
-    title: "Sign In to Your Account",
-    description: "Access your BCSITHub dashboard to download papers, upload study materials, and track your achievements.",
-    keywords: "bcsit login, bcsithub signin, pu student login"
+    title: "Student Login",
+    description: "Access your BCSITHub dashboard to download papers, view class notices, compile code, and track your PU GPA achievements.",
+    keywords: "bcsit login, bcsithub signin, pu student login, pokhara university dashboard login"
   });
 
   const [loading, setLoading] = useState(false);
@@ -77,6 +77,41 @@ export function SignIn() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { signIn } = useAuth();
+
+  // Inject JSON-LD structured data schema for advanced Google rich snippets
+  useEffect(() => {
+    const schemaData = {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Student Login | BCSITHub",
+      "description": "Log in to your BCSITHub account to access study notes, syllabus guidelines, past exam papers, and GPA tools for Pokhara University BCSIT program.",
+      "url": "https://bcsithub.umeshdarlami.com.np/signin",
+      "potentialAction": {
+        "@type": "ConsumeAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://bcsithub.umeshdarlami.com.np/signin",
+          "actionPlatform": [
+            "http://schema.org/DesktopWebPlatform",
+            "http://schema.org/MobileWebPlatform"
+          ]
+        },
+        "object": {
+          "@type": "SoftwareApplication",
+          "name": "BCSITHub Portal"
+        }
+      }
+    };
+
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.innerHTML = JSON.stringify(schemaData);
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
 
   // Show URL error parameter if present (OAuth callback error)
   useEffect(() => {

@@ -70,6 +70,55 @@ export function PDFViewer({ fileUrl }: PDFViewerProps) {
     setRotation((prev) => (prev + 90) % 360);
   };
 
+  // Touch & Mouse Swipe Handlers
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+  const dragStartX = useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) return;
+    const distance = touchStartX.current - touchEndX.current;
+    const isLeftSwipe = distance > 60; // Swiped left -> next page
+    const isRightSwipe = distance < -60; // Swiped right -> prev page
+
+    if (isLeftSwipe) {
+      handleNextPage();
+    } else if (isRightSwipe) {
+      handlePrevPage();
+    }
+
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (e.button !== 0) return; // Only trigger for left-clicks
+    dragStartX.current = e.clientX;
+  };
+
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (dragStartX.current === null) return;
+    const distance = dragStartX.current - e.clientX;
+    const isLeftSwipe = distance > 60; // Dragged left -> next page
+    const isRightSwipe = distance < -60; // Dragged right -> prev page
+
+    if (isLeftSwipe) {
+      handleNextPage();
+    } else if (isRightSwipe) {
+      handlePrevPage();
+    }
+
+    dragStartX.current = null;
+  };
+
   return (
     <div className="flex flex-col w-full h-full bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 shadow-premium" ref={containerRef}>
       {/* Toolbar */}
@@ -128,7 +177,14 @@ export function PDFViewer({ fileUrl }: PDFViewerProps) {
       </div>
 
       {/* PDF Content Area */}
-      <div className="flex-1 overflow-auto flex justify-center items-start p-4 bg-slate-900 custom-scrollbar select-none relative min-h-[300px]">
+      <div 
+        className="flex-1 overflow-auto flex justify-center items-start p-4 bg-slate-900 custom-scrollbar select-none relative min-h-[300px]"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+      >
         <Document
           file={fileUrl}
           onLoadSuccess={onDocumentLoadSuccess}

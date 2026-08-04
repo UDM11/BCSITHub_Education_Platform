@@ -123,9 +123,9 @@ const testimonials = [
 
 export function SignUp() {
   useSEO({
-    title: "Create Your Account",
-    description: "Sign up to BCSITHub to unlock custom study trackers, download past papers, and access computing lecture notes.",
-    keywords: "bcsit signup, register bcsithub, pu student registration"
+    title: "Create Student Account",
+    description: "Sign up to BCSITHub to unlock custom study trackers, download past papers, and access Pokhara University BCSIT computing lecture notes.",
+    keywords: "bcsit signup, register bcsithub, pu student registration, create pokhara university account"
   });
 
   const [loading, setLoading] = useState(false);
@@ -137,6 +137,41 @@ export function SignUp() {
 
   const { signUp } = useAuth();
   const navigate = useNavigate();
+
+  // Inject JSON-LD structured data schema for advanced Google search rich snippets
+  useEffect(() => {
+    const schemaData = {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Create Student Account | BCSITHub",
+      "description": "Register a new student or teacher account on BCSITHub to unlock complete lecture notes, solved past papers, and exam results guides.",
+      "url": "https://bcsithub.umeshdarlami.com.np/signup",
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://bcsithub.umeshdarlami.com.np/signup",
+          "actionPlatform": [
+            "http://schema.org/DesktopWebPlatform",
+            "http://schema.org/MobileWebPlatform"
+          ]
+        },
+        "object": {
+          "@type": "SoftwareApplication",
+          "name": "BCSITHub Portal"
+        }
+      }
+    };
+
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.innerHTML = JSON.stringify(schemaData);
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
 
   const {
     register,

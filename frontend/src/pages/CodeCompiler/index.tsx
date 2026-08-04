@@ -1,18 +1,41 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useSEO } from "../../hooks/useSEO";
 import { LanguageDef, LANGUAGES_LIST } from "./compilerData";
 import LanguageSelection from "./LanguageSelection";
 import CompilerIDE from "./CompilerIDE";
 
 export function CodeCompiler() {
-  useSEO({
-    title: "Pokhara University BCSIT Online Compiler Sandbox",
-    description: "Write, compile, and run code instantly in 18+ programming languages with our sandboxed runtime workspace.",
-    keywords: "code compiler, online compiler, run python online, run java online, bcsit coding practice"
-  });
-
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageDef | null>(null);
   const [initialFiles, setInitialFiles] = useState<{ name: string; content: string }[] | undefined>(undefined);
+
+  const seoTitle = useMemo(() => {
+    if (selectedLanguage) {
+      return `Online ${selectedLanguage.name} Compiler & Sandbox`;
+    }
+    return "Online Multi-Language Code Compiler & Sandbox";
+  }, [selectedLanguage]);
+
+  const seoDescription = useMemo(() => {
+    if (selectedLanguage) {
+      return `Write, compile, and execute ${selectedLanguage.name} code online. Practice coding, run templates, and debug ${selectedLanguage.name} inside our sandboxed workspace.`;
+    }
+    return "Write, compile, and run code instantly in 18+ programming languages (Python, Java, C++, JS, and more) with our sandboxed runtime workspace.";
+  }, [selectedLanguage]);
+
+  const seoKeywords = useMemo(() => {
+    if (selectedLanguage) {
+      const name = selectedLanguage.name;
+      return `run ${name.toLowerCase()} online, ${name.toLowerCase()} compiler, online ${name.toLowerCase()} ide, write ${name.toLowerCase()} code`;
+    }
+    return "code compiler, online compiler, run python online, run java online, bcsit coding practice";
+  }, [selectedLanguage]);
+
+  useSEO({
+    title: seoTitle,
+    description: seoDescription,
+    keywords: seoKeywords,
+    image: "https://bcsithub.umeshdarlami.com.np/logo.jpg"
+  });
 
   // Check if there is a preset code block loaded from lecture notes
   useEffect(() => {

@@ -42,10 +42,33 @@ export default function SemesterSubjects() {
     return { ...foundSemester, subjects: enhancedSubjects };
   }, [semesterId]);
 
+  const subjectNamesString = useMemo(() => {
+    return semester?.subjects.map(s => s.courseName).join(", ");
+  }, [semester]);
+
+  const seoTitle = useMemo(() => {
+    return semester 
+      ? `${semester.name} Lecture Notes & Course Materials | PU BCSIT` 
+      : "Semester Course Subjects & Notes | BCSITHub";
+  }, [semester]);
+
+  const seoDescription = useMemo(() => {
+    return semester 
+      ? `Download official Pokhara University ${semester.name} BCSIT lecture notes, solved past papers, and study reference resources for subjects: ${subjectNamesString}.` 
+      : "Access lecture notes, academic reference files, and resource lists for all semesters of Pokhara University's BCSIT course structure.";
+  }, [semester, subjectNamesString]);
+
+  const seoKeywords = useMemo(() => {
+    return semester 
+      ? `${semester.name} notes, bcsit semester ${semesterId}, download bcsit study guides, ${subjectNamesString}` 
+      : "bcsit semester subjects, computer science study materials";
+  }, [semester, semesterId, subjectNamesString]);
+
   useSEO({
-    title: semester ? `${semester.name} Course Notes` : "Semester Subjects",
-    description: semester ? `Access and download course notes, class lecture materials, and syllabus details for subjects in ${semester.name} of PU BCSIT.` : "Browse PU BCSIT Semester Subjects.",
-    keywords: semester ? `${semester.name} notes, bcsit semester ${semesterId}` : "bcsit semester subjects"
+    title: seoTitle,
+    description: seoDescription,
+    keywords: seoKeywords,
+    image: "https://bcsithub.umeshdarlami.com.np/logo.jpg"
   });
 
   const getCourseCategory = (code?: string) => {
@@ -209,33 +232,6 @@ export default function SemesterSubjects() {
               Explore and access high-quality study notes, course details, and practice resources mapped for {semester.name} subjects.
             </motion.p>
 
-            {/* Quick Statistics Banner */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto pt-6"
-            >
-              {[
-                { icon: BookOpen, label: 'Total Subjects', value: stats.total },
-                { icon: Award, label: 'Available Notes', value: stats.available },
-                { icon: Star, label: 'Total Credits', value: stats.totalCredits },
-                { icon: TrendingUp, label: 'Avg Rating', value: stats.avgRating },
-              ].map((stat, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center space-x-3 bg-slate-900/60 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 text-left shadow-sm hover:border-slate-700/50 transition-colors"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-indigo-400">
-                    <stat.icon className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-white">{stat.value}</p>
-                    <p className="text-[10px] text-slate-500 font-semibold">{stat.label}</p>
-                  </div>
-                </div>
-              ))}
-            </motion.div>
           </div>
         </div>
       </section>
@@ -324,13 +320,45 @@ export default function SemesterSubjects() {
 
       {/* Main Grid List */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
-        
-        {searchTerm && (
-          <motion.div
-            className="mb-8 p-4 bg-indigo-50/50 border border-indigo-100/50 rounded-2xl flex items-center space-x-3 text-left"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
+        <div className="flex flex-col lg:flex-row gap-8">
+          
+          {/* Left Sidebar: Semester Selection */}
+          <aside className="w-full lg:w-56 flex-shrink-0">
+            <div className="bg-white border border-slate-100 shadow-sm rounded-2xl p-4 lg:sticky lg:top-36 text-left">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block px-1.5 mb-2.5">
+                Switch Semester
+              </span>
+              <div className="flex flex-row lg:flex-col gap-1.5 overflow-x-auto lg:overflow-x-visible pb-2.5 lg:pb-0 scrollbar-none">
+                {semestersData.map((sem) => {
+                  const isCurrent = sem.id === Number(semesterId);
+                  return (
+                    <button
+                      key={sem.id}
+                      onClick={() => {
+                        window.location.href = `/notes/semester/${sem.id}`;
+                      }}
+                      className={`w-auto lg:w-full text-center lg:text-left px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 whitespace-nowrap lg:whitespace-normal ${
+                        isCurrent
+                          ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20'
+                          : 'bg-transparent hover:bg-slate-50 text-slate-655 hover:text-slate-800 border border-transparent'
+                      }`}
+                    >
+                      {sem.name}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </aside>
+
+          {/* Right Container: Subjects list */}
+          <div className="flex-1">
+            {searchTerm && (
+              <motion.div
+                className="mb-8 p-4 bg-indigo-50/50 border border-indigo-100/50 rounded-2xl flex items-center space-x-3 text-left"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
             <div className="w-9 h-9 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600 flex-shrink-0">
               <BookOpen className="w-4 h-4" />
             </div>
@@ -351,7 +379,7 @@ export default function SemesterSubjects() {
             animate="visible"
             className={
               viewMode === 'grid'
-                ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-start'
+                ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start'
                 : 'space-y-4 max-w-4xl mx-auto'
             }
           >
@@ -412,7 +440,7 @@ export default function SemesterSubjects() {
                 >
                   {available ? (
                     <Link
-                      to={`/notes/semester/${semesterId}/subject/${encodeURIComponent(subject.courseCode)}`}
+                      to={`/notes/semester/${semesterId}/subject/${encodeURIComponent(subject.courseCode || subject.courseName)}`}
                       className="block h-full cursor-pointer"
                     >
                       {cardContent}
@@ -451,6 +479,8 @@ export default function SemesterSubjects() {
             )}
           </motion.div>
         )}
+          </div>
+        </div>
       </main>
 
     </div>

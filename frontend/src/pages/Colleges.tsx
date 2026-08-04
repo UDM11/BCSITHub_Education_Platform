@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Globe,
@@ -21,18 +21,36 @@ import { College, collegesData } from '../data/collegesData';
 import { useSEO } from '../hooks/useSEO';
 
 export function Colleges() {
-  useSEO({
-    title: "Pokhara University Affiliated BCSIT Colleges Directory",
-    description: "Search and compare all Pokhara University affiliated colleges offering the BCSIT course, including contact info, address details, and student intakes.",
-    keywords: "bcsit colleges, pokhara university colleges, bcsit admission, pu bcsit"
-  });
-
   const [searchTerm, setSearchTerm] = useState('');
   const [colleges] = useState<College[]>(collegesData);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [sortBy, setSortBy] = useState<'name' | 'rating' | 'students'>('name');
   const [showFilters, setShowFilters] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState('');
+
+  const seoTitle = useMemo(() => {
+    if (selectedLocation) {
+      return `BCSIT Colleges in ${selectedLocation}`;
+    }
+    if (searchTerm) {
+      return `Colleges Matching "${searchTerm}"`;
+    }
+    return "Pokhara University Affiliated BCSIT Colleges";
+  }, [selectedLocation, searchTerm]);
+
+  const seoDescription = useMemo(() => {
+    if (selectedLocation) {
+      return `Find and compare the best Pokhara University affiliated BCSIT colleges located in ${selectedLocation}. Get contact details, intake data, and ratings.`;
+    }
+    return "Search and compare all Pokhara University affiliated colleges offering the BCSIT course, including contact info, address details, and student intakes.";
+  }, [selectedLocation]);
+
+  useSEO({
+    title: seoTitle,
+    description: seoDescription,
+    keywords: `bcsit colleges, pokhara university colleges, bcsit admission, pu bcsit${selectedLocation ? `, colleges in ${selectedLocation}` : ''}`,
+    image: "https://bcsithub.umeshdarlami.com.np/logo.jpg"
+  });
 
   const locations = [
     ...new Set(
@@ -224,6 +242,31 @@ export function Colleges() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Active Filter Chips */}
+        {(selectedLocation || searchTerm) && (
+          <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-slate-100 max-w-6xl mx-auto justify-start text-left items-center">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-1">Active Filters:</span>
+            {selectedLocation && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-indigo-50 border border-indigo-100 text-indigo-700 text-[10px] font-bold rounded-xl">
+                <span>Location: {selectedLocation}</span>
+                <button onClick={() => setSelectedLocation('')} className="hover:text-indigo-900 font-extrabold text-xs">×</button>
+              </span>
+            )}
+            {searchTerm && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-rose-50 border border-rose-100 text-rose-700 text-[10px] font-bold rounded-xl">
+                <span>Query: "{searchTerm}"</span>
+                <button onClick={() => setSearchTerm('')} className="hover:text-rose-900 font-extrabold text-xs">×</button>
+              </span>
+            )}
+            <button
+              onClick={() => { setSelectedLocation(''); setSearchTerm(''); }}
+              className="text-[10px] font-bold text-slate-400 hover:text-indigo-650 transition-colors uppercase ml-2 underline cursor-pointer"
+            >
+              Reset All
+            </button>
+          </div>
+        )}
       </section>
 
       {/* Main Directory List Grid */}
@@ -272,9 +315,20 @@ export function Colleges() {
                     {college.name}
                   </h3>
 
-                  <div className="flex items-center text-slate-400 text-[11px] font-semibold">
-                    <MapPin className="w-3.5 h-3.5 mr-1.5 text-indigo-500 flex-shrink-0" />
-                    <span className="truncate">{college.address}</span>
+                  <div className="flex items-center justify-between text-slate-400 text-[11px] font-semibold mt-1">
+                    <div className="flex items-center truncate mr-2">
+                      <MapPin className="w-3.5 h-3.5 mr-1.5 text-indigo-500 flex-shrink-0" />
+                      <span className="truncate">{college.address}</span>
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(college.name + ' ' + college.address)}`, '_blank');
+                      }}
+                      className="text-[10px] font-bold text-indigo-600 hover:text-indigo-800 transition-colors flex items-center shrink-0 border border-indigo-100 hover:border-indigo-200 bg-indigo-50/50 hover:bg-indigo-50 px-2 py-0.5 rounded-lg"
+                    >
+                      Maps
+                    </button>
                   </div>
                 </div>
 

@@ -86,11 +86,7 @@ const defaultMarksForGrade: Record<string, number> = {
 };
 
 export function CGPACalculator() {
-  useSEO({
-    title: "Pokhara University SGPA & CGPA Calculator",
-    description: "Calculate, analyze, and project your Pokhara University BCSIT SGPA and overall CGPA using automated syllabus credit structures.",
-    keywords: "bcsit cgpa calculator, sgpa calculator, pokhara university cgpa, pu grade calculator"
-  });
+
 
   const { user } = useAuth();
   const { profile } = useProfile();
@@ -124,6 +120,46 @@ export function CGPACalculator() {
     earnedPoints?: number;
     totalCreditsPossible?: number;
   } | null>(null);
+
+  const seoTitle = useMemo(() => {
+    switch (activeTab) {
+      case 'analytics':
+        return "PU BCSIT CGPA Analytics & Projections";
+      case 'grading':
+        return "PU BCSIT Grading System & Conversions";
+      default:
+        return "PU SGPA & CGPA Calculator";
+    }
+  }, [activeTab]);
+
+  const seoDescription = useMemo(() => {
+    switch (activeTab) {
+      case 'analytics':
+        return "View visual academic analytics, GPA performance chart projections, and credits distribution maps for your Pokhara University BCSIT degree.";
+      case 'grading':
+        return "Learn about the official Pokhara University grading scheme, letter grades (A to F), GPA points translation tables, and pass marks for BCSIT.";
+      default:
+        return "Calculate, analyze, and project your Pokhara University BCSIT SGPA and overall CGPA using automated syllabus credit structures.";
+    }
+  }, [activeTab]);
+
+  const seoKeywords = useMemo(() => {
+    switch (activeTab) {
+      case 'analytics':
+        return "pu cgpa graphs, bcsit grade analytics, gpa projections, pu credits breakdown";
+      case 'grading':
+        return "pu grading system, letter grade point average, pokhara university passing marks, bcsit gpa scale";
+      default:
+        return "bcsit cgpa calculator, sgpa calculator, pokhara university cgpa, pu grade calculator";
+    }
+  }, [activeTab]);
+
+  useSEO({
+    title: seoTitle,
+    description: seoDescription,
+    keywords: seoKeywords,
+    image: "https://bcsithub.umeshdarlami.com.np/logo.jpg"
+  });
 
   const getGradeFromMarks = (marks: number): { grade: string; gradePoints: number } => {
     if (marks >= 90) return { grade: 'A', gradePoints: 4.0 };

@@ -399,10 +399,37 @@ export default function ChapterNotes() {
     return () => window.removeEventListener("scroll", handleScrollSpy);
   }, [headings, htmlContent]);
 
+  // Find current active chapter details
+  const currentChapter = useMemo(() => {
+    return chapters.find((c) => c.id === chapterId);
+  }, [chapters, chapterId]);
+
+  const seoTitle = useMemo(() => {
+    if (currentChapter && subjectChapters) {
+      return `${currentChapter.title} (${subjectChapters.courseCode || 'PU'}) - ${subjectChapters.courseName}`;
+    }
+    return chapterId ? `${chapterId.toUpperCase()} Lecture Notes` : "Chapter Notes";
+  }, [currentChapter, subjectChapters, chapterId]);
+
+  const seoDescription = useMemo(() => {
+    if (currentChapter && subjectChapters) {
+      return `Read online chapter lecture notes for "${currentChapter.title}" under ${subjectChapters.courseName} (${subjectChapters.courseCode || 'Core'}) of Pokhara University BCSIT.`;
+    }
+    return `Read the lecture notes, study references, and key guidelines for ${chapterId} under subject ${subjectId} of Pokhara University BCSIT.`;
+  }, [currentChapter, subjectChapters, chapterId, subjectId]);
+
+  const seoKeywords = useMemo(() => {
+    if (currentChapter && subjectChapters) {
+      return `${currentChapter.title} notes, ${subjectChapters.courseName} chapters, download bcsit study guides, pu computer science`;
+    }
+    return `${chapterId} notes, ${subjectId} lecture notes, pu computer science`;
+  }, [currentChapter, subjectChapters, chapterId, subjectId]);
+
   useSEO({
-    title: chapterId ? `${chapterId.toUpperCase()} Lecture Notes` : "Chapter Notes",
-    description: `Read the lecture notes, study references, and key guidelines for ${chapterId} under subject ${subjectId} of Pokhara University BCSIT.`,
-    keywords: `${chapterId} notes, ${subjectId} lecture notes, pu computer science`
+    title: seoTitle,
+    description: seoDescription,
+    keywords: seoKeywords,
+    image: "https://bcsithub.umeshdarlami.com.np/logo.jpg"
   });
 
   const downloadAsPDF = () => {

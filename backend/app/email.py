@@ -1,4 +1,4 @@
-﻿# app/email.py
+# app/email.py
 import smtplib
 import logging
 from email.mime.multipart import MIMEMultipart
@@ -8,16 +8,17 @@ from app.config import settings
 logger = logging.getLogger(__name__)
 
 
-def _build_otp_digits_html(otp: str) -> str:
+def _otp_digit_boxes(otp: str) -> str:
     """Render each digit of the OTP as an individual styled box."""
     boxes = ""
     for digit in otp:
         boxes += (
             f'<td style="padding:0 5px;">'
-            f'<div style="width:46px;height:56px;background:#ffffff;border:2px solid #c7d2fe;'
-            f'border-radius:12px;display:inline-block;text-align:center;line-height:56px;'
-            f'font-size:28px;font-weight:900;color:#4f46e5;font-family:Courier New,monospace;'
-            f'box-shadow:0 4px 12px rgba(79,70,229,0.15);">'
+            f'<div style="width:52px;height:64px;background:#ffffff;'
+            f'border:2.5px solid #818cf8;border-radius:14px;display:inline-block;'
+            f'text-align:center;line-height:64px;font-size:32px;font-weight:900;'
+            f'color:#4338ca;font-family:Courier New,monospace;'
+            f'box-shadow:0 4px 20px rgba(99,102,241,0.18);">'
             f'{digit}'
             f'</div>'
             f'</td>'
@@ -25,206 +26,308 @@ def _build_otp_digits_html(otp: str) -> str:
     return boxes
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+#  SHARED HEADER / FOOTER PARTIALS
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _email_header(title: str, subtitle: str) -> str:
+    return f"""
+      <!-- ══ HEADER ══ -->
+      <tr>
+        <td style="background:linear-gradient(135deg,#0f0c29 0%,#302b63 50%,#24243e 100%);
+                   padding:0;position:relative;overflow:hidden;">
+
+          <!-- top glow blob -->
+          <div style="position:absolute;top:-60px;left:50%;transform:translateX(-50%);
+                      width:320px;height:160px;
+                      background:radial-gradient(ellipse,rgba(129,140,248,0.30) 0%,transparent 70%);"></div>
+
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td style="padding:48px 40px 40px;text-align:center;position:relative;z-index:1;">
+
+                <!-- Wordmark pill -->
+                <table role="presentation" align="center" cellpadding="0" cellspacing="0"
+                       style="margin:0 auto 22px;">
+                  <tr>
+                    <td style="background:rgba(129,140,248,0.15);
+                                border:1.5px solid rgba(165,180,252,0.40);
+                                border-radius:999px;padding:10px 24px;">
+                      <span style="font-size:15px;font-weight:900;color:#e0e7ff;
+                                   letter-spacing:1.5px;text-transform:uppercase;
+                                   font-family:'Segoe UI',Arial,sans-serif;">
+                        &#9733;&nbsp;BCSITHub
+                      </span>
+                    </td>
+                  </tr>
+                </table>
+
+                <!-- Accent line -->
+                <div style="width:48px;height:3px;background:linear-gradient(90deg,#6366f1,#a78bfa);
+                            border-radius:99px;margin:0 auto 18px;"></div>
+
+                <h1 style="margin:0 0 10px;font-size:28px;font-weight:900;color:#ffffff;
+                           letter-spacing:-0.5px;line-height:1.25;
+                           font-family:'Segoe UI',Arial,sans-serif;">
+                  {title}
+                </h1>
+                <p style="margin:0;font-size:13px;color:rgba(199,210,254,0.75);font-weight:500;">
+                  {subtitle}
+                </p>
+
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+"""
+
+
+def _email_footer() -> str:
+    return """
+      <!-- ══ FEATURE ROW ══ -->
+      <tr>
+        <td style="padding:28px 32px 24px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <!-- Notes -->
+              <td align="center" width="33%" style="padding:0 5px;">
+                <table role="presentation" align="center" cellpadding="0" cellspacing="0"
+                       style="width:100%;background:#f5f3ff;border:1.5px solid #ddd6fe;
+                              border-radius:14px;overflow:hidden;">
+                  <tr>
+                    <td style="padding:14px 10px;text-align:center;">
+                      <div style="font-size:26px;line-height:1;">&#128218;</div>
+                      <div style="margin-top:7px;font-size:10px;font-weight:800;color:#5b21b6;
+                                  text-transform:uppercase;letter-spacing:0.8px;">Study Notes</div>
+                      <div style="margin-top:3px;font-size:10px;color:#8b5cf6;">All Semesters</div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <!-- CGPA -->
+              <td align="center" width="33%" style="padding:0 5px;">
+                <table role="presentation" align="center" cellpadding="0" cellspacing="0"
+                       style="width:100%;background:#eff6ff;border:1.5px solid #bfdbfe;
+                              border-radius:14px;overflow:hidden;">
+                  <tr>
+                    <td style="padding:14px 10px;text-align:center;">
+                      <div style="font-size:26px;line-height:1;">&#128202;</div>
+                      <div style="margin-top:7px;font-size:10px;font-weight:800;color:#1e40af;
+                                  text-transform:uppercase;letter-spacing:0.8px;">CGPA Calc</div>
+                      <div style="margin-top:3px;font-size:10px;color:#3b82f6;">Smart GPA Tool</div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <!-- Papers -->
+              <td align="center" width="33%" style="padding:0 5px;">
+                <table role="presentation" align="center" cellpadding="0" cellspacing="0"
+                       style="width:100%;background:#fdf4ff;border:1.5px solid #e9d5ff;
+                              border-radius:14px;overflow:hidden;">
+                  <tr>
+                    <td style="padding:14px 10px;text-align:center;">
+                      <div style="font-size:26px;line-height:1;">&#128196;</div>
+                      <div style="margin-top:7px;font-size:10px;font-weight:800;color:#7e22ce;
+                                  text-transform:uppercase;letter-spacing:0.8px;">Past Papers</div>
+                      <div style="margin-top:3px;font-size:10px;color:#a855f7;">PU Exam Bank</div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- ══ FOOTER BAR ══ -->
+      <tr>
+        <td style="background:linear-gradient(135deg,#0f0c29 0%,#1e1b4b 100%);
+                   padding:28px 32px;text-align:center;border-radius:0 0 24px 24px;">
+
+          <p style="margin:0 0 4px;font-size:14px;font-weight:800;color:#a5b4fc;letter-spacing:0.4px;">
+            BCSITHub &mdash; Pokhara University BCSIT Portal
+          </p>
+          <p style="margin:0 0 16px;font-size:11px;color:rgba(255,255,255,0.38);line-height:1.7;">
+            This is an automated message. Please do not reply directly to this email.
+          </p>
+
+          <!-- Trust badges -->
+          <div>
+            <span style="display:inline-block;background:rgba(255,255,255,0.07);
+                         border:1px solid rgba(255,255,255,0.14);border-radius:999px;
+                         padding:5px 13px;margin:3px;font-size:10px;font-weight:700;
+                         color:rgba(199,210,254,0.65);">&#128274; SSL Secured</span>
+            <span style="display:inline-block;background:rgba(255,255,255,0.07);
+                         border:1px solid rgba(255,255,255,0.14);border-radius:999px;
+                         padding:5px 13px;margin:3px;font-size:10px;font-weight:700;
+                         color:rgba(199,210,254,0.65);">&#128100; 2,500+ Students</span>
+            <span style="display:inline-block;background:rgba(255,255,255,0.07);
+                         border:1px solid rgba(255,255,255,0.14);border-radius:999px;
+                         padding:5px 13px;margin:3px;font-size:10px;font-weight:700;
+                         color:rgba(199,210,254,0.65);">&#127881; Free Platform</span>
+          </div>
+
+          <p style="margin:16px 0 0;font-size:10px;color:rgba(255,255,255,0.22);">
+            &copy; 2025 BCSITHub. All rights reserved.
+          </p>
+        </td>
+      </tr>
+"""
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  OTP EMAIL
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _build_steps_html(steps: list) -> str:
+    """Build numbered step rows HTML — computed outside f-strings for Python 3.10 compat."""
+    html = ""
+    for i, step in steps:
+        html += (
+            f'<table role="presentation" cellpadding="0" cellspacing="0"'
+            f' style="margin-bottom:12px;">'
+            f'<tr>'
+            f'<td style="width:28px;height:28px;min-width:28px;'
+            f'background:linear-gradient(135deg,#4338ca,#6366f1);'
+            f'border-radius:50%;text-align:center;vertical-align:middle;">'
+            f'<span style="font-size:12px;font-weight:800;color:#fff;">{i}</span>'
+            f'</td>'
+            f'<td style="padding-left:13px;font-size:13px;color:#475569;'
+            f'font-weight:500;line-height:1.6;">{step}</td>'
+            f'</tr>'
+            f'</table>'
+        )
+    return html
+
+
 def send_otp_email(to_email: str, name: str, otp: str) -> bool:
     """
-    Send a professional OTP verification email to the user.
+    Send a professional OTP verification email.
     Returns True if sent successfully, False otherwise.
     """
     if not settings.SMTP_EMAIL or not settings.SMTP_PASSWORD or settings.SMTP_EMAIL == "your-gmail@gmail.com":
         logger.warning("SMTP credentials not configured. Skipping email send.")
         logger.info(f"[DEV MODE] OTP for {to_email}: {otp}")
-        return True  # In dev without SMTP, still allow flow to continue
+        return True
 
     first_name = name.split()[0] if name else "Student"
-    otp_digits_html = _build_otp_digits_html(otp)
+    otp_digits_html = _otp_digit_boxes(otp)
+    otp_steps_html = _build_steps_html([
+        (1, "Return to the BCSITHub verification page in your browser"),
+        (2, "Enter the 6-digit code above into the input boxes"),
+        (3, 'Click <strong style="color:#4338ca;">Verify Email</strong> to activate your account'),
+    ])
 
-    subject = f"{otp} is your BCSITHub verification code"
+    subject = f"{otp} — Your BCSITHub Verification Code"
+
     html_body = f"""<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-  <title>Verify Your Email - BCSITHub</title>
+  <title>Verify Your Email — BCSITHub</title>
+  <style>
+    @media only screen and (max-width:600px){{
+      .card{{width:100%!important;border-radius:0!important;}}
+      .body-pad{{padding:28px 20px!important;}}
+      .otp-digit{{width:40px!important;height:52px!important;font-size:26px!important;line-height:52px!important;}}
+      .feature-cell{{display:block!important;width:100%!important;margin-bottom:10px;}}
+    }}
+  </style>
 </head>
-<body style="margin:0;padding:0;background-color:#eef2ff;font-family:'Segoe UI',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;">
+<body style="margin:0;padding:0;background:#e8e9f7;
+             font-family:'Segoe UI',Helvetica,Arial,sans-serif;
+             -webkit-font-smoothing:antialiased;">
 
-  <!-- Outer wrapper -->
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-         style="background-color:#eef2ff;padding:40px 16px;">
+         style="background:#e8e9f7;padding:40px 16px;">
     <tr>
       <td align="center">
 
-        <!-- Card container -->
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-               style="max-width:560px;background:#ffffff;border-radius:24px;
-                      overflow:hidden;box-shadow:0 20px 60px rgba(79,70,229,0.15);">
+        <!-- ═══ CARD ═══ -->
+        <table role="presentation" class="card" width="100%" cellpadding="0" cellspacing="0"
+               style="max-width:580px;background:#ffffff;border-radius:24px;
+                      overflow:hidden;box-shadow:0 24px 80px rgba(67,56,202,0.18);">
 
-          <!-- ═══════════════ HEADER ═══════════════ -->
+          {_email_header("Email Verification", "Pokhara University &mdash; BCSIT Student Portal")}
+
+          <!-- ══ BODY ══ -->
           <tr>
-            <td style="background:linear-gradient(135deg,#312e81 0%,#4f46e5 45%,#7c3aed 100%);
-                       padding:0;position:relative;overflow:hidden;">
-
-              <!-- Decorative circles -->
-              <div style="position:absolute;top:-30px;right:-30px;width:140px;height:140px;
-                          background:rgba(255,255,255,0.06);border-radius:50%;"></div>
-              <div style="position:absolute;bottom:-20px;left:-20px;width:100px;height:100px;
-                          background:rgba(255,255,255,0.04);border-radius:50%;"></div>
-
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td style="padding:40px 40px 32px;text-align:center;position:relative;z-index:1;">
-
-                    <!-- Logo badge -->
-                    <table role="presentation" align="center" cellpadding="0" cellspacing="0" style="margin:0 auto 20px;">
-                      <tr>
-                        <td style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);
-                                   border-radius:16px;padding:12px 22px;">
-                          <span style="font-size:24px;font-weight:900;color:#ffffff;
-                                       letter-spacing:-0.5px;font-family:'Segoe UI',Arial,sans-serif;">
-                            &#9733; BCSITHub
-                          </span>
-                        </td>
-                      </tr>
-                    </table>
-
-                    <h1 style="margin:0 0 8px;font-size:26px;font-weight:800;color:#ffffff;
-                                letter-spacing:-0.5px;line-height:1.3;">
-                      Email Verification
-                    </h1>
-                    <p style="margin:0;font-size:13px;color:rgba(255,255,255,0.70);font-weight:500;">
-                      Pokhara University &mdash; BCSIT Student Portal
-                    </p>
-
-                    <!-- Divider dots -->
-                    <div style="margin-top:20px;">
-                      <span style="display:inline-block;width:6px;height:6px;background:rgba(255,255,255,0.3);border-radius:50%;margin:0 3px;"></span>
-                      <span style="display:inline-block;width:6px;height:6px;background:rgba(255,255,255,0.6);border-radius:50%;margin:0 3px;"></span>
-                      <span style="display:inline-block;width:6px;height:6px;background:rgba(255,255,255,0.3);border-radius:50%;margin:0 3px;"></span>
-                    </div>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-
-          <!-- ═══════════════ BODY ═══════════════ -->
-          <tr>
-            <td style="padding:40px 40px 32px;">
+            <td class="body-pad" style="padding:36px 40px 28px;">
 
               <!-- Greeting -->
-              <p style="margin:0 0 6px;font-size:18px;font-weight:800;color:#1e293b;">
-                Hello, {first_name}! &#128075;
+              <p style="margin:0 0 6px;font-size:20px;font-weight:800;color:#1e293b;">
+                Hey, {first_name}! &#128075;
               </p>
-              <p style="margin:0 0 28px;font-size:14px;color:#64748b;line-height:1.7;font-weight:400;">
-                Thanks for joining <strong style="color:#4f46e5;">BCSITHub</strong>. To complete your registration
-                and unlock access to BCSIT syllabi, past papers, CGPA calculators, and more &mdash;
-                please verify your email using the one-time code below.
+              <p style="margin:0 0 30px;font-size:14px;color:#64748b;line-height:1.75;">
+                Welcome to <strong style="color:#4338ca;">BCSITHub</strong> — your all-in-one
+                academic hub for BCSIT students. Use the one-time code below to verify your
+                email and unlock full access to notes, past papers, CGPA tools, and more.
               </p>
 
-              <!-- OTP Section -->
+              <!-- ── OTP CARD ── -->
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-                     style="background:linear-gradient(135deg,#f8f7ff 0%,#ede9fe 100%);
-                            border:1px solid #ddd6fe;border-radius:18px;margin-bottom:28px;
-                            overflow:hidden;">
+                     style="background:linear-gradient(145deg,#1e1b4b 0%,#312e81 60%,#3730a3 100%);
+                            border-radius:20px;margin-bottom:28px;overflow:hidden;">
                 <tr>
-                  <td style="padding:28px 24px;text-align:center;">
-                    <p style="margin:0 0 16px;font-size:11px;font-weight:800;color:#6366f1;
+                  <td style="padding:32px 24px;text-align:center;">
+
+                    <!-- Label -->
+                    <p style="margin:0 0 20px;font-size:11px;font-weight:800;color:#a5b4fc;
                                text-transform:uppercase;letter-spacing:3px;">
                       &#128274;&nbsp; Your Verification Code
                     </p>
 
-                    <!-- Individual OTP digit boxes -->
+                    <!-- Digit boxes -->
                     <table role="presentation" align="center" cellpadding="0" cellspacing="0">
-                      <tr>
-                        {otp_digits_html}
-                      </tr>
+                      <tr>{otp_digits_html}</tr>
                     </table>
 
-                    <!-- Expiry badge -->
+                    <!-- Expiry -->
                     <table role="presentation" align="center" cellpadding="0" cellspacing="0"
-                           style="margin:18px auto 0;">
+                           style="margin:22px auto 0;">
                       <tr>
-                        <td style="background:#fef3c7;border:1px solid #fde68a;border-radius:20px;
-                                   padding:6px 16px;">
-                          <span style="font-size:12px;font-weight:700;color:#92400e;">
+                        <td style="background:rgba(254,243,199,0.15);
+                                   border:1.5px solid rgba(253,230,138,0.35);
+                                   border-radius:999px;padding:7px 20px;">
+                          <span style="font-size:12px;font-weight:700;color:#fde68a;">
                             &#9201;&nbsp; Expires in 10 minutes
                           </span>
                         </td>
                       </tr>
                     </table>
+
                   </td>
                 </tr>
               </table>
 
-              <!-- Steps -->
+              <!-- ── STEPS ── -->
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-                     style="background:#f8fafc;border-radius:14px;margin-bottom:24px;">
+                     style="background:#f8fafc;border:1.5px solid #e2e8f0;
+                            border-radius:16px;margin-bottom:24px;">
                 <tr>
-                  <td style="padding:20px 24px;">
-                    <p style="margin:0 0 14px;font-size:11px;font-weight:800;color:#334155;
+                  <td style="padding:22px 24px;">
+                    <p style="margin:0 0 16px;font-size:11px;font-weight:800;color:#334155;
                                text-transform:uppercase;letter-spacing:1.5px;">
                       &#9989;&nbsp; How to activate your account
                     </p>
-                    <table role="presentation" cellpadding="0" cellspacing="0">
-                      <tr>
-                        <td style="padding:5px 0;">
-                          <table role="presentation" cellpadding="0" cellspacing="0">
-                            <tr>
-                              <td style="width:24px;height:24px;background:#4f46e5;border-radius:50%;
-                                         text-align:center;vertical-align:middle;">
-                                <span style="font-size:11px;font-weight:800;color:#fff;">1</span>
-                              </td>
-                              <td style="padding-left:12px;font-size:13px;color:#475569;font-weight:500;line-height:1.5;">
-                                Return to the BCSITHub verification page in your browser
-                              </td>
-                            </tr>
-                          </table>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="padding:5px 0;">
-                          <table role="presentation" cellpadding="0" cellspacing="0">
-                            <tr>
-                              <td style="width:24px;height:24px;background:#4f46e5;border-radius:50%;
-                                         text-align:center;vertical-align:middle;">
-                                <span style="font-size:11px;font-weight:800;color:#fff;">2</span>
-                              </td>
-                              <td style="padding-left:12px;font-size:13px;color:#475569;font-weight:500;line-height:1.5;">
-                                Enter the 6-digit code above into the input boxes
-                              </td>
-                            </tr>
-                          </table>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="padding:5px 0;">
-                          <table role="presentation" cellpadding="0" cellspacing="0">
-                            <tr>
-                              <td style="width:24px;height:24px;background:#4f46e5;border-radius:50%;
-                                         text-align:center;vertical-align:middle;">
-                                <span style="font-size:11px;font-weight:800;color:#fff;">3</span>
-                              </td>
-                              <td style="padding-left:12px;font-size:13px;color:#475569;font-weight:500;line-height:1.5;">
-                                Click <strong style="color:#4f46e5;">Verify Email</strong> to activate your account
-                              </td>
-                            </tr>
-                          </table>
-                        </td>
-                      </tr>
-                    </table>
+                     {otp_steps_html}
                   </td>
                 </tr>
               </table>
 
-              <!-- Security notice -->
+              <!-- ── SECURITY NOTICE ── -->
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-                     style="background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;margin-bottom:24px;">
+                     style="background:#fff7ed;border:1.5px solid #fed7aa;border-radius:14px;
+                            margin-bottom:24px;">
                 <tr>
                   <td style="padding:14px 18px;">
-                    <p style="margin:0;font-size:12px;color:#9a3412;font-weight:600;line-height:1.6;">
-                      &#128274;&nbsp;<strong>Security Notice:</strong> BCSITHub will never ask for your password.
-                      This code is valid for one-time use only. Do not share it with anyone.
+                    <p style="margin:0;font-size:12px;color:#9a3412;font-weight:600;line-height:1.7;">
+                      &#128272;&nbsp;<strong>Security Notice:</strong> BCSITHub will
+                      <em>never</em> ask for your password. This code is valid for
+                      one-time use only. Do not share it with anyone.
                     </p>
                   </td>
                 </tr>
@@ -233,90 +336,20 @@ def send_otp_email(to_email: str, name: str, otp: str) -> bool:
               <!-- Disclaimer -->
               <p style="margin:0;font-size:12px;color:#94a3b8;line-height:1.7;text-align:center;">
                 If you did not create a BCSITHub account, please ignore this email &mdash;
-                your address will not be added to our system.
+                your address will <strong>not</strong> be added to our system.
               </p>
+
             </td>
           </tr>
 
-          <!-- ═══════════════ DIVIDER ═══════════════ -->
+          <!-- Divider -->
           <tr>
-            <td style="padding:0 40px;">
-              <div style="height:1px;background:linear-gradient(to right,transparent,#e2e8f0,transparent);"></div>
+            <td style="padding:0 32px;">
+              <div style="height:1px;background:linear-gradient(90deg,transparent,#e2e8f0,transparent);"></div>
             </td>
           </tr>
 
-          <!-- ═══════════════ FEATURE BADGES ═══════════════ -->
-          <tr>
-            <td style="padding:24px 40px;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td align="center" width="33%" style="padding:0 4px;">
-                    <table role="presentation" align="center" cellpadding="0" cellspacing="0"
-                           style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:10px 14px;">
-                      <tr>
-                        <td style="text-align:center;">
-                          <div style="font-size:20px;">&#128218;</div>
-                          <div style="font-size:10px;font-weight:800;color:#166534;margin-top:4px;text-transform:uppercase;letter-spacing:0.5px;">Study Notes</div>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                  <td align="center" width="33%" style="padding:0 4px;">
-                    <table role="presentation" align="center" cellpadding="0" cellspacing="0"
-                           style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:10px 14px;">
-                      <tr>
-                        <td style="text-align:center;">
-                          <div style="font-size:20px;">&#128202;</div>
-                          <div style="font-size:10px;font-weight:800;color:#1e40af;margin-top:4px;text-transform:uppercase;letter-spacing:0.5px;">CGPA Calc</div>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                  <td align="center" width="33%" style="padding:0 4px;">
-                    <table role="presentation" align="center" cellpadding="0" cellspacing="0"
-                           style="background:#fdf4ff;border:1px solid #e9d5ff;border-radius:10px;padding:10px 14px;">
-                      <tr>
-                        <td style="text-align:center;">
-                          <div style="font-size:20px;">&#128196;</div>
-                          <div style="font-size:10px;font-weight:800;color:#7e22ce;margin-top:4px;text-transform:uppercase;letter-spacing:0.5px;">Past Papers</div>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-
-          <!-- ═══════════════ FOOTER ═══════════════ -->
-          <tr>
-            <td style="background:linear-gradient(135deg,#1e1b4b 0%,#312e81 100%);
-                       padding:24px 40px;text-align:center;border-radius:0 0 24px 24px;">
-              <p style="margin:0 0 8px;font-size:13px;font-weight:800;color:#a5b4fc;letter-spacing:0.5px;">
-                BCSITHub &mdash; Pokhara University BCSIT Portal
-              </p>
-              <p style="margin:0 0 12px;font-size:11px;color:rgba(255,255,255,0.40);line-height:1.6;">
-                This is an automated security email. Please do not reply directly to this message.
-              </p>
-              <div style="margin:0;">
-                <span style="display:inline-block;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);
-                             border-radius:6px;padding:4px 10px;margin:2px;font-size:10px;font-weight:600;color:rgba(255,255,255,0.50);">
-                  &#128274; SSL Secured
-                </span>
-                <span style="display:inline-block;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);
-                             border-radius:6px;padding:4px 10px;margin:2px;font-size:10px;font-weight:600;color:rgba(255,255,255,0.50);">
-                  &#128100; 2,500+ Students
-                </span>
-                <span style="display:inline-block;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);
-                             border-radius:6px;padding:4px 10px;margin:2px;font-size:10px;font-weight:600;color:rgba(255,255,255,0.50);">
-                  &#127881; Free Platform
-                </span>
-              </div>
-              <p style="margin:14px 0 0;font-size:10px;color:rgba(255,255,255,0.25);">
-                &copy; 2025 BCSITHub. All rights reserved.
-              </p>
-            </td>
-          </tr>
+          {_email_footer()}
 
         </table>
         <!-- End card -->
@@ -345,4 +378,194 @@ def send_otp_email(to_email: str, name: str, otp: str) -> bool:
 
     except Exception as e:
         logger.error(f"Failed to send OTP email to {to_email}: {e}")
+        return False
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  PASSWORD RESET EMAIL
+# ─────────────────────────────────────────────────────────────────────────────
+
+def send_reset_password_email(to_email: str, name: str, reset_link: str) -> bool:
+    """
+    Send a professional password reset link email.
+    Returns True if sent successfully, False otherwise.
+    """
+    if not settings.SMTP_EMAIL or not settings.SMTP_PASSWORD or settings.SMTP_EMAIL == "your-gmail@gmail.com":
+        logger.warning("SMTP credentials not configured. Skipping email send.")
+        logger.info(f"[DEV MODE] Password reset link for {to_email}: {reset_link}")
+        return True
+
+    first_name = name.split()[0] if name else "Student"
+
+    subject = "Reset Your BCSITHub Password"
+
+    html_body = f"""<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <title>Reset Your Password — BCSITHub</title>
+  <style>
+    @media only screen and (max-width:600px){{
+      .card{{width:100%!important;border-radius:0!important;}}
+      .body-pad{{padding:28px 20px!important;}}
+      .reset-btn a{{font-size:14px!important;padding:14px 24px!important;}}
+      .feature-cell{{display:block!important;width:100%!important;margin-bottom:10px;}}
+    }}
+  </style>
+</head>
+<body style="margin:0;padding:0;background:#e8e9f7;
+             font-family:'Segoe UI',Helvetica,Arial,sans-serif;
+             -webkit-font-smoothing:antialiased;">
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+         style="background:#e8e9f7;padding:40px 16px;">
+    <tr>
+      <td align="center">
+
+        <!-- ═══ CARD ═══ -->
+        <table role="presentation" class="card" width="100%" cellpadding="0" cellspacing="0"
+               style="max-width:580px;background:#ffffff;border-radius:24px;
+                      overflow:hidden;box-shadow:0 24px 80px rgba(67,56,202,0.18);">
+
+          {_email_header("Password Reset", "Pokhara University &mdash; BCSIT Student Portal")}
+
+          <!-- ══ BODY ══ -->
+          <tr>
+            <td class="body-pad" style="padding:36px 40px 28px;">
+
+              <!-- Greeting -->
+              <p style="margin:0 0 6px;font-size:20px;font-weight:800;color:#1e293b;">
+                Hello, {first_name}! &#128075;
+              </p>
+              <p style="margin:0 0 28px;font-size:14px;color:#64748b;line-height:1.75;">
+                We received a request to reset the password for your
+                <strong style="color:#4338ca;">BCSITHub</strong> account.
+                Click the button below to set a new password and regain access to your
+                study materials, past papers, and more.
+              </p>
+
+              <!-- ── RESET BUTTON CARD ── -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                     style="background:linear-gradient(145deg,#1e1b4b 0%,#312e81 60%,#3730a3 100%);
+                            border-radius:20px;margin-bottom:28px;overflow:hidden;">
+                <tr>
+                  <td style="padding:36px 24px;text-align:center;">
+
+                    <p style="margin:0 0 8px;font-size:11px;font-weight:800;color:#a5b4fc;
+                               text-transform:uppercase;letter-spacing:3px;">
+                      &#128272;&nbsp; Secure Password Reset
+                    </p>
+                    <p style="margin:0 0 26px;font-size:13px;color:rgba(199,210,254,0.75);line-height:1.6;">
+                      This secure link expires in <strong style="color:#fde68a;">20 minutes</strong>.
+                      Only use it if you requested a password reset.
+                    </p>
+
+                    <!-- CTA Button -->
+                    <table role="presentation" class="reset-btn" align="center"
+                           cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="background:linear-gradient(135deg,#6366f1 0%,#4338ca 100%);
+                                   border-radius:14px;
+                                   box-shadow:0 8px 30px rgba(99,102,241,0.55);">
+                          <a href="{reset_link}" target="_blank"
+                             style="display:inline-block;padding:16px 44px;
+                                    font-size:16px;font-weight:800;color:#ffffff;
+                                    text-decoration:none;letter-spacing:-0.2px;
+                                    font-family:'Segoe UI',Arial,sans-serif;">
+                            &#128274;&nbsp; Reset My Password
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <!-- Fallback link -->
+                    <p style="margin:20px 0 0;font-size:11px;color:rgba(165,180,252,0.65);">
+                      Button not working? Copy and paste this link into your browser:
+                    </p>
+                    <p style="margin:6px 0 0;font-size:11px;word-break:break-all;">
+                      <a href="{reset_link}" style="color:#818cf8;text-decoration:underline;">
+                        {reset_link}
+                      </a>
+                    </p>
+
+                  </td>
+                </tr>
+              </table>
+
+              <!-- ── SECURITY STEPS ── -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                     style="background:#f8fafc;border:1.5px solid #e2e8f0;
+                            border-radius:16px;margin-bottom:24px;">
+                <tr>
+                  <td style="padding:22px 24px;">
+                    <p style="margin:0 0 16px;font-size:11px;font-weight:800;color:#334155;
+                               text-transform:uppercase;letter-spacing:1.5px;">
+                      &#9989;&nbsp; What happens next?
+                    </p>
+                     {reset_steps_html}
+                  </td>
+                </tr>
+              </table>
+
+              <!-- ── WARNING NOTICE ── -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                     style="background:#fff7ed;border:1.5px solid #fed7aa;border-radius:14px;
+                            margin-bottom:24px;">
+                <tr>
+                  <td style="padding:14px 18px;">
+                    <p style="margin:0;font-size:12px;color:#9a3412;font-weight:600;line-height:1.7;">
+                      &#9888;&nbsp;<strong>Didn't request this?</strong> If you didn't request a
+                      password reset, you can safely ignore this email. Your account will remain
+                      secure and no changes will be made.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Disclaimer -->
+              <p style="margin:0;font-size:12px;color:#94a3b8;line-height:1.7;text-align:center;">
+                For security, this link will expire in 20 minutes. If you need a new link,
+                visit the <strong>Forgot Password</strong> page again.
+              </p>
+
+            </td>
+          </tr>
+
+          <!-- Divider -->
+          <tr>
+            <td style="padding:0 32px;">
+              <div style="height:1px;background:linear-gradient(90deg,transparent,#e2e8f0,transparent);"></div>
+            </td>
+          </tr>
+
+          {_email_footer()}
+
+        </table>
+        <!-- End card -->
+
+      </td>
+    </tr>
+  </table>
+</body>
+</html>"""
+
+    try:
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = subject
+        msg["From"] = f"{settings.SMTP_FROM_NAME} <{settings.SMTP_EMAIL}>"
+        msg["To"] = to_email
+        msg.attach(MIMEText(html_body, "html"))
+
+        with smtplib.SMTP(settings.SMTP_HOST, settings.SMTP_PORT) as server:
+            server.ehlo()
+            server.starttls()
+            server.login(settings.SMTP_EMAIL, settings.SMTP_PASSWORD)
+            server.sendmail(settings.SMTP_EMAIL, to_email, msg.as_string())
+
+        logger.info(f"Password reset email sent successfully to {to_email}")
+        return True
+    except Exception as e:
+        logger.error(f"Failed to send password reset email to {to_email}: {e}")
         return False

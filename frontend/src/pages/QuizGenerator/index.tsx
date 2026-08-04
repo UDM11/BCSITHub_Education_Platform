@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useSEO } from "../../hooks/useSEO";
 import { motion, AnimatePresence } from "framer-motion";
 import { Brain, Sparkles, Clock, Target, Trophy, Zap } from "lucide-react";
@@ -18,14 +18,36 @@ interface QuizStats {
 }
 
 export function QuizGenerator() {
-  useSEO({
-    title: "PU BCSIT Exam Practice Quiz Generator | BCSITHub",
-    description: "Generate customized practice exams and multiple-choice quizzes dynamically from Pokhara University BCSIT syllabus topics.",
-    keywords: "bcsit exam quiz, pu mock exam, test generator, computer science quiz"
-  });
-
   const [activeStep, setActiveStep] = useState<"selection" | "quiz" | "results">("selection");
   const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null);
+
+  const seoTitle = useMemo(() => {
+    if (selectedSubject) {
+      return `${selectedSubject.courseName} Practice Quiz`;
+    }
+    return "PU BCSIT Exam Practice Quiz Generator";
+  }, [selectedSubject]);
+
+  const seoDescription = useMemo(() => {
+    if (selectedSubject) {
+      return `Generate customized practice exams, dynamic multiple-choice questions (MCQs), and mock test quizzes online for ${selectedSubject.courseName} (${selectedSubject.courseCode || 'PU BCSIT'}).`;
+    }
+    return "Generate customized practice exams and multiple-choice quizzes dynamically from Pokhara University BCSIT syllabus topics.";
+  }, [selectedSubject]);
+
+  const seoKeywords = useMemo(() => {
+    if (selectedSubject) {
+      return `${selectedSubject.courseName.toLowerCase()} mcqs, ${selectedSubject.courseCode?.toLowerCase() || ''} exam quiz, pu mock test`;
+    }
+    return "bcsit exam quiz, pu mock exam, test generator, computer science quiz";
+  }, [selectedSubject]);
+
+  useSEO({
+    title: seoTitle,
+    description: seoDescription,
+    keywords: seoKeywords,
+    image: "https://bcsithub.umeshdarlami.com.np/logo.jpg"
+  });
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);

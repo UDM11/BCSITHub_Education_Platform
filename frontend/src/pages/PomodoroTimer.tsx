@@ -1,5 +1,5 @@
 // src/pages/PomodoroTimer.tsx
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Play, Pause, RotateCcw, Settings, Timer, Coffee, Target,
@@ -54,12 +54,6 @@ const TIMER_TYPES = {
 };
 
 export function PomodoroTimer() {
-  useSEO({
-    title: "Pomodoro Focus Study Timer",
-    description: "Boost your studying productivity with the Pomodoro technique. Use customizable focus sessions and rest cycles matching your syllabus tasks.",
-    keywords: "pomodoro timer, study timer, productivity tool, bcsit study focus"
-  });
-
   const [currentType, setCurrentType] = useState<"work" | "shortBreak" | "longBreak">("work");
   const [timeLeft, setTimeLeft] = useState(TIMER_TYPES.work.duration);
   const [isRunning, setIsRunning] = useState(false);
@@ -79,6 +73,35 @@ export function PomodoroTimer() {
     longBreak: 15
   });
   const [completedCycles, setCompletedCycles] = useState(0);
+
+  const seoTitle = useMemo(() => {
+    const formattedType = currentType === "work" ? "Focus Session" : currentType === "shortBreak" ? "Short Break" : "Long Break";
+    return `Pomodoro Study Timer (${formattedType})`;
+  }, [currentType]);
+
+  useSEO({
+    title: seoTitle,
+    description: "Boost your studying productivity with the Pomodoro technique. Use customizable focus sessions and rest cycles matching your syllabus tasks.",
+    keywords: "pomodoro timer, study timer, productivity tool, bcsit study focus",
+    image: "https://bcsithub.umeshdarlami.com.np/logo.jpg"
+  });
+
+  // Dynamic Browser Tab Countdown Title
+  useEffect(() => {
+    if (isRunning) {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      const formattedTime = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+      const label = TIMER_TYPES[currentType].label;
+      document.title = `(${formattedTime}) ${label} | BCSITHub`;
+    } else {
+      const label = TIMER_TYPES[currentType].label;
+      document.title = `${label} - Pomodoro Study Timer | BCSITHub`;
+    }
+    return () => {
+      document.title = "Pomodoro Study Timer | BCSITHub";
+    };
+  }, [timeLeft, isRunning, currentType]);
   
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);

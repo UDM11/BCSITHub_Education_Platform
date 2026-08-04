@@ -4,9 +4,10 @@ interface SEOProps {
   title: string;
   description: string;
   keywords?: string;
+  image?: string;
 }
 
-export function useSEO({ title, description, keywords }: SEOProps) {
+export function useSEO({ title, description, keywords, image }: SEOProps) {
   useEffect(() => {
     // 1. Update Title
     const originalTitle = document.title;
@@ -49,6 +50,33 @@ export function useSEO({ title, description, keywords }: SEOProps) {
     }
     linkCanonical.setAttribute("href", canonicalUrl);
 
+    // 5. Update Open Graph & Twitter Social Metadata
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+    const twitterDesc = document.querySelector('meta[name="twitter:description"]');
+    const twitterImage = document.querySelector('meta[name="twitter:image"]');
+
+    const originalOgTitle = ogTitle?.getAttribute("content") || "";
+    const originalOgDesc = ogDesc?.getAttribute("content") || "";
+    const originalOgUrl = ogUrl?.getAttribute("content") || "";
+    const originalOgImage = ogImage?.getAttribute("content") || "";
+    const originalTwitterTitle = twitterTitle?.getAttribute("content") || "";
+    const originalTwitterDesc = twitterDesc?.getAttribute("content") || "";
+    const originalTwitterImage = twitterImage?.getAttribute("content") || "";
+
+    const previewImage = image || "https://bcsithub.umeshdarlami.com.np/logo.jpg";
+
+    if (ogTitle) ogTitle.setAttribute("content", `${title} | BCSITHub`);
+    if (ogDesc) ogDesc.setAttribute("content", description);
+    if (ogUrl) ogUrl.setAttribute("content", canonicalUrl);
+    if (ogImage) ogImage.setAttribute("content", previewImage);
+    if (twitterTitle) twitterTitle.setAttribute("content", `${title} | BCSITHub`);
+    if (twitterDesc) twitterDesc.setAttribute("content", description);
+    if (twitterImage) twitterImage.setAttribute("content", previewImage);
+
     // Cleanup to restore previous meta tags when component unmounts
     return () => {
       document.title = originalTitle;
@@ -65,7 +93,14 @@ export function useSEO({ title, description, keywords }: SEOProps) {
           linkCanonical.remove();
         }
       }
+      if (ogTitle && originalOgTitle) ogTitle.setAttribute("content", originalOgTitle);
+      if (ogDesc && originalOgDesc) ogDesc.setAttribute("content", originalOgDesc);
+      if (ogUrl && originalOgUrl) ogUrl.setAttribute("content", originalOgUrl);
+      if (ogImage && originalOgImage) ogImage.setAttribute("content", originalOgImage);
+      if (twitterTitle && originalTwitterTitle) twitterTitle.setAttribute("content", originalTwitterTitle);
+      if (twitterDesc && originalTwitterDesc) twitterDesc.setAttribute("content", originalTwitterDesc);
+      if (twitterImage && originalTwitterImage) twitterImage.setAttribute("content", originalTwitterImage);
     };
-  }, [title, description, keywords]);
+  }, [title, description, keywords, image]);
 }
 export default useSEO;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Download,
   Calendar,
@@ -22,7 +22,7 @@ import { NoticeReaderModal } from '../components/common/NoticeReaderModal';
 import LoginRedirectModal from '../components/common/LoginRedirectModal';
 import { motion, AnimatePresence } from 'framer-motion';
 import { apiClient } from '../lib/apiClient';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useSEO } from '../hooks/useSEO';
 
 interface Notice {
@@ -56,12 +56,6 @@ interface PythonNoticeItem {
 }
 
 const PUNotices: React.FC = () => {
-  useSEO({
-    title: "Pokhara University Official Notices & Exam Schedules",
-    description: "Stay updated with official Pokhara University (PU) exam schedules, result publications, admission calls, and general notices.",
-    keywords: "pu notices, pokhara university notices, exam schedule, pu results"
-  });
-
   const { user } = useAuth();
   const isAdmin = user?.role === 'admin';
   const { noticeId } = useParams();
@@ -78,6 +72,39 @@ const PUNotices: React.FC = () => {
   
   // Notice Preview Modal State
   const [selectedNoticeForPreview, setSelectedNoticeForPreview] = useState<Notice | null>(null);
+
+  // Find current notice matching URL parameters
+  const currentNotice = useMemo(() => {
+    if (!noticeId || notices.length === 0) return null;
+    return notices.find((n) => n.objectId === noticeId || slugify(n.title) === noticeId) || null;
+  }, [noticeId, notices]);
+
+  const seoTitle = useMemo(() => {
+    if (currentNotice) {
+      return `${currentNotice.title}`;
+    }
+    if (selectedCategory) {
+      return `${selectedCategory} Notices`;
+    }
+    return "Pokhara University Official Notices";
+  }, [currentNotice, selectedCategory]);
+
+  const seoDescription = useMemo(() => {
+    if (currentNotice) {
+      const excerpt = currentNotice.content 
+        ? currentNotice.content.substring(0, 150) + "..." 
+        : `Official Pokhara University notice published on ${currentNotice.date.toLocaleDateString()}.`;
+      return excerpt;
+    }
+    return "Stay updated with official Pokhara University (PU) exam schedules, result publications, admission calls, and general notices.";
+  }, [currentNotice]);
+
+  useSEO({
+    title: seoTitle,
+    description: seoDescription,
+    keywords: `pu notices, pokhara university notices, exam schedule, pu results${selectedCategory ? `, pu ${selectedCategory.toLowerCase()} notices` : ''}`,
+    image: "https://bcsithub.umeshdarlami.com.np/logo.jpg"
+  });
 
   useEffect(() => {
     const fetchNotices = async () => {
@@ -397,6 +424,31 @@ const PUNotices: React.FC = () => {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Active Filter Chips */}
+        {(selectedCategory || searchTerm) && (
+          <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-slate-100 max-w-6xl mx-auto justify-start text-left items-center">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-1">Active Filters:</span>
+            {selectedCategory && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-indigo-50 border border-indigo-100 text-indigo-700 text-[10px] font-bold rounded-xl">
+                <span>Category: {selectedCategory}</span>
+                <button onClick={() => setSelectedCategory('')} className="hover:text-indigo-900 font-extrabold text-xs">×</button>
+              </span>
+            )}
+            {searchTerm && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-rose-50 border border-rose-100 text-rose-700 text-[10px] font-bold rounded-xl">
+                <span>Query: "{searchTerm}"</span>
+                <button onClick={() => setSearchTerm('')} className="hover:text-rose-900 font-extrabold text-xs">×</button>
+              </span>
+            )}
+            <button
+              onClick={() => { setSelectedCategory(''); setSearchTerm(''); }}
+              className="text-[10px] font-bold text-slate-400 hover:text-indigo-650 transition-colors uppercase ml-2 underline cursor-pointer"
+            >
+              Reset All
+            </button>
+          </div>
+        )}
       </section>
 
       {/* Main Notices Directory Content */}
@@ -433,24 +485,116 @@ const PUNotices: React.FC = () => {
                 
                 return viewMode === 'grid' ? (
                   /* Grid View Card */
-                  <motion.div
+                  <Link
                     key={notice.objectId}
-                    variants={itemVariants}
-                    onClick={() => handleCardClick(notice)}
-                    className="bg-white rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md hover:border-indigo-400 transition-all duration-350 overflow-hidden flex flex-col h-full text-left group cursor-pointer"
+                    to={`/pu-notices/${slugify(notice.title)}`}
+                    className="block h-full cursor-pointer"
                   >
-                    {/* Notice Card Body */}
-                    <div className="p-6 flex flex-col flex-1 relative justify-between">
-                      <div>
-                        <div className="flex items-center justify-between mb-4.5">
-                          <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full border text-[9px] font-black tracking-wide uppercase ${getCategoryColor(notice.category)}`}>
-                            {getCategoryIcon(notice.category)}
-                            <span>{notice.category}</span>
+                    <motion.div
+                      variants={itemVariants}
+                      className="bg-white rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md hover:border-indigo-400 transition-all duration-355 overflow-hidden flex flex-col h-full text-left group cursor-pointer"
+                    >
+                      {/* Notice Card Body */}
+                      <div className="p-6 flex flex-col flex-1 relative justify-between">
+                        <div>
+                          <div className="flex items-center justify-between mb-4.5">
+                            <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full border text-[9px] font-black tracking-wide uppercase ${getCategoryColor(notice.category)}`}>
+                              {getCategoryIcon(notice.category)}
+                              <span>{notice.category}</span>
+                            </div>
+                            
+                            <div className="text-[10px] text-slate-400 font-bold flex items-center gap-1.5">
+                              <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                              <span>
+                                {notice.date.toLocaleDateString('en-US', {
+                                  month: 'short',
+                                  day: 'numeric',
+                                  year: 'numeric',
+                                })}
+                              </span>
+                            </div>
                           </div>
-                          
-                          <div className="text-[10px] text-slate-400 font-bold flex items-center gap-1.5">
-                            <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                            <span>
+
+                          <h3 className="text-sm sm:text-base font-extrabold text-slate-800 mb-3 group-hover:text-indigo-650 transition-colors leading-snug line-clamp-2">
+                            {notice.title}
+                          </h3>
+
+                          {notice.content && (
+                            <p className="text-xs text-slate-400 leading-relaxed font-medium line-clamp-3 mb-4">
+                              {notice.content}
+                            </p>
+                          )}
+                        </div>
+
+                        <div className="flex items-center justify-between text-[10px] text-slate-400 font-semibold border-t border-slate-100/80 pt-3.5 mt-4">
+                          {hasFile ? (
+                            <>
+                              <div className="flex items-center gap-1.5 truncate max-w-[170px]">
+                                <FileText className="w-4 h-4 text-indigo-500 flex-shrink-0" />
+                                <span className="truncate font-bold text-slate-500">
+                                  {notice.fileName}
+                                </span>
+                              </div>
+                              <span className="bg-slate-50 border border-slate-150 px-2 py-0.5 rounded text-[8px] font-black uppercase text-slate-500">
+                                {notice.fileSize}
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <div className="flex items-center gap-1.5">
+                                <Bell className="w-4 h-4 text-purple-500 flex-shrink-0" />
+                                <span className="font-bold text-purple-650">
+                                  Text announcement
+                                </span>
+                              </div>
+                              <span className="bg-purple-50 border border-purple-100 px-2.5 py-0.5 rounded-full text-[8px] font-black uppercase text-purple-600">
+                                No attachment
+                              </span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Footer Call-to-Action */}
+                      <div className="p-4 bg-slate-50/40 border-t border-slate-100/60 flex items-center justify-between group-hover:bg-slate-50/80 transition-colors">
+                        <span className="text-[10px] font-black text-indigo-600 flex items-center gap-1">
+                          {hasFile ? "View Attachment & Details" : "Read Announcement"}
+                          <ChevronRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
+                        </span>
+                      </div>
+                    </motion.div>
+                  </Link>
+                ) : (
+                  /* List View Card */
+                  <Link
+                    key={notice.objectId}
+                    to={`/pu-notices/${slugify(notice.title)}`}
+                    className="block cursor-pointer"
+                  >
+                    <motion.div
+                      variants={itemVariants}
+                      className="bg-white rounded-2xl border border-slate-200/50 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm hover:shadow-md hover:border-indigo-400 transition-all duration-300 cursor-pointer text-left group"
+                    >
+                      <div className="flex items-start gap-4 flex-1 min-w-0">
+                        {/* Left icon wrapper */}
+                        <div className={`w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0 ${
+                          notice.category === 'Exam' ? 'bg-rose-50 border border-rose-100 text-rose-600' :
+                          notice.category === 'Admission' ? 'bg-sky-50 border border-sky-100 text-sky-600' :
+                          notice.category === 'Result' ? 'bg-emerald-50 border border-emerald-100 text-emerald-600' :
+                          'bg-purple-50 border border-purple-100 text-purple-600'
+                        }`}>
+                          {getCategoryIcon(notice.category)}
+                        </div>
+
+                        {/* Middle description columns */}
+                        <div className="space-y-1 flex-1 min-w-0">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="text-[9px] font-black uppercase tracking-wider text-slate-400">
+                              {notice.category} Notice
+                            </span>
+                            <span className="text-[9px] text-slate-400 font-bold">•</span>
+                            <span className="text-[9px] text-slate-400 font-bold flex items-center gap-1">
+                              <Calendar className="w-3 h-3 text-slate-400" />
                               {notice.date.toLocaleDateString('en-US', {
                                 month: 'short',
                                 day: 'numeric',
@@ -458,123 +602,39 @@ const PUNotices: React.FC = () => {
                               })}
                             </span>
                           </div>
+                          
+                          <h4 className="text-xs sm:text-sm font-extrabold text-slate-800 group-hover:text-indigo-650 transition-colors truncate">
+                            {notice.title}
+                          </h4>
+
+                          {notice.content && (
+                            <p className="text-[10px] text-slate-400 truncate leading-snug font-medium max-w-xl">
+                              {notice.content}
+                            </p>
+                          )}
                         </div>
-
-                        <h3 className="text-sm sm:text-base font-extrabold text-slate-800 mb-3 group-hover:text-indigo-650 transition-colors leading-snug line-clamp-2">
-                          {notice.title}
-                        </h3>
-
-                        {notice.content && (
-                          <p className="text-xs text-slate-400 leading-relaxed font-medium line-clamp-3 mb-4">
-                            {notice.content}
-                          </p>
-                        )}
                       </div>
 
-                      <div className="flex items-center justify-between text-[10px] text-slate-400 font-semibold border-t border-slate-100/80 pt-3.5 mt-4">
+                      {/* Right side attachment flags */}
+                      <div className="flex items-center gap-3 shrink-0 self-stretch sm:self-auto border-t sm:border-0 border-slate-100 pt-3 sm:pt-0 justify-between sm:justify-end">
                         {hasFile ? (
-                          <>
-                            <div className="flex items-center gap-1.5 truncate max-w-[170px]">
-                              <FileText className="w-4 h-4 text-indigo-500 flex-shrink-0" />
-                              <span className="truncate font-bold text-slate-500">
-                                {notice.fileName}
-                              </span>
-                            </div>
-                            <span className="bg-slate-50 border border-slate-150 px-2 py-0.5 rounded text-[8px] font-black uppercase text-slate-500">
-                              {notice.fileSize}
-                            </span>
-                          </>
+                          <div className="flex items-center gap-2 bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-xl text-[10px]">
+                            <FileText className="w-3.5 h-3.5 text-indigo-500" />
+                            <span className="font-bold text-slate-500">{notice.fileSize}</span>
+                          </div>
                         ) : (
-                          <>
-                            <div className="flex items-center gap-1.5">
-                              <Bell className="w-4 h-4 text-purple-500 flex-shrink-0" />
-                              <span className="font-bold text-purple-650">
-                                Text announcement
-                              </span>
-                            </div>
-                            <span className="bg-purple-50 border border-purple-100 px-2.5 py-0.5 rounded-full text-[8px] font-black uppercase text-purple-600">
-                              No attachment
-                            </span>
-                          </>
+                          <div className="flex items-center gap-2 bg-purple-50/50 border border-purple-100 px-3 py-1.5 rounded-xl text-[10px]">
+                            <Bell className="w-3.5 h-3.5 text-purple-500" />
+                            <span className="font-bold text-purple-650">Text-Only</span>
+                          </div>
                         )}
-                      </div>
-                    </div>
-
-                    {/* Footer Call-to-Action */}
-                    <div className="p-4 bg-slate-50/40 border-t border-slate-100/60 flex items-center justify-between group-hover:bg-slate-50/80 transition-colors">
-                      <span className="text-[10px] font-black text-indigo-600 flex items-center gap-1">
-                        {hasFile ? "View Attachment & Details" : "Read Announcement"}
-                        <ChevronRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
-                      </span>
-                    </div>
-                  </motion.div>
-                ) : (
-                  /* List View Card */
-                  <motion.div
-                    key={notice.objectId}
-                    variants={itemVariants}
-                    onClick={() => handleCardClick(notice)}
-                    className="bg-white rounded-2xl border border-slate-200/50 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm hover:shadow-md hover:border-indigo-400 transition-all duration-300 cursor-pointer text-left group"
-                  >
-                    <div className="flex items-start gap-4 flex-1 min-w-0">
-                      {/* Left icon wrapper */}
-                      <div className={`w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0 ${
-                        notice.category === 'Exam' ? 'bg-rose-50 border border-rose-100 text-rose-600' :
-                        notice.category === 'Admission' ? 'bg-sky-50 border border-sky-100 text-sky-600' :
-                        notice.category === 'Result' ? 'bg-emerald-50 border border-emerald-100 text-emerald-600' :
-                        'bg-purple-50 border border-purple-100 text-purple-600'
-                      }`}>
-                        {getCategoryIcon(notice.category)}
-                      </div>
-
-                      {/* Middle description columns */}
-                      <div className="space-y-1 flex-1 min-w-0">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="text-[9px] font-black uppercase tracking-wider text-slate-400">
-                            {notice.category} Notice
-                          </span>
-                          <span className="text-[9px] text-slate-400 font-bold">•</span>
-                          <span className="text-[9px] text-slate-400 font-bold flex items-center gap-1">
-                            <Calendar className="w-3 h-3 text-slate-400" />
-                            {notice.date.toLocaleDateString('en-US', {
-                              month: 'short',
-                              day: 'numeric',
-                              year: 'numeric',
-                            })}
-                          </span>
-                        </div>
                         
-                        <h4 className="text-xs sm:text-sm font-extrabold text-slate-800 group-hover:text-indigo-650 transition-colors truncate">
-                          {notice.title}
-                        </h4>
-
-                        {notice.content && (
-                          <p className="text-[10px] text-slate-400 truncate leading-snug font-medium max-w-xl">
-                            {notice.content}
-                          </p>
-                        )}
+                        <button className="h-8 w-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-455 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-all">
+                          <ChevronRight className="w-4 h-4" />
+                        </button>
                       </div>
-                    </div>
-
-                    {/* Right side attachment flags */}
-                    <div className="flex items-center gap-3 shrink-0 self-stretch sm:self-auto border-t sm:border-0 border-slate-100 pt-3 sm:pt-0 justify-between sm:justify-end">
-                      {hasFile ? (
-                        <div className="flex items-center gap-2 bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-xl text-[10px]">
-                          <FileText className="w-3.5 h-3.5 text-indigo-500" />
-                          <span className="font-bold text-slate-500">{notice.fileSize}</span>
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-2 bg-purple-50/50 border border-purple-100 px-3 py-1.5 rounded-xl text-[10px]">
-                          <Bell className="w-3.5 h-3.5 text-purple-500" />
-                          <span className="font-bold text-purple-600">Text-Only</span>
-                        </div>
-                      )}
-                      
-                      <button className="h-8 w-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-450 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-all">
-                        <ChevronRight className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </motion.div>
+                    </motion.div>
+                  </Link>
                 );
               })}
             </motion.div>

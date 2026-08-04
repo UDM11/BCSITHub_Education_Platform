@@ -33,6 +33,7 @@ import {
   Code,
   Calculator,
   Search,
+  Bell,
 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card, CardContent } from '../components/ui/Card';
@@ -41,7 +42,12 @@ import { useProfile } from '../context/ProfileContext';
 import { useInstallModal } from '@/context/InstallModalContext';
 import { collegesData } from '../data/collegesData';
 import { semesterData } from '../data/syllabusData';
+import { semestersData } from '../data/notesData';
 import { useSEO } from '../hooks/useSEO';
+import { apiClient } from '../lib/apiClient';
+import { PaperPreviewModal } from '../components/Notes/PaperPreviewModal';
+import LoginRedirectModal from '../components/common/LoginRedirectModal';
+import { NoticeReaderModal } from '../components/common/NoticeReaderModal';
 
 // Stepped how-it-works steps
 const howItWorksSteps = [
@@ -178,6 +184,110 @@ export function Home() {
   const { open: openInstallModal } = useInstallModal();
   const navigate = useNavigate();
 
+  const [latestPapers, setLatestPapers] = useState<any[]>([]);
+  const [papersLoading, setPapersLoading] = useState(true);
+  const [selectedPaper, setSelectedPaper] = useState<any | null>(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  
+  const [latestNotices, setLatestNotices] = useState<any[]>([]);
+  const [noticesLoading, setNoticesLoading] = useState(true);
+  const [selectedNotice, setSelectedNotice] = useState<any | null>(null);
+
+  const mapPaper = (item: any) => ({
+    objectId: item.id,
+    title: item.title,
+    subject: item.subject,
+    semester: item.semester,
+    examType: item.exam_type,
+    college: item.college,
+    uploadedAt: item.created_at,
+    uploadedBy: item.uploaded_by || '',
+    downloads: item.downloads,
+    approved: item.approved,
+    fileUrl: item.file_url,
+    ownerId: item.uploaded_by || '',
+    uploaderName: item.uploader_name || '',
+    uploaderRole: item.uploader_role || '',
+  });
+
+  useEffect(() => {
+    const fetchLatestNotices = async () => {
+      try {
+        setNoticesLoading(true);
+        const data = (await apiClient.get('/notices')) as any[];
+        const mapped = data.slice(0, 3).map((item: any) => ({
+          objectId: item.id,
+          title: item.title,
+          date: new Date(item.date),
+          fileUrl: item.file_url,
+          fileName: item.file_name,
+          fileSize: item.file_size,
+          category: item.category,
+          content: item.content,
+        }));
+        setLatestNotices(mapped);
+      } catch (err) {
+        console.error('Error fetching latest notices:', err);
+      } finally {
+        setNoticesLoading(false);
+      }
+    };
+    fetchLatestNotices();
+  }, []);
+
+  useEffect(() => {
+    const fetchLatestPapers = async () => {
+      try {
+        setPapersLoading(true);
+        const data = (await apiClient.get('/papers')) as any[];
+        const approved = data.filter((p: any) => p.approved).slice(0, 4);
+        setLatestPapers(approved);
+      } catch (err) {
+        console.error('Error fetching latest papers:', err);
+      } finally {
+        setPapersLoading(false);
+      }
+    };
+    fetchLatestPapers();
+  }, []);
+
+  const handleDownload = async (paper: any) => {
+    if (!user) {
+      setShowLoginModal(true);
+      return;
+    }
+    const fileUrl = paper.fileUrl || paper.file_url;
+    const paperId = paper.objectId || paper.id;
+    if (!fileUrl) return;
+    window.open(fileUrl, '_blank');
+    try {
+      await apiClient.post(`/papers/${paperId}/download`, {});
+      setLatestPapers(prev =>
+        prev.map(p => (p.id === paperId ? { ...p, downloads: (p.downloads || 0) + 1 } : p))
+      );
+      if (selectedPaper && (selectedPaper.objectId === paperId || selectedPaper.id === paperId)) {
+        setSelectedPaper(prev => prev ? { ...prev, downloads: (prev.downloads || 0) + 1 } : null);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const formatUploadedDate = (dateString: string) => {
+    try {
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffTime = Math.abs(now.getTime() - date.getTime());
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      if (diffDays <= 1) return 'Today';
+      if (diffDays === 2) return 'Yesterday';
+      if (diffDays <= 7) return `${diffDays - 1} days ago`;
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    } catch {
+      return 'Recently';
+    }
+  };
+
   // Autofill user's current semester if logged in
   useEffect(() => {
     if (user && profile?.semester) {
@@ -298,133 +408,88 @@ export function Home() {
               </motion.div>
             </div>
 
-            {/* Hero Right Content (Interactive CSS Mockup Dashboard) */}
+            {/* Hero Right Content: Live PU Notices Feed */}
             <div className="lg:col-span-5 relative w-full flex justify-center">
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="w-full max-w-sm sm:max-w-md bg-slate-900/60 backdrop-blur-md border border-slate-800 rounded-3xl p-5 shadow-2xl relative overflow-hidden flex flex-col space-y-4"
+                className="w-full max-w-sm sm:max-w-md bg-slate-900/70 backdrop-blur-md border border-slate-800 rounded-3xl p-6 shadow-2xl relative overflow-hidden flex flex-col space-y-5"
               >
-                {/* Background lighting within container */}
+                {/* Background glow effects */}
                 <div className="absolute -top-12 -right-12 w-32 h-32 bg-indigo-500/20 rounded-full blur-2xl pointer-events-none" />
                 <div className="absolute -bottom-12 -left-12 w-24 h-24 bg-purple-500/10 rounded-full blur-xl pointer-events-none" />
 
-                {/* Mockup Header */}
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3 relative z-10">
+                {/* Widget Header */}
+                <div className="flex items-center justify-between border-b border-slate-800 pb-3.5 relative z-10">
                   <div className="flex items-center space-x-2">
-                    <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
-                  </div>
-                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Portal Preview</span>
-                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                </div>
-
-                {/* Dashboard Intro Widget */}
-                <div className="bg-slate-850/60 border border-slate-800/80 p-3.5 rounded-2xl z-10 animate-fade-in">
-                  <div className="flex flex-col text-left">
-                    <span className="text-xs font-bold text-slate-200">Welcome Back, {displayName}</span>
-                    <span className="text-[10px] text-slate-400">{displaySemester} • {displayCollege}</span>
+                    <div className="w-8 h-8 rounded-xl bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 text-indigo-400">
+                      <Bell className="w-4 h-4" />
+                    </div>
+                    <span className="text-xs font-bold text-slate-200 tracking-wide uppercase">PU Notices</span>
                   </div>
                 </div>
 
-                {/* Widgets Row */}
-                <div className="grid grid-cols-2 gap-3 relative z-10">
-                  {/* GPA Progress circle widget */}
-                  <motion.div 
-                    whileHover={{ y: -4 }}
-                    className="bg-slate-850/60 border border-slate-800/80 p-3.5 rounded-2xl flex flex-col items-center justify-center text-center"
+                {/* Notices List */}
+                <div className="flex flex-col space-y-3 z-10">
+                  {noticesLoading ? (
+                    <div className="flex flex-col items-center justify-center py-12 space-y-2">
+                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-500"></div>
+                      <span className="text-[10px] text-slate-400">Loading notices...</span>
+                    </div>
+                  ) : latestNotices.length === 0 ? (
+                    <div className="text-center py-8">
+                      <span className="text-[11px] text-slate-500">No active notices found.</span>
+                    </div>
+                  ) : (
+                    latestNotices.map((notice) => {
+                      const categoryColors: Record<string, string> = {
+                        Exam: 'text-purple-400 bg-purple-500/10 border-purple-500/20',
+                        Admission: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
+                        Result: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
+                        General: 'text-blue-400 bg-blue-500/10 border-blue-500/20',
+                      };
+                      return (
+                        <motion.div
+                          key={notice.objectId}
+                          whileHover={{ x: 4, backgroundColor: 'rgba(255,255,255,0.03)' }}
+                          onClick={() => setSelectedNotice(notice)}
+                          className="bg-slate-950/40 border border-slate-800/80 rounded-2xl p-3.5 flex flex-col text-left space-y-2 cursor-pointer transition-all duration-200"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className={`text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider border ${categoryColors[notice.category] || categoryColors.General}`}>
+                              {notice.category}
+                            </span>
+                            <span className="text-[9px] text-slate-500 font-medium">
+                              {notice.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                            </span>
+                          </div>
+                          <h4 className="text-xs font-bold text-slate-200 line-clamp-2 leading-relaxed hover:text-indigo-400 transition-colors pr-2">
+                            {notice.title}
+                          </h4>
+                          {notice.fileUrl && (
+                            <div className="flex items-center space-x-1.5 text-[10px] text-slate-400 pt-0.5">
+                              <FileText className="w-3 h-3 text-indigo-400" />
+                              <span className="truncate max-w-[200px] text-[9px]">{notice.fileName || 'Notice Attachment'}</span>
+                            </div>
+                          )}
+                        </motion.div>
+                      );
+                    })
+                  )}
+                </div>
+
+                {/* Footer Link */}
+                <div className="pt-2 z-10">
+                  <Button
+                    onClick={() => navigate('/pu-notices')}
+                    variant="outline"
+                    className="w-full border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white bg-slate-950/20 hover:bg-slate-900/50 py-2.5 rounded-xl font-semibold text-xs transition-colors"
                   >
-                    <span className="text-[10px] font-semibold text-slate-400 mb-2">Target CGPA</span>
-                    <div className="relative w-16 h-16 flex items-center justify-center">
-                      <svg className="w-full h-full transform -rotate-90">
-                        <circle cx="32" cy="32" r="28" className="stroke-slate-800 fill-transparent" strokeWidth="4" />
-                        <circle cx="32" cy="32" r="28" className="stroke-indigo-500 fill-transparent" strokeWidth="4" strokeDasharray="175" strokeDashoffset="35" strokeLinecap="round" />
-                      </svg>
-                      <span className="absolute text-xs font-bold text-slate-200">3.84</span>
-                    </div>
-                  </motion.div>
-
-                  {/* Study Streak widget */}
-                  <motion.div 
-                    whileHover={{ y: -4 }}
-                    className="bg-slate-850/60 border border-slate-800/80 p-3.5 rounded-2xl flex flex-col items-center justify-center text-center"
-                  >
-                    <span className="text-[10px] font-semibold text-slate-400 mb-2">Study Streak</span>
-                    <div className="w-10 h-10 bg-rose-500/10 border border-rose-500/20 rounded-full flex items-center justify-center mb-1">
-                      <Flame className="w-5 h-5 text-rose-500 animate-bounce" />
-                    </div>
-                    <span className="text-xs font-bold text-slate-200">12 Days</span>
-                  </motion.div>
+                    <span>Browse All Notices</span>
+                    <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+                  </Button>
                 </div>
-
-                {/* Recent Activities List Widget */}
-                <div className="bg-slate-850/60 border border-slate-800/80 p-3.5 rounded-2xl flex flex-col text-left space-y-2 relative z-10">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Recent Study Activity</span>
-                  
-                  <div className="flex items-center justify-between text-xs py-1 border-b border-slate-800/50">
-                    <div className="flex items-center space-x-2">
-                      <FileText className="w-3.5 h-3.5 text-indigo-400 flex-shrink-0" />
-                      <span className="text-slate-300 truncate max-w-[150px]">Software Engineering Notes</span>
-                    </div>
-                    <span className="text-[10px] text-slate-500 font-medium">Just now</span>
-                  </div>
-
-                  <div className="flex items-center justify-between text-xs py-1">
-                    <div className="flex items-center space-x-2">
-                      <GraduationCap className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
-                      <span className="text-slate-300 truncate max-w-[150px]">Solved Question paper 2024</span>
-                    </div>
-                    <span className="text-[10px] text-slate-500 font-medium">2h ago</span>
-                  </div>
-                </div>
-
-                {/* Mini bar chart tracker */}
-                <div className="bg-slate-850/60 border border-slate-800/80 p-3.5 rounded-2xl flex flex-col text-left relative z-10">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3">Study Time Tracker (Hours)</span>
-                  <div className="flex items-end justify-between h-12 px-2">
-                    <div className="flex flex-col items-center space-y-1">
-                      <div className="w-3 bg-slate-800 rounded-t-sm h-6" />
-                      <span className="text-[8px] text-slate-500">M</span>
-                    </div>
-                    <div className="flex flex-col items-center space-y-1">
-                      <div className="w-3 bg-indigo-500 rounded-t-sm h-10" />
-                      <span className="text-[8px] text-slate-500">T</span>
-                    </div>
-                    <div className="flex flex-col items-center space-y-1">
-                      <div className="w-3 bg-indigo-500 rounded-t-sm h-8" />
-                      <span className="text-[8px] text-slate-500">W</span>
-                    </div>
-                    <div className="flex flex-col items-center space-y-1">
-                      <div className="w-3 bg-purple-500 rounded-t-sm h-12" />
-                      <span className="text-[8px] text-slate-500">T</span>
-                    </div>
-                    <div className="flex flex-col items-center space-y-1">
-                      <div className="w-3 bg-slate-800 rounded-t-sm h-4" />
-                      <span className="text-[8px] text-slate-500">F</span>
-                    </div>
-                    <div className="flex flex-col items-center space-y-1">
-                      <div className="w-3 bg-emerald-500 rounded-t-sm h-9" />
-                      <span className="text-[8px] text-slate-500">S</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Floating crown badge */}
-                <motion.div
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                  className="absolute -top-3 -left-6 bg-white border border-slate-100 rounded-2xl shadow-lg p-2.5 flex items-center space-x-2 text-slate-800 scale-90 z-20 pointer-events-none"
-                >
-                  <div className="w-8 h-8 bg-amber-500/10 rounded-xl flex items-center justify-center">
-                    <Trophy className="w-4 h-4 text-amber-500" />
-                  </div>
-                  <div className="flex flex-col text-left">
-                    <span className="text-[10px] font-bold">Quiz Master</span>
-                    <span className="text-[8px] text-slate-500">100% Score achieved</span>
-                  </div>
-                </motion.div>
               </motion.div>
             </div>
           </div>
@@ -551,118 +616,112 @@ export function Home() {
         </div>
       </section>
 
-      {/* 4. Bento-style Features Grid */}
+      {/* 4. Latest Past Papers Section */}
       <section className="py-24 bg-white relative">
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-purple-50 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-10 right-10 w-96 h-96 bg-indigo-50/50 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute top-10 left-10 w-80 h-80 bg-purple-50/30 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-            <div className="inline-flex items-center space-x-1.5 bg-purple-50 border border-purple-100 rounded-full px-4 py-1.5">
-              <Zap className="w-4 h-4 text-purple-600" />
-              <span className="text-xs font-bold text-purple-600 uppercase tracking-wider">Why BCSITHub</span>
+            <div className="inline-flex items-center space-x-1.5 bg-indigo-50 border border-indigo-100 rounded-full px-4 py-1.5">
+              <FileText className="w-4 h-4 text-indigo-600" />
+              <span className="text-xs font-bold text-indigo-600 uppercase tracking-wider">Updates</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              Comprehensive Tools Built for{' '}
-              <span className="bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 bg-clip-text text-transparent">
-                Student Growth
+              Recently Uploaded{' '}
+              <span className="bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600 bg-clip-text text-transparent">
+                Past Papers
               </span>
             </h2>
             <p className="text-base text-slate-600 leading-relaxed">
-              Every feature on this platform is crafted to address the exact challenges faced by Pokhara University IT students.
+              Access the latest question papers and solutions uploaded by the student community and teachers.
             </p>
           </div>
 
-          {/* Bento Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:auto-rows-[240px]">
-            
-            {/* Bento Card 1: Smart Notes (Large) */}
-            <motion.div 
-              whileHover={{ y: -5 }}
-              className="lg:col-span-2 row-span-1 md:row-span-2 bg-gradient-to-br from-indigo-900 to-indigo-950 rounded-3xl p-8 text-white relative overflow-hidden flex flex-col justify-between shadow-lg"
-            >
-              <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
-              <div className="space-y-3 relative z-10 text-left">
-                <div className="w-12 h-12 bg-white/10 border border-white/10 rounded-2xl flex items-center justify-center">
-                  <FileText className="w-6 h-6 text-indigo-300" />
-                </div>
-                <h3 className="text-2xl font-bold tracking-tight">Smart Study Materials</h3>
-                <p className="text-slate-300 text-sm max-w-md leading-relaxed">
-                  Say goodbye to photocopies. Access structured unit notes curated by senior students and educators, compiled specifically for Pokhara University syllabi.
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-2.5 relative z-10 pt-4 border-t border-white/10 mt-6 lg:mt-0">
-                {['Unit Notes', 'Solved Past Papers', 'Syllabus Breakdowns', 'Syllabus PDFs'].map((tag) => (
-                  <span key={tag} className="text-xs bg-white/10 px-3 py-1 rounded-full text-indigo-200 border border-white/5">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
+          {papersLoading ? (
+            <div className="flex justify-center items-center py-12">
+              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600"></div>
+            </div>
+          ) : latestPapers.length === 0 ? (
+            <div className="text-center py-12 bg-slate-50 rounded-2xl border border-slate-100">
+              <p className="text-sm text-slate-500 font-medium">No past papers uploaded yet.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {latestPapers.map((paper) => (
+                <motion.div
+                  key={paper.id}
+                  whileHover={{ y: -5 }}
+                  className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between text-left group"
+                >
+                  <div className="space-y-4">
+                    {/* Header: Document Icon & Semester Badge */}
+                    <div className="flex items-center justify-between">
+                      <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center border border-indigo-100 group-hover:scale-105 transition-transform">
+                        <FileText className="w-5 h-5" />
+                      </div>
+                      <span className="text-[10px] font-extrabold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                        Sem {paper.semester}
+                      </span>
+                    </div>
 
-            {/* Bento Card 2: Community Forum */}
-            <motion.div 
-              whileHover={{ y: -5 }}
-              className="bg-white border border-slate-100 rounded-3xl p-6 flex flex-col justify-between shadow-md hover:shadow-lg transition-all"
-            >
-              <div className="space-y-3 text-left">
-                <div className="w-11 h-11 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center border border-purple-100">
-                  <Users className="w-5 h-5" />
-                </div>
-                <h3 className="text-lg font-bold text-slate-800">Expert Community</h3>
-                <p className="text-slate-500 text-xs font-normal leading-relaxed">
-                  Join doubt-clearing sections, connect with academic mentors, and share study materials.
-                </p>
-              </div>
-              <div className="flex items-center space-x-2 text-xs font-bold text-purple-600 pt-3">
-                <span>Join Forums</span>
-                <ChevronRight className="w-4 h-4" />
-              </div>
-            </motion.div>
+                    {/* Content */}
+                    <div className="space-y-2">
+                      <h3 className="text-sm font-bold text-slate-800 line-clamp-2 min-h-[40px] group-hover:text-indigo-600 transition-colors">
+                        {paper.title}
+                      </h3>
+                      <p className="text-[11px] text-slate-500 font-medium flex items-center gap-1">
+                        <span className="truncate max-w-[150px]">{paper.subject}</span>
+                      </p>
+                    </div>
 
-            {/* Bento Card 3: Progress Analytics */}
-            <motion.div 
-              whileHover={{ y: -5 }}
-              className="bg-white border border-slate-100 rounded-3xl p-6 flex flex-col justify-between shadow-md hover:shadow-lg transition-all"
-            >
-              <div className="space-y-3 text-left">
-                <div className="w-11 h-11 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center border border-rose-100">
-                  <TrendingUp className="w-5 h-5" />
-                </div>
-                <h3 className="text-lg font-bold text-slate-800">Progress Tracking</h3>
-                <p className="text-slate-500 text-xs font-normal leading-relaxed">
-                  Log your study intervals and grade milestones. Check progress with visual target parameters.
-                </p>
-              </div>
-              <div className="flex items-center space-x-2 text-xs font-bold text-rose-600 pt-3">
-                <span>View Analytics</span>
-                <ChevronRight className="w-4 h-4" />
-              </div>
-            </motion.div>
+                    {/* Metadata tags */}
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      <span className="text-[9px] bg-purple-50 text-purple-600 border border-purple-100/50 px-2 py-0.5 rounded-md font-semibold">
+                        {paper.exam_type}
+                      </span>
+                      <span className="text-[9px] bg-slate-50 text-slate-600 border border-slate-100 px-2 py-0.5 rounded-md font-semibold truncate max-w-[130px]" title={paper.college}>
+                        {paper.college}
+                      </span>
+                    </div>
+                  </div>
 
-            {/* Bento Card 4: Exam Excellence (Horizontal large) */}
-            <motion.div 
-              whileHover={{ y: -5 }}
-              className="lg:col-span-3 bg-gradient-to-br from-purple-900 via-purple-950 to-slate-900 rounded-3xl p-8 text-white relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center shadow-lg"
-            >
-              <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
-              <div className="space-y-3 relative z-10 text-left max-w-xl">
-                <div className="w-12 h-12 bg-white/10 border border-white/10 rounded-2xl flex items-center justify-center">
-                  <GraduationCap className="w-6 h-6 text-purple-300" />
-                </div>
-                <h3 className="text-2xl font-bold tracking-tight">Exam Excellence Strategy</h3>
-                <p className="text-slate-300 text-sm leading-relaxed">
-                  Ace your board exams with our comprehensive list of previous question papers (2018–2024), expert solution guides, and exam structures.
-                </p>
-              </div>
-              <Button
-                onClick={() => navigate('/past-papers')}
-                className="bg-white hover:bg-slate-50 text-slate-850 font-bold px-6 py-3 rounded-xl shadow-lg mt-6 md:mt-0 relative z-10 border-0 flex-shrink-0 self-start md:self-auto text-xs"
-              >
-                Access Past Papers
-                <ArrowRight className="w-4 h-4 ml-1.5 text-purple-600" />
-              </Button>
-            </motion.div>
+                  {/* Actions & Footer info */}
+                  <div className="mt-5 pt-4 border-t border-slate-50 space-y-3">
+                    <div className="flex items-center justify-between text-[10px] text-slate-400">
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        {formatUploadedDate(paper.created_at)}
+                      </span>
+                      <span className="flex items-center gap-1 font-medium text-slate-500">
+                        <Download className="w-3 h-3" />
+                        {paper.downloads || 0} downloads
+                      </span>
+                    </div>
 
+                    <Button
+                      variant="outline"
+                      onClick={() => setSelectedPaper(mapPaper(paper))}
+                      className="w-full justify-between hover:bg-indigo-600 hover:text-white hover:border-indigo-600 group-hover:translate-x-0.5 transition-all text-xs"
+                    >
+                      <span>View Paper</span>
+                      <ArrowRight className="w-4 h-4 ml-1.5" />
+                    </Button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+
+          <div className="text-center mt-12">
+            <Button
+              variant="outline"
+              onClick={() => navigate('/past-papers')}
+              className="border border-slate-200 text-slate-600 hover:bg-slate-50 text-xs font-bold px-6 py-2.5 rounded-xl inline-flex items-center gap-2"
+            >
+              <span>Explore All Past Papers</span>
+              <ArrowRight className="w-4 h-4" />
+            </Button>
           </div>
         </div>
       </section>
@@ -1014,7 +1073,39 @@ export function Home() {
         </div>
       </section>
 
+      {/* Paper Preview Modal */}
+      <AnimatePresence>
+        {selectedPaper && (
+          <PaperPreviewModal
+            paper={selectedPaper}
+            onClose={() => setSelectedPaper(null)}
+            isAuthenticated={!!user}
+            onDownload={() => handleDownload(selectedPaper)}
+          />
+        )}
+      </AnimatePresence>
 
+      {/* Notice Reader Modal */}
+      <AnimatePresence>
+        {selectedNotice && (
+          <NoticeReaderModal
+            notice={selectedNotice}
+            onClose={() => setSelectedNotice(null)}
+            isAuthenticated={!!user}
+            onAuthRequired={() => {
+              setSelectedNotice(null);
+              setShowLoginModal(true);
+            }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Auth Gate Redirect Modal */}
+      <LoginRedirectModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        message="Please log in to download past papers and solution keys."
+      />
 
     </div>
   );

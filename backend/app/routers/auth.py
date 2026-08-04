@@ -9,7 +9,7 @@ from app.schemas.auth import UserSignUp, UserSignIn, UserProfileUpdate, TokenRes
 from app.dependencies import get_current_user, get_admin_user, get_teacher_or_admin_user
 from typing import Any, List
 from app.config import settings
-from app.email import send_otp_email
+from app.email import send_otp_email, send_reset_password_email
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -295,21 +295,90 @@ async def forgot_password(payload: dict) -> Any:
                 detail="No account found with this email address"
             )
             
-        # Reset password to a temporary one: Temp123!
-        temp_pass = "Temp123!"
-        hashed_password = hash_password(temp_pass)
-        now_str = datetime.utcnow().isoformat()
+        profile = profile_query.data[0]
+        reset_token = str(uuid.uuid4())
+        reset_expires = (datetime.utcnow() + timedelta(minutes=20)).isoformat()
         
-        # Update user password to temporary password and set needs_password_change = True
+        # Save reset token to database (reusing otp columns to avoid DB migration changes)
         supabase_client.table("users").update({
-            "password": hashed_password,
-            "needs_password_change": True,
-            "updated_at": now_str
+            "otp_code": reset_token,
+            "otp_expires_at": reset_expires,
+            "updated_at": datetime.utcnow().isoformat()
         }).eq("email", email).execute()
         
+        reset_link = f"{settings.FRONTEND_URL}/reset-password?token={reset_token}&email={email}"
+        send_reset_password_email(email, profile.get("name", "Student"), reset_link)
+
         return {
-            "message": f"Password has been reset. Your temporary password is: {temp_pass}. Please use this password to log in and change it immediately."
+            "message": "A secure password reset link has been sent to your email. Please check your inbox."
         }
+    except HTTPException as he:
+        raise he
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Failed to reset password: {str(e)}"
+        )
+
+@router.post("/reset-password")
+async def reset_password(payload: dict) -> Any:
+    email = payload.get("email", "").strip()
+    token = payload.get("token", "").strip()
+    new_password = payload.get("new_password", "").strip()
+
+    if not email or not token or not new_password:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Email, token, and new password are required"
+        )
+    if len(new_password) < 8:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password must be at least 8 characters long"
+        )
+
+    try:
+        user_query = supabase_client.table("users").select("*").eq("email", email).execute()
+        if not user_query.data:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="No account found with this email address"
+            )
+
+        profile = user_query.data[0]
+        stored_token = profile.get("otp_code") or ""
+        token_expires_str = profile.get("otp_expires_at") or ""
+
+        if not stored_token or stored_token != token:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid or expired reset token. Please request a new one."
+            )
+
+        if token_expires_str:
+            expires_at = datetime.fromisoformat(token_expires_str.replace("Z", "+00:00"))
+            if expires_at.tzinfo is not None:
+                expires_at = expires_at.replace(tzinfo=None)
+            if datetime.utcnow() > expires_at:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Reset link has expired. Please request a new one."
+                )
+
+        hashed_password = hash_password(new_password)
+        now_str = datetime.utcnow().isoformat()
+
+        # Update password and clear token fields
+        supabase_client.table("users").update({
+            "password": hashed_password,
+            "needs_password_change": False,
+            "otp_code": None,
+            "otp_expires_at": None,
+            "updated_at": now_str
+        }).eq("email", email).execute()
+
+        return {"message": "Your password has been reset successfully. You can now log in."}
+
     except HTTPException as he:
         raise he
     except Exception as e:

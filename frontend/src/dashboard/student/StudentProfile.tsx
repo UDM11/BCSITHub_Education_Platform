@@ -1,5 +1,5 @@
-// src/dashboard/student/StudentProfile.tsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
+import { useSEO } from "../../hooks/useSEO";
 import { useAuth } from "../../context/AuthContext";
 import { useProfile } from "../../context/ProfileContext";
 import { useNavigate } from "react-router-dom";
@@ -50,6 +50,48 @@ const StudentProfile: React.FC = () => {
     approvedPapers: 0,
     pendingPapers: 0,
     recentActivity: 0
+  });
+
+  // Prevent search indexing for private student dashboards
+  useEffect(() => {
+    let robotsMeta = document.querySelector('meta[name="robots"]');
+    let created = false;
+    if (!robotsMeta) {
+      robotsMeta = document.createElement("meta");
+      robotsMeta.setAttribute("name", "robots");
+      document.head.appendChild(robotsMeta);
+      created = true;
+    }
+    robotsMeta.setAttribute("content", "noindex, nofollow");
+    
+    return () => {
+      if (robotsMeta) {
+        if (created) {
+          document.head.removeChild(robotsMeta);
+        } else {
+          robotsMeta.setAttribute("content", "index, follow");
+        }
+      }
+    };
+  }, []);
+
+  const seoTitle = useMemo(() => {
+    switch (activeTab) {
+      case "submissions":
+        return "My Submissions - Student Dashboard";
+      case "profile":
+        return "Account Settings - Student Dashboard";
+      case "activity":
+        return "Activity Logs - Student Dashboard";
+      default:
+        return "Student Dashboard";
+    }
+  }, [activeTab]);
+
+  useSEO({
+    title: seoTitle,
+    description: "Manage your uploaded past papers, review approval statuses, update college preferences, and inspect activity logs on BCSITHub.",
+    image: "https://bcsithub.umeshdarlami.com.np/logo.jpg"
   });
 
   useEffect(() => {

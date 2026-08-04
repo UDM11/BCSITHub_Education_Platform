@@ -21,20 +21,126 @@ import {
   ChevronDown,
   Download,
   LayoutDashboard,
+  Search,
+  Bell,
+  ChevronRight,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useInstallModal } from '@/context/InstallModalContext';
+import { apiClient } from '../../lib/apiClient';
+import { PaperPreviewModal } from '../Notes/PaperPreviewModal';
+import { NoticeReaderModal } from '../common/NoticeReaderModal';
+import LoginRedirectModal from '../common/LoginRedirectModal';
+import { semestersData } from '../../data/notesData';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false); // Mobile menu toggle
   const [showUserMenu, setShowUserMenu] = useState(false); // Desktop user dropdown
   const [showToolsMenu, setShowToolsMenu] = useState(false); // Desktop tools dropdown
+  const [showSearch, setShowSearch] = useState(false); // Desktop search dropdown
   const [isScrolled, setIsScrolled] = useState(false);
   
   const { user, signOut } = useAuth();
   const { open: openInstallModal } = useInstallModal();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [allPapers, setAllPapers] = useState<any[]>([]);
+  const [allNotices, setAllNotices] = useState<any[]>([]);
+  const [selectedPaper, setSelectedPaper] = useState<any | null>(null);
+  const [selectedNotice, setSelectedNotice] = useState<any | null>(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  useEffect(() => {
+    const loadSearchData = async () => {
+      try {
+        const [papersData, noticesData] = await Promise.all([
+          apiClient.get('/papers'),
+          apiClient.get('/notices')
+        ]);
+        
+        // Map papers
+        const approvedPapers = (papersData as any[]).filter((p: any) => p.approved);
+        setAllPapers(approvedPapers);
+
+        // Map notices
+        const mappedNotices = (noticesData as any[]).map((item: any) => ({
+          objectId: item.id,
+          title: item.title,
+          date: new Date(item.date),
+          fileUrl: item.file_url,
+          fileName: item.file_name,
+          fileSize: item.file_size,
+          category: item.category,
+          content: item.content,
+        }));
+        setAllNotices(mappedNotices);
+      } catch (err) {
+        console.error('Failed to load search data for navbar:', err);
+      }
+    };
+    
+    loadSearchData();
+  }, []);
+
+  const handleDownload = async (paper: any) => {
+    if (!user) {
+      setShowLoginModal(true);
+      return;
+    }
+    const fileUrl = paper.fileUrl || paper.file_url;
+    const paperId = paper.objectId || paper.id;
+    if (!fileUrl) return;
+    window.open(fileUrl, '_blank');
+    try {
+      await apiClient.post(`/papers/${paperId}/download`, {});
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const mapPaper = (item: any) => ({
+    objectId: item.id,
+    title: item.title,
+    subject: item.subject,
+    semester: item.semester,
+    examType: item.exam_type,
+    college: item.college,
+    uploadedAt: item.created_at,
+    uploadedBy: item.uploaded_by || '',
+    downloads: item.downloads,
+    approved: item.approved,
+    fileUrl: item.file_url,
+    ownerId: item.uploaded_by || '',
+    uploaderName: item.uploader_name || '',
+    uploaderRole: item.uploader_role || '',
+  });
+
+  // Calculate search filtering
+  const allSubjects = semestersData.flatMap(sem => 
+    sem.subjects.map(sub => ({ ...sub, semesterId: sem.id }))
+  );
+  
+  const filteredSubjects = searchQuery 
+    ? allSubjects.filter(sub => 
+        sub.courseName.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        sub.courseCode.toLowerCase().includes(searchQuery.toLowerCase())
+      ).slice(0, 4)
+    : [];
+
+  const filteredPapersResult = searchQuery
+    ? allPapers.filter(paper =>
+        paper.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        paper.subject.toLowerCase().includes(searchQuery.toLowerCase())
+      ).slice(0, 4)
+    : [];
+
+  const filteredNoticesResult = searchQuery
+    ? allNotices.filter(notice =>
+        notice.title.toLowerCase().includes(searchQuery.toLowerCase())
+      ).slice(0, 4)
+    : [];
 
   // Close mobile drawer if screen is resized to desktop width
   useEffect(() => {
@@ -86,6 +192,7 @@ export function Navbar() {
       // Close dropdowns on scroll
       setShowUserMenu(false);
       setShowToolsMenu(false);
+      setShowSearch(false);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -172,14 +279,199 @@ export function Navbar() {
           <div className="flex justify-between items-center h-16">
             
             {/* Brand Logo */}
-            <Link to="/" className="flex items-center space-x-2.5 group flex-shrink-0">
-              <div className="w-9 h-9 rounded-xl overflow-hidden shadow-md shadow-indigo-200 transition-transform duration-300 group-hover:scale-105">
+            <Link to="/" className="flex items-center space-x-2 group flex-shrink-0">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl overflow-hidden shadow-md shadow-indigo-200 transition-transform duration-300 group-hover:scale-105">
                 <img src="/logo.jpg" alt="BCSITHub Logo" className="w-full h-full object-cover" />
               </div>
-              <span className="text-xl font-extrabold bg-gradient-to-r from-indigo-600 via-purple-600 to-violet-600 bg-clip-text text-transparent tracking-tight whitespace-nowrap">
+              <span className="hidden sm:inline-block text-xl font-extrabold bg-gradient-to-r from-indigo-600 via-purple-600 to-violet-600 bg-clip-text text-transparent tracking-tight whitespace-nowrap">
                 BCSITHub
               </span>
             </Link>
+
+            {/* Desktop Search Icon Button + Dropdown (xl and above) */}
+            <div className="hidden xl:block relative z-40">
+              {/* Search trigger button */}
+              <button
+                onClick={() => { setShowSearch(!showSearch); setShowUserMenu(false); setShowToolsMenu(false); }}
+                className={`flex items-center w-64 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 border gap-2 ${
+                  showSearch
+                    ? 'bg-indigo-50 text-indigo-600 border-indigo-300 shadow-sm'
+                    : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50 border-slate-200 bg-slate-50/60'
+                }`}
+                aria-label="Open search"
+              >
+                <Search className="w-4 h-4 flex-shrink-0 text-slate-400" />
+                <span className="flex-1 text-left text-sm text-slate-400">Search syllabus, papers...</span>
+                <ChevronDown className={`w-3.5 h-3.5 flex-shrink-0 transition-transform duration-200 text-slate-400 ${showSearch ? 'rotate-180' : ''}`} />
+              </button>
+
+              {/* Search dropdown panel */}
+              <AnimatePresence>
+                {showSearch && (
+                  <>
+                    {/* Backdrop click-away */}
+                    <div
+                      className="fixed inset-0 z-40 bg-black/5"
+                      onClick={() => { setShowSearch(false); setSearchQuery(''); }}
+                    />
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.97 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.97 }}
+                      transition={{ duration: 0.18, ease: 'easeOut' }}
+                      className="absolute left-1/2 -translate-x-1/2 mt-3 w-[640px] bg-white rounded-2xl shadow-2xl border border-slate-200 z-50 overflow-hidden"
+                    >
+                      {/* Search input area */}
+                      <div className="p-4 border-b border-slate-100">
+                        <div className="relative">
+                          <Search className="w-5 h-5 text-indigo-500 absolute left-4 top-1/2 -translate-y-1/2" />
+                          <input
+                            type="text"
+                            placeholder="Search syllabus, papers, notices..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            autoFocus
+                            className="w-full pl-12 pr-10 py-3.5 bg-slate-50 border border-slate-200 focus:border-indigo-400 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/15 transition-all duration-200 font-medium"
+                          />
+                          {searchQuery && (
+                            <button
+                              onClick={() => setSearchQuery('')}
+                              className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded-lg transition-all"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          )}
+                        </div>
+                        {!searchQuery && (
+                          <p className="text-xs text-slate-400 mt-2 px-1">Search across subjects, past papers, and PU notices</p>
+                        )}
+                      </div>
+
+                      {/* Results */}
+                      {searchQuery && (
+                        <div className="max-h-[380px] overflow-y-auto divide-y divide-slate-50">
+                          {/* Subjects */}
+                          {filteredSubjects.length > 0 && (
+                            <div className="py-2 px-3">
+                              <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest px-1 block mb-1.5">Subjects &amp; Notes</span>
+                              {filteredSubjects.map(sub => (
+                                <div
+                                  key={sub.courseCode}
+                                  onClick={() => {
+                                    navigate(`/notes/semester/${sub.semesterId}/subject/${encodeURIComponent(sub.courseCode || sub.courseName)}`);
+                                    setSearchQuery('');
+                                    setShowSearch(false);
+                                  }}
+                                  className="flex items-center justify-between px-3 py-2.5 hover:bg-indigo-50/60 rounded-xl cursor-pointer transition-colors group"
+                                >
+                                  <div className="flex items-center space-x-3">
+                                    <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                      <BookOpen className="w-4 h-4 text-indigo-600" />
+                                    </div>
+                                    <div className="flex flex-col min-w-0">
+                                      <span className="text-sm font-semibold text-slate-700 truncate group-hover:text-indigo-700">{sub.courseName}</span>
+                                      <span className="text-xs text-slate-400">{sub.courseCode || 'PU Course'} · Semester {sub.semesterId}</span>
+                                    </div>
+                                  </div>
+                                  <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-indigo-500 flex-shrink-0" />
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* Past Papers */}
+                          {filteredPapersResult.length > 0 && (
+                            <div className="py-2 px-3">
+                              <span className="text-[10px] font-bold text-violet-500 uppercase tracking-widest px-1 block mb-1.5">Past Papers</span>
+                              {filteredPapersResult.map(paper => (
+                                <div
+                                  key={paper.id}
+                                  onClick={() => {
+                                    setSelectedPaper(mapPaper(paper));
+                                    setSearchQuery('');
+                                    setShowSearch(false);
+                                  }}
+                                  className="flex items-center justify-between px-3 py-2.5 hover:bg-violet-50/60 rounded-xl cursor-pointer transition-colors group"
+                                >
+                                  <div className="flex items-center space-x-3">
+                                    <div className="w-8 h-8 bg-violet-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                      <FileText className="w-4 h-4 text-violet-600" />
+                                    </div>
+                                    <div className="flex flex-col min-w-0">
+                                      <span className="text-sm font-semibold text-slate-700 truncate group-hover:text-violet-700">{paper.title}</span>
+                                      <span className="text-xs text-slate-400">{paper.subject} · Sem {paper.semester}</span>
+                                    </div>
+                                  </div>
+                                  <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-violet-500 flex-shrink-0" />
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* Notices */}
+                          {filteredNoticesResult.length > 0 && (
+                            <div className="py-2 px-3">
+                              <span className="text-[10px] font-bold text-amber-500 uppercase tracking-widest px-1 block mb-1.5">PU Notices</span>
+                              {filteredNoticesResult.map(notice => (
+                                <div
+                                  key={notice.objectId}
+                                  onClick={() => {
+                                    setSelectedNotice(notice);
+                                    setSearchQuery('');
+                                    setShowSearch(false);
+                                  }}
+                                  className="flex items-center justify-between px-3 py-2.5 hover:bg-amber-50/60 rounded-xl cursor-pointer transition-colors group"
+                                >
+                                  <div className="flex items-center space-x-3">
+                                    <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                      <Bell className="w-4 h-4 text-amber-600" />
+                                    </div>
+                                    <div className="flex flex-col min-w-0">
+                                      <span className="text-sm font-semibold text-slate-700 truncate group-hover:text-amber-700">{notice.title}</span>
+                                      <span className="text-xs text-slate-400">{notice.category} · {notice.date.toLocaleDateString()}</span>
+                                    </div>
+                                  </div>
+                                  <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-amber-500 flex-shrink-0" />
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {filteredSubjects.length === 0 && filteredPapersResult.length === 0 && filteredNoticesResult.length === 0 && (
+                            <div className="py-10 text-center">
+                              <Search className="w-8 h-8 text-slate-200 mx-auto mb-2" />
+                              <span className="text-sm text-slate-400">No results for &ldquo;{searchQuery}&rdquo;</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Empty state hint */}
+                      {!searchQuery && (
+                        <div className="px-4 py-5 grid grid-cols-3 gap-2">
+                          {[
+                            { icon: BookOpen, label: 'Notes', color: 'text-indigo-600 bg-indigo-50', to: '/notes' },
+                            { icon: FileText, label: 'Papers', color: 'text-violet-600 bg-violet-50', to: '/past-papers' },
+                            { icon: ScrollText, label: 'Notices', color: 'text-amber-600 bg-amber-50', to: '/pu-notices' },
+                          ].map(({ icon: Ic, label, color, to }) => (
+                            <button
+                              key={to}
+                              onClick={() => { navigate(to); setShowSearch(false); }}
+                              className="flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-slate-50 transition-colors group"
+                            >
+                              <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${color}`}>
+                                <Ic className="w-4.5 h-4.5" />
+                              </div>
+                              <span className="text-xs font-semibold text-slate-600 group-hover:text-indigo-600">{label}</span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
+            </div>
 
             {/* Desktop Navigation Links (Visible on 1280px width and above) */}
             <div className="hidden xl:flex items-center space-x-1.5">
@@ -589,6 +881,40 @@ export function Navbar() {
           )}
         </AnimatePresence>
       </nav>
+
+      {/* Paper Preview Modal */}
+      <AnimatePresence>
+        {selectedPaper && (
+          <PaperPreviewModal
+            paper={selectedPaper}
+            onClose={() => setSelectedPaper(null)}
+            isAuthenticated={!!user}
+            onDownload={() => handleDownload(selectedPaper)}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Notice Reader Modal */}
+      <AnimatePresence>
+        {selectedNotice && (
+          <NoticeReaderModal
+            notice={selectedNotice}
+            onClose={() => setSelectedNotice(null)}
+            isAuthenticated={!!user}
+            onAuthRequired={() => {
+              setSelectedNotice(null);
+              setShowLoginModal(true);
+            }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Auth Gate Redirect Modal */}
+      <LoginRedirectModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        message="Please log in to download past papers and solution keys."
+      />
     </>
   );
 }

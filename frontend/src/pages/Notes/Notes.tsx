@@ -14,109 +14,40 @@ import {
   FileText,
 } from 'lucide-react';
 import { useSEO } from '../../hooks/useSEO';
+import { semestersData } from '../../data/notesData';
 
-const semesters = [
-  { value: '1', label: '1st Semester', subjects: 5, notes: 41, available: true, color: 'from-blue-600 to-cyan-600' },
-  { value: '2', label: '2nd Semester', subjects: 6, notes: 40, available: true, color: 'from-emerald-600 to-teal-600' },
-  {
-    value: '3',
-    label: '3rd Semester',
-    subjects: 5,
-    notes: 40,
-    available: true,
-    color: 'from-purple-600 to-indigo-600',
-    subjectList: [
-      'Linear Algebra and Probability',
-      'Database Management System',
-      'Object-Oriented Analysis and Design',
-      'Internet Technology II (Programming)',
-      'Principles of Management',
-    ],
-  },
-  {
-    value: '4',
-    label: '4th Semester',
-    subjects: 6,
-    notes: 41,
-    available: true,
-    color: 'from-pink-600 to-rose-600',
-    subjectList: [
-      'Computer Architecture and Microprocessor',
-      'Numerical Methods',
-      'Software Engineering and Project Management',
-      'Data Communication and Networks',
-      'Fundamentals of Financial Management',
-      'Project II',
-    ],
-  },
-  {
-    value: '5',
-    label: '5th Semester',
-    subjects: 5,
-    notes: 35,
-    available: false,
-    color: 'from-orange-600 to-red-600',
-    subjectList: [
-      'Digital Marketing',
-      'Operating Systems',
-      'Organizational Behavior',
-      'Artificial Intelligence',
-      'Specialization Course',
-    ],
-  },
-  {
-    value: '6',
-    label: '6th Semester',
-    subjects: 5,
-    notes: 33,
-    available: false,
-    color: 'from-yellow-600 to-orange-600',
-    subjectList: [
-      'Computer Graphics',
-      'Research Methods',
-      'Cloud Computing',
-      'Applied Economics',
-      'Concentration II',
-    ],
-  },
-  {
-    value: '7',
-    label: '7th Semester',
-    subjects: 6,
-    notes: 28,
-    available: false,
-    color: 'from-green-600 to-emerald-600',
-    subjectList: [
-      'Strategic Management',
-      'Management of Human Resources',
-      'Digital Economy',
-      'Information System Security',
-      'Major Project',
-      'Concentration III',
-    ],
-  },
-  {
-    value: '8',
-    label: '8th Semester',
-    subjects: 4,
-    notes: 22,
-    available: false,
-    color: 'from-violet-600 to-purple-600',
-    subjectList: [
-      'Legal Aspects of Business and Technology',
-      'Innovation and Entrepreneurship',
-      'Internship',
-      'Concentration IV',
-    ],
-  },
+const semesterColors = [
+  'from-blue-600 to-cyan-600',       // 1st
+  'from-emerald-600 to-teal-600',    // 2nd
+  'from-purple-600 to-indigo-600',   // 3rd
+  'from-pink-600 to-rose-600',       // 4th
+  'from-orange-600 to-red-600',      // 5th
+  'from-yellow-600 to-orange-600',   // 6th
+  'from-green-600 to-emerald-600',   // 7th
+  'from-violet-600 to-purple-600',   // 8th
 ];
+
+const semesterNotesCount = [41, 40, 40, 41, 35, 33, 28, 22];
+
+const semesters = semestersData.map((sem, index) => ({
+  value: sem.id.toString(),
+  label: sem.name,
+  subjects: sem.subjects.length,
+  notes: semesterNotesCount[index] || 20,
+  available: sem.id <= 4,
+  color: semesterColors[index] || 'from-indigo-600 to-violet-600',
+  subjectList: sem.subjects.map(sub => sub.courseName),
+}));
+
+
 
 
 export function Notes() {
   useSEO({
-    title: "Pokhara University BCSIT Notes & Lecture Reference Materials",
-    description: "Browse academic lecture notes, subject syllabus details, and solved past questions for all Pokhara University BCSIT semesters.",
-    keywords: "bcsit notes, lecture notes, study materials, pu computer science"
+    title: "Pokhara University BCSIT Lecture Notes & Study Materials",
+    description: "Access official Pokhara University BCSIT lecture notes, chapter study guides, course syllabus indices, and solved past questions for semesters 1st to 8th.",
+    keywords: "bcsit notes, pokhara university bcsit notes, pu computer science lecture notes, bcsithub study resources, bcsit 1st sem notes, bcsit 3rd sem notes, bcsit subject guides, download bcsit chapter notes",
+    image: "https://bcsithub.umeshdarlami.com.np/logo.jpg"
   });
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -232,15 +163,51 @@ export function Notes() {
 
           {/* Search Inputs & View Mode Layout Toggles */}
           <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
-            <div className="relative flex-1 md:w-64">
+            <div className="relative flex-1 md:w-80">
               <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
               <input
                 type="text"
-                placeholder="Search semesters..."
+                placeholder="Search subjects, codes, or semesters..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10 pr-4 py-2.5 w-full border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all bg-white text-slate-800 placeholder:text-slate-400"
               />
+
+              {/* Autocomplete Dropdown Search Box */}
+              {searchTerm && (
+                (() => {
+                  const matchedSubjects = semestersData.flatMap(sem => 
+                    sem.subjects.map(sub => ({ ...sub, semesterId: sem.id }))
+                  ).filter(sub => 
+                    sub.courseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    sub.courseCode.toLowerCase().includes(searchTerm.toLowerCase())
+                  ).slice(0, 5);
+
+                  if (matchedSubjects.length === 0) return null;
+
+                  return (
+                    <div className="absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-60 overflow-y-auto z-[100] p-1.5 divide-y divide-slate-100 text-left">
+                      {matchedSubjects.map((sub) => (
+                        <Link
+                          key={sub.courseCode || sub.courseName}
+                          to={`/notes/semester/${sub.semesterId}/subject/${encodeURIComponent(sub.courseCode || sub.courseName)}`}
+                          className="flex items-center justify-between px-3 py-2 hover:bg-indigo-50/50 rounded-xl transition-all cursor-pointer group"
+                        >
+                          <div className="flex flex-col min-w-0">
+                            <span className="text-xs font-semibold text-slate-700 group-hover:text-indigo-600 transition-colors truncate">
+                              {sub.courseName}
+                            </span>
+                            <span className="text-[10px] text-slate-400">
+                              {sub.courseCode || 'Core'} • Semester {sub.semesterId}
+                            </span>
+                          </div>
+                          <ChevronRight className="w-3.5 h-3.5 text-slate-450 group-hover:text-indigo-500 transition-all transform group-hover:translate-x-0.5" />
+                        </Link>
+                      ))}
+                    </div>
+                  );
+                })()
+              )}
             </div>
 
             <div className="flex bg-slate-100 rounded-xl p-1 border border-slate-200/40">

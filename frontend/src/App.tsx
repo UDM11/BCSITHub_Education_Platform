@@ -49,6 +49,7 @@ import TeacherDashboard from './dashboard/teacher/TeacherDashboard';
 import OTPVerification from './pages/auth/EmailVerification';
 import OAuthCallback from './pages/auth/OAuthCallback';
 import CompleteProfile from './pages/auth/CompleteProfile';
+import { ResetPassword } from './pages/auth/ResetPassword';
 
 // Not Found Page
 import { NotFound } from './pages/NotFound';
@@ -58,7 +59,8 @@ function AppContent() {
   const location = useLocation();
   const isDashboardRoute = location.pathname.startsWith('/admin-dashboard') || 
                            location.pathname.startsWith('/dashboard') || 
-                           location.pathname.startsWith('/profile');
+                           location.pathname.startsWith('/profile') ||
+                           location.pathname.startsWith('/teacher-dashboard');
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -73,6 +75,7 @@ function AppContent() {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/syllabus" element={<Syllabus />} />
           <Route path="/notes" element={<Notes />} />
           <Route path="/notes/semester/:semesterId" element={<SemesterSubjects />} />

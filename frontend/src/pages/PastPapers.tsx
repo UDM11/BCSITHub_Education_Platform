@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Upload,
@@ -22,7 +22,7 @@ import { PaperPreviewModal } from '../components/Notes/PaperPreviewModal';
 import { apiClient } from '../lib/apiClient';
 import LoginRedirectModal from '../components/common/LoginRedirectModal';
 import { useSEO } from '../hooks/useSEO';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 
 const slugify = (text: string) =>
   text
@@ -84,14 +84,7 @@ interface Paper {
   uploaderName?: string;
   uploaderRole?: string;
 }
-
 export function PastPapers() {
-  useSEO({
-    title: "Pokhara University BCSIT Past Question Papers & Solutions",
-    description: "Download Pokhara University BCSIT semester final past exam question papers, midterm questions, and student solutions for all core subjects.",
-    keywords: "bcsit past papers, pokhara university question papers, pu past papers, bcsit exam papers"
-  });
-
   const [papers, setPapers] = useState<Paper[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -112,6 +105,44 @@ export function PastPapers() {
   const { user } = useAuth();
   const { paperId } = useParams();
   const navigate = useNavigate();
+
+  const seoTitle = useMemo(() => {
+    if (selectedSemester && selectedExamType) {
+      const formattedType = selectedExamType.charAt(0).toUpperCase() + selectedExamType.slice(1);
+      return `Semester ${selectedSemester} ${formattedType} Past Papers`;
+    }
+    if (selectedSemester) {
+      return `Semester ${selectedSemester} Past Question Papers`;
+    }
+    if (selectedExamType) {
+      const formattedType = selectedExamType.charAt(0).toUpperCase() + selectedExamType.slice(1);
+      return `${formattedType} Exam Question Papers`;
+    }
+    return "Pokhara University BCSIT Past Question Papers";
+  }, [selectedSemester, selectedExamType]);
+
+  const seoDescription = useMemo(() => {
+    let descStr = "Download Pokhara University BCSIT semester final past exam question papers, midterm questions, and student solutions for all core subjects.";
+    if (selectedSemester) {
+      descStr = `Access and download official Pokhara University past papers and solutions for all subjects in Semester ${selectedSemester} of the BCSIT program.`;
+    }
+    return descStr;
+  }, [selectedSemester]);
+
+  const seoKeywords = useMemo(() => {
+    let kw = "bcsit past papers, pokhara university question papers, pu past papers, bcsit exam papers";
+    if (selectedSemester) {
+      kw += `, bcsit semester ${selectedSemester} papers, pu bcsit sem ${selectedSemester}`;
+    }
+    return kw;
+  }, [selectedSemester]);
+
+  useSEO({
+    title: seoTitle,
+    description: seoDescription,
+    keywords: seoKeywords,
+    image: "https://bcsithub.umeshdarlami.com.np/logo.jpg"
+  });
 
   useEffect(() => {
     const fetchPapers = async () => {
@@ -505,6 +536,43 @@ export function PastPapers() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Active Filter Chips */}
+        {(selectedSemester || selectedExamType || selectedCollege || searchQuery) && (
+          <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-slate-100 max-w-6xl mx-auto justify-start text-left items-center">
+            <span className="text-[10px] font-bold text-slate-450 uppercase tracking-wider mr-1">Active:</span>
+            {selectedSemester && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-indigo-50 border border-indigo-100 text-indigo-700 text-[10px] font-bold rounded-xl">
+                <span>Semester {selectedSemester}</span>
+                <button onClick={() => setSelectedSemester('')} className="hover:text-indigo-900 font-extrabold text-xs">×</button>
+              </span>
+            )}
+            {selectedExamType && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-teal-50 border border-teal-100 text-teal-700 text-[10px] font-bold rounded-xl">
+                <span className="capitalize">{selectedExamType}</span>
+                <button onClick={() => setSelectedExamType('')} className="hover:text-teal-900 font-extrabold text-xs">×</button>
+              </span>
+            )}
+            {selectedCollege && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-amber-50 border border-amber-100 text-amber-700 text-[10px] font-bold rounded-xl max-w-xs truncate">
+                <span>{selectedCollege}</span>
+                <button onClick={() => setSelectedCollege('')} className="hover:text-amber-900 font-extrabold text-xs">×</button>
+              </span>
+            )}
+            {searchQuery && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-rose-50 border border-rose-100 text-rose-700 text-[10px] font-bold rounded-xl">
+                <span>Query: "{searchQuery}"</span>
+                <button onClick={() => setSearchQuery('')} className="hover:text-rose-900 font-extrabold text-xs">×</button>
+              </span>
+            )}
+            <button
+              onClick={handleResetFilters}
+              className="text-[10px] font-bold text-slate-450 hover:text-indigo-650 transition-colors uppercase ml-2 underline cursor-pointer"
+            >
+              Reset All
+            </button>
+          </div>
+        )}
       </section>
 
       {/* Main Papers Content */}
@@ -537,13 +605,16 @@ export function PastPapers() {
               }
             >
               {currentPapers.map((paper, idx) => (
-                <motion.div
+                <Link
                   key={paper.objectId || idx}
-                  variants={itemVariants}
-                  whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                  onClick={() => navigate(`/past-papers/${slugify(paper.title)}`)}
-                  className="group bg-white rounded-2xl border border-slate-100 shadow-premium-sm hover:shadow-premium hover:border-indigo-200 transition-all duration-300 overflow-hidden flex flex-col h-full text-left cursor-pointer relative"
+                  to={`/past-papers/${slugify(paper.title)}`}
+                  className="block h-full cursor-pointer"
                 >
+                  <motion.div
+                    variants={itemVariants}
+                    whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                    className="group bg-white rounded-2xl border border-slate-100 shadow-premium-sm hover:shadow-premium hover:border-indigo-200 transition-all duration-300 overflow-hidden flex flex-col h-full text-left relative"
+                  >
                   {/* Paper Header */}
                   <div className="p-6 border-b border-slate-150/40 bg-gradient-to-b from-slate-50/50 to-transparent flex-1 relative">
                     {/* Hover Eye Icon Overlay */}
@@ -662,8 +733,9 @@ export function PastPapers() {
                     </div>
                   </div>
                 </motion.div>
-              ))}
-            </motion.div>
+              </Link>
+            ))}
+          </motion.div>
           </AnimatePresence>
         )}
 
