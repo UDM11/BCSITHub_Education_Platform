@@ -29,8 +29,9 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        globIgnores: ['**/version.json'],
         maximumFileSizeToCacheInBytes: 6 * 1024 * 1024, // 6 MB (icons are ~5 MB)
-        navigateFallbackDenylist: [/\/api\//, /\/sitemap\.xml$/, /\/robots\.txt$/, /\/googleac19bc2bcb3cb960\.html$/, /\/BingSiteAuth\.xml$/],
+        navigateFallbackDenylist: [/\/api\//, /\/sitemap\.xml$/, /\/robots\.txt$/, /\/googleac19bc2bcb3cb960\.html$/, /\/BingSiteAuth\.xml$/, /\/version\.json$/],
         runtimeCaching: [
           {
             urlPattern: /\/notes\/.+/,
