@@ -39,6 +39,7 @@ export function Navbar() {
   const [showToolsMenu, setShowToolsMenu] = useState(false); // Desktop tools dropdown
   const [showSearch, setShowSearch] = useState(false); // Desktop search dropdown
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
   
   const { user, signOut } = useAuth();
   const { open: openInstallModal } = useInstallModal();
@@ -199,6 +200,32 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Listen for online/offline changes
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
+  // Listen for Ctrl+K/Cmd+K to toggle search overlay
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setShowSearch((prev) => !prev);
+        setShowUserMenu(false);
+        setShowToolsMenu(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const handleSignOut = async () => {
     try {
       await signOut();
@@ -279,29 +306,40 @@ export function Navbar() {
           <div className="flex justify-between items-center h-16">
             
             {/* Brand Logo */}
-            <Link to="/" className="flex items-center space-x-2 group flex-shrink-0">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl overflow-hidden shadow-md shadow-indigo-200 transition-transform duration-300 group-hover:scale-105">
-                <img src="/logo.jpg" alt="BCSITHub Logo" className="w-full h-full object-cover" />
-              </div>
-              <span className="hidden sm:inline-block text-xl font-extrabold bg-gradient-to-r from-indigo-600 via-purple-600 to-violet-600 bg-clip-text text-transparent tracking-tight whitespace-nowrap">
-                BCSITHub
-              </span>
-            </Link>
+            <div className="flex items-center space-x-2.5">
+              <Link to="/" className="flex items-center space-x-2 group flex-shrink-0">
+                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl overflow-hidden shadow-md shadow-indigo-200 transition-transform duration-300 group-hover:scale-105">
+                  <img src="/logo.jpg" alt="BCSITHub Logo" className="w-full h-full object-cover" />
+                </div>
+                <span className="hidden sm:inline-block text-xl font-extrabold bg-gradient-to-r from-indigo-600 via-purple-600 to-violet-600 bg-clip-text text-transparent tracking-tight whitespace-nowrap">
+                  BCSITHub
+                </span>
+              </Link>
+              {!isOnline && (
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[9px] font-extrabold bg-rose-50 text-rose-600 border border-rose-100 uppercase tracking-wide animate-pulse">
+                  <span className="w-1 h-1 rounded-full bg-rose-500"></span>
+                  Offline
+                </span>
+              )}
+            </div>
 
             {/* Desktop Search Icon Button + Dropdown (xl and above) */}
             <div className="hidden xl:block relative z-40">
               {/* Search trigger button */}
               <button
                 onClick={() => { setShowSearch(!showSearch); setShowUserMenu(false); setShowToolsMenu(false); }}
-                className={`flex items-center w-64 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 border gap-2 ${
+                className={`flex items-center w-48 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 border gap-1.5 ${
                   showSearch
                     ? 'bg-indigo-50 text-indigo-600 border-indigo-300 shadow-sm'
                     : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50 border-slate-200 bg-slate-50/60'
                 }`}
                 aria-label="Open search"
               >
-                <Search className="w-4 h-4 flex-shrink-0 text-slate-400" />
-                <span className="flex-1 text-left text-sm text-slate-400">Search syllabus, papers...</span>
+                <Search className="w-3.5 h-3.5 flex-shrink-0 text-slate-400" />
+                <span className="flex-1 text-left text-xs text-slate-400">Search...</span>
+                <kbd className="hidden lg:inline-flex items-center gap-0.5 px-1 py-0.5 text-[9px] font-sans font-medium text-slate-400 bg-white border border-slate-200 rounded shadow-sm">
+                  <span>Ctrl</span><span>K</span>
+                </kbd>
                 <ChevronDown className={`w-3.5 h-3.5 flex-shrink-0 transition-transform duration-200 text-slate-400 ${showSearch ? 'rotate-180' : ''}`} />
               </button>
 
@@ -479,14 +517,17 @@ export function Navbar() {
                 <Link
                   key={to}
                   to={to}
-                  className={`flex items-center space-x-1.5 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                  className={`relative flex items-center space-x-1.5 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap overflow-hidden group ${
                     isActive(to)
                       ? 'bg-indigo-50/80 text-indigo-600 border border-indigo-100/50 shadow-sm shadow-indigo-100/10'
                       : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50'
                   }`}
                 >
-                  <Icon className="w-4 h-4 flex-shrink-0" />
-                  <span>{label}</span>
+                  <Icon className="w-4 h-4 flex-shrink-0 relative z-10" />
+                  <span className="relative z-10">{label}</span>
+                  <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-3/5 ${
+                    isActive(to) ? 'w-3/5' : ''
+                  }`}></span>
                 </Link>
               ))}
 
@@ -577,12 +618,17 @@ export function Navbar() {
                     onClick={() => setShowUserMenu(!showUserMenu)}
                     className="flex items-center space-x-2 px-2.5 py-1.5 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-slate-50 hover:border-slate-200 transition-all duration-200"
                   >
-                    <div className="w-7 h-7 bg-gradient-to-tr from-indigo-500 to-violet-600 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-sm flex-shrink-0 overflow-hidden">
-                      {user.avatar_url ? (
-                        <img src={user.avatar_url} alt={user.name || user.email || 'User'} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                      ) : (
-                        (user.name || user.email || 'U').charAt(0).toUpperCase()
-                      )}
+                    <div className="relative group/avatar flex-shrink-0">
+                      {/* Gradient glow ring */}
+                      <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 rounded-lg opacity-0 group-hover/avatar:opacity-100 transition-opacity duration-300 blur-sm scale-110"></div>
+                      
+                      <div className="relative w-7 h-7 bg-gradient-to-tr from-indigo-500 to-violet-600 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-sm overflow-hidden border border-white/20">
+                        {user.avatar_url ? (
+                          <img src={user.avatar_url} alt={user.name || user.email || 'User'} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                        ) : (
+                          (user.name || user.email || 'U').charAt(0).toUpperCase()
+                        )}
+                      </div>
                     </div>
                     <span className="text-sm font-medium text-slate-700 max-w-[100px] truncate whitespace-nowrap">{user.name || user.email || 'User'}</span>
                     <ChevronDown className={`w-3.5 h-3.5 text-slate-400 flex-shrink-0 transition-transform duration-200 ${showUserMenu ? 'rotate-180' : ''}`} />

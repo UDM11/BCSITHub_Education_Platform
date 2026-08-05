@@ -19,6 +19,8 @@ import { useAuth } from './context/AuthContext';
 import { Toaster } from 'react-hot-toast';
 import { ToastContainer } from './components/ui/Toast';
 
+import { useUpdateCheck } from './hooks/useUpdateCheck';
+
 // Pages
 import { Home } from './pages/Home';
 import { SignIn } from './pages/auth/SignIn';
@@ -56,6 +58,7 @@ import { ResetPassword } from './pages/auth/ResetPassword';
 import { NotFound } from './pages/NotFound';
 
 function AppContent() {
+  useUpdateCheck();
   const { user } = useAuth();
   const location = useLocation();
   const isDashboardRoute = location.pathname.startsWith('/admin-dashboard') || 

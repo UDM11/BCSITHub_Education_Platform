@@ -168,6 +168,33 @@ const testimonials = [
   },
 ];
 
+function CountUp({ to, duration = 1.5 }: { to: number; duration?: number }) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let start = 0;
+    const end = to;
+    if (start === end) return;
+
+    const totalMiliseconds = duration * 1000;
+    const incrementTime = Math.max(Math.floor(totalMiliseconds / end), 15);
+
+    const timer = setInterval(() => {
+      start += Math.ceil(end / (totalMiliseconds / incrementTime));
+      if (start >= end) {
+        clearInterval(timer);
+        setCount(end);
+      } else {
+        setCount(start);
+      }
+    }, incrementTime);
+
+    return () => clearInterval(timer);
+  }, [to, duration]);
+
+  return <>{count.toLocaleString()}</>;
+}
+
 export function Home() {
   useSEO({
     title: "Master BCSIT Courses & Exams with Confidence",
@@ -319,9 +346,32 @@ export function Home() {
         
         {/* Abstract Glowing Mesh Circles */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-600/10 rounded-full blur-[120px]" />
-          <div className="absolute top-1/3 -right-20 w-[450px] h-[450px] bg-purple-600/10 rounded-full blur-[140px]" />
-          <div className="absolute -bottom-20 left-1/3 w-80 h-80 bg-violet-600/10 rounded-full blur-[100px]" />
+          <motion.div 
+            animate={{ 
+              x: [0, 20, -20, 0], 
+              y: [0, -35, 20, 0],
+              scale: [1, 1.08, 0.92, 1]
+            }}
+            transition={{ repeat: Infinity, duration: 22, ease: "easeInOut" }}
+            className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-600/10 rounded-full blur-[120px]" 
+          />
+          <motion.div 
+            animate={{ 
+              x: [0, -30, 25, 0], 
+              y: [0, 25, -25, 0],
+              scale: [1, 0.93, 1.07, 1]
+            }}
+            transition={{ repeat: Infinity, duration: 26, ease: "easeInOut" }}
+            className="absolute top-1/3 -right-20 w-[450px] h-[450px] bg-purple-600/10 rounded-full blur-[140px]" 
+          />
+          <motion.div 
+            animate={{ 
+              x: [0, 25, -15, 0], 
+              y: [0, -25, 30, 0]
+            }}
+            transition={{ repeat: Infinity, duration: 24, ease: "easeInOut" }}
+            className="absolute -bottom-20 left-1/3 w-80 h-80 bg-violet-600/10 rounded-full blur-[100px]" 
+          />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
@@ -433,9 +483,20 @@ export function Home() {
                 {/* Notices List */}
                 <div className="flex flex-col space-y-3 z-10">
                   {noticesLoading ? (
-                    <div className="flex flex-col items-center justify-center py-12 space-y-2">
-                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-500"></div>
-                      <span className="text-[10px] text-slate-400">Loading notices...</span>
+                    <div className="flex flex-col space-y-3 w-full">
+                      {[1, 2, 3].map((n) => (
+                        <div key={n} className="bg-slate-950/40 border border-slate-800/80 rounded-2xl p-3.5 flex flex-col space-y-2.5 animate-pulse">
+                          <div className="flex items-center justify-between">
+                            <div className="h-4.5 w-14 bg-slate-800 rounded-full"></div>
+                            <div className="h-3 w-10 bg-slate-800 rounded"></div>
+                          </div>
+                          <div className="space-y-1.5">
+                            <div className="h-3 w-full bg-slate-800 rounded"></div>
+                            <div className="h-3 w-4/5 bg-slate-800 rounded"></div>
+                          </div>
+                          <div className="h-2.5 w-1/2 bg-slate-800 rounded"></div>
+                        </div>
+                      ))}
                     </div>
                   ) : latestNotices.length === 0 ? (
                     <div className="text-center py-8">
@@ -500,10 +561,10 @@ export function Home() {
       <section className="relative z-20 -mt-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white/80 backdrop-blur-md border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-xl shadow-slate-200/50 grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {[
-            { label: 'Active Students', value: '2,500+', icon: Users, color: 'text-indigo-600 bg-indigo-50' },
-            { label: 'Study Resources', value: '10,000+', icon: FileText, color: 'text-purple-600 bg-purple-50' },
-            { label: 'Practice Hours', value: '50,000+', icon: Clock, color: 'text-rose-600 bg-rose-50' },
-            { label: 'Partner Colleges', value: '25+', icon: Award, color: 'text-amber-600 bg-amber-50' },
+            { label: 'Active Students', value: 2500, suffix: '+', icon: Users, color: 'text-indigo-600 bg-indigo-50' },
+            { label: 'Study Resources', value: 10000, suffix: '+', icon: FileText, color: 'text-purple-600 bg-purple-50' },
+            { label: 'Practice Hours', value: 50000, suffix: '+', icon: Clock, color: 'text-rose-600 bg-rose-50' },
+            { label: 'Partner Colleges', value: 25, suffix: '+', icon: Award, color: 'text-amber-600 bg-amber-50' },
           ].map((stat, i) => (
             <div key={stat.label} className="flex items-center space-x-3.5">
               <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${stat.color} flex-shrink-0 border border-current/10`}>
@@ -511,7 +572,7 @@ export function Home() {
               </div>
               <div className="flex flex-col text-left">
                 <span className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-none mb-1">
-                  {stat.value}
+                  <CountUp to={stat.value} />{stat.suffix}
                 </span>
                 <span className="text-xs font-semibold text-slate-500">
                   {stat.label}
@@ -639,8 +700,28 @@ export function Home() {
           </div>
 
           {papersLoading ? (
-            <div className="flex justify-center items-center py-12">
-              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[1, 2, 3, 4].map((n) => (
+                <div key={n} className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm space-y-4 animate-pulse">
+                  <div className="flex items-center justify-between">
+                    <div className="w-10 h-10 bg-slate-100 rounded-xl"></div>
+                    <div className="h-4 w-12 bg-slate-100 rounded-full"></div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="h-4 w-full bg-slate-100 rounded"></div>
+                    <div className="h-4 w-3/4 bg-slate-100 rounded"></div>
+                  </div>
+                  <div className="flex gap-1.5 pt-1">
+                    <div className="h-4.5 w-12 bg-slate-100 rounded"></div>
+                    <div className="h-4.5 w-20 bg-slate-100 rounded" style={{ maxWidth: '130px' }}></div>
+                  </div>
+                  <div className="pt-4 border-t border-slate-50 flex justify-between">
+                    <div className="h-3.5 w-16 bg-slate-100 rounded"></div>
+                    <div className="h-3.5 w-20 bg-slate-100 rounded"></div>
+                  </div>
+                  <div className="h-8.5 w-full bg-slate-100 rounded-lg"></div>
+                </div>
+              ))}
             </div>
           ) : latestPapers.length === 0 ? (
             <div className="text-center py-12 bg-slate-50 rounded-2xl border border-slate-100">
@@ -651,8 +732,12 @@ export function Home() {
               {latestPapers.map((paper) => (
                 <motion.div
                   key={paper.id}
-                  whileHover={{ y: -5 }}
-                  className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between text-left group"
+                  whileHover={{ 
+                    y: -8, 
+                    scale: 1.02,
+                    boxShadow: "0 20px 25px -5px rgba(99, 102, 241, 0.08), 0 8px 10px -6px rgba(99, 102, 241, 0.08)"
+                  }}
+                  className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm transition-all duration-300 flex flex-col justify-between text-left group"
                 >
                   <div className="space-y-4">
                     {/* Header: Document Icon & Semester Badge */}
@@ -749,10 +834,15 @@ export function Home() {
             {studyTools.map((tool) => {
               const ToolIcon = tool.icon;
               return (
-                <div
+                <motion.div
                   key={tool.title}
                   onClick={() => navigate(tool.link)}
-                  className="bg-white rounded-2xl p-6 border border-slate-100 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col text-left justify-between space-y-6 cursor-pointer group"
+                  whileHover={{ 
+                    y: -8, 
+                    scale: 1.02,
+                    boxShadow: "0 20px 25px -5px rgba(245, 158, 11, 0.08), 0 8px 10px -6px rgba(245, 158, 11, 0.08)"
+                  }}
+                  className="bg-white rounded-2xl p-6 border border-slate-100 shadow-md transition-all duration-300 flex flex-col text-left justify-between space-y-6 cursor-pointer group"
                 >
                   <div className="space-y-4">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center border ${tool.color} group-hover:scale-105 transition-transform`}>
@@ -769,7 +859,7 @@ export function Home() {
                     <span>Open Tool</span>
                     <ArrowRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-0.5 transition-transform" />
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
@@ -913,11 +1003,22 @@ export function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((test, index) => (
-              <div
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ staggerChildren: 0.15 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          >
+            {testimonials.map((test) => (
+              <motion.div
                 key={test.name}
-                className="bg-slate-50/50 border border-slate-100 rounded-2xl p-6 flex flex-col justify-between space-y-5 text-left"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                whileHover={{ y: -8, scale: 1.02, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05)" }}
+                className="bg-slate-50/50 border border-slate-100 rounded-2xl p-6 flex flex-col justify-between space-y-5 text-left transition-all duration-300"
               >
                 <div className="space-y-4">
                   {/* Rating Stars */}
@@ -942,9 +1043,9 @@ export function Home() {
                     <span className="text-[10px] text-slate-400 font-medium">{test.role}</span>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 

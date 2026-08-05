@@ -39,6 +39,7 @@ import AuthRequiredModal from "../../components/common/AuthRequiredModal";
 import { chapterData } from "../../data/chapterData";
 import { toast } from "react-hot-toast";
 import { useSEO } from "../../hooks/useSEO";
+import { NOTES_VERSION } from "../../data/notesData";
 
 export default function ChapterNotes() {
   const { semesterId, subjectId, chapterId } = useParams();
@@ -280,7 +281,7 @@ export default function ChapterNotes() {
 
     const loadNoteContent = async () => {
       try {
-        const res = await fetch(filePath);
+        const res = await fetch(`${filePath}?v=${NOTES_VERSION}`);
         if (!res.ok) throw new Error("Note not found.");
 
         const text = await res.text();

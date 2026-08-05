@@ -16,7 +16,7 @@ import {
   TrendingUp,
 } from 'lucide-react';
 import { chapterData, SubjectChapters as SubjectChaptersType } from '../../data/chapterData';
-import { semestersData } from '../../data/notesData';
+import { semestersData, NOTES_VERSION } from '../../data/notesData';
 
 export default function SubjectChapters() {
   const { semesterId, subjectId } = useParams();
@@ -72,7 +72,7 @@ export default function SubjectChapters() {
         const encodedSemester = encodeURIComponent(`Semester ${semesterId}`);
         const encodedSubject = encodeURIComponent(decodedSubjectId);
         const filePath = `/notes/${encodedSemester}/${encodedSubject}/${chapterId}.html`;
-        const response = await fetch(filePath);
+        const response = await fetch(`${filePath}?v=${NOTES_VERSION}`);
         if (!response.ok) return false;
         const text = await response.text();
         return !text.includes('id="root"') && !text.includes("id='root'");

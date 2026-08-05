@@ -125,7 +125,7 @@ export function Footer() {
         
         {/* Top/Main Section */}
         <motion.div
-          className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-slate-900/60"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-12"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -185,12 +185,19 @@ export function Footer() {
                 ) : (
                   <motion.div
                     key="success"
-                    className="flex items-center space-x-2 text-emerald-400 text-xs font-bold"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    className="flex flex-col gap-2 bg-emerald-950/20 border border-emerald-900/50 p-4 rounded-xl text-emerald-400 text-xs font-bold shadow-lg shadow-emerald-950/10 max-w-sm"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
                   >
-                    <CheckCircle className="w-4 h-4 flex-shrink-0" />
-                    <span>Subscribed! We will notify you ofPU notices.</span>
+                    <div className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 flex-shrink-0 animate-bounce text-emerald-400" />
+                      <span>Subscription Successful!</span>
+                    </div>
+                    <p className="text-[10px] text-emerald-400/80 font-normal leading-relaxed">
+                      You are now registered. We will dispatch critical Pokhara University notices to your inbox instantly.
+                    </p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -205,12 +212,12 @@ export function Footer() {
                 <li key={link.name}>
                   <Link
                     to={link.href}
-                    className="text-sm text-slate-400 hover:text-white transition-colors duration-200 flex items-center group relative overflow-hidden"
+                    className="text-sm text-slate-400 hover:text-white transition-all duration-200 flex items-center group"
                   >
-                    <span className="relative z-10 transition-transform group-hover:translate-x-1 inline-block">
+                    <span className="transition-transform group-hover:translate-x-1.5 flex items-center gap-1.5">
+                      <span className="opacity-0 w-0 group-hover:opacity-100 group-hover:w-3 transition-all text-indigo-400 font-bold">→</span>
                       {link.name}
                     </span>
-                    <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-indigo-500 transition-all duration-300 group-hover:w-8" />
                   </Link>
                 </li>
               ))}
@@ -225,12 +232,12 @@ export function Footer() {
                 <li key={tool.name}>
                   <Link
                     to={tool.href}
-                    className="text-sm text-slate-400 hover:text-white transition-colors duration-200 flex items-center group relative overflow-hidden"
+                    className="text-sm text-slate-400 hover:text-white transition-all duration-200 flex items-center group"
                   >
-                    <span className="relative z-10 transition-transform group-hover:translate-x-1 inline-block">
+                    <span className="transition-transform group-hover:translate-x-1.5 flex items-center gap-1.5">
+                      <span className="opacity-0 w-0 group-hover:opacity-100 group-hover:w-3 transition-all text-purple-400 font-bold">→</span>
                       {tool.name}
                     </span>
-                    <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-purple-500 transition-all duration-300 group-hover:w-8" />
                   </Link>
                 </li>
               ))}
@@ -280,8 +287,11 @@ export function Footer() {
 
         </motion.div>
 
+        {/* Gradient Divider Line */}
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-800 to-transparent my-12" />
+
         {/* Bottom Section */}
-        <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 relative">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 relative">
           
           {/* Copyrights */}
           <div className="text-left text-[11px] text-slate-500 font-medium tracking-wide flex items-center space-x-1.5 order-2 md:order-1">
@@ -313,8 +323,12 @@ export function Footer() {
           {/* Frosted Glass Back to Top Button */}
           <motion.button
             onClick={scrollToTop}
-            className="w-10 h-10 bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/20 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl hover:text-indigo-400 text-slate-400 transition-all duration-300 absolute -top-5 md:top-auto md:-bottom-2 right-4 lg:-right-4"
-            whileHover={{ scale: 1.05, y: -2 }}
+            className="w-10 h-10 bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/30 rounded-full flex items-center justify-center shadow-lg hover:shadow-indigo-500/10 hover:text-indigo-400 text-slate-400 transition-all duration-300 absolute -top-5 md:top-auto md:-bottom-2 right-4 lg:-right-4"
+            whileHover={{ 
+              scale: 1.1, 
+              y: [0, -4, 0],
+              transition: { repeat: Infinity, duration: 0.6, ease: "easeInOut" }
+            }}
             whileTap={{ scale: 0.95 }}
             aria-label="Scroll to top"
           >

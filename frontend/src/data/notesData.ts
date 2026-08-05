@@ -1,3 +1,7 @@
+import versionData from "../../public/version.json";
+
+export const NOTES_VERSION = versionData.version;
+
 export interface Subject {
   courseCode: string;
   courseName: string;
