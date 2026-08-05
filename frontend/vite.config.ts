@@ -11,7 +11,7 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
       includeAssets: ['favicon.png', 'icon-512.png', 'logo.jpg'],
       manifest: {
         name: 'BCSITHub - Educational Platform for BCSIT Students',

@@ -19,7 +19,7 @@ import { useAuth } from './context/AuthContext';
 import { Toaster } from 'react-hot-toast';
 import { ToastContainer } from './components/ui/Toast';
 
-import { useUpdateCheck } from './hooks/useUpdateCheck';
+import { ReloadPrompt } from './components/common/ReloadPrompt';
 
 // Pages
 import { Home } from './pages/Home';
@@ -58,7 +58,7 @@ import { ResetPassword } from './pages/auth/ResetPassword';
 import { NotFound } from './pages/NotFound';
 
 function AppContent() {
-  useUpdateCheck();
+
   const { user } = useAuth();
   const location = useLocation();
   const isDashboardRoute = location.pathname.startsWith('/admin-dashboard') || 
@@ -71,6 +71,7 @@ function AppContent() {
       {!isDashboardRoute && <Navbar />}
       <PWAInstallBanner />
       <PWAUpdateToast />
+      <ReloadPrompt />
       <AIChatBot />
 
       <main className="flex-1">
