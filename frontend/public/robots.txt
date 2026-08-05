@@ -27,8 +27,6 @@ Disallow: /dashboard/
 Disallow: /profile/
 Disallow: /admin-dashboard/
 Disallow: /teacher-dashboard/
-Disallow: /signin
-Disallow: /signup
 Disallow: /forgot-password
 Disallow: /email-verification
 Allow: /api/notices
