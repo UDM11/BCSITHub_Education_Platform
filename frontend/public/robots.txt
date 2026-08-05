@@ -31,6 +31,10 @@ Disallow: /signin
 Disallow: /signup
 Disallow: /forgot-password
 Disallow: /email-verification
+Allow: /api/notices
+Allow: /api/papers
+Allow: /api/notes
+Allow: /api/colleges
 Disallow: /api/
 
 # SECTION 3: Restriction of AI Scrapers & Data Harvesters
