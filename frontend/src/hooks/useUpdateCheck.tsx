@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import versionData from "../../public/version.json";
 
 export function useUpdateCheck() {
   const location = useLocation();
-  const currentVersion = useRef<string | null>(null);
   const isUpdateFound = useRef(false);
 
   const fetchVersion = async (): Promise<string | null> => {
@@ -31,7 +31,10 @@ export function useUpdateCheck() {
             Notes and components have been updated. Click below to load the latest changes.
           </span>
           <button
-            onClick={() => window.location.reload()}
+            onClick={() => {
+              // Force reload bypassing HTTP cache
+              window.location.reload();
+            }}
             style={{
               background: "#4f46e5",
               color: "white",
@@ -68,9 +71,7 @@ export function useUpdateCheck() {
     const serverVersion = await fetchVersion();
     if (!serverVersion) return;
 
-    if (!currentVersion.current) {
-      currentVersion.current = serverVersion;
-    } else if (currentVersion.current !== serverVersion) {
+    if (versionData.version !== serverVersion) {
       showUpdateToast();
     }
   };
