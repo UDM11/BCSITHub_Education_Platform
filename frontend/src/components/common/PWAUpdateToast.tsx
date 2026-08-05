@@ -27,6 +27,25 @@ export function PWAUpdateToast() {
     }
   }, [needRefresh, updateServiceWorker]);
 
+  // 1.5. Listen for the new service worker taking control (automatic reload on updates)
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      let refreshing = false;
+      const handleControllerChange = () => {
+        // Only reload if the page was previously controlled by an older service worker
+        if (navigator.serviceWorker.controller && !refreshing) {
+          refreshing = true;
+          console.log("[PWA] New version activated. Performing hard refresh to fetch latest assets...");
+          window.location.reload();
+        }
+      };
+      navigator.serviceWorker.addEventListener('controllerchange', handleControllerChange);
+      return () => {
+        navigator.serviceWorker.removeEventListener('controllerchange', handleControllerChange);
+      };
+    }
+  }, []);
+
   // 2. Handle ChunkLoadError (fails to import lazy bundles because files changed on server)
   useEffect(() => {
     const handleGlobalError = (event: ErrorEvent) => {

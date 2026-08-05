@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/jpeg" href="/logo.jpg" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-512.png" />
+    <link rel="apple-touch-icon" href="/icon-512.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#4f46e5" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -39,16 +41,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
     
-    <!-- Structured JSON-LD Schema (Google Rich Snippets) -->
+    <!-- Structured JSON-LD Organization Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "EducationalOrganization",
+      "@type": "Organization",
       "name": "BCSITHub",
       "url": "https://bcsithub.umeshdarlami.com.np/",
       "logo": "https://bcsithub.umeshdarlami.com.np/logo.jpg",
       "description": "Comprehensive educational platform for BCSIT students of Pokhara University featuring notes, syllabus guides, past exam papers, SGPA/CGPA calculators, and code compilers.",
-      "knowsAbout": ["BCSIT Course", "Pokhara University Syllabus", "Computer Science Education", "Coding Compilers", "Study Timers"]
+      "sameAs": [
+        "https://bcsithub.umeshdarlami.com.np/"
+      ]
     }
     </script>
 
@@ -58,6 +62,7 @@
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "BCSITHub",
+      "alternateName": ["BCSIT Portal", "BCSIT Hub", "BCSIT"],
       "url": "https://bcsithub.umeshdarlami.com.np/",
       "potentialAction": {
         "@type": "SearchAction",
@@ -70,91 +75,54 @@
     }
     </script>
 
-    <!-- Structured JSON-LD Sitelink Navigation Elements Schema -->
+    <!-- Structured JSON-LD Course Schema (Google Rich Snippets Eligible) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ItemList",
-      "itemListElement": [
-        {
-          "@type": "SiteNavigationElement",
-          "position": 1,
-          "name": "Course Notes",
-          "url": "https://bcsithub.umeshdarlami.com.np/notes"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "position": 2,
-          "name": "Past Exam Papers",
-          "url": "https://bcsithub.umeshdarlami.com.np/past-papers"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "position": 3,
-          "name": "Semester Syllabus",
-          "url": "https://bcsithub.umeshdarlami.com.np/syllabus"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "position": 4,
-          "name": "SGPA & CGPA Calculator",
-          "url": "https://bcsithub.umeshdarlami.com.np/cgpa-calculator"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "position": 5,
-          "name": "Online Code Compiler",
-          "url": "https://bcsithub.umeshdarlami.com.np/code-compiler"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "position": 6,
-          "name": "Official PU Notices",
-          "url": "https://bcsithub.umeshdarlami.com.np/pu-notices"
-        }
-      ]
+      "@type": "Course",
+      "name": "Bachelor of Computer Science and Information Technology (BCSIT)",
+      "description": "A comprehensive four-year undergraduate program under Pokhara University, covering computer science, software engineering, and information technology. Access notes, past papers, and syllabus.",
+      "provider": {
+        "@type": "Organization",
+        "name": "Pokhara University",
+        "sameAs": "https://pu.edu.np/"
+      }
     }
     </script>
 
-    <!-- Structured JSON-LD FAQ Schema -->
+    <!-- Structured JSON-LD SoftwareApplication - Code Compiler Schema (Google Rich Snippets Eligible) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Where can I find Pokhara University BCSIT notes and syllabus guidelines?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "BCSITHub offers complete semester-wise BCSIT notes, course syllabus breakdowns, and examination guidelines. You can access bcsit 1st sem notes, 2nd sem notes, 3rd sem notes, 4th sem notes, and upcoming senior modules for free."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How do I download BCSIT past question papers and solutions?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Navigate to the Past Papers section to search and download Pokhara University BCSIT question papers and solved answer keys. You can filter by subject code (e.g., CMP 271 Database Management System notes) and semester."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Which are the best BCSIT colleges in Nepal affiliated with Pokhara University?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "You can explore our Colleges page for a comprehensive list of top BCSIT colleges in Nepal, including Nepal College of Information Technology (NCIT), Gandaki College of Engineering, Prime College, and others."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where can I see the latest Pokhara University BCSIT notices?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We fetch and publish official exam schedules, result updates, and academic notifications in real-time under the PU Notices panel, keeping you updated instantly."
-          }
-        }
-      ]
+      "@type": "SoftwareApplication",
+      "name": "BCSITHub Online Code Compiler",
+      "operatingSystem": "All",
+      "applicationCategory": "DeveloperApplication",
+      "browserRequirements": "Requires HTML5 compatible browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "An online interactive compiler and execution environment for writing, compiling, and running code in multiple programming languages directly from the browser."
+    }
+    </script>
+
+    <!-- Structured JSON-LD SoftwareApplication - SGPA & CGPA Calculator Schema (Google Rich Snippets Eligible) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "BCSITHub SGPA & CGPA Calculator",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilitiesApplication",
+      "browserRequirements": "Requires HTML5 compatible browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A simple and accurate SGPA and CGPA calculator tailored specifically to the grading system of the Pokhara University BCSIT program."
     }
     </script>
   </head>
