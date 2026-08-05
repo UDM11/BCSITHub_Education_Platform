@@ -1,138 +1,359 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 1: Introduction to Computer</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #eef2f7;
+            color: #1e2a3a;
+            line-height: 1.6;
+            padding: 2rem 1.5rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b4a7a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 8px solid #1b6bb0;
+            padding-left: 1.2rem;
+            margin: 0 0 0.5rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.75rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-top: 2.4rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.6rem 0 0.8rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2rem;
+            margin-bottom: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.06);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
     </style>
 </head>
 <body>
     <h1>Unit 1: Introduction to Computer</h1>
+    <div class="subhead">Foundational concepts · evolution · classification · modern impact</div>
 
+    <!-- ========== 1.1 ========== -->
     <div class="section">
         <h2>1.1 Introduction</h2>
-        <p>A computer is an electronic device that processes data to perform tasks according to programmed instructions, revolutionizing information handling across industries.</p>
+        <p>A <strong>computer</strong> is an electronic machine that processes raw data into meaningful information following a set of instructions (program). It is the cornerstone of the digital age, influencing every domain from science to entertainment.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📌 Definition</strong><br>Accepts input, processes it via arithmetic/logical operations, stores results, and outputs information. The stored-program concept (von Neumann architecture) makes it reprogrammable.</div>
+            <div class="card"><strong>⚙️ Core components</strong><br>Hardware (CPU, memory, I/O) + Software (OS, applications). They cooperate to execute tasks, from simple arithmetic to AI inference.</div>
+        </div>
         <ul>
-            <li><strong>Definition:</strong> A computer accepts input, processes it using predefined instructions, and produces output, functioning as a versatile tool for computation and automation.</li>
-            <li><strong>Components:</strong> Consists of hardware (physical parts like CPU, memory) and software (programs and operating systems) working together to execute tasks.</li>
-            <li><strong>Functionality:</strong> Performs calculations, stores data, and enables communication, supporting applications from simple calculations to complex simulations.</li>
-            <li><strong>Impact:</strong> Computers drive innovation in fields like education, healthcare, business, and entertainment, transforming how tasks are performed globally.</li>
+            <li><strong>Functionality:</strong> Performs high-speed calculations, automates repetitive workflows, enables global communication, and powers simulation &amp; modelling.</li>
+            <li><strong>Impact:</strong> Computers underpin modern healthcare (imaging, patient records), finance (trading, analytics), education (e-learning, VR), and manufacturing (robotics, IoT).</li>
+            <li><strong>Evolution:</strong> From room-sized mainframes to wearable devices, computers continue to shrink in size while growing in capability.</li>
         </ul>
-        <p>The computer is a foundational technology shaping modern society and technological advancements.</p>
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> A computer is not just a tool – it is a <em>platform for innovation</em>. Its ability to be programmed makes it infinitely adaptable.
+        </div>
     </div>
 
+    <!-- ========== 1.2 ========== -->
     <div class="section">
         <h2>1.2 Characteristics of Computer</h2>
-        <p>Computers possess distinct characteristics that make them powerful and versatile tools for processing and managing information.</p>
-        <ul>
-            <li><strong>Speed:</strong> Execute millions of operations per second, enabling rapid data processing (e.g., performing complex calculations in milliseconds).</li>
-            <li><strong>Accuracy:</strong> Deliver precise results when given correct instructions and data, critical for applications like scientific research and financial analysis.</li>
-            <li><strong>Storage Capacity:</strong> Store vast amounts of data in various formats (e.g., text, images) on devices like hard drives or cloud storage.</li>
-            <li><strong>Versatility and Automation:</strong> Handle diverse tasks (e.g., word processing, gaming) and automate repetitive processes, improving efficiency.</li>
+        <p>Computers exhibit a unique set of traits that distinguish them from other machines. These characteristics define their utility and performance.</p>
+        <ul class="icon-list">
+            <li><strong>Speed:</strong> Modern CPUs operate in gigahertz (billions of cycles/sec). Supercomputers reach exaflops (10<sup>18</sup> operations/sec).</li>
+            <li><strong>Accuracy:</strong> Errors are virtually zero if the input and logic are correct. Used in mission-critical systems like aviation and nuclear reactors.</li>
+            <li><strong>Storage &amp; Retrieval:</strong> Terabytes of data can be stored permanently (HDD/SSD) and accessed in milliseconds. Cloud storage scales infinitely.</li>
+            <li><strong>Versatility:</strong> A single machine can act as a typewriter, gaming console, design workstation, or server – purely through software.</li>
+            <li><strong>Automation:</strong> Once a program is loaded, the computer executes instructions without human intervention, enabling batch processing and real-time control.</li>
+            <li><strong>Diligence:</strong> Computers do not suffer from fatigue; they maintain consistent performance over long periods, ideal for 24/7 operations.</li>
         </ul>
-        <p>These characteristics enable computers to meet diverse needs with efficiency and reliability.</p>
+        <table>
+            <tr><th>Characteristic</th><th>Description</th><th>Real‑world example</th></tr>
+            <tr><td>Speed</td><td>Processes millions of instructions per second</td><td>Weather forecasting models</td></tr>
+            <tr><td>Accuracy</td><td>Near‑zero error rate (depends on correct data)</td><td>Medical diagnostic systems</td></tr>
+            <tr><td>Storage</td><td>Large capacity, fast access</td><td>Cloud databases, streaming libraries</td></tr>
+            <tr><td>Versatility</td><td>Multiple applications via software</td><td>Smartphone (calls, gaming, navigation)</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 1.3 ========== -->
     <div class="section">
         <h2>1.3 History of Computing Devices</h2>
-        <p>The history of computing devices traces the evolution from early mechanical tools to modern electronic systems, reflecting technological advancements.</p>
+        <p>The journey of computing spans millennia, from ancient counting aids to today's quantum prototypes. Each milestone reflects human ingenuity.</p>
         <ul>
-            <li><strong>Early Devices:</strong> Abacus (circa 2400 BCE) for basic arithmetic; mechanical calculators like Pascal’s Calculator (1642) for addition and subtraction.</li>
-            <li><strong>19th Century:</strong> Charles Babbage’s Difference Engine and Analytical Engine (1830s-1840s), early concepts of programmable machines, with Ada Lovelace writing the first algorithms.</li>
-            <li><strong>20th Century:</strong> Electronic computers like ENIAC (1945), using vacuum tubes, marked the shift to digital computing; transistors (1950s) reduced size and increased reliability.</li>
-            <li><strong>Modern Era:</strong> Development of microprocessors (1970s) led to personal computers, followed by laptops, smartphones, and cloud computing.</li>
+            <li><strong>Abacus (≈2400 BCE):</strong> Manual calculating tool used for arithmetic – still in use today for teaching.</li>
+            <li><strong>Pascal's Calculator (1642):</strong> Mechanical device for addition/subtraction. Leibniz later added multiplication/division.</li>
+            <li><strong>Babbage &amp; Lovelace (1830s–1840s):</strong> Charles Babbage designed the Difference Engine (polynomials) and Analytical Engine (programmable). Ada Lovelace wrote the first algorithm for the Analytical Engine, making her the first programmer.</li>
+            <li><strong>Tabulating machines (1890):</strong> Herman Hollerith used punched cards for the US census – later founded IBM.</li>
+            <li><strong>ENIAC (1945):</strong> First general‑purpose electronic computer (vacuum tubes). Weighed 30 tons.</li>
+            <li><strong>Transistor &amp; IC (1950s–60s):</strong> Transistors replaced vacuum tubes; integrated circuits packed multiple transistors on one chip.</li>
+            <li><strong>Microprocessor (1971):</strong> Intel 4004 – CPU on a single chip, leading to personal computers.</li>
+            <li><strong>Internet &amp; mobile (1990s–present):</strong> Global connectivity and smartphones have made computing ubiquitous.</li>
         </ul>
-        <p>This history highlights the progression toward faster, smaller, and more powerful computing devices.</p>
+        <div class="code-block">
+            <span>// Ada Lovelace's first algorithm (symbolic notation)</span><br>
+            <span>// Compute Bernoulli numbers using the Analytical Engine</span><br>
+            <span>// Considered the first computer program (1843)</span>
+        </div>
+        <p><strong>Modern era:</strong> Quantum computers, neuromorphic chips, and edge computing represent the frontier of computing history.</p>
     </div>
 
+    <!-- ========== 1.4 ========== -->
     <div class="section">
         <h2>1.4 Generations of Computer</h2>
-        <p>Computers are categorized into generations based on technological advancements, each improving performance, size, and accessibility.</p>
-        <ul>
-            <li><strong>First Generation (1940s-1950s):</strong> Vacuum tube-based, large, and power-intensive (e.g., ENIAC, UNIVAC). Programmed in machine language, used for scientific calculations.</li>
-            <li><strong>Second Generation (1950s-1960s):</strong> Transistor-based, smaller, and more reliable. Introduced high-level languages like COBOL and FORTRAN, used in business and science.</li>
-            <li><strong>Third Generation (1960s-1970s):</strong> Integrated circuits (ICs) increased speed and efficiency. Operating systems and minicomputers emerged, broadening commercial use.</li>
-            <li><strong>Fourth and Fifth Generations (1970s-Present):</strong> Microprocessors and VLSI (Very Large Scale Integration) led to personal computers, laptops, and AI-driven systems, with applications in all sectors.</li>
-        </ul>
-        <p>Each generation enhanced computing power, accessibility, and application scope.</p>
+        <p>Generations are defined by the underlying technology, each bringing dramatic improvements in speed, cost, and usability.</p>
+        <table>
+            <tr><th>Generation</th><th>Technology</th><th>Key features</th><th>Example systems</th></tr>
+            <tr><td>1st (1940s–50s)</td><td>Vacuum tubes</td><td>Large, costly, machine language, limited to scientific</td><td>ENIAC, UNIVAC I</td></tr>
+            <tr><td>2nd (1950s–60s)</td><td>Transistors</td><td>Smaller, reliable, high‑level languages (COBOL, FORTRAN)</td><td>IBM 7090, PDP‑1</td></tr>
+            <tr><td>3rd (1960s–70s)</td><td>Integrated circuits (ICs)</td><td>Multi‑programming, operating systems, minicomputers</td><td>IBM System/360, PDP‑8</td></tr>
+            <tr><td>4th (1970s–90s)</td><td>Microprocessors, VLSI</td><td>Personal computers, GUIs, networking, portability</td><td>Apple II, IBM PC, Macintosh</td></tr>
+            <tr><td>5th (1990s–present)</td><td>AI, ULSI, quantum</td><td>Parallel processing, natural language, machine learning</td><td>Modern smartphones, supercomputers, quantum prototypes</td></tr>
+        </table>
+        <p>Each generation expanded the user base – from military/scientific to business, then to homes, and now to wearable and embedded devices.</p>
     </div>
 
+    <!-- ========== 1.5 ========== -->
     <div class="section">
         <h2>1.5 Classification of Computer</h2>
-        <p>Computers are classified based on size, purpose, and processing capabilities, each suited to specific tasks and environments.</p>
+        <p>Computers are grouped by size, purpose, and data handling. This classification helps match the system to the task.</p>
+        <h3>By Size &amp; Power</h3>
         <ul>
-            <li><strong>By Size:</strong> Supercomputers (e.g., for weather forecasting), mainframes (e.g., banking systems), minicomputers (mid-sized organizations), and microcomputers (e.g., PCs, laptops).</li>
-            <li><strong>By Purpose:</strong> General-purpose computers handle varied tasks (e.g., desktops); special-purpose computers are designed for specific functions (e.g., embedded systems in cars).</li>
-            <li><strong>By Processing:</strong> Analog (continuous data, e.g., thermometers), digital (binary data, e.g., PCs), and hybrid (combine analog and digital, e.g., medical equipment).</li>
-            <li><strong>Examples:</strong> Smartphones (microcomputers), servers (mainframes), and quantum computers (emerging for complex computations).</li>
+            <li><strong>Supercomputers:</strong> Fastest, for complex simulations (weather, nuclear, astrophysics). Examples: Fugaku, Summit.</li>
+            <li><strong>Mainframes:</strong> Large‑scale transaction processing (banking, airlines). High reliability and I/O throughput.</li>
+            <li><strong>Minicomputers:</strong> Mid‑sized, used in manufacturing and research (now largely replaced by servers).</li>
+            <li><strong>Microcomputers:</strong> Desktops, laptops, tablets, smartphones – the most common category.</li>
         </ul>
-        <p>Classification helps identify the appropriate computer type for specific applications.</p>
+        <h3>By Purpose</h3>
+        <ul>
+            <li><strong>General‑purpose:</strong> Designed for a wide variety of tasks (PCs, laptops).</li>
+            <li><strong>Special‑purpose:</strong> Embedded systems (microwave, automotive ECU, medical monitors).</li>
+        </ul>
+        <h3>By Data Handling</h3>
+        <ul>
+            <li><strong>Analog:</strong> Processes continuous signals (thermometers, analog oscilloscopes).</li>
+            <li><strong>Digital:</strong> Uses discrete binary values – the vast majority of modern computers.</li>
+            <li><strong>Hybrid:</strong> Combines analog and digital for specialised applications (ICU monitors, flight simulators).</li>
+        </ul>
+        <div class="note-box">
+            <strong>🧠 Emerging categories:</strong> Quantum computers (qubits), biological computers, and optical computers are pushing the boundaries of classification.
+        </div>
     </div>
 
+    <!-- ========== 1.6 ========== -->
     <div class="section">
-        <h2>1.6 Data and Program Representation in Computer</h2>
-        <p>Data and programs are represented in computers using binary systems, enabling processing and storage in a standardized format.</p>
+        <h2>1.6 Data and Program Representation</h2>
+        <p>Inside a computer, everything is represented in binary – a system of 0s and 1s. This uniformity enables reliable processing and storage.</p>
         <ul>
-            <li><strong>Binary System:</strong> Data is stored as bits (0s and 1s), with bytes (8 bits) representing characters, numbers, or instructions. Example: ASCII code for ‘A’ is 01000001.</li>
-            <li><strong>Data Types:</strong> Numbers (integers, floating-point), text (ASCII/Unicode), and multimedia (images, audio) are encoded in binary for processing.</li>
-            <li><strong>Program Representation:</strong> Programs are sequences of instructions in machine language (binary) or high-level languages (e.g., Python), compiled or interpreted into binary for execution.</li>
-            <li><strong>Storage and Processing:</strong> Data and programs reside in memory (RAM, ROM) or storage (HDD, SSD), processed by the CPU using binary operations.</li>
+            <li><strong>Bits &amp; Bytes:</strong> A bit is the smallest unit (0/1). A byte = 8 bits, representing one character (e.g., 'A' = 01000001 in ASCII).</li>
+            <li><strong>Number systems:</strong> Binary (base‑2), octal, decimal, and hexadecimal are used. Hexadecimal is common for memory addressing.</li>
+            <li><strong>Data types:</strong> Integers (signed/unsigned), floating‑point (IEEE 754), characters (ASCII, Unicode), and multimedia (JPEG, MP3) are all binary‑encoded.</li>
+            <li><strong>Program representation:</strong> Source code (high‑level) is compiled/interpreted into machine code – a stream of binary instructions that the CPU executes.</li>
+            <li><strong>Memory hierarchy:</strong> Registers, cache, RAM, and storage (SSD/HDD) hold data and instructions at different speeds and capacities.</li>
         </ul>
-        <p>Binary representation ensures computers can handle diverse data and programs efficiently.</p>
+        <div class="code-block">
+            <span>; Example: machine code for adding two numbers (simplified)</span><br>
+            <span>MOV R1, #5    ; load 5 into register R1</span><br>
+            <span>MOV R2, #7    ; load 7 into R2</span><br>
+            <span>ADD R3, R1, R2 ; R3 = R1 + R2 → binary: 0001 0011 0101 0111 ...</span>
+        </div>
+        <p>Binary representation ensures that data and instructions are indistinguishable to the hardware – a fundamental concept of the stored‑program computer.</p>
     </div>
 
+    <!-- ========== 1.7 ========== -->
     <div class="section">
         <h2>1.7 Applications of Computers</h2>
-        <p>Computers have diverse applications across industries, transforming processes and enabling innovation through their versatility and power.</p>
-        <ul>
-            <li><strong>Education:</strong> Facilitate e-learning, simulations, and research through tools like online platforms and data analysis software.</li>
-            <li><strong>Business:</strong> Streamline operations with accounting software, inventory management, and customer relationship systems (e.g., ERP, CRM).</li>
-            <li><strong>Healthcare:</strong> Support diagnostics (e.g., MRI imaging), patient records, and medical research using computational models.</li>
-            <li><strong>Science and Engineering:</strong> Enable simulations (e.g., climate modeling), design (e.g., CAD software), and data processing in research and development.</li>
-        </ul>
-        <p>Computers’ wide-ranging applications enhance efficiency, accuracy, and innovation across fields.</p>
+        <p>The ubiquity of computers stems from their ability to be moulded to almost any task. Below are major application domains.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🎓 Education</strong><br>E‑learning platforms, interactive simulations, virtual labs, and AI tutors. Access to global knowledge.</div>
+            <div class="card"><strong>🏥 Healthcare</strong><br>Diagnostic imaging (MRI, CT), robotic surgery, EHR systems, drug discovery via molecular modelling.</div>
+            <div class="card"><strong>🏢 Business &amp; Finance</strong><br>ERP, CRM, high‑frequency trading, fraud detection, supply chain optimisation, and data analytics.</div>
+            <div class="card"><strong>🔬 Science &amp; Engineering</strong><br>CAD/CAE, finite element analysis, climate modelling, space exploration, and particle physics simulations.</div>
+            <div class="card"><strong>🎮 Entertainment</strong><br>Video games, CGI for movies, music production, streaming services, and virtual reality experiences.</div>
+            <div class="card"><strong>🌐 Communication</strong><br>Email, social media, VoIP, video conferencing, and the entire internet infrastructure.</div>
+        </div>
+        <p>Computers also power critical infrastructure: power grids, transportation systems (air traffic control, autonomous vehicles), and defence systems.</p>
+        <div class="note-box">
+            <strong>📈 Future trends:</strong> AI‑driven automation, edge computing, quantum supremacy, and human‑computer integration (BCI) will expand applications even further.
+        </div>
+    </div>
+
+    <!-- ========== ADDITIONAL: summary ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit summary</strong><br>Computers are programmable electronic devices that process data with speed, accuracy, and versatility. Their evolution from mechanical tools to AI‑driven systems has transformed society.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Binary representation underpins all computing.<br>• Generations show a trend: smaller, faster, cheaper.<br>• Classification by size, purpose, and data type.</div>
     </div>
 </body>
 </html>

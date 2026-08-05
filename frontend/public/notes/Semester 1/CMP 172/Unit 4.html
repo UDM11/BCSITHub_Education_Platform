@@ -1,340 +1,605 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unit 4: Operators and Expression</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-      font-weight: bold;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 4: Operators and Expression</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Unit 4: Operators and Expression</h1>
+    <h1>Unit 4: Operators and Expression</h1>
+    <div class="subhead">Operators · operands · expressions · arithmetic · relational · logical · bitwise · precedence</div>
 
-  <div class="section">
-    <h2>4.1 Operator, Operand, and Expression</h2>
-    <p>Operators are symbols that perform operations on operands, which are variables or values. An expression is a combination of operators and operands that evaluates to a single value.</p>
-    <ul>
-      <li><strong>Operator:</strong> Symbols like +, -, *, /, etc.</li>
-      <li><strong>Operand:</strong> Values or variables operated on, e.g., 5, x.</li>
-      <li><strong>Expression:</strong> Combines operators and operands, e.g., x + 5.</li>
-      <li><strong>Example:</strong>
-        <pre>
-int x = 10, y = 5;
-int z = x + y; // x + y is an expression
-        </pre>
-      </li>
-    </ul>
-  </div>
+    <!-- ========== 4.1 ========== -->
+    <div class="section">
+        <h2>4.1 Operator, Operand, and Expression</h2>
+        <p><strong>Operators</strong> are symbols that perform operations on data. <strong>Operands</strong> are the variables or values on which operations are performed. An <strong>expression</strong> is a combination of operators and operands that evaluates to a single value.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>➕ Operator</strong><br>Symbols that perform operations (e.g., +, -, *, /, %, ==, &amp;&amp;).</div>
+            <div class="card"><strong>📊 Operand</strong><br>Values or variables operated on (e.g., x, 5, y, 3.14).</div>
+        </div>
 
-  <div class="section">
-    <h2>4.2 Types of Operators</h2>
-    <p>C provides various types of operators to perform different operations.</p>
-
-    <h2>4.2.1 Arithmetic Operator</h2>
-    <p>Arithmetic operators perform mathematical calculations.</p>
-    <ul>
-      <li><strong>Operators:</strong>
+        <h3>Basic Terminology</h3>
         <ul>
-          <li>+: Addition</li>
-          <li>-: Subtraction</li>
-          <li>*: Multiplication</li>
-          <li>/: Division</li>
-          <li>%: Modulus (remainder)</li>
+            <li><strong>Unary Operator:</strong> Operates on a single operand (e.g., -x, ++x, !y).</li>
+            <li><strong>Binary Operator:</strong> Operates on two operands (e.g., a + b, x * y).</li>
+            <li><strong>Ternary Operator:</strong> Operates on three operands (e.g., condition ? value1 : value2).</li>
+            <li><strong>Expression:</strong> A combination of operators and operands that yields a value.</li>
         </ul>
-      </li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int a = 10, b = 3;
-    printf("Sum: %d\n", a + b); // 13
-    printf("Mod: %d\n", a % b); // 1
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
 
-    <h2>4.2.2 Relational Operator</h2>
-    <p>Relational operators compare two values and return true (1) or false (0).</p>
-    <ul>
-      <li><strong>Operators:</strong>
+        <div class="code-block">
+            <span>// Examples of operators, operands, and expressions</span><br>
+            int x = 10, y = 5;<br><br>
+            <span>// Operator: +, Operands: x, y → Expression: x + y</span><br>
+            int sum = x + y;<br><br>
+            <span>// Operator: *, Operands: x, 2 → Expression: x * 2</span><br>
+            int product = x * 2;<br><br>
+            <span>// Operator: >, Operands: x, y → Expression: x > y</span><br>
+            int isGreater = x > y;<br><br>
+            <span>// Ternary operator: condition ? expr1 : expr2</span><br>
+            int max = (x > y) ? x : y;
+        </div>
+
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> Every C statement is built from expressions. Understanding operators and operands is fundamental to writing effective C programs.
+        </div>
+    </div>
+
+    <!-- ========== 4.2 ========== -->
+    <div class="section">
+        <h2>4.2 Types of Operators</h2>
+        <p>C provides a rich set of operators categorized by their functionality. Understanding each category is essential for writing efficient and readable code.</p>
+
+        <!-- ===== 4.2.1 ===== -->
+        <h3>4.2.1 Arithmetic Operator</h3>
+        <p><strong>Arithmetic operators</strong> perform mathematical calculations on numeric operands (int, float, double, etc.).</p>
         <ul>
-          <li>==: Equal to</li>
-          <li>!=: Not equal to</li>
-          <li>&gt;: Greater than</li>
-          <li>&lt;: Less than</li>
-          <li>&gt;=: Greater than or equal to</li>
-          <li>&lt;=: Less than or equal to</li>
+            <li><strong>+ (Addition):</strong> Adds two operands. <code>a + b</code></li>
+            <li><strong>- (Subtraction):</strong> Subtracts second from first. <code>a - b</code></li>
+            <li><strong>* (Multiplication):</strong> Multiplies two operands. <code>a * b</code></li>
+            <li><strong>/ (Division):</strong> Divides first by second. <code>a / b</code>
+                <ul>
+                    <li><span class="highlight">Integer division:</span> 5 / 2 = 2 (truncates decimal)</li>
+                    <li><span class="highlight">Floating division:</span> 5.0 / 2.0 = 2.5</li>
+                </ul>
+            </li>
+            <li><strong>% (Modulus):</strong> Returns the remainder of integer division. <code>a % b</code> (works only with integers)</li>
         </ul>
-      </li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int a = 5, b = 3;
-    printf("a > b: %d\n", a > b); // 1 (true)
-    printf("a == b: %d\n", a == b); // 0 (false)
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
+        <div class="code-block">
+            <span>// Arithmetic operators example</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int a = 10, b = 3;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;float c = 10.0, d = 3.0;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Addition: %d\n", a + b);      <span>// 13</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Subtraction: %d\n", a - b);   <span>// 7</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Multiplication: %d\n", a * b); <span>// 30</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Division (int): %d\n", a / b);  <span>// 3 (truncated)</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Division (float): %.1f\n", c / d); <span>// 3.3</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Modulus: %d\n", a % b);      <span>// 1</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
 
-    <h2>4.2.3 Logical or Boolean Operator</h2>
-    <p>Logical operators combine conditions to produce a single boolean result.</p>
-    <ul>
-      <li><strong>Operators:</strong>
+        <!-- ===== 4.2.2 ===== -->
+        <h3>4.2.2 Relational Operator</h3>
+        <p><strong>Relational operators</strong> compare two values and return 1 (true) or 0 (false). They are used in decision-making and loop conditions.</p>
+        <table>
+            <tr><th>Operator</th><th>Meaning</th><th>Example</th><th>Result (a=5, b=3)</th></tr>
+            <tr><td>==</td><td>Equal to</td><td>a == b</td><td>0 (false)</td></tr>
+            <tr><td>!=</td><td>Not equal to</td><td>a != b</td><td>1 (true)</td></tr>
+            <tr><td>&gt;</td><td>Greater than</td><td>a &gt; b</td><td>1 (true)</td></tr>
+            <tr><td>&lt;</td><td>Less than</td><td>a &lt; b</td><td>0 (false)</td></tr>
+            <tr><td>&gt;=</td><td>Greater than or equal to</td><td>a &gt;= b</td><td>1 (true)</td></tr>
+            <tr><td>&lt;=</td><td>Less than or equal to</td><td>a &lt;= b</td><td>0 (false)</td></tr>
+        </table>
+        <div class="code-block">
+            <span>// Relational operators example</span><br>
+            int a = 5, b = 3;<br>
+            printf("a > b: %d\n", a > b);   <span>// 1 (true)</span><br>
+            printf("a == b: %d\n", a == b);  <span>// 0 (false)</span><br>
+            printf("a != b: %d\n", a != b);  <span>// 1 (true)</span>
+        </div>
+
+        <!-- ===== 4.2.3 ===== -->
+        <h3>4.2.3 Logical or Boolean Operator</h3>
+        <p><strong>Logical operators</strong> combine boolean expressions to produce a single boolean result. They are used in complex conditions.</p>
+        <table>
+            <tr><th>Operator</th><th>Meaning</th><th>Truth Table</th></tr>
+            <tr><td>&amp;&amp;</td><td>Logical AND</td><td>true &amp;&amp; true = true; true &amp;&amp; false = false</td></tr>
+            <tr><td>||</td><td>Logical OR</td><td>true || false = true; false || false = false</td></tr>
+            <tr><td>!</td><td>Logical NOT</td><td>!true = false; !false = true</td></tr>
+        </table>
+        <div class="code-block">
+            <span>// Logical operators example</span><br>
+            int x = 5, y = 3, z = 7;<br>
+            int result = (x > y) &amp;&amp; (y < z);  <span>// true &amp;&amp; true = 1</span><br>
+            printf("Result: %d\n", result);   <span>// 1</span><br><br>
+            int result2 = (x > y) || (x > z);  <span>// true || false = 1</span><br>
+            printf("Result2: %d\n", result2);  <span>// 1</span><br><br>
+            int result3 = !(x > y);            <span>// !true = 0</span><br>
+            printf("Result3: %d\n", result3);  <span>// 0</span>
+        </div>
+
+        <!-- ===== 4.2.4 ===== -->
+        <h3>4.2.4 Assignment Operator</h3>
+        <p><strong>Assignment operators</strong> assign values to variables. The basic assignment operator is <code>=</code>, and compound assignment operators combine assignment with other operations.</p>
+        <table>
+            <tr><th>Operator</th><th>Meaning</th><th>Equivalent</th></tr>
+            <tr><td>=</td><td>Simple assignment</td><td>x = 5</td></tr>
+            <tr><td>+=</td><td>Add and assign</td><td>x += 3 → x = x + 3</td></tr>
+            <tr><td>-=</td><td>Subtract and assign</td><td>x -= 3 → x = x - 3</td></tr>
+            <tr><td>*=</td><td>Multiply and assign</td><td>x *= 3 → x = x * 3</td></tr>
+            <tr><td>/=</td><td>Divide and assign</td><td>x /= 3 → x = x / 3</td></tr>
+            <tr><td>%=</td><td>Modulus and assign</td><td>x %= 3 → x = x % 3</td></tr>
+            <tr><td>&amp;=</td><td>Bitwise AND and assign</td><td>x &amp;= 3 → x = x &amp; 3</td></tr>
+            <tr><td>|=</td><td>Bitwise OR and assign</td><td>x |= 3 → x = x | 3</td></tr>
+            <tr><td>^=</td><td>Bitwise XOR and assign</td><td>x ^= 3 → x = x ^ 3</td></tr>
+            <tr><td>&lt;&lt;=</td><td>Left shift and assign</td><td>x &lt;&lt;= 1 → x = x &lt;&lt; 1</td></tr>
+            <tr><td>&gt;&gt;=</td><td>Right shift and assign</td><td>x &gt;&gt;= 1 → x = x &gt;&gt; 1</td></tr>
+        </table>
+        <div class="code-block">
+            <span>// Assignment operators example</span><br>
+            int x = 10;<br>
+            x += 5;   <span>// x = 15</span><br>
+            x *= 2;   <span>// x = 30</span><br>
+            x %= 7;   <span>// x = 2</span><br>
+            printf("x: %d\n", x);  <span>// 2</span>
+        </div>
+
+        <!-- ===== 4.2.5 ===== -->
+        <h3>4.2.5 Bitwise Operator</h3>
+        <p><strong>Bitwise operators</strong> perform operations on individual bits of integer operands. They are used in low-level programming, cryptography, and optimization.</p>
+        <table>
+            <tr><th>Operator</th><th>Meaning</th><th>Example (a=5=0101, b=3=0011)</th><th>Result</th></tr>
+            <tr><td>&amp;</td><td>Bitwise AND</td><td>5 &amp; 3</td><td>1 (0001)</td></tr>
+            <tr><td>|</td><td>Bitwise OR</td><td>5 | 3</td><td>7 (0111)</td></tr>
+            <tr><td>^</td><td>Bitwise XOR</td><td>5 ^ 3</td><td>6 (0110)</td></tr>
+            <tr><td>~</td><td>Bitwise NOT (complement)</td><td>~5</td><td>-6 (11111010)</td></tr>
+            <tr><td>&lt;&lt;</td><td>Left shift</td><td>5 &lt;&lt; 1</td><td>10 (1010)</td></tr>
+            <tr><td>&gt;&gt;</td><td>Right shift</td><td>5 &gt;&gt; 1</td><td>2 (0010)</td></tr>
+        </table>
+        <div class="code-block">
+            <span>// Bitwise operators example</span><br>
+            int a = 5, b = 3;  <span>// a = 0101, b = 0011</span><br>
+            printf("a & b: %d\n", a & b);   <span>// 1 (0001)</span><br>
+            printf("a | b: %d\n", a | b);   <span>// 7 (0111)</span><br>
+            printf("a ^ b: %d\n", a ^ b);   <span>// 6 (0110)</span><br>
+            printf("~a: %d\n", ~a);         <span>// -6</span><br>
+            printf("a << 1: %d\n", a << 1);  <span>// 10 (1010)</span><br>
+            printf("a >> 1: %d\n", a >> 1);  <span>// 2 (0010)</span>
+        </div>
+
+        <!-- ===== 4.2.6 ===== -->
+        <h3>4.2.6 Prefix and Postfix Increment and Decrement Operator</h3>
+        <p><strong>Increment (++)</strong> and <strong>decrement (--)</strong> operators add or subtract 1 from a variable. Their behavior differs based on whether they are used as prefix or postfix.</p>
         <ul>
-          <li>&&: Logical AND (true if both operands are true)</li>
-          <li>||: Logical OR (true if at least one operand is true)</li>
-          <li>!: Logical NOT (inverts the truth value)</li>
+            <li><strong>Prefix (++x, --x):</strong> Increment/decrement first, then use the value.</li>
+            <li><strong>Postfix (x++, x--):</strong> Use the current value first, then increment/decrement.</li>
         </ul>
-      </li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int a = 1, b = 0;
-    printf("a && b: %d\n", a && b); // 0 (false)
-    printf("!a: %d\n", !a); // 0 (false)
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
+        <div class="code-block">
+            <span>// Prefix vs Postfix example</span><br>
+            int x = 5, y;<br>
+            y = ++x;   <span>// x = 6, y = 6 (prefix: increment then assign)</span><br>
+            printf("x: %d, y: %d\n", x, y);  <span>// x: 6, y: 6</span><br><br>
+            x = 5;<br>
+            y = x++;   <span>// y = 5, x = 6 (postfix: assign then increment)</span><br>
+            printf("x: %d, y: %d\n", x, y);  <span>// x: 6, y: 5</span>
+        </div>
 
-    <h2>4.2.4 Assignment Operator</h2>
-    <p>Assignment operators assign values to variables, often combining with other operations.</p>
-    <ul>
-      <li><strong>Operators:</strong>
+        <!-- ===== 4.2.7 ===== -->
+        <h3>4.2.7 Ternary Operator (Conditional Operator)</h3>
+        <p>The <strong>ternary operator</strong> (?:) is a concise conditional operator that evaluates an expression based on a condition. It is the only ternary operator in C.</p>
         <ul>
-          <li>=: Simple assignment</li>
-          <li>+=: Add and assign</li>
-          <li>-=: Subtract and assign</li>
-          <li>*=: Multiply and assign</li>
-          <li>/=: Divide and assign</li>
-          <li>%=: Modulus and assign</li>
+            <li><strong>Syntax:</strong> <code>condition ? expression1 : expression2</code></li>
+            <li><strong>Behavior:</strong> If condition is true, expression1 is evaluated; otherwise, expression2 is evaluated.</li>
         </ul>
-      </li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int x = 10;
-    x += 5; // x = x + 5
-    printf("x: %d\n", x); // 15
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
+        <div class="code-block">
+            <span>// Ternary operator example</span><br>
+            int a = 10, b = 5;<br>
+            int max = (a > b) ? a : b;  <span>// max = 10</span><br>
+            printf("Max: %d\n", max);<br><br>
+            <span>// Nested ternary</span><br>
+            int x = 5, y = 10, z = 7;<br>
+            int largest = (x > y) ? ((x > z) ? x : z) : ((y > z) ? y : z);<br>
+            printf("Largest: %d\n", largest);  <span>// 10</span>
+        </div>
 
-    <h2>4.2.5 Bitwise Operator</h2>
-    <p>Bitwise operators perform operations on binary representations of integers.</p>
-    <ul>
-      <li><strong>Operators:</strong>
+        <!-- ===== 4.2.8 ===== -->
+        <h3>4.2.8 Special Operators (sizeof and comma)</h3>
+        <p><strong>Special operators</strong> perform unique tasks that don't fit into other categories.</p>
+
+        <h4>sizeof Operator</h4>
         <ul>
-          <li>&: Bitwise AND</li>
-          <li>|: Bitwise OR</li>
-          <li>^: Bitwise XOR</li>
-          <li>~: Bitwise NOT</li>
-          <li>&lt;&lt;: Left shift</li>
-          <li>&gt;&gt;: Right shift</li>
+            <li><strong>Purpose:</strong> Returns the size (in bytes) of a variable or data type.</li>
+            <li><strong>Return type:</strong> size_t (unsigned integer).</li>
+            <li><strong>Usage:</strong> <code>sizeof(type)</code> or <code>sizeof(variable)</code></li>
         </ul>
-      </li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int a = 5, b = 3; // a: 0101, b: 0011
-    printf("a & b: %d\n", a & b); // 0001 (1)
-    printf("a << 1: %d\n", a << 1); // 1010 (10)
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
+        <div class="code-block">
+            <span>// sizeof operator example</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int x = 10;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;float y = 3.14;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char z = 'A';<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Size of int: %zu bytes\n", sizeof(int));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Size of float: %zu bytes\n", sizeof(float));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Size of char: %zu bytes\n", sizeof(char));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Size of x: %zu bytes\n", sizeof(x));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Size of array: %zu bytes\n", sizeof(int[5]));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
 
-    <h2>4.2.6 Prefix and Postfix Increment and Decrement Operator</h2>
-    <p>Increment (++) and decrement (--) operators modify a variable's value by 1, with prefix and postfix forms affecting evaluation order.</p>
-    <ul>
-      <li><strong>Prefix:</strong> Changes value before use (e.g., ++x).</li>
-      <li><strong>Postfix:</strong> Changes value after use (e.g., x++).</li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int x = 5, y;
-    y = ++x; // x: 6, y: 6
-    printf("x: %d, y: %d\n", x, y);
-    y = x++; // y: 6, x: 7
-    printf("x: %d, y: %d\n", x, y);
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
-
-    <h2>4.2.7 Ternary Operator</h2>
-    <p>The ternary operator (?:) is a concise conditional operator that evaluates an expression based on a condition.</p>
-    <ul>
-      <li><strong>Syntax:</strong> condition ? expression1 : expression2</li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int a = 10, b = 5;
-    int max = (a > b) ? a : b;
-    printf("Max: %d\n", max); // 10
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
-
-    <h2>4.2.8 Special Operators (sizeof and comma)</h2>
-    <p>Special operators perform unique tasks in C.</p>
-    <ul>
-      <li><strong>sizeof:</strong> Returns the size (in bytes) of a variable or data type.
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    printf("Size of int: %zu bytes\n", sizeof(int));
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Comma (,):</strong> Separates expressions, evaluated left to right, with the value of the last expression returned.
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int x = (2, 3, 4);
-    printf("x: %d\n", x); // 4
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>4.3 Evaluation of Expression</h2>
-    <p>Expressions are evaluated based on operator precedence and associativity, producing a single value.</p>
-    <ul>
-      <li><strong>Steps:</strong>
+        <h4>Comma Operator (,)</h4>
         <ul>
-          <li>Identify operators and operands.</li>
-          <li>Apply precedence rules (e.g., * before +).</li>
-          <li>Resolve ties using associativity (e.g., left-to-right for +).</li>
+            <li><strong>Purpose:</strong> Separates expressions, evaluated left to right.</li>
+            <li><strong>Value:</strong> The value of the comma expression is the value of the rightmost expression.</li>
         </ul>
-      </li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int x = 5 + 3 * 2; // * has higher precedence
-    printf("x: %d\n", x); // 11 (3 * 2 = 6, then 5 + 6)
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
-  </div>
+        <div class="code-block">
+            <span>// Comma operator example</span><br>
+            int a, b;<br>
+            a = (b = 5, b + 2);  <span>// b = 5, then a = 7</span><br>
+            printf("a: %d, b: %d\n", a, b);  <span>// a: 7, b: 5</span><br><br>
+            <span>// Using comma in for loop</span><br>
+            for (int i = 0, j = 10; i < 5; i++, j--) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("i: %d, j: %d\n", i, j);<br>
+            }
+        </div>
+    </div>
 
-  <div class="section">
-    <h2>4.4 Operator Precedence and Associativity</h2>
-    <p>Operator precedence determines the order of operations, while associativity resolves the order for operators of equal precedence.</p>
-    <ul>
-      <li><strong>Precedence:</strong> Higher precedence operators are evaluated first (e.g., * and / before + and -).</li>
-      <li><strong>Associativity:</strong> Left-to-right (e.g., for +, -) or right-to-left (e.g., for =).</li>
-      <li><strong>Common Precedence (high to low):</strong>
+    <!-- ========== 4.3 ========== -->
+    <div class="section">
+        <h2>4.3 Evaluation of Expression</h2>
+        <p><strong>Expression evaluation</strong> is the process of determining the value of an expression based on operator precedence, associativity, and data types. Understanding evaluation is crucial for writing correct and predictable code.</p>
+
+        <h3>Steps in Expression Evaluation</h3>
         <ul>
-          <li>(): Parentheses</li>
-          <li>++, -- (prefix), sizeof</li>
-          <li>*, /, %</li>
-          <li>+, -</li>
-          <li>&lt;, &gt;, &lt;=, &gt;=</li>
-          <li>==, !=</li>
-          <li>&&</li>
-          <li>||</li>
-          <li>?:</li>
-          <li>=, +=, -=, etc.</li>
+            <li><strong>1. Identify Operators:</strong> Recognize all operators and their operands.</li>
+            <li><strong>2. Apply Precedence:</strong> Higher precedence operators are evaluated first.</li>
+            <li><strong>3. Apply Associativity:</strong> If operators have equal precedence, evaluate based on associativity (left-to-right or right-to-left).</li>
+            <li><strong>4. Type Conversion:</strong> Implicit or explicit type conversions may occur.</li>
+            <li><strong>5. Compute Result:</strong> The final value is computed.</li>
         </ul>
-      </li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int x = 5 + 3 * 2 > 10 && 1; // * first, then +, then >, then &&
-    printf("x: %d\n", x); // 0 (false)
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
-  </div>
+
+        <h3>Evaluation Examples</h3>
+        <div class="code-block">
+            <span>// Example 1: Basic precedence</span><br>
+            int x = 5 + 3 * 2;  <span>// * has higher precedence than +</span><br>
+            <span>// 3 * 2 = 6, then 5 + 6 = 11</span><br>
+            printf("x: %d\n", x);  <span>// 11</span><br><br>
+            <span>// Example 2: Using parentheses</span><br>
+            int y = (5 + 3) * 2;  <span>// Parentheses override precedence</span><br>
+            <span>// 5 + 3 = 8, then 8 * 2 = 16</span><br>
+            printf("y: %d\n", y);  <span>// 16</span><br><br>
+            <span>// Example 3: Mixed operators</span><br>
+            int z = 10 + 5 * 2 - 8 / 4;  <span>// * and / first</span><br>
+            <span>// 5*2=10, 8/4=2, then 10+10-2=18</span><br>
+            printf("z: %d\n", z);  <span>// 18</span>
+        </div>
+
+        <h3>Type Conversion in Expressions</h3>
+        <ul>
+            <li><strong>Implicit Conversion (Type Promotion):</strong>
+                <ul>
+                    <li>char and short → int (integer promotion).</li>
+                    <li>int → float → double (if mixed types).</li>
+                    <li>Result type is the type with higher rank.</li>
+                </ul>
+            </li>
+            <li><strong>Explicit Conversion (Type Casting):</strong>
+                <div class="code-block">
+                    float x = (float)5 / 2;  <span>// 5.0 / 2.0 = 2.5</span><br>
+                    int y = (int)3.14;       <span>// 3 (truncated)</span>
+                </div>
+            </li>
+        </ul>
+
+        <h3>Common Pitfalls</h3>
+        <ul>
+            <li><strong>Integer Division:</strong> 5/2 = 2 (not 2.5).</li>
+            <li><strong>Operator Precedence Errors:</strong> Using &amp; instead of &amp;&amp;, or = instead of ==.</li>
+            <li><strong>Short-Circuit Evaluation:</strong> In &amp;&amp; and ||, the right operand may not be evaluated.
+                <div class="code-block">
+                    int x = 5, y = 0;<br>
+                    if (y != 0 &amp;&amp; x / y > 0) {  <span>// Safe: y != 0 is false, so x/y is never evaluated</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;printf("OK");<br>
+                    }
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- ========== 4.4 ========== -->
+    <div class="section">
+        <h2>4.4 Operator Precedence and Associativity</h2>
+        <p><strong>Operator precedence</strong> determines the order in which operators are evaluated in an expression. <strong>Associativity</strong> determines the order when operators of equal precedence appear together.</p>
+
+        <h3>Precedence Table (Highest to Lowest)</h3>
+        <table>
+            <tr><th>Precedence</th><th>Operators</th><th>Associativity</th></tr>
+            <tr><td>1 (Highest)</td><td>() [] . -></td><td>Left to Right</td></tr>
+            <tr><td>2</td><td>++ -- + - ! ~ (type) * &amp; sizeof</td><td>Right to Left</td></tr>
+            <tr><td>3</td><td>* / %</td><td>Left to Right</td></tr>
+            <tr><td>4</td><td>+ -</td><td>Left to Right</td></tr>
+            <tr><td>5</td><td>&lt;&lt; &gt;&gt;</td><td>Left to Right</td></tr>
+            <tr><td>6</td><td>&lt; &lt;= &gt; &gt;=</td><td>Left to Right</td></tr>
+            <tr><td>7</td><td>== !=</td><td>Left to Right</td></tr>
+            <tr><td>8</td><td>&amp;</td><td>Left to Right</td></tr>
+            <tr><td>9</td><td>^</td><td>Left to Right</td></tr>
+            <tr><td>10</td><td>|</td><td>Left to Right</td></tr>
+            <tr><td>11</td><td>&amp;&amp;</td><td>Left to Right</td></tr>
+            <tr><td>12</td><td>||</td><td>Left to Right</td></tr>
+            <tr><td>13</td><td>?:</td><td>Right to Left</td></tr>
+            <tr><td>14</td><td>= += -= *= /= %= &amp;= |= ^= &lt;&lt;= &gt;&gt;=</td><td>Right to Left</td></tr>
+            <tr><td>15 (Lowest)</td><td>,</td><td>Left to Right</td></tr>
+        </table>
+
+        <h3>Associativity Examples</h3>
+        <div class="code-block">
+            <span>// Left-to-right associativity (most operators)</span><br>
+            int x = 10 - 5 - 2;  <span>// (10 - 5) - 2 = 3</span><br><br>
+            <span>// Right-to-left associativity (assignment)</span><br>
+            int a, b, c;<br>
+            a = b = c = 5;  <span>// (a = (b = (c = 5)))</span><br>
+            <span>// All variables get value 5</span>
+        </div>
+
+        <h3>Practical Tips</h3>
+        <ul>
+            <li><strong>Use Parentheses:</strong> When in doubt, use parentheses to make the order of evaluation explicit.</li>
+            <li><strong>Readability:</strong> Complex expressions with many operators are hard to read and maintain.</li>
+            <li><strong>Break Complex Expressions:</strong> Split complex expressions into multiple simpler statements.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Without parentheses (ambiguous)</span><br>
+            int x = a + b * c - d / e;  <span>// Hard to read</span><br><br>
+            <span>// With parentheses (clear)</span><br>
+            int x = (a + (b * c)) - (d / e);  <span>// Explicit order</span><br><br>
+            <span>// Better: break into multiple statements</span><br>
+            int product = b * c;<br>
+            int quotient = d / e;<br>
+            int x = a + product - quotient;
+        </div>
+
+        <div class="note-box">
+            <strong>📐 Key insight:</strong> Operator precedence and associativity are fundamental to understanding expression evaluation. Always use parentheses for clarity, especially in complex expressions.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 4 summary</strong><br>Operators perform operations on operands to form expressions. C provides arithmetic, relational, logical, bitwise, assignment, and special operators.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Operators: arithmetic, relational, logical, bitwise, assignment, ternary, special.<br>• Expressions combine operators and operands.<br>• Precedence and associativity determine evaluation order.<br>• Use parentheses for clarity and avoid common pitfalls.</div>
+    </div>
 </body>
 </html>

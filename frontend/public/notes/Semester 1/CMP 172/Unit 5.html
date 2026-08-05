@@ -1,291 +1,640 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unit 5: Control Statement</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-      font-weight: bold;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 5: Control Statement</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Unit 5: Control Statement</h1>
+    <h1>Unit 5: Control Statement</h1>
+    <div class="subhead">Control structures · decision making · loops · break · continue · switch</div>
 
-  <div class="section">
-    <h2>5.1 Introduction to Control Structure</h2>
-    <p>Control structures in C determine the flow of program execution. They allow a program to make decisions, repeat actions, or execute statements in a specific order.</p>
-    <ul>
-      <li><strong>Types:</strong>
+    <!-- ========== 5.1 ========== -->
+    <div class="section">
+        <h2>5.1 Introduction to Control Structure</h2>
+        <p><strong>Control structures</strong> in C determine the flow of program execution. They allow a program to make decisions, repeat actions, or execute statements in a specific order. Without control structures, programs would be limited to simple linear execution.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🎯 Purpose</strong><br>Enable dynamic program behavior by controlling the flow of execution based on conditions or repetitions.</div>
+            <div class="card"><strong>📋 Types</strong><br>Sequential, Decision-Making (if, switch), Iteration (for, while, do-while).</div>
+        </div>
+
+        <h3>Types of Control Structures</h3>
         <ul>
-          <li>Sequential: Executes statements in order.</li>
-          <li>Decision-Making: Chooses between alternatives.</li>
-          <li>Iteration: Repeats statements.</li>
+            <li><strong>Sequential:</strong> Statements execute in order, one after another.</li>
+            <li><strong>Selection (Decision-Making):</strong> Choose between different paths based on conditions (if, if-else, switch).</li>
+            <li><strong>Iteration (Looping):</strong> Repeat a block of code multiple times (for, while, do-while).</li>
+            <li><strong>Jump:</strong> Transfer control unconditionally (break, continue, goto, return).</li>
         </ul>
-      </li>
-      <li><strong>Purpose:</strong> Enables dynamic and flexible program behavior.</li>
-    </ul>
-  </div>
 
-  <div class="section">
-    <h2>5.2 Sequential Control Statement</h2>
-    <p>Sequential control statements execute in the order they appear in the program, from top to bottom.</p>
-    <ul>
-      <li><strong>Characteristics:</strong> No conditions or loops; each statement runs once.</li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int a = 5, b = 10;
-    int sum = a + b;
-    printf("Sum: %d\n", sum);
-    return 0;
-}
-        </pre>
-        Output: Sum: 15
-      </li>
-    </ul>
-  </div>
+        <div class="figure-box">
+            <pre>
+Program Flow:
+┌─────────────────────────────────────────┐
+│           Sequential Flow               │
+│   Statement 1 → Statement 2 → Statement 3 │
+├─────────────────────────────────────────┤
+│         Decision-Making Flow             │
+│   Condition? → Yes → Block A            │
+│             → No  → Block B            │
+├─────────────────────────────────────────┤
+│          Iteration Flow                  │
+│   While Condition? → Execute Block → Repeat │
+└─────────────────────────────────────────┘
+            </pre>
+        </div>
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> Control structures are the building blocks of algorithmic logic. Mastering them is essential for writing complex and useful programs.
+        </div>
+    </div>
 
-  <div class="section">
-    <h2>5.3 Decision Making Statement</h2>
-    <p>Decision-making statements allow a program to execute different code blocks based on conditions.</p>
+    <!-- ========== 5.2 ========== -->
+    <div class="section">
+        <h2>5.2 Sequential Control Statement</h2>
+        <p><strong>Sequential control</strong> is the default flow in C programs. Statements are executed in the order they appear, from top to bottom, without any branching or repetition.</p>
 
-    <h2>5.3.1 if, if else, if else if, nested if, and switch case</h2>
-    <ul>
-      <li><strong>if Statement:</strong> Executes a block if a condition is true.
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int x = 10;
-    if (x > 5) {
-        printf("x is greater than 5\n");
-    }
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>if else Statement:</strong> Executes one block if true, another if false.
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int x = 3;
-    if (x > 5) {
-        printf("x is greater than 5\n");
-    } else {
-        printf("x is not greater than 5\n");
-    }
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>if else if Statement:</strong> Checks multiple conditions sequentially.
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int marks = 75;
-    if (marks >= 90) {
-        printf("Grade A\n");
-    } else if (marks >= 70) {
-        printf("Grade B\n");
-    } else {
-        printf("Grade C\n");
-    }
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Nested if Statement:</strong> if statements within if statements.
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int x = 10, y = 5;
-    if (x > 0) {
-        if (y > 0) {
-            printf("Both are positive\n");
-        }
-    }
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>switch case Statement:</strong> Selects one of many code blocks based on a variable’s value.
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int day = 3;
-    switch (day) {
-        case 1: printf("Monday\n"); break;
-        case 2: printf("Tuesday\n"); break;
-        case 3: printf("Wednesday\n"); break;
-        default: printf("Invalid day\n");
-    }
-    return 0;
-}
-        </pre>
-        Note: break prevents fall-through to subsequent cases.
-      </li>
-    </ul>
-  </div>
+        <h3>Characteristics</h3>
+        <ul>
+            <li>No conditions or loops.</li>
+            <li>Each statement runs exactly once.</li>
+            <li>Execution order is the same as the written order.</li>
+            <li>Most straightforward and common flow.</li>
+        </ul>
 
-  <div class="section">
-    <h2>5.4 Iteration (Loop) Statement</h2>
-    <p>Iteration statements (loops) repeat a block of code until a condition is met.</p>
+        <div class="code-block">
+            <span>// Sequential control example</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int a = 5;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int b = 10;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int sum = a + b;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Sum: %d\n", sum);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int product = a * b;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Product: %d\n", product);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }<br><br>
+            <span>// Output:</span><br>
+            <span>// Sum: 15</span><br>
+            <span>// Product: 50</span>
+        </div>
 
-    <h2>5.4.1 for, while, do while, nested loops</h2>
-    <ul>
-      <li><strong>for Loop:</strong> Repeats for a fixed number of iterations.
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    for (int i = 1; i <= 5; i++) {
-        printf("%d ", i);
-    }
-    return 0;
-}
-        </pre>
-        Output: 1 2 3 4 5
-      </li>
-      <li><strong>while Loop:</strong> Repeats while a condition is true.
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int i = 1;
-    while (i <= 5) {
-        printf("%d ", i);
-        i++;
-    }
-    return 0;
-}
-        </pre>
-        Output: 1 2 3 4 5
-      </li>
-      <li><strong>do while Loop:</strong> Executes at least once, then repeats while true.
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int i = 1;
-    do {
-        printf("%d ", i);
-        i++;
-    } while (i <= 5);
-    return 0;
-}
-        </pre>
-        Output: 1 2 3 4 5
-      </li>
-      <li><strong>Nested Loops:</strong> Loops within loops for complex iterations.
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    for (int i = 1; i <= 3; i++) {
-        for (int j = 1; j <= 2; j++) {
-            printf("(%d,%d) ", i, j);
-        }
-    }
-    return 0;
-}
-        </pre>
-        Output: (1,1) (1,2) (2,1) (2,2) (3,1) (3,2)
-      </li>
-    </ul>
-  </div>
+        <div class="note-box">
+            <strong>📝 Key insight:</strong> All programs start with sequential flow. Control structures like if and loops modify this default behavior.
+        </div>
+    </div>
 
-  <div class="section">
-    <h2>5.5 Break and Continue</h2>
-    <p>Break and continue statements alter the flow of loops or switch cases.</p>
-    <ul>
-      <li><strong>break:</strong> Exits the innermost loop or switch case.
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    for (int i = 1; i <= 5; i++) {
-        if (i == 3) {
-            break;
-        }
-        printf("%d ", i);
-    }
-    return 0;
-}
-        </pre>
-        Output: 1 2
-      </li>
-      <li><strong>continue:</strong> Skips the rest of the current iteration and proceeds to the next.
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    for (int i = 1; i <= 5; i++) {
-        if (i == 3) {
-            continue;
-        }
-        printf("%d ", i);
-    }
-    return 0;
-}
-        </pre>
-        Output: 1 2 4 5
-      </li>
-    </ul>
-  </div>
+    <!-- ========== 5.3 ========== -->
+    <div class="section">
+        <h2>5.3 Decision Making Statement</h2>
+        <p><strong>Decision-making statements</strong> allow a program to execute different code blocks based on conditions. They enable the program to make choices and respond to different situations.</p>
+
+        <!-- ===== 5.3.1 ===== -->
+        <h3>5.3.1 if, if-else, if-else if, nested if, and switch case</h3>
+
+        <h4>if Statement</h4>
+        <ul>
+            <li><strong>Syntax:</strong> <code>if (condition) { // code }</code></li>
+            <li><strong>Behavior:</strong> Executes the block only if the condition is true (non-zero).</li>
+        </ul>
+        <div class="code-block">
+            <span>// if statement example</span><br>
+            int x = 10;<br>
+            if (x > 5) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("x is greater than 5\n");<br>
+            }<br>
+            <span>// Output: x is greater than 5</span>
+        </div>
+
+        <h4>if-else Statement</h4>
+        <ul>
+            <li><strong>Syntax:</strong> <code>if (condition) { // block1 } else { // block2 }</code></li>
+            <li><strong>Behavior:</strong> Executes block1 if condition is true, otherwise executes block2.</li>
+        </ul>
+        <div class="code-block">
+            <span>// if-else statement example</span><br>
+            int x = 3;<br>
+            if (x > 5) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("x is greater than 5\n");<br>
+            } else {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("x is not greater than 5\n");<br>
+            }<br>
+            <span>// Output: x is not greater than 5</span>
+        </div>
+
+        <h4>if-else if Ladder</h4>
+        <ul>
+            <li><strong>Syntax:</strong> <code>if (cond1) { } else if (cond2) { } else if (cond3) { } else { }</code></li>
+            <li><strong>Behavior:</strong> Checks multiple conditions sequentially; executes the block for the first true condition.</li>
+        </ul>
+        <div class="code-block">
+            <span>// if-else if example</span><br>
+            int marks = 75;<br>
+            if (marks >= 90) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Grade A\n");<br>
+            } else if (marks >= 75) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Grade B\n");<br>
+            } else if (marks >= 50) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Grade C\n");<br>
+            } else {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Grade F\n");<br>
+            }<br>
+            <span>// Output: Grade B</span>
+        </div>
+
+        <h4>Nested if Statement</h4>
+        <ul>
+            <li><strong>Definition:</strong> An if statement inside another if statement.</li>
+            <li><strong>Usage:</strong> For checking multiple conditions with hierarchical logic.</li>
+        </ul>
+        <div class="code-block">
+            <span>// Nested if example</span><br>
+            int x = 10, y = 5;<br>
+            if (x > 0) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (y > 0) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Both are positive\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("x is positive, y is not\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br>
+            <span>// Output: Both are positive</span>
+        </div>
+
+        <h4>switch case Statement</h4>
+        <ul>
+            <li><strong>Syntax:</strong>
+                <div class="code-block">
+                    switch (expression) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;case value1: statement; break;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;case value2: statement; break;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;default: statement;<br>
+                    }
+                </div>
+            </li>
+            <li><strong>Behavior:</strong> Selects one of many blocks based on the value of the expression.</li>
+            <li><strong>Important:</strong> Use <code>break</code> to prevent fall-through. Use <code>default</code> for unmatched values.</li>
+        </ul>
+        <div class="code-block">
+            <span>// switch case example</span><br>
+            int day = 3;<br>
+            switch (day) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;case 1: printf("Monday\n"); break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;case 2: printf("Tuesday\n"); break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;case 3: printf("Wednesday\n"); break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;case 4: printf("Thursday\n"); break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;case 5: printf("Friday\n"); break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;case 6: printf("Saturday\n"); break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;case 7: printf("Sunday\n"); break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;default: printf("Invalid day\n");<br>
+            }<br>
+            <span>// Output: Wednesday</span>
+        </div>
+
+        <h4>switch vs if-else</h4>
+        <table>
+            <tr><th>Feature</th><th>switch</th><th>if-else</th></tr>
+            <tr><td>Condition</td><td>Single expression with multiple values</td><td>Any boolean expression</td></tr>
+            <tr><td>Readability</td><td>Good for many discrete values</td><td>Better for complex conditions</td></tr>
+            <tr><td>Performance</td><td>Faster (jump table)</td><td>Slower (sequential checks)</td></tr>
+            <tr><td>Range Checking</td><td>No (only discrete values)</td><td>Yes (e.g., x > 5 &amp;&amp; x < 10)</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>⚡ Key insight:</strong> Use if-else for complex conditions and ranges. Use switch for discrete value matching. switch can be more readable and efficient for many cases.
+        </div>
+    </div>
+
+    <!-- ========== 5.4 ========== -->
+    <div class="section">
+        <h2>5.4 Iteration (Loop) Statement</h2>
+        <p><strong>Iteration statements</strong> (loops) repeat a block of code multiple times until a condition is met. They are essential for tasks that require repetition, such as processing arrays or implementing algorithms.</p>
+
+        <!-- ===== 5.4.1 ===== -->
+        <h3>5.4.1 for, while, do-while, nested loops</h3>
+
+        <h4>for Loop</h4>
+        <ul>
+            <li><strong>Syntax:</strong> <code>for (initialization; condition; increment) { // body }</code></li>
+            <li><strong>Behavior:</strong> Initializes once, checks condition before each iteration, and executes increment after each iteration.</li>
+            <li><strong>Best for:</strong> Known number of iterations.</li>
+        </ul>
+        <div class="code-block">
+            <span>// for loop example</span><br>
+            for (int i = 1; i <= 5; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", i);<br>
+            }<br>
+            <span>// Output: 1 2 3 4 5</span><br><br>
+            <span>// Infinite for loop</span><br>
+            for (;;) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Infinite\n");<br>
+            }
+        </div>
+
+        <h4>while Loop</h4>
+        <ul>
+            <li><strong>Syntax:</strong> <code>while (condition) { // body }</code></li>
+            <li><strong>Behavior:</strong> Checks condition before each iteration. If true, executes the body; otherwise, exits.</li>
+            <li><strong>Best for:</strong> Unknown number of iterations.</li>
+        </ul>
+        <div class="code-block">
+            <span>// while loop example</span><br>
+            int i = 1;<br>
+            while (i <= 5) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", i);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;i++;<br>
+            }<br>
+            <span>// Output: 1 2 3 4 5</span>
+        </div>
+
+        <h4>do-while Loop</h4>
+        <ul>
+            <li><strong>Syntax:</strong> <code>do { // body } while (condition);</code></li>
+            <li><strong>Behavior:</strong> Executes the body first, then checks the condition. Guarantees at least one execution.</li>
+            <li><strong>Best for:</strong> Menu-driven programs where the menu should display at least once.</li>
+        </ul>
+        <div class="code-block">
+            <span>// do-while loop example</span><br>
+            int i = 1;<br>
+            do {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", i);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;i++;<br>
+            } while (i <= 5);<br>
+            <span>// Output: 1 2 3 4 5</span><br><br>
+            <span>// Guaranteed execution even if condition is false</span><br>
+            int j = 10;<br>
+            do {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Executed once\n");<br>
+            } while (j < 5);<br>
+            <span>// Output: Executed once</span>
+        </div>
+
+        <h4>Loop Comparison</h4>
+        <table>
+            <tr><th>Feature</th><th>for</th><th>while</th><th>do-while</th></tr>
+            <tr><td>Initialization</td><td>Inside loop header</td><td>Before loop</td><td>Before loop</td></tr>
+            <tr><td>Condition Check</td><td>Before iteration</td><td>Before iteration</td><td>After iteration</td></tr>
+            <tr><td>Minimum Executions</td><td>0</td><td>0</td><td>1</td></tr>
+            <tr><td>Best Use</td><td>Fixed iterations</td><td>Unknown iterations</td><td>At least once required</td></tr>
+        </table>
+
+        <h4>Nested Loops</h4>
+        <ul>
+            <li><strong>Definition:</strong> A loop inside another loop.</li>
+            <li><strong>Usage:</strong> For multi-dimensional iterations (matrices, patterns).</li>
+        </ul>
+        <div class="code-block">
+            <span>// Nested loops example - multiplication table</span><br>
+            for (int i = 1; i <= 3; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int j = 1; j <= 3; j++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%3d ", i * j);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("\n");<br>
+            }<br>
+            <span>// Output:</span><br>
+            <span>//   1   2   3</span><br>
+            <span>//   2   4   6</span><br>
+            <span>//   3   6   9</span><br><br>
+            <span>// Nested loops - star pattern</span><br>
+            for (int i = 1; i <= 5; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int j = 1; j <= i; j++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("* ");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("\n");<br>
+            }<br>
+            <span>// Output:</span><br>
+            <span>// *</span><br>
+            <span>// * *</span><br>
+            <span>// * * *</span><br>
+            <span>// * * * *</span><br>
+            <span>// * * * * *</span>
+        </div>
+
+        <div class="note-box">
+            <strong>🔄 Key insight:</strong> Choose the right loop type based on your requirements. for loops are best when you know the number of iterations. while loops work well when the condition depends on runtime values. do-while ensures at least one execution.
+        </div>
+    </div>
+
+    <!-- ========== 5.5 ========== -->
+    <div class="section">
+        <h2>5.5 Break and Continue</h2>
+        <p><strong>Break</strong> and <strong>continue</strong> are jump statements that alter the normal flow of loops or switch cases. They provide additional control over loop execution.</p>
+
+        <h3>break Statement</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Terminates the innermost loop or switch case immediately.</li>
+            <li><strong>Usage:</strong> Exiting loops early when a condition is met.</li>
+        </ul>
+        <div class="code-block">
+            <span>// break statement example</span><br>
+            for (int i = 1; i <= 10; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (i == 6) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;  <span>// Exit loop when i reaches 6</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", i);<br>
+            }<br>
+            <span>// Output: 1 2 3 4 5</span><br><br>
+            <span>// break in switch</span><br>
+            int day = 3;<br>
+            switch (day) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;case 1: printf("Monday"); break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;case 2: printf("Tuesday"); break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;case 3: printf("Wednesday"); break;  <span>// Stops execution</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;default: printf("Invalid");<br>
+            }
+        </div>
+
+        <h3>continue Statement</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Skips the rest of the current iteration and jumps to the next iteration.</li>
+            <li><strong>Usage:</strong> Skipping specific iterations based on a condition.</li>
+        </ul>
+        <div class="code-block">
+            <span>// continue statement example</span><br>
+            for (int i = 1; i <= 5; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (i == 3) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;  <span>// Skip when i equals 3</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", i);<br>
+            }<br>
+            <span>// Output: 1 2 4 5</span><br><br>
+            <span>// continue in while loop</span><br>
+            int j = 0;<br>
+            while (j < 5) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;j++;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (j == 3) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;  <span>// Skip the rest when j=3</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", j);<br>
+            }<br>
+            <span>// Output: 1 2 4 5</span>
+        </div>
+
+        <h3>break vs continue Comparison</h3>
+        <table>
+            <tr><th>Feature</th><th>break</th><th>continue</th></tr>
+            <tr><td>Effect</td><td>Exits the loop entirely</td><td>Skips current iteration</td></tr>
+            <tr><td>Loop Continuation</td><td>Stops loop execution</td><td>Continues with next iteration</td></tr>
+            <tr><td>Use in switch</td><td>Yes</td><td>No</td></tr>
+            <tr><td>Common Use</td><td>Early termination</td><td>Skipping specific cases</td></tr>
+        </table>
+
+        <h3>goto Statement (Note)</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Transfers control to a labeled statement.</li>
+            <li><strong>Warning:</strong> Using goto is generally discouraged as it makes code hard to read and maintain.</li>
+        </ul>
+        <div class="code-block">
+            <span>// goto example (generally avoid)</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int i = 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;start:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;i++;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", i);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (i < 5) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;goto start;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }<br>
+            <span>// Output: 1 2 3 4 5</span>
+        </div>
+
+        <div class="note-box">
+            <strong>📌 Key insight:</strong> break and continue are useful for controlling loop flow, but use them judiciously. Overuse can make code harder to understand. In most cases, structured loop conditions are preferable.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 5 summary</strong><br>Control statements determine program flow. C provides sequential, decision-making (if, switch), and iteration (for, while, do-while) structures.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Sequential: default top-to-bottom execution.<br>• Decision making: if, if-else, switch for branching.<br>• Loops: for (fixed), while (condition-based), do-while (at least once).<br>• break exits, continue skips iteration.<br>• Choose the right control structure for the task.</div>
+    </div>
 </body>
 </html>

@@ -1,243 +1,663 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unit 1: Problem Solving with Computer</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-      font-weight: bold;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 1: Problem Solving with Computer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .flowchart-symbol {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            margin: 0.2rem;
+            border: 2px solid #1b3b5c;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            background: white;
+        }
+        .flowchart-arrow {
+            color: #1b6bb0;
+            font-size: 1.2rem;
+            margin: 0 0.3rem;
+        }
+    </style>
 </head>
 <body>
-  <h1>Unit 1: Problem Solving with Computer</h1>
+    <h1>Unit 1: Problem Solving with Computer</h1>
+    <div class="subhead">Problem analysis · algorithms · flowcharts · C programming · debugging · testing</div>
 
-  <div class="section">
-    <h2>1.1 Problem Analysis</h2>
-    <p>Problem analysis is the initial step in solving a problem using a computer. It involves understanding the problem thoroughly and breaking it down into manageable parts. This process ensures that the solution is well-planned and efficient.</p>
-    <ul>
-      <li><strong>Identify the Problem:</strong> Clearly define what needs to be solved, including inputs, outputs, and constraints.</li>
-      <li><strong>Analyze Requirements:</strong> Determine the functional and non-functional requirements of the solution.</li>
-      <li><strong>Break Down the Problem:</strong> Divide the problem into smaller sub-problems to simplify the solution process.</li>
-      <li><strong>Evaluate Feasibility:</strong> Assess whether the problem can be solved with available resources and technology.</li>
-    </ul>
-  </div>
+    <!-- ========== 1.1 ========== -->
+    <div class="section">
+        <h2>1.1 Problem Analysis</h2>
+        <p><strong>Problem analysis</strong> is the foundational step in solving a problem using a computer. It involves understanding the problem thoroughly, identifying inputs, outputs, constraints, and breaking it down into manageable sub-problems. This phase ensures that the solution is well-planned, efficient, and meets user requirements.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🔍 Purpose</strong><br>To clearly define what needs to be solved, understand the scope, and establish a clear roadmap for the solution.</div>
+            <div class="card"><strong>📋 Key Questions</strong><br>What are the inputs? What are the expected outputs? What are the constraints? What are the edge cases?</div>
+        </div>
 
-  <div class="section">
-    <h2>1.2 Algorithms and Flowchart</h2>
-    <p>An algorithm is a step-by-step procedure for solving a problem, while a flowchart is a graphical representation of that algorithm. Both are essential tools for planning and communicating solutions.</p>
-    <ul>
-      <li><strong>Algorithm:</strong> A finite sequence of well-defined instructions to accomplish a task. For example, to find the sum of two numbers:
-        <pre>
-Input: Two numbers, a and b
-Step 1: Read a and b
-Step 2: Calculate sum = a + b
-Step 3: Output sum
-        </pre>
-      </li>
-      <li><strong>Flowchart:</strong> Uses symbols like ovals (start/end), rectangles (process), and diamonds (decision) to depict the algorithm visually. For the above algorithm, the flowchart would include:
+        <h3>Steps in Problem Analysis</h3>
         <ul>
-          <li>An oval for "Start."</li>
-          <li>A rectangle for "Read a, b."</li>
-          <li>A rectangle for "Sum = a + b."</li>
-          <li>A rectangle for "Output sum."</li>
-          <li>An oval for "End."</li>
+            <li><strong>Identify the Problem:</strong> Clearly define the problem statement. Understand the context and the stakeholders' needs.</li>
+            <li><strong>Analyze Requirements:</strong> Determine functional requirements (what the system should do) and non-functional requirements (performance, security, usability).</li>
+            <li><strong>Break Down the Problem:</strong> Divide the problem into smaller, more manageable sub-problems using techniques like modular decomposition.</li>
+            <li><strong>Evaluate Feasibility:</strong> Assess whether the problem can be solved with available resources, technology, and time constraints.</li>
+            <li><strong>Define Input and Output:</strong> Clearly specify what data enters the system and what results are produced.</li>
+            <li><strong>Identify Constraints:</strong> Consider limitations such as memory, processing power, time, and budget.</li>
         </ul>
-      </li>
-    </ul>
-  </div>
 
-  <div class="section">
-    <h2>1.3 History of C</h2>
-    <p>The C programming language, developed in the early 1970s, is a foundational language in computer science, known for its efficiency and flexibility.</p>
-    <ul>
-      <li><strong>Origin:</strong> Developed by Dennis Ritchie at Bell Labs between 1972 and 1973 for the UNIX operating system.</li>
-      <li><strong>Evolution:</strong> Influenced by earlier languages like BCPL and B. Standardized as ANSI C in 1989 (C89) and later as C99, C11, and C17.</li>
-      <li><strong>Impact:</strong> Widely used in system programming, embedded systems, and as a base for languages like C++ and Java.</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>1.4 Structure of C Program</h2>
-    <p>A C program follows a specific structure to ensure clarity and functionality. A basic C program includes several key components.</p>
-    <pre>
-#include &lt;stdio.h&gt;
-#define PI 3.14
-
-int main() {
-    printf("Hello, World!\n");
-    return 0;
-}
-    </pre>
-    <ul>
-      <li><strong>Preprocessor Directives:</strong> Lines starting with # (e.g., #include, #define) that instruct the compiler to include files or define constants.</li>
-      <li><strong>Main Function:</strong> The entry point of the program, where execution begins.</li>
-      <li><strong>Statements:</strong> Instructions within curly braces {} that perform the program's tasks.</li>
-      <li><strong>Return Statement:</strong> Indicates the program's termination and returns a value to the operating system.</li>
-    </ul>
-
-    <h2>1.4.1 Debugging</h2>
-    <p>Debugging is the process of identifying and fixing errors in a program. Common types of errors include:</p>
-    <ul>
-      <li><strong>Syntax Errors:</strong> Mistakes in code structure, like missing semicolons.
-        <pre>
-// Syntax error: missing semicolon
-printf("Error")
-        </pre>
-      </li>
-      <li><strong>Logical Errors:</strong> Errors in the program's logic, producing incorrect results.
-        <pre>
-// Logical error: incorrect formula
-int area = length + width; // Should be length * width
-        </pre>
-      </li>
-      <li><strong>Runtime Errors:</strong> Errors during execution, like division by zero.</li>
-      <li><strong>Tools:</strong> Debuggers (e.g., GDB), print statements, and IDEs help locate and fix errors.</li>
-    </ul>
-
-    <h2>1.4.2 Compiling a C Program</h2>
-    <p>Compiling converts C source code into machine code that the computer can execute.</p>
-    <ul>
-      <li><strong>Steps:</strong>
-        <ol>
-          <li>Preprocessing: Expands directives like #include and #define.</li>
-          <li>Compilation: Converts code to assembly language.</li>
-          <li>Assembly: Translates assembly code to object code.</li>
-          <li>Linking: Combines object code with libraries to create an executable.</li>
-        </ol>
-      </li>
-      <li><strong>Command:</strong> Using a compiler like GCC:
-        <pre>
-gcc -o program program.c
-        </pre>
-      </li>
-    </ul>
-
-    <h2>1.4.3 Executing a C Program</h2>
-    <p>Execution runs the compiled program to perform its tasks.</p>
-    <ul>
-      <li><strong>Running the Program:</strong> On Unix/Linux, use:
-        <pre>
-./program
-        </pre>
-        On Windows, run the .exe file directly.
-      </li>
-      <li><strong>Input/Output:</strong> Programs may accept user input (e.g., via scanf) and display output (e.g., via printf).</li>
-      <li><strong>Environment:</strong> Ensure the system has the necessary runtime environment (e.g., libraries).</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>1.5 Testing and Documentation</h2>
-    <p>Testing ensures the program works correctly, while documentation explains its functionality for users and developers.</p>
-    <ul>
-      <li><strong>Testing:</strong>
+        <h3>Example: Problem Analysis</h3>
         <ul>
-          <li><strong>Unit Testing:</strong> Tests individual functions or modules.</li>
-          <li><strong>Integration Testing:</strong> Tests combined modules.</li>
-          <li><strong>System Testing:</strong> Tests the entire program.</li>
-          <li><strong>Test Cases:</strong> Include normal, boundary, and error conditions.</li>
+            <li><strong>Problem:</strong> Calculate the average of three test scores for a student.</li>
+            <li><strong>Input:</strong> Three numbers (test scores).</li>
+            <li><strong>Output:</strong> The average of the three scores.</li>
+            <li><strong>Constraints:</strong> Scores should be between 0 and 100.</li>
+            <li><strong>Process:</strong> Sum the scores and divide by 3.</li>
         </ul>
-      </li>
-      <li><strong>Documentation:</strong>
-        <ul>
-          <li><strong>Internal:</strong> Comments within code to explain logic.
-            <pre>
-// Calculate area of rectangle
-int area = length * width;
-            </pre>
-          </li>
-          <li><strong>External:</strong> User manuals, design documents, or README files.</li>
-          <li><strong>Importance:</strong> Facilitates maintenance and collaboration.</li>
-        </ul>
-      </li>
-    </ul>
-  </div>
 
-  <div class="section">
-    <h2>1.6 Preprocessor and Macros</h2>
-    <p>The preprocessor modifies C code before compilation, and macros are shorthand for code snippets.</p>
-    <ul>
-      <li><strong>Preprocessor Directives:</strong>
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> Good problem analysis saves time and effort in later stages. A well-understood problem is already half-solved.
+        </div>
+    </div>
+
+    <!-- ========== 1.2 ========== -->
+    <div class="section">
+        <h2>1.2 Algorithms and Flowcharts</h2>
+        <p>An <strong>algorithm</strong> is a step-by-step procedure for solving a problem. A <strong>flowchart</strong> is a graphical representation of that algorithm. Both are essential tools for planning, communicating, and documenting solutions.</p>
+
+        <h3>Algorithms</h3>
         <ul>
-          <li><strong>#include:</strong> Imports header files (e.g., #include &lt;stdio.h&gt;).</li>
-          <li><strong>#define:</strong> Defines constants or macros.
-            <pre>
-#define PI 3.14
-#define SQUARE(x) ((x) * (x))
-            </pre>
-          </li>
-          <li><strong>#ifdef, #endif:</strong> Conditional compilation based on defined macros.</li>
+            <li><strong>Definition:</strong> A finite sequence of well-defined, unambiguous instructions to accomplish a specific task.</li>
+            <li><strong>Characteristics:</strong> Finite, unambiguous, inputs specified, outputs defined, and effective (each step is doable).</li>
+            <li><strong>Example:</strong> Algorithm to find the sum of two numbers:
+                <div class="code-block">
+                    <span># Algorithm: Sum of Two Numbers</span><br>
+                    Step 1: Start<br>
+                    Step 2: Read two numbers, a and b<br>
+                    Step 3: Calculate sum = a + b<br>
+                    Step 4: Display sum<br>
+                    Step 5: Stop
+                </div>
+            </li>
+            <li><strong>Example:</strong> Algorithm to find the largest of three numbers:
+                <div class="code-block">
+                    <span># Algorithm: Largest of Three Numbers</span><br>
+                    Step 1: Start<br>
+                    Step 2: Read three numbers, a, b, and c<br>
+                    Step 3: If a > b and a > c, display a as largest<br>
+                    Step 4: Else if b > a and b > c, display b as largest<br>
+                    Step 5: Else display c as largest<br>
+                    Step 6: Stop
+                </div>
+            </li>
         </ul>
-      </li>
-      <li><strong>Macros:</strong>
+
+        <h3>Flowcharts</h3>
         <ul>
-          <li><strong>Object-like Macros:</strong> Replace identifiers with values (e.g., #define PI 3.14).</li>
-          <li><strong>Function-like Macros:</strong> Replace calls with expressions (e.g., #define SQUARE(x) ((x) * (x))).</li>
-          <li><strong>Caution:</strong> Macros lack type checking and can cause side effects if not carefully designed.</li>
+            <li><strong>Definition:</strong> A diagrammatic representation of an algorithm using standard symbols.</li>
+            <li><strong>Common Symbols:</strong>
+                <ul>
+                    <li><span class="flowchart-symbol">Oval</span> — Start/End (Terminal)</li>
+                    <li><span class="flowchart-symbol">Rectangle</span> — Process (Action)</li>
+                    <li><span class="flowchart-symbol">Diamond</span> — Decision (Condition)</li>
+                    <li><span class="flowchart-symbol">Parallelogram</span> — Input/Output</li>
+                    <li><span class="flowchart-symbol">Arrow</span> — Flow direction</li>
+                </ul>
+            </li>
+            <li><strong>Flowchart Example:</strong> Sum of two numbers:
+                <div class="figure-box">
+                    <pre>
+    [Start] → [Read a, b] → [Sum = a + b] → [Display Sum] → [End]
+                    </pre>
+                </div>
+            </li>
+            <li><strong>Flowchart Example:</strong> Largest of three numbers:
+                <div class="figure-box">
+                    <pre>
+    [Start]
+       ↓
+    [Read a, b, c]
+       ↓
+    ┌──────┴──────┐
+    │ a > b and   │
+    │ a > c ?     │
+    └──────┬──────┘
+       Yes │        No
+           ↓          ↓
+    [Display a]  ┌──────┴──────┐
+                 │ b > a and   │
+                 │ b > c ?     │
+                 └──────┬──────┘
+                    Yes │        No
+                        ↓          ↓
+                 [Display b]  [Display c]
+                        ↓
+                    [End]
+                    </pre>
+                </div>
+            </li>
         </ul>
-      </li>
-    </ul>
-  </div>
+
+        <table>
+            <tr><th>Symbol</th><th>Name</th><th>Purpose</th></tr>
+            <tr><td>Oval</td><td>Terminal</td><td>Start/End of program</td></tr>
+            <tr><td>Rectangle</td><td>Process</td><td>Computation or action</td></tr>
+            <tr><td>Diamond</td><td>Decision</td><td>Conditional branching</td></tr>
+            <tr><td>Parallelogram</td><td>I/O</td><td>Input or Output</td></tr>
+            <tr><td>Arrow</td><td>Flowline</td><td>Direction of flow</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== 1.3 ========== -->
+    <div class="section">
+        <h2>1.3 History of C</h2>
+        <p>The <strong>C programming language</strong> was developed in the early 1970s by Dennis Ritchie at Bell Labs. It is a foundational language in computer science, known for its efficiency, flexibility, and close-to-hardware capabilities.</p>
+
+        <h3>Origin and Evolution</h3>
+        <ul>
+            <li><strong>1960s:</strong> ALGOL and BCPL influenced early language design.</li>
+            <li><strong>1970:</strong> Ken Thompson developed the B language at Bell Labs.</li>
+            <li><strong>1972-1973:</strong> Dennis Ritchie created C by adding types and structures to B. C was used to rewrite the UNIX operating system.</li>
+            <li><strong>1978:</strong> The first edition of "The C Programming Language" (K&R) was published, becoming the de facto standard.</li>
+            <li><strong>1989:</strong> ANSI C (C89) was standardized by the American National Standards Institute.</li>
+            <li><strong>1990:</strong> ISO/IEC 9899:1990 (C90) — international standard.</li>
+            <li><strong>1999:</strong> C99 introduced new features (inline functions, variable-length arrays).</li>
+            <li><strong>2011:</strong> C11 added multi-threading support.</li>
+            <li><strong>2018:</strong> C17 — minor updates and corrections.</li>
+        </ul>
+
+        <h3>Impact and Legacy</h3>
+        <ul>
+            <li><strong>System Programming:</strong> C is widely used for operating systems (Linux, Windows), embedded systems, and device drivers.</li>
+            <li><strong>Influence:</strong> C influenced many languages: C++, Java, C#, Python (via CPython), JavaScript, and Go.</li>
+            <li><strong>Efficiency:</strong> C provides low-level memory access, making it ideal for performance-critical applications.</li>
+            <li><strong>Portability:</strong> C compilers are available on virtually every platform.</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>⚡ Key insight:</strong> C remains a cornerstone of modern computing. Understanding C provides insight into how computers work at a fundamental level.
+        </div>
+    </div>
+
+    <!-- ========== 1.4 ========== -->
+    <div class="section">
+        <h2>1.4 Structure of C Program</h2>
+        <p>A C program follows a specific structure that ensures clarity, maintainability, and correct execution.</p>
+
+        <h3>Basic C Program Structure</h3>
+        <div class="code-block">
+            <span>#include &lt;stdio.h&gt;   // Preprocessor directive for I/O</span><br>
+            <span>#define PI 3.14      // Macro definition</span><br><br>
+            <span>// Function declaration (optional)</span><br>
+            int add(int x, int y);<br><br>
+            <span>// Main function — entry point</span><br>
+            int main() {<br>
+                <span>// Variable declarations</span><br>
+                int a = 10, b = 20;<br>
+                int result;<br><br>
+                <span>// Statements</span><br>
+                result = add(a, b);<br>
+                printf("Sum: %d\n", result);<br><br>
+                <span>// Return statement</span><br>
+                return 0;<br>
+            }<br><br>
+            <span>// Function definition</span><br>
+            int add(int x, int y) {<br>
+                return x + y;<br>
+            }
+        </div>
+
+        <h3>Components of a C Program</h3>
+        <ul>
+            <li><strong>Preprocessor Directives:</strong> Lines starting with <code>#</code> (e.g., <code>#include</code>, <code>#define</code>) that instruct the compiler.</li>
+            <li><strong>Global Declarations:</strong> Variables and functions defined outside <code>main()</code>.</li>
+            <li><strong>main() Function:</strong> The entry point where program execution begins.</li>
+            <li><strong>Statements:</strong> Instructions within <code>{}</code> that perform the program's tasks.</li>
+            <li><strong>Comments:</strong> Explanatory text using <code>//</code> (single-line) or <code>/* ... */</code> (multi-line).</li>
+            <li><strong>Return Statement:</strong> <code>return 0;</code> indicates successful termination.</li>
+        </ul>
+
+        <!-- ===== 1.4.1 ===== -->
+        <h3>1.4.1 Debugging</h3>
+        <p><strong>Debugging</strong> is the systematic process of identifying, analyzing, and fixing errors (bugs) in a program.</p>
+
+        <h4>Types of Errors</h4>
+        <ul>
+            <li><strong>Syntax Errors:</strong> Violations of language rules. Detected by the compiler.
+                <div class="code-block">
+                    <span>// Syntax error: missing semicolon</span><br>
+                    printf("Hello, World!")  <span>// ❌ Error: expected ';'</span>
+                </div>
+            </li>
+            <li><strong>Logical Errors:</strong> Program runs but produces incorrect results.
+                <div class="code-block">
+                    <span>// Logical error: using + instead of *</span><br>
+                    int area = length + width;  <span>// ❌ Should be length * width</span>
+                </div>
+            </li>
+            <li><strong>Runtime Errors:</strong> Errors that occur during execution.
+                <div class="code-block">
+                    <span>// Runtime error: division by zero</span><br>
+                    int result = 10 / 0;  <span>// ❌ Division by zero</span>
+                </div>
+            </li>
+            <li><strong>Linker Errors:</strong> Occur when the linker cannot find referenced functions or variables.</li>
+        </ul>
+
+        <h4>Debugging Techniques</h4>
+        <ul>
+            <li><strong>Print Statements:</strong> Insert <code>printf</code> statements to track variable values and program flow.</li>
+            <li><strong>Debuggers:</strong> Tools like GDB (GNU Debugger) that allow step-by-step execution and inspection.</li>
+            <li><strong>Code Reviews:</strong> Peer review to spot errors.</li>
+            <li><strong>Static Analysis:</strong> Tools that analyze code without execution to find potential issues.</li>
+        </ul>
+
+        <!-- ===== 1.4.2 ===== -->
+        <h3>1.4.2 Compiling a C Program</h3>
+        <p><strong>Compilation</strong> is the process of converting human-readable source code into machine-executable code.</p>
+
+        <h4>Compilation Steps</h4>
+        <ul>
+            <li><strong>1. Preprocessing:</strong> Handles directives (<code>#include</code>, <code>#define</code>, <code>#ifdef</code>).</li>
+            <li><strong>2. Compilation:</strong> Converts preprocessed code to assembly language.</li>
+            <li><strong>3. Assembly:</strong> Translates assembly code to object code (.o or .obj).</li>
+            <li><strong>4. Linking:</strong> Combines object files with libraries to create an executable.</li>
+        </ul>
+
+        <h4>Using GCC Compiler</h4>
+        <div class="code-block">
+            <span># Compile a C program</span><br>
+            gcc -o program program.c<br><br>
+            <span># Compile with warnings</span><br>
+            gcc -Wall -Wextra -o program program.c<br><br>
+            <span># Compile with debugging symbols</span><br>
+            gcc -g -o program program.c<br><br>
+            <span># Run the program</span><br>
+            ./program          <span># Linux/Mac</span><br>
+            program.exe        <span># Windows</span>
+        </div>
+
+        <!-- ===== 1.4.3 ===== -->
+        <h3>1.4.3 Executing a C Program</h3>
+        <p><strong>Execution</strong> runs the compiled program to perform its intended tasks.</p>
+
+        <h4>Execution Process</h4>
+        <ul>
+            <li><strong>Loading:</strong> The operating system loads the executable into memory.</li>
+            <li><strong>Initialization:</strong> Runtime environment is set up.</li>
+            <li><strong>Execution:</strong> Instructions are executed sequentially from <code>main()</code>.</li>
+            <li><strong>Termination:</strong> Program ends when <code>return</code> is encountered or <code>exit()</code> is called.</li>
+        </ul>
+
+        <h4>Input and Output</h4>
+        <ul>
+            <li><strong>Input:</strong> <code>scanf()</code> reads user input from the keyboard.</li>
+            <li><strong>Output:</strong> <code>printf()</code> displays output to the console.</li>
+            <li><strong>File I/O:</strong> <code>fopen()</code>, <code>fread()</code>, <code>fwrite()</code> for file operations.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Example with input and output</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int main() {<br>
+                int age;<br>
+                printf("Enter your age: ");<br>
+                scanf("%d", &amp;age);<br>
+                printf("You are %d years old.\n", age);<br>
+                return 0;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 1.5 ========== -->
+    <div class="section">
+        <h2>1.5 Testing and Documentation</h2>
+        <p><strong>Testing</strong> ensures that the program works correctly. <strong>Documentation</strong> explains the program's functionality for users and developers.</p>
+
+        <h3>Testing</h3>
+        <ul>
+            <li><strong>Unit Testing:</strong> Tests individual functions or modules in isolation.</li>
+            <li><strong>Integration Testing:</strong> Tests how modules work together.</li>
+            <li><strong>System Testing:</strong> Tests the entire program as a whole.</li>
+            <li><strong>Acceptance Testing:</strong> Verifies that the program meets user requirements.</li>
+        </ul>
+
+        <h4>Test Cases</h4>
+        <ul>
+            <li><strong>Normal Cases:</strong> Valid inputs that the program is expected to handle.</li>
+            <li><strong>Boundary Cases:</strong> Values at the extremes of input ranges.</li>
+            <li><strong>Error Cases:</strong> Invalid inputs to test error handling.</li>
+        </ul>
+
+        <table>
+            <tr><th>Test Type</th><th>Description</th><th>Example</th></tr>
+            <tr><td>Normal</td><td>Valid typical inputs</td><td>add(5, 3) → 8</td></tr>
+            <tr><td>Boundary</td><td>Edge values</td><td>add(0, 0) → 0, add(100, 100) → 200</td></tr>
+            <tr><td>Error</td><td>Invalid inputs</td><td>divide(10, 0) → error message</td></tr>
+        </table>
+
+        <h3>Documentation</h3>
+        <ul>
+            <li><strong>Internal Documentation:</strong> Comments within the code to explain logic and purpose.
+                <div class="code-block">
+                    <span>// Calculate the area of a rectangle</span><br>
+                    <span>// Parameters: length and width</span><br>
+                    <span>// Returns: area (length * width)</span><br>
+                    int area = length * width;
+                </div>
+            </li>
+            <li><strong>External Documentation:</strong> User manuals, API documentation, design documents, README files.</li>
+            <li><strong>Tools:</strong> Doxygen, Javadoc, Sphinx for generating documentation.</li>
+            <li><strong>Importance:</strong> Facilitates maintenance, collaboration, and user adoption.</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>📝 Key insight:</strong> Good documentation and thorough testing are signs of professional software development. They save time and reduce costs in the long run.
+        </div>
+    </div>
+
+    <!-- ========== 1.6 ========== -->
+    <div class="section">
+        <h2>1.6 Preprocessor and Macros</h2>
+        <p>The <strong>preprocessor</strong> is a program that processes source code before compilation. <strong>Macros</strong> are identifiers defined using <code>#define</code> that are replaced with their values during preprocessing.</p>
+
+        <h3>Preprocessor Directives</h3>
+        <ul>
+            <li><strong>#include:</strong> Includes header files.
+                <div class="code-block">
+                    #include &lt;stdio.h&gt;   <span>// Standard I/O library</span><br>
+                    #include "myheader.h"  <span>// User-defined header</span>
+                </div>
+            </li>
+            <li><strong>#define:</strong> Defines constants or macros.
+                <div class="code-block">
+                    #define PI 3.14159<br>
+                    #define SQUARE(x) ((x) * (x))
+                </div>
+            </li>
+            <li><strong>#undef:</strong> Undefines a macro.</li>
+            <li><strong>#ifdef, #ifndef, #endif:</strong> Conditional compilation.
+                <div class="code-block">
+                    #define DEBUG<br>
+                    #ifdef DEBUG<br>
+                    <span>// Debugging code</span><br>
+                    printf("Debug: value = %d\n", value);<br>
+                    #endif
+                </div>
+            </li>
+            <li><strong>#if, #else, #elif:</strong> Conditional compilation based on expressions.</li>
+            <li><strong>#error:</strong> Generates a compile-time error.</li>
+        </ul>
+
+        <h3>Macros</h3>
+        <ul>
+            <li><strong>Object-like Macros:</strong> Replace identifiers with literal values.
+                <div class="code-block">
+                    #define MAX 100<br>
+                    #define HELLO "Hello, World!"
+                </div>
+            </li>
+            <li><strong>Function-like Macros:</strong> Take arguments and expand to expressions.
+                <div class="code-block">
+                    #define SQUARE(x) ((x) * (x))<br>
+                    #define MAX(a, b) ((a) > (b) ? (a) : (b))
+                </div>
+            </li>
+            <li><strong>Advantages:</strong> Faster execution (no function call overhead), code reuse.</li>
+            <li><strong>Disadvantages:</strong> No type checking, can cause side effects if used incorrectly.</li>
+        </ul>
+
+        <h4>Predefined Macros</h4>
+        <ul>
+            <li><code>__LINE__</code> — Current line number.</li>
+            <li><code>__FILE__</code> — Current file name.</li>
+            <li><code>__DATE__</code> — Compilation date.</li>
+            <li><code>__TIME__</code> — Compilation time.</li>
+            <li><code>__STDC__</code> — Indicates ANSI C compliance.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Example using predefined macros</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int main() {<br>
+                printf("File: %s\n", __FILE__);<br>
+                printf("Line: %d\n", __LINE__);<br>
+                printf("Date: %s\n", __DATE__);<br>
+                printf("Time: %s\n", __TIME__);<br>
+                return 0;<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>🛠️ Key insight:</strong> Macros are powerful but should be used carefully. For constants, prefer <code>const</code> variables. For functions, prefer <code>inline</code> functions.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 1 summary</strong><br>Problem solving with computers involves analysis, algorithm design, coding, testing, and documentation using C programming language.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Problem analysis: define, analyze, break down.<br>• Algorithms and flowcharts: step-by-step and visual planning.<br>• C language: structure, debugging, compilation, execution.<br>• Testing and documentation ensure quality.<br>• Preprocessor and macros extend C's capabilities.</div>
+    </div>
 </body>
 </html>

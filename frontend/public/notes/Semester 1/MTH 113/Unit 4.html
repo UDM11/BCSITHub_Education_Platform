@@ -1,126 +1,519 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 4: Application of Derivatives</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+        .math {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
-    <h1>Unit 4: Application of Derivatives</h1>
 
+    <h1>Unit 4: Application of Derivatives</h1>
+    <div class="subhead">Increasing/decreasing functions · critical points · extrema · marginal analysis · concavity · MVT · optimization</div>
+
+    <!-- ========== 4.1 ========== -->
     <div class="section">
         <h2>4.1 Increasing and Decreasing Functions</h2>
-        <p>Increasing and decreasing functions describe how a function’s output changes with its input, analyzed using derivatives to understand trends in various applications.</p>
+        <p><strong>Increasing</strong> and <strong>decreasing</strong> functions describe how a function's output changes with its input, analyzed using derivatives to understand trends in various applications.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📈 Increasing Functions</strong><br>A function f(x) is increasing on an interval if f'(x) > 0. As x increases, f(x) increases. Example: f(x) = x² on x > 0 has f'(x) = 2x > 0.</div>
+            <div class="card"><strong>📉 Decreasing Functions</strong><br>A function f(x) is decreasing on an interval if f'(x) < 0. As x increases, f(x) decreases. Example: f(x) = -x² on x > 0 has f'(x) = -2x < 0.</div>
+        </div>
+
+        <h3>Monotonicity</h3>
         <ul>
-            <li><strong>Increasing Functions:</strong> A function f(x) is increasing on an interval if f'(x) > 0, meaning as x increases, f(x) increases (e.g., f(x) = x² on x > 0 has f'(x) = 2x > 0).</li>
-            <li><strong>Decreasing Functions:</strong> A function is decreasing if f'(x) < 0, meaning as x increases, f(x) decreases (e.g., f(x) = -x² on x > 0 has f'(x) = -2x < 0).</li>
-            <li><strong>Monotonicity:</strong> Functions may be strictly increasing/decreasing (no equalities) or non-strict (allowing f'(x) = 0 at points), determined by the sign of the derivative.</li>
-            <li><strong>Applications:</strong> Used in economics to analyze rising costs or declining demand, and in optimization to identify trends in data models.</li>
+            <li><strong>Strictly Increasing:</strong> f'(x) > 0 for all x in the interval.</li>
+            <li><strong>Strictly Decreasing:</strong> f'(x) < 0 for all x in the interval.</li>
+            <li><strong>Non-strict (Monotonic):</strong> f'(x) ≥ 0 (increasing) or f'(x) ≤ 0 (decreasing), allowing f'(x) = 0 at some points.</li>
         </ul>
-        <p>Derivatives help determine intervals where functions grow or decline, critical for analysis.</p>
+
+        <h3>Determining Intervals</h3>
+        <ul>
+            <li>Find critical points where f'(x) = 0 or undefined.</li>
+            <li>Test the sign of f'(x) in each interval.</li>
+            <li>f'(x) > 0 → increasing; f'(x) < 0 → decreasing.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Example: f(x) = x³ - 3x</span><br>
+            f'(x) = 3x² - 3 = 3(x² - 1)<br>
+            Critical points: x = -1, x = 1<br>
+            Intervals: (-∞, -1), (-1, 1), (1, ∞)<br>
+            f'(-2) = 9 > 0 → increasing<br>
+            f'(0) = -3 < 0 → decreasing<br>
+            f'(2) = 9 > 0 → increasing
+        </div>
+
+        <div class="note-box">
+            <strong>📊 Key insight:</strong> The sign of the derivative determines whether a function is increasing or decreasing. This is fundamental for understanding trends in economics, physics, and data analysis.
+        </div>
     </div>
 
+    <!-- ========== 4.2 ========== -->
     <div class="section">
         <h2>4.2 Critical Point, Point of Inflection</h2>
-        <p>Critical points and points of inflection are key features of a function’s graph, identified using derivatives to analyze behavior.</p>
+        <p><strong>Critical points</strong> and <strong>points of inflection</strong> are key features of a function's graph, identified using derivatives to analyze behavior.</p>
+
+        <h3>Critical Points</h3>
         <ul>
-            <li><strong>Critical Point:</strong> Occurs where f'(x) = 0 or f'(x) is undefined, indicating potential maxima, minima, or stationary points (e.g., f(x) = x³ has f'(x) = 3x² = 0 at x = 0).</li>
-            <li><strong>Point of Inflection:</strong> Occurs where the second derivative f''(x) = 0 or is undefined and concavity changes (e.g., f(x) = x³ has f''(x) = 6x = 0 at x = 0, changing from concave down to up).</li>
-            <li><strong>Testing Critical Points:</strong> Use the first derivative test (check sign changes of f'(x)) or second derivative test (f''(x) > 0 for minima, f''(x) < 0 for maxima).</li>
-            <li><strong>Applications:</strong> Critical points optimize functions in engineering; inflection points model shifts in trends, like market saturation in economics.</li>
+            <li><strong>Definition:</strong> Points where f'(x) = 0 or f'(x) is undefined.</li>
+            <li>Potential locations of local maxima, minima, or stationary points.</li>
+            <li>Example: f(x) = x³ → f'(x) = 3x² = 0 at x = 0 (stationary point).</li>
         </ul>
-        <p>These points reveal key behavioral changes in functions, essential for analysis and optimization.</p>
+
+        <h3>Points of Inflection</h3>
+        <ul>
+            <li><strong>Definition:</strong> Points where f''(x) = 0 or undefined and concavity changes.</li>
+            <li>Example: f(x) = x³ → f''(x) = 6x = 0 at x = 0, concavity changes from concave down to concave up.</li>
+        </ul>
+
+        <h3>Testing Critical Points</h3>
+        <ul>
+            <li><strong>First Derivative Test:</strong> Check sign change of f'(x) around critical points.
+                <ul>
+                    <li>Positive to negative → local maximum.</li>
+                    <li>Negative to positive → local minimum.</li>
+                    <li>No sign change → stationary point (inflection).</li>
+                </ul>
+            </li>
+            <li><strong>Second Derivative Test:</strong> Use f''(x) at critical points.
+                <ul>
+                    <li>f''(x) > 0 → local minimum.</li>
+                    <li>f''(x) < 0 → local maximum.</li>
+                    <li>f''(x) = 0 → test inconclusive.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Example: f(x) = x⁴ - 4x³</span><br>
+            f'(x) = 4x³ - 12x² = 4x²(x - 3)<br>
+            Critical points: x = 0, x = 3<br>
+            f''(x) = 12x² - 24x = 12x(x - 2)<br>
+            f''(3) = 36 > 0 → local minimum at x = 3<br>
+            f''(0) = 0 → inconclusive, check first derivative<br>
+            f'(-1) = -16, f'(1) = -8 → both negative, no sign change → inflection at x = 0
+        </div>
     </div>
 
+    <!-- ========== 4.3 ========== -->
     <div class="section">
         <h2>4.3 Maximum and Minimum Value of Functions</h2>
-        <p>Maximum and minimum values of functions, found using derivatives, are critical for optimization problems in mathematics and applied fields.</p>
+        <p><strong>Maximum and minimum</strong> values of functions, found using derivatives, are critical for optimization problems in mathematics and applied fields.</p>
+
+        <h3>Local Extrema</h3>
         <ul>
-            <li><strong>Local Extrema:</strong> Local maxima/minima occur at critical points where f'(x) = 0 or is undefined. Use the second derivative test: f''(x) > 0 indicates a local minimum, f''(x) < 0 a local maximum.</li>
-            <li><strong>Global Extrema:</strong> The highest/lowest value of f(x) on a domain. Check critical points and endpoints of closed intervals (e.g., for f(x) = x² on [-1, 2], evaluate f(-1), f(2), and critical points).</li>
-            <li><strong>First Derivative Test:</strong> Analyze sign changes of f'(x) around critical points: positive to negative indicates a maximum, negative to positive a minimum.</li>
-            <li><strong>Applications:</strong> Used to maximize profit, minimize cost, or optimize resource allocation in business and engineering.</li>
+            <li>Occur at critical points where f'(x) = 0 or undefined.</li>
+            <li><strong>Second Derivative Test:</strong>
+                <ul>
+                    <li>f''(x) > 0 → local minimum.</li>
+                    <li>f''(x) < 0 → local maximum.</li>
+                </ul>
+            </li>
         </ul>
-        <p>Finding extrema enables optimization of functions in practical scenarios.</p>
+
+        <h3>Global (Absolute) Extrema</h3>
+        <ul>
+            <li>The highest/lowest value of f(x) on a given domain.</li>
+            <li>Check:
+                <ul>
+                    <li>Critical points within the domain.</li>
+                    <li>Endpoints of the domain (for closed intervals).</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Example: f(x) = x³ - 3x² + 2, on [-1, 3]</span><br>
+            f'(x) = 3x² - 6x = 3x(x - 2)<br>
+            Critical points: x = 0, x = 2<br>
+            f(-1) = -1 - 3 + 2 = -2<br>
+            f(0) = 2<br>
+            f(2) = 8 - 12 + 2 = -2<br>
+            f(3) = 27 - 27 + 2 = 2<br>
+            Global maximum: f(0) = 2, f(3) = 2<br>
+            Global minimum: f(-1) = -2, f(2) = -2
+        </div>
+
+        <h3>First Derivative Test</h3>
+        <ul>
+            <li>Analyze sign changes of f'(x) around critical points.</li>
+            <li>Positive → Negative: local maximum.</li>
+            <li>Negative → Positive: local minimum.</li>
+        </ul>
     </div>
 
+    <!-- ========== 4.4 ========== -->
     <div class="section">
         <h2>4.4 Marginal Analysis in Business and Economics</h2>
-        <p>Marginal analysis uses derivatives to evaluate incremental changes in business and economic variables, aiding decision-making.</p>
+        <p><strong>Marginal analysis</strong> uses derivatives to evaluate incremental changes in business and economic variables, aiding decision-making.</p>
+
+        <h3>Marginal Concepts</h3>
         <ul>
-            <li><strong>Marginal Cost:</strong> The derivative C'(q) of the cost function C(q) represents the cost of producing one additional unit (e.g., if C(q) = 100 + 5q, then C'(q) = 5).</li>
-            <li><strong>Marginal Revenue:</strong> The derivative R'(q) of the revenue function R(q) measures revenue from one additional unit sold (e.g., R(q) = 50q - q², R'(q) = 50 - 2q).</li>
-            <li><strong>Profit Maximization:</strong> Profit P(q) = R(q) - C(q) is maximized where P'(q) = R'(q) - C'(q) = 0, provided P''(q) < 0 (e.g., set marginal revenue equal to marginal cost).</li>
-            <li><strong>Applications:</strong> Used to optimize production levels, pricing strategies, or resource allocation in business operations.</li>
+            <li><strong>Marginal Cost (MC):</strong> C'(q) — cost of producing one additional unit.
+                <div class="code-block">
+                    C(q) = 100 + 5q → MC = C'(q) = 5
+                </div>
+            </li>
+            <li><strong>Marginal Revenue (MR):</strong> R'(q) — revenue from one additional unit sold.
+                <div class="code-block">
+                    R(q) = 50q - q² → MR = R'(q) = 50 - 2q
+                </div>
+            </li>
+            <li><strong>Marginal Profit (MP):</strong> P'(q) — additional profit from one more unit.
+                <div class="code-block">
+                    P(q) = R(q) - C(q) → MP = P'(q) = MR - MC
+                </div>
+            </li>
         </ul>
-        <p>Marginal analysis provides precise insights for optimizing economic decisions.</p>
+
+        <h3>Profit Maximization</h3>
+        <ul>
+            <li>Profit is maximized where P'(q) = 0 → MR = MC.</li>
+            <li>Second derivative test: P''(q) < 0 ensures maximum.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Profit maximization example</span><br>
+            R(q) = 100q - 2q², C(q) = 20q + 100<br>
+            P(q) = (100q - 2q²) - (20q + 100) = -2q² + 80q - 100<br>
+            P'(q) = -4q + 80 = 0 → q = 20<br>
+            P''(q) = -4 < 0 → maximum<br>
+            Maximum profit = P(20) = -800 + 1600 - 100 = 700
+        </div>
     </div>
 
+    <!-- ========== 4.5 ========== -->
     <div class="section">
         <h2>4.5 Concavity of Functions, Marginal Profit Analysis</h2>
-        <p>Concavity describes the shape of a function’s graph, and marginal profit analysis uses derivatives to optimize profitability.</p>
+        <p><strong>Concavity</strong> describes the shape of a function's graph, and marginal profit analysis uses derivatives to optimize profitability.</p>
+
+        <h3>Concavity</h3>
         <ul>
-            <li><strong>Concavity:</strong> A function is concave up if f''(x) > 0 (graph curves upward, like a bowl), and concave down if f''(x) < 0 (curves downward). Inflection points occur where concavity changes.</li>
-            <li><strong>Marginal Profit:</strong> The derivative P'(q) of the profit function P(q) = R(q) - C(q) measures the additional profit from one more unit. Maximum profit occurs where P'(q) = 0 and P''(q) < 0.</li>
-            <li><strong>Concavity in Profit Analysis:</strong> If P''(q) < 0, the profit function is concave down, confirming a maximum at the critical point, guiding production decisions.</li>
-            <li><strong>Applications:</strong> Concavity helps predict diminishing returns in economics; marginal profit analysis optimizes output in business strategies.</li>
+            <li><strong>Concave Up:</strong> f''(x) > 0 — graph curves upward (bowl shape).</li>
+            <li><strong>Concave Down:</strong> f''(x) < 0 — graph curves downward (cap shape).</li>
+            <li><strong>Inflection Point:</strong> f''(x) = 0 and concavity changes.</li>
         </ul>
-        <p>Concavity and marginal profit analysis guide effective decision-making in optimization.</p>
+
+        <h3>Marginal Profit Analysis</h3>
+        <ul>
+            <li>Profit function: P(q) = R(q) - C(q)</li>
+            <li>Marginal profit: P'(q) = R'(q) - C'(q)</li>
+            <li>Maximum profit: P'(q) = 0, P''(q) < 0</li>
+            <li>P''(q) < 0 indicates decreasing marginal returns.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Concavity and profit analysis</span><br>
+            P(q) = -2q² + 80q - 100<br>
+            P'(q) = -4q + 80<br>
+            P''(q) = -4 < 0 → concave down, maximum at q = 20<br>
+            Diminishing returns: P''(q) < 0 means each additional unit adds less profit.
+        </div>
+
+        <h3>Applications</h3>
+        <ul>
+            <li><strong>Diminishing Returns:</strong> Concave down profit functions indicate diminishing marginal returns.</li>
+            <li><strong>Cost Analysis:</strong> Concavity helps identify economies or diseconomies of scale.</li>
+            <li><strong>Optimization:</strong> Concavity confirms whether a critical point is a maximum or minimum.</li>
+        </ul>
     </div>
 
+    <!-- ========== 4.6 ========== -->
     <div class="section">
         <h2>4.6 Mean Value Theorem, Optimization Problems</h2>
-        <p>The Mean Value Theorem and optimization problems use derivatives to analyze function behavior and solve practical challenges.</p>
+        <p>The <strong>Mean Value Theorem</strong> and <strong>optimization problems</strong> use derivatives to analyze function behavior and solve practical challenges.</p>
+
+        <h3>Mean Value Theorem (MVT)</h3>
         <ul>
-            <li><strong>Mean Value Theorem:</strong> If f(x) is continuous on [a, b] and differentiable on (a, b), there exists c in (a, b) such that f'(c) = [f(b) - f(a)]/(b - a), equating the instantaneous rate to the average rate.</li>
-            <li><strong>Optimization Problems:</strong> Involve finding maxima/minima of a function subject to constraints. Steps: define the objective function, find critical points (f'(x) = 0), and verify using the second derivative or boundary checks.</li>
-            <li><strong>Example:</strong> To maximize area A = x·y of a rectangle with fixed perimeter 2x + 2y = P, express y = P/2 - x, so A(x) = x(P/2 - x). Then A'(x) = P/2 - 2x = 0 gives x = P/4, a maximum if A''(x) < 0.</li>
-            <li><strong>Applications:</strong> Mean Value Theorem supports theoretical analysis; optimization solves problems like minimizing material costs or maximizing efficiency in engineering and economics.</li>
+            <li>If f(x) is continuous on [a, b] and differentiable on (a, b), then there exists c ∈ (a, b) such that:
+                <div class="code-block">
+                    f'(c) = [f(b) - f(a)]/(b - a)
+                </div>
+            </li>
+            <li>Interpretation: There is a point where the instantaneous rate of change equals the average rate of change.</li>
+            <li>Applications: Proving properties of functions, error analysis, and numerical methods.</li>
         </ul>
-        <p>These tools enable precise solutions to theoretical and practical optimization challenges.</p>
+
+        <div class="code-block">
+            <span>// MVT example</span><br>
+            f(x) = x², on [1, 3]<br>
+            f(3) = 9, f(1) = 1<br>
+            Average rate = (9 - 1)/(3 - 1) = 4<br>
+            f'(c) = 2c = 4 → c = 2 ∈ (1, 3)
+        </div>
+
+        <h3>Optimization Problems</h3>
+        <ul>
+            <li><strong>Steps:</strong>
+                <ol>
+                    <li>Define the objective function (what to optimize).</li>
+                    <li>Express it in terms of one variable.</li>
+                    <li>Find critical points (f'(x) = 0).</li>
+                    <li>Verify using second derivative or boundaries.</li>
+                </ol>
+            </li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Optimization example: Maximize area with fixed perimeter</span><br>
+            <span>// Perimeter: 2x + 2y = 40 → y = 20 - x</span><br>
+            <span>// Area: A(x) = x(20 - x) = 20x - x²</span><br>
+            A'(x) = 20 - 2x = 0 → x = 10<br>
+            A''(x) = -2 < 0 → maximum<br>
+            y = 20 - 10 = 10<br>
+            Max area = 10 × 10 = 100 square units
+        </div>
+
+        <h3>Applications of Optimization</h3>
+        <ul>
+            <li><strong>Business:</strong> Maximize profit, minimize cost.</li>
+            <li><strong>Engineering:</strong> Minimize material usage, maximize efficiency.</li>
+            <li><strong>Economics:</strong> Maximize utility, minimize production costs.</li>
+            <li><strong>Machine Learning:</strong> Gradient descent for optimization.</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>📐 Key insight:</strong> The Mean Value Theorem provides a theoretical foundation for many results in calculus. Optimization problems are among the most practical applications of derivatives, used extensively in business, engineering, and science.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 4 summary</strong><br>Applications of derivatives include analyzing increasing/decreasing functions, finding extrema, marginal analysis, concavity, and solving optimization problems.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Increasing/decreasing: f'(x) > 0 / f'(x) < 0.<br>• Critical points: f'(x) = 0 or undefined.<br>• Local extrema: first and second derivative tests.<br>• Global extrema: check critical points and endpoints.<br>• Marginal analysis: MC, MR, MP for business decisions.<br>• Concavity: f''(x) > 0 concave up, f''(x) < 0 concave down.<br>• Mean Value Theorem: connects average and instantaneous rates.<br>• Optimization: maximize/minimize functions subject to constraints.</div>
     </div>
 </body>
 </html>

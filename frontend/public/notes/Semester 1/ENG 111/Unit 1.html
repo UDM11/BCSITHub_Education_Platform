@@ -1,91 +1,501 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 1: Introduction to Language Skills</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1>Unit 1: Introduction to Language Skills</h1>
 
+    <h1>Unit 1: Introduction to Language Skills</h1>
+    <div class="subhead">Four core skills · importance for IT professionals · language learning strategies</div>
+
+    <!-- ========== 1.1 ========== -->
     <div class="section">
         <h2>1.1 Overview of the Four Language Skills - Listening, Speaking, Reading, and Writing</h2>
-        <p>The four core language skills—listening, speaking, reading, and writing—are fundamental to effective communication. Each skill plays a distinct yet interconnected role in language acquisition and usage.</p>
+        <p>The four core language skills—<strong>listening</strong>, <strong>speaking</strong>, <strong>reading</strong>, and <strong>writing</strong>—are fundamental to effective communication. Each skill plays a distinct yet interconnected role in language acquisition and usage. Together, they form the foundation of linguistic competence in any language.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>👂 Listening</strong><br>Receptive skill involving understanding spoken language. Requires attention to tone, context, and non-verbal cues. Essential for conversations, lectures, and professional meetings.</div>
+            <div class="card"><strong>🗣️ Speaking</strong><br>Productive skill involving articulating thoughts clearly. Requires pronunciation, vocabulary, grammar, and adaptability to different audiences. Essential for presentations, negotiations, and collaboration.</div>
+            <div class="card"><strong>📖 Reading</strong><br>Receptive skill focusing on comprehending written texts. Involves decoding words, understanding structures, and extracting meaning. Essential for research, documentation, and professional development.</div>
+            <div class="card"><strong>✍️ Writing</strong><br>Productive skill requiring organizing thoughts into coherent text. Involves grammar, vocabulary, and style. Essential for emails, reports, documentation, and creative expression.</div>
+        </div>
+
+        <h3>Detailed Breakdown of Each Skill</h3>
         <ul>
-            <li><strong>Listening:</strong> This receptive skill involves understanding spoken language in various contexts, such as conversations, lectures, or presentations. Effective listening requires attention to tone, context, and non-verbal cues, enabling individuals to process and respond appropriately.</li>
-            <li><strong>Speaking:</strong> As a productive skill, speaking entails articulating thoughts clearly and coherently. It involves pronunciation, vocabulary, grammar, and the ability to adapt to different audiences, making it essential for interactive communication.</li>
-            <li><strong>Reading:</strong> This receptive skill focuses on comprehending written texts, ranging from emails to technical documents. Reading involves decoding words, understanding sentence structures, and extracting meaning, which is critical for learning and professional tasks.</li>
-            <li><strong>Writing:</strong> A productive skill, writing requires organizing thoughts into coherent text. It encompasses grammar, vocabulary, and style, tailored to purposes like reports, emails, or creative expression, ensuring clarity and precision.</li>
+            <li><strong>Listening:</strong>
+                <ul>
+                    <li><strong>Types:</strong> Active listening (focused), passive listening (background), critical listening (evaluation).</li>
+                    <li><strong>Sub-skills:</strong> Understanding main ideas, identifying details, recognizing tone, inferring meaning.</li>
+                    <li><strong>Challenges:</strong> Accents, speed, background noise, complex vocabulary.</li>
+                    <li><strong>Strategies:</strong> Focus on key words, take notes, ask clarifying questions.</li>
+                </ul>
+            </li>
+            <li><strong>Speaking:</strong>
+                <ul>
+                    <li><strong>Types:</strong> Formal (presentations, meetings), informal (conversations), persuasive (arguments).</li>
+                    <li><strong>Sub-skills:</strong> Pronunciation, fluency, grammar, vocabulary, coherence.</li>
+                    <li><strong>Challenges:</strong> Nervousness, lack of vocabulary, cultural differences.</li>
+                    <li><strong>Strategies:</strong> Practice regularly, record and review, use structured frameworks.</li>
+                </ul>
+            </li>
+            <li><strong>Reading:</strong>
+                <ul>
+                    <li><strong>Types:</strong> Skimming (main ideas), scanning (specific details), intensive (deep analysis), extensive (pleasure).</li>
+                    <li><strong>Sub-skills:</strong> Decoding, comprehension, inference, vocabulary building.</li>
+                    <li><strong>Challenges:</strong> Unfamiliar vocabulary, complex structures, lack of concentration.</li>
+                    <li><strong>Strategies:</strong> Pre-read headings, annotate, summarize, use a dictionary.</li>
+                </ul>
+            </li>
+            <li><strong>Writing:</strong>
+                <ul>
+                    <li><strong>Types:</strong> Formal (business, academic), informal (personal, creative), technical (documentation).</li>
+                    <li><strong>Sub-skills:</strong> Grammar, vocabulary, organization, clarity, conciseness.</li>
+                    <li><strong>Challenges:</strong> Writer's block, grammar errors, lack of structure.</li>
+                    <li><strong>Strategies:</strong> Outline first, revise multiple times, seek feedback.</li>
+                </ul>
+            </li>
         </ul>
-        <p>Mastery of these skills enhances communication, fosters collaboration, and supports personal and professional growth.</p>
+
+        <h3>Interconnection of the Four Skills</h3>
+        <ul>
+            <li><strong>Listening → Speaking:</strong> Effective listening builds vocabulary and pronunciation models for speaking.</li>
+            <li><strong>Reading → Writing:</strong> Reading exposes learners to different writing styles and structures.</li>
+            <li><strong>Speaking → Listening:</strong> Speaking practice improves listening comprehension through self-correction.</li>
+            <li><strong>Writing → Reading:</strong> Writing reinforces reading skills through grammar and vocabulary application.</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+Language Skills Interconnection:
+┌─────────────────────────────────────────────┐
+│                                             │
+│          ┌──────────────┐                   │
+│          │   Listening  │                   │
+│          └──────┬───────┘                   │
+│                 │                           │
+│                 ▼                           │
+│          ┌──────────────┐                   │
+│          │   Speaking   │                   │
+│          └──────┬───────┘                   │
+│                 │                           │
+│          ┌──────┴───────┐                   │
+│          │              │                   │
+│          ▼              ▼                   │
+│   ┌────────────┐ ┌────────────┐            │
+│   │   Reading  │ │   Writing  │            │
+│   └────────────┘ └────────────┘            │
+│                                             │
+└─────────────────────────────────────────────┘
+            </pre>
+        </div>
+
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> Mastering all four language skills creates a well-rounded communicator. In professional settings, these skills work together to enable effective collaboration, problem-solving, and career advancement.
+        </div>
     </div>
 
+    <!-- ========== 1.2 ========== -->
     <div class="section">
         <h2>1.2 Importance of Language Skills for Professionals in Information Technology</h2>
-        <p>Language skills are vital for IT professionals, enabling effective communication in a globalized and collaborative industry. Strong language proficiency supports technical expertise and career advancement.</p>
+        <p>Language skills are vital for IT professionals, enabling effective communication in a globalized and collaborative industry. Strong language proficiency supports technical expertise and career advancement, bridging the gap between technical knowledge and business needs.</p>
+
+        <div class="grid-2col">
+            <div class="card"><strong>🌐 Global Collaboration</strong><br>IT teams work across countries and cultures. Clear communication ensures successful project coordination, conflict resolution, and knowledge sharing.</div>
+            <div class="card"><strong>📝 Documentation</strong><br>Writing skills are crucial for user manuals, technical specifications, API documentation, and code comments that are clear and accessible.</div>
+            <div class="card"><strong>🗣️ Client Interaction</strong><br>Presenting ideas, explaining technical concepts to non-technical stakeholders, and negotiating requirements require strong speaking skills.</div>
+            <div class="card"><strong>📚 Continuous Learning</strong><br>Reading skills are essential for staying updated with industry trends, research papers, technical blogs, and documentation.</div>
+        </div>
+
+        <h3>Why IT Professionals Need Strong Language Skills</h3>
         <ul>
-            <li><strong>Clear Communication:</strong> IT professionals must convey complex technical concepts to diverse audiences, including clients, team members, and non-technical stakeholders, through presentations, emails, or documentation.</li>
-            <li><strong>Collaboration:</strong> Global IT teams often work across cultures and time zones, requiring precise listening and speaking skills to coordinate tasks, resolve conflicts, and share ideas effectively.</li>
-            <li><strong>Documentation and Reporting:</strong> Writing skills are crucial for creating user manuals, project reports, and code documentation, ensuring clarity and accessibility for end-users and developers.</li>
-            <li><strong>Problem-Solving:</strong> Reading skills enable professionals to interpret technical specifications, troubleshoot issues, and stay updated with industry trends through research and documentation.</li>
+            <li><strong>Clear Communication:</strong>
+                <ul>
+                    <li>Convey complex technical concepts to clients, team members, and non-technical stakeholders.</li>
+                    <li>Present ideas effectively in meetings, presentations, and emails.</li>
+                    <li>Reduce misunderstandings and errors through precise communication.</li>
+                </ul>
+            </li>
+            <li><strong>Collaboration and Teamwork:</strong>
+                <ul>
+                    <li>IT projects often involve cross-functional teams (developers, designers, project managers).</li>
+                    <li>Active listening ensures understanding of requirements and feedback.</li>
+                    <li>Speaking skills facilitate brainstorming, problem-solving, and decision-making.</li>
+                </ul>
+            </li>
+            <li><strong>Documentation and Reporting:</strong>
+                <ul>
+                    <li>Write clear and concise technical documentation, user manuals, and API references.</li>
+                    <li>Create project reports, status updates, and incident reports.</li>
+                    <li>Good writing reduces support tickets and improves user experience.</li>
+                </ul>
+            </li>
+            <li><strong>Professional Development:</strong>
+                <ul>
+                    <li>Reading industry blogs, research papers, and documentation keeps skills current.</li>
+                    <li>Writing technical articles or contributing to open-source projects builds reputation.</li>
+                    <li>Speaking at conferences or webinars enhances professional visibility.</li>
+                </ul>
+            </li>
+            <li><strong>Career Advancement:</strong>
+                <ul>
+                    <li>Strong communication skills are often differentiators for promotions and leadership roles.</li>
+                    <li>Ability to articulate vision and strategy is essential for management positions.</li>
+                    <li>Networking and relationship-building rely on effective interpersonal skills.</li>
+                </ul>
+            </li>
         </ul>
-        <p>Proficiency in these skills enhances credibility, fosters innovation, and ensures successful project outcomes in the IT sector.</p>
+
+        <table>
+            <tr><th>Communication Context</th><th>Skills Used</th><th>IT Application</th></tr>
+            <tr><td>Client Meetings</td><td>Speaking, Listening</td><td>Understanding requirements, presenting solutions</td></tr>
+            <tr><td>Technical Documentation</td><td>Writing</td><td>API docs, user manuals, code comments</td></tr>
+            <tr><td>Team Collaboration</td><td>Listening, Speaking</td><td>Daily stand-ups, sprint planning, code reviews</td></tr>
+            <tr><td>Professional Development</td><td>Reading</td><td>Industry research, online courses, technical blogs</td></tr>
+            <tr><td>Presentations</td><td>Speaking, Writing</td><td>Project updates, technical talks, demos</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>💻 Key insight:</strong> In the IT industry, technical skills get you hired, but communication skills get you promoted. Strong language skills are essential for career growth and leadership roles.
+        </div>
     </div>
 
+    <!-- ========== 1.3 ========== -->
     <div class="section">
         <h2>1.3 Introduction to Language Learning Strategies to Aid in Comprehension</h2>
-        <p>Language learning strategies are deliberate techniques that facilitate the acquisition and comprehension of language skills. These strategies empower learners to improve efficiency and retention.</p>
+        <p><strong>Language learning strategies</strong> are deliberate techniques that facilitate the acquisition and comprehension of language skills. These strategies empower learners to improve efficiency, retention, and practical application.</p>
+
+        <h3>Categories of Language Learning Strategies</h3>
         <ul>
-            <li><strong>Active Listening:</strong> Engage with audio materials like podcasts or lectures, focusing on key ideas and practicing note-taking to enhance listening comprehension.</li>
-            <li><strong>Contextual Vocabulary Building:</strong> Learn new words through context, such as reading IT-related articles or engaging in conversations, to improve retention and practical usage.</li>
-            <li><strong>Practice Speaking:</strong> Participate in discussions, role-plays, or language exchange programs to build confidence and fluency in speaking, emphasizing clear pronunciation and structure.</li>
-            <li><strong>Skimming and Scanning:</strong> Use reading strategies like skimming for main ideas or scanning for specific details to improve speed and comprehension of technical texts.</li>
-            <li><strong>Writing Practice:</strong> Regularly write summaries, emails, or reports, seeking feedback to refine grammar, coherence, and style for professional communication.</li>
+            <li><strong>Cognitive Strategies:</strong> Mental processes for understanding and producing language.
+                <ul>
+                    <li>Summarizing, note-taking, highlighting key points.</li>
+                    <li>Using prior knowledge to infer meaning.</li>
+                    <li>Practicing with flashcards and spaced repetition.</li>
+                </ul>
+            </li>
+            <li><strong>Metacognitive Strategies:</strong> Planning, monitoring, and evaluating one's own learning.
+                <ul>
+                    <li>Setting learning goals and milestones.</li>
+                    <li>Self-assessment and reflection.</li>
+                    <li>Identifying areas for improvement.</li>
+                </ul>
+            </li>
+            <li><strong>Social/Affective Strategies:</strong> Interaction and emotional management.
+                <ul>
+                    <li>Language exchange partners and group study.</li>
+                    <li>Reducing anxiety through positive self-talk.</li>
+                    <li>Seeking feedback and clarification from others.</li>
+                </ul>
+            </li>
+            <li><strong>Compensation Strategies:</strong> Overcoming gaps in language knowledge.
+                <ul>
+                    <li>Using context clues, synonyms, or paraphrasing.</li>
+                    <li>Asking for repetition or clarification.</li>
+                    <li>Using gestures or visual aids.</li>
+                </ul>
+            </li>
         </ul>
-        <p>By adopting these strategies, learners can systematically enhance their language skills, tailoring approaches to their goals and contexts.</p>
+
+        <h3>Specific Strategies for Each Language Skill</h3>
+
+        <h4>Listening Strategies</h4>
+        <ul>
+            <li><strong>Active Listening:</strong> Engage fully with the speaker, focus on main ideas, and take notes.</li>
+            <li><strong>Prediction:</strong> Anticipate content based on context and prior knowledge.</li>
+            <li><strong>Note-Taking:</strong> Record key points, names, numbers, and important details.</li>
+            <li><strong>Exposure:</strong> Listen to podcasts, news, TED Talks, and technical webinars.</li>
+            <li><strong>Transcription:</strong> Listen to short audio clips and write them down to improve accuracy.</li>
+        </ul>
+
+        <h4>Speaking Strategies</h4>
+        <ul>
+            <li><strong>Practice:</strong> Engage in conversations, role-plays, and presentations regularly.</li>
+            <li><strong>Recording:</strong> Record and review your speech to identify areas for improvement.</li>
+            <li><strong>Structured Approach:</strong> Use frameworks (e.g., the <strong>PREP</strong> method: Point, Reason, Example, Point) for clarity.</li>
+            <li><strong>Peer Feedback:</strong> Practice with partners who provide constructive criticism.</li>
+            <li><strong>Shadowing:</strong> Repeat audio recordings to improve pronunciation and fluency.</li>
+        </ul>
+
+        <h4>Reading Strategies</h4>
+        <ul>
+            <li><strong>Skimming:</strong> Read headings, subheadings, and first sentences for main ideas.</li>
+            <li><strong>Scanning:</strong> Look for specific information like dates, names, or keywords.</li>
+            <li><strong>Annotating:</strong> Highlight, underline, and make notes while reading.</li>
+            <li><strong>Summarizing:</strong> Write summaries of what you've read to reinforce comprehension.</li>
+            <li><strong>Vocabulary Building:</strong> Use context clues and maintain a vocabulary journal.</li>
+            <li><strong>Critical Reading:</strong> Evaluate the author's argument, evidence, and bias.</li>
+        </ul>
+
+        <h4>Writing Strategies</h4>
+        <ul>
+            <li><strong>Outlining:</strong> Plan the structure before writing.</li>
+            <li><strong>Drafting and Revising:</strong> Write multiple drafts and revise for clarity and conciseness.</li>
+            <li><strong>Peer Review:</strong> Exchange work with peers for constructive feedback.</li>
+            <li><strong>Grammar and Vocabulary:</strong> Use online resources (Grammarly, Thesaurus) for improvement.</li>
+            <li><strong>Regular Practice:</strong> Write emails, reports, and journal entries daily.</li>
+            <li><strong>Read Aloud:</strong> Read your writing aloud to identify awkward phrasing or errors.</li>
+        </ul>
+
+        <h3>Language Learning Plan for IT Professionals</h3>
+        <table>
+            <tr><th>Week</th><th>Skill Focus</th><th>Activity</th><th>Resources</th></tr>
+            <tr><td>1-2</td><td>Listening</td><td>TED Talks, technical podcasts</td><td>NPR, BBC, IT-specific podcasts</td></tr>
+            <tr><td>3-4</td><td>Speaking</td><td>Practice presentations, speaking groups</td><td>Toastmasters, language apps (Duolingo, HelloTalk)</td></tr>
+            <tr><td>5-6</td><td>Reading</td><td>IT blogs, research papers, technical documentation</td><td>Medium, IEEE, Stack Overflow</td></tr>
+            <tr><td>7-8</td><td>Writing</td><td>Technical reports, emails, code documentation</td><td>Grammarly, online courses</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Example: IT Professional's Language Learning Journal</span><br>
+            <span>// Week 1: Listening</span><br>
+            <span>// Watched "How AI is Transforming Tech" on TED</span><br>
+            <span>// Took notes on key points: AI applications, ethical concerns</span><br>
+            <span>// Practiced summarizing in 3 sentences</span><br><br>
+            <span>// Week 2: Speaking</span><br>
+            <span>// Presented summary of TED Talk to colleague</span><br>
+            <span>// Recorded presentation and reviewed for clarity</span><br>
+            <span>// Improved pronunciation of technical terms</span>
+        </div>
+
+        <div class="note-box">
+            <strong>📚 Key insight:</strong> Consistent practice using targeted strategies is the most effective way to improve language skills. Tailor your approach to your specific goals and learning style. Regular self-assessment helps track progress and identify areas for improvement.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 1 summary</strong><br>Language skills—listening, speaking, reading, writing—are essential for effective communication and professional success in the IT industry.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Four core skills: Listening, Speaking, Reading, Writing.<br>• IT professionals need strong communication for collaboration, documentation, and career growth.<br>• Language learning strategies include active listening, practice, note-taking, and regular exposure.<br>• Consistent practice using targeted strategies accelerates improvement.</div>
     </div>
 </body>
 </html>

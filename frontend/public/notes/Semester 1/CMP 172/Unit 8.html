@@ -1,366 +1,803 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unit 8: Pointers</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-      font-weight: bold;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 8: Pointers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Unit 8: Pointers</h1>
+    <h1>Unit 8: Pointers</h1>
+    <div class="subhead">Pointer basics · operators · arithmetic · arrays · strings · dynamic memory allocation</div>
 
-  <div class="section">
-    <h2>8.1 Introduction</h2>
-    <p>Pointers are variables that store memory addresses, enabling direct memory manipulation in C, which enhances flexibility and efficiency.</p>
-    <ul>
-      <li><strong>Purpose:</strong> Manage memory, pass large data efficiently, and enable dynamic memory allocation.</li>
-      <li><strong>Key Concept:</strong> A pointer holds the address of another variable, not its value.</li>
-    </ul>
-  </div>
+    <!-- ========== 8.1 ========== -->
+    <div class="section">
+        <h2>8.1 Introduction</h2>
+        <p><strong>Pointers</strong> are variables that store memory addresses, enabling direct memory manipulation in C. They are one of the most powerful features of C, providing flexibility, efficiency, and low-level control over memory.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🎯 Purpose</strong><br>Manage memory efficiently, pass large data structures to functions, enable dynamic memory allocation, and implement data structures like linked lists and trees.</div>
+            <div class="card"><strong>🔑 Key Concept</strong><br>A pointer holds the address of another variable, not its value. This allows indirect access to data stored in memory.</div>
+        </div>
 
-  <div class="section">
-    <h2>8.2 The & and * Operator</h2>
-    <p>Pointers rely on two operators: & (address-of) and * (dereference).</p>
-    <ul>
-      <li><strong>& Operator:</strong> Returns the memory address of a variable.</li>
-      <li><strong>* Operator:</strong> Accesses the value at the address stored in a pointer.</li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int x = 10;
-    int *ptr = &x; // &x gets address of x
-    printf("Address: %p\n", ptr);
-    printf("Value: %d\n", *ptr); // *ptr gets value at address
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
-  </div>
+        <h3>Why Use Pointers?</h3>
+        <ul>
+            <li><strong>Efficient Parameter Passing:</strong> Pass large structures by reference instead of copying.</li>
+            <li><strong>Dynamic Memory Allocation:</strong> Allocate memory at runtime using malloc, calloc, realloc.</li>
+            <li><strong>Data Structures:</strong> Implement linked lists, trees, graphs, and other dynamic structures.</li>
+            <li><strong>Hardware Access:</strong> Interact with memory-mapped I/O and hardware registers.</li>
+            <li><strong>Function Pointers:</strong> Pass functions as arguments to other functions.</li>
+        </ul>
 
-  <div class="section">
-    <h2>8.3 Declaration of Pointer</h2>
-    <p>Pointer declaration specifies the data type of the variable it points to.</p>
-    <ul>
-      <li><strong>Syntax:</strong> data_type *pointer_name;</li>
-      <li><strong>Examples:</strong>
-        <pre>
-int *intPtr; // Pointer to int
-float *floatPtr; // Pointer to float
-char *charPtr; // Pointer to char
-        </pre>
-      </li>
-      <li><strong>Note:</strong> Uninitialized pointers should be set to NULL to avoid undefined behavior.</li>
-    </ul>
-  </div>
+        <div class="figure-box">
+            <pre>
+Memory View:
+Variable x:  [10]  at address 1000
+Pointer p:   [1000] at address 2000
 
-  <div class="section">
-    <h2>8.4 Chain of Pointers</h2>
-    <p>A chain of pointers involves pointers pointing to other pointers (e.g., pointer to a pointer).</p>
-    <ul>
-      <li><strong>Syntax:</strong> data_type **pointer_name;</li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int x = 10;
-    int *ptr1 = &x;
-    int **ptr2 = &ptr1; // Pointer to pointer
-    printf("Value of x: %d\n", **ptr2); // 10
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Use Case:</strong> Useful in dynamic 2D arrays or function arguments modifying pointers.</li>
-    </ul>
-  </div>
+p points to x → *p = 10
+            </pre>
+        </div>
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> Pointers provide direct access to memory, making C powerful for system programming. However, they require careful handling to avoid bugs like segmentation faults.
+        </div>
+    </div>
 
-  <div class="section">
-    <h2>8.5 Pointer Arithmetic</h2>
-    <p>Pointer arithmetic allows incrementing/decrementing pointers to navigate memory locations.</p>
-    <ul>
-      <li><strong>Operations:</strong> Addition, subtraction, increment, decrement.</li>
-      <li><strong>Scaling:</strong> Incrementing a pointer adds the size of the data type (e.g., int* increments by 4 bytes).</li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int arr[3] = {10, 20, 30};
-    int *ptr = arr;
-    printf("First: %d\n", *ptr); // 10
-    ptr++; // Moves to next int
-    printf("Second: %d\n", *ptr); // 20
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
-  </div>
+    <!-- ========== 8.2 ========== -->
+    <div class="section">
+        <h2>8.2 The & and * Operator</h2>
+        <p>Pointers rely on two operators: the <strong>address-of operator (&)</strong> and the <strong>dereference operator (*)</strong>.</p>
 
-  <div class="section">
-    <h2>8.6 Pointers and Arrays</h2>
-    <p>Arrays and pointers are closely related; an array name acts as a pointer to its first element.</p>
-    <ul>
-      <li><strong>Access:</strong> arr[i] is equivalent to *(arr + i).</li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int arr[3] = {10, 20, 30};
-    int *ptr = arr;
-    printf("Element 1: %d\n", *(ptr + 1)); // 20
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Note:</strong> Arrays decay to pointers when passed to functions.</li>
-    </ul>
-  </div>
+        <h3>& (Address-of Operator)</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Returns the memory address of a variable.</li>
+            <li><strong>Syntax:</strong> <code>&amp;variable</code></li>
+            <li><strong>Use:</strong> Assigning addresses to pointers.</li>
+        </ul>
 
-  <div class="section">
-    <h2>8.7 Pointers and Character Strings</h2>
-    <p>Strings in C are character arrays, and pointers to char are used to manipulate them.</p>
-    <ul>
-      <li><strong>Declaration:</strong> char *str = "Hello"; points to the first character.</li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    char *str = "Hello";
-    printf("String: %s\n", str);
-    printf("First char: %c\n", *str); // H
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Note:</strong> String literals are read-only; modifying them causes undefined behavior.</li>
-    </ul>
-  </div>
+        <h3>* (Dereference Operator)</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Accesses the value stored at the address held by a pointer.</li>
+            <li><strong>Syntax:</strong> <code>*pointer</code></li>
+            <li><strong>Use:</strong> Reading or modifying the value at the pointed-to location.</li>
+        </ul>
 
-  <div class="section">
-    <h2>8.8 Array of Pointers</h2>
-    <p>An array of pointers stores multiple pointers, each pointing to a data element or string.</p>
-    <ul>
-      <li><strong>Syntax:</strong> data_type *array_name[size];</li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    char *strings[] = {"Apple", "Banana", "Cherry"};
-    for (int i = 0; i < 3; i++) {
-        printf("%s\n", strings[i]);
-    }
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Use Case:</strong> Storing multiple strings or dynamic data structures.</li>
-    </ul>
-  </div>
+        <div class="code-block">
+            <span>// & and * operators example</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int x = 10;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int *ptr = &amp;x;  <span>// &x gets the address of x</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Address of x: %p\n", &amp;x);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Value of ptr: %p\n", ptr);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Value at ptr: %d\n", *ptr);  <span>// *ptr dereferences to get value</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;*ptr = 20;  <span>// Modifies x through pointer</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("New value of x: %d\n", x);  <span>// 20</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+        <div class="note-box">
+            <strong>📌 Key insight:</strong> & gives the address, * gives the value at the address. They are inverse operations.
+        </div>
+    </div>
 
-  <div class="section">
-    <h2>8.9 Pointers as Function Arguments</h2>
-    <p>Pointers allow functions to modify variables in the caller’s scope (pass by reference).</p>
-    <ul>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-void swap(int *a, int *b) {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
-int main() {
-    int x = 5, y = 10;
-    swap(&x, &y);
-    printf("x: %d, y: %d\n", x, y); // x: 10, y: 5
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Advantage:</strong> Enables modifying multiple variables or passing large data efficiently.</li>
-    </ul>
-  </div>
+    <!-- ========== 8.3 ========== -->
+    <div class="section">
+        <h2>8.3 Declaration of Pointer</h2>
+        <p><strong>Pointer declaration</strong> specifies the data type of the variable it points to and allocates space for the pointer variable itself.</p>
 
-  <div class="section">
-    <h2>8.10 Dynamic Memory Allocation</h2>
-    <p>Dynamic memory allocation allows programs to allocate memory at runtime using functions from stdlib.h.</p>
+        <h3>Syntax and Examples</h3>
+        <ul>
+            <li><strong>Syntax:</strong> <code>data_type *pointer_name;</code></li>
+            <li><strong>Examples:</strong>
+                <div class="code-block">
+                    int *intPtr;     <span>// Pointer to integer</span><br>
+                    float *floatPtr; <span>// Pointer to float</span><br>
+                    char *charPtr;   <span>// Pointer to character</span><br>
+                    double *doublePtr; <span>// Pointer to double</span>
+                </div>
+            </li>
+            <li><strong>Multiple Declarations:</strong>
+                <div class="code-block">
+                    int *p, *q, *r;  <span>// Three pointers to int</span><br>
+                    int *p, q, r;    <span>// p is pointer, q and r are ints</span>
+                </div>
+            </li>
+        </ul>
 
-    <h2>8.10.1 malloc()</h2>
-    <p>Allocates a block of memory of specified size, returns a void* pointer.</p>
-    <ul>
-      <li><strong>Syntax:</strong> void *malloc(size_t size);</li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-int main() {
-    int *ptr = (int *)malloc(5 * sizeof(int));
-    if (ptr != NULL) {
-        for (int i = 0; i < 5; i++) {
-            ptr[i] = i + 1;
-            printf("%d ", ptr[i]);
-        }
-        free(ptr);
-    }
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
+        <h3>Important Notes</h3>
+        <ul>
+            <li><strong>Initialization:</strong> Uninitialized pointers contain garbage values and can cause undefined behavior.</li>
+            <li><strong>NULL Pointer:</strong> Initialize to <code>NULL</code> to indicate that the pointer doesn't point to valid memory.
+                <div class="code-block">
+                    int *ptr = NULL;  <span>// Safe initialization</span>
+                </div>
+            </li>
+            <li><strong>Pointer to Void:</strong> <code>void *</code> can point to any data type. Used in generic programming.
+                <div class="code-block">
+                    void *genericPtr;
+                </div>
+            </li>
+        </ul>
 
-    <h2>8.10.2 calloc()</h2>
-    <p>Allocates memory for an array of elements, initializes to zero.</p>
-    <ul>
-      <li><strong>Syntax:</strong> void *calloc(size_t num, size_t size);</li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-int main() {
-    int *ptr = (int *)calloc(5, sizeof(int));
-    if (ptr != NULL) {
-        for (int i = 0; i < 5; i++) {
-            printf("%d ", ptr[i]); // All 0
-        }
-        free(ptr);
-    }
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
+        <div class="code-block">
+            <span>// Pointer declaration and initialization</span><br>
+            int x = 10;<br>
+            int *ptr1 = &amp;x;  <span>// Valid: points to x</span><br>
+            int *ptr2 = NULL;  <span>// Valid: points to nothing</span><br>
+            <span>// int *ptr3;  // Uninitialized - dangerous!</span>
+        </div>
+    </div>
 
-    <h2>8.10.3 realloc()</h2>
-    <p>Resizes previously allocated memory, preserving existing data.</p>
-    <ul>
-      <li><strong>Syntax:</strong> void *realloc(void *ptr, size_t new_size);</li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-int main() {
-    int *ptr = (int *)malloc(3 * sizeof(int));
-    if (ptr != NULL) {
-        ptr = (int *)realloc(ptr, 5 * sizeof(int));
-        for (int i = 0; i < 5; i++) {
-            ptr[i] = i + 1;
-            printf("%d ", ptr[i]);
-        }
-        free(ptr);
-    }
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
+    <!-- ========== 8.4 ========== -->
+    <div class="section">
+        <h2>8.4 Chain of Pointers</h2>
+        <p>A <strong>chain of pointers</strong> (or multi-level pointers) involves a pointer that points to another pointer. This is useful for dynamic 2D arrays, function arguments that modify pointers, and complex data structures.</p>
 
-    <h2>8.10.4 free()</h2>
-    <p>Deallocates memory previously allocated by malloc(), calloc(), or realloc().</p>
-    <ul>
-      <li><strong>Syntax:</strong> void free(void *ptr);</li>
-      <li><strong>Example:</strong> See above examples (free(ptr)).</li>
-      <li><strong>Note:</strong> Always free dynamically allocated memory to prevent memory leaks.</li>
-    </ul>
-  </div>
+        <h3>Pointer to Pointer</h3>
+        <ul>
+            <li><strong>Syntax:</strong> <code>data_type **pointer_name;</code></li>
+            <li><strong>Levels:</strong> ** (pointer to pointer), *** (pointer to pointer to pointer), etc.</li>
+        </ul>
 
-  <div class="section">
-    <h2>8.11 Pass by Value, Pass by Reference</h2>
-    <p>C supports two ways to pass arguments to functions: pass by value and pass by reference.</p>
-    <ul>
-      <li><strong>Pass by Value:</strong> Copies the argument’s value; changes in the function do not affect the original.
-        <pre>
-#include &lt;stdio.h&gt;
-void modify(int x) {
-    x = 20;
-}
-int main() {
-    int a = 10;
-    modify(a);
-    printf("a: %d\n", a); // a: 10
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Pass by Reference:</strong> Passes a pointer to the variable, allowing modifications to the original.
-        <pre>
-#include &lt;stdio.h&gt;
-void modify(int *x) {
-    *x = 20;
-}
-int main() {
-    int a = 10;
-    modify(&a);
-    printf("a: %d\n", a); // a: 20
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
-  </div>
+        <div class="code-block">
+            <span>// Chain of pointers example</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int x = 10;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int *ptr1 = &amp;x;   <span>// Pointer to x</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int **ptr2 = &amp;ptr1;  <span>// Pointer to ptr1</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int ***ptr3 = &amp;ptr2; <span>// Pointer to ptr2</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Value of x: %d\n", x);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Value via ptr1: %d\n", *ptr1);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Value via ptr2: %d\n", **ptr2);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Value via ptr3: %d\n", ***ptr3);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }<br>
+            <span>// Output: 10 10 10 10</span>
+        </div>
+
+        <h3>Use Cases</h3>
+        <ul>
+            <li><strong>Dynamic 2D Arrays:</strong> Allocate arrays of pointers to rows.</li>
+            <li><strong>Function Arguments:</strong> Modify pointer parameters in functions.</li>
+            <li><strong>Linked Lists and Trees:</strong> Nested pointers for node connections.</li>
+        </ul>
+    </div>
+
+    <!-- ========== 8.5 ========== -->
+    <div class="section">
+        <h2>8.5 Pointer Arithmetic</h2>
+        <p><strong>Pointer arithmetic</strong> allows navigation through memory by incrementing, decrementing, or performing addition/subtraction on pointers.</p>
+
+        <h3>Rules of Pointer Arithmetic</h3>
+        <ul>
+            <li><strong>Increment (++):</strong> Moves pointer to the next element (adds size of data type).</li>
+            <li><strong>Decrement (--):</strong> Moves pointer to the previous element.</li>
+            <li><strong>Addition (+):</strong> <code>ptr + n</code> moves forward by n elements.</li>
+            <li><strong>Subtraction (-):</strong> <code>ptr - n</code> moves backward by n elements.</li>
+            <li><strong>Subtraction of Pointers:</strong> <code>ptr1 - ptr2</code> gives the number of elements between them.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Pointer arithmetic examples</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int arr[5] = {10, 20, 30, 40, 50};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int *ptr = arr;  <span>// Points to arr[0]</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("ptr points to: %d\n", *ptr);  <span>// 10</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;ptr++;  <span>// Move to next element</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("After ptr++: %d\n", *ptr);  <span>// 20</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;ptr += 2;  <span>// Move forward by 2</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("After ptr+=2: %d\n", *ptr);  <span>// 40</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;ptr--;  <span>// Move back by 1</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("After ptr--: %d\n", *ptr);  <span>// 30</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Difference between pointers</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int *start = arr;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int *end = &amp;arr[4];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Number of elements: %ld\n", end - start);  <span>// 4</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <div class="code-block">
+            <span>// Printing array using pointer arithmetic</span><br>
+            int arr[5] = {1, 2, 3, 4, 5};<br>
+            int *ptr = arr;<br>
+            for (int i = 0; i < 5; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", *(ptr + i));  <span>// Same as arr[i]</span><br>
+            }<br>
+            <span>// Output: 1 2 3 4 5</span>
+        </div>
+    </div>
+
+    <!-- ========== 8.6 ========== -->
+    <div class="section">
+        <h2>8.6 Pointers and Arrays</h2>
+        <p>Arrays and pointers are closely related in C. An array name acts as a constant pointer to the first element of the array.</p>
+
+        <h3>Array-Pointer Equivalence</h3>
+        <ul>
+            <li><code>arr[i]</code> is equivalent to <code>*(arr + i)</code>.</li>
+            <li><code>&amp;arr[i]</code> is equivalent to <code>(arr + i)</code>.</li>
+            <li>The array name <code>arr</code> is a pointer constant (cannot be reassigned).</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Array and pointer relationship</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int arr[5] = {10, 20, 30, 40, 50};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int *ptr = arr;  <span>// Pointer to first element</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Using array indexing:\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < 5; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("arr[%d] = %d\n", i, arr[i]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("\nUsing pointer arithmetic:\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < 5; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("*(ptr + %d) = %d\n", i, *(ptr + i));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("\nAddresses:\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("arr = %p\n", arr);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("&amp;arr[0] = %p\n", &amp;arr[0]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("ptr = %p\n", ptr);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>📌 Key insight:</strong> Arrays decay to pointers when passed to functions. The size information is lost, so pass size separately.
+        </div>
+    </div>
+
+    <!-- ========== 8.7 ========== -->
+    <div class="section">
+        <h2>8.7 Pointers and Character Strings</h2>
+        <p>Strings in C are character arrays terminated with a null character <code>\0</code>. Pointers to char are used to manipulate strings efficiently.</p>
+
+        <h3>String Pointer Declaration</h3>
+        <div class="code-block">
+            char *str = "Hello";  <span>// Points to string literal (read-only)</span><br>
+            char str2[] = "Hello";  <span>// Array of characters (modifiable)</span>
+        </div>
+
+        <h3>String Operations with Pointers</h3>
+        <div class="code-block">
+            <span>// String pointer operations</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char *str = "Hello, World!";<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char *ptr = str;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("String: %s\n", str);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("First character: %c\n", *str);  <span>// 'H'</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Print using pointer</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (*ptr != '\0') {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%c", *ptr);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ptr++;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("\n");<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Copy string using pointer</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char dest[20];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char *src = str;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char *destPtr = dest;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (*src != '\0') {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*destPtr = *src;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;src++;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destPtr++;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;*destPtr = '\0';  <span>// Null terminate</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Copied: %s\n", dest);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>⚠️ Warning:</strong> String literals (like <code>"Hello"</code>) are read-only. Modifying them causes undefined behavior. Use character arrays for modifiable strings.
+        </div>
+    </div>
+
+    <!-- ========== 8.8 ========== -->
+    <div class="section">
+        <h2>8.8 Array of Pointers</h2>
+        <p>An <strong>array of pointers</strong> stores multiple pointers, each pointing to a data element or string. This is useful for managing multiple strings, implementing data structures, and handling command-line arguments.</p>
+
+        <h3>Syntax and Examples</h3>
+        <ul>
+            <li><strong>Syntax:</strong> <code>data_type *array_name[size];</code></li>
+        </ul>
+        <div class="code-block">
+            <span>// Array of pointers to strings</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char *fruits[] = {"Apple", "Banana", "Cherry", "Date", "Elderberry"};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int size = sizeof(fruits) / sizeof(fruits[0]);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Fruits:\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < size; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%s\n", fruits[i]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Array of pointers to integers</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int a = 10, b = 20, c = 30;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int *numbers[] = {&amp;a, &amp;b, &amp;c};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < 3; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", *numbers[i]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("\n");<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>Array of Pointers vs 2D Array</h3>
+        <table>
+            <tr><th>Feature</th><th>Array of Pointers</th><th>2D Array</th></tr>
+            <tr><td>Memory</td><td>Rows can have different lengths</td><td>All rows have same length</td></tr>
+            <tr><td>Modification</td><td>Rows can be swapped easily</td><td>Rows are fixed</td></tr>
+            <tr><td>Memory Usage</td><td>More flexible, less wasted space</td><td>May waste space for shorter strings</td></tr>
+            <tr><td>Cache Efficiency</td><td>Less cache-friendly</td><td>More cache-friendly</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== 8.9 ========== -->
+    <div class="section">
+        <h2>8.9 Pointers as Function Arguments</h2>
+        <p>Passing pointers to functions enables <strong>pass by reference</strong>, allowing functions to modify variables in the caller's scope. This is essential for functions that need to return multiple values or modify large data structures efficiently.</p>
+
+        <div class="code-block">
+            <span>// Pointer as function argument - swap function</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            void swap(int *a, int *b) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int temp = *a;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;*a = *b;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;*b = temp;<br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int x = 5, y = 10;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Before: x=%d, y=%d\n", x, y);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;swap(&amp;x, &amp;y);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("After: x=%d, y=%d\n", x, y);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }<br>
+            <span>// Output: Before: x=5, y=10 / After: x=10, y=5</span>
+        </div>
+
+        <div class="code-block">
+            <span>// Function returning multiple values using pointers</span><br>
+            void calculate(int a, int b, int *sum, int *product, int *avg) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;*sum = a + b;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;*product = a * b;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;*avg = (a + b) / 2;<br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int s, p, a;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;calculate(10, 20, &amp;s, &amp;p, &amp;a);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Sum: %d, Product: %d, Avg: %d\n", s, p, a);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>🔑 Key insight:</strong> Pointers as function arguments are essential for pass-by-reference in C. They allow functions to modify original variables and efficiently pass large data structures.
+        </div>
+    </div>
+
+    <!-- ========== 8.10 ========== -->
+    <div class="section">
+        <h2>8.10 Dynamic Memory Allocation</h2>
+        <p><strong>Dynamic memory allocation</strong> allows programs to request memory at runtime using functions from <code>&lt;stdlib.h&gt;</code>. This provides flexibility for handling variable-sized data.</p>
+
+        <h3>8.10.1 malloc()</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Allocates a block of memory of the specified size.</li>
+            <li><strong>Syntax:</strong> <code>void *malloc(size_t size);</code></li>
+            <li><strong>Return:</strong> Pointer to allocated memory, or NULL if allocation fails.</li>
+            <li><strong>Content:</strong> Uninitialized (contains garbage values).</li>
+        </ul>
+        <div class="code-block">
+            <span>// malloc example</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #include &lt;stdlib.h&gt;<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int n = 5;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int *arr = (int *)malloc(n * sizeof(int));<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (arr == NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Memory allocation failed\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < n; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[i] = i + 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < n; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", arr[i]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("\n");<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;free(arr);  <span>// Free allocated memory</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>8.10.2 calloc()</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Allocates memory for an array of elements and initializes all bytes to zero.</li>
+            <li><strong>Syntax:</strong> <code>void *calloc(size_t num, size_t size);</code></li>
+            <li><strong>Return:</strong> Pointer to allocated memory, or NULL if allocation fails.</li>
+            <li><strong>Content:</strong> Zero-initialized.</li>
+        </ul>
+        <div class="code-block">
+            <span>// calloc example</span><br>
+            int *arr = (int *)calloc(5, sizeof(int));<br>
+            <span>// All elements are initialized to 0</span><br>
+            for (int i = 0; i < 5; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", arr[i]);  <span>// All 0</span><br>
+            }<br>
+            free(arr);
+        </div>
+
+        <h3>8.10.3 realloc()</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Resizes previously allocated memory, preserving existing data if possible.</li>
+            <li><strong>Syntax:</strong> <code>void *realloc(void *ptr, size_t new_size);</code></li>
+            <li><strong>Return:</strong> Pointer to reallocated memory (may be different), or NULL if allocation fails.</li>
+            <li><strong>Note:</strong> Original pointer may become invalid.</li>
+        </ul>
+        <div class="code-block">
+            <span>// realloc example</span><br>
+            int *arr = (int *)malloc(3 * sizeof(int));<br>
+            arr[0] = 1; arr[1] = 2; arr[2] = 3;<br><br>
+            arr = (int *)realloc(arr, 5 * sizeof(int));<br>
+            if (arr != NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;arr[3] = 4; arr[4] = 5;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < 5; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", arr[i]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;free(arr);<br>
+            }
+        </div>
+
+        <h3>8.10.4 free()</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Deallocates previously allocated dynamic memory.</li>
+            <li><strong>Syntax:</strong> <code>void free(void *ptr);</code></li>
+            <li><strong>Note:</strong> Always free memory to prevent memory leaks. Set pointer to NULL after freeing.</li>
+        </ul>
+        <div class="code-block">
+            <span>// Complete dynamic memory example</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #include &lt;stdlib.h&gt;<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int *arr = NULL;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int size, newSize;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Enter size: ");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;scanf("%d", &amp;size);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;arr = (int *)malloc(size * sizeof(int));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (arr == NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Memory allocation failed\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < size; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[i] = (i + 1) * 10;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Original array: ");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < size; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", arr[i]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("\n");<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Enter new size: ");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;scanf("%d", &amp;newSize);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;arr = (int *)realloc(arr, newSize * sizeof(int));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (arr == NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Reallocation failed\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = size; i < newSize; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[i] = (i + 1) * 10;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Resized array: ");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < newSize; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", arr[i]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("\n");<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;free(arr);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;arr = NULL;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <table>
+            <tr><th>Function</th><th>Allocation</th><th>Initialization</th><th>Return</th></tr>
+            <tr><td>malloc()</td><td>size bytes</td><td>Uninitialized</td><td>void*</td></tr>
+            <tr><td>calloc()</td><td>num * size bytes</td><td>Zero-initialized</td><td>void*</td></tr>
+            <tr><td>realloc()</td><td>Resize existing</td><td>Preserves data</td><td>void*</td></tr>
+            <tr><td>free()</td><td>Deallocates</td><td>N/A</td><td>void</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== 8.11 ========== -->
+    <div class="section">
+        <h2>8.11 Pass by Value, Pass by Reference</h2>
+        <p>C supports two ways to pass arguments to functions: <strong>pass by value</strong> and <strong>pass by reference</strong> (using pointers).</p>
+
+        <h3>Pass by Value</h3>
+        <ul>
+            <li><strong>Definition:</strong> Copies the argument's value into the function parameter.</li>
+            <li><strong>Effect:</strong> Changes inside the function do not affect the original variable.</li>
+            <li><strong>Memory:</strong> Separate memory allocation for the copy.</li>
+        </ul>
+        <div class="code-block">
+            <span>// Pass by value example</span><br>
+            void modify(int x) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;x = 20;  <span>// Modifies only the copy</span><br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int a = 10;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;modify(a);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("a: %d\n", a);  <span>// 10 (unchanged)</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>Pass by Reference</h3>
+        <ul>
+            <li><strong>Definition:</strong> Passes the address of the argument.</li>
+            <li><strong>Effect:</strong> Changes inside the function affect the original variable.</li>
+            <li><strong>Memory:</strong> No copy; works on the original memory location.</li>
+        </ul>
+        <div class="code-block">
+            <span>// Pass by reference example</span><br>
+            void modify(int *x) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;*x = 20;  <span>// Modifies the original</span><br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int a = 10;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;modify(&amp;a);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("a: %d\n", a);  <span>// 20 (modified)</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <table>
+            <tr><th>Feature</th><th>Pass by Value</th><th>Pass by Reference</th></tr>
+            <tr><td>Parameter</td><td>Value</td><td>Address (pointer)</td></tr>
+            <tr><td>Memory</td><td>Copy of data</td><td>Original data</td></tr>
+            <tr><td>Modification</td><td>Does not affect original</td><td>Affects original</td></tr>
+            <tr><td>Performance</td><td>Slow for large data</td><td>Fast (no copy)</td></tr>
+            <tr><td>Use Case</td><td>Small data, read-only</td><td>Large data, modifications</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>🔑 Key insight:</strong> Pass by reference (using pointers) is essential for efficient parameter passing and functions that need to modify multiple variables.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 8 summary</strong><br>Pointers store memory addresses and enable efficient memory management, dynamic allocation, and pass-by-reference in C.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• & and * operators for addresses and dereferencing.<br>• Pointer arithmetic for array navigation.<br>• Dynamic memory: malloc, calloc, realloc, free.<br>• Pointers to arrays, strings, and functions.<br>• Pass by reference vs pass by value.</div>
+    </div>
 </body>
 </html>

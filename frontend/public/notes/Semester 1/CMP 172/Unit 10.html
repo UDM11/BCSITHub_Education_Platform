@@ -1,241 +1,654 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unit 10: File Handling</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-      font-weight: bold;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 10: File Handling</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Unit 10: File Handling</h1>
+    <h1>Unit 10: File Handling</h1>
+    <div class="subhead">File concepts · modes · opening/closing · I/O operations · random access · error handling</div>
 
-  <div class="section">
-    <h2>10.1 Concept of File</h2>
-    <p>A file is a collection of data stored on a secondary storage device, such as a hard disk or USB drive, used for persistent data storage and retrieval.</p>
-    <ul>
-      <li><strong>Types:</strong>
-        <ul>
-          <li>Text Files: Store data as human-readable characters (e.g., .txt).</li>
-          <li>Binary Files: Store data in machine-readable format (e.g., .dat).</li>
-        </ul>
-      </li>
-      <li><strong>Purpose:</strong> Store data permanently, share data between programs, or maintain logs.</li>
-    </ul>
-  </div>
+    <!-- ========== 10.1 ========== -->
+    <div class="section">
+        <h2>10.1 Concept of File</h2>
+        <p>A <strong>file</strong> is a collection of related data stored on a secondary storage device (hard disk, SSD, USB drive, etc.). Files provide persistent storage, allowing data to be retained even after the program terminates.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📂 Purpose</strong><br>Store data permanently, share data between programs, maintain logs, and handle large datasets that don't fit in memory.</div>
+            <div class="card"><strong>📋 Types</strong><br>Text Files: Human-readable (characters). Binary Files: Machine-readable (raw bytes).</div>
+        </div>
 
-  <div class="section">
-    <h2>10.2 File Operation Modes</h2>
-    <p>File operation modes determine how a file can be accessed or manipulated when opened.</p>
-    <ul>
-      <li><strong>Common Modes:</strong>
+        <h3>Types of Files</h3>
         <ul>
-          <li><code>r</code>: Read-only, file must exist.</li>
-          <li><code>w</code>: Write-only, creates new file or overwrites existing.</li>
-          <li><code>a</code>: Append, adds data to the end, creates file if it doesn’t exist.</li>
-          <li><code>r+</code>: Read and write, file must exist.</li>
-          <li><code>w+</code>: Read and write, creates new file or overwrites existing.</li>
-          <li><code>a+</code>: Read and append, creates file if it doesn’t exist.</li>
-          <li><code>rb</code>, <code>wb</code>, <code>ab</code>, etc.: Binary mode equivalents.</li>
+            <li><strong>Text Files:</strong>
+                <ul>
+                    <li>Store data as a sequence of characters (ASCII/Unicode).</li>
+                    <li>Can be read and edited using text editors (Notepad, Vim).</li>
+                    <li>End of line is marked by newline character (<code>\n</code>).</li>
+                    <li>Examples: <code>.txt</code>, <code>.c</code>, <code>.html</code>, <code>.csv</code>.</li>
+                </ul>
+            </li>
+            <li><strong>Binary Files:</strong>
+                <ul>
+                    <li>Store data in the same format as it is stored in memory.</li>
+                    <li>Not human-readable; require specific programs to interpret.</li>
+                    <li>More efficient in terms of storage and processing speed.</li>
+                    <li>Examples: <code>.dat</code>, <code>.bin</code>, <code>.exe</code>, <code>.jpg</code>, <code>.mp3</code>.</li>
+                </ul>
+            </li>
         </ul>
-      </li>
-      <li><strong>Note:</strong> Mode is specified when opening a file using <code>fopen()</code>.</li>
-    </ul>
-  </div>
 
-  <div class="section">
-    <h2>10.3 Opening and Closing of File</h2>
-    <p>Files must be opened before performing operations and closed afterward to free resources.</p>
-    <ul>
-      <li><strong>Opening a File:</strong>
-        <ul>
-          <li><strong>Syntax:</strong> <code>FILE *fopen(const char *filename, const char *mode);</code></li>
-          <li><strong>Return:</strong> Returns a <code>FILE*</code> pointer or <code>NULL</code> if the operation fails.</li>
-        </ul>
-      </li>
-      <li><strong>Closing a File:</strong>
-        <ul>
-          <li><strong>Syntax:</strong> <code>int fclose(FILE *fp);</code></li>
-          <li><strong>Return:</strong> 0 on success, <code>EOF</code> on error.</li>
-        </ul>
-      </li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    FILE *fp = fopen("example.txt", "w");
-    if (fp == NULL) {
-        printf("Failed to open file\n");
-        return 1;
-    }
-    fprintf(fp, "Hello, File!\n");
-    fclose(fp);
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
-  </div>
+        <h3>File Operations Overview</h3>
+        <ol>
+            <li><strong>Create</strong> a file.</li>
+            <li><strong>Open</strong> an existing file.</li>
+            <li><strong>Read</strong> data from a file.</li>
+            <li><strong>Write</strong> data to a file.</li>
+            <li><strong>Close</strong> the file.</li>
+            <li><strong>Delete</strong> or <strong>rename</strong> a file.</li>
+        </ol>
 
-  <div class="section">
-    <h2>10.4 Input Output Operations in File</h2>
-    <p>Input/output operations read data from or write data to files using specific functions.</p>
-    <ul>
-      <li><strong>Text File Operations:</strong>
-        <ul>
-          <li><strong>Writing:</strong>
-            <ul>
-              <li><code>fputc(char c, FILE *fp)</code>: Writes a single character.</li>
-              <li><code>fputs(const char *str, FILE *fp)</code>: Writes a string.</li>
-              <li><code>fprintf(FILE *fp, const char *format, ...)</code>: Writes formatted data.</li>
-            </ul>
-          </li>
-          <li><strong>Reading:</strong>
-            <ul>
-              <li><code>fgetc(FILE *fp)</code>: Reads a single character.</li>
-              <li><code>fgets(char *str, int size, FILE *fp)</code>: Reads a line or size-1 characters.</li>
-              <li><code>fscanf(FILE *fp, const char *format, ...)</code>: Reads formatted data.</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li><strong>Binary File Operations:</strong>
-        <ul>
-          <li><code>fwrite(const void *ptr, size_t size, size_t nmemb, FILE *fp)</code>: Writes binary data.</li>
-          <li><code>fread(void *ptr, size_t size, size_t nmemb, FILE *fp)</code>: Reads binary data.</li>
-        </ul>
-      </li>
-      <li><strong>Example (Text File):</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    FILE *fp = fopen("data.txt", "w+");
-    if (fp != NULL) {
-        fprintf(fp, "Name: %s, Age: %d\n", "Alice", 25);
-        rewind(fp);
-        char buffer[50];
-        fgets(buffer, 50, fp);
-        printf("Read: %s", buffer);
-        fclose(fp);
-    }
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Example (Binary File):</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    FILE *fp = fopen("data.bin", "wb");
-    if (fp != NULL) {
-        int arr[3] = {10, 20, 30};
-        fwrite(arr, sizeof(int), 3, fp);
-        fclose(fp);
-    }
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
-  </div>
+        <div class="figure-box">
+            <pre>
+File Handling Process:
+┌─────────────────────────────────────────────┐
+│  Step 1: fopen() → Open/Create a file      │
+│  Step 2: Read/Write data using I/O functions│
+│  Step 3: fclose() → Close the file         │
+└─────────────────────────────────────────────┘
+            </pre>
+        </div>
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> Files are essential for persistent data storage. Without file handling, all program data would be lost when the program terminates.
+        </div>
+    </div>
 
-  <div class="section">
-    <h2>10.5 Random Access in File</h2>
-    <p>Random access allows reading or writing at any position in a file, rather than sequentially.</p>
-    <ul>
-      <li><strong>Functions:</strong>
+    <!-- ========== 10.2 ========== -->
+    <div class="section">
+        <h2>10.2 File Operation Modes</h2>
+        <p><strong>File operation modes</strong> determine how a file can be accessed when opened. The mode is specified as the second argument to <code>fopen()</code>.</p>
+
+        <h3>Text File Modes</h3>
+        <table>
+            <tr><th>Mode</th><th>Description</th><th>File Must Exist</th><th>Effect</th></tr>
+            <tr><td><code>"r"</code></td><td>Read-only</td><td>Yes</td><td>Read from beginning</td></tr>
+            <tr><td><code>"w"</code></td><td>Write-only</td><td>No</td><td>Creates new file or overwrites existing</td></tr>
+            <tr><td><code>"a"</code></td><td>Append</td><td>No</td><td>Appends to end, creates if not exists</td></tr>
+            <tr><td><code>"r+"</code></td><td>Read and write</td><td>Yes</td><td>Read and write from beginning</td></tr>
+            <tr><td><code>"w+"</code></td><td>Read and write</td><td>No</td><td>Creates new file or overwrites existing</td></tr>
+            <tr><td><code>"a+"</code></td><td>Read and append</td><td>No</td><td>Read anywhere, append at end</td></tr>
+        </table>
+
+        <h3>Binary File Modes</h3>
         <ul>
-          <li><code>fseek(FILE *fp, long offset, int whence)</code>: Moves file pointer to a specific position.
-            <ul>
-              <li><code>whence</code>: <code>SEEK_SET</code> (start), <code>SEEK_CUR</code> (current), <code>SEEK_END</code> (end).</li>
-            </ul>
-          </li>
-          <li><code>ftell(FILE *fp)</code>: Returns current file pointer position.</li>
-          <li><code>rewind(FILE *fp)</code>: Moves file pointer to the beginning.</li>
+            <li><strong>Same as text modes, but with <code>'b'</code> suffix:</strong>
+                <ul>
+                    <li><code>"rb"</code> — Read binary</li>
+                    <li><code>"wb"</code> — Write binary</li>
+                    <li><code>"ab"</code> — Append binary</li>
+                    <li><code>"rb+"</code> — Read/Write binary</li>
+                    <li><code>"wb+"</code> — Read/Write binary (overwrite)</li>
+                    <li><code>"ab+"</code> — Read/Append binary</li>
+                </ul>
+            </li>
+            <li><strong>Why use binary mode?</strong> On Windows, <code>\n</code> in text mode is translated to <code>\r\n</code>. Binary mode prevents this translation.</li>
         </ul>
-      </li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    FILE *fp = fopen("data.txt", "r+");
-    if (fp != NULL) {
-        fseek(fp, 5, SEEK_SET); // Move to 5th byte
-        fputs("World", fp); // Overwrites from that position
-        rewind(fp); // Move back to start
-        char buffer[20];
-        fgets(buffer, 20, fp);
-        printf("Content: %s\n", buffer);
-        fclose(fp);
-    }
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Note:</strong> Random access is efficient for large files but requires careful management to avoid errors.</li>
-    </ul>
-  </div>
+
+        <h3>Mode Examples</h3>
+        <div class="code-block">
+            <span>// Different file opening modes</span><br>
+            FILE *fp1 = fopen("file.txt", "r");   <span>// Read only</span><br>
+            FILE *fp2 = fopen("file.txt", "w");   <span>// Write (overwrite)</span><br>
+            FILE *fp3 = fopen("file.txt", "a");   <span>// Append</span><br>
+            FILE *fp4 = fopen("file.bin", "rb");  <span>// Read binary</span><br>
+            FILE *fp5 = fopen("file.bin", "wb");  <span>// Write binary</span>
+        </div>
+    </div>
+
+    <!-- ========== 10.3 ========== -->
+    <div class="section">
+        <h2>10.3 Opening and Closing of File</h2>
+        <p>Files must be opened before performing any operations and closed afterward to free resources and ensure data is properly saved.</p>
+
+        <h3>Opening a File: fopen()</h3>
+        <ul>
+            <li><strong>Prototype:</strong> <code>FILE *fopen(const char *filename, const char *mode);</code></li>
+            <li><strong>Return:</strong> Returns a <code>FILE*</code> pointer on success, <code>NULL</code> on failure.</li>
+            <li><strong>Failure Reasons:</strong> File not found (for read modes), permission denied, insufficient memory.</li>
+        </ul>
+
+        <h3>Closing a File: fclose()</h3>
+        <ul>
+            <li><strong>Prototype:</strong> <code>int fclose(FILE *fp);</code></li>
+            <li><strong>Return:</strong> Returns <code>0</code> on success, <code>EOF</code> on error.</li>
+            <li><strong>Purpose:</strong> Flushes buffer, writes remaining data, releases file handle.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Opening and closing a file</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;FILE *fp = fopen("example.txt", "w");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (fp == NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Error opening file!\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fprintf(fp, "Hello, File!\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fclose(fp);  <span>// Always close the file</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>Error Handling for File Operations</h3>
+        <ul>
+            <li><strong>Check fopen() return:</strong> Always check if <code>fp == NULL</code>.</li>
+            <li><strong>Use perror():</strong> Prints the system error message.</li>
+            <li><strong>Use errno:</strong> Global variable for error codes.</li>
+        </ul>
+        <div class="code-block">
+            <span>// Error handling example</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #include &lt;errno.h&gt;<br>
+            #include &lt;string.h&gt;<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;FILE *fp = fopen("nonexistent.txt", "r");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (fp == NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perror("fopen error");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Error code: %d\n", errno);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Error message: %s\n", strerror(errno));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fclose(fp);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+        <div class="note-box">
+            <strong>📌 Key insight:</strong> Always check if <code>fopen()</code> returns <code>NULL</code> before using the file pointer. This prevents segmentation faults and crashes.
+        </div>
+    </div>
+
+    <!-- ========== 10.4 ========== -->
+    <div class="section">
+        <h2>10.4 Input Output Operations in File</h2>
+        <p>File I/O operations allow reading data from and writing data to files. Different functions are available for text and binary files.</p>
+
+        <h3>Text File Operations</h3>
+
+        <h4>Writing to Text Files</h4>
+        <ul>
+            <li><strong>fputc():</strong> Writes a single character.
+                <div class="code-block">
+                    fputc('A', fp);
+                </div>
+            </li>
+            <li><strong>fputs():</strong> Writes a string.
+                <div class="code-block">
+                    fputs("Hello World", fp);
+                </div>
+            </li>
+            <li><strong>fprintf():</strong> Writes formatted data.
+                <div class="code-block">
+                    fprintf(fp, "Name: %s, Age: %d\n", "Alice", 25);
+                </div>
+            </li>
+        </ul>
+
+        <h4>Reading from Text Files</h4>
+        <ul>
+            <li><strong>fgetc():</strong> Reads a single character. Returns <code>EOF</code> on end of file.
+                <div class="code-block">
+                    int ch = fgetc(fp);
+                </div>
+            </li>
+            <li><strong>fgets():</strong> Reads a line or up to size-1 characters.
+                <div class="code-block">
+                    char buffer[100];<br>
+                    fgets(buffer, 100, fp);
+                </div>
+            </li>
+            <li><strong>fscanf():</strong> Reads formatted data.
+                <div class="code-block">
+                    fscanf(fp, "%d %f", &amp;num, &amp;value);
+                </div>
+            </li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Text file I/O example</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;FILE *fp = fopen("students.txt", "w+");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (fp == NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Error opening file\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Writing to file</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fprintf(fp, "Alice, 85.5\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fprintf(fp, "Bob, 90.0\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fprintf(fp, "Charlie, 78.5\n");<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Rewind to beginning</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;rewind(fp);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Reading from file</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char name[50];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;float marks;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (fscanf(fp, "%[^,], %f\n", name, &amp;marks) == 2) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Name: %s, Marks: %.2f\n", name, marks);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fclose(fp);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>Binary File Operations</h3>
+        <ul>
+            <li><strong>fwrite():</strong> Writes binary data to a file.
+                <div class="code-block">
+                    fwrite(ptr, size, count, fp);
+                </div>
+            </li>
+            <li><strong>fread():</strong> Reads binary data from a file.
+                <div class="code-block">
+                    fread(ptr, size, count, fp);
+                </div>
+            </li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Binary file I/O example</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            struct Student {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int id;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char name[50];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;float marks;<br>
+            };<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;FILE *fp = fopen("students.dat", "wb+");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (fp == NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Error opening file\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Student students[] = {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{1, "Alice", 85.5},<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{2, "Bob", 90.0},<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{3, "Charlie", 78.5}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;};<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Write array to binary file</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fwrite(students, sizeof(struct Student), 3, fp);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Read back from binary file</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;rewind(fp);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Student readStudents[3];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fread(readStudents, sizeof(struct Student), 3, fp);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < 3; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("ID: %d, Name: %s, Marks: %.2f\n",<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;readStudents[i].id, readStudents[i].name, readStudents[i].marks);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fclose(fp);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>Text vs Binary File I/O</h3>
+        <table>
+            <tr><th>Feature</th><th>Text File I/O</th><th>Binary File I/O</th></tr>
+            <tr><td>Data Format</td><td>Human-readable characters</td><td>Machine-readable bytes</td></tr>
+            <tr><td>Functions</td><td>fprintf, fscanf, fgets, fputs</td><td>fwrite, fread</td></tr>
+            <tr><td>File Size</td><td>Larger</td><td>Smaller</td></tr>
+            <tr><td>Speed</td><td>Slower (format conversion)</td><td>Faster</td></tr>
+            <tr><td>Portability</td><td>Cross-platform</td><td>Platform-dependent</td></tr>
+            <tr><td>Use Case</td><td>Configuration files, human-readable data</td><td>Large data, arrays, structures</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== 10.5 ========== -->
+    <div class="section">
+        <h2>10.5 Random Access in File</h2>
+        <p><strong>Random access</strong> allows reading or writing at any position in a file, rather than sequentially. This is useful for large files where you need to access specific records without reading everything before them.</p>
+
+        <h3>File Positioning Functions</h3>
+        <ul>
+            <li><strong>fseek():</strong> Moves the file pointer to a specific position.
+                <div class="code-block">
+                    int fseek(FILE *fp, long offset, int whence);
+                </div>
+                <ul>
+                    <li><code>SEEK_SET</code> — Beginning of file</li>
+                    <li><code>SEEK_CUR</code> — Current position</li>
+                    <li><code>SEEK_END</code> — End of file</li>
+                </ul>
+            </li>
+            <li><strong>ftell():</strong> Returns the current position of the file pointer.
+                <div class="code-block">
+                    long pos = ftell(fp);
+                </div>
+            </li>
+            <li><strong>rewind():</strong> Moves the file pointer to the beginning (equivalent to <code>fseek(fp, 0, SEEK_SET)</code>).
+                <div class="code-block">
+                    rewind(fp);
+                </div>
+            </li>
+        </ul>
+
+        <h3>Random Access Examples</h3>
+        <div class="code-block">
+            <span>// fseek and ftell example</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;FILE *fp = fopen("data.txt", "r+");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (fp == NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Error opening file\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Get current position</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;long pos = ftell(fp);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Initial position: %ld\n", pos);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Move to 5th byte from beginning</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fseek(fp, 5, SEEK_SET);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("After fseek: %ld\n", ftell(fp));<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Read from current position</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char buffer[20];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fgets(buffer, 20, fp);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Read: %s\n", buffer);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Move to end and get file size</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fseek(fp, 0, SEEK_END);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;long fileSize = ftell(fp);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("File size: %ld bytes\n", fileSize);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Return to beginning</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;rewind(fp);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("After rewind: %ld\n", ftell(fp));<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fclose(fp);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>Random Access with Binary Files</h3>
+        <div class="code-block">
+            <span>// Random access in binary file</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            struct Record {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int id;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char name[50];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;float value;<br>
+            };<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;FILE *fp = fopen("records.dat", "rb+");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (fp == NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Error opening file\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Read 3rd record (index 2)</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Record rec;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fseek(fp, 2 * sizeof(struct Record), SEEK_SET);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fread(&amp;rec, sizeof(struct Record), 1, fp);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("3rd Record: ID=%d, Name=%s, Value=%.2f\n", rec.id, rec.name, rec.value);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Modify and write back</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;rec.value = 999.99;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fseek(fp, -sizeof(struct Record), SEEK_CUR);  <span>// Move back</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fwrite(&amp;rec, sizeof(struct Record), 1, fp);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fclose(fp);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>Common Random Access Patterns</h3>
+        <ul>
+            <li><strong>Sequential Access:</strong> Read/write from beginning to end.</li>
+            <li><strong>Direct Access:</strong> Jump to a specific record using <code>fseek()</code>.</li>
+            <li><strong>Indexed Access:</strong> Use an index file to find record positions.</li>
+            <li><strong>Database-style Access:</strong> Combine random access with fixed-size records.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Finding a record by ID</span><br>
+            struct Student findById(int id, FILE *fp) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Student s;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;rewind(fp);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (fread(&amp;s, sizeof(struct Student), 1, fp) == 1) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (s.id == id) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return s;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Student empty = {-1, "", 0};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return empty;<br>
+            }
+        </div>
+        <div class="note-box">
+            <strong>🎯 Key insight:</strong> Random access is essential for efficient file operations in large files. It allows direct access to any part of the file without reading through unnecessary data.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 10 summary</strong><br>File handling in C allows persistent data storage through text and binary files, with operations for creating, reading, writing, and random access.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Text vs Binary files: different formats and functions.<br>• Modes: r, w, a, r+, w+, a+ (add b for binary).<br>• Functions: fopen, fclose, fprintf, fscanf, fread, fwrite.<br>• Random access: fseek, ftell, rewind.<br>• Always check for errors and close files.</div>
+    </div>
 </body>
 </html>

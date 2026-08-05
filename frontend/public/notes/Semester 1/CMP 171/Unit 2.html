@@ -1,114 +1,467 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 2: Computer Hardware</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #f0f4fa;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
     </style>
 </head>
 <body>
     <h1>Unit 2: Computer Hardware</h1>
+    <div class="subhead">Physical components · architecture · functional units · I/O &amp; memory</div>
 
+    <!-- ========== 2.1 ========== -->
     <div class="section">
         <h2>2.1 Introduction</h2>
-        <p>Computer hardware refers to the physical components of a computer system that can be seen and touched. These components work together to process data, execute instructions, and produce output. Hardware forms the foundation of any computing device, enabling it to perform tasks as directed by software.</p>
+        <p><strong>Computer hardware</strong> encompasses all the tangible, physical parts of a computer system. These components are the foundation upon which software runs and data is processed. Hardware includes everything from the central processor to peripheral devices.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🔧 Purpose</strong><br>Hardware provides the physical infrastructure for computing – processing, storage, and user interaction. Without hardware, software cannot exist.</div>
+            <div class="card"><strong>📦 Key components</strong><br>CPU (brain), memory (RAM/ROM), storage (HDD/SSD), motherboard, power supply, input devices (keyboard, mouse), output devices (monitor, printer).</div>
+        </div>
         <ul>
-            <li><strong>Purpose:</strong> Hardware provides the physical infrastructure for data processing, storage, and interaction with users.</li>
-            <li><strong>Components:</strong> Key hardware includes the CPU, memory, storage devices, input devices, and output devices.</li>
-            <li><strong>Examples:</strong> Common hardware includes processors (e.g., Intel Core), RAM, hard drives, keyboards, and monitors.</li>
+            <li><strong>Interdependence:</strong> Hardware and software are mutually dependent. The hardware executes instructions encoded in software.</li>
+            <li><strong>Evolution:</strong> Hardware has evolved from vacuum tubes to transistors to integrated circuits, leading to today's powerful, energy-efficient systems.</li>
+            <li><strong>Categories:</strong> Internal components (CPU, RAM, motherboard) and external peripherals (monitor, keyboard, external drives).</li>
         </ul>
+        <div class="note-box">
+            <strong>💡 Core idea:</strong> Hardware is the physical canvas; software is the paint. Together they create the digital experience.
+        </div>
     </div>
 
+    <!-- ========== 2.2 ========== -->
     <div class="section">
         <h2>2.2 Functional Block Diagram of Digital Computer System</h2>
-        <p>A digital computer system is organized into functional units that work together to process data. The block diagram represents the main components: Arithmetic Logic Unit (ALU), Control Unit (CU), Memory Unit, and Input/Output Units, all interconnected to perform computing tasks.</p>
+        <p>A digital computer system is built from interconnected functional units that collaborate to execute programs. The classic von Neumann architecture defines these blocks.</p>
+
+        <div class="figure-box">
+            <pre>
+┌────────────────────────────────────────────────────────────┐
+│                       MEMORY UNIT                         │
+│              (RAM / ROM / Cache)                          │
+└───────────────┬────────────────────────────────┬──────────┘
+                │                                │
+                ▼                                ▼
+┌───────────────────────────────┐  ┌─────────────────────────┐
+│     CONTROL UNIT (CU)         │  │  ARITHMETIC LOGIC UNIT  │
+│  (instruction decode & fetch) │  │       (ALU)             │
+└───────────────┬───────────────┘  └────────────┬────────────┘
+                │                               │
+                └───────────────┬───────────────┘
+                                ▼
+┌────────────────────────────────────────────────────────────┐
+│                    INPUT / OUTPUT UNIT                    │
+│         (keyboard, mouse, display, printer, etc.)         │
+└────────────────────────────────────────────────────────────┘
+            </pre>
+        </div>
+
         <ul>
-            <li><strong>Overview:</strong> The block diagram illustrates how data flows between input, processing, memory, control, and output units.</li>
-            <li><strong>Data Flow:</strong> Input units accept data, the ALU and CU process it, memory stores it, and output units display or transmit results.</li>
-            <li><strong>Interconnection:</strong> Components communicate via buses (data, address, and control buses) to coordinate operations.</li>
+            <li><strong>Overview:</strong> The diagram shows how data flows between input, processing (CPU), memory, and output units. The control unit orchestrates all operations.</li>
+            <li><strong>Data Flow:</strong> Input → Memory → CPU (ALU + CU) → Memory → Output. Instructions are fetched, decoded, executed, and stored.</li>
+            <li><strong>Bus system:</strong> Data bus, address bus, and control bus connect all units, enabling communication and synchronization.</li>
         </ul>
 
-        <div class="section">
-            <h2>2.2.1 ALU (Arithmetic Logic Unit)</h2>
-            <p>The Arithmetic Logic Unit (ALU) is a core component of the CPU responsible for performing arithmetic and logical operations.</p>
-            <ul>
-                <li><strong>Functions:</strong> Executes arithmetic operations (e.g., addition, subtraction) and logical operations (e.g., AND, OR, NOT).</li>
-                <li><strong>Data Processing:</strong> Receives data from registers or memory, processes it, and sends results back for storage or output.</li>
-                <li><strong>Examples:</strong> ALUs in modern CPUs, like those in Intel or AMD processors, handle complex calculations at high speeds.</li>
-            </ul>
+        <!-- ===== 2.2.1 ===== -->
+        <h3>2.2.1 ALU (Arithmetic Logic Unit)</h3>
+        <p>The <strong>Arithmetic Logic Unit</strong> is the computational engine of the CPU. It performs all arithmetic and logical operations on data.</p>
+        <ul>
+            <li><strong>Arithmetic operations:</strong> Addition, subtraction, multiplication, division, increment, decrement.</li>
+            <li><strong>Logical operations:</strong> AND, OR, NOT, XOR, comparison (greater than, less than, equal).</li>
+            <li><strong>Bitwise operations:</strong> Shift left/right, rotate, bit masking.</li>
+            <li><strong>Registers:</strong> ALU works with registers (accumulator, status register) to hold operands and results.</li>
+            <li><strong>Performance:</strong> Modern ALUs are pipelined and can execute multiple operations per clock cycle.</li>
+        </ul>
+        <table>
+            <tr><th>Operation type</th><th>Examples</th><th>Use case</th></tr>
+            <tr><td>Arithmetic</td><td>ADD, SUB, MUL, DIV</td><td>Calculations, address computation</td></tr>
+            <tr><td>Logical</td><td>AND, OR, XOR, NOT</td><td>Bitmasking, decision making, encryption</td></tr>
+            <tr><td>Shift</td><td>SHL, SHR, ROL, ROR</td><td>Multiplication by powers of 2, data packing</td></tr>
+        </table>
+
+        <!-- ===== 2.2.2 ===== -->
+        <h3>2.2.2 CU (Control Unit)</h3>
+        <p>The <strong>Control Unit</strong> is the manager of the CPU. It fetches instructions from memory, decodes them, and generates control signals to direct other units.</p>
+        <ul>
+            <li><strong>Instruction fetch:</strong> Fetches the next instruction from memory (using program counter).</li>
+            <li><strong>Decode:</strong> Interprets the instruction and identifies the operation to be performed.</li>
+            <li><strong>Control signals:</strong> Generates timing and control signals for ALU, memory, and I/O.</li>
+            <li><strong>Microprogrammed vs. hardwired:</strong> Modern CUs are often microprogrammed for flexibility.</li>
+            <li><strong>Pipeline control:</strong> Manages instruction pipelining for improved throughput.</li>
+        </ul>
+        <div class="note-box">
+            <strong>⏱️ Fetch–Decode–Execute cycle:</strong> The CU repeats this cycle billions of times per second, driving all computer operations.
         </div>
 
-        <div class="section">
-            <h2>2.2.2 CU (Control Unit)</h2>
-            <p>The Control Unit (CU) directs the operation of the processor, coordinating the activities of other hardware components.</p>
-            <ul>
-                <li><strong>Functions:</strong> Fetches instructions from memory, decodes them, and directs the ALU, memory, and I/O units to execute them.</li>
-                <li><strong>Coordination:</strong> Manages the flow of data between the CPU, memory, and I/O devices via control signals.</li>
-                <li><strong>Examples:</strong> The CU in a processor ensures that instructions are executed in the correct sequence, such as in a fetch-decode-execute cycle.</li>
-            </ul>
-        </div>
+        <!-- ===== 2.2.3 ===== -->
+        <h3>2.2.3 Memory Unit</h3>
+        <p>The <strong>Memory Unit</strong> stores data and instructions. It is organized as a hierarchy to balance speed, capacity, and cost.</p>
+        <h4>Primary Memory (Main Memory)</h4>
+        <ul>
+            <li><strong>RAM (Random Access Memory):</strong> Volatile, fast, used for active data and programs. Types: DRAM, SRAM, DDR4/DDR5.</li>
+            <li><strong>ROM (Read-Only Memory):</strong> Non-volatile, stores firmware (BIOS/UEFI). Types: PROM, EPROM, EEPROM.</li>
+            <li><strong>Cache memory:</strong> Small, ultra-fast memory (L1, L2, L3) that stores frequently accessed data.</li>
+        </ul>
+        <h4>Secondary Memory (Storage)</h4>
+        <ul>
+            <li><strong>Hard Disk Drives (HDD):</strong> Magnetic storage, high capacity, slower access.</li>
+            <li><strong>Solid State Drives (SSD):</strong> Flash memory, faster, more reliable, no moving parts.</li>
+            <li><strong>Optical media:</strong> CD, DVD, Blu-ray – used for archival and distribution.</li>
+        </ul>
+        <table>
+            <tr><th>Memory type</th><th>Volatility</th><th>Speed</th><th>Capacity</th><th>Use</th></tr>
+            <tr><td>Register</td><td>Volatile</td><td>Fastest</td><td>Very small</td><td>CPU internal</td></tr>
+            <tr><td>Cache (L1/L2/L3)</td><td>Volatile</td><td>Very fast</td><td>MBs</td><td>Frequent data access</td></tr>
+            <tr><td>RAM (DRAM)</td><td>Volatile</td><td>Fast</td><td>GBs – TBs</td><td>Active programs</td></tr>
+            <tr><td>SSD</td><td>Non-volatile</td><td>Moderate</td><td>TBs</td><td>Long‑term storage</td></tr>
+            <tr><td>HDD</td><td>Non-volatile</td><td>Slow</td><td>Multiple TBs</td><td>Archive, backup</td></tr>
+        </table>
 
-        <div class="section">
-            <h2>2.2.3 Memory Unit</h2>
-            <p>The Memory Unit stores data and instructions temporarily or permanently for processing and retrieval.</p>
-            <ul>
-                <li><strong>Types:</strong> Primary memory (e.g., RAM, ROM) for temporary storage and secondary memory (e.g., HDD, SSD) for long-term storage.</li>
-                <li><strong>Functions:</strong> Holds data and instructions being processed by the CPU and stores results for future use.</li>
-                <li><strong>Examples:</strong> DDR4 RAM for fast access during processing, and SSDs for reliable, high-capacity storage.</li>
-            </ul>
+        <!-- ===== 2.2.4 ===== -->
+        <h3>2.2.4 Input and Output Units</h3>
+        <p><strong>Input/Output (I/O) units</strong> enable interaction between the computer and the external world. They are essential for user communication and data exchange.</p>
+        <h4>Input Devices</h4>
+        <ul>
+            <li><strong>Keyboard:</strong> Primary text input device.</li>
+            <li><strong>Mouse / Touchpad:</strong> Pointing devices for graphical interfaces.</li>
+            <li><strong>Scanner:</strong> Converts physical documents to digital images.</li>
+            <li><strong>Microphone:</strong> Captures audio input.</li>
+            <li><strong>Camera:</strong> Captures still images and video.</li>
+            <li><strong>Sensors:</strong> Temperature, motion, light – used in IoT and embedded systems.</li>
+        </ul>
+        <h4>Output Devices</h4>
+        <ul>
+            <li><strong>Monitor (Display):</strong> Visual output – LCD, LED, OLED.</li>
+            <li><strong>Printer:</strong> Hard copy output – inkjet, laser, 3D printers.</li>
+            <li><strong>Speakers:</strong> Audio output for music, alerts, voice.</li>
+            <li><strong>Projector:</strong> Displays content on a large screen.</li>
+        </ul>
+        <h4>I/O Interfaces</h4>
+        <ul>
+            <li><strong>Ports:</strong> USB, HDMI, DisplayPort, Ethernet, Thunderbolt.</li>
+            <li><strong>Wireless:</strong> Bluetooth, Wi-Fi, NFC for wireless I/O.</li>
+            <li><strong>Controllers:</strong> I/O controllers manage data transfer between CPU and devices.</li>
+        </ul>
+        <div class="note-box">
+            <strong>🔄 Bidirectional devices:</strong> Touchscreens, network interfaces, and modems function as both input and output.
         </div>
+    </div>
 
-        <div class="section">
-            <h2>2.2.4 Input and Output Units</h2>
-            <p>Input and Output Units facilitate communication between the computer and the external environment, allowing data entry and result display.</p>
-            <ul>
-                <li><strong>Input Units:</strong> Devices like keyboards, mice, and scanners that allow users to enter data or instructions into the computer.</li>
-                <li><strong>Output Units:</strong> Devices like monitors, printers, and speakers that display or produce the results of computations.</li>
-                <li><strong>Examples:</strong> A touchscreen serves as both an input (touch gestures) and output (display) device, while a printer outputs hard copies of documents.</li>
-            </ul>
+    <!-- ========== ADDITIONAL: Motherboard & Buses ========== -->
+    <div class="section">
+        <h2>2.3 Motherboard and System Buses</h2>
+        <p>The <strong>motherboard</strong> is the main circuit board that connects all hardware components. It hosts the CPU, memory, expansion slots, and I/O ports.</p>
+        <ul>
+            <li><strong>Chipset:</strong> Controls data flow between CPU, memory, and peripherals.</li>
+            <li><strong>Expansion slots:</strong> PCIe, PCI – for graphics cards, network cards, storage controllers.</li>
+            <li><strong>Power connectors:</strong> Supply power from the PSU to the motherboard and components.</li>
+        </ul>
+        <h3>System Buses</h3>
+        <ul>
+            <li><strong>Data bus:</strong> Carries actual data between components. Width (8, 16, 32, 64 bits) affects performance.</li>
+            <li><strong>Address bus:</strong> Carries memory addresses from CPU to memory. Width determines maximum addressable memory.</li>
+            <li><strong>Control bus:</strong> Carries control signals (read/write, interrupt, clock) to coordinate operations.</li>
+        </ul>
+        <table>
+            <tr><th>Bus type</th><th>Direction</th><th>Purpose</th><th>Typical width</th></tr>
+            <tr><td>Data bus</td><td>Bidirectional</td><td>Transfer data</td><td>64 bits (modern)</td></tr>
+            <tr><td>Address bus</td><td>Unidirectional (CPU → memory)</td><td>Specify memory address</td><td>36–48 bits</td></tr>
+            <tr><td>Control bus</td><td>Bidirectional</td><td>Control signals</td><td>Varies</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== ADDITIONAL: CPU Architecture ========== -->
+    <div class="section">
+        <h2>2.4 Central Processing Unit (CPU) – In Depth</h2>
+        <p>The <strong>CPU</strong> is the brain of the computer. It interprets instructions and processes data. Modern CPUs contain multiple cores and complex pipelines.</p>
+        <ul>
+            <li><strong>Cores:</strong> Multiple processing units within a single CPU (dual‑core, quad‑core, octa‑core).</li>
+            <li><strong>Threads:</strong> Simultaneous multithreading (Hyper‑Threading) allows each core to handle two threads.</li>
+            <li><strong>Clock speed:</strong> Measured in GHz – number of cycles per second.</li>
+            <li><strong>Instruction set:</strong> x86 (Intel/AMD), ARM (mobile/embedded), RISC‑V (open standard).</li>
+            <li><strong>Pipelining:</strong> Overlaps instruction stages (fetch, decode, execute, memory, writeback) for higher throughput.</li>
+        </ul>
+        <div class="grid-2col">
+            <div class="card"><strong>⚡ Performance factors</strong><br>Clock speed, core count, cache size, instruction set efficiency, and memory bandwidth.</div>
+            <div class="card"><strong>🔋 Power &amp; heat</strong><br>Dynamic voltage/frequency scaling (DVFS) manages power consumption. Thermal solutions (heatsinks, liquid cooling) prevent overheating.</div>
         </div>
+    </div>
+
+    <!-- ========== ADDITIONAL: Storage Hierarchy ========== -->
+    <div class="section">
+        <h2>2.5 Storage Hierarchy Overview</h2>
+        <p>Computers use a hierarchy of storage technologies to balance speed, cost, and capacity. The closer to the CPU, the faster and more expensive per byte.</p>
+        <ol>
+            <li><strong>Registers:</strong> Fastest, inside CPU, very small (few hundred bytes).</li>
+            <li><strong>Cache (L1/L2/L3):</strong> SRAM, very fast, sizes from KB to MB.</li>
+            <li><strong>Main Memory (RAM):</strong> DRAM, fast, sizes from GB to TB.</li>
+            <li><strong>Solid State Drive (SSD):</strong> Flash memory, moderate speed, TBs.</li>
+            <li><strong>Hard Disk Drive (HDD):</strong> Magnetic, slower, high capacity (multiple TBs).</li>
+            <li><strong>Cloud/Offline storage:</strong> Network‑attached, tape, optical – for archival.</li>
+        </ol>
+        <div class="note-box">
+            <strong>📈 Latency comparison:</strong> Register (1 ns) → Cache (10 ns) → RAM (100 ns) → SSD (100 µs) → HDD (10 ms). Each level is an order of magnitude slower but much larger.
+        </div>
+    </div>
+
+    <!-- ========== ADDITIONAL: I/O Ports and Interfaces ========== -->
+    <div class="section">
+        <h2>2.6 I/O Ports and Interfaces – Practical Guide</h2>
+        <p>Understanding ports helps connect devices and troubleshoot hardware issues.</p>
+        <table>
+            <tr><th>Port type</th><th>Connector</th><th>Data rate</th><th>Common uses</th></tr>
+            <tr><td>USB 3.2 Gen 2</td><td>Type‑A, Type‑C</td><td>10 Gbps</td><td>External drives, peripherals</td></tr>
+            <tr><td>USB4 / Thunderbolt 4</td><td>Type‑C</td><td>40 Gbps</td><td>High‑speed storage, displays, docks</td></tr>
+            <tr><td>HDMI 2.1</td><td>Type‑A</td><td>48 Gbps</td><td>Video/audio to monitors, TVs</td></tr>
+            <tr><td>DisplayPort 2.0</td><td>DisplayPort</td><td>80 Gbps</td><td>High‑resolution monitors</td></tr>
+            <tr><td>Ethernet (RJ45)</td><td>8P8C</td><td>1/10/25/40 Gbps</td><td>Wired networking</td></tr>
+            <tr><td>3.5 mm audio</td><td>TRS</td><td>Analog</td><td>Headphones, microphones</td></tr>
+        </table>
+        <p><strong>Wireless I/O:</strong> Wi‑Fi (IEEE 802.11ax), Bluetooth 5.3, NFC – enable cable‑free connections.</p>
+    </div>
+
+    <!-- ========== ADDITIONAL: Hardware Maintenance ========== -->
+    <div class="section">
+        <h2>2.7 Hardware Maintenance and Upgrades</h2>
+        <p>Proper maintenance extends hardware life and ensures optimal performance.</p>
+        <ul>
+            <li><strong>Cleaning:</strong> Remove dust from fans, heatsinks, and vents to prevent overheating.</li>
+            <li><strong>Thermal paste:</strong> Reapply between CPU and cooler to improve heat transfer.</li>
+            <li><strong>Firmware updates:</strong> Update BIOS/UEFI and device drivers for compatibility and security.</li>
+            <li><strong>Upgrades:</strong> Add more RAM, replace HDD with SSD, upgrade GPU for better performance.</li>
+            <li><strong>Power supply:</strong> Ensure adequate wattage and clean power (UPS for surge protection).</li>
+        </ul>
+        <div class="note-box">
+            <strong>🔧 Preventive care:</strong> Regular maintenance reduces failure rates and extends the useful life of hardware components.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 2 summary</strong><br>Computer hardware forms the physical foundation of computing. The CPU, memory, I/O, and buses work together to execute software.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• ALU processes arithmetic/logic; CU controls operations.<br>• Memory hierarchy balances speed and capacity.<br>• I/O devices enable human‑computer interaction.</div>
     </div>
 </body>
 </html>

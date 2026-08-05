@@ -1,205 +1,762 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unit 3: HTML5</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-      font-weight: bold;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 3: HTML5</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Unit 3: HTML5</h1>
+    <h1>Unit 3: HTML5</h1>
+    <div class="subhead">HTML5 APIs · forms · responsive design · semantic markup · best practices</div>
 
-  <div class="section">
-    <h2>3.1 HTML5 APIs</h2>
-    <p>HTML5 introduces a variety of APIs that enhance web application functionality, allowing developers to create interactive and dynamic experiences directly in the browser.</p>
-    <ul>
-      <li><strong>Geolocation API</strong>: Retrieves the user's geographical location with permission.</li>
-      <li><strong>Canvas API</strong>: Enables 2D drawing and animations using the <code>&lt;canvas&gt;</code> element.</li>
-      <li><strong>Web Storage API</strong>: Provides <code>localStorage</code> and <code>sessionStorage</code> for storing data in the browser.</li>
-      <li><strong>Drag and Drop API</strong>: Supports dragging and dropping elements within or across applications.</li>
-    </ul>
-    <pre><code>&lt;canvas id="myCanvas" width="200" height="100"&gt;&lt;/canvas&gt;
-&lt;script&gt;
-  const canvas = document.getElementById('myCanvas');
-  const ctx = canvas.getContext('2d');
-  ctx.fillStyle = 'blue';
-  ctx.fillRect(50, 50, 100, 50);
-&lt;/script&gt;</code></pre>
-  </div>
+    <!-- ========== 3.1 ========== -->
+    <div class="section">
+        <h2>3.1 HTML5 APIs</h2>
+        <p>HTML5 introduces a variety of <strong>APIs (Application Programming Interfaces)</strong> that enhance web application functionality, allowing developers to create interactive and dynamic experiences directly in the browser without relying on third-party plugins.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🎯 Purpose</strong><br>Extend browser capabilities for creating rich, interactive web applications with features like geolocation, graphics, storage, and multimedia.</div>
+            <div class="card"><strong>📋 Key APIs</strong><br>Canvas, Geolocation, Web Storage, Drag and Drop, Web Workers, History API, WebSockets, and more.</div>
+        </div>
 
-  <div class="section">
-    <h2>3.2 HTML5 Forms</h2>
-    <p>HTML5 forms introduce new input types, attributes, and validation features to improve user interaction and data collection.</p>
-    <ul>
-      <li><strong>New Input Types</strong>: <code>email</code>, <code>url</code>, <code>date</code>, <code>range</code>, etc., for specific data entry.</li>
-      <li><strong>Attributes</strong>: <code>required</code>, <code>placeholder</code>, <code>pattern</code> for validation and user guidance.</li>
-      <li><strong>Datalist</strong>: Provides a predefined list of options for input fields.</li>
-    </ul>
-    <pre><code>&lt;form&gt;
-  &lt;label for="email"&gt;Email:&lt;/label&gt;
-  &lt;input type="email" id="email" name="email" required placeholder="Enter your email"&gt;
-  &lt;label for="color"&gt;Favorite Color:&lt;/label&gt;
-  &lt;input type="color" id="color" name="color"&gt;
-  &lt;input type="submit" value="Submit"&gt;
-&lt;/form&gt;</code></pre>
-  </div>
+        <h3>Major HTML5 APIs</h3>
+        <ul>
+            <li><strong>Geolocation API:</strong> Retrieves the user's geographical location with permission.
+                <div class="code-block">
+                    navigator.geolocation.getCurrentPosition(function(pos) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;console.log("Latitude: " + pos.coords.latitude);<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;console.log("Longitude: " + pos.coords.longitude);<br>
+                    });
+                </div>
+            </li>
+            <li><strong>Canvas API:</strong> Enables 2D drawing and animations using the <code>&lt;canvas&gt;</code> element.
+                <div class="code-block">
+                    &lt;canvas id="myCanvas" width="400" height="200"&gt;&lt;/canvas&gt;<br>
+                    &lt;script&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;const canvas = document.getElementById('myCanvas');<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;const ctx = canvas.getContext('2d');<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;ctx.fillStyle = '#3498db';<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;ctx.fillRect(50, 50, 300, 100);<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;ctx.strokeStyle = '#2c3e50';<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;ctx.lineWidth = 3;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;ctx.strokeRect(50, 50, 300, 100);<br>
+                    &lt;/script&gt;
+                </div>
+            </li>
+            <li><strong>Web Storage API:</strong> Provides <code>localStorage</code> (persistent) and <code>sessionStorage</code> (session-based) for storing data in the browser.
+                <div class="code-block">
+                    localStorage.setItem('username', 'JohnDoe');<br>
+                    const user = localStorage.getItem('username');<br>
+                    sessionStorage.setItem('sessionId', 'abc123');<br>
+                </div>
+            </li>
+            <li><strong>Drag and Drop API:</strong> Supports dragging and dropping elements within or across applications.
+                <div class="code-block">
+                    &lt;div draggable="true" ondragstart="drag(event)"&gt;Drag Me&lt;/div&gt;<br>
+                    &lt;div ondrop="drop(event)" ondragover="allowDrop(event)"&gt;Drop Zone&lt;/div&gt;
+                </div>
+            </li>
+            <li><strong>Web Workers API:</strong> Run scripts in background threads without blocking the UI.
+                <div class="code-block">
+                    const worker = new Worker('worker.js');<br>
+                    worker.postMessage('Start');<br>
+                    worker.onmessage = function(e) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;console.log(e.data);<br>
+                    };
+                </div>
+            </li>
+            <li><strong>History API:</strong> Manipulate browser history without page reload.
+                <div class="code-block">
+                    history.pushState({page: 1}, "Page 1", "/page1");<br>
+                    window.onpopstate = function(e) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;console.log("State: " + e.state);<br>
+                    };
+                </div>
+            </li>
+            <li><strong>WebSockets API:</strong> Full-duplex communication between client and server.
+                <div class="code-block">
+                    const socket = new WebSocket('wss://example.com/ws');<br>
+                    socket.onmessage = function(e) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;console.log(e.data);<br>
+                    };<br>
+                    socket.send('Hello Server!');
+                </div>
+            </li>
+        </ul>
 
-  <div class="section">
-    <h2>3.3 Responsive Web Design</h2>
-    <p>Responsive Web Design (RWD) ensures web pages render well on various devices and screen sizes using flexible layouts, images, and CSS media queries.</p>
-    <ul>
-      <li><strong>Viewport Meta Tag</strong>: Controls layout on mobile browsers.</li>
-      <li><strong>Media Queries</strong>: Apply CSS styles based on device characteristics.</li>
-      <li><strong>Flexible Grids</strong>: Use relative units like percentages or <code>vw</code>/<code>vh</code>.</li>
-    </ul>
-    <pre><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-&lt;style&gt;
-  .container {
-    width: 100%;
-    max-width: 1200px;
-  }
-  @media (max-width: 600px) {
-    .container {
-      padding: 10px;
-    }
-  }
-&lt;/style&gt;
-&lt;div class="container"&gt;Responsive Content&lt;/div&gt;</code></pre>
-  </div>
+        <table>
+            <tr><th>API</th><th>Purpose</th><th>Use Case</th></tr>
+            <tr><td>Geolocation</td><td>Get user location</td><td>Location-based services</td></tr>
+            <tr><td>Canvas</td><td>2D drawing &amp; animations</td><td>Games, charts, visualizations</td></tr>
+            <tr><td>Web Storage</td><td>Client-side data storage</td><td>User preferences, offline data</td></tr>
+            <tr><td>Drag and Drop</td><td>Drag/drop interactions</td><td>File upload, UI reordering</td></tr>
+            <tr><td>Web Workers</td><td>Background processing</td><td>CPU-intensive tasks</td></tr>
+            <tr><td>WebSockets</td><td>Real-time communication</td><td>Chat apps, live updates</td></tr>
+        </table>
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> HTML5 APIs enable building native-like web applications with powerful features that were previously only available through plugins or server-side processing.
+        </div>
+    </div>
 
-  <div class="section">
-    <h2>3.4 HTML5</h2>
-    <p>HTML5 is the latest version of HTML, offering new elements, APIs, and features to support modern web development, with improved multimedia and semantic capabilities.</p>
-    <ul>
-      <li><strong>New Elements</strong>: <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;audio&gt;</code>, <code>&lt;video&gt;</code>.</li>
-      <li><strong>Improved Accessibility</strong>: Better support for screen readers and assistive technologies.</li>
-      <li><strong>Backward Compatibility</strong>: Works with older browsers, though some features may not be supported.</li>
-    </ul>
-    <pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang="en"&gt;
-&lt;head&gt;
-  &lt;meta charset="UTF-8"&gt;
-  &lt;title&gt;HTML5 Example&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;article&gt;
-    &lt;h1&gt;HTML5 Page&lt;/h1&gt;
-    &lt;video controls&gt;
-      &lt;source src="video.mp4" type="video/mp4"&gt;
-    &lt;/video&gt;
-  &lt;/article&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
-  </div>
+    <!-- ========== 3.2 ========== -->
+    <div class="section">
+        <h2>3.2 HTML5 Forms</h2>
+        <p>HTML5 introduces new input types, attributes, and validation features that improve user interaction, data collection, and form usability.</p>
 
-  <div class="section">
-    <h2>3.5 Semantic Markup</h2>
-    <p>Semantic markup in HTML5 uses elements that clearly describe their meaning, improving accessibility, SEO, and code readability.</p>
-    <ul>
-      <li><strong>Semantic Elements</strong>: <code>&lt;header&gt;</code>, <code>&lt;footer&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;aside&gt;</code>.</li>
-      <li><strong>Benefits</strong>: Enhances search engine understanding and assistive technology support.</li>
-      <li><strong>ARIA Roles</strong>: Augment semantics for better accessibility.</li>
-    </ul>
-    <pre><code>&lt;header&gt;
-  &lt;h1&gt;Website Title&lt;/h1&gt;
-&lt;/header&gt;
-&lt;main&gt;
-  &lt;article&gt;
-    &lt;h2&gt;Main Content&lt;/h2&gt;
-    &lt;p&gt;This is the primary content.&lt;/p&gt;
-  &lt;/article&gt;
-&lt;/main&gt;
-&lt;footer&gt;
-  &lt;p&gt;Copyright 2025&lt;/p&gt;
-&lt;/footer&gt;</code></pre>
-  </div>
+        <h3>New Input Types</h3>
+        <table>
+            <tr><th>Input Type</th><th>Description</th><th>Example</th></tr>
+            <tr><td>email</td><td>Email address (validates format)</td><td>&lt;input type="email"&gt;</td></tr>
+            <tr><td>url</td><td>URL (validates format)</td><td>&lt;input type="url"&gt;</td></tr>
+            <tr><td>number</td><td>Numeric value with min/max</td><td>&lt;input type="number" min="0" max="100"&gt;</td></tr>
+            <tr><td>date</td><td>Date picker</td><td>&lt;input type="date"&gt;</td></tr>
+            <tr><td>time</td><td>Time picker</td><td>&lt;input type="time"&gt;</td></tr>
+            <tr><td>datetime-local</td><td>Date and time picker</td><td>&lt;input type="datetime-local"&gt;</td></tr>
+            <tr><td>range</td><td>Slider control</td><td>&lt;input type="range" min="0" max="100"&gt;</td></tr>
+            <tr><td>color</td><td>Color picker</td><td>&lt;input type="color"&gt;</td></tr>
+            <tr><td>search</td><td>Search field with clear button</td><td>&lt;input type="search"&gt;</td></tr>
+            <tr><td>tel</td><td>Telephone number</td><td>&lt;input type="tel"&gt;</td></tr>
+            <tr><td>month</td><td>Month picker</td><td>&lt;input type="month"&gt;</td></tr>
+            <tr><td>week</td><td>Week picker</td><td>&lt;input type="week"&gt;</td></tr>
+        </table>
 
-  <div class="section">
-    <h2>3.6 Best Practices and Optimization</h2>
-    <p>Adopting best practices in HTML5 development ensures efficient, maintainable, and accessible web pages.</p>
-    <ul>
-      <li><strong>Minimize Code</strong>: Remove unnecessary tags and use concise attributes.</li>
-      <li><strong>Validate HTML</strong>: Use tools like W3C Validator to ensure standards compliance.</li>
-      <li><strong>Optimize Images</strong>: Use compressed formats and appropriate sizes.</li>
-      <li><strong>Accessibility</strong>: Include <code>alt</code> text, ARIA roles, and keyboard navigation support.</li>
-    </ul>
-    <pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang="en"&gt;
-&lt;head&gt;
-  &lt;meta charset="UTF-8"&gt;
-  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-  &lt;title&gt;Optimized Page&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;main aria-label="Main content"&gt;
-    &lt;img src="image.jpg" alt="Description" width="300"&gt;
-    &lt;p&gt;Accessible and optimized content.&lt;/p&gt;
-  &lt;/main&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
-  </div>
+        <h3>New Form Attributes</h3>
+        <ul>
+            <li><code>required</code> — Field must be filled.</li>
+            <li><code>placeholder</code> — Hint text inside the input.</li>
+            <li><code>pattern</code> — Regular expression validation.</li>
+            <li><code>min</code>, <code>max</code> — Minimum/maximum values.</li>
+            <li><code>step</code> — Increment step for numbers.</li>
+            <li><code>autofocus</code> — Automatically focus the field.</li>
+            <li><code>multiple</code> — Allow multiple values (email, file).</li>
+            <li><code>formnovalidate</code> — Skip validation on submit.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>&lt;!-- HTML5 Form Example --&gt;</span><br>
+            &lt;form action="/submit" method="POST"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;fieldset&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;legend&gt;Personal Information&lt;/legend&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label for="name"&gt;Name:&lt;/label&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="text" id="name" name="name" required placeholder="Full name"&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label for="email"&gt;Email:&lt;/label&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="email" id="email" name="email" required placeholder="user@example.com"&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label for="age"&gt;Age:&lt;/label&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="number" id="age" name="age" min="18" max="99"&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label for="birthday"&gt;Birthday:&lt;/label&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="date" id="birthday" name="birthday"&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label for="color"&gt;Favorite Color:&lt;/label&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="color" id="color" name="color" value="#3498db"&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label for="rating"&gt;Rating:&lt;/label&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="range" id="rating" name="rating" min="1" max="5"&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label for="website"&gt;Website:&lt;/label&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="url" id="website" name="website" placeholder="https://example.com"&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label for="message"&gt;Message:&lt;/label&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;textarea id="message" name="message" rows="4" cols="40" placeholder="Your message..."&gt;&lt;/textarea&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="submit" value="Submit"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/fieldset&gt;<br>
+            &lt;/form&gt;
+        </div>
+
+        <h3>Datalist (Autocomplete)</h3>
+        <div class="code-block">
+            &lt;label for="browser"&gt;Choose a browser:&lt;/label&gt;<br>
+            &lt;input list="browsers" id="browser" name="browser"&gt;<br>
+            &lt;datalist id="browsers"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="Chrome"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="Firefox"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="Safari"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="Edge"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="Opera"&gt;<br>
+            &lt;/datalist&gt;
+        </div>
+
+        <div class="note-box">
+            <strong>📝 Key insight:</strong> HTML5 forms provide built-in validation, reducing the need for JavaScript validation and improving user experience with native controls.
+        </div>
+    </div>
+
+    <!-- ========== 3.3 ========== -->
+    <div class="section">
+        <h2>3.3 Responsive Web Design</h2>
+        <p><strong>Responsive Web Design (RWD)</strong> ensures web pages render well on various devices and screen sizes using flexible layouts, images, and CSS media queries. It is essential for modern web development.</p>
+
+        <h3>Key Components of RWD</h3>
+        <ul>
+            <li><strong>Viewport Meta Tag:</strong> Controls layout on mobile browsers.
+                <div class="code-block">
+                    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+                </div>
+            </li>
+            <li><strong>Media Queries:</strong> Apply CSS styles based on device characteristics (screen width, height, orientation, resolution).
+                <div class="code-block">
+                    /* Mobile first approach */<br>
+                    .container {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;width: 100%;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;padding: 15px;<br>
+                    }<br><br>
+                    /* Tablet */<br>
+                    @media (min-width: 768px) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;.container {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max-width: 720px;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;margin: 0 auto;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    }<br><br>
+                    /* Desktop */<br>
+                    @media (min-width: 1024px) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;.container {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max-width: 960px;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    }
+                </div>
+            </li>
+            <li><strong>Flexible Grids:</strong> Use relative units like percentages, <code>vw</code> (viewport width), <code>vh</code> (viewport height), <code>em</code>, <code>rem</code>.
+                <div class="code-block">
+                    .column {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;width: 100%;<br>
+                    }<br>
+                    @media (min-width: 768px) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;.column {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width: 50%;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float: left;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    }
+                </div>
+            </li>
+            <li><strong>Flexible Images:</strong> Images scale within their containers.
+                <div class="code-block">
+                    img {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;max-width: 100%;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;height: auto;<br>
+                    }
+                </div>
+            </li>
+        </ul>
+
+        <h3>Responsive Frameworks</h3>
+        <ul>
+            <li><strong>Bootstrap:</strong> Popular CSS framework with grid system and components.</li>
+            <li><strong>Foundation:</strong> Advanced responsive framework from Zurb.</li>
+            <li><strong>Tailwind CSS:</strong> Utility-first CSS framework with responsive utilities.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>&lt;!-- Complete responsive example --&gt;</span><br>
+            &lt;!DOCTYPE html&gt;<br>
+            &lt;html lang="en"&gt;<br>
+            &lt;head&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Responsive Page&lt;/title&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;style&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* { margin: 0; padding: 0; box-sizing: border-box; }<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.container {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width: 100%;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;padding: 20px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.grid {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;display: grid;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grid-template-columns: 1fr;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gap: 20px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.item {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background: #f0f0f0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;padding: 20px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;border-radius: 8px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@media (min-width: 768px) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.grid {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grid-template-columns: repeat(2, 1fr);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@media (min-width: 1024px) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.grid {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grid-template-columns: repeat(4, 1fr);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/style&gt;<br>
+            &lt;/head&gt;<br>
+            &lt;body&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="container"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Responsive Grid&lt;/h1&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="grid"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="item"&gt;1&lt;/div&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="item"&gt;2&lt;/div&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="item"&gt;3&lt;/div&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="item"&gt;4&lt;/div&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+            &lt;/body&gt;<br>
+            &lt;/html&gt;
+        </div>
+
+        <div class="note-box">
+            <strong>📱 Key insight:</strong> Responsive design is not optional — mobile traffic accounts for over 50% of web traffic. Use a mobile-first approach for better performance and user experience.
+        </div>
+    </div>
+
+    <!-- ========== 3.4 ========== -->
+    <div class="section">
+        <h2>3.4 HTML5</h2>
+        <p><strong>HTML5</strong> is the latest major version of HTML, introducing new elements, APIs, and features to support modern web development with improved multimedia, semantics, and interactivity.</p>
+
+        <h3>Key Features of HTML5</h3>
+        <ul>
+            <li><strong>New Semantic Elements:</strong> <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;footer&gt;</code>, <code>&lt;aside&gt;</code>, <code>&lt;main&gt;</code>.</li>
+            <li><strong>Multimedia:</strong> Native <code>&lt;audio&gt;</code> and <code>&lt;video&gt;</code> elements without plugins.</li>
+            <li><strong>Canvas &amp; SVG:</strong> Dynamic 2D graphics and scalable vector graphics.</li>
+            <li><strong>Web Storage:</strong> localStorage and sessionStorage for client-side data.</li>
+            <li><strong>Offline Support:</strong> Application Cache and Service Workers.</li>
+            <li><strong>Geolocation:</strong> Browser-based location services.</li>
+            <li><strong>Drag and Drop:</strong> Native drag-and-drop support.</li>
+            <li><strong>Web Workers:</strong> Background thread processing.</li>
+            <li><strong>WebSockets:</strong> Real-time bidirectional communication.</li>
+            <li><strong>Form Enhancements:</strong> New input types and built-in validation.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>&lt;!-- HTML5 Document Example --&gt;</span><br>
+            &lt;!DOCTYPE html&gt;<br>
+            &lt;html lang="en"&gt;<br>
+            &lt;head&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;HTML5 Features&lt;/title&gt;<br>
+            &lt;/head&gt;<br>
+            &lt;body&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;header&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;HTML5 Demo&lt;/h1&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/header&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;main&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;section&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;Video Example&lt;/h2&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;video controls width="400"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;source src="video.mp4" type="video/mp4"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Your browser does not support video.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/video&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/section&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;section&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;Canvas Example&lt;/h2&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;canvas id="canvas" width="300" height="100"&gt;&lt;/canvas&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;script&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const c = document.getElementById('canvas');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const ctx = c.getContext('2d');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctx.fillStyle = '#2ecc71';<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctx.fillRect(10, 10, 280, 80);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/script&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/section&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/main&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;footer&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;&amp;copy; 2025 HTML5 Example&lt;/p&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/footer&gt;<br>
+            &lt;/body&gt;<br>
+            &lt;/html&gt;
+        </div>
+
+        <div class="note-box">
+            <strong>🚀 Key insight:</strong> HTML5 is the foundation of modern web development. It provides the building blocks for creating rich, interactive, and accessible web applications.
+        </div>
+    </div>
+
+    <!-- ========== 3.5 ========== -->
+    <div class="section">
+        <h2>3.5 Semantic Markup</h2>
+        <p><strong>Semantic markup</strong> uses HTML elements that clearly describe their meaning, improving accessibility, SEO, and code readability. Semantic elements provide context to both browsers and developers.</p>
+
+        <h3>Semantic Elements in HTML5</h3>
+        <table>
+            <tr><th>Element</th><th>Purpose</th><th>Use Case</th></tr>
+            <tr><td>&lt;header&gt;</td><td>Introductory content or navigation</td><td>Page header, article header</td></tr>
+            <tr><td>&lt;nav&gt;</td><td>Navigation links</td><td>Main menu, breadcrumbs</td></tr>
+            <tr><td>&lt;main&gt;</td><td>Primary content of the page</td><td>Main article, core content</td></tr>
+            <tr><td>&lt;article&gt;</td><td>Self-contained content</td><td>Blog posts, news articles</td></tr>
+            <tr><td>&lt;section&gt;</td><td>Thematic grouping of content</td><td>Chapters, tabbed content</td></tr>
+            <tr><td>&lt;aside&gt;</td><td>Content tangentially related</td><td>Sidebar, related links</td></tr>
+            <tr><td>&lt;footer&gt;</td><td>Footer content</td><td>Copyright, contact, sitemap</td></tr>
+            <tr><td>&lt;figure&gt;</td><td>Self-contained media</td><td>Images with captions</td></tr>
+            <tr><td>&lt;figcaption&gt;</td><td>Caption for figure</td><td>Image description</td></tr>
+            <tr><td>&lt;time&gt;</td><td>Date/time information</td><td>Publication date</td></tr>
+            <tr><td>&lt;mark&gt;</td><td>Highlighted text</td><td>Search results</td></tr>
+            <tr><td>&lt;details&gt;</td><td>Collapsible content</td><td>FAQ, expandable sections</td></tr>
+            <tr><td>&lt;summary&gt;</td><td>Summary for details</td><td>Clickable heading</td></tr>
+        </table>
+
+        <h3>ARIA (Accessible Rich Internet Applications)</h3>
+        <ul>
+            <li>Enhances accessibility for dynamic content and complex UI components.</li>
+            <li>Provides roles, states, and properties to assistive technologies.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>&lt;!-- Semantic HTML with ARIA --&gt;</span><br>
+            &lt;!DOCTYPE html&gt;<br>
+            &lt;html lang="en"&gt;<br>
+            &lt;head&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Semantic HTML5 Page&lt;/title&gt;<br>
+            &lt;/head&gt;<br>
+            &lt;body&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;header role="banner"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;My Website&lt;/h1&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;nav role="navigation" aria-label="Main Navigation"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a href="#home"&gt;Home&lt;/a&gt;&lt;/li&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a href="#about"&gt;About&lt;/a&gt;&lt;/li&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a href="#contact"&gt;Contact&lt;/a&gt;&lt;/li&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/nav&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/header&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;main role="main"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;article aria-labelledby="article-title"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2 id="article-title"&gt;Understanding Semantic HTML&lt;/h2&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;time datetime="2025-01-15"&gt;January 15, 2025&lt;/time&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;section&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Semantic HTML uses elements that convey meaning...&lt;/p&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/section&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/article&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;aside role="complementary" aria-label="Related Content"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;Related Posts&lt;/h3&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a href="#post1"&gt;Post 1&lt;/a&gt;&lt;/li&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a href="#post2"&gt;Post 2&lt;/a&gt;&lt;/li&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/aside&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/main&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;footer role="contentinfo"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;&amp;copy; 2025 My Website. All rights reserved.&lt;/p&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/footer&gt;<br>
+            &lt;/body&gt;<br>
+            &lt;/html&gt;
+        </div>
+
+        <div class="note-box">
+            <strong>🏗️ Key insight:</strong> Semantic HTML is essential for modern web development. It improves accessibility, SEO, and code maintainability while making content more meaningful to both browsers and developers.
+        </div>
+    </div>
+
+    <!-- ========== 3.6 ========== -->
+    <div class="section">
+        <h2>3.6 Best Practices and Optimization</h2>
+        <p>Adopting <strong>best practices</strong> in HTML5 development ensures efficient, maintainable, and accessible web pages that perform well across devices and browsers.</p>
+
+        <h3>HTML Best Practices</h3>
+        <ul>
+            <li><strong>Use Semantic HTML:</strong> Choose the right element for the content.</li>
+            <li><strong>Validate HTML:</strong> Use <a href="https://validator.w3.org/" target="_blank">W3C Validator</a> to ensure standards compliance.</li>
+            <li><strong>Accessibility (A11y):</strong>
+                <ul>
+                    <li>Include <code>alt</code> text for images.</li>
+                    <li>Use ARIA roles when needed.</li>
+                    <li>Ensure keyboard navigation works.</li>
+                    <li>Provide captions and transcripts for media.</li>
+                </ul>
+            </li>
+            <li><strong>Performance Optimization:</strong>
+                <ul>
+                    <li>Minimize and compress CSS/JS files.</li>
+                    <li>Optimize images (WebP format, lazy loading).</li>
+                    <li>Use CDN for static assets.</li>
+                    <li>Reduce HTTP requests.</li>
+                </ul>
+            </li>
+            <li><strong>SEO Best Practices:</strong>
+                <ul>
+                    <li>Use meaningful title and meta description.</li>
+                    <li>Structure content with semantic HTML.</li>
+                    <li>Use heading tags hierarchically (h1 → h2 → h3).</li>
+                    <li>Use descriptive URLs and link text.</li>
+                </ul>
+            </li>
+            <li><strong>Code Quality:</strong>
+                <ul>
+                    <li>Consistent indentation and formatting.</li>
+                    <li>Use comments for complex sections.</li>
+                    <li>Follow naming conventions.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="code-block">
+            <span>&lt;!-- Optimized HTML5 Page --&gt;</span><br>
+            &lt;!DOCTYPE html&gt;<br>
+            &lt;html lang="en"&gt;<br>
+            &lt;head&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Optimized Page - Best Practices&lt;/title&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta name="description" content="A well-optimized HTML5 page following best practices"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel="preload" href="styles.min.css" as="style"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel="stylesheet" href="styles.min.css"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel="icon" href="favicon.ico" type="image/x-icon"&gt;<br>
+            &lt;/head&gt;<br>
+            &lt;body&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;header role="banner"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Optimized Page&lt;/h1&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/header&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;main role="main"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;article&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;Accessible and Optimized Content&lt;/h2&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- Image with alt text and lazy loading --&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src="image.webp" alt="Descriptive text for accessibility" width="800" height="400" loading="lazy"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;This content follows best practices for HTML, accessibility, and performance.&lt;/p&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/article&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/main&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;footer role="contentinfo"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;&amp;copy; 2025 Optimized Page&lt;/p&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/footer&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;script src="script.min.js" defer&gt;&lt;/script&gt;<br>
+            &lt;/body&gt;<br>
+            &lt;/html&gt;
+        </div>
+
+        <h3>Performance Checklist</h3>
+        <ul>
+            <li>✓ Use async/defer for scripts.</li>
+            <li>✓ Preload critical resources.</li>
+            <li>✓ Use image compression and modern formats.</li>
+            <li>✓ Minify CSS and JS.</li>
+            <li>✓ Enable browser caching.</li>
+            <li>✓ Use a CDN for static assets.</li>
+            <li>✓ Reduce DOM size and complexity.</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>⚡ Key insight:</strong> Following best practices ensures your HTML5 pages are fast, accessible, and maintainable. Regular auditing with tools like Lighthouse can help identify areas for improvement.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 3 summary</strong><br>HTML5 provides powerful APIs, enhanced forms, responsive design capabilities, semantic elements, and best practices for modern web development.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• HTML5 APIs: Canvas, Geolocation, Web Storage, Workers.<br>• Form enhancements: new input types, validation, datalist.<br>• Responsive design: viewport, media queries, flexible layouts.<br>• Semantic markup improves accessibility and SEO.<br>• Best practices ensure optimized, maintainable code.</div>
+    </div>
 </body>
 </html>

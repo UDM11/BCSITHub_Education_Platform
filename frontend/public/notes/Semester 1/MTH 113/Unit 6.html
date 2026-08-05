@@ -1,138 +1,508 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 6: Matrices and Determinants</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+        .math {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+        }
+        .matrix {
+            display: inline-block;
+            font-family: 'Courier New', monospace;
+            padding: 0.2rem 0.5rem;
+            border: 1px solid #1b3b5c;
+            border-radius: 4px;
+            background: #f9fbfe;
+        }
     </style>
 </head>
 <body>
-    <h1>Unit 6: Matrices and Determinants</h1>
 
+    <h1>Unit 6: Matrices and Determinants</h1>
+    <div class="subhead">Matrix types · operations · transpose · determinants · minors & cofactors · Cramer's rule</div>
+
+    <!-- ========== 6.1 ========== -->
     <div class="section">
         <h2>6.1 Introduction</h2>
-        <p>Matrices and determinants are fundamental tools in linear algebra, used to represent and solve systems of linear equations, transformations, and data in various fields.</p>
+        <p><strong>Matrices</strong> and <strong>determinants</strong> are fundamental tools in linear algebra, used to represent and solve systems of linear equations, transformations, and data in various fields.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📊 Matrices</strong><br>Rectangular arrays of numbers arranged in rows and columns. Denoted as [aᵢⱼ], where aᵢⱼ is the element in the i-th row and j-th column.</div>
+            <div class="card"><strong>🧮 Determinants</strong><br>Scalar values computed from square matrices. Used to analyze invertibility, solve linear systems, and compute areas/volumes.</div>
+        </div>
+
+        <h3>Basic Concepts</h3>
         <ul>
-            <li><strong>Matrices:</strong> Rectangular arrays of numbers arranged in rows and columns, denoted as [a_ij], where a_ij is the element in the i-th row and j-th column.</li>
-            <li><strong>Determinants:</strong> Scalar values computed from square matrices, used to analyze properties like invertibility and to solve linear systems.</li>
-            <li><strong>Applications:</strong> Widely used in computer science (e.g., graphics transformations), engineering (e.g., circuit analysis), and economics (e.g., input-output models).</li>
-            <li><strong>Notation:</strong> A matrix with m rows and n columns is an m×n matrix. For example, a 2×3 matrix has 2 rows and 3 columns.</li>
+            <li><strong>Dimensions:</strong> An m×n matrix has m rows and n columns.</li>
+            <li><strong>Elements:</strong> aᵢⱼ represents the element in row i, column j.</li>
+            <li><strong>Square Matrix:</strong> m = n (same number of rows and columns).</li>
+            <li><strong>Applications:</strong> Computer graphics (transformations), machine learning (data representation), economics (input-output models), engineering (circuit analysis).</li>
         </ul>
-        <p>Matrices and determinants provide a structured approach to handling complex mathematical relationships.</p>
+
+        <div class="figure-box">
+            <pre>
+Matrix A (2×3):
+┌         ┐
+│ 1  2  3 │
+│ 4  5  6 │
+└         ┘
+a₁₁ = 1, a₁₂ = 2, a₂₁ = 4, a₂₃ = 6
+            </pre>
+        </div>
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> Matrices provide a structured way to organize and manipulate data, making them essential in both theoretical and applied mathematics.
+        </div>
     </div>
 
+    <!-- ========== 6.2 ========== -->
     <div class="section">
         <h2>6.2 Types of Matrices</h2>
         <p>Different types of matrices are defined based on their structure and properties, each serving specific purposes in mathematical computations.</p>
+
+        <h3>Matrix Types</h3>
+        <table>
+            <tr><th>Type</th><th>Definition</th><th>Example</th></tr>
+            <tr><td>Row Matrix</td><td>1 row</td><td>[1 2 3]</td></tr>
+            <tr><td>Column Matrix</td><td>1 column</td><td>[1; 2; 3]</td></tr>
+            <tr><td>Square Matrix</td><td>m = n</td><td>[[1, 2], [3, 4]]</td></tr>
+            <tr><td>Diagonal Matrix</td><td>Non-zero only on main diagonal</td><td>[[2, 0], [0, 3]]</td></tr>
+            <tr><td>Identity Matrix</td><td>1 on diagonal, 0 elsewhere</td><td>[[1, 0], [0, 1]]</td></tr>
+            <tr><td>Zero Matrix</td><td>All elements are 0</td><td>[[0, 0], [0, 0]]</td></tr>
+            <tr><td>Symmetric Matrix</td><td>A = Aᵀ</td><td>[[1, 2], [2, 3]]</td></tr>
+            <tr><td>Skew-Symmetric</td><td>A = -Aᵀ</td><td>[[0, 2], [-2, 0]]</td></tr>
+            <tr><td>Upper Triangular</td><td>Zero below diagonal</td><td>[[1, 2], [0, 3]]</td></tr>
+            <tr><td>Lower Triangular</td><td>Zero above diagonal</td><td>[[1, 0], [2, 3]]</td></tr>
+        </table>
+
+        <h3>Special Matrices</h3>
         <ul>
-            <li><strong>Row and Column Matrices:</strong> A row matrix has one row (e.g., [1 2 3]), and a column matrix has one column (e.g., [1; 2; 3]). Used in vector representations.</li>
-            <li><strong>Square Matrix:</strong> Has equal rows and columns (e.g., 2×2 or 3×3). Determinants are defined for square matrices.</li>
-            <li><strong>Diagonal, Identity, and Zero Matrices:</strong> Diagonal matrices have non-zero elements only on the main diagonal (e.g., [2 0; 0 3]). The identity matrix has 1s on the diagonal and 0s elsewhere (e.g., [1 0; 0 1]). The zero matrix has all elements as 0.</li>
-            <li><strong>Symmetric and Skew-Symmetric Matrices:</strong> A symmetric matrix equals its transpose (A = A^T), while a skew-symmetric matrix satisfies A = -A^T.</li>
+            <li><strong>Identity Matrix I:</strong> Acts as the multiplicative identity (AI = IA = A).</li>
+            <li><strong>Diagonal Matrix:</strong> Often used for scaling transformations.</li>
+            <li><strong>Symmetric Matrix:</strong> Important in optimization and physics (e.g., stiffness matrices).</li>
         </ul>
-        <p>Understanding matrix types is crucial for selecting appropriate operations and applications.</p>
+
+        <div class="code-block">
+            <span>// Matrix type examples</span><br>
+            <span>// Identity Matrix (3×3)</span><br>
+            I = [[1, 0, 0],<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[0, 1, 0],<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[0, 0, 1]]<br><br>
+            <span>// Diagonal Matrix</span><br>
+            D = [[2, 0, 0],<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[0, 3, 0],<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[0, 0, 4]]
+        </div>
     </div>
 
+    <!-- ========== 6.3 ========== -->
     <div class="section">
         <h2>6.3 Matrix Operations</h2>
         <p>Matrix operations allow manipulation of matrices to solve equations, transform data, or model relationships in various disciplines.</p>
+
+        <h3>Basic Operations</h3>
         <ul>
-            <li><strong>Addition and Subtraction:</strong> For matrices A and B of the same size, (A + B)_ij = a_ij + b_ij; (A - B)_ij = a_ij - b_ij. Example: [1 2] + [3 4] = [4 6].</li>
-            <li><strong>Scalar Multiplication:</strong> Multiply each element by a scalar k: (kA)_ij = k·a_ij. Example: 2·[1 2] = [2 4].</li>
-            <li><strong>Matrix Multiplication:</strong> For an m×n matrix A and n×p matrix B, (AB)_ij = Σ(a_ik·b_kj). Example: [1 2] × [3; 4] = [1·3 + 2·4] = [11].</li>
-            <li><strong>Properties:</strong> Addition is commutative (A + B = B + A), but multiplication is not (AB ≠ BA in general). Associative and distributive laws apply where dimensions permit.</li>
+            <li><strong>Addition/Subtraction:</strong> Add corresponding elements. Matrices must have same dimensions.</li>
+            <li><strong>Scalar Multiplication:</strong> Multiply each element by a constant.</li>
+            <li><strong>Matrix Multiplication:</strong> Dot product of rows and columns. A (m×n) × B (n×p) → C (m×p).</li>
         </ul>
-        <p>Matrix operations enable complex computations in systems analysis and transformations.</p>
+
+        <div class="code-block">
+            <span>// Matrix Addition</span><br>
+            A = [[1, 2], [3, 4]]<br>
+            B = [[5, 6], [7, 8]]<br>
+            A + B = [[6, 8], [10, 12]]<br><br>
+            <span>// Scalar Multiplication</span><br>
+            2A = [[2, 4], [6, 8]]<br><br>
+            <span>// Matrix Multiplication</span><br>
+            A (2×2) × B (2×2)<br>
+            AB = [[1·5+2·7, 1·6+2·8],<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3·5+4·7, 3·6+4·8]]<br>
+            &nbsp;&nbsp;= [[19, 22], [43, 50]]
+        </div>
+
+        <h3>Properties</h3>
+        <ul>
+            <li><strong>Commutative:</strong> A + B = B + A (addition), but AB ≠ BA (multiplication).</li>
+            <li><strong>Associative:</strong> (A + B) + C = A + (B + C), (AB)C = A(BC).</li>
+            <li><strong>Distributive:</strong> A(B + C) = AB + AC.</li>
+        </ul>
     </div>
 
+    <!-- ========== 6.4 ========== -->
     <div class="section">
         <h2>6.4 Transpose of a Matrix, Determinant of a Matrix</h2>
-        <p>The transpose and determinant of a matrix provide insights into its structure and properties, essential for linear algebra applications.</p>
+        <p>The <strong>transpose</strong> and <strong>determinant</strong> of a matrix provide insights into its structure and properties, essential for linear algebra applications.</p>
+
+        <h3>Transpose</h3>
         <ul>
-            <li><strong>Transpose:</strong> The transpose of an m×n matrix A, denoted A^T, is an n×m matrix where (A^T)_ij = a_ji. Example: For A = [1 2; 3 4], A^T = [1 3; 2 4].</li>
-            <li><strong>Determinant:</strong> A scalar value for a square matrix. For a 2×2 matrix [a b; c d], det(A) = ad - bc. For a 3×3 matrix, use expansion by minors (see 6.5).</li>
-            <li><strong>Properties of Transpose:</strong> (A^T)^T = A; (A + B)^T = A^T + B^T; (AB)^T = B^T·A^T. Transposes are used in symmetric matrices and data analysis.</li>
-            <li><strong>Applications:</strong> Determinants indicate invertibility (det(A) ≠ 0 implies A is invertible); transposes are used in machine learning and graphics.</li>
+            <li><strong>Definition:</strong> (Aᵀ)ᵢⱼ = aⱼᵢ. Swap rows and columns.</li>
+            <li><strong>Properties:</strong>
+                <ul>
+                    <li>(Aᵀ)ᵀ = A</li>
+                    <li>(A + B)ᵀ = Aᵀ + Bᵀ</li>
+                    <li>(AB)ᵀ = Bᵀ Aᵀ</li>
+                </ul>
+            </li>
         </ul>
-        <p>These concepts are fundamental for analyzing matrix properties and solving equations.</p>
+
+        <h3>Determinant</h3>
+        <ul>
+            <li><strong>2×2 Determinant:</strong> det(A) = ad - bc for [[a, b], [c, d]].</li>
+            <li><strong>3×3 Determinant:</strong> Use expansion by minors (see 6.5).</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Transpose example</span><br>
+            A = [[1, 2, 3], [4, 5, 6]]<br>
+            Aᵀ = [[1, 4], [2, 5], [3, 6]]<br><br>
+            <span>// 2×2 determinant</span><br>
+            A = [[2, 3], [4, 5]]<br>
+            det(A) = 2·5 - 3·4 = 10 - 12 = -2
+        </div>
     </div>
 
+    <!-- ========== 6.5 ========== -->
     <div class="section">
         <h2>6.5 Minors and Cofactors of the Matrix</h2>
-        <p>Minors and cofactors are used to compute determinants of larger matrices and analyze their properties.</p>
+        <p><strong>Minors</strong> and <strong>cofactors</strong> are used to compute determinants of larger matrices and analyze their properties.</p>
+
+        <h3>Definitions</h3>
         <ul>
-            <li><strong>Minor:</strong> The minor M_ij of element a_ij in a square matrix is the determinant of the submatrix formed by deleting row i and column j. Example: For [1 2 3; 4 5 6; 7 8 9], M_11 is det([5 6; 8 9]) = 5·9 - 6·8 = -3.</li>
-            <li><strong>Cofactor:</strong> The cofactor C_ij = (-1)^(i+j)·M_ij. Example: For the same matrix, C_11 = (-1)^(1+1)·(-3) = -3; C_12 = (-1)^(1+2)·det([4 6; 7 9]) = -(-3) = 3.</li>
-            <li><strong>Determinant Calculation:</strong> For a 3×3 matrix, det(A) = a_11·C_11 + a_12·C_12 + a_13·C_13 (expansion along first row). Example: det([1 2 3; 4 5 6; 7 8 9]) = 1·(-3) + 2·3 + 3·(-3) = 0.</li>
-            <li><strong>Applications:</strong> Cofactors are used in finding matrix inverses and solving systems of equations in engineering and computer science.</li>
+            <li><strong>Minor Mᵢⱼ:</strong> Determinant of the submatrix obtained by deleting row i and column j.</li>
+            <li><strong>Cofactor Cᵢⱼ:</strong> Cᵢⱼ = (-1)ⁱ⁺ʲ · Mᵢⱼ</li>
+            <li><strong>Determinant Expansion:</strong> det(A) = Σ aᵢⱼ · Cᵢⱼ along any row or column.</li>
         </ul>
-        <p>Minors and cofactors simplify determinant calculations for larger matrices.</p>
+
+        <div class="code-block">
+            <span>// Minor and Cofactor example</span><br>
+            A = [[1, 2, 3],<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[4, 5, 6],<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[7, 8, 9]]<br><br>
+            M₁₁ = det([[5, 6], [8, 9]]) = 5·9 - 6·8 = 45 - 48 = -3<br>
+            C₁₁ = (-1)¹⁺¹ · (-3) = -3<br><br>
+            <span>// Determinant via cofactor expansion (first row)</span><br>
+            det(A) = 1·C₁₁ + 2·C₁₂ + 3·C₁₃<br>
+            C₁₂ = (-1)¹⁺² · det([[4, 6], [7, 9]]) = - (36 - 42) = 6<br>
+            C₁₃ = (-1)¹⁺³ · det([[4, 5], [7, 8]]) = (32 - 35) = -3<br>
+            det(A) = 1·(-3) + 2·6 + 3·(-3) = -3 + 12 - 9 = 0
+        </div>
     </div>
 
+    <!-- ========== 6.6 ========== -->
     <div class="section">
         <h2>6.6 Properties of Determinants (Singular and Non-Singular Matrix)</h2>
-        <p>Properties of determinants reveal key characteristics of matrices, distinguishing singular and non-singular matrices.</p>
+        <p>Properties of determinants reveal key characteristics of matrices, distinguishing <strong>singular</strong> and <strong>non-singular</strong> matrices.</p>
+
+        <h3>Properties of Determinants</h3>
         <ul>
-            <li><strong>Properties:</strong> (1) det(A^T) = det(A); (2) If two rows (or columns) are swapped, det(A) changes sign; (3) If a row is multiplied by k, det(A) is multiplied by k; (4) det(AB) = det(A)·det(B).</li>
-            <li><strong>Singular Matrix:</strong> A square matrix with det(A) = 0, indicating it is not invertible and its rows/columns are linearly dependent. Example: [1 2; 2 4] has det = 1·4 - 2·2 = 0.</li>
-            <li><strong>Non-Singular Matrix:</strong> A matrix with det(A) ≠ 0, indicating it is invertible and has linearly independent rows/columns. Example: [1 2; 3 4] has det = 1·4 - 2·3 = -2.</li>
-            <li><strong>Applications:</strong> Determinants test invertibility in solving linear systems and analyze transformations in graphics or data science.</li>
+            <li><strong>Property 1:</strong> det(Aᵀ) = det(A)</li>
+            <li><strong>Property 2:</strong> If two rows (or columns) are swapped, det(A) changes sign.</li>
+            <li><strong>Property 3:</strong> If a row is multiplied by k, det(A) is multiplied by k.</li>
+            <li><strong>Property 4:</strong> If a row is a linear combination of others, det(A) = 0.</li>
+            <li><strong>Property 5:</strong> det(AB) = det(A) · det(B)</li>
+            <li><strong>Property 6:</strong> det(I) = 1</li>
+            <li><strong>Property 7:</strong> det(cA) = cⁿ · det(A) for n×n matrix.</li>
         </ul>
-        <p>These properties streamline computations and inform matrix behavior in applications.</p>
+
+        <h3>Singular vs Non-Singular</h3>
+        <table>
+            <tr><th>Type</th><th>det(A)</th><th>Invertible</th><th>Example</th></tr>
+            <tr><td>Singular</td><td>det(A) = 0</td><td>No</td><td>[[1, 2], [2, 4]] → det = 4 - 4 = 0</td></tr>
+            <tr><td>Non-Singular</td><td>det(A) ≠ 0</td><td>Yes</td><td>[[1, 2], [3, 4]] → det = 4 - 6 = -2</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Singular matrix example</span><br>
+            A = [[1, 2], [2, 4]]<br>
+            det(A) = 1·4 - 2·2 = 0 → Singular, not invertible<br><br>
+            <span>// Non-singular matrix example</span><br>
+            B = [[1, 2], [3, 4]]<br>
+            det(B) = 1·4 - 2·3 = -2 → Non-singular, invertible
+        </div>
     </div>
 
+    <!-- ========== 6.7 ========== -->
     <div class="section">
         <h2>6.7 Solution of Linear Equations (Cramer's Rule for 2-3 Variables)</h2>
-        <p>Cramer’s rule uses determinants to solve systems of linear equations with a unique solution, efficient for small systems.</p>
+        <p><strong>Cramer's rule</strong> uses determinants to solve systems of linear equations with a unique solution, efficient for small systems.</p>
+
+        <h3>Cramer's Rule for 2 Variables</h3>
         <ul>
-            <li><strong>Cramer’s Rule (2 Variables):</strong> For ax + by = e, cx + dy = f, let D = det([a b; c d]). Then x = det([e b; f d])/D, y = det([a e; c f])/D, provided D ≠ 0. Example: 2x + y = 5, x + 3y = 4 gives D = 2·3 - 1·1 = 5, x = (5·3 - 4·1)/5 = 11/5, y = (2·4 - 1·5)/5 = 3/5.</li>
-            <li><strong>Cramer’s Rule (3 Variables):</strong> For a system with coefficient matrix A and constants b, x_i = det(A_i)/det(A), where A_i replaces the i-th column of A with b. Example: For a 3×3 system, compute determinants of four matrices (D, D_x, D_y, D_z).</li>
-            <li><strong>Limitations:</strong> Requires det(A) ≠ 0 (non-singular matrix) and is computationally intensive for large systems compared to Gaussian elimination.</li>
-            <li><strong>Applications:</strong> Used in engineering (e.g., circuit analysis) and economics (e.g., equilibrium models) for small-scale linear systems.</li>
+            <li>For system: ax + by = e, cx + dy = f</li>
+            <li>D = det([[a, b], [c, d]]) = ad - bc</li>
+            <li>Dₓ = det([[e, b], [f, d]]) = ed - bf</li>
+            <li>Dᵧ = det([[a, e], [c, f]]) = af - ec</li>
+            <li>x = Dₓ / D, y = Dᵧ / D (if D ≠ 0)</li>
         </ul>
-        <p>Cramer’s rule provides a determinant-based method for solving linear equations efficiently.</p>
+
+        <h3>Cramer's Rule for 3 Variables</h3>
+        <ul>
+            <li>For system: a₁x + b₁y + c₁z = d₁, a₂x + b₂y + c₂z = d₂, a₃x + b₃y + c₃z = d₃</li>
+            <li>Compute D, Dₓ, Dᵧ, D₂</li>
+            <li>x = Dₓ/D, y = Dᵧ/D, z = D₂/D (if D ≠ 0)</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Cramer's Rule Example (2 variables)</span><br>
+            <span>// 2x + y = 5</span><br>
+            <span>// x + 3y = 4</span><br><br>
+            A = [[2, 1], [1, 3]]<br>
+            D = 2·3 - 1·1 = 5<br>
+            Dₓ = [[5, 1], [4, 3]] = 5·3 - 1·4 = 15 - 4 = 11<br>
+            Dᵧ = [[2, 5], [1, 4]] = 2·4 - 5·1 = 8 - 5 = 3<br>
+            x = 11/5, y = 3/5<br><br>
+            <span>// Cramer's Rule Example (3 variables)</span><br>
+            <span>// x + y + z = 6</span><br>
+            <span>// 2x - y + z = 4</span><br>
+            <span>// -x + 2y + z = 5</span><br><br>
+            <span>// Compute D, Dₓ, Dᵧ, D₂ using determinants</span>
+        </div>
+
+        <h3>Limitations</h3>
+        <ul>
+            <li>Requires D ≠ 0 (non-singular matrix).</li>
+            <li>Computationally intensive for n > 3 (O(n!) complexity).</li>
+            <li>For larger systems, Gaussian elimination is preferred.</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>📐 Key insight:</strong> Cramer's rule provides an elegant determinant-based solution for small linear systems. It is particularly useful for 2×2 and 3×3 systems in engineering and economics applications.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 6 summary</strong><br>Matrices and determinants are fundamental for linear algebra, enabling operations, transformations, and solving systems of equations.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Matrix types: row, column, square, diagonal, identity, symmetric.<br>• Operations: addition, scalar multiplication, multiplication.<br>• Transpose: swap rows and columns.<br>• Determinant: scalar for square matrices (2×2: ad-bc).<br>• Minors and cofactors: for computing determinants.<br>• Singular: det=0, non-singular: det≠0.<br>• Cramer's rule: solves 2-3 variable systems using determinants.</div>
     </div>
 </body>
 </html>

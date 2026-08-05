@@ -1,102 +1,487 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 7: Writing Skills</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1>Unit 7: Writing Skills</h1>
 
+    <h1>Unit 7: Writing Skills</h1>
+    <div class="subhead">Grammar & vocabulary · sentence structure · academic papers · technical documents · business reports · emails & memos</div>
+
+    <!-- ========== 7.1 ========== -->
     <div class="section">
         <h2>7.1 Grammar and Vocabulary</h2>
-        <p>Effective writing relies on strong grammar and a robust vocabulary to ensure clarity, precision, and professionalism, particularly in academic and IT contexts.</p>
+        <p>Effective writing relies on strong <strong>grammar</strong> and a robust <strong>vocabulary</strong> to ensure clarity, precision, and professionalism, particularly in academic and IT contexts.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📚 Grammar Fundamentals</strong><br>Correct sentence structure, punctuation, and agreement (e.g., subject-verb agreement) are essential for clear communication and avoiding misinterpretation.</div>
+            <div class="card"><strong>📖 Vocabulary Choice</strong><br>Select precise, context-appropriate words (e.g., "optimize" instead of "improve" in technical writing) to enhance clarity and credibility.</div>
+            <div class="card"><strong>⚠️ Common Errors</strong><br>Watch for misplaced modifiers, incorrect pronoun use, and run-on sentences, especially in technical documents.</div>
+            <div class="card"><strong>📈 Building Vocabulary</strong><br>Read widely, use glossaries for technical terms, and practice incorporating new words to improve expression and adaptability in writing.</div>
+        </div>
+
+        <h3>Common Grammar Mistakes in Technical Writing</h3>
+        <table>
+            <tr><th>Error</th><th>Incorrect</th><th>Correct</th></tr>
+            <tr><td>Subject-Verb Agreement</td><td>"The list of features are extensive."</td><td>"The list of features is extensive."</td></tr>
+            <tr><td>Misplaced Modifier</td><td>"The system crashed using the new update."</td><td>"Using the new update, the system crashed."</td></tr>
+            <tr><td>Pronoun Agreement</td><td>"Every developer must submit their code."</td><td>"Every developer must submit his or her code."</td></tr>
+            <tr><td>Passive Voice Overuse</td><td>"The data was analyzed by the team."</td><td>"The team analyzed the data."</td></tr>
+            <tr><td>Comma Splice</td><td>"The system is fast, it is reliable."</td><td>"The system is fast and reliable."</td></tr>
+        </table>
+
+        <h3>Technical Vocabulary for IT Professionals</h3>
         <ul>
-            <li><strong>Grammar Fundamentals:</strong> Use correct sentence structure, punctuation, and agreement (e.g., subject-verb agreement) to convey ideas clearly and avoid misinterpretation.</li>
-            <li><strong>Vocabulary Choice:</strong> Select precise, context-appropriate words (e.g., “optimize” instead of “improve” in technical writing) to enhance clarity and credibility.</li>
-            <li><strong>Avoiding Common Errors:</strong> Watch for issues like misplaced modifiers or incorrect pronoun use, which can confuse readers, especially in technical documents.</li>
-            <li><strong>Building Vocabulary:</strong> Read widely, use glossaries for technical terms, and practice incorporating new words to improve expression and adaptability in writing.</li>
+            <li><strong>Architecture:</strong> monolithic, microservices, serverless, event-driven, layered</li>
+            <li><strong>Development:</strong> agile, CI/CD, containerization, orchestration, deployment</li>
+            <li><strong>Data:</strong> structured, unstructured, SQL, NoSQL, ETL, pipeline</li>
+            <li><strong>Security:</strong> encryption, authentication, authorization, firewall, penetration testing</li>
+            <li><strong>Performance:</strong> latency, throughput, scalability, load balancing, caching</li>
         </ul>
-        <p>Mastering grammar and vocabulary ensures polished, effective communication in professional settings.</p>
+
+        <div class="code-block">
+            <span>// Example: Precise vs. Vague Language</span><br><br>
+            <span>// Vague:</span><br>
+            <span>// "The system works better now."</span><br><br>
+            <span>// Precise:</span><br>
+            <span>// "The new architecture reduced average response time from 450ms to 120ms."</span><br><br>
+            <span>// Vague:</span><br>
+            <span>// "We need to improve the code."</span><br><br>
+            <span>// Precise:</span><br>
+            <span>// "We need to refactor the authentication module to reduce technical debt."</span>
+        </div>
+
+        <div class="note-box">
+            <strong>✍️ Key insight:</strong> Precision in grammar and vocabulary enhances credibility and reduces ambiguity in technical and professional writing. Regular practice and review are essential for improvement.
+        </div>
     </div>
 
+    <!-- ========== 7.2 ========== -->
     <div class="section">
         <h2>7.2 Sentence Structure in Written English; Writing Papers; Writing Technical Documents</h2>
-        <p>Well-crafted sentence structure is essential for writing clear academic papers and technical documents, ensuring ideas are presented logically and professionally.</p>
+        <p>Well-crafted <strong>sentence structure</strong> is essential for writing clear academic papers and technical documents, ensuring ideas are presented logically and professionally.</p>
+
+        <h3>Sentence Types</h3>
         <ul>
-            <li><strong>Sentence Structure:</strong> Vary sentence types (simple, compound, complex) to maintain reader interest and clarity (e.g., “The system crashed; however, the team implemented a backup solution”).</li>
-            <li><strong>Writing Papers:</strong> Academic papers require clear thesis statements, logical paragraph organization, and evidence-based arguments, using formal language and consistent structure.</li>
-            <li><strong>Technical Documents:</strong> Focus on precision and conciseness in documents like user manuals or system specifications, using headings, bullet points, and diagrams for accessibility.</li>
-            <li><strong>Coherence and Flow:</strong> Use transitions and parallel structure to connect ideas, ensuring smooth progression in both academic and technical writing.</li>
+            <li><strong>Simple Sentence:</strong> One independent clause.
+                <div class="code-block">
+                    <span>// "The system crashed."</span>
+                </div>
+            </li>
+            <li><strong>Compound Sentence:</strong> Two independent clauses joined by a conjunction.
+                <div class="code-block">
+                    <span>// "The system crashed, and the team implemented a backup."</span>
+                </div>
+            </li>
+            <li><strong>Complex Sentence:</strong> One independent clause and one dependent clause.
+                <div class="code-block">
+                    <span>// "Although the system crashed, the team quickly restored service."</span>
+                </div>
+            </li>
+            <li><strong>Compound-Complex Sentence:</strong> Multiple independent and dependent clauses.
+                <div class="code-block">
+                    <span>// "The system crashed, but the team restored service because they had prepared a backup."</span>
+                </div>
+            </li>
         </ul>
-        <p>Effective sentence structure enhances readability and conveys complex ideas clearly in papers and technical documents.</p>
+
+        <h3>Writing Academic Papers</h3>
+        <ul>
+            <li><strong>Thesis Statement:</strong> Clear, concise statement of the paper's main argument.</li>
+            <li><strong>Paragraph Structure:</strong> Topic sentence, supporting evidence, analysis, concluding sentence.</li>
+            <li><strong>Transitions:</strong> Guide readers through the argument (e.g., "Furthermore," "However," "In contrast").</li>
+            <li><strong>Formal Tone:</strong> Avoid contractions, slang, and conversational language.</li>
+            <li><strong>Evidence-Based:</strong> Support claims with citations and references.</li>
+        </ul>
+
+        <h3>Writing Technical Documents</h3>
+        <ul>
+            <li><strong>Clarity:</strong> Use precise language and define technical terms.</li>
+            <li><strong>Structure:</strong> Use headings, subheadings, and numbered lists.</li>
+            <li><strong>Visual Aids:</strong> Include diagrams, code snippets, and flowcharts.</li>
+            <li><strong>Conciseness:</strong> Eliminate unnecessary words and redundancy.</li>
+            <li><strong>Audience Awareness:</strong> Tailor content to the reader's expertise level.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Example: Technical Document Structure</span><br><br>
+            <span>// 1. Introduction</span><br>
+            <span>//    - Purpose of the document</span><br>
+            <span>//    - Scope and audience</span><br>
+            <span>//    - Overview of the system</span><br><br>
+            <span>// 2. System Architecture</span><br>
+            <span>//    - High-level components</span><br>
+            <span>//    - Data flow diagrams</span><br>
+            <span>//    - Technology stack</span><br><br>
+            <span>// 3. Implementation Details</span><br>
+            <span>//    - Code snippets (with comments)</span><br>
+            <span>//    - Configuration parameters</span><br>
+            <span>//    - Database schema</span><br><br>
+            <span>// 4. Testing and Validation</span><br>
+            <span>//    - Test cases and results</span><br>
+            <span>//    - Performance metrics</span><br><br>
+            <span>// 5. Deployment and Maintenance</span><br>
+            <span>//    - Deployment procedure</span><br>
+            <span>//    - Monitoring and logging</span>
+        </div>
     </div>
 
+    <!-- ========== 7.3 ========== -->
     <div class="section">
         <h2>7.3 Business Report Writing</h2>
-        <p>Business report writing communicates critical information, findings, or recommendations to stakeholders, requiring clarity, structure, and a professional tone, especially in IT contexts.</p>
+        <p><strong>Business report writing</strong> communicates critical information, findings, or recommendations to stakeholders, requiring clarity, structure, and a professional tone, especially in IT contexts.</p>
+
+        <h3>Structure of a Business Report</h3>
         <ul>
-            <li><strong>Structure:</strong> Include sections like an executive summary, introduction, methodology, findings, and recommendations, tailored to the audience’s needs (e.g., managers or clients).</li>
-            <li><strong>Clarity and Conciseness:</strong> Present data or technical details (e.g., system performance metrics) clearly, using tables or graphs to support findings without overwhelming detail.</li>
-            <li><strong>Objective Tone:</strong> Maintain neutrality, focusing on facts and actionable insights, avoiding personal opinions unless explicitly required.</li>
-            <li><strong>Action-Oriented Recommendations:</strong> Conclude with specific, practical suggestions (e.g., “Upgrade server capacity to improve latency”), ensuring relevance to business goals.</li>
+            <li><strong>Executive Summary:</strong> Brief overview of the report's purpose, findings, and recommendations.</li>
+            <li><strong>Introduction:</strong> Background, objectives, and scope of the report.</li>
+            <li><strong>Methodology:</strong> How data was collected or analyzed.</li>
+            <li><strong>Findings:</strong> Presentation of data, analysis, and results.</li>
+            <li><strong>Recommendations:</strong> Actionable suggestions based on the findings.</li>
+            <li><strong>Conclusion:</strong> Summary of key points and final thoughts.</li>
+            <li><strong>Appendices:</strong> Supporting data, charts, or technical details.</li>
         </ul>
-        <p>Well-written business reports drive informed decision-making and enhance professional credibility.</p>
+
+        <div class="code-block">
+            <span>// Example: Business Report for IT Project</span><br><br>
+            <span>// Executive Summary</span><br>
+            <span>// This report evaluates the feasibility of migrating the company's</span><br>
+            <span>// infrastructure to the cloud. Key findings indicate a 40% cost</span><br>
+            <span>// reduction and improved scalability. Recommendations include</span><br>
+            <span>// adopting a hybrid cloud approach with phased migration.</span><br><br>
+            <span>// Introduction</span><br>
+            <span>// The company's current on-premise infrastructure has reached</span><br>
+            <span>// capacity limits, leading to performance issues and high</span><br>
+            <span>// maintenance costs. This report examines cloud migration</span><br>
+            <span>// as a potential solution.</span><br><br>
+            <span>// Findings</span><br>
+            <span>// - 40% reduction in operational costs</span><br>
+            <span>// - Scalable infrastructure for future growth</span><br>
+            <span>// - Improved disaster recovery capabilities</span><br>
+            <span>// - Security compliance with industry standards</span><br><br>
+            <span>// Recommendations</span><br>
+            <span>// 1. Implement hybrid cloud architecture</span><br>
+            <span>// 2. Phased migration over 12 months</span><br>
+            <span>// 3. Train IT staff on cloud technologies</span>
+        </div>
+
+        <h3>Business Report Writing Tips</h3>
+        <ul>
+            <li><strong>Know Your Audience:</strong> Tailor language and detail to executives, managers, or technical teams.</li>
+            <li><strong>Be Objective:</strong> Present facts and data without personal bias.</li>
+            <li><strong>Use Visuals:</strong> Charts, graphs, and tables make data more accessible.</li>
+            <li><strong>Be Action-Oriented:</strong> Provide clear, actionable recommendations.</li>
+            <li><strong>Keep It Concise:</strong> Avoid unnecessary details and jargon.</li>
+        </ul>
     </div>
 
+    <!-- ========== 7.4 ========== -->
     <div class="section">
         <h2>7.4 Email and Memo Writing</h2>
-        <p>Email and memo writing are essential for concise, professional communication in workplace settings, particularly for IT professionals coordinating tasks or sharing updates.</p>
+        <p><strong>Email</strong> and <strong>memo writing</strong> are essential for concise, professional communication in workplace settings, particularly for IT professionals coordinating tasks or sharing updates.</p>
+
+        <h3>Email Writing</h3>
         <ul>
-            <li><strong>Email Structure:</strong> Use a clear subject line, formal greeting, concise body, and professional closing. Tailor tone to the recipient (e.g., formal for clients, semi-formal for colleagues).</li>
-            <li><strong>Memo Format:</strong> Include headings like “To,” “From,” “Date,” and “Subject,” followed by a brief, focused message outlining purpose, details, and any required actions.</li>
-            <li><strong>Clarity and Brevity:</strong> State the purpose early, use bullet points for key information (e.g., project updates), and avoid unnecessary details to respect the reader’s time.</li>
-            <li><strong>Professional Tone:</strong> Maintain politeness and clarity, proofreading for errors to ensure professionalism, especially in technical communications like bug reports or meeting summaries.</li>
+            <li><strong>Subject Line:</strong> Clear and specific (e.g., "Project Update: System Migration").</li>
+            <li><strong>Salutation:</strong> "Dear [Name]," or "Hi [Name]," depending on formality.</li>
+            <li><strong>Opening:</strong> State the purpose in the first sentence.</li>
+            <li><strong>Body:</strong> Concise, well-organized, use bullet points for lists.</li>
+            <li><strong>Closing:</strong> "Best regards," "Sincerely," or "Thanks."</li>
+            <li><strong>Signature:</strong> Include name, title, and contact information.</li>
         </ul>
-        <p>Effective email and memo writing fosters clear, efficient communication in professional environments.</p>
+
+        <div class="code-block">
+            <span>// Example: Professional Email</span><br><br>
+            <span>Subject: Request for Review: System Architecture Document</span><br><br>
+            <span>Dear Team,</span><br><br>
+            <span>I have attached the draft of the System Architecture Document for</span><br>
+            <span>the new microservices project. Please review it and provide your</span><br>
+            <span>feedback by Friday, January 20.</span><br><br>
+            <span>Key sections to review:</span><br>
+            <span>• Service boundaries and dependencies</span><br>
+            <span>• Data flow diagrams</span><br>
+            <span>• Deployment strategy</span><br><br>
+            <span>Let me know if you have any questions.</span><br><br>
+            <span>Best regards,</span><br>
+            <span>John Doe</span><br>
+            <span>Lead Architect</span><br>
+            <span>john.doe@example.com</span>
+        </div>
+
+        <h3>Memo Writing</h3>
+        <ul>
+            <li><strong>Header:</strong> To, From, Date, Subject.</li>
+            <li><strong>Opening:</strong> State the purpose clearly.</li>
+            <li><strong>Body:</strong> Provide details, background, and action items.</li>
+            <li><strong>Closing:</strong> Summarize next steps or thank the reader.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Example: Memo</span><br><br>
+            <span>MEMORANDUM</span><br><br>
+            <span>TO: IT Department</span><br>
+            <span>FROM: John Doe, Lead Architect</span><br>
+            <span>DATE: January 10, 2025</span><br>
+            <span>SUBJECT: System Maintenance Schedule</span><br><br>
+            <span>This memo outlines the upcoming system maintenance schedule</span><br>
+            <span>for the production environment. The maintenance is scheduled</span><br>
+            <span>for January 20, 2025, from 10:00 PM to 2:00 AM.</span><br><br>
+            <span>Action items:</span><br>
+            <span>1. All team members must complete backups by January 19.</span><br>
+            <span>2. Deployment lead to coordinate with QA team.</span><br>
+            <span>3. Post-maintenance verification to be completed by 8:00 AM.</span><br><br>
+            <span>Please contact me with any questions.</span>
+        </div>
+
+        <h3>Email vs. Memo</h3>
+        <table>
+            <tr><th>Feature</th><th>Email</th><th>Memo</th></tr>
+            <tr><td>Format</td><td>Electronic, informal</td><td>Printed or digital, formal</td></tr>
+            <tr><td>Audience</td><td>External or internal</td><td>Internal (organization)</td></tr>
+            <tr><td>Purpose</td><td>Quick communication, requests</td><td>Announcements, policies</td></tr>
+            <tr><td>Structure</td><td>Subject, salutation, body, closing</td><td>To, From, Date, Subject</td></tr>
+            <tr><td>Tone</td><td>Varies (formal to informal)</td><td>Formal</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>📧 Key insight:</strong> Professional emails and memos are essential tools for workplace communication. Clear, concise, and well-structured messages save time, reduce misunderstandings, and enhance professional reputation.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 7 summary</strong><br>Writing skills include grammar and vocabulary, sentence structure, academic and technical writing, business reports, and professional emails and memos.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Grammar and vocabulary: precision and clarity.<br>• Sentence structure: vary sentence types for readability.<br>• Academic papers: thesis, evidence, formal tone.<br>• Technical documents: structure, clarity, visuals.<br>• Business reports: executive summary, findings, recommendations.<br>• Emails and memos: professional, concise, clear.</div>
     </div>
 </body>
 </html>

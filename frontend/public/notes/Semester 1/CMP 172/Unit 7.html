@@ -1,343 +1,827 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unit 7: Functions</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-      font-weight: bold;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 7: Functions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Unit 7: Functions</h1>
+    <h1>Unit 7: Functions</h1>
+    <div class="subhead">Function concepts · types · prototypes · arguments · recursion · storage classes · scope</div>
 
-  <div class="section">
-    <h2>7.1 Introduction to Functions</h2>
-    <p>Functions are self-contained blocks of code designed to perform specific tasks, promoting modularity and reusability in programs.</p>
-    <ul>
-      <li><strong>Purpose:</strong> Break complex problems into smaller, manageable units.</li>
-      <li><strong>Benefits:</strong> Code reusability, easier debugging, and improved readability.</li>
-      <li><strong>Example:</strong> A function to calculate the square of a number.</li>
-    </ul>
-  </div>
+    <!-- ========== 7.1 ========== -->
+    <div class="section">
+        <h2>7.1 Introduction to Functions</h2>
+        <p><strong>Functions</strong> are self-contained blocks of code designed to perform specific tasks. They promote modularity, reusability, and maintainability in programs. Functions allow programmers to break complex problems into smaller, manageable units.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🎯 Purpose</strong><br>Break complex problems into smaller units, promote code reuse, and improve readability and maintainability.</div>
+            <div class="card"><strong>📋 Benefits</strong><br>Code reusability, easier debugging, reduced redundancy, improved organization, and modular design.</div>
+        </div>
 
-  <div class="section">
-    <h2>7.2 Types of Functions</h2>
-    <p>Functions in C are classified into two types: library functions and user-defined functions.</p>
-
-    <h2>7.2.1 Library Functions</h2>
-    <p>Library functions are pre-defined in C standard libraries, accessible via header files.</p>
-    <ul>
-      <li><strong>Examples:</strong> printf() (stdio.h), sqrt() (math.h), strlen() (string.h).</li>
-      <li><strong>Usage:</strong> Include the appropriate header file and call the function.
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;math.h&gt;
-int main() {
-    printf("Square root of 16: %.2f\n", sqrt(16));
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
-
-    <h2>7.2.2 User-Defined Functions</h2>
-    <p>User-defined functions are created by programmers to perform specific tasks.</p>
-    <ul>
-      <li><strong>Advantages:</strong> Tailored to specific needs, enhances code organization.</li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int square(int n) {
-    return n * n;
-}
-int main() {
-    printf("Square of 5: %d\n", square(5));
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>7.3 Components of Functions</h2>
-    <p>A function consists of three main components: prototype, call, and definition.</p>
-
-    <h2>7.3.1 Function Prototype</h2>
-    <p>A function prototype declares the function’s return type, name, and parameters before its use.</p>
-    <ul>
-      <li><strong>Syntax:</strong> return_type function_name(parameter_list);</li>
-      <li><strong>Example:</strong>
-        <pre>
-int add(int, int); // Prototype
-        </pre>
-      </li>
-      <li><strong>Purpose:</strong> Informs the compiler about the function’s signature.</li>
-    </ul>
-
-    <h2>7.3.2 Function Call</h2>
-    <p>A function call invokes the function, passing arguments if required.</p>
-    <ul>
-      <li><strong>Syntax:</strong> function_name(arguments);</li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int add(int, int);
-int main() {
-    int sum = add(3, 4); // Function call
-    printf("Sum: %d\n", sum);
-    return 0;
-}
-int add(int a, int b) {
-    return a + b;
-}
-        </pre>
-      </li>
-    </ul>
-
-    <h2>7.3.3 Function Definition</h2>
-    <p>The function definition contains the actual code to be executed.</p>
-    <ul>
-      <li><strong>Syntax:</strong>
-        <pre>
-return_type function_name(parameter_list) {
-    // Code block
-    return value; // If return_type is not void
-}
-        </pre>
-      </li>
-      <li><strong>Example:</strong> See the add() function in the above example.</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>7.4 Function Arguments and Return Types</h2>
-    <p>Functions can accept arguments and return values to communicate with the caller.</p>
-    <ul>
-      <li><strong>Arguments:</strong>
+        <h3>Why Use Functions?</h3>
         <ul>
-          <li><strong>Pass by Value:</strong> Copies of arguments are passed; changes do not affect original variables.</li>
-          <li><strong>Pass by Reference:</strong> Uses pointers to modify original variables.</li>
+            <li><strong>Modularity:</strong> Divide large programs into smaller, manageable pieces.</li>
+            <li><strong>Reusability:</strong> Write once, use multiple times.</li>
+            <li><strong>Maintainability:</strong> Easier to debug and update.</li>
+            <li><strong>Abstraction:</strong> Hide implementation details from the user.</li>
         </ul>
-      </li>
-      <li><strong>Return Types:</strong> void (no return), int, float, etc.
-        <pre>
-#include &lt;stdio.h&gt;
-void swap(int *a, int *b) { // Pass by reference
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
-int main() {
-    int x = 5, y = 10;
-    swap(&x, &y);
-    printf("x: %d, y: %d\n", x, y); // x: 10, y: 5
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
-  </div>
 
-  <div class="section">
-    <h2>7.5 Passing Arrays to Function</h2>
-    <p>Arrays are passed to functions by reference, allowing modifications to the original array.</p>
-    <ul>
-      <li><strong>Syntax:</strong> Use array name or pointer in parameter.
-        <pre>
-#include &lt;stdio.h&gt;
-void printArray(int arr[], int size) {
-    for (int i = 0; i < size; i++) {
-        printf("%d ", arr[i]);
-    }
-}
-int main() {
-    int arr[] = {1, 2, 3, 4, 5};
-    printArray(arr, 5);
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Note:</strong> Array size is often passed as a separate parameter since arrays decay to pointers.</li>
-    </ul>
-  </div>
+        <div class="code-block">
+            <span>// Example: Function to calculate square</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int square(int num) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return num * num;<br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int result = square(5);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Square of 5: %d\n", result);  <span>// 25</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> Functions are the building blocks of structured programming. Mastering functions is essential for writing professional C programs.
+        </div>
+    </div>
 
-  <div class="section">
-    <h2>7.6 Passing Strings to Function</h2>
-    <p>Strings (character arrays) are passed similarly to arrays, as pointers to the first character.</p>
-    <ul>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-void printString(char str[]) {
-    printf("String: %s\n", str);
-}
-int main() {
-    char str[] = "Hello";
-    printString(str);
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Note:</strong> Strings must be null-terminated (\0).</li>
-    </ul>
-  </div>
+    <!-- ========== 7.2 ========== -->
+    <div class="section">
+        <h2>7.2 Types of Functions</h2>
+        <p>Functions in C are classified into two types: <strong>library functions</strong> (pre-defined in standard libraries) and <strong>user-defined functions</strong> (created by programmers).</p>
 
-  <div class="section">
-    <h2>7.7 Storage Class (auto, register, static, extern)</h2>
-    <p>Storage classes define the scope, lifetime, and storage location of variables.</p>
-    <ul>
-      <li><strong>auto:</strong> Default for local variables, allocated on stack, destroyed when scope ends.
-        <pre>
-auto int x = 5; // Same as int x = 5;
-        </pre>
-      </li>
-      <li><strong>register:</strong> Suggests storing variable in CPU register for faster access (compiler may ignore).
-        <pre>
-register int counter = 0;
-        </pre>
-      </li>
-      <li><strong>static:</strong> Retains value between function calls, initialized once.
-        <pre>
-#include &lt;stdio.h&gt;
-void count() {
-    static int c = 0; // Retains value
-    c++;
-    printf("%d ", c);
-}
-int main() {
-    count(); // 1
-    count(); // 2
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>extern:</strong> Declares a variable defined in another file.
-        <pre>
-// file1.c
-int global = 10;
-// file2.c
-extern int global;
-        </pre>
-      </li>
-    </ul>
-  </div>
+        <h3>7.2.1 Library Functions</h3>
+        <ul>
+            <li><strong>Definition:</strong> Pre-defined functions provided by C standard libraries.</li>
+            <li><strong>Access:</strong> Include appropriate header files (<code>#include &lt;header.h&gt;</code>).</li>
+            <li><strong>Advantages:</strong> Optimized, well-tested, and readily available.</li>
+        </ul>
+        <div class="code-block">
+            <span>// Library functions example</span><br>
+            #include &lt;stdio.h&gt;   <span>// printf, scanf</span><br>
+            #include &lt;math.h&gt;    <span>// sqrt, pow, sin, cos</span><br>
+            #include &lt;string.h&gt;  <span>// strlen, strcpy, strcmp</span><br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Square root of 16: %.2f\n", sqrt(16));  <span>// 4.00</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("2^3: %.0f\n", pow(2, 3));            <span>// 8</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char str[] = "Hello";<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Length: %zu\n", strlen(str));        <span>// 5</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
 
-  <div class="section">
-    <h2>7.8 Scope of Variables (Local and Global)</h2>
-    <p>Scope determines where a variable is accessible in a program.</p>
-    <ul>
-      <li><strong>Local Variables:</strong> Defined within a block or function, accessible only there.
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int x = 5; // Local to main
-    printf("%d\n", x);
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Global Variables:</strong> Defined outside functions, accessible throughout the program.
-        <pre>
-#include &lt;stdio.h&gt;
-int global = 10; // Global
-void func() {
-    printf("%d\n", global);
-}
-int main() {
-    func();
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Note:</strong> Local variables take precedence over global variables with the same name.</li>
-    </ul>
-  </div>
+        <h3>7.2.2 User-Defined Functions</h3>
+        <ul>
+            <li><strong>Definition:</strong> Functions created by programmers to meet specific requirements.</li>
+            <li><strong>Advantages:</strong> Tailored to specific needs, enhances code organization and readability.</li>
+        </ul>
+        <div class="code-block">
+            <span>// User-defined function example</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int add(int a, int b) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return a + b;<br>
+            }<br><br>
+            int multiply(int a, int b) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return a * b;<br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Sum: %d\n", add(5, 3));      <span>// 8</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Product: %d\n", multiply(5, 3));  <span>// 15</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
 
-  <div class="section">
-    <h2>7.9 Recursive Function</h2>
-    <p>A recursive function calls itself to solve a problem by breaking it into smaller instances.</p>
-    <ul>
-      <li><strong>Components:</strong> Base case (stops recursion), recursive case (calls itself).</li>
-      <li><strong>Example (Factorial):</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int factorial(int n) {
-    if (n == 0 || n == 1) { // Base case
-        return 1;
-    }
-    return n * factorial(n - 1); // Recursive case
-}
-int main() {
-    printf("Factorial of 5: %d\n", factorial(5)); // 120
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Caution:</strong> Ensure a base case to avoid infinite recursion.</li>
-    </ul>
-  </div>
+        <table>
+            <tr><th>Feature</th><th>Library Functions</th><th>User-Defined Functions</th></tr>
+            <tr><td>Creator</td><td>C Standard Library</td><td>Programmer</td></tr>
+            <tr><td>Availability</td><td>Ready to use</td><td>Must be defined</td></tr>
+            <tr><td>Header File</td><td>Required</td><td>Not required (can be in same file)</td></tr>
+            <tr><td>Examples</td><td>printf, scanf, sqrt, strlen</td><td>Custom functions</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== 7.3 ========== -->
+    <div class="section">
+        <h2>7.3 Components of Functions</h2>
+        <p>A function consists of three main components: <strong>prototype</strong> (declaration), <strong>call</strong> (invocation), and <strong>definition</strong> (implementation).</p>
+
+        <div class="figure-box">
+            <pre>
+Function Components:
+
+1. Prototype (Declaration)
+   ┌─────────────────────────────────┐
+   │ int add(int, int);             │  ← Return type, name, parameters
+   └─────────────────────────────────┘
+
+2. Function Call
+   ┌─────────────────────────────────┐
+   │ int result = add(5, 3);        │  ← Passing arguments
+   └─────────────────────────────────┘
+
+3. Function Definition
+   ┌─────────────────────────────────┐
+   │ int add(int a, int b) {        │
+   │     return a + b;              │
+   │ }                              │
+   └─────────────────────────────────┘
+            </pre>
+        </div>
+
+        <h3>7.3.1 Function Prototype</h3>
+        <ul>
+            <li><strong>Definition:</strong> Declares the function's return type, name, and parameters before its use.</li>
+            <li><strong>Syntax:</strong> <code>return_type function_name(parameter_list);</code></li>
+            <li><strong>Purpose:</strong> Informs the compiler about the function's signature (type checking).</li>
+            <li><strong>Placement:</strong> Usually at the top of the file or in a header file.</li>
+        </ul>
+        <div class="code-block">
+            <span>// Function prototype examples</span><br>
+            int add(int, int);           <span>// Parameter names optional</span><br>
+            float divide(float a, float b);  <span>// With parameter names</span><br>
+            void printMessage(void);     <span>// No parameters, no return</span><br>
+            int square(int x);           <span>// Single parameter</span>
+        </div>
+
+        <h3>7.3.2 Function Call</h3>
+        <ul>
+            <li><strong>Definition:</strong> Invokes the function, passing arguments if required.</li>
+            <li><strong>Syntax:</strong> <code>function_name(arguments);</code></li>
+            <li><strong>Execution:</strong> Control transfers to the function, and upon completion, returns to the caller.</li>
+        </ul>
+        <div class="code-block">
+            <span>// Function call examples</span><br>
+            int result = add(5, 3);      <span>// Call with arguments</span><br>
+            printMessage();              <span>// Call with no arguments</span><br>
+            float avg = average(10.5, 20.3, 15.7);
+        </div>
+
+        <h3>7.3.3 Function Definition</h3>
+        <ul>
+            <li><strong>Definition:</strong> Contains the actual code to be executed.</li>
+            <li><strong>Syntax:</strong>
+                <div class="code-block">
+                    return_type function_name(parameter_list) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;// Code block<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return value;  <span>// If return_type is not void</span><br>
+                    }
+                </div>
+            </li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Complete function example</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            <span>// Prototype</span><br>
+            int calculateSum(int a, int b);<br><br>
+            <span>// Main function</span><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int x = 10, y = 20;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int result = calculateSum(x, y);  <span>// Function call</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Sum: %d\n", result);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }<br><br>
+            <span>// Function definition</span><br>
+            int calculateSum(int a, int b) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return a + b;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 7.4 ========== -->
+    <div class="section">
+        <h2>7.4 Function Arguments and Return Types</h2>
+        <p>Functions can accept <strong>arguments</strong> (parameters) to receive data and <strong>return</strong> values to send results back to the caller.</p>
+
+        <h3>Passing Arguments</h3>
+        <ul>
+            <li><strong>Pass by Value:</strong> Copies of arguments are passed; changes inside function do not affect original variables.</li>
+            <li><strong>Pass by Reference:</strong> Uses pointers to modify original variables.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Pass by Value example</span><br>
+            void changeValue(int x) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;x = 100;  <span>// Changes only the copy</span><br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int num = 5;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;changeValue(num);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("num: %d\n", num);  <span>// Still 5</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }<br><br>
+            <span>// Pass by Reference (using pointers)</span><br>
+            void changeValueRef(int *x) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;*x = 100;  <span>// Changes original value</span><br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int num = 5;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;changeValueRef(&amp;num);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("num: %d\n", num);  <span>// Now 100</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>Return Types</h3>
+        <ul>
+            <li><strong>void:</strong> Function does not return a value.</li>
+            <li><strong>int, float, char, etc.:</strong> Function returns a value of that type.</li>
+            <li><strong>Pointer Return:</strong> Function can return a pointer.</li>
+        </ul>
+
+        <table>
+            <tr><th>Return Type</th><th>Description</th><th>Example</th></tr>
+            <tr><td>void</td><td>No return value</td><td>void printHello() { printf("Hello"); }</td></tr>
+            <tr><td>int</td><td>Returns integer</td><td>int add(int a, int b) { return a + b; }</td></tr>
+            <tr><td>float</td><td>Returns float</td><td>float divide(float a, float b) { return a / b; }</td></tr>
+            <tr><td>char*</td><td>Returns pointer to char (string)</td><td>char* getName() { return "John"; }</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Swap function using pass by reference</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            void swap(int *a, int *b) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int temp = *a;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;*a = *b;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;*b = temp;<br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int x = 5, y = 10;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Before: x=%d, y=%d\n", x, y);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;swap(&amp;x, &amp;y);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("After: x=%d, y=%d\n", x, y);  <span>// x=10, y=5</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>🔑 Key insight:</strong> Pass by value creates a copy; pass by reference modifies the original. Use pointers when you need to modify the original data.
+        </div>
+    </div>
+
+    <!-- ========== 7.5 ========== -->
+    <div class="section">
+        <h2>7.5 Passing Arrays to Function</h2>
+        <p>Arrays are passed to functions <strong>by reference</strong> (as pointers), allowing modifications to the original array. The array name decays to a pointer to the first element.</p>
+
+        <h3>Key Points</h3>
+        <ul>
+            <li>Array parameter can be declared as <code>int arr[]</code> or <code>int *arr</code>.</li>
+            <li>The array size is typically passed as a separate parameter.</li>
+            <li>Modifications inside the function affect the original array.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Passing array to function</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            <span>// Print array elements</span><br>
+            void printArray(int arr[], int size) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < size; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", arr[i]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("\n");<br>
+            }<br><br>
+            <span>// Double array elements (modifies original)</span><br>
+            void doubleArray(int arr[], int size) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < size; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[i] *= 2;  <span>// Modifies original array</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int numbers[] = {1, 2, 3, 4, 5};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int size = sizeof(numbers) / sizeof(numbers[0]);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Original: ");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printArray(numbers, size);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;doubleArray(numbers, size);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Doubled: ");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printArray(numbers, size);  <span>// 2 4 6 8 10</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <div class="code-block">
+            <span>// Alternative: using pointer notation</span><br>
+            int sumArray(int *arr, int size) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int sum = 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < size; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sum += *(arr + i);  <span>// Equivalent to arr[i]</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return sum;<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>📌 Key insight:</strong> When an array is passed to a function, only the pointer to the first element is passed. The size must be passed separately to avoid array bounds issues.
+        </div>
+    </div>
+
+    <!-- ========== 7.6 ========== -->
+    <div class="section">
+        <h2>7.6 Passing Strings to Function</h2>
+        <p>Strings (character arrays) are passed to functions similarly to arrays — as pointers to the first character. Strings must be null-terminated (<code>\0</code>).</p>
+
+        <h3>String Functions</h3>
+        <div class="code-block">
+            <span>// String function examples</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #include &lt;string.h&gt;<br><br>
+            <span>// Print a string</span><br>
+            void printString(char str[]) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%s\n", str);<br>
+            }<br><br>
+            <span>// Convert string to uppercase</span><br>
+            void toUpper(char str[]) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; str[i] != '\0'; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (str[i] >= 'a' &amp;&amp; str[i] <= 'z') {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str[i] = str[i] - 32;  <span>// Convert to uppercase</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            <span>// Count vowels in a string</span><br>
+            int countVowels(char *str) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int count = 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (*str != '\0') {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;char ch = *str;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u' ||<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ch == 'A' || ch == 'E' || ch == 'I' || ch == 'O' || ch == 'U') {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count++;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str++;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return count;<br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char str[] = "Hello World";<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printString(str);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Vowels: %d\n", countVowels(str));  <span>// 3</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;toUpper(str);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printString(str);  <span>// HELLO WORLD</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+        <div class="note-box">
+            <strong>📝 Key insight:</strong> Strings are passed as character pointers. Always ensure the string is null-terminated for proper functioning of string operations.
+        </div>
+    </div>
+
+    <!-- ========== 7.7 ========== -->
+    <div class="section">
+        <h2>7.7 Storage Class (auto, register, static, extern)</h2>
+        <p><strong>Storage classes</strong> define the scope, lifetime, and storage location of variables in C programs.</p>
+
+        <h3>auto Storage Class</h3>
+        <ul>
+            <li><strong>Definition:</strong> Default for local variables. Allocated on the stack.</li>
+            <li><strong>Scope:</strong> Block in which declared.</li>
+            <li><strong>Lifetime:</strong> Exists only during block execution.</li>
+            <li><strong>Keyword:</strong> <code>auto</code> (optional).</li>
+        </ul>
+        <div class="code-block">
+            auto int x = 5;  <span>// Same as int x = 5;</span>
+        </div>
+
+        <h3>register Storage Class</h3>
+        <ul>
+            <li><strong>Definition:</strong> Suggests storing variable in CPU register (compiler may ignore).</li>
+            <li><strong>Scope:</strong> Block in which declared.</li>
+            <li><strong>Lifetime:</strong> Exists only during block execution.</li>
+            <li><strong>Restriction:</strong> Address of register variable cannot be taken (<code>&amp;</code>).</li>
+        </ul>
+        <div class="code-block">
+            register int counter = 0;  <span>// Hints to store in register</span><br>
+            <span>// &amp;counter is not allowed</span>
+        </div>
+
+        <h3>static Storage Class</h3>
+        <ul>
+            <li><strong>Definition:</strong> Retains value between function calls. Initialized once.</li>
+            <li><strong>Scope:</strong> Block (local static) or file (global static).</li>
+            <li><strong>Lifetime:</strong> Entire program execution.</li>
+        </ul>
+        <div class="code-block">
+            <span>// Static variable example</span><br>
+            void countCalls() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;static int count = 0;  <span>// Initialized only once</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;count++;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Called %d times\n", count);<br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;countCalls();  <span>// Called 1 times</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;countCalls();  <span>// Called 2 times</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;countCalls();  <span>// Called 3 times</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>extern Storage Class</h3>
+        <ul>
+            <li><strong>Definition:</strong> Declares a variable defined in another file or elsewhere in the same file.</li>
+            <li><strong>Scope:</strong> Global.</li>
+            <li><strong>Lifetime:</strong> Entire program execution.</li>
+        </ul>
+        <div class="code-block">
+            <span>// file1.c</span><br>
+            int globalVar = 100;  <span>// Definition</span><br><br>
+            <span>// file2.c</span><br>
+            extern int globalVar;  <span>// Declaration</span><br>
+            void printGlobal() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%d\n", globalVar);<br>
+            }
+        </div>
+
+        <table>
+            <tr><th>Storage Class</th><th>Scope</th><th>Lifetime</th><th>Default Value</th></tr>
+            <tr><td>auto</td><td>Block</td><td>Block execution</td><td>Garbage</td></tr>
+            <tr><td>register</td><td>Block</td><td>Block execution</td><td>Garbage</td></tr>
+            <tr><td>static (local)</td><td>Block</td><td>Program lifetime</td><td>0</td></tr>
+            <tr><td>static (global)</td><td>File</td><td>Program lifetime</td><td>0</td></tr>
+            <tr><td>extern</td><td>Global</td><td>Program lifetime</td><td>0</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== 7.8 ========== -->
+    <div class="section">
+        <h2>7.8 Scope of Variables (Local and Global)</h2>
+        <p><strong>Scope</strong> determines where a variable is accessible in a program. C has two main scope types: <strong>local</strong> (block) and <strong>global</strong> (file).</p>
+
+        <h3>Local Variables</h3>
+        <ul>
+            <li><strong>Definition:</strong> Variables declared inside a function or block.</li>
+            <li><strong>Scope:</strong> Accessible only within that block.</li>
+            <li><strong>Lifetime:</strong> Exists only during block execution.</li>
+            <li><strong>Storage:</strong> Allocated on the stack.</li>
+        </ul>
+        <div class="code-block">
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int x = 10;  <span>// Local variable</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int y = 20;  <span>// Nested scope</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%d %d\n", x, y);  <span>// x is accessible here</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// printf("%d", y);  // ERROR: y not accessible here</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>Global Variables</h3>
+        <ul>
+            <li><strong>Definition:</strong> Variables declared outside all functions.</li>
+            <li><strong>Scope:</strong> Accessible throughout the file (and other files with extern).</li>
+            <li><strong>Lifetime:</strong> Entire program execution.</li>
+            <li><strong>Storage:</strong> Allocated in the data segment.</li>
+        </ul>
+        <div class="code-block">
+            #include &lt;stdio.h&gt;<br><br>
+            int globalVar = 100;  <span>// Global variable</span><br><br>
+            void func1() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("globalVar: %d\n", globalVar);<br>
+            }<br><br>
+            void func2() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;globalVar = 200;  <span>// Modifies global variable</span><br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;func1();  <span>// 100</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;func2();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;func1();  <span>// 200</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>Scope Resolution (Local vs Global)</h3>
+        <ul>
+            <li><strong>Local takes precedence:</strong> If a local variable has the same name as a global variable, the local variable is used within its scope.</li>
+        </ul>
+        <div class="code-block">
+            int x = 50;  <span>// Global x</span><br><br>
+            void func() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int x = 10;  <span>// Local x shadows global</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Local x: %d\n", x);  <span>// 10</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Global x: %d\n", ::x);  <span>// Not valid in C (only C++)</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Global x: %d\n", x);  <span>// Need to access differently</span><br>
+            }
+        </div>
+
+        <h3>Best Practices</h3>
+        <ul>
+            <li><strong>Minimize global variables:</strong> They make code harder to understand and debug.</li>
+            <li><strong>Use local variables:</strong> Prefer local variables for better encapsulation.</li>
+            <li><strong>Pass parameters:</strong> Use function parameters to communicate between functions instead of globals.</li>
+        </ul>
+    </div>
+
+    <!-- ========== 7.9 ========== -->
+    <div class="section">
+        <h2>7.9 Recursive Function</h2>
+        <p>A <strong>recursive function</strong> is a function that calls itself to solve a problem by breaking it down into smaller, similar sub-problems.</p>
+
+        <h3>Components of Recursion</h3>
+        <ul>
+            <li><strong>Base Case:</strong> The condition that stops the recursion.</li>
+            <li><strong>Recursive Case:</strong> The function calls itself with a modified argument.</li>
+        </ul>
+
+        <h3>Recursive Examples</h3>
+        <div class="code-block">
+            <span>// Factorial using recursion</span><br>
+            int factorial(int n) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (n == 0 || n == 1) {  <span>// Base case</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return n * factorial(n - 1);  <span>// Recursive case</span><br>
+            }<br><br>
+            <span>// Fibonacci using recursion</span><br>
+            int fibonacci(int n) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (n <= 1) {  <span>// Base case</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return n;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return fibonacci(n - 1) + fibonacci(n - 2);  <span>// Recursive case</span><br>
+            }<br><br>
+            <span>// Power function using recursion</span><br>
+            int power(int base, int exp) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (exp == 0) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return base * power(base, exp - 1);<br>
+            }
+        </div>
+
+        <div class="code-block">
+            <span>// Complete recursive program</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            <span>// Recursive function to calculate sum of digits</span><br>
+            int sumOfDigits(int n) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (n == 0) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return (n % 10) + sumOfDigits(n / 10);<br>
+            }<br><br>
+            <span>// Recursive function to print pattern</span><br>
+            void printPattern(int n) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (n == 0) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printPattern(n - 1);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < n; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("* ");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("\n");<br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Factorial of 5: %d\n", factorial(5));  <span>// 120</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Fibonacci(8): %d\n", fibonacci(8));    <span>// 21</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Power 2^10: %d\n", power(2, 10));       <span>// 1024</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Sum of digits 1234: %d\n", sumOfDigits(1234));  <span>// 10</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printPattern(5);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>Recursion vs Iteration</h3>
+        <table>
+            <tr><th>Feature</th><th>Recursion</th><th>Iteration</th></tr>
+            <tr><td>Memory Usage</td><td>Higher (stack frames)</td><td>Lower</td></tr>
+            <tr><td>Performance</td><td>Slower (function calls)</td><td>Faster</td></tr>
+            <tr><td>Code Complexity</td><td>Often simpler, cleaner</td><td>Can be complex</td></tr>
+            <tr><td>Risk</td><td>Stack overflow</td><td>Infinite loop</td></tr>
+            <tr><td>Best For</td><td>Tree, graph, divide-and-conquer</td><td>Simple repetitions</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>🔄 Key insight:</strong> Recursion is powerful for problems with recursive structure (trees, graphs, divide-and-conquer). Always ensure a base case to avoid infinite recursion and stack overflow.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 7 summary</strong><br>Functions are reusable code blocks that promote modularity. C supports library and user-defined functions with various storage classes and scopes.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Functions: prototype, call, definition.<br>• Pass by value vs pass by reference.<br>• Arrays and strings as function parameters.<br>• Storage classes: auto, register, static, extern.<br>• Recursion: base case and recursive case.</div>
+    </div>
 </body>
 </html>

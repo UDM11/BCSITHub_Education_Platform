@@ -1,127 +1,508 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 3: Derivative</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+        .math {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
-    <h1>Unit 3: Derivative</h1>
 
+    <h1>Unit 3: Derivative</h1>
+    <div class="subhead">Definition · average rate of change · tangent slope · differentiation rules · implicit/parametric · higher order</div>
+
+    <!-- ========== 3.1 ========== -->
     <div class="section">
         <h2>3.1 Derivative</h2>
-        <p>The derivative measures the rate at which a function changes at a specific point, forming a cornerstone of calculus with applications in optimization and modeling.</p>
-        <ul>
-            <li><strong>Definition:</strong> For a function f(x), the derivative at x = a, denoted f'(a), is the limit lim(h→0) [f(a+h) - f(a)]/h, if it exists.</li>
-            <li><strong>Notation:</strong> Derivatives are written as f'(x), dy/dx, or df/dx, representing the instantaneous rate of change of f with respect to x.</li>
-            <li><strong>Geometric Interpretation:</strong> The derivative represents the slope of the tangent line to the graph of f(x) at a given point.</li>
-            <li><strong>Applications:</strong> Used in physics (e.g., velocity as the derivative of position), economics (e.g., marginal cost), and machine learning (e.g., gradient descent).</li>
-        </ul>
-        <p>The derivative provides a precise tool for analyzing function behavior and solving real-world problems.</p>
+        <p>The <strong>derivative</strong> measures the rate at which a function changes at a specific point, forming a cornerstone of calculus with applications in optimization, physics, economics, and machine learning.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📐 Definition</strong><br>For a function f(x), the derivative at x = a is f'(a) = lim(h→0) [f(a+h) - f(a)]/h, if the limit exists.</div>
+            <div class="card"><strong>📝 Notation</strong><br>f'(x), dy/dx, df/dx, d/dx[f(x)]. All represent the instantaneous rate of change of f with respect to x.</div>
+            <div class="card"><strong>📊 Geometric Interpretation</strong><br>The derivative represents the slope of the tangent line to the graph of f(x) at a given point.</div>
+            <div class="card"><strong>💡 Applications</strong><br>Physics (velocity, acceleration), Economics (marginal cost/revenue), Machine Learning (gradient descent), Optimization.</div>
+        </div>
+
+        <h3>Formal Definition</h3>
+        <div class="code-block">
+            <span>// Derivative definition</span><br>
+            f'(x) = lim(h→0) [f(x+h) - f(x)]/h
+        </div>
+
+        <h3>Example</h3>
+        <div class="code-block">
+            <span>// Find derivative of f(x) = x²</span><br>
+            f'(x) = lim(h→0) [(x+h)² - x²]/h<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= lim(h→0) [x² + 2xh + h² - x²]/h<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= lim(h→0) [2xh + h²]/h<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= lim(h→0) [2x + h]<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 2x
+        </div>
     </div>
 
+    <!-- ========== 3.2 ========== -->
     <div class="section">
         <h2>3.2 Average Rate of Change</h2>
-        <p>The average rate of change quantifies how a function’s output changes over an interval, serving as a precursor to the instantaneous rate of change.</p>
+        <p>The <strong>average rate of change</strong> quantifies how a function's output changes over an interval, serving as a precursor to the instantaneous rate of change (the derivative).</p>
+
+        <h3>Definition</h3>
         <ul>
-            <li><strong>Definition:</strong> For a function f(x) over [a, b], the average rate of change is [f(b) - f(a)]/(b - a), representing the slope of the secant line between (a, f(a)) and (b, f(b)).</li>
-            <li><strong>Example:</strong> If f(x) = x², the average rate of change from x = 1 to x = 3 is [f(3) - f(1)]/(3 - 1) = (9 - 1)/2 = 4.</li>
-            <li><strong>Applications:</strong> Used in business to calculate average growth rates (e.g., revenue over time) or in physics for average velocity.</li>
-            <li><strong>Relation to Derivative:</strong> As the interval [a, b] shrinks (b → a), the average rate of change approaches the derivative at x = a.</li>
+            <li>For a function f(x) over [a, b], the average rate of change is <span class="math">[f(b) - f(a)]/(b - a)</span>.</li>
+            <li>Represents the slope of the secant line between (a, f(a)) and (b, f(b)).</li>
         </ul>
-        <p>This concept bridges intuitive change measurement with precise derivative calculations.</p>
+
+        <div class="code-block">
+            <span>// Example: Average rate of change</span><br>
+            f(x) = x², from x = 1 to x = 3<br>
+            Average rate = [f(3) - f(1)]/(3 - 1)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= (9 - 1)/2<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 4
+        </div>
+
+        <h3>Applications</h3>
+        <ul>
+            <li><strong>Business:</strong> Average growth rate of revenue over time.</li>
+            <li><strong>Physics:</strong> Average velocity over a time interval.</li>
+            <li><strong>Economics:</strong> Average cost change per unit.</li>
+        </ul>
+
+        <h3>Relation to Derivative</h3>
+        <ul>
+            <li>As the interval [a, b] shrinks (b → a), the average rate of change approaches the derivative at x = a.</li>
+            <li><span class="math">lim(b→a) [f(b) - f(a)]/(b - a) = f'(a)</span></li>
+        </ul>
     </div>
 
+    <!-- ========== 3.3 ========== -->
     <div class="section">
         <h2>3.3 Derivative as Slope of the Tangent to Curves</h2>
-        <p>The derivative represents the slope of the tangent line to a curve at a specific point, providing insight into the function’s behavior.</p>
+        <p>The derivative represents the <strong>slope of the tangent line</strong> to a curve at a specific point, providing insight into the function's behavior.</p>
+
+        <h3>Tangent Line</h3>
         <ul>
-            <li><strong>Tangent Line:</strong> The line that touches the curve at a single point (x, f(x)) and has the same slope as the curve at that point, given by f'(x).</li>
-            <li><strong>Slope Calculation:</strong> For f(x) = x², the derivative f'(x) = 2x gives the slope at any point; at x = 2, the slope is f'(2) = 4.</li>
-            <li><strong>Geometric Insight:</strong> A positive derivative indicates an upward slope (increasing function), negative indicates downward (decreasing), and zero suggests a horizontal tangent (possible extremum).</li>
-            <li><strong>Applications:</strong> Used in optimization to find maxima/minima (e.g., profit maximization) and in graphics to determine curve behavior in rendering algorithms.</li>
+            <li>The line that touches the curve at a single point (x, f(x)).</li>
+            <li>Has the same slope as the curve at that point, given by f'(x).</li>
+            <li>Equation of tangent line: <span class="math">y - f(a) = f'(a)(x - a)</span></li>
         </ul>
-        <p>The tangent slope interpretation makes derivatives a powerful tool for analyzing curves.</p>
+
+        <div class="code-block">
+            <span>// Example: Tangent line to f(x) = x² at x = 2</span><br>
+            f'(x) = 2x<br>
+            f'(2) = 4<br>
+            f(2) = 4<br>
+            Tangent line: y - 4 = 4(x - 2)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y = 4x - 4
+        </div>
+
+        <h3>Geometric Interpretation</h3>
+        <ul>
+            <li><strong>Positive derivative:</strong> Function is increasing (upward slope).</li>
+            <li><strong>Negative derivative:</strong> Function is decreasing (downward slope).</li>
+            <li><strong>Zero derivative:</strong> Horizontal tangent (possible maximum, minimum, or inflection point).</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+Tangent Line:
+         │
+         │     *
+         │    * *
+         │   *   *  ← Tangent
+         │  *     *
+         │ *       *
+         └───────────
+            </pre>
+        </div>
     </div>
 
+    <!-- ========== 3.4 ========== -->
     <div class="section">
-        <h2>3.4 Methods of Differentiation (Power Rule, Sum Rule, Product Rule, Quotient Rule, Chain Rule)</h2>
-        <p>Differentiation methods provide systematic ways to compute derivatives of various functions, essential for solving complex problems.</p>
-        <ul>
-            <li><strong>Power Rule:</strong> For f(x) = x^n, f'(x) = nx^(n-1). Example: If f(x) = x³, then f'(x) = 3x².</li>
-            <li><strong>Sum Rule:</strong> For f(x) = g(x) + h(x), f'(x) = g'(x) + h'(x). Example: If f(x) = x² + 3x, then f'(x) = 2x + 3.</li>
-            <li><strong>Product Rule:</strong> For f(x) = g(x)·h(x), f'(x) = g'(x)·h(x) + g(x)·h'(x). Example: If f(x) = x·sin(x), then f'(x) = sin(x) + x·cos(x).</li>
-            <li><strong>Quotient Rule:</strong> For f(x) = g(x)/h(x), f'(x) = [g'(x)·h(x) - g(x)·h'(x)]/[h(x)]². Example: If f(x) = x/(x+1), then f'(x) = 1/(x+1)².</li>
-            <li><strong>Chain Rule:</strong> For f(x) = g(h(x)), f'(x) = g'(h(x))·h'(x). Example: If f(x) = (x² + 1)³, then f'(x) = 3(x² + 1)²·2x.</li>
-        </ul>
-        <p>These rules enable efficient derivative calculations for a wide range of functions.</p>
+        <h2>3.4 Methods of Differentiation</h2>
+        <p>Differentiation methods provide systematic ways to compute derivatives of various functions, essential for solving complex problems efficiently.</p>
+
+        <h3>Power Rule</h3>
+        <div class="code-block">
+            <span>// If f(x) = xⁿ, then f'(x) = nxⁿ⁻¹</span><br>
+            f(x) = x³ → f'(x) = 3x²<br>
+            f(x) = x⁻² → f'(x) = -2x⁻³
+        </div>
+
+        <h3>Sum Rule</h3>
+        <div class="code-block">
+            <span>// If f(x) = g(x) + h(x), then f'(x) = g'(x) + h'(x)</span><br>
+            f(x) = x² + 3x → f'(x) = 2x + 3
+        </div>
+
+        <h3>Product Rule</h3>
+        <div class="code-block">
+            <span>// If f(x) = g(x)·h(x), then f'(x) = g'(x)·h(x) + g(x)·h'(x)</span><br>
+            f(x) = x·sin(x)<br>
+            f'(x) = 1·sin(x) + x·cos(x) = sin(x) + x·cos(x)
+        </div>
+
+        <h3>Quotient Rule</h3>
+        <div class="code-block">
+            <span>// If f(x) = g(x)/h(x), then f'(x) = [g'(x)·h(x) - g(x)·h'(x)]/[h(x)]²</span><br>
+            f(x) = x/(x+1)<br>
+            f'(x) = [(1)(x+1) - x(1)]/(x+1)²<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= (x+1 - x)/(x+1)²<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 1/(x+1)²
+        </div>
+
+        <h3>Chain Rule</h3>
+        <div class="code-block">
+            <span>// If f(x) = g(h(x)), then f'(x) = g'(h(x))·h'(x)</span><br>
+            f(x) = (x² + 1)³<br>
+            g(u) = u³, h(x) = x² + 1<br>
+            f'(x) = 3(x² + 1)² · 2x = 6x(x² + 1)²
+        </div>
+
+        <h3>Differentiation Rules Summary</h3>
+        <table>
+            <tr><th>Rule</th><th>Formula</th><th>Example</th></tr>
+            <tr><td>Power</td><td>d/dx [xⁿ] = nxⁿ⁻¹</td><td>d/dx [x⁵] = 5x⁴</td></tr>
+            <tr><td>Sum</td><td>d/dx [f+g] = f' + g'</td><td>d/dx [x²+3x] = 2x+3</td></tr>
+            <tr><td>Product</td><td>d/dx [fg] = f'g + fg'</td><td>d/dx [x·sin x] = sin x + x·cos x</td></tr>
+            <tr><td>Quotient</td><td>d/dx [f/g] = (f'g - fg')/g²</td><td>d/dx [x/(x+1)] = 1/(x+1)²</td></tr>
+            <tr><td>Chain</td><td>d/dx [f(g(x))] = f'(g)·g'</td><td>d/dx [(x²+1)³] = 6x(x²+1)²</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 3.5 ========== -->
     <div class="section">
         <h2>3.5 Differentiation of Implicit and Parametric Functions</h2>
-        <p>Implicit and parametric functions require specialized differentiation techniques, as they are not always expressed as y = f(x).</p>
+        <p>Implicit and parametric functions require specialized differentiation techniques, as they are not always expressed as <span class="math">y = f(x)</span>.</p>
+
+        <h3>Implicit Differentiation</h3>
         <ul>
-            <li><strong>Implicit Differentiation:</strong> For equations like x² + y² = 1, differentiate both sides with respect to x, treating y as a function of x (e.g., 2x + 2y·dy/dx = 0, so dy/dx = -x/y).</li>
-            <li><strong>Parametric Differentiation:</strong> For functions defined parametrically, e.g., x = t², y = t³, compute dy/dx = (dy/dt)/(dx/dt) = (3t²)/(2t) = 3t/2.</li>
-            <li><strong>Applications:</strong> Implicit differentiation is used in economics for constrained optimization (e.g., utility functions); parametric differentiation models motion in physics or animation.</li>
-            <li><strong>Key Considerations:</strong> Ensure all terms are differentiated correctly, and solve for dy/dx carefully, checking for domain restrictions.</li>
+            <li>Used when the equation is not solved for y (e.g., <span class="math">x² + y² = 1</span>).</li>
+            <li>Differentiate both sides with respect to x, treating y as a function of x.</li>
         </ul>
-        <p>These techniques extend differentiation to complex relationships in mathematics and applied fields.</p>
+
+        <div class="code-block">
+            <span>// Implicit differentiation example</span><br>
+            x² + y² = 1<br>
+            2x + 2y·dy/dx = 0<br>
+            dy/dx = -x/y
+        </div>
+
+        <h3>Parametric Differentiation</h3>
+        <ul>
+            <li>Used when x and y are functions of a parameter t: <span class="math">x = f(t)</span>, <span class="math">y = g(t)</span>.</li>
+            <li>dy/dx = (dy/dt)/(dx/dt) = g'(t)/f'(t)</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Parametric differentiation example</span><br>
+            x = t², y = t³<br>
+            dx/dt = 2t, dy/dt = 3t²<br>
+            dy/dx = (3t²)/(2t) = (3t)/2
+        </div>
+
+        <h3>Applications</h3>
+        <ul>
+            <li><strong>Implicit:</strong> Economics (utility functions, constrained optimization).</li>
+            <li><strong>Parametric:</strong> Physics (motion), computer graphics (animation curves).</li>
+        </ul>
     </div>
 
+    <!-- ========== 3.6 ========== -->
     <div class="section">
         <h2>3.6 Derivative as Rate of Change, Higher Order Derivatives</h2>
         <p>The derivative quantifies instantaneous rates of change, and higher order derivatives provide deeper insights into function behavior.</p>
+
+        <h3>Rate of Change</h3>
         <ul>
-            <li><strong>Rate of Change:</strong> The derivative f'(x) measures how f(x) changes per unit change in x, e.g., velocity (dx/dt) or marginal cost (dC/dq) in business.</li>
-            <li><strong>Higher Order Derivatives:</strong> The second derivative f''(x) is the derivative of f'(x), representing the rate of change of the rate of change (e.g., acceleration). Higher orders (f'''(x), etc.) analyze further behavior.</li>
-            <li><strong>Applications:</strong> Second derivatives test concavity (f''(x) > 0 implies concave up, f''(x) < 0 implies concave down) for optimization; higher derivatives model complex systems like oscillations.</li>
-            <li><strong>Notation:</strong> Higher derivatives are denoted f^(n)(x) or d^n y/dx^n, where n is the order of differentiation.</li>
+            <li>f'(x) measures how f(x) changes per unit change in x.</li>
+            <li><strong>Examples:</strong>
+                <ul>
+                    <li>Velocity = dx/dt (rate of change of position).</li>
+                    <li>Marginal Cost = dC/dq (rate of change of cost).</li>
+                    <li>Marginal Revenue = dR/dq (rate of change of revenue).</li>
+                </ul>
+            </li>
         </ul>
-        <p>Higher order derivatives enhance analysis of dynamic systems in physics, economics, and engineering.</p>
+
+        <h3>Higher Order Derivatives</h3>
+        <ul>
+            <li><strong>Second derivative:</strong> f''(x) = d²y/dx² — rate of change of the rate of change (acceleration).</li>
+            <li><strong>Third derivative:</strong> f'''(x) = d³y/dx³ — jerk (rate of change of acceleration).</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Higher order derivatives example</span><br>
+            f(x) = x⁴<br>
+            f'(x) = 4x³<br>
+            f''(x) = 12x²<br>
+            f'''(x) = 24x<br>
+            f''''(x) = 24
+        </div>
+
+        <h3>Applications of Higher Order Derivatives</h3>
+        <ul>
+            <li><strong>Concavity:</strong> f''(x) > 0 → concave up, f''(x) < 0 → concave down.</li>
+            <li><strong>Inflection Points:</strong> Points where concavity changes (f''(x) = 0).</li>
+            <li><strong>Optimization:</strong> Second derivative test for maxima/minima.</li>
+            <li><strong>Physics:</strong> Acceleration (second derivative of position).</li>
+        </ul>
+
+        <h3>Second Derivative Test</h3>
+        <ul>
+            <li>If f'(c) = 0 and f''(c) > 0 → local minimum.</li>
+            <li>If f'(c) = 0 and f''(c) < 0 → local maximum.</li>
+            <li>If f'(c) = 0 and f''(c) = 0 → test inconclusive.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Second derivative test example</span><br>
+            f(x) = x³ - 3x² + 2<br>
+            f'(x) = 3x² - 6x = 3x(x - 2)<br>
+            Critical points: x = 0, x = 2<br>
+            f''(x) = 6x - 6<br>
+            f''(0) = -6 < 0 → local maximum at x = 0<br>
+            f''(2) = 6 > 0 → local minimum at x = 2
+        </div>
+
+        <div class="note-box">
+            <strong>📈 Key insight:</strong> Higher order derivatives provide deeper insights into function behavior, including concavity, inflection points, and optimization. They are essential for modeling complex systems in physics, economics, and engineering.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 3 summary</strong><br>Derivatives measure rates of change and slopes of tangents. Differentiation rules enable systematic computation of derivatives for various function types.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Derivative: f'(x) = lim(h→0) [f(x+h)-f(x)]/h.<br>• Average rate of change: secant slope.<br>• Tangent line: slope = f'(a).<br>• Power, sum, product, quotient, chain rules.<br>• Implicit and parametric differentiation.<br>• Higher order derivatives: f''(x), f'''(x).<br>• Applications: optimization, physics, economics.</div>
     </div>
 </body>
 </html>

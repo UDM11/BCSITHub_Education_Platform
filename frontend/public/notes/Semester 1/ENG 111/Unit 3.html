@@ -1,90 +1,488 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 3: Speaking Skills</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1>Unit 3: Speaking Skills</h1>
 
+    <h1>Unit 3: Speaking Skills</h1>
+    <div class="subhead">Spoken English · communication · presentations · group discussions · pronunciation · fluency</div>
+
+    <!-- ========== 3.1 ========== -->
     <div class="section">
         <h2>3.1 Spoken English; Communication Skills; Presentation of Ideas</h2>
         <p>Spoken English and effective communication skills are crucial for conveying ideas clearly and persuasively in professional and social contexts. Mastering the presentation of ideas enhances audience engagement and impact.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🗣️ Spoken English</strong><br>Clear articulation, proper grammar, and appropriate vocabulary for different contexts. Essential for professional communication, networking, and collaboration.</div>
+            <div class="card"><strong>📢 Communication Skills</strong><br>Includes verbal and non-verbal communication, active listening, empathy, and adaptability. Key to building relationships and influencing others.</div>
+            <div class="card"><strong>💡 Presentation of Ideas</strong><br>Structuring thoughts logically, using visual aids effectively, and engaging the audience. Critical for technical presentations, proposals, and leadership communication.</div>
+            <div class="card"><strong>🎯 Impact</strong><br>Effective speaking builds credibility, fosters trust, and drives action. In IT, strong speaking skills are essential for client interactions, team meetings, and career advancement.</div>
+        </div>
+
+        <h3>Key Elements of Effective Speaking</h3>
         <ul>
-            <li><strong>Clarity in Expression:</strong> Use simple, precise language to articulate thoughts, avoiding jargon unless appropriate, to ensure the audience understands the message.</li>
-            <li><strong>Structure and Organization:</strong> Present ideas with a clear introduction, body, and conclusion, using signposting phrases like “firstly” or “in summary” to guide listeners.</li>
-            <li><strong>Engaging Delivery:</strong> Maintain eye contact, use gestures, and vary tone to keep the audience interested and emphasize key points effectively.</li>
-            <li><strong>Adaptability:</strong> Tailor the message to the audience’s needs, whether technical colleagues or non-specialists, ensuring relevance and comprehension.</li>
+            <li><strong>Clarity and Precision:</strong>
+                <ul>
+                    <li>Use clear, simple language appropriate for the audience.</li>
+                    <li>Avoid unnecessary jargon unless speaking to technical audiences.</li>
+                    <li>Define acronyms and technical terms when first used.</li>
+                </ul>
+            </li>
+            <li><strong>Structure and Organization:</strong>
+                <ul>
+                    <li><strong>Introduction:</strong> Hook the audience, state the purpose, preview key points.</li>
+                    <li><strong>Body:</strong> Present main ideas with supporting evidence and examples.</li>
+                    <li><strong>Conclusion:</strong> Summarize key points, reinforce the message, and call to action.</li>
+                </ul>
+            </li>
+            <li><strong>Engaging Delivery:</strong>
+                <ul>
+                    <li><strong>Eye Contact:</strong> Builds connection and trust with the audience.</li>
+                    <li><strong>Gestures:</strong> Reinforces verbal messages and adds energy.</li>
+                    <li><strong>Voice Modulation:</strong> Vary pitch, pace, and volume to maintain interest.</li>
+                    <li><strong>Pacing:</strong> Speak at a comfortable speed; use pauses for emphasis.</li>
+                </ul>
+            </li>
+            <li><strong>Adaptability:</strong>
+                <ul>
+                    <li>Tailor content and delivery to the audience's level of expertise.</li>
+                    <li>Adjust based on audience reactions and feedback.</li>
+                    <li>Be prepared to answer questions and clarify points.</li>
+                </ul>
+            </li>
         </ul>
-        <p>These skills enable professionals to communicate confidently, fostering collaboration and influencing outcomes in IT and beyond.</p>
+
+        <div class="code-block">
+            <span>// Example: Presentation Structure for IT Professionals</span><br>
+            <span>// Introduction</span><br>
+            <span>// "Good morning everyone. Today I'll discuss our new microservices architecture..."</span><br><br>
+            <span>// Body</span><br>
+            <span>// 1. Current challenges with monolith</span><br>
+            <span>// 2. Proposed microservices solution</span><br>
+            <span>// 3. Implementation plan and timeline</span><br>
+            <span>// 4. Expected benefits and ROI</span><br><br>
+            <span>// Conclusion</span><br>
+            <span>// "To summarize, the microservices architecture will improve scalability..."</span>
+        </div>
+
+        <table>
+            <tr><th>Speaking Context</th><th>Key Skills</th><th>Examples</th></tr>
+            <tr><td>Technical Presentation</td><td>Structure, clarity, visual aids</td><td>Product demo, project update</td></tr>
+            <tr><td>Client Meeting</td><td>Adaptability, persuasion, listening</td><td>Requirements gathering, proposal</td></tr>
+            <tr><td>Team Stand-up</td><td>Conciseness, clarity, updates</td><td>Daily progress report</td></tr>
+            <tr><td>Networking Event</td><td>Conversation, listening, storytelling</td><td>Industry conference, meetup</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>🎤 Key insight:</strong> Speaking skills are essential for IT professionals to communicate technical concepts, lead teams, and advance their careers. Practice, preparation, and feedback are key to improvement.
+        </div>
     </div>
 
+    <!-- ========== 3.2 ========== -->
     <div class="section">
         <h2>3.2 Participation in Group Discussions</h2>
-        <p>Active participation in group discussions is essential for collaboration, problem-solving, and idea-sharing in team settings, particularly in the IT industry.</p>
+        <p>Active participation in <strong>group discussions</strong> is essential for collaboration, problem-solving, and idea-sharing in team settings, particularly in the IT industry.</p>
+
+        <h3>Roles in Group Discussions</h3>
         <ul>
-            <li><strong>Active Listening:</strong> Pay close attention to others’ contributions, acknowledging their points before responding, to build constructive dialogue.</li>
-            <li><strong>Contributing Ideas:</strong> Share relevant insights concisely, supported by examples or evidence, to add value to the discussion without dominating it.</li>
-            <li><strong>Respectful Interaction:</strong> Use polite language, avoid interrupting, and encourage quieter members to contribute, fostering an inclusive environment.</li>
-            <li><strong>Managing Disagreements:</strong> Address differing opinions calmly, using phrases like “I see your point, but…” to maintain professionalism and focus on solutions.</li>
+            <li><strong>Facilitator:</strong> Guides the discussion, keeps it on track, and ensures everyone participates.</li>
+            <li><strong>Contributor:</strong> Shares ideas, provides insights, and offers constructive feedback.</li>
+            <li><strong>Listener:</strong> Actively listens, acknowledges others' points, and builds on them.</li>
+            <li><strong>Questioner:</strong> Asks clarifying questions and challenges assumptions constructively.</li>
+            <li><strong>Recorder:</strong> Takes notes and summarizes key decisions and action items.</li>
         </ul>
-        <p>Effective participation enhances teamwork, drives innovation, and builds leadership skills in group settings.</p>
+
+        <h3>Effective Participation Strategies</h3>
+        <ul>
+            <li><strong>Active Listening:</strong>
+                <ul>
+                    <li>Pay attention to all speakers without interrupting.</li>
+                    <li>Acknowledge others' points before responding.</li>
+                    <li>Paraphrase to confirm understanding.</li>
+                </ul>
+            </li>
+            <li><strong>Contributing Ideas:</strong>
+                <ul>
+                    <li>Share relevant insights concisely and with supporting examples.</li>
+                    <li>Use evidence and data to support your points.</li>
+                    <li>Avoid dominating the conversation; encourage others to contribute.</li>
+                </ul>
+            </li>
+            <li><strong>Respectful Interaction:</strong>
+                <ul>
+                    <li>Use polite language (e.g., "That's an interesting point," "I see what you mean").</li>
+                    <li>Avoid interrupting others.</li>
+                    <li>Encourage quieter members to share their views.</li>
+                </ul>
+            </li>
+            <li><strong>Managing Disagreements:</strong>
+                <ul>
+                    <li>Address differences calmly and constructively.</li>
+                    <li>Use phrases like "I see your point, but..." or "Have you considered...".</li>
+                    <li>Focus on finding solutions rather than winning arguments.</li>
+                </ul>
+            </li>
+            <li><strong>Staying on Topic:</strong>
+                <ul>
+                    <li>Keep contributions relevant to the discussion topic.</li>
+                    <li>Gently steer the discussion back if it goes off track.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Group Discussion Etiquette</h3>
+        <table>
+            <tr><th>Do's</th><th>Don'ts</th></tr>
+            <tr><td>Listen actively and respectfully</td><td>Interrupt others</td></tr>
+            <tr><td>Build on others' ideas</td><td>Dismiss others' contributions</td></tr>
+            <tr><td>Use evidence to support your points</td><td>Dominate the conversation</td></tr>
+            <tr><td>Encourage participation from all members</td><td>Waste time on irrelevant tangents</td></tr>
+            <tr><td>Summarize key decisions and action items</td><td>Use inappropriate language</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Example: Group Discussion Framework</span><br>
+            <span>// Topic: "Should we migrate to the cloud?"</span><br><br>
+            <span>// Facilitator: "Let's hear everyone's thoughts on cloud migration."</span><br>
+            <span>// Contributor A: "The cost savings are significant..."</span><br>
+            <span>// Contributor B: "But security concerns need to be addressed..."</span><br>
+            <span>// Questioner: "How would we handle data sovereignty issues?"</span><br>
+            <span>// Recorder: "Key points: cost savings, security, data sovereignty."</span><br>
+            <span>// Facilitator: "Let's summarize the pros and cons and decide next steps."</span>
+        </div>
+
+        <div class="note-box">
+            <strong>🤝 Key insight:</strong> Effective group participation requires a balance of speaking and listening, respect for others' views, and a focus on achieving shared goals. In IT, strong group discussion skills are essential for successful collaboration and decision-making.
+        </div>
     </div>
 
+    <!-- ========== 3.3 ========== -->
     <div class="section">
         <h2>3.3 Pronunciation, Intonation, and Fluency in English Language</h2>
-        <p>Pronunciation, intonation, and fluency are key components of spoken English that ensure clarity and natural communication, particularly in professional contexts.</p>
+        <p><strong>Pronunciation</strong>, <strong>intonation</strong>, and <strong>fluency</strong> are key components of spoken English that ensure clarity and natural communication, particularly in professional contexts.</p>
+
+        <h3>Pronunciation</h3>
         <ul>
-            <li><strong>Pronunciation:</strong> Articulate words clearly, focusing on correct stress and sounds, using resources like dictionaries or phonetic guides to improve accuracy.</li>
-            <li><strong>Intonation:</strong> Use pitch variations to convey meaning, such as rising for questions or falling for statements, to make speech engaging and expressive.</li>
-            <li><strong>Fluency:</strong> Speak smoothly with minimal hesitation, practicing common phrases and pausing naturally to maintain a conversational flow.</li>
-            <li><strong>Practice Techniques:</strong> Engage in shadowing exercises, record and review speech, or converse with native speakers to refine these skills.</li>
+            <li><strong>Definition:</strong> The way in which words are articulated, including individual sounds, stress, and rhythm.</li>
+            <li><strong>Key Elements:</strong>
+                <ul>
+                    <li><strong>Vowels and Consonants:</strong> Clear articulation of all sounds.</li>
+                    <li><strong>Word Stress:</strong> Emphasis on the correct syllable (e.g., <span class="highlight">DE</span>velop vs. de<span class="highlight">VEl</span>op).</li>
+                    <li><strong>Sentence Stress:</strong> Emphasis on content words to convey meaning.</li>
+                    <li><strong>Connected Speech:</strong> Linking sounds between words (e.g., "I'm going to" → "I'm gonna").</li>
+                </ul>
+            </li>
+            <li><strong>Improvement Tips:</strong>
+                <ul>
+                    <li>Use online dictionaries with audio (e.g., Merriam-Webster, Cambridge).</li>
+                    <li>Practice with pronunciation apps (e.g., ELSA Speak, Forvo).</li>
+                    <li>Shadow native speakers by repeating audio recordings.</li>
+                    <li>Record and compare your pronunciation with native speakers.</li>
+                </ul>
+            </li>
         </ul>
-        <p>Mastering these elements boosts confidence, enhances credibility, and ensures effective communication in diverse settings.</p>
+
+        <h3>Intonation</h3>
+        <ul>
+            <li><strong>Definition:</strong> The rise and fall of pitch in speech, which conveys meaning and emotion.</li>
+            <li><strong>Patterns:</strong>
+                <ul>
+                    <li><strong>Rising Intonation:</strong> Used for yes/no questions (e.g., "Are you coming?").</li>
+                    <li><strong>Falling Intonation:</strong> Used for statements and wh-questions (e.g., "Where are you going?").</li>
+                    <li><strong>Fall-Rise Intonation:</strong> Used for hesitation, uncertainty, or polite correction.</li>
+                </ul>
+            </li>
+            <li><strong>Improvement Tips:</strong>
+                <ul>
+                    <li>Listen to native speakers and notice their pitch patterns.</li>
+                    <li>Practice reading aloud with different intonation patterns.</li>
+                    <li>Use voice recording apps to analyze your intonation.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Fluency</h3>
+        <ul>
+            <li><strong>Definition:</strong> The ability to speak smoothly, naturally, and without unnecessary pauses.</li>
+            <li><strong>Characteristics:</strong>
+                <ul>
+                    <li>Using linking words and phrases (e.g., "however," "therefore," "in addition").</li>
+                    <li>Minimal hesitation and self-correction.</li>
+                    <li>Appropriate pacing and rhythm.</li>
+                </ul>
+            </li>
+            <li><strong>Improvement Tips:</strong>
+                <ul>
+                    <li>Practice speaking with a timer to improve pace.</li>
+                    <li>Engage in regular conversations with native or fluent speakers.</li>
+                    <li>Prepare common phrases for professional settings (e.g., meeting agendas, presentations).</li>
+                    <li>Use fillers appropriately (e.g., "Well," "Let me think," "What I mean is...") to avoid silence.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Common Pronunciation Challenges for IT Professionals</h3>
+        <table>
+            <tr><th>Challenge</th><th>Example</th><th>Solution</th></tr>
+            <tr><td>Technical Terms</td><td>"Algorithm," "Framework"</td><td>Practice with audio, break down syllables</td></tr>
+            <tr><td>Silent Letters</td><td>"Know," "Write"</td><td>Learn common patterns, use phonetic guides</td></tr>
+            <tr><td>Similar Sounds</td><td>"L" vs "R," "B" vs "V"</td><td>Minimal pair practice, tongue placement exercises</td></tr>
+            <tr><td>Word Stress</td><td>"Project" (noun vs verb)</td><td>Learn stress patterns for different word forms</td></tr>
+            <tr><td>Connected Speech</td><td>"Going to" → "Gonna"</td><td>Listen and practice with native materials</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Example: Pronunciation Practice for IT Terms</span><br>
+            <span>// 1. Algorithm - /ˈæl.ɡə.rɪ.ðəm/</span><br>
+            <span>// 2. Framework - /ˈfreɪm.wɜːrk/</span><br>
+            <span>// 3. Database - /ˈdeɪ.tə.beɪs/</span><br>
+            <span>// 4. Interface - /ˈɪn.tər.feɪs/</span><br>
+            <span>// 5. Architecture - /ˈɑːr.kɪ.tek.tʃər/</span><br><br>
+            <span>// Intonation Practice:</span><br>
+            <span>// "Can you explain the architecture?" (rising intonation for question)</span><br>
+            <span>// "The architecture consists of three layers." (falling intonation for statement)</span>
+        </div>
+
+        <div class="note-box">
+            <strong>🗣️ Key insight:</strong> Good pronunciation, intonation, and fluency make you more understandable and credible. Regular practice, exposure to native content, and self-recording are effective ways to improve. In IT, clear spoken English is essential for international collaboration and client communication.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 3 summary</strong><br>Speaking skills involve effective communication, participation in group discussions, and mastering pronunciation, intonation, and fluency.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Spoken English: clarity, structure, engaging delivery, adaptability.<br>• Group discussions: active listening, contributing ideas, respectful interaction, managing disagreements.<br>• Pronunciation: clear articulation, word stress, sentence stress.<br>• Intonation: pitch patterns convey meaning and emotion.<br>• Fluency: smooth, natural speech with appropriate pacing.<br>• Practice techniques: shadowing, recording, conversation practice.</div>
     </div>
 </body>
 </html>

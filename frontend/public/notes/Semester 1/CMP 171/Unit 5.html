@@ -1,147 +1,611 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 5: Data Communication and Computer Network</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
     </style>
 </head>
 <body>
     <h1>Unit 5: Data Communication and Computer Network</h1>
+    <div class="subhead">Transmission media · network types · topologies · protocols · hardware</div>
 
+    <!-- ========== 5.1 ========== -->
     <div class="section">
         <h2>5.1 Introduction</h2>
-        <p>Data communication involves the transmission of digital data between two or more devices, while a computer network is a collection of interconnected devices that share resources and communicate with each other. These concepts form the backbone of modern connectivity, enabling information exchange across the globe.</p>
+        <p><strong>Data communication</strong> is the exchange of digital data between two or more devices via a transmission medium. A <strong>computer network</strong> is an interconnected collection of devices that communicate and share resources. Together, they form the foundation of modern connectivity — from local home networks to the global Internet.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📡 Purpose</strong><br>Enable reliable and efficient exchange of information, resource sharing (printers, files), and communication (email, VoIP, video conferencing).</div>
+            <div class="card"><strong>🧩 Components</strong><br>Devices (computers, routers, switches), transmission media (wired/wireless), and protocols (TCP/IP, HTTP, FTP).</div>
+        </div>
         <ul>
-            <li><strong>Purpose:</strong> Facilitates data sharing, resource access, and communication between devices.</li>
-            <li><strong>Components:</strong> Includes devices (computers, routers), communication media, and protocols.</li>
-            <li><strong>Examples:</strong> The Internet, local office networks, and mobile data networks.</li>
+            <li><strong>Data Communication System:</strong> Requires sender, receiver, transmission medium, and a protocol to govern the exchange.</li>
+            <li><strong>Network Types:</strong> Range from small personal networks (PAN) to global networks (WAN).</li>
+            <li><strong>Examples:</strong> The Internet, corporate intranets, home Wi-Fi, and cellular networks.</li>
         </ul>
+        <div class="note-box">
+            <strong>💡 Core idea:</strong> Data communication and computer networks enable the digital world — connecting people, devices, and information across the globe.
+        </div>
     </div>
 
+    <!-- ========== 5.2 ========== -->
     <div class="section">
         <h2>5.2 Communication Media</h2>
-        <p>Communication media refers to the physical or wireless channels used to transmit data between devices in a network.</p>
+        <p><strong>Communication media</strong> (or transmission media) are the physical or wireless channels through which data signals travel between devices. The choice of media affects speed, reliability, and cost.</p>
+
+        <h3>Wired (Guided) Media</h3>
         <ul>
-            <li><strong>Wired Media:</strong> Includes twisted pair cables, coaxial cables, and fiber optic cables, offering reliable and high-speed connections.</li>
-            <li><strong>Wireless Media:</strong> Uses radio waves, microwaves, or infrared signals, e.g., Wi-Fi, Bluetooth, and satellite communication.</li>
-            <li><strong>Examples:</strong> Ethernet cables for wired connections and Wi-Fi for wireless networks.</li>
+            <li><strong>Twisted Pair Cable:</strong> Two insulated copper wires twisted together. Used in Ethernet networks (Cat5e, Cat6). Affordable but susceptible to electromagnetic interference.</li>
+            <li><strong>Coaxial Cable:</strong> Central conductor surrounded by insulation and shielding. Used in cable TV and older Ethernet (10Base2). Higher bandwidth than twisted pair.</li>
+            <li><strong>Fiber Optic Cable:</strong> Uses light pulses through glass or plastic fibers. Offers extremely high bandwidth, long distance, immunity to interference. Used in backbone networks (Internet, telecom).</li>
         </ul>
+
+        <h3>Wireless (Unguided) Media</h3>
+        <ul>
+            <li><strong>Radio Waves:</strong> Used in Wi-Fi (802.11), Bluetooth, and cellular networks. Omnidirectional, can penetrate walls.</li>
+            <li><strong>Microwaves:</strong> Point-to-point communication (satellite, terrestrial). Requires line-of-sight. Used in backhaul links.</li>
+            <li><strong>Infrared:</strong> Short-range, line-of-sight communication (TV remotes, IRDA).</li>
+        </ul>
+
+        <table>
+            <tr><th>Media Type</th><th>Bandwidth</th><th>Distance</th><th>Interference</th><th>Cost</th></tr>
+            <tr><td>Twisted Pair</td><td>Up to 10 Gbps</td><td>100 m</td><td>Moderate</td><td>Low</td></tr>
+            <tr><td>Coaxial</td><td>Up to 10 Gbps</td><td>500 m</td><td>Low</td><td>Moderate</td></tr>
+            <tr><td>Fiber Optic</td><td>100+ Gbps</td><td>100+ km</td><td>None</td><td>High</td></tr>
+            <tr><td>Wi-Fi</td><td>Up to 10 Gbps</td><td>100 m</td><td>High</td><td>Moderate</td></tr>
+            <tr><td>Satellite</td><td>100+ Mbps</td><td>Global</td><td>Weather, latency</td><td>High</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 5.3 ========== -->
     <div class="section">
-        <h2>5.3 Communication Mode</h2>
-        <p>Communication modes describe the direction of data flow between devices in a network.</p>
+        <h2>5.3 Communication Modes</h2>
+        <p><strong>Communication mode</strong> defines the direction of data flow between two devices. It determines how devices exchange information.</p>
+
+        <h3>Simplex Mode</h3>
         <ul>
-            <li><strong>Simplex:</strong> Data flows in one direction only, e.g., radio broadcasting.</li>
-            <li><strong>Half-Duplex:</strong> Data flows in both directions, but not simultaneously, e.g., walkie-talkies.</li>
-            <li><strong>Full-Duplex:</strong> Data flows in both directions simultaneously, e.g., telephone conversations or Ethernet connections.</li>
+            <li><strong>Direction:</strong> One-way only. Data flows from sender to receiver.</li>
+            <li><strong>Characteristics:</strong> Simple, no need for two-way communication.</li>
+            <li><strong>Examples:</strong> Radio broadcasting, television transmission, keyboard to computer (unidirectional).</li>
         </ul>
+
+        <h3>Half-Duplex Mode</h3>
+        <ul>
+            <li><strong>Direction:</strong> Two-way, but not simultaneously. Devices take turns transmitting.</li>
+            <li><strong>Characteristics:</strong> Efficient for applications that don't require simultaneous transmission.</li>
+            <li><strong>Examples:</strong> Walkie-talkies, CB radios, Ethernet (traditional shared media).</li>
+        </ul>
+
+        <h3>Full-Duplex Mode</h3>
+        <ul>
+            <li><strong>Direction:</strong> Two-way simultaneous. Both devices can send and receive at the same time.</li>
+            <li><strong>Characteristics:</strong> Most efficient, but requires separate channels or advanced technology.</li>
+            <li><strong>Examples:</strong> Telephone conversations, modern Ethernet (switched), fiber optic links.</li>
+        </ul>
+
+        <table>
+            <tr><th>Mode</th><th>Direction</th><th>Simultaneous?</th><th>Use Case</th></tr>
+            <tr><td>Simplex</td><td>One-way</td><td>No</td><td>Broadcast TV, radio</td></tr>
+            <tr><td>Half-Duplex</td><td>Both directions</td><td>No</td><td>Walkie-talkie, legacy networks</td></tr>
+            <tr><td>Full-Duplex</td><td>Both directions</td><td>Yes</td><td>Phone, modern Ethernet</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 5.4 ========== -->
     <div class="section">
         <h2>5.4 Computer Network</h2>
-        <p>A computer network is a system of interconnected devices that communicate to share resources, data, and applications.</p>
+        <p>A <strong>computer network</strong> is a system of interconnected computing devices that communicate and share resources. Networks range from small home networks to the global Internet.</p>
+
+        <h3>Purpose of Computer Networks</h3>
         <ul>
-            <li><strong>Purpose:</strong> Enables resource sharing, communication, and collaboration among users.</li>
-            <li><strong>Components:</strong> Consists of nodes (computers, printers), networking hardware (routers, switches), and protocols.</li>
-            <li><strong>Examples:</strong> Local Area Networks (LANs) in offices or Wide Area Networks (WANs) like the Internet.</li>
+            <li><strong>Resource Sharing:</strong> Share printers, storage, files, and applications across multiple users.</li>
+            <li><strong>Communication:</strong> Enable email, instant messaging, VoIP, video conferencing.</li>
+            <li><strong>Centralized Management:</strong> Manage data, security, and policies from a central location.</li>
+            <li><strong>Data Access:</strong> Access information and databases from anywhere.</li>
+            <li><strong>Cost Efficiency:</strong> Reduce hardware costs by sharing expensive resources.</li>
         </ul>
+
+        <h3>Components of a Network</h3>
+        <ul>
+            <li><strong>Nodes:</strong> Devices connected to the network (computers, printers, servers).</li>
+            <li><strong>Links:</strong> Connections between nodes (wired or wireless).</li>
+            <li><strong>Network Devices:</strong> Routers, switches, hubs, access points.</li>
+            <li><strong>Protocols:</strong> Rules governing communication (TCP/IP, HTTP, FTP).</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+A Simple Network:
+┌────────────┐     ┌────────────┐     ┌────────────┐
+│  Computer  │────│  Switch    │────│  Computer  │
+└────────────┘     └─────┬──────┘     └────────────┘
+                         │
+                    ┌────┴────┐
+                    │  Router │─────── Internet
+                    └─────────┘
+            </pre>
+        </div>
     </div>
 
+    <!-- ========== 5.5 ========== -->
     <div class="section">
-        <h2>5.5 Advantage and Disadvantage of Computer Network</h2>
-        <p>Computer networks offer numerous benefits but also come with certain challenges.</p>
+        <h2>5.5 Advantages and Disadvantages of Computer Networks</h2>
+
+        <h3>Advantages</h3>
         <ul>
-            <li><strong>Advantages:</strong> Facilitates resource sharing (e.g., printers, files), improves communication, and supports centralized data management.</li>
-            <li><strong>Disadvantages:</strong> Requires costly setup and maintenance, poses security risks, and may experience network failures.</li>
-            <li><strong>Examples:</strong> Sharing a single printer in an office (advantage) or data breaches due to weak security (disadvantage).</li>
+            <li><strong>Resource Sharing:</strong> Multiple users can share printers, storage devices, and internet connections.</li>
+            <li><strong>Cost Savings:</strong> Reduce hardware costs by sharing peripherals and software licenses.</li>
+            <li><strong>Communication:</strong> Enable instant messaging, email, video calls, and collaboration tools.</li>
+            <li><strong>Centralized Data:</strong> Store data centrally for easy backup, management, and access.</li>
+            <li><strong>Accessibility:</strong> Access resources from anywhere via remote connections.</li>
+            <li><strong>Scalability:</strong> Networks can grow by adding new devices with minimal disruption.</li>
         </ul>
+
+        <h3>Disadvantages</h3>
+        <ul>
+            <li><strong>Security Risks:</strong> Networks are vulnerable to hacking, malware, and data breaches.</li>
+            <li><strong>Cost:</strong> Initial setup (hardware, cabling, software) can be expensive.</li>
+            <li><strong>Maintenance:</strong> Requires skilled staff to manage, monitor, and troubleshoot.</li>
+            <li><strong>Dependency:</strong> If the network fails, all connected devices may lose access.</li>
+            <li><strong>Complexity:</strong> Designing and managing large networks is technically challenging.</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>⚠️ Balance:</strong> The benefits of networking often outweigh the disadvantages, but security and reliability must be prioritized.
+        </div>
     </div>
 
+    <!-- ========== 5.6 ========== -->
     <div class="section">
         <h2>5.6 Types of Networks</h2>
-        <p>Networks are classified based on their geographical coverage and functionality.</p>
+        <p>Networks are classified by their geographic scope and purpose.</p>
+
+        <h3>PAN (Personal Area Network)</h3>
         <ul>
-            <li><strong>LAN (Local Area Network):</strong> Covers a small area like an office or home, e.g., Wi-Fi networks.</li>
-            <li><strong>WAN (Wide Area Network):</strong> Spans large geographical areas, e.g., the Internet or corporate networks.</li>
-            <li><strong>MAN (Metropolitan Area Network):</strong> Covers a city or campus, e.g., city-wide fiber networks.</li>
-            <li><strong>PAN (Personal Area Network):</strong> Connects personal devices over short distances, e.g., Bluetooth connections.</li>
+            <li><strong>Range:</strong> Very short, typically within a few meters.</li>
+            <li><strong>Purpose:</strong> Connect personal devices (smartphone, laptop, headphones).</li>
+            <li><strong>Examples:</strong> Bluetooth, Zigbee, USB connections.</li>
         </ul>
+
+        <h3>LAN (Local Area Network)</h3>
+        <ul>
+            <li><strong>Range:</strong> Building or campus (up to a few kilometers).</li>
+            <li><strong>Purpose:</strong> Connect devices within a limited area for resource sharing.</li>
+            <li><strong>Examples:</strong> Office network, home Wi-Fi, school computer lab.</li>
+            <li><strong>Technology:</strong> Ethernet, Wi-Fi.</li>
+        </ul>
+
+        <h3>MAN (Metropolitan Area Network)</h3>
+        <ul>
+            <li><strong>Range:</strong> City or metropolitan area (10-100 km).</li>
+            <li><strong>Purpose:</strong> Connect multiple LANs within a city.</li>
+            <li><strong>Examples:</strong> Cable TV networks, city-wide fiber networks.</li>
+            <li><strong>Technology:</strong> Fiber optics, microwave.</li>
+        </ul>
+
+        <h3>WAN (Wide Area Network)</h3>
+        <ul>
+            <li><strong>Range:</strong> Country, continent, or global.</li>
+            <li><strong>Purpose:</strong> Connect geographically dispersed networks.</li>
+            <li><strong>Examples:</strong> The Internet, corporate global networks.</li>
+            <li><strong>Technology:</strong> Leased lines, satellite, submarine cables.</li>
+        </ul>
+
+        <table>
+            <tr><th>Network Type</th><th>Geographic Scope</th><th>Speed</th><th>Example</th></tr>
+            <tr><td>PAN</td><td>Few meters</td><td>1–100 Mbps</td><td>Bluetooth headphones</td></tr>
+            <tr><td>LAN</td><td>Building/Campus</td><td>100 Mbps–10 Gbps</td><td>Office Ethernet</td></tr>
+            <tr><td>MAN</td><td>City</td><td>10–100 Gbps</td><td>City fiber network</td></tr>
+            <tr><td>WAN</td><td>Global</td><td>Variable</td><td>Internet</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 5.7 ========== -->
     <div class="section">
         <h2>5.7 Network Topology</h2>
-        <p>Network topology defines the physical or logical arrangement of devices in a network.</p>
+        <p><strong>Network topology</strong> defines the physical or logical arrangement of devices in a network. The choice of topology affects performance, cost, and reliability.</p>
+
+        <h3>Bus Topology</h3>
         <ul>
-            <li><strong>Bus Topology:</strong> All devices share a single communication line, simple but prone to failures.</li>
-            <li><strong>Star Topology:</strong> Devices connect to a central hub, reliable but dependent on the hub.</li>
-            <li><strong>Ring Topology:</strong> Devices form a closed loop, with data circulating in one direction.</li>
-            <li><strong>Mesh Topology:</strong> Devices are interconnected, offering redundancy but complex to implement.</li>
+            <li><strong>Structure:</strong> All devices connect to a single central cable (bus).</li>
+            <li><strong>Advantages:</strong> Simple, inexpensive, uses less cable.</li>
+            <li><strong>Disadvantages:</strong> Single point of failure, limited scalability, collisions.</li>
+            <li><strong>Use:</strong> Legacy Ethernet (10Base2).</li>
         </ul>
+
+        <h3>Star Topology</h3>
+        <ul>
+            <li><strong>Structure:</strong> All devices connect to a central hub or switch.</li>
+            <li><strong>Advantages:</strong> Easy to install, manage, and troubleshoot. Failure of one device doesn't affect others.</li>
+            <li><strong>Disadvantages:</strong> Hub/switch is a single point of failure.</li>
+            <li><strong>Use:</strong> Most modern LANs (Ethernet).</li>
+        </ul>
+
+        <h3>Ring Topology</h3>
+        <ul>
+            <li><strong>Structure:</strong> Devices form a closed loop; data travels in one direction.</li>
+            <li><strong>Advantages:</strong> No collisions, simple token-based access.</li>
+            <li><strong>Disadvantages:</strong> Failure of one device can break the entire ring.</li>
+            <li><strong>Use:</strong> Token Ring, FDDI (legacy).</li>
+        </ul>
+
+        <h3>Mesh Topology</h3>
+        <ul>
+            <li><strong>Structure:</strong> Devices are interconnected with multiple paths.</li>
+            <li><strong>Advantages:</strong> High redundancy and reliability.</li>
+            <li><strong>Disadvantages:</strong> Expensive, complex, requires many connections.</li>
+            <li><strong>Use:</strong> Internet backbone, military networks.</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+Bus:    ────┼────┼────┼────┼────
+            │    │    │    │
+Star:       ┌──┐
+         ────┤  ├────
+         ────┤  ├────
+            └──┘
+Ring:   ────╮      ╭────
+            │      │
+            ╰──────╯
+            </pre>
+        </div>
+
+        <table>
+            <tr><th>Topology</th><th>Cost</th><th>Reliability</th><th>Scalability</th><th>Common Use</th></tr>
+            <tr><td>Bus</td><td>Low</td><td>Low</td><td>Low</td><td>Legacy networks</td></tr>
+            <tr><td>Star</td><td>Moderate</td><td>Moderate</td><td>High</td><td>Modern LANs</td></tr>
+            <tr><td>Ring</td><td>Moderate</td><td>Low</td><td>Moderate</td><td>Legacy (Token Ring)</td></tr>
+            <tr><td>Mesh</td><td>High</td><td>High</td><td>High</td><td>Backbone, critical systems</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 5.8 ========== -->
     <div class="section">
         <h2>5.8 Communication Protocols (IP, TCP)</h2>
-        <p>Communication protocols are rules that govern data exchange between devices in a network.</p>
+        <p><strong>Communication protocols</strong> are sets of rules that govern how data is transmitted, formatted, and received in a network. They ensure interoperability between different devices and systems.</p>
+
+        <h3>TCP/IP Model</h3>
         <ul>
-            <li><strong>IP (Internet Protocol):</strong> Assigns unique addresses to devices and routes data packets across networks.</li>
-            <li><strong>TCP (Transmission Control Protocol):</strong> Ensures reliable data transmission by managing packet order and error checking.</li>
-            <li><strong>Examples:</strong> TCP/IP together enable reliable Internet communication, used in web browsing and email.</li>
+            <li><strong>Application Layer:</strong> HTTP, FTP, SMTP, DNS — user-facing protocols.</li>
+            <li><strong>Transport Layer:</strong> TCP (reliable, connection-oriented) and UDP (fast, connectionless).</li>
+            <li><strong>Internet Layer:</strong> IP (Internet Protocol) — addressing and routing packets.</li>
+            <li><strong>Network Access Layer:</strong> Ethernet, Wi-Fi — physical transmission.</li>
         </ul>
+
+        <h3>IP (Internet Protocol)</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Assigns unique addresses (IPv4 or IPv6) to devices and routes data packets across networks.</li>
+            <li><strong>IPv4:</strong> 32-bit addresses (e.g., 192.168.1.1) — limited to ~4.3 billion addresses.</li>
+            <li><strong>IPv6:</strong> 128-bit addresses (e.g., 2001:0db8::1) — virtually unlimited addresses.</li>
+        </ul>
+
+        <h3>TCP (Transmission Control Protocol)</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Ensures reliable, ordered, and error-checked delivery of data between applications.</li>
+            <li><strong>Features:</strong> Connection establishment (3-way handshake), flow control, retransmission of lost packets.</li>
+            <li><strong>Use:</strong> Web browsing (HTTP), email (SMTP), file transfer (FTP).</li>
+        </ul>
+
+        <h3>Other Important Protocols</h3>
+        <ul>
+            <li><strong>UDP:</strong> Fast, no connection overhead — used in streaming, gaming, DNS.</li>
+            <li><strong>HTTP/HTTPS:</strong> Web communication.</li>
+            <li><strong>FTP:</strong> File transfer.</li>
+            <li><strong>SMTP/POP3/IMAP:</strong> Email.</li>
+            <li><strong>DNS:</strong> Domain name resolution.</li>
+        </ul>
+
+        <div class="code-block">
+            <span># TCP 3-way handshake</span><br>
+            Client → Server: SYN<br>
+            Server → Client: SYN-ACK<br>
+            Client → Server: ACK<br>
+            <span># Data transfer begins</span>
+        </div>
+
+        <div class="note-box">
+            <strong>🌐 Key insight:</strong> TCP/IP is the foundational protocol suite of the Internet. IP handles addressing and routing; TCP ensures reliable delivery.
+        </div>
     </div>
 
+    <!-- ========== 5.9 ========== -->
     <div class="section">
         <h2>5.9 Networking Hardware</h2>
-        <p>Networking hardware includes devices that facilitate connectivity and data transfer in a network.</p>
+        <p><strong>Networking hardware</strong> comprises the physical devices that enable connectivity, data transfer, and network management.</p>
+
+        <h3>Router</h3>
         <ul>
-            <li><strong>Router:</strong> Directs data between networks, e.g., connecting a LAN to the Internet.</li>
-            <li><strong>Switch:</strong> Connects devices within a network, forwarding data to specific destinations.</li>
-            <li><strong>Access Point:</strong> Enables wireless connectivity, e.g., Wi-Fi routers.</li>
-            <li><strong>Network Interface Card (NIC):</strong> Allows devices to connect to a network, wired or wireless.</li>
+            <li><strong>Purpose:</strong> Connects different networks (e.g., LAN to WAN) and routes data packets based on IP addresses.</li>
+            <li><strong>Features:</strong> Routing tables, NAT (Network Address Translation), firewall capabilities.</li>
+            <li><strong>Examples:</strong> Home Wi-Fi routers, enterprise core routers.</li>
         </ul>
+
+        <h3>Switch</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Connects devices within a LAN. Forwards data based on MAC addresses.</li>
+            <li><strong>Features:</strong> Low latency, multiple ports, VLAN support.</li>
+            <li><strong>Examples:</strong> Managed and unmanaged switches for office networks.</li>
+        </ul>
+
+        <h3>Access Point (AP)</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Enables wireless devices to connect to a wired network.</li>
+            <li><strong>Features:</strong> Wi-Fi standards (802.11ac/ax), multiple SSIDs, security (WPA3).</li>
+            <li><strong>Examples:</strong> Wireless routers in AP mode, enterprise APs.</li>
+        </ul>
+
+        <h3>Network Interface Card (NIC)</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Provides physical connection to the network (wired or wireless).</li>
+            <li><strong>Features:</strong> MAC address, supports specific speeds (1 Gbps, 10 Gbps).</li>
+            <li><strong>Examples:</strong> Ethernet NIC, Wi-Fi adapter.</li>
+        </ul>
+
+        <h3>Other Hardware</h3>
+        <ul>
+            <li><strong>Modem:</strong> Modulates/demodulates signals for internet access (cable/DSL).</li>
+            <li><strong>Bridge:</strong> Connects two network segments.</li>
+            <li><strong>Gateway:</strong> Connects networks with different protocols.</li>
+            <li><strong>Firewall:</strong> Filters traffic for security.</li>
+        </ul>
+
+        <table>
+            <tr><th>Device</th><th>Layer (OSI)</th><th>Primary Function</th><th>Example</th></tr>
+            <tr><td>Router</td><td>Layer 3 (Network)</td><td>Route between networks</td><td>Cisco 2900, home router</td></tr>
+            <tr><td>Switch</td><td>Layer 2 (Data Link)</td><td>Connect devices within LAN</td><td>Cisco Catalyst, Netgear</td></tr>
+            <tr><td>Access Point</td><td>Layer 2</td><td>Wireless connectivity</td><td>Ubiquiti, Aruba</td></tr>
+            <tr><td>NIC</td><td>Layer 2</td><td>Physical network interface</td><td>Intel Ethernet, Wi-Fi card</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== ADDITIONAL: OSI Model ========== -->
+    <div class="section">
+        <h2>5.10 OSI Reference Model</h2>
+        <p>The <strong>OSI (Open Systems Interconnection)</strong> model is a conceptual framework that standardizes network communication into seven layers. It helps in understanding and troubleshooting network operations.</p>
+
+        <h3>The Seven Layers</h3>
+        <ul>
+            <li><strong>Layer 7 – Application:</strong> User interface (HTTP, FTP, SMTP).</li>
+            <li><strong>Layer 6 – Presentation:</strong> Data formatting, encryption (SSL/TLS).</li>
+            <li><strong>Layer 5 – Session:</strong> Connection management.</li>
+            <li><strong>Layer 4 – Transport:</strong> End-to-end communication (TCP, UDP).</li>
+            <li><strong>Layer 3 – Network:</strong> Routing and addressing (IP).</li>
+            <li><strong>Layer 2 – Data Link:</strong> Error-free transmission (Ethernet, MAC).</li>
+            <li><strong>Layer 1 – Physical:</strong> Raw bit transmission (cables, radio).</li>
+        </ul>
+        <div class="note-box">
+            <strong>📊 Mnemonic:</strong> "Please Do Not Throw Sausage Pizza Away" — Physical, Data Link, Network, Transport, Session, Presentation, Application.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 5 summary</strong><br>Data communication and computer networks enable global connectivity. Networks range from PAN to WAN, with various topologies, media, and protocols.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Communication media: wired (fiber, copper) and wireless (Wi-Fi, satellite).<br>• Network types: LAN, MAN, WAN, PAN.<br>• Protocols: TCP/IP ensure reliable communication.<br>• Hardware: routers, switches, APs form the infrastructure.</div>
     </div>
 </body>
 </html>

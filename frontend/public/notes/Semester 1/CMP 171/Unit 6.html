@@ -1,156 +1,612 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 6: Internet and Internet Services</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
     </style>
 </head>
 <body>
     <h1>Unit 6: Internet and Internet Services</h1>
+    <div class="subhead">History · working · protocols · web technologies · e-commerce · governance</div>
 
+    <!-- ========== 6.1 ========== -->
     <div class="section">
         <h2>6.1 Introduction</h2>
-        <p>The Internet is a global network of interconnected computers that communicate using standardized protocols to share information and resources. It enables a wide range of services, from communication to commerce, transforming how individuals and organizations interact.</p>
+        <p>The <strong>Internet</strong> is a global network of interconnected computer networks that uses standardized protocols (TCP/IP) to communicate and share information. It has revolutionized how we communicate, work, learn, and entertain ourselves. The Internet enables a vast array of <strong>Internet services</strong> that power the modern digital economy.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🌐 Purpose</strong><br>To enable global communication, information sharing, and access to resources. It connects billions of devices worldwide.</div>
+            <div class="card"><strong>🧩 Components</strong><br>Networks, routers, servers, clients, protocols (TCP/IP), and the physical infrastructure (fiber, satellites, cables).</div>
+        </div>
         <ul>
-            <li><strong>Purpose:</strong> Facilitates data exchange, communication, and access to resources worldwide.</li>
-            <li><strong>Components:</strong> Includes networks, servers, routers, and client devices connected via protocols.</li>
-            <li><strong>Examples:</strong> Services like email, web browsing, and online streaming rely on the Internet.</li>
+            <li><strong>Key Services:</strong> Email (SMTP/POP), Web (HTTP/HTTPS), File Transfer (FTP), Remote Access (SSH/TELNET), and Streaming.</li>
+            <li><strong>Impact:</strong> Transformed industries — education, healthcare, commerce, entertainment, and governance.</li>
+            <li><strong>Examples:</strong> Browsing websites, sending emails, streaming videos, online shopping, and social media.</li>
         </ul>
+        <div class="note-box">
+            <strong>💡 Core idea:</strong> The Internet is not just a technology — it's a global infrastructure that underpins modern society and the digital economy.
+        </div>
     </div>
 
+    <!-- ========== 6.2 ========== -->
     <div class="section">
-        <h2>6.2 History of Internet</h2>
-        <p>The Internet evolved from early research networks to a global communication infrastructure over several decades.</p>
+        <h2>6.2 History of the Internet</h2>
+        <p>The Internet evolved from a U.S. military research project into a global phenomenon over several decades.</p>
+
+        <h3>Key Milestones</h3>
         <ul>
-            <li><strong>1960s:</strong> ARPANET, funded by the U.S. Department of Defense, laid the foundation for packet-switching networks.</li>
-            <li><strong>1980s:</strong> TCP/IP protocols were standardized, and the term "Internet" emerged.</li>
-            <li><strong>1990s:</strong> The World Wide Web, introduced by Tim Berners-Lee, made the Internet accessible to the public.</li>
+            <li><strong>1960s – ARPANET:</strong> Funded by the U.S. Department of Defense's ARPA (Advanced Research Projects Agency). The first packet-switching network, connecting UCLA, Stanford, and other universities.</li>
+            <li><strong>1970s – TCP/IP:</strong> Vint Cerf and Bob Kahn developed TCP/IP protocols (1974), which became the standard for internet communication.</li>
+            <li><strong>1980s – Domain Name System (DNS):</strong> Introduced in 1983, replacing host tables with hierarchical domain names. The term "Internet" came into common use.</li>
+            <li><strong>1990 – World Wide Web:</strong> Tim Berners-Lee invented the Web at CERN, creating HTML, HTTP, and the first web browser. This made the Internet accessible to the general public.</li>
+            <li><strong>1990s – Commercialization:</strong> The Internet exploded with the launch of browsers (Netscape, Internet Explorer), search engines (Yahoo, Google), and e-commerce (Amazon, eBay).</li>
+            <li><strong>2000s – Broadband &amp; Mobile:</strong> High-speed broadband and mobile internet (3G/4G) enabled streaming, social media, and cloud services.</li>
+            <li><strong>2010s – IoT &amp; 5G:</strong> Internet of Things (IoT) and 5G networks connect billions of devices, enabling smart cities, autonomous vehicles, and AI applications.</li>
         </ul>
+        <table>
+            <tr><th>Decade</th><th>Key Development</th><th>Impact</th></tr>
+            <tr><td>1960s</td><td>ARPANET creation</td><td>First packet-switched network</td></tr>
+            <tr><td>1970s</td><td>TCP/IP development</td><td>Standard communication protocol</td></tr>
+            <tr><td>1980s</td><td>DNS introduced</td><td>Human-readable domain names</td></tr>
+            <tr><td>1990s</td><td>World Wide Web</td><td>Public access to Internet</td></tr>
+            <tr><td>2000s</td><td>Broadband &amp; mobile</td><td>High-speed connectivity</td></tr>
+            <tr><td>2010s+</td><td>IoT, 5G, AI</td><td>Ubiquitous computing</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 6.3 ========== -->
     <div class="section">
-        <h2>6.3 Working Mechanism of Internet</h2>
-        <p>The Internet operates by transmitting data packets across interconnected networks using standardized protocols.</p>
+        <h2>6.3 Working Mechanism of the Internet</h2>
+        <p>The Internet operates using a combination of <strong>packet switching</strong>, <strong>routing</strong>, and <strong>protocols</strong> to transmit data reliably between devices.</p>
+
+        <h3>Packet Switching</h3>
         <ul>
-            <li><strong>Packet Switching:</strong> Data is divided into packets, routed independently, and reassembled at the destination.</li>
-            <li><strong>Routing:</strong> Routers direct packets through the most efficient paths across networks.</li>
-            <li><strong>Examples:</strong> Browsing a website involves data packets traveling from a server to a user’s device.</li>
+            <li><strong>Definition:</strong> Data is broken into small packets (each with source/destination addresses) before transmission.</li>
+            <li><strong>Process:</strong> Packets travel independently through the network, taking different paths. They are reassembled at the destination.</li>
+            <li><strong>Advantages:</strong> Efficient use of network resources, fault tolerance (if one path fails, packets can take another).</li>
         </ul>
+
+        <h3>Routing</h3>
+        <ul>
+            <li><strong>Definition:</strong> Routers direct packets through the most efficient path towards the destination.</li>
+            <li><strong>Routing Protocols:</strong> BGP (Border Gateway Protocol), OSPF (Open Shortest Path First) determine optimal paths.</li>
+            <li><strong>Example:</strong> When you browse a website, your packets traverse multiple routers across the Internet before reaching the server.</li>
+        </ul>
+
+        <h3>Protocols &amp; Addressing</h3>
+        <ul>
+            <li><strong>IP Address:</strong> Unique identifier for each device (IPv4 or IPv6).</li>
+            <li><strong>TCP:</strong> Ensures reliable, ordered delivery of packets. Handles retransmission of lost packets.</li>
+            <li><strong>UDP:</strong> Fast, connectionless transmission (used in streaming, gaming).</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+Data Transmission Process:
+[Data] → [Packetization] → [Packets]
+    ↓
+[Routing] → [Transmission] → [Reassembly]
+    ↓
+[Destination] → [Original Data Reconstructed]
+            </pre>
+        </div>
+        <div class="note-box">
+            <strong>⚙️ Key insight:</strong> The Internet's resilience comes from its decentralized, packet-switched architecture — no single point of failure.
+        </div>
     </div>
 
+    <!-- ========== 6.4 ========== -->
     <div class="section">
         <h2>6.4 IP Address and Domain Name System (DNS)</h2>
-        <p>IP addresses and DNS are critical for identifying and locating devices on the Internet.</p>
+
+        <h3>IP Address</h3>
         <ul>
-            <li><strong>IP Address:</strong> A unique numerical identifier for devices, e.g., IPv4 (192.168.0.1) or IPv6 (2001:db8::1).</li>
-            <li><strong>Domain Name System (DNS):</strong> Translates human-readable domain names (e.g., google.com) into IP addresses.</li>
-            <li><strong>Examples:</strong> Typing “www.example.com” in a browser triggers a DNS lookup to find its IP address.</li>
+            <li><strong>Definition:</strong> A unique numerical label assigned to each device connected to a network.</li>
+            <li><strong>IPv4:</strong> 32-bit address (e.g., 192.168.1.1) — ~4.3 billion addresses. Exhausted in 2011.</li>
+            <li><strong>IPv6:</strong> 128-bit address (e.g., 2001:0db8:85a3::8a2e:0370:7334) — virtually unlimited (~340 undecillion addresses).</li>
+            <li><strong>Types:</strong> Public (globally unique) and Private (used within local networks, NAT translates to public).</li>
         </ul>
+
+        <h3>Domain Name System (DNS)</h3>
+        <ul>
+            <li><strong>Definition:</strong> A hierarchical system that translates human-readable domain names (e.g., google.com) into IP addresses.</li>
+            <li><strong>How it works:</strong> DNS lookup → root servers → TLD servers (e.g., .com) → authoritative servers → returns IP address.</li>
+            <li><strong>Record Types:</strong> A (IPv4), AAAA (IPv6), CNAME (canonical name), MX (mail exchange), TXT (text).</li>
+            <li><strong>Examples:</strong> When you type "www.example.com," DNS resolves it to an IP like 93.184.216.34.</li>
+        </ul>
+
+        <div class="code-block">
+            <span># DNS lookup example using nslookup</span><br>
+            nslookup google.com<br>
+            <span>Server: 8.8.8.8</span><br>
+            <span>Address: 8.8.8.8#53</span><br>
+            <span>Name: google.com</span><br>
+            <span>Address: 142.250.185.78</span>
+        </div>
     </div>
 
+    <!-- ========== 6.5 ========== -->
     <div class="section">
         <h2>6.5 Client-Server Architecture</h2>
-        <p>Client-server architecture is a model where clients request services or resources from servers over a network.</p>
+        <p>The <strong>client-server model</strong> is a distributed application structure that partitions tasks between service providers (servers) and service requesters (clients).</p>
+
+        <h3>Key Concepts</h3>
         <ul>
-            <li><strong>Client:</strong> A device or software (e.g., web browser) that requests data or services.</li>
-            <li><strong>Server:</strong> A device or software that provides data or services, e.g., web or email servers.</li>
-            <li><strong>Examples:</strong> A browser (client) requests a webpage from a web server, which delivers the content.</li>
+            <li><strong>Client:</strong> A device or software that initiates requests. Examples: Web browser, email client, mobile app.</li>
+            <li><strong>Server:</strong> A device or software that provides resources or services. Examples: Web server, email server, database server.</li>
+            <li><strong>Communication:</strong> Clients send requests to servers; servers process and return responses.</li>
+            <li><strong>Scalability:</strong> Multiple clients can connect to a single server, or load balancing can distribute requests across multiple servers.</li>
         </ul>
+
+        <h3>Types of Servers</h3>
+        <ul>
+            <li><strong>Web Servers:</strong> Apache, Nginx, IIS — serve web pages (HTTP/HTTPS).</li>
+            <li><strong>Email Servers:</strong> Sendmail, Postfix, Exchange — handle SMTP, POP3, IMAP.</li>
+            <li><strong>File Servers:</strong> FTP/SFTP servers — share files.</li>
+            <li><strong>Database Servers:</strong> MySQL, PostgreSQL, Oracle — store and query data.</li>
+            <li><strong>Application Servers:</strong> Tomcat, JBoss — run web applications.</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+Client-Server Model:
+┌────────────┐                    ┌────────────┐
+│   Client   │ ──── Request ────→ │   Server   │
+│  (Browser) │ ←─── Response ──── │ (Web App)  │
+└────────────┘                    └────────────┘
+            </pre>
+        </div>
     </div>
 
+    <!-- ========== 6.6 ========== -->
     <div class="section">
         <h2>6.6 Internet Protocols (HTTP, SMTP, POP, FTP, TELNET)</h2>
-        <p>Internet protocols are rules governing data exchange for specific services.</p>
+        <p>Protocols define the rules for data exchange between devices on the Internet. Each protocol serves a specific purpose.</p>
+
+        <h3>HTTP (HyperText Transfer Protocol)</h3>
         <ul>
-            <li><strong>HTTP (HyperText Transfer Protocol):</strong> Transfers web pages between servers and browsers.</li>
-            <li><strong>SMTP (Simple Mail Transfer Protocol):</strong> Sends emails from clients to servers or between servers.</li>
-            <li><strong>POP (Post Office Protocol):</strong> Retrieves emails from a server to a client device.</li>
-            <li><strong>FTP (File Transfer Protocol):</strong> Transfers files between computers over a network.</li>
-            <li><strong>TELNET:</strong> Enables remote login to another computer for command-line access.</li>
+            <li><strong>Purpose:</strong> Transfer hypertext (web pages) between web servers and browsers.</li>
+            <li><strong>Methods:</strong> GET (retrieve), POST (submit), PUT (update), DELETE (remove).</li>
+            <li><strong>HTTPS:</strong> Secure version using TLS/SSL encryption.</li>
+            <li><strong>Port:</strong> HTTP: 80, HTTPS: 443.</li>
         </ul>
+
+        <h3>SMTP (Simple Mail Transfer Protocol)</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Send email from clients to servers and between servers.</li>
+            <li><strong>Features:</strong> Reliable delivery, queuing, retries.</li>
+            <li><strong>Port:</strong> 25 (unencrypted), 587 (submission, TLS), 465 (SSL).</li>
+        </ul>
+
+        <h3>POP3 (Post Office Protocol version 3)</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Retrieve emails from a server to a client (downloads and deletes from server by default).</li>
+            <li><strong>Port:</strong> 110 (unencrypted), 995 (SSL).</li>
+        </ul>
+
+        <h3>IMAP (Internet Message Access Protocol)</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Access and manage emails on a server (maintains emails on server).</li>
+            <li><strong>Port:</strong> 143 (unencrypted), 993 (SSL).</li>
+        </ul>
+
+        <h3>FTP (File Transfer Protocol)</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Transfer files between computers over a network.</li>
+            <li><strong>Features:</strong> Upload, download, directory navigation.</li>
+            <li><strong>Ports:</strong> 21 (control), 20 (data).</li>
+            <li><strong>SFTP/FTPS:</strong> Secure versions using SSH or SSL.</li>
+        </ul>
+
+        <h3>TELNET</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Remote terminal access to a computer (command-line interface).</li>
+            <li><strong>Port:</strong> 23.</li>
+            <li><strong>Note:</strong> Unencrypted, insecure. Mostly replaced by SSH (port 22) for secure access.</li>
+        </ul>
+
+        <table>
+            <tr><th>Protocol</th><th>Port</th><th>Purpose</th><th>Security</th></tr>
+            <tr><td>HTTP</td><td>80</td><td>Web browsing</td><td>Unencrypted</td></tr>
+            <tr><td>HTTPS</td><td>443</td><td>Secure web browsing</td><td>TLS/SSL</td></tr>
+            <tr><td>SMTP</td><td>25/587</td><td>Send email</td><td>TLS optional</td></tr>
+            <tr><td>POP3</td><td>110/995</td><td>Retrieve email</td><td>SSL optional</td></tr>
+            <tr><td>FTP</td><td>21</td><td>File transfer</td><td>Unencrypted</td></tr>
+            <tr><td>SSH</td><td>22</td><td>Secure remote access</td><td>Encrypted</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 6.7 ========== -->
     <div class="section">
         <h2>6.7 Static and Dynamic Web Pages</h2>
-        <p>Web pages are classified based on how their content is generated and displayed.</p>
+        <p>Web pages can be classified based on how their content is generated and delivered to the user.</p>
+
+        <h3>Static Web Pages</h3>
         <ul>
-            <li><strong>Static Web Pages:</strong> Fixed content delivered as stored, unchanging HTML files, e.g., informational pages.</li>
-            <li><strong>Dynamic Web Pages:</strong> Content generated in real-time using scripts or databases, e.g., social media feeds.</li>
-            <li><strong>Examples:</strong> A company’s “About Us” page (static) vs. an e-commerce product listing (dynamic).</li>
+            <li><strong>Definition:</strong> Pre-built HTML files stored on the server. Content is fixed and the same for every user.</li>
+            <li><strong>Characteristics:</strong> Fast loading, simple to create, no database needed.</li>
+            <li><strong>Use Cases:</strong> Informational sites, brochures, landing pages.</li>
+            <li><strong>Technologies:</strong> HTML, CSS, JavaScript (client-side).</li>
+            <li><strong>Examples:</strong> Company "About Us" page, product brochures, personal portfolios.</li>
         </ul>
+
+        <h3>Dynamic Web Pages</h3>
+        <ul>
+            <li><strong>Definition:</strong> Content is generated in real-time based on user input, database queries, or other factors.</li>
+            <li><strong>Characteristics:</strong> Interactive, personalized, database-driven.</li>
+            <li><strong>Use Cases:</strong> E-commerce, social media, search engines, dashboards.</li>
+            <li><strong>Technologies:</strong> Server-side scripting (PHP, Python, Node.js), databases (MySQL, MongoDB).</li>
+            <li><strong>Examples:</strong> Facebook feed, Amazon product listings, Google search results.</li>
+        </ul>
+
+        <table>
+            <tr><th>Feature</th><th>Static Pages</th><th>Dynamic Pages</th></tr>
+            <tr><td>Content</td><td>Fixed, pre-defined</td><td>Generated on request</td></tr>
+            <tr><td>Database</td><td>Not required</td><td>Required</td></tr>
+            <tr><td>Load Time</td><td>Faster</td><td>Slower (processing)</td></tr>
+            <tr><td>Interactivity</td><td>Limited (client-side JS)</td><td>High</td></tr>
+            <tr><td>Examples</td><td>Blog, brochure site</td><td>E-commerce, social media</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 6.8 ========== -->
     <div class="section">
         <h2>6.8 Search Engines</h2>
-        <p>Search engines are tools that index and retrieve information from the Internet based on user queries.</p>
+        <p><strong>Search engines</strong> are information retrieval systems that index and search web content, helping users find relevant information.</p>
+
+        <h3>How Search Engines Work</h3>
         <ul>
-            <li><strong>Function:</strong> Crawls web pages, indexes content, and ranks results based on relevance.</li>
-            <li><strong>Components:</strong> Includes crawlers, databases, and ranking algorithms.</li>
-            <li><strong>Examples:</strong> Google, Bing, and Yahoo Search.</li>
+            <li><strong>1. Crawling:</strong> Automated bots (spiders/crawlers) discover and scan web pages.</li>
+            <li><strong>2. Indexing:</strong> Analyzed content is stored in a massive database (index) for fast retrieval.</li>
+            <li><strong>3. Ranking:</strong> Algorithms (like Google's PageRank) determine the relevance and authority of pages for a query.</li>
+            <li><strong>4. Retrieval:</strong> Results are displayed to the user with snippets and links.</li>
         </ul>
+
+        <h3>Popular Search Engines</h3>
+        <ul>
+            <li><strong>Google:</strong> The most widely used search engine, known for its sophisticated algorithms and vast index.</li>
+            <li><strong>Bing:</strong> Microsoft's search engine, integrated with Windows and Cortana.</li>
+            <li><strong>Yahoo:</strong> Legacy search engine, now powered by Bing.</li>
+            <li><strong>DuckDuckGo:</strong> Privacy-focused search engine that doesn't track users.</li>
+            <li><strong>Specialized:</strong> YouTube (video), WolframAlpha (computational), Google Scholar (academic).</li>
+        </ul>
+
+        <h3>SEO (Search Engine Optimization)</h3>
+        <ul>
+            <li><strong>Definition:</strong> Practices to improve website visibility in search results.</li>
+            <li><strong>Key Factors:</strong> Content quality, keywords, backlinks, mobile-friendliness, page speed.</li>
+        </ul>
+        <div class="note-box">
+            <strong>🔍 Key insight:</strong> Search engines are the primary gateway to the Internet's vast information. SEO is essential for visibility in the digital age.
+        </div>
     </div>
 
+    <!-- ========== 6.9 ========== -->
     <div class="section">
         <h2>6.9 E-Commerce and M-Commerce</h2>
-        <p>E-commerce and M-commerce involve buying and selling goods or services over the Internet.</p>
+
+        <h3>E-Commerce (Electronic Commerce)</h3>
         <ul>
-            <li><strong>E-Commerce (Electronic Commerce):</strong> Online transactions via websites, e.g., Amazon or eBay.</li>
-            <li><strong>M-Commerce (Mobile Commerce):</strong> Transactions conducted via mobile devices, e.g., payments through apps like PayPal.</li>
-            <li><strong>Examples:</strong> Ordering clothes online (e-commerce) or paying for groceries via a mobile app (m-commerce).</li>
+            <li><strong>Definition:</strong> Buying and selling goods or services using the Internet, and the transfer of money and data to execute these transactions.</li>
+            <li><strong>Types:</strong>
+                <ul>
+                    <li><strong>B2C (Business-to-Consumer):</strong> Amazon, Walmart, Shopify.</li>
+                    <li><strong>B2B (Business-to-Business):</strong> Alibaba, wholesale suppliers.</li>
+                    <li><strong>C2C (Consumer-to-Consumer):</strong> eBay, Etsy, Facebook Marketplace.</li>
+                    <li><strong>C2B (Consumer-to-Business):</strong> Freelance platforms (Upwork).</li>
+                </ul>
+            </li>
+            <li><strong>Technologies:</strong> Shopping carts, payment gateways (PayPal, Stripe), inventory management.</li>
         </ul>
+
+        <h3>M-Commerce (Mobile Commerce)</h3>
+        <ul>
+            <li><strong>Definition:</strong> Buying and selling via mobile devices (smartphones, tablets).</li>
+            <li><strong>Features:</strong> Mobile apps, mobile wallets (Apple Pay, Google Pay), location-based services.</li>
+            <li><strong>Growth:</strong> M-commerce is growing rapidly, with mobile accounting for over 60% of e-commerce traffic.</li>
+            <li><strong>Examples:</strong> Uber, Amazon app, mobile banking apps.</li>
+        </ul>
+
+        <h3>Payment Systems</h3>
+        <ul>
+            <li><strong>Credit/Debit Cards:</strong> Visa, Mastercard.</li>
+            <li><strong>Digital Wallets:</strong> PayPal, Stripe, Alipay, WeChat Pay.</li>
+            <li><strong>Cryptocurrencies:</strong> Bitcoin, Ethereum (emerging).</li>
+        </ul>
+        <table>
+            <tr><th>Type</th><th>Platform</th><th>Examples</th></tr>
+            <tr><td>B2C</td><td>Online Retail</td><td>Amazon, Walmart</td></tr>
+            <tr><td>B2B</td><td>B2B Marketplaces</td><td>Alibaba, ThomasNet</td></tr>
+            <tr><td>C2C</td><td>Peer-to-Peer</td><td>eBay, Etsy</td></tr>
+            <tr><td>M-Commerce</td><td>Mobile Apps</td><td>Uber, Amazon app</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 6.10 ========== -->
     <div class="section">
         <h2>6.10 E-Governance</h2>
-        <p>E-governance refers to the use of Internet and digital technologies to deliver government services and information to citizens.</p>
+        <p><strong>E-Governance</strong> (Electronic Governance) refers to the use of information and communication technologies (ICT) to deliver government services, exchange information, and facilitate citizen participation.</p>
+
+        <h3>Key Aspects</h3>
         <ul>
-            <li><strong>Purpose:</strong> Enhances transparency, efficiency, and accessibility of government processes.</li>
-            <li><strong>Services:</strong> Includes online tax filing, digital identity systems, and public service portals.</li>
-            <li><strong>Examples:</strong> Government websites for license renewals or online voting systems.</li>
+            <li><strong>G2C (Government-to-Citizen):</strong> Services like online tax filing, passport applications, license renewals.</li>
+            <li><strong>G2B (Government-to-Business):</strong> Business registration, procurement, compliance filings.</li>
+            <li><strong>G2G (Government-to-Government):</strong> Data sharing between departments, inter-agency communication.</li>
+            <li><strong>G2E (Government-to-Employee):</strong> HR services, payroll, training portals.</li>
         </ul>
+
+        <h3>Benefits of E-Governance</h3>
+        <ul>
+            <li><strong>Transparency:</strong> Citizens can access information easily.</li>
+            <li><strong>Efficiency:</strong> Reduces paperwork, speeds up processes.</li>
+            <li><strong>Accessibility:</strong> Services available 24/7 from anywhere.</li>
+            <li><strong>Cost Savings:</strong> Reduces administrative costs.</li>
+            <li><strong>Citizen Participation:</strong> Online feedback, consultations, voting.</li>
+        </ul>
+
+        <h3>Challenges</h3>
+        <ul>
+            <li><strong>Digital Divide:</strong> Not all citizens have internet access or digital literacy.</li>
+            <li><strong>Security:</strong> Protecting sensitive data from breaches.</li>
+            <li><strong>Privacy:</strong> Balancing service delivery with individual privacy rights.</li>
+            <li><strong>Interoperability:</strong> Integrating systems across different government departments.</li>
+        </ul>
+
+        <h3>Examples of E-Governance</h3>
+        <ul>
+            <li><strong>India:</strong> Digital India, Aadhaar (digital identity), e‑Hospital.</li>
+            <li><strong>USA:</strong> USA.gov, Healthcare.gov, IRS online filing.</li>
+            <li><strong>Estonia:</strong> e‑Estonia — digital ID, e‑residency, online voting.</li>
+            <li><strong>UK:</strong> GOV.UK portal for all government services.</li>
+        </ul>
+        <div class="note-box">
+            <strong>🏛️ Key insight:</strong> E-Governance transforms how governments interact with citizens, making services more accessible, transparent, and efficient.
+        </div>
+    </div>
+
+    <!-- ========== ADDITIONAL: Internet Security ========== -->
+    <div class="section">
+        <h2>6.11 Internet Security Basics</h2>
+        <p>Security is essential for protecting data and privacy on the Internet. Key security concepts include:</p>
+        <ul>
+            <li><strong>Encryption:</strong> SSL/TLS for HTTPS, email encryption (PGP).</li>
+            <li><strong>Authentication:</strong> Passwords, 2FA, biometrics.</li>
+            <li><strong>Firewalls:</strong> Control network traffic, block unauthorized access.</li>
+            <li><strong>Antivirus:</strong> Detect and remove malware.</li>
+            <li><strong>VPN (Virtual Private Network):</strong> Encrypted tunnel for secure communication.</li>
+        </ul>
+        <div class="note-box">
+            <strong>🛡️ Reminder:</strong> Stay safe online — use strong passwords, enable 2FA, avoid suspicious links, and keep software updated.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 6 summary</strong><br>The Internet is a global network enabling communication, information access, and commerce through standardized protocols and services.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Internet history: ARPANET → TCP/IP → WWW.<br>• Protocols: HTTP, SMTP, FTP, etc.<br>• Services: e-commerce, e-governance, search engines.<br>• Web pages: static vs. dynamic.</div>
     </div>
 </body>
 </html>

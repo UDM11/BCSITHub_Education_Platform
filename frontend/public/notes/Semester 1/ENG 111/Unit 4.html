@@ -1,138 +1,576 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 4: English Grammar for Accuracy</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1>Unit 4: English Grammar for Accuracy</h1>
 
+    <h1>Unit 4: English Grammar for Accuracy</h1>
+    <div class="subhead">Academic language · pronouns · verb tenses · subject-verb agreement · passive voice · transitions</div>
+
+    <!-- ========== 4.1 ========== -->
     <div class="section">
         <h2>4.1 Academic and Non-Academic Language; Pronoun Usage</h2>
-        <p>Understanding the distinction between academic and non-academic language, along with proper pronoun usage, is essential for clear and professional communication, particularly in IT-related writing.</p>
+        <p>Understanding the distinction between <strong>academic</strong> and <strong>non-academic language</strong>, along with proper <strong>pronoun usage</strong>, is essential for clear and professional communication, particularly in IT-related writing.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📚 Academic Language</strong><br>Formal, objective, and precise. Avoids colloquialisms, uses technical terms appropriately. Suitable for reports, research papers, and professional correspondence.</div>
+            <div class="card"><strong>💬 Non-Academic Language</strong><br>Informal and conversational. Includes slang, contractions, and personal tone. Used in casual emails, social media, and everyday conversation.</div>
+        </div>
+
+        <h3>Academic vs. Non-Academic Language</h3>
+        <table>
+            <tr><th>Feature</th><th>Academic Language</th><th>Non-Academic Language</th></tr>
+            <tr><td>Vocabulary</td><td>Formal, technical, precise</td><td>Informal, simple, slang</td></tr>
+            <tr><td>Sentence Structure</td><td>Complex, varied</td><td>Simple, short</td></tr>
+            <tr><td>Tone</td><td>Objective, impersonal</td><td>Subjective, personal</td></tr>
+            <tr><td>Contractions</td><td>Avoided (do not, cannot)</td><td>Used (don't, can't)</td></tr>
+            <tr><td>Personal Pronouns</td><td>Limited (unless specified)</td><td>Frequent (I, you, we)</td></tr>
+            <tr><td>Examples</td><td>"The algorithm demonstrates..."</td><td>"This algorithm is really cool..."</td></tr>
+        </table>
+
+        <h3>Pronoun Usage</h3>
         <ul>
-            <li><strong>Academic Language:</strong> Formal, objective, and precise, academic language avoids colloquialisms and uses technical terms appropriately, suitable for reports, research papers, and professional correspondence.</li>
-            <li><strong>Non-Academic Language:</strong> Informal and conversational, this style includes slang or personal tone, often used in casual emails or social media but less appropriate for professional documents.</li>
-            <li><strong>Pronoun Usage:</strong> Pronouns (e.g., he, she, it, they) replace nouns to avoid repetition. In academic writing, use pronouns consistently and clearly to maintain coherence and avoid ambiguity.</li>
-            <li><strong>Clarity in Pronouns:</strong> Ensure pronouns have clear antecedents (e.g., “The server failed, and it caused delays” clearly links “it” to “server”). Avoid vague pronouns in formal writing.</li>
+            <li><strong>Definition:</strong> Pronouns replace nouns to avoid repetition and maintain coherence.</li>
+            <li><strong>Types of Pronouns:</strong>
+                <ul>
+                    <li><strong>Personal:</strong> I, you, he, she, it, we, they</li>
+                    <li><strong>Possessive:</strong> mine, yours, his, hers, its, ours, theirs</li>
+                    <li><strong>Reflexive:</strong> myself, yourself, himself, herself, itself, ourselves, themselves</li>
+                    <li><strong>Relative:</strong> who, whom, which, that</li>
+                    <li><strong>Indefinite:</strong> anyone, someone, everyone, nobody, everything</li>
+                    <li><strong>Demonstrative:</strong> this, that, these, those</li>
+                    <li><strong>Interrogative:</strong> who, whom, which, what, whose</li>
+                </ul>
+            </li>
+            <li><strong>Pronoun Agreement:</strong> Pronouns must agree with their antecedents in number, gender, and person.</li>
+            <li><strong>Clarity:</strong> Ensure that the antecedent is clear to avoid ambiguity.</li>
         </ul>
-        <p>Mastering these distinctions enhances professionalism and clarity in both academic and workplace communication.</p>
+
+        <div class="code-block">
+            <span>// Correct pronoun usage</span><br>
+            <span>// The developer submitted his code for review.</span><br>
+            <span>// The team completed their project on time.</span><br><br>
+            <span>// Ambiguous pronoun</span><br>
+            <span>// The server crashed, and it caused delays. (What is "it"? The crash or the server?)</span><br><br>
+            <span>// Clear revision</span><br>
+            <span>// The server crashed, and the failure caused delays.</span>
+        </div>
+
+        <div class="note-box">
+            <strong>📝 Key insight:</strong> In academic and professional writing, choose formal language and use pronouns precisely to maintain clarity and credibility. Avoid vague pronoun references.
+        </div>
     </div>
 
+    <!-- ========== 4.2 ========== -->
     <div class="section">
         <h2>4.2 Understanding Different Types of Pronouns and Their Usage in Academic Writing</h2>
         <p>Pronouns play a critical role in academic writing, ensuring clarity and conciseness. Different types of pronouns serve specific functions and must be used accurately.</p>
+
+        <h3>Types of Pronouns</h3>
+        <table>
+            <tr><th>Type</th><th>Examples</th><th>Usage</th><th>Academic Example</th></tr>
+            <tr><td>Personal</td><td>I, you, he, she, it, we, they</td><td>Replace nouns for people/things</td><td>"We analyzed the data..."</td></tr>
+            <tr><td>Possessive</td><td>mine, yours, his, hers, its, ours, theirs</td><td>Show ownership</td><td>"The findings are ours."</td></tr>
+            <tr><td>Reflexive</td><td>myself, yourself, himself, herself, itself</td><td>Refer back to the subject</td><td>"The system itself is secure."</td></tr>
+            <tr><td>Relative</td><td>who, whom, which, that</td><td>Introduce relative clauses</td><td>"The researcher who conducted..."</td></tr>
+            <tr><td>Indefinite</td><td>anyone, someone, everyone, nobody, all</td><td>Refer to non-specific entities</td><td>"Everyone participated in the study."</td></tr>
+            <tr><td>Demonstrative</td><td>this, that, these, those</td><td>Point to specific items</td><td>"These results indicate..."</td></tr>
+        </table>
+
+        <h3>Common Pronoun Pitfalls in Academic Writing</h3>
         <ul>
-            <li><strong>Personal Pronouns:</strong> Include I, you, he, she, it, we, they. In academic writing, limit first-person pronouns (I, we) to maintain objectivity, unless expressing personal analysis.</li>
-            <li><strong>Possessive Pronouns:</strong> Such as mine, yours, his, hers, theirs, show ownership (e.g., “This algorithm is theirs”). Use them to avoid repetitive noun use.</li>
-            <li><strong>Relative Pronouns:</strong> Who, whom, which, that introduce clauses (e.g., “The system that crashed needs updates”). Choose “who” for people and “which” or “that” for objects.</li>
-            <li><strong>Indefinite Pronouns:</strong> Such as anyone, something, refer to non-specific entities. Use sparingly in academic writing to maintain precision (e.g., “Someone accessed the database” may need clarification).</li>
+            <li><strong>Ambiguous Antecedents:</strong> Ensure it's clear what noun the pronoun refers to.
+                <div class="code-block">
+                    <span>// Ambiguous:</span><br>
+                    <span>// The system and the database were updated, and it improved performance.</span><br>
+                    <span>// Clear:</span><br>
+                    <span>// The system and the database were updated, and the update improved performance.</span>
+                </div>
+            </li>
+            <li><strong>Pronoun-Antecedent Agreement:</strong> Ensure agreement in number and gender.
+                <div class="code-block">
+                    <span>// Incorrect:</span><br>
+                    <span>// Every developer must submit their code.</span><br>
+                    <span>// Correct:</span><br>
+                    <span>// Every developer must submit his or her code.</span><br>
+                    <span>// Or (plural):</span><br>
+                    <span>// All developers must submit their code.</span>
+                </div>
+            </li>
+            <li><strong>Overuse of First Person:</strong> In academic writing, use "I" or "we" sparingly, unless you are presenting personal research or analysis.</li>
         </ul>
-        <p>Proper pronoun use ensures clarity, reduces redundancy, and maintains a formal tone in academic texts.</p>
     </div>
 
+    <!-- ========== 4.3 ========== -->
     <div class="section">
         <h2>4.3 Understanding the Different Verb Tenses and Their Usage in Academic Writing</h2>
-        <p>Verb tenses convey the timing of actions and are critical for clarity in academic writing, particularly when discussing research, processes, or findings.</p>
+        <p><strong>Verb tenses</strong> convey the timing of actions and are critical for clarity in academic writing, particularly when discussing research, processes, or findings.</p>
+
+        <h3>Verb Tenses in Academic Writing</h3>
+        <table>
+            <tr><th>Tense</th><th>Usage</th><th>Example</th></tr>
+            <tr><td>Present Simple</td><td>General facts, current states, ongoing research</td><td>"This algorithm improves efficiency."</td></tr>
+            <tr><td>Present Continuous</td><td>Actions happening now or in the near future</td><td>"The team is implementing the new system."</td></tr>
+            <tr><td>Present Perfect</td><td>Past actions with present relevance</td><td>"Studies have shown that..."</td></tr>
+            <tr><td>Past Simple</td><td>Completed actions in the past</td><td>"The experiment yielded significant results."</td></tr>
+            <tr><td>Past Continuous</td><td>Actions in progress at a specific past time</td><td>"The team was testing when the error occurred."</td></tr>
+            <tr><td>Past Perfect</td><td>Actions completed before another past action</td><td>"The team had tested the system before deployment."</td></tr>
+            <tr><td>Future Simple</td><td>Anticipated outcomes or future work</td><td>"This study will explore new frameworks."</td></tr>
+            <tr><td>Future Perfect</td><td>Actions that will be completed before a future time</td><td>"By next year, we will have completed the project."</td></tr>
+        </table>
+
+        <h3>Tense Guidelines by Section</h3>
         <ul>
-            <li><strong>Present Tense:</strong> Used for general facts, current states, or ongoing research (e.g., “This algorithm improves efficiency”). Common in abstracts and discussions.</li>
-            <li><strong>Past Tense:</strong> Describes completed actions or past research (e.g., “The experiment yielded significant results”). Used in methodology and results sections.</li>
-            <li><strong>Future Tense:</strong> Indicates anticipated outcomes or future work (e.g., “This study will explore new frameworks”). Used in proposals or conclusions.</li>
-            <li><strong>Perfect Tenses:</strong> Present perfect (e.g., “Studies have shown”) connects past actions to the present, while past perfect (e.g., “The team had tested the system”) clarifies sequence in past events.</li>
+            <li><strong>Abstract:</strong> Present tense for general statements, past tense for specific findings.</li>
+            <li><strong>Introduction:</strong> Present tense for established knowledge, past tense for previous studies.</li>
+            <li><strong>Methodology:</strong> Past tense (what was done).</li>
+            <li><strong>Results:</strong> Past tense (what was found).</li>
+            <li><strong>Discussion:</strong> Present tense for interpretation, past tense for specific results.</li>
+            <li><strong>Conclusion:</strong> Present tense for recommendations, past tense for summarizing findings.</li>
         </ul>
-        <p>Choosing the appropriate tense ensures temporal accuracy and aligns with the purpose of each section in academic writing.</p>
+
+        <div class="code-block">
+            <span>// Tense consistency example</span><br>
+            <span>// Introduction (present):</span><br>
+            <span>// "Cloud computing provides scalable solutions..."</span><br><br>
+            <span>// Methodology (past):</span><br>
+            <span>// "The team deployed the application on AWS..."</span><br><br>
+            <span>// Results (past):</span><br>
+            <span>// "The system achieved 99.9% uptime..."</span><br><br>
+            <span>// Discussion (present):</span><br>
+            <span>// "These results indicate that cloud solutions..."</span>
+        </div>
     </div>
 
+    <!-- ========== 4.4 ========== -->
     <div class="section">
         <h2>4.4 Subject and Verb Agreement</h2>
-        <p>Subject-verb agreement ensures that the subject and verb in a sentence align in number (singular or plural), maintaining grammatical accuracy and clarity.</p>
+        <p><strong>Subject-verb agreement</strong> ensures that the subject and verb in a sentence align in number (singular or plural), maintaining grammatical accuracy and clarity.</p>
+
+        <h3>Rules for Subject-Verb Agreement</h3>
         <ul>
-            <li><strong>Singular Subjects:</strong> Require singular verbs (e.g., “The programmer writes clean code”). Use “is” or “has” for singular subjects.</li>
-            <li><strong>Plural Subjects:</strong> Require plural verbs (e.g., “The programmers write clean code”). Use “are” or “have” for plural subjects.</li>
-            <li><strong>Complex Subjects:</strong> With compound subjects joined by “and,” use plural verbs (e.g., “The server and database are operational”). For subjects joined by “or,” the verb agrees with the closest subject.</li>
-            <li><strong>Indefinite Pronouns:</strong> Singular pronouns like “everyone” take singular verbs (e.g., “Everyone is responsible”), while “all” or “some” may take plural verbs depending on context.</li>
+            <li><strong>Singular Subjects:</strong> Take singular verbs.
+                <div class="code-block">
+                    <span>// The developer writes clean code.</span><br>
+                    <span>// The server is operational.</span>
+                </div>
+            </li>
+            <li><strong>Plural Subjects:</strong> Take plural verbs.
+                <div class="code-block">
+                    <span>// The developers write clean code.</span><br>
+                    <span>// The servers are operational.</span>
+                </div>
+            </li>
+            <li><strong>Compound Subjects with "and":</strong> Usually take plural verbs.
+                <div class="code-block">
+                    <span>// The server and the database are operational.</span>
+                </div>
+            </li>
+            <li><strong>Compound Subjects with "or/nor":</strong> The verb agrees with the nearest subject.
+                <div class="code-block">
+                    <span>// The developer or the manager is responsible.</span><br>
+                    <span>// Neither the servers nor the network is affected.</span>
+                </div>
+            </li>
+            <li><strong>Indefinite Pronouns:</strong>
+                <ul>
+                    <li><strong>Singular:</strong> everyone, everyone, someone, anyone, nobody, each, either, neither
+                        <div class="code-block">
+                            <span>// Everyone is responsible.</span><br>
+                            <span>// Each of the developers has a laptop.</span>
+                        </div>
+                    </li>
+                    <li><strong>Plural:</strong> both, few, many, several
+                        <div class="code-block">
+                            <span>// Several developers are attending.</span>
+                        </div>
+                    </li>
+                    <li><strong>Singular or Plural:</strong> all, any, most, none, some (depends on context)
+                        <div class="code-block">
+                            <span>// All of the data is correct.</span><br>
+                            <span>// All of the developers are present.</span>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><strong>Collective Nouns:</strong> Singular if acting as a unit, plural if acting individually.
+                <div class="code-block">
+                    <span>// The team is working on the project.</span><br>
+                    <span>// The team are divided on the issue.</span>
+                </div>
+            </li>
         </ul>
-        <p>Correct agreement enhances readability and professionalism in technical and academic writing.</p>
+
+        <div class="code-block">
+            <span>// Common subject-verb agreement mistakes</span><br>
+            <span>// Incorrect:</span><br>
+            <span>// The list of requirements are extensive.</span><br>
+            <span>// Correct:</span><br>
+            <span>// The list of requirements is extensive.</span><br><br>
+            <span>// Incorrect:</span><br>
+            <span>// Each developer have a laptop.</span><br>
+            <span>// Correct:</span><br>
+            <span>// Each developer has a laptop.</span>
+        </div>
     </div>
 
+    <!-- ========== 4.5 ========== -->
     <div class="section">
         <h2>4.5 Maintaining Consistency in Verb Tense Throughout a Written Work</h2>
-        <p>Consistency in verb tense ensures coherence and prevents confusion in academic and professional writing, maintaining a logical flow of ideas.</p>
+        <p><strong>Consistency in verb tense</strong> ensures coherence and prevents confusion in academic and professional writing, maintaining a logical flow of ideas.</p>
+
+        <h3>Guidelines for Tense Consistency</h3>
         <ul>
-            <li><strong>Single Tense for Single Sections:</strong> Use one tense within a paragraph or section unless a shift is justified (e.g., use past tense consistently in a methodology section).</li>
-            <li><strong>Logical Shifts:</strong> Shift tenses only to reflect changes in time (e.g., past tense for completed experiments, present tense for current implications).</li>
-            <li><strong>Review and Edit:</strong> Check for unintended tense shifts during revision, ensuring alignment with the narrative’s timeline (e.g., avoid switching from “tested” to “tests” within a section).</li>
-            <li><strong>Context Awareness:</strong> Match tense to the document’s purpose, such as using present tense for general truths in literature reviews or future tense for proposed work.</li>
+            <li><strong>Use a Single Tense per Section:</strong> Maintain one primary tense within a paragraph or section unless a shift is justified.</li>
+            <li><strong>Logical Tense Shifts:</strong> Shift tenses only to reflect actual changes in time.</li>
+            <li><strong>Common Shifts:</strong>
+                <ul>
+                    <li>Past to present: When discussing past research with present implications.</li>
+                    <li>Past to future: When discussing past work and future plans.</li>
+                    <li>Present to past: When moving from general truths to specific past examples.</li>
+                </ul>
+            </li>
+            <li><strong>Editing for Consistency:</strong> Review your work for unintended tense shifts during revision.</li>
         </ul>
-        <p>Tense consistency strengthens the clarity and credibility of written work.</p>
+
+        <div class="code-block">
+            <span>// Inconsistent tense (incorrect)</span><br>
+            <span>// The team tested the system and it performs well. (past → present shift)</span><br><br>
+            <span>// Consistent tense (correct)</span><br>
+            <span>// The team tested the system and it performed well. (all past)</span><br><br>
+            <span>// Justified shift</span><br>
+            <span>// The team tested the system (past), and it demonstrates (present) how cloud solutions improve scalability.</span>
+        </div>
+
+        <h3>Examples of Tense Consistency</h3>
+        <table>
+            <tr><th>Section</th><th>Tense</th><th>Example</th></tr>
+            <tr><td>Literature Review</td><td>Present</td><td>"Studies show that microservices improve scalability."</td></tr>
+            <tr><td>Methodology</td><td>Past</td><td>"The team deployed the application on AWS."</td></tr>
+            <tr><td>Results</td><td>Past</td><td>"The system achieved 99.9% uptime."</td></tr>
+            <tr><td>Discussion</td><td>Present</td><td>"These results indicate that..."</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 4.6 ========== -->
     <div class="section">
         <h2>4.6 Passive Voice</h2>
-        <p>Passive voice emphasizes the action or object rather than the subject, commonly used in academic writing for objectivity but requiring careful application.</p>
+        <p><strong>Passive voice</strong> emphasizes the action or object rather than the subject, commonly used in academic writing for objectivity but requiring careful application.</p>
+
+        <h3>Structure of Passive Voice</h3>
         <ul>
-            <li><strong>Structure:</strong> In passive voice, the subject receives the action (e.g., “The software was updated by the team” vs. active “The team updated the software”).</li>
-            <li><strong>Use in Academic Writing:</strong> Common in scientific writing to focus on processes or results (e.g., “The data was analyzed using Python”).</li>
-            <li><strong>Limitations:</strong> Overuse can make writing vague or wordy. Use active voice when the subject’s action is critical for clarity (e.g., “The developer fixed the bug”).</li>
-            <li><strong>Balancing Voices:</strong> Combine passive and active voice strategically, using passive for objectivity in methods and active for emphasis in conclusions.</li>
+            <li><strong>Form:</strong> Subject + <em>to be</em> + past participle (+ by agent).</li>
+            <li><strong>Example:</strong> "The software was updated by the team." (passive) vs. "The team updated the software." (active)</li>
         </ul>
-        <p>Appropriate use of passive voice enhances formality while maintaining focus on key elements in academic texts.</p>
+
+        <h3>When to Use Passive Voice</h3>
+        <ul>
+            <li><strong>When the doer is unknown or unimportant:</strong> "The code was written in Python."</li>
+            <li><strong>To emphasize the action or recipient:</strong> "The bug was fixed within hours."</li>
+            <li><strong>In scientific/methodology writing:</strong> "The data was analyzed using Python."</li>
+            <li><strong>To maintain an objective tone:</strong> "The results were measured carefully."</li>
+        </ul>
+
+        <h3>When to Avoid Passive Voice</h3>
+        <ul>
+            <li><strong>When it makes writing vague:</strong> "The mistake was made." (who made it?)</li>
+            <li><strong>When it creates wordiness:</strong> "The decision was made by the committee." (vs. "The committee made the decision.")</li>
+            <li><strong>In conclusions or recommendations:</strong> Use active voice for clarity and conviction.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Passive voice examples</span><br>
+            <span>// The application was developed using React.</span><br>
+            <span>// The data was collected and analyzed.</span><br><br>
+            <span>// Converting passive to active</span><br>
+            <span>// Passive: The system was deployed by the team.</span><br>
+            <span>// Active: The team deployed the system.</span><br><br>
+            <span>// When passive is appropriate</span><br>
+            <span>// The sample was prepared and tested.</span>
+        </div>
     </div>
 
+    <!-- ========== 4.7 ========== -->
     <div class="section">
         <h2>4.7 Transition Words</h2>
-        <p>Transition words connect ideas, improve flow, and guide readers through arguments or processes in academic and professional writing.</p>
+        <p><strong>Transition words</strong> connect ideas, improve flow, and guide readers through arguments or processes in academic and professional writing.</p>
+
+        <h3>Categories of Transition Words</h3>
+        <table>
+            <tr><th>Category</th><th>Examples</th><th>Purpose</th></tr>
+            <tr><td>Additive</td><td>furthermore, in addition, also, moreover, additionally</td><td>Add supporting points</td></tr>
+            <tr><td>Causal</td><td>therefore, consequently, as a result, because, thus</td><td>Show cause and effect</td></tr>
+            <tr><td>Contrast</td><td>however, nevertheless, on the other hand, in contrast, although</td><td>Show differences</td></tr>
+            <tr><td>Sequential</td><td>firstly, next, then, finally, subsequently, after</td><td>Organize steps or arguments</td></tr>
+            <tr><td>Emphatic</td><td>indeed, in fact, notably, significantly</td><td>Emphasize key points</td></tr>
+            <tr><td>Illustrative</td><td>for example, for instance, such as</td><td>Provide examples</td></tr>
+            <tr><td>Concessive</td><td>although, even though, while, despite</td><td>Acknowledge counterpoints</td></tr>
+            <tr><td>Conclusive</td><td>in conclusion, to summarize, ultimately, in summary</td><td>Signal conclusions</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Transition word examples</span><br>
+            <span>// Additive:</span><br>
+            <span>// "The system is efficient. Furthermore, it is cost-effective."</span><br><br>
+            <span>// Causal:</span><br>
+            <span>// "The test failed. Therefore, adjustments were made."</span><br><br>
+            <span>// Contrast:</span><br>
+            <span>// "The old system was slow. However, the new one is optimized."</span><br><br>
+            <span>// Sequential:</span><br>
+            <span>// "Firstly, the data was collected. Next, it was analyzed."</span><br><br>
+            <span>// Emphatic:</span><br>
+            <span>// "The solution is significantly faster than the previous version."</span><br><br>
+            <span>// Conclusive:</span><br>
+            <span>// "In conclusion, the new architecture improves performance."</span>
+        </div>
+
+        <h3>Transition Placement</h3>
         <ul>
-            <li><strong>Additive Transitions:</strong> Words like “furthermore,” “in addition,” or “also” introduce supporting points (e.g., “The system is efficient; furthermore, it reduces costs”).</li>
-            <li><strong>Causal Transitions:</strong> Words like “therefore,” “because,” or “consequently” show cause-and-effect relationships (e.g., “The test failed; therefore, adjustments were made”).</li>
-            <li><strong>Contrast Transitions:</strong> Words like “however,” “nevertheless,” or “in contrast” highlight differences (e.g., “The old system was slow; however, the new one is optimized”).</li>
-            <li><strong>Sequential Transitions:</strong> Words like “firstly,” “next,” or “finally” organize steps or arguments (e.g., “Firstly, the data was collected; next, it was analyzed”).</li>
+            <li><strong>Beginning of a sentence:</strong> "Therefore, we recommend..."</li>
+            <li><strong>Middle of a sentence:</strong> "The system, however, requires more testing."</li>
+            <li><strong>End of a sentence:</strong> "The results were significant, nonetheless."</li>
         </ul>
-        <p>Effective use of transition words enhances coherence, making complex technical writing easier to follow.</p>
+
+        <div class="note-box">
+            <strong>📌 Key insight:</strong> Effective use of transition words creates a logical flow, making technical writing more readable and persuasive. Use them to guide your reader through complex arguments and processes.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 4 summary</strong><br>English grammar for accuracy includes academic language, pronoun usage, verb tenses, subject-verb agreement, passive voice, and transition words.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Academic vs. non-academic language: formal vs. informal.<br>• Pronouns: personal, possessive, relative, indefinite, etc.<br>• Verb tenses: present, past, future with proper usage in academic writing.<br>• Subject-verb agreement: singular/plural alignment.<br>• Tense consistency: maintain logical flow.<br>• Passive voice: use strategically for objectivity.<br>• Transition words: improve flow and coherence.</div>
     </div>
 </body>
 </html>

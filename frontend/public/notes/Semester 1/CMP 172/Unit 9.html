@@ -1,345 +1,836 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unit 9: Structure and Union</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-      font-weight: bold;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 9: Structure and Union</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Unit 9: Structure and Union</h1>
+    <h1>Unit 9: Structure and Union</h1>
+    <div class="subhead">Structure declaration · initialization · arrays · pointers · nested structures · union vs structure</div>
 
-  <div class="section">
-    <h2>9.1 Introduction</h2>
-    <p>Structures and unions are user-defined data types in C that allow grouping of variables of different types under a single name, enabling organized data management.</p>
-    <ul>
-      <li><strong>Structure:</strong> Combines multiple variables, each retaining its own memory.</li>
-      <li><strong>Union:</strong> Combines variables that share the same memory location.</li>
-      <li><strong>Purpose:</strong> Simplifies handling complex data, like records or configurations.</li>
-    </ul>
-  </div>
+    <!-- ========== 9.1 ========== -->
+    <div class="section">
+        <h2>9.1 Introduction</h2>
+        <p><strong>Structures</strong> and <strong>unions</strong> are user-defined data types in C that allow grouping of variables of different types under a single name. They enable organized data management and are fundamental for creating complex data structures.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📦 Structure</strong><br>Groups multiple variables, each retaining its own memory. All members can hold values simultaneously. Used for records like employee, student, or product information.</div>
+            <div class="card"><strong>🔀 Union</strong><br>Groups variables that share the same memory location. Only one member can hold a value at a time. Used for memory-efficient storage and variant records.</div>
+        </div>
 
-  <div class="section">
-    <h2>9.2 Declaration and Initialization of Structure</h2>
-    <p>A structure is declared using the <code>struct</code> keyword, and variables can be initialized during or after declaration.</p>
-    <ul>
-      <li><strong>Declaration Syntax:</strong>
-        <pre>
-struct structure_name {
-    data_type member1;
-    data_type member2;
-    // ...
-};
-        </pre>
-      </li>
-      <li><strong>Initialization:</strong> At declaration or later using dot operator.
-        <pre>
-#include &lt;stdio.h&gt;
-struct student {
-    int id;
-    char name[20];
-    float marks;
-};
-int main() {
-    // Initialization at declaration
-    struct student s1 = {101, "Alice", 85.5};
-    // Initialization after declaration
-    struct student s2;
-    s2.id = 102;
-    strcpy(s2.name, "Bob");
-    s2.marks = 90.0;
-    printf("ID: %d, Name: %s, Marks: %.1f\n", s1.id, s1.name, s1.marks);
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>9.3 Structure Variable</h2>
-    <p>Structure variables are instances of a structure, used to store data for its members.</p>
-    <ul>
-      <li><strong>Declaration:</strong> struct structure_name variable_name;</li>
-      <li><strong>Access:</strong> Use dot operator (.) to access members.
-        <pre>
-#include &lt;stdio.h&gt;
-struct point {
-    int x;
-    int y;
-};
-int main() {
-    struct point p1 = {3, 4};
-    printf("Point: (%d, %d)\n", p1.x, p1.y);
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>9.4 Array of Structure</h2>
-    <p>An array of structures stores multiple structure instances, useful for managing collections of records.</p>
-    <ul>
-      <li><strong>Syntax:</strong> struct structure_name array_name[size];</li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-struct student {
-    int id;
-    char name[20];
-};
-int main() {
-    struct student students[3] = {
-        {1, "Alice"},
-        {2, "Bob"},
-        {3, "Charlie"}
-    };
-    for (int i = 0; i < 3; i++) {
-        printf("ID: %d, Name: %s\n", students[i].id, students[i].name);
-    }
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>9.5 Passing Structure to Function</h2>
-    <p>Structures can be passed to functions by value or by reference (using pointers).</p>
-    <ul>
-      <li><strong>Pass by Value:</strong> Copies the structure, changes don’t affect original.
-        <pre>
-#include &lt;stdio.h&gt;
-struct point {
-    int x;
-    int y;
-};
-void printPoint(struct point p) {
-    printf("Point: (%d, %d)\n", p.x, p.y);
-}
-int main() {
-    struct point p1 = {5, 10};
-    printPoint(p1);
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Pass by Reference:</strong> Uses pointer to modify original structure.
-        <pre>
-#include &lt;stdio.h&gt;
-struct point {
-    int x;
-    int y;
-};
-void modifyPoint(struct point *p) {
-    p->x = 20;
-    p->y = 30;
-}
-int main() {
-    struct point p1 = {5, 10};
-    modifyPoint(&p1);
-    printf("Modified Point: (%d, %d)\n", p1.x, p1.y);
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>9.6 Passing Array of Structure to Function</h2>
-    <p>An array of structures is passed to functions by reference, allowing modifications to the original data.</p>
-    <ul>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-struct student {
-    int id;
-    char name[20];
-};
-void printStudents(struct student s[], int size) {
-    for (int i = 0; i < size; i++) {
-        printf("ID: %d, Name: %s\n", s[i].id, s[i].name);
-    }
-}
-int main() {
-    struct student students[2] = {{1, "Alice"}, {2, "Bob"}};
-    printStudents(students, 2);
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>9.7 Nested Structure</h2>
-    <p>A nested structure contains another structure as a member, enabling hierarchical data organization.</p>
-    <ul>
-      <li><strong>Syntax:</strong> Define one structure inside another or separately.
-        <pre>
-#include &lt;stdio.h&gt;
-struct date {
-    int day;
-    int month;
-    int year;
-};
-struct employee {
-    int id;
-    char name[20];
-    struct date dob;
-};
-int main() {
-    struct employee emp = {101, "Alice", {15, 5, 1990}};
-    printf("ID: %d, Name: %s, DOB: %d/%d/%d\n", 
-           emp.id, emp.name, emp.dob.day, emp.dob.month, emp.dob.year);
-    return 0;
-}
-        </pre>
-      </li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>9.8 Pointer to Structure</h2>
-    <p>A pointer to a structure points to the memory address of a structure variable, accessed using the arrow operator (->).</p>
-    <ul>
-      <li><strong>Syntax:</strong> struct structure_name *pointer_name;</li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-struct point {
-    int x;
-    int y;
-};
-int main() {
-    struct point p1 = {5, 10};
-    struct point *ptr = &p1;
-    printf("Point: (%d, %d)\n", ptr->x, ptr->y);
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Note:</strong> -> is equivalent to (*ptr).member.</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>9.10 Union vs Structure</h2>
-    <p>Unions and structures both group variables, but differ in memory allocation and usage.</p>
-    <ul>
-      <li><strong>Union Declaration:</strong>
-        <pre>
-union data {
-    int i;
-    float f;
-    char c;
-};
-        </pre>
-      </li>
-      <li><strong>Comparison:</strong>
+        <h3>Key Differences at a Glance</h3>
         <ul>
-          <li><strong>Structure:</strong>
-            <ul>
-              <li>Each member has its own memory.</li>
-              <li>Size is sum of all members’ sizes (plus padding).</li>
-              <li>All members can hold values simultaneously.</li>
-            </ul>
-          </li>
-          <li><strong>Union:</strong>
-            <ul>
-              <li>All members share the same memory.</li>
-              <li>Size is that of the largest member.</li>
-              <li>Only one member can hold a value at a time.</li>
-            </ul>
-          </li>
+            <li><strong>Structure:</strong> All members have separate memory. Size is sum of all members (plus padding).</li>
+            <li><strong>Union:</strong> All members share the same memory. Size is the size of the largest member.</li>
+            <li><strong>Use Case:</strong> Use structures when you need to store multiple related data items simultaneously. Use unions when you need to store different types of data in the same memory location.</li>
         </ul>
-      </li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-union data {
-    int i;
-    float f;
-};
-int main() {
-    union data d;
-    d.i = 10;
-    printf("Integer: %d\n", d.i);
-    d.f = 3.14;
-    printf("Float: %.2f\n", d.f); // i is overwritten
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Use Case:</strong> Unions save memory when only one member is needed at a time; structures are used for multiple simultaneous values.</li>
-    </ul>
-  </div>
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> Structures and unions are essential for creating complex data types. They form the basis for records, linked lists, trees, and many other data structures.
+        </div>
+    </div>
+
+    <!-- ========== 9.2 ========== -->
+    <div class="section">
+        <h2>9.2 Declaration and Initialization of Structure</h2>
+        <p>A structure is declared using the <code>struct</code> keyword. It defines a blueprint for creating structure variables.</p>
+
+        <h3>Structure Declaration</h3>
+        <ul>
+            <li><strong>Syntax:</strong>
+                <div class="code-block">
+                    struct structure_name {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;data_type member1;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;data_type member2;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;// ...<br>
+                    };
+                </div>
+            </li>
+            <li><strong>Example:</strong>
+                <div class="code-block">
+                    struct Student {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;int id;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;char name[50];<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;float marks;<br>
+                    };
+                </div>
+            </li>
+        </ul>
+
+        <h3>Structure Initialization</h3>
+        <ul>
+            <li><strong>At Declaration:</strong> Use curly braces with values in order.
+                <div class="code-block">
+                    struct Student s1 = {101, "Alice", 85.5};
+                </div>
+            </li>
+            <li><strong>After Declaration:</strong> Assign values using the dot operator.
+                <div class="code-block">
+                    struct Student s2;<br>
+                    s2.id = 102;<br>
+                    strcpy(s2.name, "Bob");<br>
+                    s2.marks = 90.0;
+                </div>
+            </li>
+            <li><strong>Designated Initialization (C99):</strong> Initialize specific members.
+                <div class="code-block">
+                    struct Student s3 = {.id = 103, .name = "Charlie", .marks = 88.5};
+                </div>
+            </li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Complete structure example</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #include &lt;string.h&gt;<br><br>
+            struct Student {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int id;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char name[50];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;float marks;<br>
+            };<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Student s1 = {101, "Alice", 85.5};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Student s2;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;s2.id = 102;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;strcpy(s2.name, "Bob");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;s2.marks = 90.0;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Student 1: ID=%d, Name=%s, Marks=%.2f\n", s1.id, s1.name, s1.marks);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Student 2: ID=%d, Name=%s, Marks=%.2f\n", s2.id, s2.name, s2.marks);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 9.3 ========== -->
+    <div class="section">
+        <h2>9.3 Structure Variable</h2>
+        <p><strong>Structure variables</strong> are instances of a structure type. They store data for the structure's members and can be declared and used like any other variable.</p>
+
+        <h3>Declaring Structure Variables</h3>
+        <ul>
+            <li><strong>Separate Declaration:</strong>
+                <div class="code-block">
+                    struct Student s1, s2, s3;
+                </div>
+            </li>
+            <li><strong>At Structure Definition:</strong>
+                <div class="code-block">
+                    struct Student {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;int id;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;char name[50];<br>
+                    } s1, s2;
+                </div>
+            </li>
+            <li><strong>Using typedef:</strong>
+                <div class="code-block">
+                    typedef struct {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;int x;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;int y;<br>
+                    } Point;<br><br>
+                    Point p1, p2;
+                </div>
+            </li>
+        </ul>
+
+        <h3>Accessing Structure Members</h3>
+        <ul>
+            <li><strong>Dot Operator (.):</strong> Used to access members of a structure variable.
+                <div class="code-block">
+                    s1.id = 101;<br>
+                    strcpy(s1.name, "Alice");
+                </div>
+            </li>
+            <li><strong>Scope Resolution:</strong> Structure members are accessed using the dot operator.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Structure variable example</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            struct Rectangle {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int length;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int breadth;<br>
+            };<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Rectangle rect1 = {10, 5};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Rectangle rect2;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;rect2.length = 15;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;rect2.breadth = 8;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Rect1: %d x %d\n", rect1.length, rect1.breadth);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Rect2: %d x %d\n", rect2.length, rect2.breadth);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 9.4 ========== -->
+    <div class="section">
+        <h2>9.4 Array of Structure</h2>
+        <p>An <strong>array of structures</strong> stores multiple structure instances in a single array, making it ideal for managing collections of records.</p>
+
+        <h3>Syntax and Example</h3>
+        <ul>
+            <li><strong>Syntax:</strong> <code>struct structure_name array_name[size];</code></li>
+        </ul>
+        <div class="code-block">
+            <span>// Array of structures example</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #include &lt;string.h&gt;<br><br>
+            struct Student {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int id;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char name[50];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;float marks;<br>
+            };<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Student students[3] = {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{1, "Alice", 85.5},<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{2, "Bob", 90.0},<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{3, "Charlie", 78.5}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;};<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < 3; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("ID: %d, Name: %s, Marks: %.2f\n",<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students[i].id, students[i].name, students[i].marks);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Modifying array elements</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;students[1].marks = 95.0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("\nAfter modification:\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < 3; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("ID: %d, Name: %s, Marks: %.2f\n",<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students[i].id, students[i].name, students[i].marks);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>Common Operations</h3>
+        <ul>
+            <li><strong>Sorting:</strong> Sort array of structures based on a member (e.g., sort by marks).</li>
+            <li><strong>Searching:</strong> Search for a structure based on a member value.</li>
+            <li><strong>Filtering:</strong> Extract structures meeting certain criteria.</li>
+        </ul>
+    </div>
+
+    <!-- ========== 9.5 ========== -->
+    <div class="section">
+        <h2>9.5 Passing Structure to Function</h2>
+        <p>Structures can be passed to functions by value or by reference. Each method has different implications for performance and modification capabilities.</p>
+
+        <h3>Pass by Value</h3>
+        <ul>
+            <li><strong>Behavior:</strong> A copy of the structure is passed.</li>
+            <li><strong>Effect:</strong> Changes inside the function do not affect the original.</li>
+            <li><strong>Performance:</strong> Slower for large structures (copy overhead).</li>
+        </ul>
+        <div class="code-block">
+            <span>// Pass by value example</span><br>
+            void printStudent(struct Student s) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("ID: %d, Name: %s, Marks: %.2f\n", s.id, s.name, s.marks);<br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Student s = {101, "Alice", 85.5};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printStudent(s);  <span>// Copy passed</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>Pass by Reference</h3>
+        <ul>
+            <li><strong>Behavior:</strong> A pointer to the structure is passed.</li>
+            <li><strong>Effect:</strong> Changes inside the function affect the original.</li>
+            <li><strong>Performance:</strong> Faster (only pointer passed).</li>
+        </ul>
+        <div class="code-block">
+            <span>// Pass by reference example</span><br>
+            void modifyStudent(struct Student *s) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;s->marks = 95.0;  <span>// Modify original</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;strcpy(s->name, "Alice Smith");<br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Student s = {101, "Alice", 85.5};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;modifyStudent(&amp;s);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Modified: %s, %.2f\n", s.name, s.marks);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>Returning Structure from Function</h3>
+        <div class="code-block">
+            <span>// Returning structure from function</span><br>
+            struct Student createStudent(int id, char *name, float marks) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Student s;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;s.id = id;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;strcpy(s.name, name);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;s.marks = marks;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return s;<br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Student s = createStudent(201, "David", 92.5);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Created: %s, %.2f\n", s.name, s.marks);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 9.6 ========== -->
+    <div class="section">
+        <h2>9.6 Passing Array of Structure to Function</h2>
+        <p>An <strong>array of structures</strong> is passed to functions by reference (as a pointer), allowing efficient processing and modifications to the original data.</p>
+
+        <div class="code-block">
+            <span>// Array of structures as function parameter</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #include &lt;string.h&gt;<br><br>
+            struct Student {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int id;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char name[50];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;float marks;<br>
+            };<br><br>
+            <span>// Print all students</span><br>
+            void printAllStudents(struct Student s[], int size) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < size; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("ID: %d, Name: %s, Marks: %.2f\n",<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s[i].id, s[i].name, s[i].marks);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            <span>// Calculate average marks</span><br>
+            float calculateAverage(struct Student s[], int size) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;float sum = 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < size; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sum += s[i].marks;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return sum / size;<br>
+            }<br><br>
+            <span>// Find student with highest marks</span><br>
+            struct Student findTopper(struct Student s[], int size) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Student topper = s[0];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i < size; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (s[i].marks > topper.marks) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;topper = s[i];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return topper;<br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Student students[] = {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{1, "Alice", 85.5},<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{2, "Bob", 90.0},<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{3, "Charlie", 78.5},<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{4, "David", 92.0}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int size = sizeof(students) / sizeof(students[0]);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("All Students:\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printAllStudents(students, size);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("\nAverage Marks: %.2f\n", calculateAverage(students, size));<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Student topper = findTopper(students, size);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Topper: %s (%.2f)\n", topper.name, topper.marks);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+        <div class="note-box">
+            <strong>📌 Key insight:</strong> When passing arrays of structures to functions, the array decays to a pointer. The size should be passed separately to avoid out-of-bounds access.
+        </div>
+    </div>
+
+    <!-- ========== 9.7 ========== -->
+    <div class="section">
+        <h2>9.7 Nested Structure</h2>
+        <p>A <strong>nested structure</strong> (or structure within structure) contains another structure as a member. This enables hierarchical data organization and represents complex relationships.</p>
+
+        <h3>Nested Structure Declaration</h3>
+        <div class="code-block">
+            <span>// Nested structure example</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #include &lt;string.h&gt;<br><br>
+            struct Date {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int day;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int month;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int year;<br>
+            };<br><br>
+            struct Employee {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int id;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char name[50];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Date dob;      <span>// Nested structure</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Date joinDate;  <span>// Another nested structure</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;float salary;<br>
+            };<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Employee emp = {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;101,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"John Doe",<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{15, 5, 1990},   <span>// dob</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{1, 6, 2015},    <span>// joinDate</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;75000.0<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;};<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Employee: %s\n", emp.name);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("DOB: %d/%d/%d\n", emp.dob.day, emp.dob.month, emp.dob.year);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Join Date: %d/%d/%d\n", emp.joinDate.day, emp.joinDate.month, emp.joinDate.year);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Salary: %.2f\n", emp.salary);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Accessing nested members</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;emp.dob.year = 1991;  <span>// Modify nested member</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>Nested Structure with Pointer</h3>
+        <div class="code-block">
+            <span>// Nested structure with pointer</span><br>
+            struct Address {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char street[100];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char city[50];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char state[30];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int zip;<br>
+            };<br><br>
+            struct Person {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char name[50];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Address *addr;  <span>// Pointer to Address</span><br>
+            };<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Address addr1 = {"123 Main St", "New York", "NY", 10001};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Person p = {"Alice", &amp;addr1};<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%s lives at %s, %s, %s - %d\n",<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p.name, p.addr->street, p.addr->city, p.addr->state, p.addr->zip);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 9.8 ========== -->
+    <div class="section">
+        <h2>9.8 Pointer to Structure</h2>
+        <p>A <strong>pointer to structure</strong> stores the memory address of a structure variable. Pointers to structures are commonly used for efficient parameter passing and dynamic memory allocation.</p>
+
+        <h3>Declaration and Usage</h3>
+        <div class="code-block">
+            <span>// Pointer to structure</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #include &lt;string.h&gt;<br><br>
+            struct Student {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int id;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char name[50];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;float marks;<br>
+            };<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Student s1 = {101, "Alice", 85.5};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Student *ptr = &amp;s1;  <span>// Pointer to structure</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Access using -> operator</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("ID: %d\n", ptr->id);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Name: %s\n", ptr->name);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Marks: %.2f\n", ptr->marks);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Modify using pointer</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;ptr->marks = 95.0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;strcpy(ptr->name, "Alice Smith");<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("\nAfter modification:\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Name: %s, Marks: %.2f\n", s1.name, s1.marks);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>Dynamic Allocation of Structure</h3>
+        <div class="code-block">
+            <span>// Dynamic allocation of structure</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #include &lt;stdlib.h&gt;<br>
+            #include &lt;string.h&gt;<br><br>
+            struct Student {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int id;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char name[50];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;float marks;<br>
+            };<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Student *ptr = (struct Student *)malloc(sizeof(struct Student));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (ptr != NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ptr->id = 201;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strcpy(ptr->name, "David");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ptr->marks = 92.5;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("ID: %d, Name: %s, Marks: %.2f\n", ptr->id, ptr->name, ptr->marks);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;free(ptr);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>🔑 Key insight:</strong> The arrow operator (<code>-></code>) is a shorthand for <code>(*ptr).member</code>. It is used to access members of a structure through a pointer.
+        </div>
+    </div>
+
+    <!-- ========== 9.9 ========== -->
+    <div class="section">
+        <h2>9.9 Union Declaration and Usage</h2>
+        <p>A <strong>union</strong> is similar to a structure, but all members share the same memory location. Only one member can hold a value at a time. Unions are used for memory-efficient storage when only one member is needed at a time.</p>
+
+        <h3>Union Declaration</h3>
+        <div class="code-block">
+            union Data {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int i;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;float f;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char str[20];<br>
+            };
+        </div>
+
+        <h3>Union Example</h3>
+        <div class="code-block">
+            <span>// Union example</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #include &lt;string.h&gt;<br><br>
+            union Data {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int i;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;float f;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char str[20];<br>
+            };<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;union Data data;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;data.i = 10;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("data.i: %d\n", data.i);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;data.f = 3.14;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("data.f: %.2f\n", data.f);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("data.i (after setting f): %d\n", data.i);  <span>// Overwritten!</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;strcpy(data.str, "Hello");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("data.str: %s\n", data.str);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("data.f (after setting str): %.2f\n", data.f);  <span>// Overwritten!</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Size of union: %zu bytes\n", sizeof(data));  <span>// Size of largest member</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>Union with Structure</h3>
+        <div class="code-block">
+            <span>// Union inside structure</span><br>
+            struct Item {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int type;  <span>// 0: int, 1: float, 2: string</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;union {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int intVal;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float floatVal;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;char strVal[50];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;} value;<br>
+            };<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Item item1 = {0, .value.intVal = 42};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Item item2 = {1, .value.floatVal = 3.14};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Item item3 = {2, .value.strVal = "Hello"};<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Item1: %d\n", item1.value.intVal);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Item2: %.2f\n", item2.value.floatVal);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Item3: %s\n", item3.value.strVal);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 9.10 ========== -->
+    <div class="section">
+        <h2>9.10 Union vs Structure</h2>
+        <p><strong>Structures</strong> and <strong>unions</strong> both group variables of different types, but they differ fundamentally in memory allocation and usage.</p>
+
+        <h3>Memory Comparison</h3>
+        <div class="figure-box">
+            <pre>
+Structure Memory:
+┌─────────┬─────────┬─────────┬─────────┐
+│ int     │ float   │ char[20]│ padding │
+│ (4 bytes)│ (4 bytes)│ (20 bytes)│         │
+└─────────┴─────────┴─────────┴─────────┘
+Total: ~28 bytes
+
+Union Memory:
+┌─────────────────────────────────────────┐
+│         Largest Member (20 bytes)       │
+│         Shared by all members           │
+└─────────────────────────────────────────┘
+Total: 20 bytes
+            </pre>
+        </div>
+
+        <table>
+            <tr><th>Feature</th><th>Structure</th><th>Union</th></tr>
+            <tr><td>Memory Allocation</td><td>Separate for each member</td><td>Shared among all members</td></tr>
+            <tr><td>Total Size</td><td>Sum of all members (+ padding)</td><td>Size of largest member</td></tr>
+            <tr><td>Member Values</td><td>All members can hold values simultaneously</td><td>Only one member can hold a value at a time</td></tr>
+            <tr><td>Access</td><td>All members accessible at any time</td><td>Only last assigned member is valid</td></tr>
+            <tr><td>Use Case</td><td>Records with multiple related fields</td><td>Memory-efficient variant records</td></tr>
+            <tr><td>Example</td><td>Employee record (id, name, salary)</td><td>Data type (int, float, string)</td></tr>
+        </table>
+
+        <h3>When to Use Each</h3>
+        <ul>
+            <li><strong>Structure:</strong>
+                <ul>
+                    <li>When you need to store multiple related pieces of information.</li>
+                    <li>When all members need to be accessible simultaneously.</li>
+                    <li>When memory usage is not a critical constraint.</li>
+                </ul>
+            </li>
+            <li><strong>Union:</strong>
+                <ul>
+                    <li>When you need to store different types of data but only one at a time.</li>
+                    <li>When memory is limited and you want to save space.</li>
+                    <li>When implementing variant records or type-agnostic data storage.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Structure vs Union - Practical Example</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            struct StructData {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int i;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;float f;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char c;<br>
+            };<br><br>
+            union UnionData {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int i;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;float f;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char c;<br>
+            };<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Structure size: %zu bytes\n", sizeof(struct StructData));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Union size: %zu bytes\n", sizeof(union UnionData));<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct StructData s = {10, 3.14, 'A'};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Structure: i=%d, f=%.2f, c=%c\n", s.i, s.f, s.c);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;union UnionData u;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;u.i = 10;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Union (i): %d\n", u.i);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;u.f = 3.14;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Union (f): %.2f, (i): %d\n", u.f, u.i);  <span>// i is overwritten</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>📊 Key insight:</strong> Choose structures when you need all members simultaneously. Choose unions when you need memory efficiency and only one member at a time. The choice depends on memory constraints and how the data will be used.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 9 summary</strong><br>Structures group related data with separate memory for each member. Unions share memory among members, saving space but allowing only one active member at a time.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Structure: separate memory, all members active.<br>• Union: shared memory, only one member active.<br>• Nested structures for hierarchical data.<br>• Pointers to structures for efficient passing.<br>• Arrays of structures for collections.</div>
+    </div>
 </body>
 </html>

@@ -1,193 +1,764 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unit 7: Advanced Topics on JavaScript</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-      font-weight: bold;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 7: Advanced Topics on JavaScript</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Unit 7: Advanced Topics on JavaScript</h1>
+    <h1>Unit 7: Advanced Topics on JavaScript</h1>
+    <div class="subhead">Scope · closures · error handling · DOM · async · JSON · ES6 · libraries</div>
 
-  <div class="section">
-    <h2>7.1 Scope and Closures</h2>
-    <p>Scope determines the accessibility of variables, while closures allow functions to retain access to their outer scope's variables even after the outer function has finished executing.</p>
-    <ul>
-      <li><strong>Scope</strong>: Global, function, and block scope (using <code>let</code> and <code>const</code>).</li>
-      <li><strong>Closures</strong>: A function bundled with its lexical environment, retaining access to variables from its parent scope.</li>
-      <li><strong>Use Cases</strong>: Data privacy, event handlers, and callbacks.</li>
-    </ul>
-    <pre><code>function outer() {
-  let count = 0;
-  return function inner() {
-    return count++;
-  };
-}
-const counter = outer();
-console.log(counter()); // 0
-console.log(counter()); // 1</code></pre>
-  </div>
+    <!-- ========== 7.1 ========== -->
+    <div class="section">
+        <h2>7.1 Scope and Closures</h2>
+        <p><strong>Scope</strong> determines the accessibility of variables, while <strong>closures</strong> allow functions to retain access to their outer scope's variables even after the outer function has finished executing.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📦 Scope</strong><br>Defines where variables are accessible. Types: Global, Function, Block (let/const). Lexical scope follows the nesting structure.</div>
+            <div class="card"><strong>🔒 Closures</strong><br>A function bundled with its lexical environment. Retains access to variables from its parent scope even after the parent function returns.</div>
+        </div>
 
-  <div class="section">
-    <h2>7.2 Error Handling and Debugging</h2>
-    <p>Error handling manages runtime errors, while debugging helps identify and fix issues in code.</p>
-    <ul>
-      <li><strong>try/catch</strong>: Catches and handles errors gracefully.</li>
-      <li><strong>throw</strong>: Creates custom errors.</li>
-      <li><strong>Debugging</strong>: Use browser tools like console, breakpoints, and <code>debugger</code>.</li>
-    </ul>
-    <pre><code>try {
-  let result = undefinedVar;
-} catch (error) {
-  console.error('Error:', error.message);
-}
-throw new Error('Custom error');
-console.log('This will not run');</code></pre>
-  </div>
+        <h3>Scope Types</h3>
+        <ul>
+            <li><strong>Global Scope:</strong> Variables declared outside any function. Accessible everywhere.</li>
+            <li><strong>Function Scope:</strong> Variables declared inside a function (with <code>var</code>). Accessible within that function.</li>
+            <li><strong>Block Scope:</strong> Variables declared with <code>let</code> and <code>const</code>. Accessible within the block <code>{ }</code>.</li>
+        </ul>
 
-  <div class="section">
-    <h2>7.3 DOM Manipulation</h2>
-    <p>The Document Object Model (DOM) allows JavaScript to interact with HTML elements, enabling dynamic content updates.</p>
-    <ul>
-      <li><strong>Selecting Elements</strong>: <code>getElementById</code>, <code>querySelector</code>.</li>
-      <li><strong>Modifying Elements</strong>: Change content, styles, or attributes.</li>
-      <li><strong>Event Listeners</strong>: Respond to user actions like clicks or input.</li>
-    </ul>
-    <pre><code>const btn = document.querySelector('#myButton');
-btn.addEventListener('click', () => {
-  document.querySelector('p').textContent = 'Updated!';
-  btn.style.backgroundColor = 'blue';
-});</code></pre>
-  </div>
+        <div class="code-block">
+            <span>// Global scope</span><br>
+            let globalVar = 'Global';<br><br>
+            function outer() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;let outerVar = 'Outer';  <span>// Function scope</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (true) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let blockVar = 'Block';  <span>// Block scope (let)</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var functionScoped = 'Function';  <span>// Function scope (var)</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return function inner() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(globalVar);  <span>// Accessible</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(outerVar);   <span>// Accessible</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(blockVar);   <span>// Not accessible (block scope)</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(functionScoped);  <span>// Accessible</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;};<br>
+            }
+        </div>
 
-  <div class="section">
-    <h2>7.4 Asynchronous JavaScript</h2>
-    <p>Asynchronous JavaScript handles operations that take time, such as fetching data, without blocking execution.</p>
-    <ul>
-      <li><strong>Callbacks</strong>: Functions passed as arguments to handle async results.</li>
-      <li><strong>Promises</strong>: Objects representing eventual completion or failure.</li>
-      <li><strong>async/await</strong>: Syntactic sugar for working with Promises.</li>
-    </ul>
-    <pre><code>async function fetchData() {
-  try {
-    const response = await fetch('https://api.example.com/data');
-    const data = await response.json();
-    console.log(data);
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
-fetchData();</code></pre>
-  </div>
+        <h3>Closures in Practice</h3>
+        <div class="code-block">
+            <span>// Closure example - counter</span><br>
+            function createCounter() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;let count = 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return function() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ++count;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;};<br>
+            }<br><br>
+            const counter1 = createCounter();<br>
+            console.log(counter1()); <span>// 1</span><br>
+            console.log(counter1()); <span>// 2</span><br><br>
+            const counter2 = createCounter();<br>
+            console.log(counter2()); <span>// 1 (independent closure)</span><br><br>
+            <span>// Closure with parameters</span><br>
+            function multiplier(factor) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return function(number) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return number * factor;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;};<br>
+            }<br><br>
+            const double = multiplier(2);<br>
+            const triple = multiplier(3);<br>
+            console.log(double(5)); <span>// 10</span><br>
+            console.log(triple(5)); <span>// 15</span>
+        </div>
 
-  <div class="section">
-    <h2>7.5 JSON and AJAX</h2>
-    <p>JSON (JavaScript Object Notation) is a lightweight data format, and AJAX (Asynchronous JavaScript and XML) enables asynchronous data fetching.</p>
-    <ul>
-      <li><strong>JSON</strong>: Used for data exchange, parsed with <code>JSON.parse</code> and <code>JSON.stringify</code>.</li>
-      <li><strong>AJAX</strong>: Uses <code>XMLHttpRequest</code> or <code>fetch</code> to load data without refreshing.</li>
-    </ul>
-    <pre><code>const data = JSON.stringify({ name: 'John', age: 30 });
-console.log(JSON.parse(data)); // { name: 'John', age: 30 }
-fetch('https://api.example.com/data')
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.error(error));</code></pre>
-  </div>
+        <h3>Use Cases for Closures</h3>
+        <ul>
+            <li><strong>Data Privacy:</strong> Create private variables.</li>
+            <li><strong>Event Handlers:</strong> Preserve state in event callbacks.</li>
+            <li><strong>Function Factories:</strong> Generate functions with pre-configured behavior.</li>
+            <li><strong>Module Pattern:</strong> Create encapsulated modules.</li>
+        </ul>
 
-  <div class="section">
-    <h2>7.6 ES6 and Modern JavaScript</h2>
-    <p>ES6 (ECMAScript 2015) introduced modern JavaScript features to improve code readability and functionality.</p>
-    <ul>
-      <li><strong>let/const</strong>: Block-scoped variable declarations.</li>
-      <li><strong>Arrow Functions</strong>: Concise function syntax.</li>
-      <li><strong>Destructuring</strong>: Extract values from arrays/objects.</li>
-      <li><strong>Modules</strong>: Import/export for modular code.</li>
-    </ul>
-    <pre><code>const [a, b] = [1, 2]; // Destructuring
-const add = (x, y) => x + y; // Arrow function
-import { myFunction } from './module.js';
-export const myVar = 42;</code></pre>
-  </div>
+        <div class="note-box">
+            <strong>🔑 Key insight:</strong> Closures are a fundamental JavaScript concept. They enable data encapsulation, functional programming, and many design patterns.
+        </div>
+    </div>
 
-  <div class="section">
-    <h2>7.7 JavaScript Libraries</h2>
-    <p>JavaScript libraries provide pre-written code to simplify development and enhance functionality.</p>
-    <ul>
-      <li><strong>jQuery</strong>: Simplifies DOM manipulation and AJAX.</li>
-      <li><strong>React</strong>: Component-based library for building user interfaces.</li>
-      <li><strong>Lodash</strong>: Utility library for common tasks like array manipulation.</li>
-      <li><strong>Inclusion</strong>: Use via CDN or package managers like npm.</li>
-    </ul>
-    <pre><code>&lt;script src="https://code.jquery.com/jquery-3.6.0.min.js"&gt;&lt;/script&gt;
-&lt;script&gt;
-  $(document).ready(function() {
-    $('p').hide();
-  });
-&lt;/script&gt;</code></pre>
-  </div>
+    <!-- ========== 7.2 ========== -->
+    <div class="section">
+        <h2>7.2 Error Handling and Debugging</h2>
+        <p><strong>Error handling</strong> manages runtime errors gracefully, while <strong>debugging</strong> helps identify and fix issues in code.</p>
+
+        <h3>try/catch/finally</h3>
+        <ul>
+            <li><strong>try:</strong> Block where errors might occur.</li>
+            <li><strong>catch:</strong> Handles errors thrown in try block.</li>
+            <li><strong>finally:</strong> Executes regardless of whether an error occurred.</li>
+        </ul>
+
+        <h3>throw Statement</h3>
+        <ul>
+            <li>Creates custom errors: <code>throw new Error('Custom error');</code></li>
+            <li>Can throw any value: <code>throw 'Something went wrong';</code></li>
+        </ul>
+
+        <h3>Debugging Techniques</h3>
+        <ul>
+            <li><strong>console.log():</strong> Output values for inspection.</li>
+            <li><strong>debugger:</strong> Pauses execution and opens developer tools.</li>
+            <li><strong>Breakpoints:</strong> Set in browser DevTools.</li>
+            <li><strong>console.table():</strong> Display arrays/objects in tabular format.</li>
+            <li><strong>console.trace():</strong> Show call stack.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// try/catch/finally example</span><br>
+            try {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;let data = JSON.parse('{ invalid JSON }');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log(data);<br>
+            } catch (error) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.error('Parsing error:', error.message);<br>
+            } finally {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log('This always executes');<br>
+            }<br><br>
+            <span>// Custom error</span><br>
+            function divide(a, b) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (b === 0) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Error('Division by zero is not allowed');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return a / b;<br>
+            }<br><br>
+            try {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;divide(10, 0);<br>
+            } catch (error) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.error(error.message);<br>
+            }<br><br>
+            <span>// Debugging</span><br>
+            function calculate() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;let x = 10;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;let y = 20;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;debugger;  <span>// Execution pauses here in DevTools</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log(x + y);<br>
+            }<br><br>
+            <span>// Console methods</span><br>
+            console.table([{name: 'John', age: 30}, {name: 'Jane', age: 25}]);<br>
+            console.trace('Function call trace');
+        </div>
+
+        <h3>Error Types</h3>
+        <ul>
+            <li><code>SyntaxError</code> — Invalid syntax.</li>
+            <li><code>ReferenceError</code> — Variable not defined.</li>
+            <li><code>TypeError</code> — Invalid type operation.</li>
+            <li><code>RangeError</code> — Value out of range.</li>
+            <li><code>URIError</code> — Invalid URI handling.</li>
+        </ul>
+    </div>
+
+    <!-- ========== 7.3 ========== -->
+    <div class="section">
+        <h2>7.3 DOM Manipulation</h2>
+        <p>The <strong>Document Object Model (DOM)</strong> allows JavaScript to interact with HTML elements, enabling dynamic content updates, style changes, and user interactions.</p>
+
+        <h3>Selecting Elements</h3>
+        <table>
+            <tr><th>Method</th><th>Description</th><th>Example</th></tr>
+            <tr><td>getElementById()</td><td>Select by ID</td><td>document.getElementById('myId')</td></tr>
+            <tr><td>querySelector()</td><td>First matching CSS selector</td><td>document.querySelector('.class')</td></tr>
+            <tr><td>querySelectorAll()</td><td>All matching CSS selectors</td><td>document.querySelectorAll('li')</td></tr>
+            <tr><td>getElementsByClassName()</td><td>By class name</td><td>document.getElementsByClassName('item')</td></tr>
+            <tr><td>getElementsByTagName()</td><td>By tag name</td><td>document.getElementsByTagName('div')</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Selecting elements</span><br>
+            let header = document.getElementById('header');<br>
+            let button = document.querySelector('.btn-primary');<br>
+            let items = document.querySelectorAll('.list-item');<br><br>
+            <span>// Modifying content</span><br>
+            header.textContent = 'New Text';  <span>// Safe (no HTML parsing)</span><br>
+            header.innerHTML = '&lt;strong&gt;Bold Text&lt;/strong&gt;';  <span>// Parses HTML</span><br><br>
+            <span>// Modifying attributes</span><br>
+            button.setAttribute('disabled', 'true');<br>
+            let id = button.getAttribute('data-id');<br><br>
+            <span>// Modifying styles</span><br>
+            header.style.color = '#2c3e50';<br>
+            header.style.backgroundColor = '#ecf0f1';<br>
+            header.style.fontSize = '24px';<br><br>
+            <span>// Class manipulation</span><br>
+            header.classList.add('active');<br>
+            header.classList.remove('inactive');<br>
+            header.classList.toggle('highlight');<br>
+            let hasClass = header.classList.contains('active');<br><br>
+            <span>// Creating and appending elements</span><br>
+            let newDiv = document.createElement('div');<br>
+            newDiv.textContent = 'New Content';<br>
+            newDiv.className = 'card';<br>
+            document.body.appendChild(newDiv);<br><br>
+            <span>// Removing elements</span><br>
+            let elementToRemove = document.querySelector('.remove-me');<br>
+            elementToRemove.remove();<br>
+            <span>// or</span><br>
+            elementToRemove.parentNode.removeChild(elementToRemove);
+        </div>
+
+        <div class="note-box">
+            <strong>📄 Key insight:</strong> Efficient DOM manipulation is crucial for performance. Batch DOM updates, use document fragments, and avoid excessive reflows.
+        </div>
+    </div>
+
+    <!-- ========== 7.4 ========== -->
+    <div class="section">
+        <h2>7.4 Asynchronous JavaScript</h2>
+        <p><strong>Asynchronous JavaScript</strong> handles operations that take time (e.g., network requests, file I/O, timers) without blocking the main execution thread.</p>
+
+        <h3>Callbacks</h3>
+        <ul>
+            <li>Functions passed as arguments to be executed later.</li>
+            <li><strong>Callback Hell:</strong> Nested callbacks that become hard to read and maintain.</li>
+        </ul>
+
+        <h3>Promises</h3>
+        <ul>
+            <li>Objects representing eventual completion or failure of an async operation.</li>
+            <li><strong>States:</strong> Pending, Fulfilled, Rejected.</li>
+            <li>Chainable with <code>.then()</code>, <code>.catch()</code>, <code>.finally()</code>.</li>
+        </ul>
+
+        <h3>async/await</h3>
+        <ul>
+            <li>Syntactic sugar over Promises.</li>
+            <li>Makes async code look synchronous.</li>
+            <li>Use <code>try/catch</code> for error handling.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Callback example</span><br>
+            function fetchData(callback) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;setTimeout(() => {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback({ data: 'Hello World' });<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}, 1000);<br>
+            }<br><br>
+            fetchData(function(result) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log(result.data);<br>
+            });<br><br>
+            <span>// Promise example</span><br>
+            function fetchDataPromise() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return new Promise((resolve, reject) => {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setTimeout(() => {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resolve({ data: 'Hello World' });<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}, 1000);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;});<br>
+            }<br><br>
+            fetchDataPromise()<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.then(result => console.log(result.data))<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.catch(error => console.error(error))<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.finally(() => console.log('Done'));<br><br>
+            <span>// async/await example</span><br>
+            async function getData() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let result = await fetchDataPromise();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(result.data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.error(error);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            getData();<br><br>
+            <span>// Promise.all - parallel execution</span><br>
+            Promise.all([<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fetchDataPromise(),<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fetchDataPromise()<br>
+            ]).then(results => {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log(results[0].data, results[1].data);<br>
+            });
+        </div>
+    </div>
+
+    <!-- ========== 7.5 ========== -->
+    <div class="section">
+        <h2>7.5 JSON and AJAX</h2>
+        <p><strong>JSON</strong> (JavaScript Object Notation) is a lightweight data format for data exchange. <strong>AJAX</strong> (Asynchronous JavaScript and XML) enables asynchronous data fetching without page refresh.</p>
+
+        <h3>JSON</h3>
+        <ul>
+            <li><strong>JSON.stringify():</strong> Convert JavaScript object to JSON string.</li>
+            <li><strong>JSON.parse():</strong> Convert JSON string to JavaScript object.</li>
+            <li><strong>Format:</strong> Keys must be in double quotes.</li>
+        </ul>
+
+        <h3>AJAX with fetch()</h3>
+        <ul>
+            <li><strong>fetch()</strong> returns a Promise.</li>
+            <li><strong>Response:</strong> Use <code>.json()</code>, <code>.text()</code>, etc.</li>
+            <li><strong>Options:</strong> method, headers, body, etc.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// JSON example</span><br>
+            let person = { name: 'John', age: 30, city: 'New York' };<br>
+            let jsonString = JSON.stringify(person);<br>
+            console.log(jsonString);  <span>// '{"name":"John","age":30,"city":"New York"}'</span><br><br>
+            let parsed = JSON.parse(jsonString);<br>
+            console.log(parsed.name);  <span>// John</span><br><br>
+            <span>// GET request with fetch</span><br>
+            fetch('https://api.example.com/users')<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.then(response => {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!response.ok) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Error('Network response was not ok');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return response.json();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;})<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.then(data => console.log(data))<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.catch(error => console.error('Error:', error));<br><br>
+            <span>// POST request with fetch</span><br>
+            fetch('https://api.example.com/users', {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;method: 'POST',<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;headers: {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Content-Type': 'application/json'<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;},<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;body: JSON.stringify({ name: 'Alice', age: 25 })<br>
+            })<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.then(response => response.json())<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.then(data => console.log('Created:', data))<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.catch(error => console.error('Error:', error));<br><br>
+            <span>// async/await with fetch</span><br>
+            async function fetchUsers() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let response = await fetch('https://api.example.com/users');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let data = await response.json();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.error('Error:', error);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <h3>XMLHttpRequest (Legacy)</h3>
+        <div class="code-block">
+            let xhr = new XMLHttpRequest();<br>
+            xhr.open('GET', 'https://api.example.com/data');<br>
+            xhr.onload = function() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (xhr.status === 200) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(JSON.parse(xhr.responseText));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            };<br>
+            xhr.send();
+        </div>
+    </div>
+
+    <!-- ========== 7.6 ========== -->
+    <div class="section">
+        <h2>7.6 ES6 and Modern JavaScript</h2>
+        <p><strong>ES6</strong> (ECMAScript 2015) and later versions introduced many features that modern JavaScript relies on, improving readability, maintainability, and functionality.</p>
+
+        <h3>Key ES6+ Features</h3>
+        <table>
+            <tr><th>Feature</th><th>Description</th><th>Example</th></tr>
+            <tr><td>let/const</td><td>Block-scoped declarations</td><td>let x = 10; const y = 20;</td></tr>
+            <tr><td>Arrow Functions</td><td>Concise syntax, lexical this</td><td>const add = (a,b) => a+b;</td></tr>
+            <tr><td>Template Literals</td><td>String interpolation</td><td>`Hello ${name}!`</td></tr>
+            <tr><td>Destructuring</td><td>Extract values from arrays/objects</td><td>const {name} = person;</td></tr>
+            <tr><td>Spread/Rest</td><td>Expand/collapse arrays/objects</td><td>[...arr1, ...arr2]</td></tr>
+            <tr><td>Default Parameters</td><td>Default values in functions</td><td>function f(x = 0) { }</td></tr>
+            <tr><td>Classes</td><td>Syntactic sugar over prototypes</td><td>class Person { }</td></tr>
+            <tr><td>Modules</td><td>import/export</td><td>import {fn} from './module'</td></tr>
+            <tr><td>Promises</td><td>Async operations</td><td>Promise.resolve()</td></tr>
+            <tr><td>async/await</td><td>Async syntax sugar</td><td>async function f() { }</td></tr>
+            <tr><td>Optional Chaining</td><td>Safe property access</td><td>obj?.prop</td></tr>
+            <tr><td>Nullish Coalescing</td><td>Fallback for null/undefined</td><td>value ?? default</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// let and const</span><br>
+            let age = 30;  <span>// Can be reassigned</span><br>
+            const PI = 3.14;  <span>// Cannot be reassigned</span><br><br>
+            <span>// Arrow function</span><br>
+            const multiply = (a, b) => a * b;<br><br>
+            <span>// Template literal</span><br>
+            let name = 'John';<br>
+            console.log(`Hello, ${name}!`);<br><br>
+            <span>// Destructuring</span><br>
+            let person = { firstName: 'John', lastName: 'Doe' };<br>
+            let { firstName, lastName } = person;<br><br>
+            <span>// Spread operator</span><br>
+            let arr1 = [1, 2, 3];<br>
+            let arr2 = [4, 5, 6];<br>
+            let combined = [...arr1, ...arr2];  <span>// [1, 2, 3, 4, 5, 6]</span><br><br>
+            <span>// Rest parameters</span><br>
+            function sum(...numbers) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return numbers.reduce((acc, n) => acc + n, 0);<br>
+            }<br><br>
+            <span>// Default parameter</span><br>
+            function greet(name = 'Guest') {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return `Hello, ${name}!`;<br>
+            }<br><br>
+            <span>// Class</span><br>
+            class Animal {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;constructor(name) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.name = name;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;speak() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(`${this.name} makes a sound.`);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            <span>// Optional chaining</span><br>
+            let user = { profile: { name: 'John' } };<br>
+            console.log(user?.profile?.name);  <span>// John</span><br>
+            console.log(user?.address?.city);  <span>// undefined</span><br><br>
+            <span>// Nullish coalescing</span><br>
+            let value = null ?? 'default';  <span>// 'default'</span><br>
+            let value2 = 0 ?? 'default';  <span>// 0 (not null/undefined)</span>
+        </div>
+    </div>
+
+    <!-- ========== 7.7 ========== -->
+    <div class="section">
+        <h2>7.7 JavaScript Libraries</h2>
+        <p><strong>JavaScript libraries</strong> provide pre-written code to simplify development and enhance functionality. They save time and offer battle-tested solutions.</p>
+
+        <h3>Popular Libraries</h3>
+        <table>
+            <tr><th>Library</th><th>Purpose</th><th>Key Features</th></tr>
+            <tr><td>jQuery</td><td>DOM manipulation, AJAX</td><td>Cross-browser, chaining, events, animations</td></tr>
+            <tr><td>React</td><td>UI library</td><td>Components, virtual DOM, hooks, state management</td></tr>
+            <tr><td>Vue.js</td><td>UI library</td><td>Reactive, components, easy learning curve</td></tr>
+            <tr><td>Angular</td><td>Framework</td><td>Full-featured, TypeScript, dependency injection</td></tr>
+            <tr><td>Lodash</td><td>Utility library</td><td>Array/object manipulation, functional utilities</td></tr>
+            <tr><td>Axios</td><td>HTTP client</td><td>Promise-based, interceptors, automatic JSON</td></tr>
+            <tr><td>D3.js</td><td>Data visualization</td><td>SVG-based charts, data-driven</td></tr>
+            <tr><td>Three.js</td><td>3D graphics</td><td>WebGL-based 3D rendering</td></tr>
+        </table>
+
+        <h3>Using Libraries</h3>
+        <ul>
+            <li><strong>CDN:</strong> Include via script tags for quick use.</li>
+            <li><strong>npm/yarn:</strong> Install via package managers for project integration.</li>
+            <li><strong>Module bundlers:</strong> Webpack, Vite, Rollup for modern development.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>&lt;!-- jQuery via CDN --&gt;</span><br>
+            &lt;script src="https://code.jquery.com/jquery-3.6.0.min.js"&gt;&lt;/script&gt;<br><br>
+            &lt;script&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// jQuery example</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$(document).ready(function() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$('button').click(function() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$('p').toggle();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;});<br>
+            &lt;/script&gt;<br><br>
+            <span>// Lodash example</span><br>
+            &lt;script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"&gt;&lt;/script&gt;<br>
+            &lt;script&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;let arr = [1, 2, 3, 4, 5];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;let doubled = _.map(arr, n => n * 2);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;let chunked = _.chunk(arr, 2);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log(doubled);<br>
+            &lt;/script&gt;
+        </div>
+
+        <h3>Library Usage Example</h3>
+        <div class="code-block">
+            <span>// Axios example</span><br>
+            &lt;script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"&gt;&lt;/script&gt;<br>
+            &lt;script&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;axios.get('https://api.example.com/users')<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(response => console.log(response.data))<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.catch(error => console.error(error));<br>
+            &lt;/script&gt;<br><br>
+            <span>// React example (JSX)</span><br>
+            const App = () => {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;const [count, setCount] = React.useState(0);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return (<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Count: {count}&lt;/p&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick={() =&gt; setCount(count+1)}&gt;Increment&lt;/button&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;);<br>
+            };
+        </div>
+
+        <div class="note-box">
+            <strong>📚 Key insight:</strong> Libraries accelerate development, but choose them wisely. Consider bundle size, performance, community support, and maintenance status. Modern frameworks like React, Vue, and Angular are widely adopted for large-scale applications.
+        </div>
+    </div>
+
+    <!-- ========== 7.8 ========== -->
+    <div class="section">
+        <h2>7.8 JavaScript Best Practices</h2>
+        <p>Following <strong>best practices</strong> ensures clean, maintainable, and performant JavaScript code.</p>
+
+        <h3>Best Practices</h3>
+        <ul>
+            <li><strong>Use let and const:</strong> Avoid <code>var</code>. Use <code>const</code> by default, <code>let</code> when reassignment is needed.</li>
+            <li><strong>Use Strict Equality:</strong> Prefer <code>===</code> over <code>==</code> to avoid type coercion.</li>
+            <li><strong>Avoid Global Variables:</strong> Minimize pollution of the global namespace.</li>
+            <li><strong>Use Arrow Functions:</strong> For concise and predictable <code>this</code> binding.</li>
+            <li><strong>Handle Errors:</strong> Always catch exceptions, especially in async code.</li>
+            <li><strong>Write Descriptive Names:</strong> Use meaningful variable and function names.</li>
+            <li><strong>Keep Functions Small:</strong> Each function should do one thing.</li>
+            <li><strong>Use Modern Features:</strong> Destructuring, spread, optional chaining, nullish coalescing.</li>
+            <li><strong>Format Code:</strong> Use Prettier or ESLint for consistent formatting.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Good practices</span><br>
+            const MAX_USERS = 100;  <span>// Constants in uppercase</span><br><br>
+            function getUserData(userId) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return fetch(`/api/users/${userId}`)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(response => {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!response.ok) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Error('Failed to fetch');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return response.json();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.catch(error => {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.error('Error fetching user:', error);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw error;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+            }<br><br>
+            <span>// Using modern features</span><br>
+            const { name, age } = user;  <span>// Destructuring</span><br>
+            const newUser = { ...user, isActive: true };  <span>// Spread</span><br>
+            const city = user?.address?.city ?? 'Unknown';  <span>// Optional chaining + nullish coalescing</span>
+        </div>
+
+        <div class="note-box">
+            <strong>⚡ Key insight:</strong> Writing clean, maintainable JavaScript is a skill that improves with practice. Use linters (ESLint) and formatters (Prettier) to enforce standards automatically.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 7 summary</strong><br>Advanced JavaScript topics including scope, closures, error handling, DOM manipulation, async programming, JSON/AJAX, ES6 features, and libraries.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Scope &amp; closures: lexical environment, data privacy.<br>• Error handling: try/catch, throw, debugging techniques.<br>• DOM: selection, manipulation, events.<br>• Async: callbacks, Promises, async/await.<br>• JSON &amp; AJAX: fetch API, data exchange.<br>• ES6+: modern features for better code.<br>• Libraries: jQuery, React, Lodash, etc.<br>• Best practices: clean, maintainable code.</div>
+    </div>
 </body>
 </html>

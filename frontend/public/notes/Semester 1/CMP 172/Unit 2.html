@@ -1,278 +1,864 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unit 2: Elements of C</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-      font-weight: bold;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 2: Elements of C</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Unit 2: Elements of C</h1>
+    <h1>Unit 2: Elements of C</h1>
+    <div class="subhead">Character set · tokens · escape sequences · variables · data types · constants · expressions · statements · comments</div>
 
-  <div class="section">
-    <h2>2.1 C Character Set</h2>
-    <p>The C character set consists of the characters that can be used to form valid C programs. These characters are used to create tokens, strings, and other elements in C.</p>
-    <ul>
-      <li><strong>Letters:</strong> A-Z, a-z (both uppercase and lowercase).</li>
-      <li><strong>Digits:</strong> 0-9.</li>
-      <li><strong>Special Characters:</strong> Symbols like +, -, *, /, %, &, |, etc.</li>
-      <li><strong>White Spaces:</strong> Spaces, tabs, newlines, etc.</li>
-    </ul>
-  </div>
+    <!-- ========== 2.1 ========== -->
+    <div class="section">
+        <h2>2.1 C Character Set</h2>
+        <p>The <strong>C character set</strong> consists of all the characters that can be used to write valid C programs. These characters form the building blocks for tokens, strings, and other program elements. The compiler recognizes and processes these characters according to C language rules.</p>
 
-  <div class="section">
-    <h2>2.2 Tokens</h2>
-    <p>Tokens are the smallest individual units in a C program, recognized by the compiler.</p>
-    <ul>
-      <li><strong>Keywords:</strong> Reserved words with specific meanings (e.g., int, for, if).</li>
-      <li><strong>Identifiers:</strong> User-defined names for variables, functions, etc. (e.g., main, sum).</li>
-      <li><strong>Constants:</strong> Fixed values like 10, 3.14, or 'A'.</li>
-      <li><strong>Operators:</strong> Symbols for operations (e.g., +, -, *, /).</li>
-      <li><strong>Punctuators:</strong> Symbols like ;, ,, {}, (), etc., for syntax.</li>
-      <li><strong>Example:</strong>
-        <pre>
-int main() {
-    int x = 5;
-}
-        </pre>
-        Tokens: int, main, (, ), {, int, x, =, 5, ;, }.
-      </li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>2.3 Escape Sequence</h2>
-    <p>Escape sequences are special character combinations starting with a backslash (\) used to represent characters that are difficult to include directly in code.</p>
-    <ul>
-      <li><strong>Common Escape Sequences:</strong>
+        <h3>Character Categories</h3>
         <ul>
-          <li>\n: Newline</li>
-          <li>\t: Tab</li>
-          <li>\": Double quote</li>
-          <li>\\ : Backslash</li>
-          <li>\0: Null character</li>
+            <li><strong>Alphabetic Characters (Letters):</strong> Both uppercase (A-Z) and lowercase (a-z) English letters. C is case-sensitive, so 'A' and 'a' are different.</li>
+            <li><strong>Numeric Characters (Digits):</strong> 0 through 9. Used in numbers and identifiers.</li>
+            <li><strong>Special Characters:</strong> Symbols with specific meanings in C:
+                <ul>
+                    <li><span class="highlight">Arithmetic Operators:</span> + - * / %</li>
+                    <li><span class="highlight">Relational Operators:</span> &lt; &gt; &lt;= &gt;= == !=</li>
+                    <li><span class="highlight">Logical Operators:</span> &amp;&amp; || !</li>
+                    <li><span class="highlight">Bitwise Operators:</span> &amp; | ^ ~ &lt;&lt; &gt;&gt;</li>
+                    <li><span class="highlight">Punctuators/Delimiters:</span> ; , . : ? [ ] ( ) { } &quot; ' \</li>
+                    <li><span class="highlight">Other Symbols:</span> # $ @</li>
+                </ul>
+            </li>
+            <li><strong>White Spaces:</strong> Space, tab, newline, carriage return, form feed, and vertical tab. Used to separate tokens and improve code readability.</li>
         </ul>
-      </li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    printf("Hello\nWorld\t!\\");
-    return 0;
-}
-        </pre>
-        Output: 
-        <pre>
-Hello
-World   !
-        </pre>
-      </li>
-    </ul>
-  </div>
 
-  <div class="section">
-    <h2>2.4 Variables Declaration and Initialization</h2>
-    <p>Variables are named memory locations used to store data. Declaration specifies the variable's type, and initialization assigns an initial value.</p>
-    <ul>
-      <li><strong>Declaration:</strong> Specifies the data type and name.
-        <pre>
-int age;
-float salary;
-        </pre>
-      </li>
-      <li><strong>Initialization:</strong> Assigns a value at the time of declaration.
-        <pre>
-int age = 25;
-float salary = 50000.50;
-        </pre>
-      </li>
-      <li><strong>Rules:</strong> Variable names must start with a letter or underscore, contain no spaces, and avoid reserved keywords.</li>
-    </ul>
-  </div>
+        <table>
+            <tr><th>Category</th><th>Characters</th><th>Usage</th></tr>
+            <tr><td>Letters</td><td>A-Z, a-z</td><td>Identifiers, keywords</td></tr>
+            <tr><td>Digits</td><td>0-9</td><td>Numeric constants, identifiers</td></tr>
+            <tr><td>Arithmetic</td><td>+ - * / %</td><td>Arithmetic operations</td></tr>
+            <tr><td>Relational</td><td>&lt; &gt; == != &lt;= &gt;=</td><td>Comparisons</td></tr>
+            <tr><td>Punctuators</td><td>; , . : {} () []</td><td>Syntax structure</td></tr>
+            <tr><td>White Spaces</td><td>Space, \t, \n</td><td>Token separation</td></tr>
+        </table>
 
-  <div class="section">
-    <h2>2.5 Data Types</h2>
-    <p>Data types define the type and size of data a variable can hold.</p>
-    <h2>2.5.1 Basic, Derived, and User Defined</h2>
-    <ul>
-      <li><strong>Basic Data Types:</strong>
-        <ul>
-          <li><strong>int:</strong> Integer (e.g., 10, -5).</li>
-          <li><strong>float:</strong> Single-precision floating-point (e.g., 3.14).</li>
-          <li><strong>double:</strong> Double-precision floating-point (e.g., 3.14159).</li>
-          <li><strong>char:</strong> Single character (e.g., 'A').</li>
-        </ul>
-      </li>
-      <li><strong>Derived Data Types:</strong>
-        <ul>
-          <li><strong>Array:</strong> Collection of elements of the same type (e.g., int arr[5]).</li>
-          <li><strong>Pointer:</strong> Stores memory address (e.g., int *ptr).</li>
-          <li><strong>Function:</strong> A block of code with a return type.</li>
-        </ul>
-      </li>
-      <li><strong>User-Defined Data Types:</strong>
-        <ul>
-          <li><strong>struct:</strong> Groups different data types.
-            <pre>
-struct student {
-    int id;
-    char name[50];
-};
-            </pre>
-          </li>
-          <li><strong>union:</strong> Shares memory for different data types.</li>
-          <li><strong>enum:</strong> Defines a set of named integer constants.</li>
-        </ul>
-      </li>
-    </ul>
-  </div>
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> C's character set is based on the ASCII character encoding standard. Understanding the character set is essential for writing correct and efficient C programs.
+        </div>
+    </div>
 
-  <div class="section">
-    <h2>2.6 Constants/Literals</h2>
-    <p>Constants are fixed values that cannot be modified during program execution.</p>
-    <ul>
-      <li><strong>Types:</strong>
-        <ul>
-          <li><strong>Integer Literals:</strong> Whole numbers (e.g., 10, -5).</li>
-          <li><strong>Floating-Point Literals:</strong> Decimal numbers (e.g., 3.14, -0.001).</li>
-          <li><strong>Character Literals:</strong> Single characters in single quotes (e.g., 'A').</li>
-          <li><strong>String Literals:</strong> Sequence of characters in double quotes (e.g., "Hello").</li>
-        </ul>
-      </li>
-      <li><strong>Defining Constants:</strong>
-        <pre>
-#define MAX 100
-const int MIN = 10;
-        </pre>
-      </li>
-    </ul>
-  </div>
+    <!-- ========== 2.2 ========== -->
+    <div class="section">
+        <h2>2.2 Tokens</h2>
+        <p><strong>Tokens</strong> are the smallest individual units in a C program that the compiler recognizes. The compiler breaks down the source code into tokens during the lexical analysis phase. There are six types of tokens in C.</p>
 
-  <div class="section">
-    <h2>2.7 Expressions</h2>
-    <p>An expression is a combination of variables, constants, and operators that produces a value.</p>
-    <ul>
-      <li><strong>Types:</strong>
+        <h3>Types of Tokens</h3>
         <ul>
-          <li><strong>Arithmetic:</strong> e.g., a + b, x * y.</li>
-          <li><strong>Relational:</strong> e.g., a > b, x == y.</li>
-          <li><strong>Logical:</strong> e.g., (a > b) && (x < y).</li>
-          <li><strong>Assignment:</strong> e.g., x = 5.</li>
+            <li><strong>1. Keywords:</strong> Reserved words with predefined meanings in C. Cannot be used as identifiers.
+                <div class="code-block">
+                    auto, break, case, char, const, continue, default, do, double, else,<br>
+                    enum, extern, float, for, goto, if, int, long, register, return,<br>
+                    short, signed, sizeof, static, struct, switch, typedef, union,<br>
+                    unsigned, void, volatile, while
+                </div>
+            </li>
+            <li><strong>2. Identifiers:</strong> Names given to variables, functions, arrays, structures, etc. Created by the programmer.
+                <div class="code-block">
+                    int <span style="color:#ffcc66;">sum</span>;<br>
+                    float <span style="color:#ffcc66;">salary</span>;<br>
+                    char <span style="color:#ffcc66;">grade</span>;
+                </div>
+            </li>
+            <li><strong>3. Constants:</strong> Fixed values that do not change during program execution.
+                <div class="code-block">
+                    int x = <span style="color:#66ff99;">10</span>;<br>
+                    float pi = <span style="color:#66ff99;">3.14</span>;<br>
+                    char ch = <span style="color:#66ff99;">'A'</span>;
+                </div>
+            </li>
+            <li><strong>4. Operators:</strong> Symbols that perform operations on data.
+                <div class="code-block">
+                    <span style="color:#66ff99;">+</span> - <span style="color:#66ff99;">*</span> / % = == != &lt; &gt; &amp;&amp; ||
+                </div>
+            </li>
+            <li><strong>5. Strings:</strong> Sequence of characters enclosed in double quotes.
+                <div class="code-block">
+                    printf(<span style="color:#66ff99;">"Hello, World!"</span>);
+                </div>
+            </li>
+            <li><strong>6. Punctuators:</strong> Special symbols used for syntax structure.
+                <div class="code-block">
+                    ; , . : { } [ ] ( ) #
+                </div>
+            </li>
         </ul>
-      </li>
-      <li><strong>Example:</strong>
-        <pre>
-int x = 5, y = 3;
-int z = x + y * 2; // z = 11 (follows operator precedence)
-        </pre>
-      </li>
-    </ul>
-  </div>
 
-  <div class="section">
-    <h2>2.8 Statements</h2>
-    <p>Statements are complete instructions in a C program that perform actions.</p>
-    <ul>
-      <li><strong>Types:</strong>
+        <h3>Token Example</h3>
+        <div class="code-block">
+            <span>// Example program with labeled tokens</span><br>
+            <span style="color:#66ff99;">int</span> <span style="color:#ffcc66;">main</span> <span style="color:#66ff99;">(</span> <span style="color:#66ff99;">)</span> <span style="color:#66ff99;">{</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#66ff99;">int</span> <span style="color:#ffcc66;">x</span> <span style="color:#66ff99;">=</span> <span style="color:#66ff99;">5</span> <span style="color:#66ff99;">;</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#66ff99;">return</span> <span style="color:#66ff99;">0</span> <span style="color:#66ff99;">;</span><br>
+            <span style="color:#66ff99;">}</span><br><br>
+            <span>// Keywords: int, return</span><br>
+            <span>// Identifiers: main, x</span><br>
+            <span>// Constants: 5, 0</span><br>
+            <span>// Operators: =</span><br>
+            <span>// Punctuators: (, ), {, }, ;</span>
+        </div>
+
+        <div class="note-box">
+            <strong>🔑 Key insight:</strong> Understanding tokens is fundamental to understanding how the C compiler interprets your code. Every valid C program is composed of these token types.
+        </div>
+    </div>
+
+    <!-- ========== 2.3 ========== -->
+    <div class="section">
+        <h2>2.3 Escape Sequences</h2>
+        <p><strong>Escape sequences</strong> are special character combinations that start with a backslash (\) followed by a character. They represent characters that are difficult or impossible to type directly in source code, such as newline, tab, or special formatting characters.</p>
+
+        <h3>Common Escape Sequences</h3>
+        <table>
+            <tr><th>Escape Sequence</th><th>Description</th><th>ASCII Value</th></tr>
+            <tr><td>\n</td><td>Newline</td><td>10</td></tr>
+            <tr><td>\t</td><td>Horizontal Tab</td><td>9</td></tr>
+            <tr><td>\v</td><td>Vertical Tab</td><td>11</td></tr>
+            <tr><td>\b</td><td>Backspace</td><td>8</td></tr>
+            <tr><td>\r</td><td>Carriage Return</td><td>13</td></tr>
+            <tr><td>\f</td><td>Form Feed</td><td>12</td></tr>
+            <tr><td>\a</td><td>Alert (Bell)</td><td>7</td></tr>
+            <tr><td>\\</td><td>Backslash</td><td>92</td></tr>
+            <tr><td>\'</td><td>Single Quote</td><td>39</td></tr>
+            <tr><td>\"</td><td>Double Quote</td><td>34</td></tr>
+            <tr><td>\?</td><td>Question Mark</td><td>63</td></tr>
+            <tr><td>\0</td><td>Null Character (string terminator)</td><td>0</td></tr>
+            <tr><td>\xhh</td><td>Hexadecimal value (hh)</td><td>Variable</td></tr>
+            <tr><td>\ddd</td><td>Octal value (ddd)</td><td>Variable</td></tr>
+        </table>
+
+        <h3>Escape Sequence Examples</h3>
+        <div class="code-block">
+            <span>#include &lt;stdio.h&gt;</span><br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Newline and tab</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf(<span style="color:#66ff99;">"Hello\nWorld\t!"</span>);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Output: Hello</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>//         World   !</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Quoting characters</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf(<span style="color:#66ff99;">"He said, \"Hello!\""</span>);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Output: He said, "Hello!"</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Backslash</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf(<span style="color:#66ff99;">"C:\\Program Files"</span>);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Output: C:\Program Files</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Null terminator (used in strings)</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char str[] = <span style="color:#66ff99;">"Hello\0World"</span>;  <span>// Only "Hello" is printed</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf(<span style="color:#66ff99;">"%s"</span>, str);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Output: Hello</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>📝 Key insight:</strong> Escape sequences are essential for formatting output and including special characters in strings and character constants. The null character (\0) is particularly important as it marks the end of strings in C.
+        </div>
+    </div>
+
+    <!-- ========== 2.4 ========== -->
+    <div class="section">
+        <h2>2.4 Variables Declaration and Initialization</h2>
+        <p><strong>Variables</strong> are named memory locations that store data. They allow programs to manipulate and process data dynamically. <strong>Declaration</strong> specifies the variable's type and name, while <strong>initialization</strong> assigns an initial value.</p>
+
+        <h3>Variable Declaration</h3>
         <ul>
-          <li><strong>Expression Statements:</strong> e.g., x = 5;.</li>
-          <li><strong>Compound Statements:</strong> Group of statements in {}.</li>
-          <li><strong>Control Statements:</strong> e.g., if, for, while.</li>
-          <li><strong>Jump Statements:</strong> e.g., break, continue, return.</li>
+            <li><strong>Syntax:</strong> <code>data_type variable_name;</code></li>
+            <li><strong>Example:</strong>
+                <div class="code-block">
+                    int age;<br>
+                    float salary;<br>
+                    char grade;
+                </div>
+            </li>
+            <li><strong>Multiple Variables:</strong> Can declare multiple variables of the same type in one line.
+                <div class="code-block">
+                    int a, b, c;<br>
+                    float x = 3.14, y = 2.71;
+                </div>
+            </li>
         </ul>
-      </li>
-      <li><strong>Example:</strong>
-        <pre>
-if (x > 0) {
-    printf("Positive");
-}
-        </pre>
-      </li>
-    </ul>
-  </div>
 
-  <div class="section">
-    <h2>2.9 Comments</h2>
-    <p>Comments are non-executable text used to explain code, ignored by the compiler.</p>
-    <ul>
-      <li><strong>Single-Line Comments:</strong> Start with //.
-        <pre>
-// This is a single-line comment
-int x = 5;
-        </pre>
-      </li>
-      <li><strong>Multi-Line Comments:</strong> Enclosed in /* */.
-        <pre>
-/* This is a
-   multi-line comment */
-int y = 10;
-        </pre>
-      </li>
-      <li><strong>Purpose:</strong> Improve code readability and maintenance.</li>
-    </ul>
-  </div>
+        <h3>Variable Initialization</h3>
+        <ul>
+            <li><strong>At Declaration:</strong> Assign a value when declaring the variable.
+                <div class="code-block">
+                    int age = 25;<br>
+                    float salary = 50000.50;<br>
+                    char grade = 'A';
+                </div>
+            </li>
+            <li><strong>Separate Initialization:</strong> Assign value later in the program.
+                <div class="code-block">
+                    int age;<br>
+                    age = 25;<br>
+                    age = 26;  <span>// Value can be changed</span>
+                </div>
+            </li>
+            <li><strong>Default Values:</strong> Uninitialized variables contain garbage values (undefined behavior). Always initialize variables before use.</li>
+        </ul>
+
+        <h3>Naming Rules for Variables</h3>
+        <ul>
+            <li>Must start with a letter (A-Z or a-z) or underscore (_).</li>
+            <li>Can contain letters, digits, and underscores.</li>
+            <li>Cannot contain spaces or special characters (!, @, #, $, etc.).</li>
+            <li>Cannot be a reserved keyword (e.g., int, return, if).</li>
+            <li>Case-sensitive: <span class="highlight">age</span>, <span class="highlight">Age</span>, and <span class="highlight">AGE</span> are different variables.</li>
+            <li>Should be meaningful and descriptive (e.g., <span class="highlight">studentName</span> instead of <span class="highlight">sn</span>).</li>
+        </ul>
+
+        <h3>Scope of Variables</h3>
+        <ul>
+            <li><strong>Local Variables:</strong> Declared inside a function or block. Accessible only within that block.</li>
+            <li><strong>Global Variables:</strong> Declared outside all functions. Accessible throughout the program.</li>
+            <li><strong>Static Variables:</strong> Retain their value between function calls.</li>
+            <li><strong>Register Variables:</strong> Stored in CPU registers for faster access.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Example showing different variable types</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int globalVar = 100;  <span>// Global variable</span><br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int localVar = 10;      <span>// Local variable</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;static int staticVar = 5;  <span>// Static variable</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;register int regVar = 0;   <span>// Register variable</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Global: %d\n", globalVar);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Local: %d\n", localVar);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 2.5 ========== -->
+    <div class="section">
+        <h2>2.5 Data Types</h2>
+        <p><strong>Data types</strong> define the type of data that a variable can hold, the operations that can be performed on it, and the amount of memory it occupies. C provides several built-in data types and allows programmers to create custom types.</p>
+
+        <h3>2.5.1 Basic, Derived, and User-Defined Data Types</h3>
+
+        <h4>Basic (Primitive) Data Types</h4>
+        <ul>
+            <li><strong>int:</strong> Stores integers (whole numbers). Size: 2-4 bytes (typically 4 bytes on modern systems).
+                <div class="code-block">
+                    int age = 25;<br>
+                    int count = -10;
+                </div>
+            </li>
+            <li><strong>char:</strong> Stores single characters. Size: 1 byte.
+                <div class="code-block">
+                    char grade = 'A';<br>
+                    char newline = '\n';
+                </div>
+            </li>
+            <li><strong>float:</strong> Stores single-precision floating-point numbers. Size: 4 bytes.
+                <div class="code-block">
+                    float pi = 3.14f;<br>
+                    float temp = -5.5f;
+                </div>
+            </li>
+            <li><strong>double:</strong> Stores double-precision floating-point numbers. Size: 8 bytes.
+                <div class="code-block">
+                    double scientific = 3.1415926535;<br>
+                    double large = 1.7e308;
+                </div>
+            </li>
+            <li><strong>void:</strong> Represents no value. Used for functions that return nothing or generic pointers.</li>
+        </ul>
+
+        <h4>Derived Data Types</h4>
+        <ul>
+            <li><strong>Array:</strong> Collection of elements of the same data type stored in contiguous memory.
+                <div class="code-block">
+                    int numbers[5] = {1, 2, 3, 4, 5};<br>
+                    char name[50] = "John Doe";
+                </div>
+            </li>
+            <li><strong>Pointer:</strong> Stores the memory address of another variable.
+                <div class="code-block">
+                    int *ptr;<br>
+                    int x = 10;<br>
+                    ptr = &amp;x;<br>
+                    printf("%d", *ptr);  <span>// Dereferencing: prints 10</span>
+                </div>
+            </li>
+            <li><strong>Function:</strong> A block of code with a return type.
+                <div class="code-block">
+                    int add(int a, int b) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return a + b;<br>
+                    }
+                </div>
+            </li>
+        </ul>
+
+        <h4>User-Defined Data Types</h4>
+        <ul>
+            <li><strong>Structure (struct):</strong> Groups different data types into a single unit.
+                <div class="code-block">
+                    struct Student {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;int id;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;char name[50];<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;float gpa;<br>
+                    };<br><br>
+                    struct Student s1 = {101, "Alice", 3.8};
+                </div>
+            </li>
+            <li><strong>Union:</strong> Similar to structure but shares memory among members. Only one member can hold a value at a time.
+                <div class="code-block">
+                    union Data {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;int i;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;float f;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;char str[20];<br>
+                    };<br><br>
+                    union Data data;<br>
+                    data.i = 10;  <span>// f and str become invalid</span>
+                </div>
+            </li>
+            <li><strong>Enumeration (enum):</strong> Defines a set of named integer constants.
+                <div class="code-block">
+                    enum Color { RED, GREEN, BLUE };<br>
+                    enum Color c = RED;  <span>// c = 0</span><br><br>
+                    enum Status { FAIL = 0, PASS = 1, WAITING = 2 };
+                </div>
+            </li>
+            <li><strong>Typedef:</strong> Creates an alias for an existing data type.
+                <div class="code-block">
+                    typedef int Integer;<br>
+                    Integer x = 10;  <span>// Same as int x = 10;</span><br><br>
+                    typedef struct Student Student;<br>
+                    Student s1;
+                </div>
+            </li>
+        </ul>
+
+        <h3>Data Type Sizes and Ranges</h3>
+        <table>
+            <tr><th>Data Type</th><th>Size (bytes)</th><th>Range</th></tr>
+            <tr><td>char</td><td>1</td><td>-128 to 127</td></tr>
+            <tr><td>unsigned char</td><td>1</td><td>0 to 255</td></tr>
+            <tr><td>short int</td><td>2</td><td>-32,768 to 32,767</td></tr>
+            <tr><td>unsigned short</td><td>2</td><td>0 to 65,535</td></tr>
+            <tr><td>int</td><td>4</td><td>-2,147,483,648 to 2,147,483,647</td></tr>
+            <tr><td>unsigned int</td><td>4</td><td>0 to 4,294,967,295</td></tr>
+            <tr><td>long int</td><td>4-8</td><td>System dependent</td></tr>
+            <tr><td>float</td><td>4</td><td>3.4e-38 to 3.4e+38</td></tr>
+            <tr><td>double</td><td>8</td><td>1.7e-308 to 1.7e+308</td></tr>
+            <tr><td>long double</td><td>10-16</td><td>System dependent</td></tr>
+        </table>
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> The <code>sizeof()</code> operator can be used to determine the size of any data type or variable at runtime.
+        </div>
+    </div>
+
+    <!-- ========== 2.6 ========== -->
+    <div class="section">
+        <h2>2.6 Constants/Literals</h2>
+        <p><strong>Constants</strong> (also called <strong>literals</strong>) are fixed values that cannot be changed during program execution. They represent data directly in the source code.</p>
+
+        <h3>Types of Constants</h3>
+        <ul>
+            <li><strong>Integer Literals:</strong> Whole numbers.
+                <div class="code-block">
+                    int decimal = 10;    <span>// Decimal (base 10)</span><br>
+                    int octal = 012;     <span>// Octal (base 8) - starts with 0</span><br>
+                    int hex = 0xA;       <span>// Hexadecimal (base 16) - starts with 0x</span><br>
+                    long big = 100L;     <span>// Long integer</span><br>
+                    unsigned u = 100U;   <span>// Unsigned integer</span>
+                </div>
+            </li>
+            <li><strong>Floating-Point Literals:</strong> Numbers with decimal points or exponent notation.
+                <div class="code-block">
+                    float pi = 3.14f;        <span>// Float literal</span><br>
+                    double e = 2.71828;      <span>// Double literal</span><br>
+                    double scientific = 1.5e-3;  <span>// Scientific notation (0.0015)</span>
+                </div>
+            </li>
+            <li><strong>Character Literals:</strong> Single characters enclosed in single quotes.
+                <div class="code-block">
+                    char ch1 = 'A';<br>
+                    char ch2 = '\n';   <span>// Escape sequence</span><br>
+                    char ch3 = 65;     <span>// ASCII value of 'A'</span>
+                </div>
+            </li>
+            <li><strong>String Literals:</strong> Sequence of characters enclosed in double quotes.
+                <div class="code-block">
+                    char str1[] = "Hello, World!";<br>
+                    char *str2 = "Good Morning";
+                </div>
+            </li>
+            <li><strong>Enumeration Constants:</strong> Named integer constants defined with enum.
+                <div class="code-block">
+                    enum Week { MON, TUE, WED, THU, FRI, SAT, SUN };<br>
+                    enum Week today = MON;
+                </div>
+            </li>
+        </ul>
+
+        <h3>Defining Constants</h3>
+        <ul>
+            <li><strong>Using #define Preprocessor:</strong>
+                <div class="code-block">
+                    #define MAX 100<br>
+                    #define PI 3.14159<br>
+                    #define HELLO "Hello"
+                </div>
+            </li>
+            <li><strong>Using const Keyword:</strong>
+                <div class="code-block">
+                    const int MAX = 100;<br>
+                    const float PI = 3.14159;<br>
+                    const char HELLO[] = "Hello";
+                </div>
+            </li>
+            <li><strong>Difference:</strong> <code>#define</code> is handled by the preprocessor (text replacement), while <code>const</code> is handled by the compiler (type checking).</li>
+        </ul>
+        <div class="note-box">
+            <strong>📌 Key insight:</strong> Use <code>const</code> instead of <code>#define</code> for type safety and better debugging. However, <code>#define</code> is still useful for conditional compilation.
+        </div>
+    </div>
+
+    <!-- ========== 2.7 ========== -->
+    <div class="section">
+        <h2>2.7 Expressions</h2>
+        <p>An <strong>expression</strong> is a combination of variables, constants, operators, and function calls that evaluates to a single value. Expressions are the building blocks of C statements.</p>
+
+        <h3>Types of Expressions</h3>
+        <ul>
+            <li><strong>Arithmetic Expressions:</strong> Perform mathematical calculations.
+                <div class="code-block">
+                    int sum = a + b;<br>
+                    float avg = (x + y) / 2.0;<br>
+                    int product = a * b * c;
+                </div>
+            </li>
+            <li><strong>Relational Expressions:</strong> Compare two values and return 1 (true) or 0 (false).
+                <div class="code-block">
+                    int isGreater = (a > b);<br>
+                    int isEqual = (x == y);<br>
+                    int notEqual = (a != b);
+                </div>
+            </li>
+            <li><strong>Logical Expressions:</strong> Combine relational expressions using logical operators.
+                <div class="code-block">
+                    int result = (a > b) &amp;&amp; (c < d);<br>
+                    int valid = (age >= 18) || (hasPermission);<br>
+                    int invalid = !(isValid);
+                </div>
+            </li>
+            <li><strong>Assignment Expressions:</strong> Assign values to variables.
+                <div class="code-block">
+                    int x = 5;<br>
+                    x += 3;   <span>// Equivalent to x = x + 3</span><br>
+                    x *= 2;   <span>// Equivalent to x = x * 2</span>
+                </div>
+            </li>
+            <li><strong>Conditional (Ternary) Expression:</strong> Shorthand for if-else.
+                <div class="code-block">
+                    int max = (a > b) ? a : b;<br>
+                    printf("%s", (age >= 18) ? "Adult" : "Minor");
+                </div>
+            </li>
+            <li><strong>Comma Expression:</strong> Evaluates multiple expressions, returning the last value.
+                <div class="code-block">
+                    int x = (a = 5, b = 10, a + b);  <span>// x = 15</span>
+                </div>
+            </li>
+        </ul>
+
+        <h3>Operator Precedence and Associativity</h3>
+        <p>Operators have precedence levels that determine the order of evaluation in expressions. Associativity determines the order when operators have the same precedence.</p>
+
+        <table>
+            <tr><th>Precedence</th><th>Operators</th><th>Associativity</th></tr>
+            <tr><td>1 (Highest)</td><td>() [] . -></td><td>Left to Right</td></tr>
+            <tr><td>2</td><td>++ -- + - ! ~ &amp; * (type) sizeof</td><td>Right to Left</td></tr>
+            <tr><td>3</td><td>* / %</td><td>Left to Right</td></tr>
+            <tr><td>4</td><td>+ -</td><td>Left to Right</td></tr>
+            <tr><td>5</td><td>&lt;&lt; &gt;&gt;</td><td>Left to Right</td></tr>
+            <tr><td>6</td><td>&lt; &lt;= &gt; &gt;=</td><td>Left to Right</td></tr>
+            <tr><td>7</td><td>== !=</td><td>Left to Right</td></tr>
+            <tr><td>8</td><td>&amp;</td><td>Left to Right</td></tr>
+            <tr><td>9</td><td>^</td><td>Left to Right</td></tr>
+            <tr><td>10</td><td>|</td><td>Left to Right</td></tr>
+            <tr><td>11</td><td>&amp;&amp;</td><td>Left to Right</td></tr>
+            <tr><td>12</td><td>||</td><td>Left to Right</td></tr>
+            <tr><td>13</td><td>?:</td><td>Right to Left</td></tr>
+            <tr><td>14</td><td>= += -= *= /= %= etc.</td><td>Right to Left</td></tr>
+            <tr><td>15 (Lowest)</td><td>,</td><td>Left to Right</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Example demonstrating precedence</span><br>
+            int result = 5 + 3 * 2;     <span>// result = 11 (3*2 = 6, then 5+6 = 11)</span><br>
+            int result2 = (5 + 3) * 2;  <span>// result2 = 16 (parentheses change order)</span><br><br>
+            <span>// Complex expression</span><br>
+            int x = 10, y = 5, z = 2;<br>
+            int r = x + y * z - (x / y) + z;<br>
+            <span>// 10 + 10 - 2 + 2 = 20</span>
+        </div>
+    </div>
+
+    <!-- ========== 2.8 ========== -->
+    <div class="section">
+        <h2>2.8 Statements</h2>
+        <p><strong>Statements</strong> are complete instructions in a C program that perform actions. They are the building blocks of C programs and are executed sequentially by default.</p>
+
+        <h3>Types of Statements</h3>
+        <ul>
+            <li><strong>Expression Statements:</strong> An expression followed by a semicolon.
+                <div class="code-block">
+                    x = 5;<br>
+                    y = a + b;<br>
+                    printf("Hello");<br>
+                    x++;  <span>// Increment</span>
+                </div>
+            </li>
+            <li><strong>Compound Statements (Blocks):</strong> A group of statements enclosed in curly braces.
+                <div class="code-block">
+                    {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;int x = 5;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;printf("%d", x);<br>
+                    }
+                </div>
+            </li>
+            <li><strong>Control Statements:</strong> Alter the flow of execution.
+                <ul>
+                    <li><strong>Selection:</strong> if, if-else, switch</li>
+                    <li><strong>Iteration:</strong> for, while, do-while</li>
+                    <li><strong>Jump:</strong> break, continue, goto, return</li>
+                </ul>
+                <div class="code-block">
+                    <span>// Selection</span><br>
+                    if (x > 0) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;printf("Positive");<br>
+                    }<br><br>
+                    <span>// Iteration</span><br>
+                    for (int i = 0; i < 5; i++) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", i);<br>
+                    }<br><br>
+                    <span>// Jump</span><br>
+                    if (error) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return -1;<br>
+                    }
+                </div>
+            </li>
+            <li><strong>Labeled Statements:</strong> Used with goto.
+                <div class="code-block">
+                    start:<br>
+                    printf("Hello");<br>
+                    goto start;  <span>// Infinite loop</span>
+                </div>
+            </li>
+            <li><strong>Null Statement:</strong> A single semicolon, does nothing.
+                <div class="code-block">
+                    ;  <span>// Null statement</span><br>
+                    for (i = 0; i < 10; i++);  <span>// Loop with empty body</span>
+                </div>
+            </li>
+        </ul>
+        <div class="note-box">
+            <strong>📋 Key insight:</strong> Statements are the executable units of a C program. Understanding statement types is essential for writing structured and logical programs.
+        </div>
+    </div>
+
+    <!-- ========== 2.9 ========== -->
+    <div class="section">
+        <h2>2.9 Comments</h2>
+        <p><strong>Comments</strong> are non-executable text that explain code. They are ignored by the compiler and are used to improve code readability, document functionality, and assist in debugging.</p>
+
+        <h3>Types of Comments</h3>
+        <ul>
+            <li><strong>Single-Line Comments:</strong> Start with // and continue to the end of the line.
+                <div class="code-block">
+                    <span>// This is a single-line comment</span><br>
+                    int x = 5;  <span>// This comment is on the same line</span>
+                </div>
+            </li>
+            <li><strong>Multi-Line Comments:</strong> Enclosed between /* and */.
+                <div class="code-block">
+                    <span>/* This is a multi-line comment<br>
+                    that spans multiple lines<br>
+                    and can contain any text */</span><br>
+                    int y = 10;
+                </div>
+            </li>
+            <li><strong>Nested Comments:</strong> Not allowed in C (/* /* */ */ causes an error).</li>
+        </ul>
+
+        <h3>Comment Usage Examples</h3>
+        <div class="code-block">
+            <span>// File: calculator.c</span><br>
+            <span>// Author: John Doe</span><br>
+            <span>// Date: 2024-01-15</span><br>
+            <span>// Description: Simple calculator program</span><br><br>
+            #include &lt;stdio.h&gt;<br><br>
+            <span>/* Function: add<br>
+               Parameters: a, b - integers to add<br>
+               Returns: sum of a and b */</span><br>
+            int add(int a, int b) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return a + b;  <span>// Return the sum</span><br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int result = add(5, 3);  <span>// Call the add function</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Result: %d\n", result);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;  <span>// Successful termination</span><br>
+            }
+        </div>
+
+        <h3>Best Practices for Comments</h3>
+        <ul>
+            <li><strong>Explain Why, Not What:</strong> Comments should explain the reasoning behind the code, not just restate what the code does.</li>
+            <li><strong>Keep Comments Updated:</strong> Outdated comments are worse than no comments.</li>
+            <li><strong>Use Meaningful Names:</strong> Good variable/function names reduce the need for comments.</li>
+            <li><strong>Document Functions:</strong> Describe parameters, return values, and purpose.</li>
+            <li><strong>Use TODOs:</strong> Mark incomplete or future work with // TODO:.</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> Good comments make code more maintainable and easier to understand. However, the code should be self-documenting whenever possible through clear naming and structure.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 2 summary</strong><br>The elements of C include character sets, tokens, escape sequences, variables, data types, constants, expressions, statements, and comments.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Character set: letters, digits, special characters, whitespace.<br>• Tokens: keywords, identifiers, constants, operators, strings, punctuators.<br>• Variables: declaration, initialization, naming rules.<br>• Data types: basic, derived, user-defined.<br>• Constants: #define, const, literals.<br>• Expressions and statements: building blocks of C programs.</div>
+    </div>
 </body>
 </html>

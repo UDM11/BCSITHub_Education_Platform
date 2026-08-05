@@ -1,127 +1,525 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 7: Database Management System</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
     </style>
 </head>
 <body>
     <h1>Unit 7: Database Management System</h1>
+    <div class="subhead">Database concepts · data models · DBMS · RDBMS · applications</div>
 
+    <!-- ========== 7.1 ========== -->
     <div class="section">
         <h2>7.1 Introduction to Database</h2>
-        <p>A database is an organized collection of data, typically stored and accessed electronically from a computer system. It allows efficient storage, retrieval, and management of data, supporting multiple users and applications simultaneously.</p>
+        <p>A <strong>database</strong> is an organized collection of structured data, typically stored and accessed electronically from a computer system. Databases are designed to manage large volumes of data efficiently, supporting multiple users and applications simultaneously while ensuring data integrity and security.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📊 Purpose</strong><br>To store, manage, and retrieve data efficiently. Databases enable data sharing, reduce redundancy, and maintain data consistency across applications.</div>
+            <div class="card"><strong>🧩 Components</strong><br>Data (stored in tables), metadata (data about data), and a Database Management System (DBMS) that provides the interface for managing the data.</div>
+        </div>
         <ul>
-            <li><strong>Purpose:</strong> Databases enable structured data storage, efficient querying, and data integrity for various applications.</li>
-            <li><strong>Components:</strong> Consists of tables (rows and columns) and a Database Management System (DBMS) to manage data.</li>
-            <li><strong>Examples:</strong> MySQL, Oracle, PostgreSQL, and MongoDB are widely used databases.</li>
+            <li><strong>Characteristics:</strong> Persistent storage, structured organization, support for multiple views, concurrent access, and transaction management.</li>
+            <li><strong>Types:</strong> Relational (SQL), NoSQL (document, key-value, graph), and cloud databases.</li>
+            <li><strong>Examples:</strong> MySQL, Oracle Database, Microsoft SQL Server, PostgreSQL, MongoDB, and cloud services like Amazon RDS and Google Cloud Spanner.</li>
         </ul>
+        <div class="note-box">
+            <strong>💡 Core idea:</strong> A database is more than just data — it's a structured system that enables efficient storage, retrieval, and manipulation of information.
+        </div>
     </div>
 
+    <!-- ========== 7.2 ========== -->
     <div class="section">
         <h2>7.2 Data Concepts and Characteristics</h2>
-        <p>Data concepts define the fundamental principles of data organization, while characteristics highlight the qualities that make databases effective.</p>
+        <p>Understanding <strong>data concepts</strong> and the <strong>characteristics</strong> that define quality data is essential for effective database design and management.</p>
+
+        <h3>Data Concepts</h3>
         <ul>
-            <li><strong>Data Concepts:</strong> Data (raw facts), information (processed data), and metadata (data about data) form the basis of databases.</li>
-            <li><strong>Characteristics:</strong> Includes accuracy (error-free data), consistency (uniform data across the system), security (protection from unauthorized access), and scalability (ability to handle growing data).</li>
-            <li><strong>Examples:</strong> A customer database ensures accurate records (e.g., names, addresses) and consistent formats across entries.</li>
+            <li><strong>Data:</strong> Raw, unprocessed facts and figures (e.g., "John Doe", "28", "New York").</li>
+            <li><strong>Information:</strong> Data that has been processed, organized, and given context to make it meaningful (e.g., "John Doe is 28 years old and lives in New York").</li>
+            <li><strong>Metadata:</strong> Data about data — describes the structure, constraints, and characteristics of data (e.g., column names, data types, relationships).</li>
+            <li><strong>Database Schema:</strong> The logical blueprint of a database, defining tables, columns, data types, and relationships.</li>
         </ul>
+
+        <h3>Characteristics of Quality Data</h3>
+        <ul>
+            <li><strong>Accuracy:</strong> Data must be correct and error-free. Inaccurate data leads to poor decisions and operational inefficiencies.</li>
+            <li><strong>Consistency:</strong> Data should be uniform across the entire system. No conflicting or contradictory values should exist.</li>
+            <li><strong>Completeness:</strong> Data should contain all necessary attributes without missing values.</li>
+            <li><strong>Timeliness:</strong> Data should be current and updated regularly to remain relevant.</li>
+            <li><strong>Security:</strong> Data must be protected from unauthorized access, breaches, and corruption.</li>
+            <li><strong>Scalability:</strong> The database should be able to handle growing volumes of data without performance degradation.</li>
+        </ul>
+
+        <table>
+            <tr><th>Concept</th><th>Definition</th><th>Example</th></tr>
+            <tr><td>Data</td><td>Raw facts</td><td>"Jane", "32", "CA"</td></tr>
+            <tr><td>Information</td><td>Processed data with context</td><td>"Jane is 32 years old and lives in California"</td></tr>
+            <tr><td>Metadata</td><td>Data about data</td><td>Column name "age" with data type "INT"</td></tr>
+            <tr><td>Schema</td><td>Database structure design</td><td>Table: Employees (id, name, age, city)</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 7.3 ========== -->
     <div class="section">
         <h2>7.3 Database vs. File System</h2>
-        <p>Databases and file systems both store data but differ in structure, functionality, and efficiency.</p>
+        <p>Both databases and file systems store data, but they differ significantly in structure, functionality, and capabilities. Understanding these differences is crucial for choosing the right storage solution.</p>
+
+        <h3>File System Approach</h3>
         <ul>
-            <li><strong>Data Organization:</strong> File systems use files and folders with no inherent structure for querying, while databases use structured tables with relationships.</li>
-            <li><strong>Data Redundancy:</strong> File systems often duplicate data, leading to inconsistency; databases reduce redundancy via normalization.</li>
-            <li><strong>Access Control:</strong> Databases provide advanced security and user access controls, unlike basic file-level permissions in file systems.</li>
-            <li><strong>Examples:</strong> Storing records in Excel files (file system) vs. a MySQL database for efficient querying and management.</li>
+            <li><strong>Structure:</strong> Data is stored in flat files (e.g., text files, spreadsheets) with no inherent relationships.</li>
+            <li><strong>Data Redundancy:</strong> High redundancy — same data may be duplicated across multiple files.</li>
+            <li><strong>Data Inconsistency:</strong> Changes in one file may not be reflected in others, leading to inconsistent data.</li>
+            <li><strong>Access Control:</strong> Limited to file-level permissions; no fine-grained access control.</li>
+            <li><strong>Querying:</strong> No standard query language; custom code is required for data retrieval and manipulation.</li>
+            <li><strong>Concurrency:</strong> Limited support for multiple users accessing the same data simultaneously.</li>
+            <li><strong>Examples:</strong> Storing data in CSV files, Excel spreadsheets, or text logs.</li>
         </ul>
+
+        <h3>Database Approach</h3>
+        <ul>
+            <li><strong>Structure:</strong> Data is stored in structured tables with relationships defined by keys.</li>
+            <li><strong>Data Redundancy:</strong> Minimized through normalization techniques.</li>
+            <li><strong>Data Consistency:</strong> Enforced through constraints (primary keys, foreign keys, check constraints).</li>
+            <li><strong>Access Control:</strong> Granular security with user-level permissions and role-based access.</li>
+            <li><strong>Querying:</strong> Standard query language (SQL) for powerful and flexible data retrieval.</li>
+            <li><strong>Concurrency:</strong> Advanced transaction management ensures data integrity with multiple simultaneous users.</li>
+            <li><strong>Examples:</strong> MySQL, PostgreSQL, Oracle Database.</li>
+        </ul>
+
+        <table>
+            <tr><th>Feature</th><th>File System</th><th>Database</th></tr>
+            <tr><td>Data Structure</td><td>Flat files</td><td>Tables with relationships</td></tr>
+            <tr><td>Redundancy</td><td>High</td><td>Low (normalized)</td></tr>
+            <tr><td>Consistency</td><td>Manual enforcement</td><td>Automatic constraints</td></tr>
+            <tr><td>Query Language</td><td>None (custom code)</td><td>SQL</td></tr>
+            <tr><td>Concurrency</td><td>Limited</td><td>Full support with ACID</td></tr>
+            <tr><td>Security</td><td>Basic file permissions</td><td>Granular access control</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 7.4 ========== -->
     <div class="section">
         <h2>7.4 Data Models</h2>
-        <p>Data models define the structure and organization of data within a database, guiding how data is stored and accessed.</p>
+        <p>A <strong>data model</strong> defines how data is structured, organized, and manipulated within a database. It provides a conceptual framework for representing data and relationships.</p>
+
+        <h3>Hierarchical Model</h3>
         <ul>
-            <li><strong>Hierarchical Model:</strong> Organizes data in a tree-like structure with parent-child relationships, suitable for structured data like file systems.</li>
-            <li><strong>Network Model:</strong> Allows multiple parent-child relationships, forming a graph structure, offering flexibility but complex management.</li>
-            <li><strong>Relational Model:</strong> Uses tables with rows and columns, linked by keys, widely used for its simplicity and efficiency.</li>
-            <li><strong>NoSQL Models:</strong> Includes key-value, document, or graph models, designed for unstructured data and scalability.</li>
+            <li><strong>Structure:</strong> Tree-like structure with parent-child relationships. Each child has exactly one parent.</li>
+            <li><strong>Advantages:</strong> Simple, fast for one-to-many relationships, easy to understand.</li>
+            <li><strong>Disadvantages:</strong> Inflexible for many-to-many relationships; difficult to manage complex queries.</li>
+            <li><strong>Examples:</strong> IMS (IBM Information Management System), XML data.</li>
         </ul>
+
+        <h3>Network Model</h3>
+        <ul>
+            <li><strong>Structure:</strong> Graph-based structure where records can have multiple parent and child relationships.</li>
+            <li><strong>Advantages:</strong> More flexible than hierarchical; supports many-to-many relationships.</li>
+            <li><strong>Disadvantages:</strong> Complex to design and maintain; navigation requires detailed knowledge of the structure.</li>
+            <li><strong>Examples:</strong> IDMS (Integrated Database Management System), CODASYL model.</li>
+        </ul>
+
+        <h3>Relational Model</h3>
+        <ul>
+            <li><strong>Structure:</strong> Data is organized into tables (relations) with rows (tuples) and columns (attributes). Relationships are established using keys.</li>
+            <li><strong>Advantages:</strong> Simple, flexible, powerful querying with SQL, mathematical foundation (relational algebra).</li>
+            <li><strong>Disadvantages:</strong> May not handle unstructured data efficiently; can have performance issues with very large datasets.</li>
+            <li><strong>Examples:</strong> MySQL, PostgreSQL, Oracle, SQL Server.</li>
+        </ul>
+
+        <h3>NoSQL Models</h3>
+        <ul>
+            <li><strong>Document Model:</strong> Stores data as JSON-like documents (MongoDB, CouchDB).</li>
+            <li><strong>Key-Value Model:</strong> Stores data as key-value pairs (Redis, DynamoDB).</li>
+            <li><strong>Graph Model:</strong> Stores data as nodes and edges (Neo4j, ArangoDB).</li>
+            <li><strong>Advantages:</strong> Designed for scalability, flexibility, and handling unstructured data.</li>
+            <li><strong>Disadvantages:</strong> Lack of standardization (no universal query language); ACID properties often sacrificed for performance.</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+Data Model Comparison:
+Hierarchical:   Parent → Child1, Child2
+Network:        A ↔ B ↔ C (many-to-many)
+Relational:     Table1 ←→ Table2 (via keys)
+NoSQL:          JSON/Key-Value/Graph (flexible)
+            </pre>
+        </div>
     </div>
 
+    <!-- ========== 7.5 ========== -->
     <div class="section">
         <h2>7.5 Database Management System</h2>
-        <p>A Database Management System (DBMS) is software that facilitates the creation, management, and manipulation of databases, ensuring efficient data handling.</p>
+        <p>A <strong>Database Management System (DBMS)</strong> is software that interacts with end-users, applications, and the database itself to capture and analyze data. It serves as the interface between users and the database, providing tools for creating, retrieving, updating, and managing data.</p>
+
+        <h3>Key Functions of a DBMS</h3>
         <ul>
-            <li><strong>Functions:</strong> Supports data storage, retrieval, updating, and security, while enabling concurrent access by multiple users.</li>
-            <li><strong>Features:</strong> Provides query processing, backup/recovery, and data integrity enforcement.</li>
-            <li><strong>Examples:</strong> Oracle, MySQL, Microsoft SQL Server, and MongoDB are popular DBMSs.</li>
+            <li><strong>Data Definition:</strong> Creating and modifying database schemas using Data Definition Language (DDL).</li>
+            <li><strong>Data Manipulation:</strong> Inserting, updating, deleting, and querying data using Data Manipulation Language (DML).</li>
+            <li><strong>Data Security:</strong> Enforcing user authentication, authorization, and access controls.</li>
+            <li><strong>Data Integrity:</strong> Maintaining data accuracy through constraints (primary keys, foreign keys, check constraints).</li>
+            <li><strong>Concurrency Control:</strong> Managing simultaneous access by multiple users while maintaining data consistency (ACID properties).</li>
+            <li><strong>Backup and Recovery:</strong> Providing mechanisms for data backup, restoration, and disaster recovery.</li>
+            <li><strong>Performance Optimization:</strong> Query optimization, indexing, and caching for efficient data retrieval.</li>
         </ul>
+
+        <h3>ACID Properties</h3>
+        <ul>
+            <li><strong>Atomicity:</strong> Transactions are all-or-nothing — either fully completed or fully rolled back.</li>
+            <li><strong>Consistency:</strong> Transactions bring the database from one valid state to another.</li>
+            <li><strong>Isolation:</strong> Concurrent transactions do not interfere with each other.</li>
+            <li><strong>Durability:</strong> Committed transactions persist even in case of system failure.</li>
+        </ul>
+
+        <h3>Popular DBMS Software</h3>
+        <ul>
+            <li><strong>Relational:</strong> MySQL, PostgreSQL, Oracle, SQL Server, MariaDB.</li>
+            <li><strong>NoSQL:</strong> MongoDB (document), Redis (key-value), Cassandra (wide-column), Neo4j (graph).</li>
+            <li><strong>Cloud:</strong> Amazon RDS, Google Cloud SQL, Azure Cosmos DB.</li>
+        </ul>
+
+        <div class="code-block">
+            <span># Example SQL operations</span><br>
+            CREATE TABLE employees (          <span>-- DDL</span><br>
+                id INT PRIMARY KEY,<br>
+                name VARCHAR(100),<br>
+                age INT,<br>
+                department_id INT<br>
+            );<br><br>
+            INSERT INTO employees VALUES (1, 'Alice', 30, 101);  <span>-- DML</span><br>
+            SELECT * FROM employees WHERE age > 25;             <span>-- Query</span>
+        </div>
     </div>
 
+    <!-- ========== 7.6 ========== -->
     <div class="section">
         <h2>7.6 RDBMS</h2>
-        <p>A Relational Database Management System (RDBMS) is a DBMS that manages data organized in tables with relationships defined by keys, using Structured Query Language (SQL).</p>
+        <p>A <strong>Relational Database Management System (RDBMS)</strong> is a type of DBMS that stores data in tables (relations) and uses SQL (Structured Query Language) for data manipulation. RDBMSs enforce data integrity through constraints and support relationships between tables using keys.</p>
+
+        <h3>Key Features of RDBMS</h3>
         <ul>
-            <li><strong>Key Features:</strong> Supports SQL, enforces data integrity with constraints (e.g., primary keys, foreign keys), and ensures ACID properties (Atomicity, Consistency, Isolation, Durability).</li>
-            <li><strong>Structure:</strong> Data is stored in tables, with relationships established through keys for efficient querying.</li>
-            <li><strong>Examples:</strong> MySQL, PostgreSQL, and Oracle Database are widely used RDBMSs.</li>
+            <li><strong>Table-Based Storage:</strong> Data is organized into rows and columns, with each table representing an entity.</li>
+            <li><strong>Structured Query Language (SQL):</strong> A standardized language for defining, querying, and manipulating data.</li>
+            <li><strong>Data Integrity:</strong> Enforced through constraints like PRIMARY KEY, FOREIGN KEY, UNIQUE, NOT NULL, and CHECK.</li>
+            <li><strong>Relationships:</strong> Tables are linked using keys — one-to-one, one-to-many, and many-to-many relationships.</li>
+            <li><strong>Normalization:</strong> A process to minimize redundancy and dependency by organizing data into related tables.</li>
+            <li><strong>ACID Compliance:</strong> Ensures reliable transaction processing with Atomicity, Consistency, Isolation, and Durability.</li>
+            <li><strong>Views and Indexes:</strong> Views provide virtual tables for simplified queries; indexes improve query performance.</li>
         </ul>
+
+        <h3>SQL Categories</h3>
+        <ul>
+            <li><strong>DDL (Data Definition Language):</strong> CREATE, ALTER, DROP — define database structure.</li>
+            <li><strong>DML (Data Manipulation Language):</strong> INSERT, UPDATE, DELETE, SELECT — manipulate data.</li>
+            <li><strong>DCL (Data Control Language):</strong> GRANT, REVOKE — manage user permissions.</li>
+            <li><strong>TCL (Transaction Control Language):</strong> COMMIT, ROLLBACK, SAVEPOINT — manage transactions.</li>
+        </ul>
+
+        <h3>Popular RDBMS</h3>
+        <ul>
+            <li><strong>MySQL:</strong> Open-source, widely used in web applications (LAMP stack).</li>
+            <li><strong>PostgreSQL:</strong> Advanced open-source RDBMS with extensive features.</li>
+            <li><strong>Oracle Database:</strong> Enterprise-grade RDBMS with high performance and security.</li>
+            <li><strong>Microsoft SQL Server:</strong> Integrated with Microsoft ecosystem, excellent for Windows-based applications.</li>
+            <li><strong>MariaDB:</strong> Fork of MySQL with enhanced performance and features.</li>
+        </ul>
+
+        <table>
+            <tr><th>Feature</th><th>Description</th><th>Example</th></tr>
+            <tr><td>Primary Key</td><td>Uniquely identifies each row</td><td>id INT PRIMARY KEY</td></tr>
+            <tr><td>Foreign Key</td><td>Links tables, maintains referential integrity</td><td>dept_id REFERENCES departments(id)</td></tr>
+            <tr><td>Index</td><td>Improves query performance</td><td>CREATE INDEX idx_name ON employees(name)</td></tr>
+            <tr><td>View</td><td>Virtual table from a query</td><td>CREATE VIEW v_employees AS SELECT...</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>🗄️ Key insight:</strong> RDBMS remains the most widely used database type due to its maturity, SQL standardization, and ACID compliance. It is ideal for applications requiring strong data consistency and integrity.
+        </div>
     </div>
 
+    <!-- ========== 7.7 ========== -->
     <div class="section">
         <h2>7.7 Database Applications</h2>
-        <p>Database applications leverage databases to manage data for various industries and purposes, enhancing efficiency and decision-making.</p>
+        <p>Databases are fundamental to virtually every modern application and industry. They enable efficient data management, decision-making, and operational efficiency across various sectors.</p>
+
+        <h3>Business and Enterprise</h3>
         <ul>
-            <li><strong>Business:</strong> Used in inventory management, customer relationship systems (CRM), and financial systems.</li>
-            <li><strong>Healthcare:</strong> Manages patient records, medical histories, and billing information.</li>
-            <li><strong>Education:</strong> Supports student information systems, online learning platforms, and research databases.</li>
-            <li><strong>E-Commerce:</strong> Powers product catalogs, order processing, and customer data management.</li>
+            <li><strong>Enterprise Resource Planning (ERP):</strong> SAP, Oracle ERP — integrate business processes (finance, HR, supply chain).</li>
+            <li><strong>Customer Relationship Management (CRM):</strong> Salesforce, Microsoft Dynamics — manage customer interactions and data.</li>
+            <li><strong>Inventory Management:</strong> Track stock levels, orders, and supply chain operations.</li>
+            <li><strong>Financial Systems:</strong> Banking, accounting, and trading platforms require high-performance, secure databases.</li>
         </ul>
+
+        <h3>Healthcare</h3>
+        <ul>
+            <li><strong>Electronic Health Records (EHR):</strong> Store patient medical histories, diagnoses, and treatment plans.</li>
+            <li><strong>Medical Research:</strong> Manage clinical trial data, genomic data, and epidemiological studies.</li>
+            <li><strong>Hospital Management Systems:</strong> Appointment scheduling, billing, and resource management.</li>
+        </ul>
+
+        <h3>Education</h3>
+        <ul>
+            <li><strong>Student Information Systems:</strong> Manage student records, grades, and attendance.</li>
+            <li><strong>Learning Management Systems (LMS):</strong> Canvas, Moodle — store course content, student progress, and assessments.</li>
+            <li><strong>Research Databases:</strong> Academic research data, library catalogs, and publication repositories.</li>
+        </ul>
+
+        <h3>E-Commerce and Retail</h3>
+        <ul>
+            <li><strong>Product Catalogs:</strong> Store product details, pricing, and inventory.</li>
+            <li><strong>Order Processing:</strong> Manage customer orders, payments, and shipping.</li>
+            <li><strong>Customer Data:</strong> Store customer profiles, preferences, and purchase history for personalization.</li>
+        </ul>
+
+        <h3>Other Applications</h3>
+        <ul>
+            <li><strong>Social Media:</strong> Manage user profiles, posts, messages, and social graphs (often using NoSQL).</li>
+            <li><strong>Telecommunications:</strong> Manage subscriber data, call logs, and network configuration.</li>
+            <li><strong>Government:</strong> Tax records, voter registration, public services, and national databases.</li>
+            <li><strong>Internet of Things (IoT):</strong> Collect and analyze sensor data from connected devices.</li>
+        </ul>
+
+        <table>
+            <tr><th>Industry</th><th>Application</th><th>Database Type</th><th>Example</th></tr>
+            <tr><td>Business</td><td>ERP / CRM</td><td>RDBMS</td><td>SAP, Salesforce</td></tr>
+            <tr><td>Healthcare</td><td>EHR Systems</td><td>RDBMS</td><td>Epic, Cerner</td></tr>
+            <tr><td>Education</td><td>LMS / Student Records</td><td>RDBMS</td><td>Canvas, Banner</td></tr>
+            <tr><td>E-Commerce</td><td>Product &amp; Order Management</td><td>RDBMS + NoSQL</td><td>Amazon, Shopify</td></tr>
+            <tr><td>Social Media</td><td>User Content &amp; Social Graph</td><td>NoSQL (Graph, Document)</td><td>Facebook, Twitter</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>🌍 Key insight:</strong> Databases are the backbone of nearly every modern application — from personal banking to global e-commerce. Choosing the right database type (relational vs. NoSQL) depends on the specific requirements of the application.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 7 summary</strong><br>Databases are structured collections of data managed by a DBMS. RDBMS uses tables and SQL, while NoSQL offers flexibility for unstructured data.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Data models: Hierarchical, Network, Relational, NoSQL.<br>• DBMS provides data management, security, and integrity.<br>• RDBMS uses tables, keys, and ACID transactions.<br>• Databases power diverse applications across all industries.</div>
     </div>
 </body>
 </html>

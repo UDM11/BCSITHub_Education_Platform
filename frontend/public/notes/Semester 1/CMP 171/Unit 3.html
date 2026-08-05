@@ -1,131 +1,434 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 3: Computer Software</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
     </style>
 </head>
 <body>
     <h1>Unit 3: Computer Software</h1>
+    <div class="subhead">System software · application software · development tools · licensing &amp; distribution</div>
 
+    <!-- ========== 3.1 ========== -->
     <div class="section">
         <h2>3.1 Introduction</h2>
-        <p>Computer software is a set of instructions or programs that direct a computer to perform specific tasks. It acts as an interface between the hardware and the user, enabling the computer to process data and execute operations. Software is essential for making hardware functional and user-friendly.</p>
+        <p><strong>Computer software</strong> is the collection of programs, data, and instructions that enable a computer to perform specific tasks. Unlike hardware, software is intangible — it exists as code that is stored, executed, and manipulated. Software bridges the gap between the user and the machine, making hardware useful and accessible.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📌 Purpose</strong><br>Software provides the logic, functionality, and user interaction that hardware alone cannot offer. It transforms a collection of circuits into a powerful tool.</div>
+            <div class="card"><strong>🧩 Components</strong><br>Includes source code, executable files, libraries, configuration files, and documentation. All work together to deliver functionality.</div>
+        </div>
         <ul>
-            <li><strong>Purpose:</strong> Software provides the logic and functionality to control hardware and perform tasks like calculations, communication, or data management.</li>
-            <li><strong>Components:</strong> Software includes programs, scripts, and associated data that guide computer operations.</li>
-            <li><strong>Examples:</strong> Common software includes operating systems like Windows, applications like Microsoft Word, and utilities like antivirus programs.</li>
+            <li><strong>Abstraction:</strong> Software abstracts hardware complexity, allowing users to interact with high-level commands rather than binary operations.</li>
+            <li><strong>Lifecycle:</strong> Software goes through stages: requirements, design, development, testing, deployment, and maintenance.</li>
+            <li><strong>Categories:</strong> Broadly divided into system software (manages hardware) and application software (performs user tasks).</li>
         </ul>
+        <div class="note-box">
+            <strong>💡 Core idea:</strong> Hardware is the body of the computer; software is the mind. Together they create a functional computing system.
+        </div>
     </div>
 
+    <!-- ========== 3.2 ========== -->
     <div class="section">
         <h2>3.2 Types of Software</h2>
-        <p>Software is broadly classified into two categories: System Software and Application Software. Each type serves distinct purposes in managing computer resources or fulfilling user needs.</p>
+        <p>Software is broadly classified into two primary categories based on its role and purpose: <strong>System Software</strong> and <strong>Application Software</strong>. Each plays a distinct role in the computing ecosystem.</p>
+
+        <!-- ===== 3.2.1 ===== -->
+        <h3>3.2.1 System Software</h3>
+        <p><strong>System software</strong> is designed to manage and control hardware resources, provide a platform for application software, and ensure smooth system operation. It operates at a low level, interacting directly with the hardware.</p>
         <ul>
-            <li><strong>System Software:</strong> Manages and controls hardware resources, providing a platform for other software to run.</li>
-            <li><strong>Application Software:</strong> Performs specific tasks for users, such as word processing, browsing, or gaming.</li>
+            <li><strong>Functions:</strong> Hardware abstraction, resource management, user interface, security, and file management.</li>
+            <li><strong>Examples:</strong> Operating systems (Windows, Linux, macOS), device drivers, firmware, and utility programs.</li>
         </ul>
 
-        <div class="section">
-            <h2>3.2.1 System Software</h2>
-            <p>System software is designed to manage and operate computer hardware, ensuring efficient performance and providing a foundation for application software. It includes programs that control system resources and facilitate software development or management.</p>
-            <ul>
-                <li><strong>Functions:</strong> Manages hardware, provides user interfaces, and supports application execution.</li>
-                <li><strong>Examples:</strong> Operating systems (e.g., Linux, Windows), device drivers, and utility programs.</li>
-            </ul>
+        <!-- System Development -->
+        <h4>System Development Software</h4>
+        <p>System development tools are used by programmers and developers to create, test, debug, and maintain software applications. These tools are essential for the software engineering process.</p>
+        <ul>
+            <li><strong>Compilers:</strong> Translate high-level code (C, C++, Java) into machine code. Examples: GCC, Clang, Microsoft C++ Compiler.</li>
+            <li><strong>Interpreters:</strong> Execute code line-by-line without compilation. Examples: Python interpreter, Ruby MRI.</li>
+            <li><strong>IDEs (Integrated Development Environments):</strong> Combine editor, compiler, debugger, and build tools. Examples: Visual Studio, IntelliJ IDEA, Eclipse.</li>
+            <li><strong>Version Control:</strong> Track changes and collaborate on code. Examples: Git, SVN, Mercurial.</li>
+            <li><strong>Debugging Tools:</strong> GDB, WinDbg, and built-in IDE debuggers.</li>
+        </ul>
+        <table>
+            <tr><th>Tool type</th><th>Purpose</th><th>Popular examples</th></tr>
+            <tr><td>Compiler</td><td>Translate source code to machine code</td><td>GCC, MSVC, javac</td></tr>
+            <tr><td>Interpreter</td><td>Execute code directly</td><td>Python, Ruby, PHP</td></tr>
+            <tr><td>IDE</td><td>Integrated development environment</td><td>VS Code, IntelliJ, Eclipse</td></tr>
+            <tr><td>Version Control</td><td>Manage code versions and collaboration</td><td>Git, GitHub, GitLab</td></tr>
+        </table>
 
-            <div class="section">
-                <h2>System Development</h2>
-                <p>System development software includes tools used by developers to create, test, and maintain other software applications or systems.</p>
-                <ul>
-                    <li><strong>Purpose:</strong> Facilitates coding, debugging, and software deployment.</li>
-                    <li><strong>Tools:</strong> Includes compilers, interpreters, and integrated development environments (IDEs).</li>
-                    <li><strong>Examples:</strong> Visual Studio, GCC, and Python interpreters.</li>
-                </ul>
-            </div>
-
-            <div class="section">
-                <h2>System Management</h2>
-                <p>System management software oversees the operation and maintenance of computer systems, ensuring optimal performance and resource allocation.</p>
-                <ul>
-                    <li><strong>Purpose:</strong> Monitors system performance, manages resources, and enhances security.</li>
-                    <li><strong>Tools:</strong> Includes operating systems, utilities, and diagnostic tools.</li>
-                    <li><strong>Examples:</strong> Windows Task Manager, antivirus software, and disk defragmenters.</li>
-                </ul>
-            </div>
+        <!-- System Management -->
+        <h4>System Management Software</h4>
+        <p>System management tools monitor, maintain, and optimize computer systems. They ensure security, performance, and reliability.</p>
+        <ul>
+            <li><strong>Operating Systems:</strong> The core system software managing all hardware and software. Examples: Windows 11, Ubuntu Linux, macOS.</li>
+            <li><strong>Utility Programs:</strong> Disk cleanup, defragmentation, backup, and system restore.</li>
+            <li><strong>Security Software:</strong> Antivirus (Norton, Bitdefender), firewalls, encryption tools.</li>
+            <li><strong>Monitoring Tools:</strong> Task Manager, Resource Monitor, performance profilers.</li>
+            <li><strong>Driver Management:</strong> Device drivers that enable communication between OS and hardware.</li>
+        </ul>
+        <div class="note-box">
+            <strong>🛡️ Security:</strong> System management software includes essential security layers — firewalls, antivirus, and intrusion detection systems protect against threats.
         </div>
 
-        <div class="section">
-            <h2>3.2.2 Application Software</h2>
-            <p>Application software is designed to perform specific user-oriented tasks, ranging from productivity to entertainment. It runs on top of system software and caters to diverse user requirements.</p>
-            <ul>
-                <li><strong>Functions:</strong> Enables users to perform tasks like document creation, data analysis, or media playback.</li>
-                <li><strong>Examples:</strong> Web browsers (e.g., Chrome), spreadsheet programs (e.g., Excel), and games.</li>
-            </ul>
+        <!-- ===== 3.2.2 ===== -->
+        <h3>3.2.2 Application Software</h3>
+        <p><strong>Application software</strong> is designed to perform specific tasks for end users. It runs on top of system software and is tailored to meet user needs across various domains.</p>
+        <ul>
+            <li><strong>Functions:</strong> Productivity, creativity, communication, entertainment, data analysis, and more.</li>
+            <li><strong>Examples:</strong> Microsoft Office (Word, Excel), Google Chrome, Adobe Photoshop, Spotify, and video games.</li>
+        </ul>
 
-            <div class="section">
-                <h2>Package Software</h2>
-                <p>Package software, also known as off-the-shelf software, is pre-developed software designed for general use by a wide audience.</p>
+        <!-- Package Software -->
+        <h4>Package Software (Off-the-Shelf)</h4>
+        <p>Package software is commercially developed, mass-marketed software intended for a broad user base. It is pre-built, tested, and ready to use.</p>
+        <ul>
+            <li><strong>Advantages:</strong> Lower cost, immediate availability, reliable (well-tested), regular updates, and extensive support communities.</li>
+            <li><strong>Disadvantages:</strong> May not meet specific or niche requirements, limited customization.</li>
+            <li><strong>Categories:</strong>
                 <ul>
-                    <li><strong>Characteristics:</strong> Ready-to-use, standardized, and cost-effective for common tasks.</li>
-                    <li><strong>Advantages:</strong> Easy to install, widely supported, and regularly updated.</li>
-                    <li><strong>Examples:</strong> Microsoft Office, Adobe Photoshop, and QuickBooks.</li>
+                    <li><strong>Productivity:</strong> Microsoft 365, Google Workspace, LibreOffice.</li>
+                    <li><strong>Creative:</strong> Adobe Creative Suite (Photoshop, Premiere), CorelDRAW.</li>
+                    <li><strong>Communication:</strong> Zoom, Slack, Microsoft Teams, WhatsApp.</li>
+                    <li><strong>Entertainment:</strong> Spotify, Netflix, Steam games.</li>
                 </ul>
-            </div>
+            </li>
+        </ul>
 
-            <div class="section">
-                <h2>Tailored Software</h2>
-                <p>Tailored software, also called custom software, is developed to meet the specific needs of an individual or organization.</p>
-                <ul>
-                    <li><strong>Characteristics:</strong> Customized to fit unique requirements, often more expensive and time-consuming to develop.</li>
-                    <li><strong>Advantages:</strong> Offers precise functionality and flexibility for specialized tasks.</li>
-                    <li><strong>Examples:</strong> Custom CRM systems, hospital management software, and proprietary business applications.</li>
-                </ul>
-            </div>
+        <!-- Tailored Software -->
+        <h4>Tailored Software (Custom)</h4>
+        <p>Tailored software is developed specifically for an organization or individual to address unique operational needs. It is bespoke and built from the ground up.</p>
+        <ul>
+            <li><strong>Advantages:</strong> Perfect fit for requirements, competitive advantage, full control over features and data.</li>
+            <li><strong>Disadvantages:</strong> Higher cost, longer development time, maintenance responsibility lies with the organization.</li>
+            <li><strong>Examples:</strong> Hospital management systems, airline reservation systems, banking core software, ERP systems customized for a company.</li>
+        </ul>
+        <table>
+            <tr><th>Aspect</th><th>Package Software</th><th>Tailored Software</th></tr>
+            <tr><td>Cost</td><td>Lower (mass-produced)</td><td>Higher (custom development)</td></tr>
+            <tr><td>Time to deploy</td><td>Immediate</td><td>Months to years</td></tr>
+            <tr><td>Customization</td><td>Limited</td><td>Full customization</td></tr>
+            <tr><td>Maintenance</td><td>Vendor-provided</td><td>In-house or contracted</td></tr>
+            <tr><td>Example</td><td>Microsoft Excel</td><td>Custom CRM for a specific business</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== ADDITIONAL: Software Licensing ========== -->
+    <div class="section">
+        <h2>3.3 Software Licensing and Distribution</h2>
+        <p>Software licensing defines how software can be used, modified, and distributed. It is a critical aspect of the software industry, affecting both developers and users.</p>
+        <h3>Proprietary Software</h3>
+        <ul>
+            <li><strong>Definition:</strong> Software owned by an individual or company. Source code is closed and protected.</li>
+            <li><strong>Examples:</strong> Windows, Adobe Photoshop, Microsoft Office.</li>
+            <li><strong>Licensing models:</strong> Perpetual (one-time purchase), subscription (monthly/yearly), trial (time-limited).</li>
+        </ul>
+        <h3>Open-Source Software</h3>
+        <ul>
+            <li><strong>Definition:</strong> Software with source code available for anyone to view, modify, and distribute.</li>
+            <li><strong>Licenses:</strong> GPL, MIT, Apache, BSD — each with different copyleft or permissive terms.</li>
+            <li><strong>Examples:</strong> Linux kernel, Firefox, VLC, LibreOffice, Python.</li>
+        </ul>
+        <h3>Freeware vs. Shareware</h3>
+        <ul>
+            <li><strong>Freeware:</strong> Software available at no cost, but source code is not provided. Examples: Skype, CCleaner (free version).</li>
+            <li><strong>Shareware:</strong> Initially free with limited features or time, requiring payment for full version. Examples: WinRAR, many older games.</li>
+        </ul>
+        <div class="note-box">
+            <strong>📜 Software licensing matters:</strong> Choosing the right license affects cost, flexibility, and legal compliance. Open-source fosters collaboration; proprietary ensures vendor support.
         </div>
+    </div>
+
+    <!-- ========== ADDITIONAL: Software Distribution Models ========== -->
+    <div class="section">
+        <h2>3.4 Software Distribution Models</h2>
+        <p>Modern software is distributed through various channels, each with unique benefits.</p>
+        <ul>
+            <li><strong>Physical media:</strong> DVDs, USB drives — legacy distribution, still used for enterprise and offline installs.</li>
+            <li><strong>Digital download:</strong> Direct download from websites — common for games, utilities, and applications.</li>
+            <li><strong>App stores:</strong> Centralized platforms like Apple App Store, Google Play, Microsoft Store — provide easy discovery, updates, and security.</li>
+            <li><strong>SaaS (Software as a Service):</strong> Web-based applications accessed via browser — examples: Google Workspace, Salesforce, Netflix.</li>
+            <li><strong>Containerized distribution:</strong> Docker images, Snap, Flatpak — encapsulate software with dependencies for portability.</li>
+        </ul>
+        <table>
+            <tr><th>Model</th><th>Delivery</th><th>Update mechanism</th><th>Examples</th></tr>
+            <tr><td>Physical</td><td>CD/DVD/USB</td><td>Manual reinstall or patch</td><td>Windows (older versions)</td></tr>
+            <tr><td>Digital download</td><td>Website download</td><td>User-initiated or auto-update</td><td>Steam games, Zoom installer</td></tr>
+            <tr><td>App store</td><td>Store platform</td><td>Automatic via store</td><td>Mobile apps, Mac App Store</td></tr>
+            <tr><td>SaaS</td><td>Web browser</td><td>Continuous deployment by vendor</td><td>Gmail, Figma, Slack</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== ADDITIONAL: Software Development Methodologies ========== -->
+    <div class="section">
+        <h2>3.5 Software Development Methodologies</h2>
+        <p>Software is built using structured approaches that define the process from conception to deployment.</p>
+        <ul>
+            <li><strong>Waterfall:</strong> Linear, sequential phases — requirements → design → implementation → testing → deployment. Suitable for stable requirements.</li>
+            <li><strong>Agile:</strong> Iterative and incremental — focus on flexibility, customer collaboration, and rapid delivery. Frameworks: Scrum, Kanban, XP.</li>
+            <li><strong>DevOps:</strong> Combines development and operations — emphasizes CI/CD, automation, and monitoring.</li>
+            <li><strong>RAD (Rapid Application Development):</strong> Emphasizes prototyping and user feedback.</li>
+        </ul>
+        <div class="grid-2col">
+            <div class="card"><strong>📊 Waterfall pros/cons</strong><br>Clear structure, documentation-heavy, but inflexible to changes.</div>
+            <div class="card"><strong>🔄 Agile pros/cons</strong><br>Adaptable, fast feedback, but requires active stakeholder involvement.</div>
+        </div>
+        <div class="note-box">
+            <strong>🚀 Modern trend:</strong> Most teams adopt Agile or Hybrid approaches. DevOps practices are increasingly standard for continuous delivery.
+        </div>
+    </div>
+
+    <!-- ========== ADDITIONAL: Software Quality Attributes ========== -->
+    <div class="section">
+        <h2>3.6 Software Quality Attributes</h2>
+        <p>High-quality software exhibits several non-functional attributes that determine its reliability, usability, and maintainability.</p>
+        <ul>
+            <li><strong>Functionality:</strong> Does it meet the stated requirements?</li>
+            <li><strong>Reliability:</strong> Does it perform correctly under various conditions?</li>
+            <li><strong>Usability:</strong> Is it easy to learn and use?</li>
+            <li><strong>Performance:</strong> Speed, responsiveness, and scalability.</li>
+            <li><strong>Security:</strong> Protection against unauthorized access and data breaches.</li>
+            <li><strong>Maintainability:</strong> How easily can it be modified or extended?</li>
+            <li><strong>Portability:</strong> Can it run on different platforms without modification?</li>
+        </ul>
+        <table>
+            <tr><th>Quality attribute</th><th>Description</th><th>Metric example</th></tr>
+            <tr><td>Reliability</td><td>Probability of failure-free operation</td><td>Mean Time Between Failures (MTBF)</td></tr>
+            <tr><td>Performance</td><td>Response time, throughput</td><td>Page load time (ms)</td></tr>
+            <tr><td>Security</td><td>Resilience to attacks</td><td>Number of vulnerabilities</td></tr>
+            <tr><td>Maintainability</td><td>Ease of fixing/enhancing</td><td>Technical debt ratio</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 3 summary</strong><br>Software is the intangible set of instructions that makes hardware functional. It is divided into system software and application software.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• System software manages hardware (OS, drivers, utilities).<br>• Application software serves user needs (productivity, creativity).<br>• Licensing and distribution shape the software ecosystem.</div>
     </div>
 </body>
 </html>

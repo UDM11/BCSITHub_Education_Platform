@@ -1,289 +1,713 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unit 6: Arrays and String</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-      font-weight: bold;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 6: Arrays and String</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Unit 6: Arrays and String</h1>
+    <h1>Unit 6: Arrays and String</h1>
+    <div class="subhead">Array concepts · declaration · initialization · multi-dimensional · strings · string functions</div>
 
-  <div class="section">
-    <h2>6.1 Introduction to Array</h2>
-    <p>An array is a collection of elements of the same data type stored in contiguous memory locations, accessed using a common name and index.</p>
-    <ul>
-      <li><strong>Purpose:</strong> Simplifies handling multiple values of the same type.</li>
-      <li><strong>Characteristics:</strong> Fixed size, indexed from 0.</li>
-      <li><strong>Example:</strong> Storing 5 integers in an array instead of 5 separate variables.</li>
-    </ul>
-  </div>
+    <!-- ========== 6.1 ========== -->
+    <div class="section">
+        <h2>6.1 Introduction to Array</h2>
+        <p>An <strong>array</strong> is a collection of elements of the same data type stored in contiguous memory locations, accessed using a common name and index. Arrays provide an efficient way to manage multiple related data items.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📊 Purpose</strong><br>Simplify handling of multiple values of the same type. Avoid declaring many separate variables.</div>
+            <div class="card"><strong>🧩 Characteristics</strong><br>Fixed size, indexed from 0, contiguous memory, homogeneous data type.</div>
+        </div>
 
-  <div class="section">
-    <h2>6.2 Declaration</h2>
-    <p>Array declaration specifies the data type, array name, and size.</p>
-    <ul>
-      <li><strong>Syntax:</strong> data_type array_name[size];</li>
-      <li><strong>Examples:</strong>
-        <pre>
-int numbers[5]; // Array of 5 integers
-float scores[10]; // Array of 10 floats
-        </pre>
-      </li>
-      <li><strong>Note:</strong> Size must be a positive integer constant at declaration.</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>6.3 Memory Representation of Array</h2>
-    <p>Arrays are stored in contiguous memory locations, with each element occupying a fixed size based on its data type.</p>
-    <ul>
-      <li><strong>Memory Layout:</strong> For int arr[3], if arr[0] is at address 1000 and int size is 4 bytes, arr[1] is at 1004, arr[2] at 1008.</li>
-      <li><strong>Access:</strong> Index calculates address as: base_address + (index * size_of_data_type).</li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int arr[3] = {10, 20, 30};
-    printf("Address of arr[0]: %p\n", &arr[0]);
-    printf("Address of arr[1]: %p\n", &arr[1]);
-    return 0;
-}
-        </pre>
-        Output shows consecutive addresses.
-      </li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>6.4 Initialization of Array</h2>
-    <p>Arrays can be initialized at declaration or later using loops.</p>
-    <ul>
-      <li><strong>At Declaration:</strong>
-        <pre>
-int arr[5] = {1, 2, 3, 4, 5}; // Full initialization
-int arr2[5] = {1, 2}; // Partial: arr2[2..4] = 0
-int arr3[] = {1, 2, 3}; // Size inferred as 3
-        </pre>
-      </li>
-      <li><strong>Using Loops:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int arr[5];
-    for (int i = 0; i < 5; i++) {
-        arr[i] = i + 1;
-    }
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Note:</strong> Uninitialized arrays may contain garbage values.</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>6.5 Types of Arrays</h2>
-    <h2>6.5.1 Single Dimensional and Multidimensional</h2>
-    <ul>
-      <li><strong>Single Dimensional Array:</strong> A linear array with one index.
-        <pre>
-int arr[5] = {10, 20, 30, 40, 50};
-        </pre>
-      </li>
-      <li><strong>Multidimensional Array:</strong> Arrays with multiple indices, e.g., 2D (matrix) or 3D.
+        <h3>Why Use Arrays?</h3>
         <ul>
-          <li><strong>2D Array Syntax:</strong> data_type array_name[rows][columns];</li>
-          <li><strong>Example:</strong>
+            <li><strong>Efficient Storage:</strong> Store multiple values in a single structured variable.</li>
+            <li><strong>Easy Access:</strong> Access elements using index (0 to size-1).</li>
+            <li><strong>Loop-Friendly:</strong> Iterate through elements using loops.</li>
+            <li><strong>Memory Efficiency:</strong> Contiguous allocation means faster access.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Without array</span><br>
+            int marks1 = 85, marks2 = 90, marks3 = 78, marks4 = 92, marks5 = 88;<br><br>
+            <span>// With array</span><br>
+            int marks[5] = {85, 90, 78, 92, 88};  <span>// Much cleaner!</span><br><br>
+            <span>// Accessing array elements</span><br>
+            printf("First mark: %d\n", marks[0]);  <span>// 85</span><br>
+            printf("Third mark: %d\n", marks[2]);  <span>// 78</span>
+        </div>
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> Arrays are fundamental data structures in C. They form the basis for strings and more complex data structures.
+        </div>
+    </div>
+
+    <!-- ========== 6.2 ========== -->
+    <div class="section">
+        <h2>6.2 Declaration</h2>
+        <p><strong>Array declaration</strong> specifies the data type, array name, and size. The compiler allocates memory based on this declaration.</p>
+
+        <h3>Syntax and Examples</h3>
+        <ul>
+            <li><strong>Syntax:</strong> <code>data_type array_name[size];</code></li>
+            <li><strong>Examples:</strong>
+                <div class="code-block">
+                    int numbers[5];     <span>// Array of 5 integers</span><br>
+                    float scores[10];   <span>// Array of 10 floats</span><br>
+                    char letters[26];   <span>// Array of 26 characters</span><br>
+                    double values[20];  <span>// Array of 20 doubles</span>
+                </div>
+            </li>
+            <li><strong>Rules:</strong>
+                <ul>
+                    <li>Size must be a positive integer constant.</li>
+                    <li>Size can be a constant expression (e.g., <code>#define SIZE 5</code>).</li>
+                    <li>Variable-length arrays (VLA) are allowed in C99 (size can be a runtime value).</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Array Declaration Examples</h3>
+        <div class="code-block">
+            <span>// Using const</span><br>
+            const int SIZE = 5;<br>
+            int arr[SIZE];<br><br>
+            <span>// Using #define</span><br>
+            #define MAX 10<br>
+            float data[MAX];<br><br>
+            <span>// Variable-Length Array (C99)</span><br>
+            int n;<br>
+            printf("Enter size: ");<br>
+            scanf("%d", &amp;n);<br>
+            int dynamicArr[n];  <span>// Size determined at runtime</span>
+        </div>
+    </div>
+
+    <!-- ========== 6.3 ========== -->
+    <div class="section">
+        <h2>6.3 Memory Representation of Array</h2>
+        <p>Arrays are stored in <strong>contiguous memory locations</strong>. Each element occupies a fixed size based on its data type. The address of each element can be calculated using the base address and index.</p>
+
+        <h3>Memory Layout</h3>
+        <ul>
+            <li><strong>Formula:</strong> Address of element i = Base Address + (i × Size of data type)</li>
+            <li><strong>Example:</strong> For <code>int arr[5]</code> starting at address 1000 (int size = 4 bytes):
+                <ul>
+                    <li>arr[0] → 1000</li>
+                    <li>arr[1] → 1004</li>
+                    <li>arr[2] → 1008</li>
+                    <li>arr[3] → 1012</li>
+                    <li>arr[4] → 1016</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="figure-box">
             <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    int matrix[2][3] = {{1, 2, 3}, {4, 5, 6}};
-    printf("Element at [1][2]: %d\n", matrix[1][2]); // 6
-    return 0;
-}
+Memory Layout for int arr[5]:
+Address:  1000  1004  1008  1012  1016
+         ┌─────┬─────┬─────┬─────┬─────┐
+         │     │     │     │     │     │
+         └─────┴─────┴─────┴─────┴─────┘
+Element:   0     1     2     3     4
             </pre>
-          </li>
-          <li><strong>Memory:</strong> Stored row-major order (consecutive elements of a row are contiguous).</li>
-        </ul>
-      </li>
-    </ul>
-  </div>
+        </div>
 
-  <div class="section">
-    <h2>6.7 Character Array and Strings</h2>
-    <p>A character array stores characters, and a string is a character array terminated by a null character (\0).</p>
-    <ul>
-      <li><strong>Character Array:</strong>
-        <pre>
-char arr[5] = {'H', 'e', 'l', 'l', 'o'};
-        </pre>
-      </li>
-      <li><strong>String:</strong>
-        <pre>
-char str[6] = "Hello"; // Includes \0 automatically
-        </pre>
-      </li>
-      <li><strong>Difference:</strong> Strings are null-terminated; character arrays may not be.</li>
-    </ul>
-  </div>
+        <div class="code-block">
+            <span>// Program to display array memory addresses</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int arr[5] = {10, 20, 30, 40, 50};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < 5; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("arr[%d] = %d, address = %p\n", i, arr[i], &amp;arr[i]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }<br><br>
+            <span>// Output shows addresses increasing by 4 bytes (int size)</span>
+        </div>
+        <div class="note-box">
+            <strong>📌 Key insight:</strong> The contiguous memory layout of arrays enables fast access using pointer arithmetic and efficient cache utilization.
+        </div>
+    </div>
 
-  <div class="section">
-    <h2>6.8 Reading and Writing Strings</h2>
-    <p>Strings are read and written using specific I/O functions.</p>
-    <ul>
-      <li><strong>Reading Strings:</strong>
+    <!-- ========== 6.4 ========== -->
+    <div class="section">
+        <h2>6.4 Initialization of Array</h2>
+        <p><strong>Array initialization</strong> assigns values to array elements at the time of declaration. C provides several ways to initialize arrays.</p>
+
+        <h3>Methods of Initialization</h3>
         <ul>
-          <li><strong>scanf("%s", str):</strong> Reads until whitespace, no & needed for arrays.</li>
-          <li><strong>gets(str):</strong> Reads entire line (unsafe, deprecated).</li>
-          <li><strong>fgets(str, size, stdin):</strong> Safer, reads up to size-1 characters or newline.</li>
-          <li><strong>Example:</strong>
+            <li><strong>Complete Initialization:</strong> Assign values to all elements.
+                <div class="code-block">
+                    int arr[5] = {1, 2, 3, 4, 5};
+                </div>
+            </li>
+            <li><strong>Partial Initialization:</strong> Uninitialized elements are set to 0.
+                <div class="code-block">
+                    int arr[5] = {1, 2};  <span>// arr[0]=1, arr[1]=2, arr[2..4]=0</span>
+                </div>
+            </li>
+            <li><strong>Size Omitted:</strong> Compiler infers the size from the initializer list.
+                <div class="code-block">
+                    int arr[] = {1, 2, 3, 4, 5};  <span>// Size = 5</span>
+                </div>
+            </li>
+            <li><strong>Designated Initialization (C99):</strong> Initialize specific elements.
+                <div class="code-block">
+                    int arr[5] = {[2] = 10, [4] = 20};  <span>// arr[0]=0, arr[1]=0, arr[2]=10, arr[3]=0, arr[4]=20</span>
+                </div>
+            </li>
+        </ul>
+
+        <h3>Runtime Initialization</h3>
+        <ul>
+            <li><strong>Using Loops:</strong> Initialize array elements at runtime.
+                <div class="code-block">
+                    int arr[5];<br>
+                    for (int i = 0; i < 5; i++) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;arr[i] = i * 2;<br>
+                    }
+                </div>
+            </li>
+            <li><strong>User Input:</strong> Read values from the user.
+                <div class="code-block">
+                    int arr[5];<br>
+                    for (int i = 0; i < 5; i++) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;scanf("%d", &amp;arr[i]);<br>
+                    }
+                </div>
+            </li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Various initialization examples</span><br>
+            int a[5] = {0};        <span>// All elements zero</span><br>
+            int b[3] = {10};       <span>// b[0]=10, b[1]=0, b[2]=0</span><br>
+            int c[] = {1, 2, 3};   <span>// Size = 3</span><br>
+            int d[3][3] = {0};     <span>// 2D array all zeros</span>
+        </div>
+    </div>
+
+    <!-- ========== 6.5 ========== -->
+    <div class="section">
+        <h2>6.5 Types of Arrays</h2>
+
+        <h3>6.5.1 Single Dimensional and Multidimensional</h3>
+
+        <h4>Single Dimensional Array (1D Array)</h4>
+        <ul>
+            <li><strong>Definition:</strong> A linear array with a single index.</li>
+            <li><strong>Representation:</strong> <code>data_type arr[size];</code></li>
+            <li><strong>Access:</strong> <code>arr[index]</code> where index ranges from 0 to size-1.</li>
+        </ul>
+        <div class="code-block">
+            <span>// 1D Array example</span><br>
+            int numbers[5] = {10, 20, 30, 40, 50};<br>
+            for (int i = 0; i < 5; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", numbers[i]);<br>
+            }<br>
+            <span>// Output: 10 20 30 40 50</span>
+        </div>
+
+        <h4>Multidimensional Array</h4>
+        <ul>
+            <li><strong>Definition:</strong> Arrays with multiple indices (2D, 3D, etc.).</li>
+            <li><strong>2D Array Syntax:</strong> <code>data_type array_name[rows][columns];</code></li>
+            <li><strong>Memory Layout:</strong> Stored in row-major order (row by row).</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// 2D Array example - Matrix</span><br>
+            int matrix[2][3] = {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;{1, 2, 3},<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;{4, 5, 6}<br>
+            };<br><br>
+            <span>// Accessing elements</span><br>
+            for (int i = 0; i < 2; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int j = 0; j < 3; j++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", matrix[i][j]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("\n");<br>
+            }<br>
+            <span>// Output:</span><br>
+            <span>// 1 2 3</span><br>
+            <span>// 4 5 6</span><br><br>
+            <span>// 3D Array</span><br>
+            int cube[2][2][2] = {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;{{1, 2}, {3, 4}},<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;{{5, 6}, {7, 8}}<br>
+            };<br>
+            printf("cube[1][0][1] = %d\n", cube[1][0][1]);  <span>// 6</span>
+        </div>
+
+        <h4>2D Array Initialization</h4>
+        <ul>
+            <li><strong>Full Initialization:</strong> <code>int arr[2][3] = {{1,2,3},{4,5,6}};</code></li>
+            <li><strong>Partial Initialization:</strong> <code>int arr[2][3] = {{1,2},{4}};</code> (remaining elements = 0)</li>
+            <li><strong>Size Omitted:</strong> <code>int arr[][3] = {{1,2,3},{4,5,6}};</code> (rows inferred)</li>
+        </ul>
+    </div>
+
+    <!-- ========== 6.6 ========== -->
+    <div class="section">
+        <h2>6.6 Character Array and Strings</h2>
+        <p>A <strong>character array</strong> is an array of characters. A <strong>string</strong> is a character array terminated by a null character (<code>\0</code>). Strings are a fundamental concept in C for text handling.</p>
+
+        <h3>Character Array vs String</h3>
+        <ul>
+            <li><strong>Character Array:</strong> Just an array of characters without a null terminator.
+                <div class="code-block">
+                    char arr[5] = {'H', 'e', 'l', 'l', 'o'};  <span>// Not a string</span>
+                </div>
+            </li>
+            <li><strong>String:</strong> Character array with a null terminator.
+                <div class="code-block">
+                    char str[6] = "Hello";  <span>// Automatically adds \0</span><br>
+                    char str2[] = "World";   <span>// Size = 6 (5 chars + \0)</span>
+                </div>
+            </li>
+        </ul>
+
+        <h3>String Declaration Methods</h3>
+        <ul>
+            <li><strong>Using Array:</strong>
+                <div class="code-block">
+                    char str[20] = "Hello";<br>
+                    char str2[] = "Hello";  <span>// Size automatically 6</span>
+                </div>
+            </li>
+            <li><strong>Using Pointer:</strong>
+                <div class="code-block">
+                    char *str = "Hello";  <span>// String literal (read-only)</span>
+                </div>
+            </li>
+        </ul>
+
+        <h3>Difference Between Methods</h3>
+        <table>
+            <tr><th>Method</th><th>Memory Location</th><th>Modifiable</th></tr>
+            <tr><td>char str[20] = "Hello"</td><td>Stack</td><td>Yes</td></tr>
+            <tr><td>char *str = "Hello"</td><td>Read-only segment</td><td>No (modification causes undefined behavior)</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// String examples</span><br>
+            char str1[20] = "Hello";<br>
+            str1[0] = 'h';  <span>// Valid: modifies first character</span><br>
+            printf("%s\n", str1);  <span>// hello</span><br><br>
+            char *str2 = "Hello";<br>
+            <span>// str2[0] = 'h';  // NOT allowed - undefined behavior</span>
+        </div>
+    </div>
+
+    <!-- ========== 6.7 ========== -->
+    <div class="section">
+        <h2>6.7 Reading and Writing Strings</h2>
+        <p>C provides several functions for reading and writing strings. Choosing the right function is important for security and functionality.</p>
+
+        <h3>Reading Strings</h3>
+        <ul>
+            <li><strong>scanf("%s", str):</strong> Reads until whitespace. Does NOT read spaces. No & needed for array name.
+                <div class="code-block">
+                    char str[50];<br>
+                    scanf("%s", str);  <span>// Reads "Hello" from "Hello World"</span>
+                </div>
+            </li>
+            <li><strong>gets(str):</strong> Reads entire line including spaces. <span class="highlight">Deprecated and unsafe</span> (buffer overflow risk).</li>
+            <li><strong>fgets(str, size, stdin):</strong> Safe alternative. Reads up to size-1 characters or newline.
+                <div class="code-block">
+                    char str[50];<br>
+                    fgets(str, sizeof(str), stdin);  <span>// Safe reading with buffer limit</span>
+                </div>
+            </li>
+            <li><strong>scanf("%[^\n]", str):</strong> Reads until newline (reads spaces).
+                <div class="code-block">
+                    char str[50];<br>
+                    scanf(" %[^\n]", str);  <span>// Reads entire line</span>
+                </div>
+            </li>
+        </ul>
+
+        <h3>Writing Strings</h3>
+        <ul>
+            <li><strong>printf("%s", str):</strong> Prints string without newline.</li>
+            <li><strong>puts(str):</strong> Prints string and adds newline automatically.
+                <div class="code-block">
+                    char str[] = "Hello";<br>
+                    printf("%s", str);  <span>// Hello</span><br>
+                    puts(str);          <span>// Hello (with newline)</span>
+                </div>
+            </li>
+            <li><strong>fputs(str, stdout):</strong> Prints string without newline (safer version of puts).</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Complete string I/O example</span><br>
+            #include &lt;stdio.h&gt;<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char name[100];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char city[100];<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Enter your name: ");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fgets(name, sizeof(name), stdin);  <span>// Safe: reads full line</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Enter your city: ");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;scanf(" %[^\n]", city);  <span>// Reads full line including spaces</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Name: %s", name);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("City: %s\n", city);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>📝 Key insight:</strong> Always use fgets() for reading strings to prevent buffer overflow. Avoid gets() as it is deprecated and unsafe.
+        </div>
+    </div>
+
+    <!-- ========== 6.8 ========== -->
+    <div class="section">
+        <h2>6.8 Null Character</h2>
+        <p>The <strong>null character</strong> (<code>\0</code>) is a character with ASCII value 0 that marks the end of a string in C. It is essential for string handling functions like <code>printf()</code>, <code>strlen()</code>, and <code>strcpy()</code>.</p>
+
+        <h3>Characteristics</h3>
+        <ul>
+            <li><strong>Representation:</strong> Written as <code>\0</code> in source code.</li>
+            <li><strong>ASCII Value:</strong> 0 (decimal), 0x00 (hex).</li>
+            <li><strong>Purpose:</strong> Indicates string termination.</li>
+            <li><strong>Size:</strong> Takes 1 byte of memory.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Null character examples</span><br>
+            char str1[6] = {'H', 'e', 'l', 'l', 'o', '\0'};  <span>// Explicit null</span><br>
+            char str2[] = "Hello";  <span>// Implicit null (size = 6)</span><br><br>
+            printf("Length of str1: %zu\n", strlen(str1));  <span>// 5</span><br>
+            printf("Size of str2: %zu\n", sizeof(str2));    <span>// 6 (includes \0)</span><br><br>
+            <span>// Without null terminator</span><br>
+            char str3[5] = {'H', 'e', 'l', 'l', 'o'};  <span>// NOT a string</span><br>
+            printf("%s\n", str3);  <span>// Undefined behavior - may print extra characters</span>
+        </div>
+
+        <div class="figure-box">
             <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    char str[20];
-    printf("Enter a string: ");
-    fgets(str, 20, stdin);
-    printf("You entered: %s", str);
-    return 0;
-}
+String "Hello" in memory:
+Address:  1000  1001  1002  1003  1004  1005
+         ┌─────┬─────┬─────┬─────┬─────┬─────┐
+         │  H  │  e  │  l  │  l  │  o  │ \0  │
+         └─────┴─────┴─────┴─────┴─────┴─────┘
             </pre>
-          </li>
-        </ul>
-      </li>
-      <li><strong>Writing Strings:</strong>
-        <ul>
-          <li><strong>printf("%s", str):</strong> Prints string.</li>
-          <li><strong>puts(str):</strong> Prints string and adds newline.</li>
-          <li><strong>Example:</strong>
-            <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    char str[] = "Hello";
-    puts(str); // Outputs: Hello\n
-    return 0;
-}
-            </pre>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </div>
+        </div>
 
-  <div class="section">
-    <h2>6.9 Null Character</h2>
-    <p>The null character (\0) marks the end of a string in C.</p>
-    <ul>
-      <li><strong>Purpose:</strong> Indicates string termination for functions like printf, strlen.</li>
-      <li><strong>Representation:</strong> ASCII value 0, written as \0.</li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-int main() {
-    char str[6] = {'H', 'e', 'l', 'l', 'o', '\0'};
-    printf("%s\n", str); // Outputs: Hello
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Note:</strong> String literals automatically include \0, but character arrays do not unless explicitly added.</li>
-    </ul>
-  </div>
+        <div class="note-box">
+            <strong>🔑 Key insight:</strong> The null terminator is what distinguishes strings from character arrays in C. Always ensure strings are properly null-terminated.
+        </div>
+    </div>
 
-  <div class="section">
-    <h2>6.10 Library Functions for String Handling</h2>
-    <p>The C standard library (string.h) provides functions for string manipulation.</p>
-    <ul>
-      <li><strong>Common Functions:</strong>
-        <ul>
-          <li><strong>strlen(str):</strong> Returns string length (excludes \0).</li>
-          <li><strong>strcpy(dest, src):</strong> Copies src to dest, including \0.</li>
-          <li><strong>strcat(dest, src):</strong> Appends src to dest.</li>
-          <li><strong>strcmp(str1, str2):</strong> Compares strings (returns 0 if equal).</li>
-          <li><strong>strchr(str, ch):</strong> Finds first occurrence of ch in str.</li>
-          <li><strong>strstr(str, substr):</strong> Finds first occurrence of substr in str.</li>
-        </ul>
-      </li>
-      <li><strong>Example:</strong>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;string.h&gt;
-int main() {
-    char str1[20] = "Hello";
-    char str2[20] = "World";
-    printf("Length of str1: %zu\n", strlen(str1)); // 5
-    strcat(str1, " ");
-    strcat(str1, str2);
-    printf("Concatenated: %s\n", str1); // Hello World
-    return 0;
-}
-        </pre>
-      </li>
-      <li><strong>Note:</strong> Ensure destination buffers are large enough to avoid buffer overflow.</li>
-    </ul>
-  </div>
+    <!-- ========== 6.9 ========== -->
+    <div class="section">
+        <h2>6.9 Library Functions for String Handling</h2>
+        <p>The C standard library provides <code>&lt;string.h&gt;</code> with functions for string manipulation. These functions are essential for working with strings efficiently.</p>
+
+        <h3>Common String Functions</h3>
+        <table>
+            <tr><th>Function</th><th>Description</th><th>Example</th></tr>
+            <tr><td>strlen(str)</td><td>Returns length (without \0)</td><td>strlen("Hello") → 5</td></tr>
+            <tr><td>strcpy(dest, src)</td><td>Copies src to dest (including \0)</td><td>strcpy(dest, "Hello")</td></tr>
+            <tr><td>strncpy(dest, src, n)</td><td>Copies n characters</td><td>strncpy(dest, "Hello", 3)</td></tr>
+            <tr><td>strcat(dest, src)</td><td>Appends src to dest</td><td>strcat(dest, " World")</td></tr>
+            <tr><td>strncat(dest, src, n)</td><td>Appends n characters</td><td>strncat(dest, " World", 3)</td></tr>
+            <tr><td>strcmp(str1, str2)</td><td>Compares strings (0 if equal)</td><td>strcmp("Hello", "Hello") → 0</td></tr>
+            <tr><td>strncmp(str1, str2, n)</td><td>Compares first n chars</td><td>strncmp("Hello", "Hey", 2)</td></tr>
+            <tr><td>strchr(str, ch)</td><td>Finds first occurrence of ch</td><td>strchr("Hello", 'e') → position</td></tr>
+            <tr><td>strrchr(str, ch)</td><td>Finds last occurrence of ch</td><td>strrchr("Hello", 'l') → last 'l'</td></tr>
+            <tr><td>strstr(str, substr)</td><td>Finds first occurrence of substr</td><td>strstr("Hello World", "World")</td></tr>
+            <tr><td>strtok(str, delim)</td><td>Tokenizes string by delimiters</td><td>strtok("a,b,c", ",")</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// String functions example</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #include &lt;string.h&gt;<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char str1[50] = "Hello";<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char str2[50] = "World";<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char buffer[100];<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Length of str1: %zu\n", strlen(str1));  <span>// 5</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;strcpy(buffer, str1);  <span>// Copy str1 to buffer</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;strcat(buffer, " ");   <span>// Add space</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;strcat(buffer, str2);  <span>// Append str2</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Concatenated: %s\n", buffer);  <span>// Hello World</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// String comparison</span><br>
+            if (strcmp(str1, "Hello") == 0) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Strings are equal\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Searching</span><br>
+            char *pos = strchr(buffer, 'W');<br>
+            if (pos) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Found 'W' at position: %ld\n", pos - buffer);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>strtok() Example - Tokenization</h3>
+        <div class="code-block">
+            <span>// strtok example</span><br>
+            char str[] = "apple,banana,orange,grape";<br>
+            char *token = strtok(str, ",");<br>
+            while (token != NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%s\n", token);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;token = strtok(NULL, ",");<br>
+            }<br>
+            <span>// Output:</span><br>
+            <span>// apple</span><br>
+            <span>// banana</span><br>
+            <span>// orange</span><br>
+            <span>// grape</span>
+        </div>
+
+        <h3>String Function Comparison</h3>
+        <table>
+            <tr><th>Function</th><th>Safe Alternative</th><th>Why Use Safe Version</th></tr>
+            <tr><td>strcpy()</td><td>strncpy() or strcpy_s()</td><td>Prevents buffer overflow</td></tr>
+            <tr><td>strcat()</td><td>strncat() or strcat_s()</td><td>Prevents buffer overflow</td></tr>
+            <tr><td>gets()</td><td>fgets()</td><td>Prevents buffer overflow (deprecated)</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>📚 Key insight:</strong> Always include <code>&lt;string.h&gt;</code> when using string functions. Prefer safe functions (<code>strncpy</code>, <code>strncat</code>, <code>fgets</code>) to prevent buffer overflow vulnerabilities.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 6 summary</strong><br>Arrays store multiple elements of the same type in contiguous memory. Strings are null-terminated character arrays with special handling functions.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Arrays: declaration, initialization, contiguous memory.<br>• Single and multi-dimensional arrays.<br>• Strings: character arrays with \0 termination.<br>• String functions: strlen, strcpy, strcat, strcmp.<br>• Always use safe functions to avoid buffer overflow.</div>
+    </div>
 </body>
 </html>

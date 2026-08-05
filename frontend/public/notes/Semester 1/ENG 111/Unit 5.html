@@ -1,102 +1,492 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 5: Reading Skills</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1>Unit 5: Reading Skills</h1>
 
+    <h1>Unit 5: Reading Skills</h1>
+    <div class="subhead">Reading strategies · technical & literary reading · speed & comprehension · inference & interpretation</div>
+
+    <!-- ========== 5.1 ========== -->
     <div class="section">
         <h2>5.1 Reading Strategies: Skimming, Scanning, and Close Reading</h2>
-        <p>Effective reading strategies such as skimming, scanning, and close reading enable readers to process texts efficiently and extract relevant information based on their purpose.</p>
+        <p>Effective reading strategies such as <strong>skimming</strong>, <strong>scanning</strong>, and <strong>close reading</strong> enable readers to process texts efficiently and extract relevant information based on their purpose.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📖 Skimming</strong><br>Quickly review a text to grasp main ideas or structure. Focus on headings, topic sentences, and summaries. Useful for previewing technical documents or articles.</div>
+            <div class="card"><strong>🔍 Scanning</strong><br>Rapidly search for specific details—keywords, dates, figures—without reading the entire text. Ideal for locating data in reports, manuals, or reference materials.</div>
+            <div class="card"><strong>📝 Close Reading</strong><br>Thoroughly analyze a text to understand details, arguments, or nuances. Involves annotating, questioning, and interpreting. Suitable for complex academic or literary works.</div>
+            <div class="card"><strong>🎯 Strategic Application</strong><br>Combine strategies based on goals: skim for relevance, scan for specific data, and close read for deep understanding. Adapt your approach to the text and purpose.</div>
+        </div>
+
+        <h3>Reading Strategies Comparison</h3>
+        <table>
+            <tr><th>Strategy</th><th>Purpose</th><th>Speed</th><th>Focus</th><th>Best For</th></tr>
+            <tr><td>Skimming</td><td>Get the gist</td><td>Fast</td><td>Main ideas, structure</td><td>Previewing, reviewing</td></tr>
+            <tr><td>Scanning</td><td>Find specific info</td><td>Very fast</td><td>Keywords, data</td><td>Research, reference</td></tr>
+            <tr><td>Close Reading</td><td>Deep understanding</td><td>Slow</td><td>Details, arguments</td><td>Academic, complex texts</td></tr>
+        </table>
+
+        <h3>Practical Applications for IT Professionals</h3>
         <ul>
-            <li><strong>Skimming:</strong> Quickly reviewing a text to grasp the main ideas or structure, focusing on headings, topic sentences, or summaries. Useful for previewing technical documents or articles.</li>
-            <li><strong>Scanning:</strong> Rapidly searching for specific details, such as keywords, dates, or figures, without reading the entire text. Ideal for locating data in reports or manuals.</li>
-            <li><strong>Close Reading:</strong> Thoroughly analyzing a text to understand details, arguments, or nuances. Involves annotating, questioning, and interpreting, suitable for complex academic or literary works.</li>
-            <li><strong>Strategic Application:</strong> Combine strategies based on goals, such as skimming a research paper for relevance, then close reading key sections for in-depth understanding.</li>
+            <li><strong>Skimming:</strong> Preview documentation, blog posts, or research papers to assess relevance.</li>
+            <li><strong>Scanning:</strong> Find specific error codes, API endpoints, or configuration parameters in technical manuals.</li>
+            <li><strong>Close Reading:</strong> Analyze code, algorithms, or security policies for complete understanding and implementation.</li>
         </ul>
-        <p>Mastering these strategies enhances efficiency and comprehension across diverse reading tasks.</p>
+
+        <div class="code-block">
+            <span>// Example: Reading a Technical Documentation</span><br>
+            <span>// Skim: Review headings, table of contents, and summaries</span><br>
+            <span>// Scan: Search for specific API endpoints or error codes</span><br>
+            <span>// Close Read: Study the authentication flow and security protocols in detail</span>
+        </div>
+
+        <div class="note-box">
+            <strong>📚 Key insight:</strong> Effective readers adapt their reading strategy to the text and purpose. Skim for overview, scan for specifics, and close read for deep understanding. These strategies are essential for managing the large volume of information IT professionals encounter daily.
+        </div>
     </div>
 
+    <!-- ========== 5.2 ========== -->
     <div class="section">
         <h2>5.2 Reading and Comprehending Technical and Literary Works</h2>
         <p>Reading technical and literary works requires distinct approaches due to their differing purposes, structures, and language, particularly relevant for IT professionals and academic contexts.</p>
+
+        <h3>Reading Technical Works</h3>
         <ul>
-            <li><strong>Technical Works:</strong> Focus on precise language, diagrams, and data in documents like manuals, whitepapers, or code documentation. Identify objectives, key terms, and logical flow to grasp functionality.</li>
-            <li><strong>Literary Works:</strong> Engage with narrative, themes, and figurative language in texts like essays or novels. Look for character motives, symbolism, and author intent to deepen understanding.</li>
-            <li><strong>Comprehension Techniques:</strong> For technical texts, summarize processes or concepts; for literary texts, paraphrase themes or plot points to ensure clarity and retention.</li>
-            <li><strong>Contextual Awareness:</strong> Understand the purpose and audience of the text, such as a user guide for end-users or a literary critique for scholars, to align comprehension efforts.</li>
+            <li><strong>Characteristics:</strong>
+                <ul>
+                    <li>Precise language, diagrams, code snippets, and data.</li>
+                    <li>Examples: Documentation, whitepapers, API references, research papers.</li>
+                    <li>Purpose: To learn, implement, or troubleshoot.</li>
+                </ul>
+            </li>
+            <li><strong>Strategies:</strong>
+                <ul>
+                    <li>Identify the objective and key terms early.</li>
+                    <li>Follow logical flow and dependencies.</li>
+                    <li>Summarize processes or concepts in your own words.</li>
+                    <li>Use diagrams and examples to clarify understanding.</li>
+                </ul>
+            </li>
         </ul>
-        <p>Adapting reading approaches to text types strengthens analytical and interpretive skills in professional and academic settings.</p>
+
+        <h3>Reading Literary Works</h3>
+        <ul>
+            <li><strong>Characteristics:</strong>
+                <ul>
+                    <li>Narrative, themes, figurative language, and symbolism.</li>
+                    <li>Examples: Novels, essays, poetry, plays.</li>
+                    <li>Purpose: To interpret meaning, appreciate artistry, or analyze themes.</li>
+                </ul>
+            </li>
+            <li><strong>Strategies:</strong>
+                <ul>
+                    <li>Focus on character development, plot, and setting.</li>
+                    <li>Identify themes and motifs.</li>
+                    <li>Analyze figurative language and symbolism.</li>
+                    <li>Consider the author's intent and historical context.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Technical Reading Example</span><br>
+            <span>// "The RESTful API uses HTTP methods to perform CRUD operations.</span><br>
+            <span>// GET retrieves resources, POST creates, PUT updates, and DELETE removes."</span><br><br>
+            <span>// Paraphrase for understanding:</span><br>
+            <span>// "The API uses HTTP methods for basic operations: GET to fetch data,</span><br>
+            <span>// POST to add new data, PUT to modify existing data, and DELETE to remove data."</span><br><br>
+            <span>// Literary Reading Example</span><br>
+            <span>// "The machine was a metaphor for the dehumanizing effects of technology."</span><br><br>
+            <span>// Interpretation:</span><br>
+            <span>// "The author uses the machine to symbolize how technology can strip away humanity."</span>
+        </div>
+
+        <h3>Comparison of Technical and Literary Reading</h3>
+        <table>
+            <tr><th>Aspect</th><th>Technical Reading</th><th>Literary Reading</th></tr>
+            <tr><td>Language</td><td>Precise, data-driven</td><td>Figurative, descriptive</td></tr>
+            <tr><td>Purpose</td><td>Learn, implement, troubleshoot</td><td>Interpret, appreciate, analyze</td></tr>
+            <tr><td>Key Elements</td><td>Data, code, diagrams</td><td>Characters, themes, symbols</td></tr>
+            <tr><td>Reading Speed</td><td>Varies (often slower for deep understanding)</td><td>Varies (slower for analysis, faster for enjoyment)</td></tr>
+            <tr><td>Comprehension Check</td><td>Summarize processes, explain concepts</td><td>Paraphrase themes, discuss interpretation</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>📖 Key insight:</strong> Technical and literary reading require different skill sets. IT professionals must be proficient in both—technical reading for work and literary reading for broader intellectual development and communication skills.
+        </div>
     </div>
 
+    <!-- ========== 5.3 ========== -->
     <div class="section">
         <h2>5.3 Reading Speed and Comprehension</h2>
-        <p>Balancing reading speed and comprehension is critical for processing large volumes of information efficiently while retaining key details, especially in fast-paced IT environments.</p>
+        <p>Balancing <strong>reading speed</strong> and <strong>comprehension</strong> is critical for processing large volumes of information efficiently while retaining key details, especially in fast-paced IT environments.</p>
+
+        <h3>Factors Affecting Reading Speed</h3>
         <ul>
-            <li><strong>Reading Speed:</strong> Increase speed through practice, such as minimizing subvocalization (silent reading in your head) or using a pointer to guide eyes, but avoid sacrificing understanding.</li>
-            <li><strong>Comprehension Focus:</strong> Prioritize understanding over speed by pausing to summarize main points or re-reading complex sections, particularly in technical documents.</li>
-            <li><strong>Techniques for Improvement:</strong> Practice timed reading with articles, gradually increasing difficulty, and use comprehension checks like answering questions to assess retention.</li>
-            <li><strong>Environmental Factors:</strong> Minimize distractions, maintain focus, and set specific reading goals (e.g., understanding a system architecture) to optimize both speed and comprehension.</li>
+            <li><strong>Subvocalization:</strong> Silent reading in your head—slows down reading but aids comprehension.</li>
+            <li><strong>Fixation:</strong> Eye movements and stops per line—fewer fixations increase speed.</li>
+            <li><strong>Regression:</strong> Re-reading previous text—reduces speed but improves understanding.</li>
+            <li><strong>Vocabulary:</strong> Familiarity with words—unfamiliar vocabulary slows down reading.</li>
         </ul>
-        <p>Developing this balance enables efficient processing of information without compromising accuracy or depth.</p>
+
+        <h3>Techniques to Improve Speed and Comprehension</h3>
+        <ul>
+            <li><strong>Timed Reading:</strong> Read with a timer to practice speed.</li>
+            <li><strong>Previewing:</strong> Review headings, summaries, and structure before reading.</li>
+            <li><strong>Active Reading:</strong> Highlight, annotate, and summarize as you read.</li>
+            <li><strong>Chunking:</strong> Read groups of words at a time.</li>
+            <li><strong>Reduce Subvocalization:</strong> Practice reading faster than your inner voice.</li>
+            <li><strong>Use a Pointer:</strong> Guide your eyes with a finger or pen.</li>
+        </ul>
+
+        <h3>Comprehension Strategies</h3>
+        <ul>
+            <li><strong>Questioning:</strong> Ask questions before, during, and after reading.</li>
+            <li><strong>Summarizing:</strong> Write brief summaries of each section.</li>
+            <li><strong>Visualizing:</strong> Create mental images or diagrams.</li>
+            <li><strong>Connecting:</strong> Relate new information to what you already know.</li>
+            <li><strong>Reviewing:</strong> Go back and review key points.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Speed-Reading Practice for IT Professionals</span><br>
+            <span>// 1. Preview: Review headings, code comments, and section summaries.</span><br>
+            <span>// 2. Read: Use a pointer to guide your eyes—aim for fewer fixations.</span><br>
+            <span>// 3. Summarize: Write a one-paragraph summary after each section.</span><br>
+            <span>// 4. Review: Revisit key concepts and code snippets.</span>
+        </div>
+
+        <h3>Speed vs. Comprehension Balance</h3>
+        <table>
+            <tr><th>Scenario</th><th>Speed Priority</th><th>Comprehension Priority</th><th>Strategy</th></tr>
+            <tr><td>Reading news/updates</td><td>High</td><td>Low</td><td>Skim, scan</td></tr>
+            <tr><td>Reviewing documentation</td><td>Medium</td><td>Medium</td><td>Skim + close read key sections</td></tr>
+            <tr><td>Learning new technology</td><td>Low</td><td>High</td><td>Close reading, review multiple times</td></tr>
+            <tr><td>Debugging/error analysis</td><td>Low</td><td>High</td><td>Close reading, cross-reference</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>⚡ Key insight:</strong> Reading speed and comprehension are not mutually exclusive. With practice, you can increase speed without sacrificing understanding. The goal is to match your reading speed to the task at hand.
+        </div>
     </div>
 
+    <!-- ========== 5.4 ========== -->
     <div class="section">
         <h2>5.4 Inference and Interpretation Skills</h2>
-        <p>Inference and interpretation skills allow readers to go beyond surface-level text to understand implied meanings, critical for both technical and literary analysis.</p>
+        <p><strong>Inference</strong> and <strong>interpretation</strong> skills allow readers to go beyond surface-level text to understand implied meanings, critical for both technical and literary analysis.</p>
+
+        <h3>Inference</h3>
         <ul>
-            <li><strong>Inference:</strong> Draw conclusions based on evidence and context, such as deducing a software issue from error logs or a character’s motives from dialogue in a novel.</li>
-            <li><strong>Interpretation:</strong> Analyze the significance of information, such as evaluating the impact of a technical solution or the theme of a literary work, based on textual cues.</li>
-            <li><strong>Evidence-Based Analysis:</strong> Support inferences with specific details, like quoting a specification in a report or citing a passage in a literary critique, to ensure validity.</li>
-            <li><strong>Practice Strategies:</strong> Ask questions like “What does this imply?” or “Why is this included?” while reading, and discuss interpretations with peers to refine critical thinking.</li>
+            <li><strong>Definition:</strong> Drawing conclusions based on evidence and context, not explicitly stated.</li>
+            <li><strong>Process:</strong>
+                <ol>
+                    <li>Identify evidence in the text.</li>
+                    <li>Use background knowledge and context.</li>
+                    <li>Draw a logical conclusion.</li>
+                </ol>
+            </li>
+            <li><strong>Examples:</strong>
+                <ul>
+                    <li><strong>Technical:</strong> From error logs, infer a database connection issue.</li>
+                    <li><strong>Literary:</strong> From a character's actions, infer their motives.</li>
+                </ul>
+            </li>
         </ul>
-        <p>These skills enhance problem-solving and critical analysis, vital for IT professionals and academic success.</p>
+
+        <h3>Interpretation</h3>
+        <ul>
+            <li><strong>Definition:</strong> Analyzing the significance and meaning of information.</li>
+            <li><strong>Process:</strong>
+                <ol>
+                    <li>Examine textual cues.</li>
+                    <li>Consider context and purpose.</li>
+                    <li>Form a reasoned analysis.</li>
+                </ol>
+            </li>
+            <li><strong>Examples:</strong>
+                <ul>
+                    <li><strong>Technical:</strong> Interpreting performance metrics to recommend architecture changes.</li>
+                    <li><strong>Literary:</strong> Analyzing a novel's theme about technology and isolation.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Inference Example (Technical)</span><br>
+            <span>// Text: "Error 500: Database connection timeout."</span><br>
+            <span>// Inference: The application cannot reach the database server.</span><br>
+            <span>// Possible causes: Network issues, server overload, or database crash.</span><br><br>
+            <span>// Interpretation Example (Technical)</span><br>
+            <span>// Text: "System response time increased by 200% under heavy load."</span><br>
+            <span>// Interpretation: The system may need scaling or optimization.</span><br>
+            <span>// Recommendation: Consider load balancing or performance tuning.</span><br><br>
+            <span>// Inference Example (Literary)</span><br>
+            <span>// Text: "He stared at the screen for hours, his fingers hovering over the keyboard."</span><br>
+            <span>// Inference: He is anxious, uncertain, or conflicted.</span><br>
+            <span>// Interpretation: This scene reflects the theme of technology-induced alienation.</span>
+        </div>
+
+        <h3>Developing Inference and Interpretation Skills</h3>
+        <ul>
+            <li><strong>Ask Probing Questions:</strong>
+                <ul>
+                    <li>"What does this imply?"</li>
+                    <li>"Why is this included?"</li>
+                    <li>"What is the author trying to convey?"</li>
+                </ul>
+            </li>
+            <li><strong>Practice with Diverse Texts:</strong> Read technical documents, research papers, and literary works.</li>
+            <li><strong>Discuss with Others:</strong> Share interpretations and compare perspectives.</li>
+            <li><strong>Write Analysis:</strong> Summarize and interpret what you've read.</li>
+        </ul>
+
+        <table>
+            <tr><th>Skill</th><th>Definition</th><th>Technical Application</th><th>Literary Application</th></tr>
+            <tr><td>Inference</td><td>Drawing conclusions from evidence</td><td>Diagnosing issues from logs</td><td>Understanding character motives</td></tr>
+            <tr><td>Interpretation</td><td>Analyzing significance and meaning</td><td>Evaluating system performance</td><td>Analyzing themes and symbolism</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>🧠 Key insight:</strong> Inference and interpretation are higher-order reading skills that go beyond comprehension. They are essential for problem-solving, critical thinking, and making informed decisions in both technical and academic contexts.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 5 summary</strong><br>Reading skills include strategies like skimming, scanning, close reading, and developing speed, comprehension, inference, and interpretation abilities.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Skimming: get the gist, scanning: find specifics, close reading: deep understanding.<br>• Technical vs. literary reading: different approaches and purposes.<br>• Reading speed and comprehension: balance based on the task.<br>• Inference: draw conclusions from evidence.<br>• Interpretation: analyze meaning and significance.</div>
     </div>
 </body>
 </html>

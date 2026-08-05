@@ -1,234 +1,841 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unit 5: Advanced Topics on CSS</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-      font-weight: bold;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 5: Advanced Topics on CSS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Unit 5: Advanced Topics on CSS</h1>
+    <h1>Unit 5: Advanced Topics on CSS</h1>
+    <div class="subhead">Flexbox · Grid · animations · responsive design · specificity · preprocessors · best practices</div>
 
-  <div class="section">
-    <h2>5.1 CSS Flexbox</h2>
-    <p>Flexbox is a one-dimensional layout model that provides a flexible way to arrange items within a container, automatically adjusting their size and position.</p>
-    <ul>
-      <li><strong>display: flex</strong>: Enables flexbox layout for a container.</li>
-      <li><strong>flex-direction</strong>: Defines the main axis (row or column).</li>
-      <li><strong>justify-content</strong>: Aligns items along the main axis.</li>
-      <li><strong>align-items</strong>: Aligns items along the cross axis.</li>
-    </ul>
-    <pre><code>.container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-.item {
-  flex: 1;
-}</code></pre>
-  </div>
+    <!-- ========== 5.1 ========== -->
+    <div class="section">
+        <h2>5.1 CSS Flexbox</h2>
+        <p><strong>Flexbox</strong> (Flexible Box Layout) is a one-dimensional layout model that provides a flexible way to arrange items within a container. It automatically adjusts their size and position based on available space, making it ideal for responsive designs.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📐 Purpose</strong><br>Simplify complex layouts, distribute space dynamically, align items easily, and handle responsive design with minimal code.</div>
+            <div class="card"><strong>📋 Key Concepts</strong><br>Main axis, cross axis, flex container, flex items. Works with rows or columns.</div>
+        </div>
 
-  <div class="section">
-    <h2>5.2 CSS Grid</h2>
-    <p>CSS Grid is a two-dimensional layout system that allows precise control over rows and columns, ideal for complex layouts.</p>
-    <ul>
-      <li><strong>display: grid</strong>: Enables grid layout for a container.</li>
-      <li><strong>grid-template-columns/rows</strong>: Defines the structure of the grid.</li>
-      <li><strong>gap</strong>: Sets spacing between grid cells.</li>
-      <li><strong>grid-area</strong>: Assigns items to specific grid areas.</li>
-    </ul>
-    <pre><code>.grid-container {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  gap: 10px;
-}
-.grid-item {
-  grid-column: 1 / 3;
-}</code></pre>
-  </div>
+        <h3>Flexbox Properties</h3>
+        <ul>
+            <li><strong>display: flex;</strong> — Enables flexbox on a container.</li>
+            <li><strong>flex-direction:</strong> row, column, row-reverse, column-reverse.</li>
+            <li><strong>justify-content:</strong> flex-start, flex-end, center, space-between, space-around, space-evenly.</li>
+            <li><strong>align-items:</strong> stretch, flex-start, flex-end, center, baseline.</li>
+            <li><strong>flex-wrap:</strong> nowrap, wrap, wrap-reverse.</li>
+            <li><strong>align-content:</strong> Controls multi-line spacing.</li>
+            <li><strong>gap:</strong> Space between items.</li>
+        </ul>
 
-  <div class="section">
-    <h2>5.3 CSS Transitions and Animations</h2>
-    <p>Transitions and animations add dynamic effects to elements, enhancing user experience.</p>
-    <ul>
-      <li><strong>transition</strong>: Smoothly changes property values over time.</li>
-      <li><strong>@keyframes</strong>: Defines animation sequences.</li>
-      <li><strong>animation</strong>: Applies keyframes with timing and iteration.</li>
-    </ul>
-    <pre><code>.box {
-  transition: background-color 0.3s ease;
-}
-.box:hover {
-  background-color: blue;
-}
-@keyframes slide {
-  from { transform: translateX(0); }
-  to { transform: translateX(100px); }
-}
-.animated {
-  animation: slide 2s infinite;
-}</code></pre>
-  </div>
+        <div class="code-block">
+            <span>/* Flexbox container */</span><br>
+            .flex-container {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;display: flex;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;flex-direction: row;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;justify-content: space-between;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;align-items: center;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;flex-wrap: wrap;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;gap: 20px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;min-height: 200px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: 20px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background: #f5f5f5;<br>
+            }<br><br>
+            <span>/* Flex items */</span><br>
+            .flex-item {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;flex: 1; <span>/* Grow to fill available space */</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: 20px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background: #3498db;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;color: white;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;border-radius: 8px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;text-align: center;<br>
+            }<br><br>
+            <span>/* Specific item behavior */</span><br>
+            .flex-item.grow-2 {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;flex: 2; <span>/* Grows twice as much */</span><br>
+            }<br>
+            .flex-item.shrink-0 {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;flex-shrink: 0; <span>/* Won't shrink */</span><br>
+            }
+        </div>
 
-  <div class="section">
-    <h2>5.4 Responsive Web Design</h2>
-    <p>Responsive Web Design (RWD) ensures websites adapt to different devices using flexible layouts, media queries, and relative units.</p>
-    <ul>
-      <li><strong>Media Queries</strong>: Apply styles based on screen size or device.</li>
-      <li><strong>Relative Units</strong>: Use <code>vw</code>, <code>vh</code>, <code>rem</code>, <code>em</code> for scalability.</li>
-      <li><strong>Flexible Images</strong>: Use <code>max-width: 100%</code> to prevent overflow.</li>
-    </ul>
-    <pre><code>img {
-  max-width: 100%;
-  height: auto;
-}
-@media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-  }
-}</code></pre>
-  </div>
+        <h3>Common Flexbox Patterns</h3>
+        <ul>
+            <li><strong>Centering:</strong> <code>display: flex; justify-content: center; align-items: center;</code></li>
+            <li><strong>Navigation Bar:</strong> <code>display: flex; justify-content: space-between; align-items: center;</code></li>
+            <li><strong>Card Grid:</strong> <code>display: flex; flex-wrap: wrap; gap: 20px;</code></li>
+            <li><strong>Holy Grail Layout:</strong> Header, main content, sidebar, footer with flex.</li>
+        </ul>
 
-  <div class="section">
-    <h2>5.5 CSS Specificity and Inheritance</h2>
-    <p>Specificity determines which CSS rule is applied when multiple rules target the same element. Inheritance passes styles from parent to child elements.</p>
-    <ul>
-      <li><strong>Specificity</strong>: Calculated by selector type (ID > Class > Element).</li>
-      <li><strong>Inheritance</strong>: Some properties (e.g., <code>color</code>, <code>font</code>) are inherited.</li>
-      <li><strong>!important</strong>: Overrides other rules but should be used sparingly.</li>
-    </ul>
-    <pre><code>#id { color: blue; } /* High specificity */
-.class { color: red; } /* Medium specificity */
-p { color: green; } /* Low specificity */
-div { color: black; } /* Inherited by child elements */</code></pre>
-  </div>
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> Flexbox is excellent for one-dimensional layouts (rows or columns). Use it for navigation bars, card grids, forms, and centering content.
+        </div>
+    </div>
 
-  <div class="section">
-    <h2>5.6 CSS Units and Values</h2>
-    <p>CSS supports various units for sizing and positioning, including absolute and relative units.</p>
-    <ul>
-      <li><strong>Absolute Units</strong>: <code>px</code>, <code>pt</code>, <code>cm</code> (fixed sizes).</li>
-      <li><strong>Relative Units</strong>: <code>rem</code>, <code>em</code>, <code>vw</code>, <code>vh</code>, <code>%</code> (relative to parent or viewport).</li>
-      <li><strong>Custom Properties</strong>: Use <code>--variable</code> for reusable values.</li>
-    </ul>
-    <pre><code>:root {
-  --main-color: #3498db;
-}
-.box {
-  width: 50vw;
-  font-size: 1.5rem;
-  background: var(--main-color);
-}</code></pre>
-  </div>
+    <!-- ========== 5.2 ========== -->
+    <div class="section">
+        <h2>5.2 CSS Grid</h2>
+        <p><strong>CSS Grid</strong> is a two-dimensional layout system that allows precise control over both rows and columns. It is ideal for complex layouts, magazine-style designs, and structured page layouts.</p>
 
-  <div class="section">
-    <h2>5.7 CSS Preprocessors</h2>
-    <p>CSS preprocessors like SASS and LESS extend CSS with variables, nesting, and mixins for better maintainability.</p>
-    <ul>
-      <li><strong>Variables</strong>: Store reusable values (e.g., colors).</li>
-      <li><strong>Nesting</strong>: Write CSS hierarchically to match HTML structure.</li>
-      <li><strong>Mixins</strong>: Reusable blocks of styles.</li>
-    </ul>
-    <pre><code>/* SASS Example */
-$primary-color: #3498db;
-.container {
-  background: $primary-color;
-  &amp; .item {
-    padding: 10px;
-  }
-}
-@mixin border {
-  border: 1px solid black;
-}
-.box {
-  @include border;
-}</code></pre>
-  </div>
+        <h3>Grid Properties</h3>
+        <ul>
+            <li><strong>display: grid;</strong> — Enables grid layout.</li>
+            <li><strong>grid-template-columns:</strong> Defines column structure (e.g., <code>1fr 2fr 1fr</code>).</li>
+            <li><strong>grid-template-rows:</strong> Defines row structure.</li>
+            <li><strong>gap:</strong> Spacing between grid cells.</li>
+            <li><strong>grid-column:</strong> Position of an item in the grid.</li>
+            <li><strong>grid-row:</strong> Position of an item in the grid.</li>
+            <li><strong>grid-area:</strong> Named area for items.</li>
+        </ul>
 
-  <div class="section">
-    <h2>5.8 CSS Best Practices and Optimization</h2>
-    <p>Adopting best practices ensures efficient, maintainable, and performant CSS.</p>
-    <ul>
-      <li><strong>Minify CSS</strong>: Reduce file size by removing whitespace and comments.</li>
-      <li><strong>Use Shorthand</strong>: Combine properties like <code>margin</code> or <code>padding</code>.</li>
-      <li><strong>Avoid !important</strong>: Use specificity to manage rule priority.</li>
-      <li><strong>Organize Code</strong>: Group related styles and use comments for clarity.</li>
-    </ul>
-    <pre><code>/* Optimized CSS */
-.container {
-  margin: 10px 20px; /* Shorthand */
-  padding: 15px;
-  background: #fff; /* Avoid inline styles */
-}
-/* Grouped navigation styles */
-.nav {
-  display: flex;
-  gap: 10px;
-}</code></pre>
-  </div>
+        <div class="code-block">
+            <span>/* Grid container */</span><br>
+            .grid-container {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;display: grid;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;grid-template-columns: 1fr 2fr 1fr;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;grid-template-rows: auto 1fr auto;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;gap: 20px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;min-height: 100vh;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: 20px;<br>
+            }<br><br>
+            <span>/* Grid items */</span><br>
+            .header { grid-column: 1 / 4; }<br>
+            .main { grid-column: 1 / 3; }<br>
+            .sidebar { grid-column: 3 / 4; }<br>
+            .footer { grid-column: 1 / 4; }<br><br>
+            <span>/* Using grid template areas */</span><br>
+            .site-layout {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;display: grid;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;grid-template-areas:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"header header header"<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"nav main sidebar"<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"footer footer footer";<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;grid-template-columns: 200px 1fr 250px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;grid-template-rows: auto 1fr auto;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;gap: 15px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;min-height: 100vh;<br>
+            }<br>
+            .header { grid-area: header; }<br>
+            .nav { grid-area: nav; }<br>
+            .main { grid-area: main; }<br>
+            .sidebar { grid-area: sidebar; }<br>
+            .footer { grid-area: footer; }
+        </div>
+
+        <h3>Grid vs Flexbox</h3>
+        <table>
+            <tr><th>Feature</th><th>Flexbox</th><th>Grid</th></tr>
+            <tr><td>Dimension</td><td>One-dimensional</td><td>Two-dimensional</td></tr>
+            <tr><td>Best For</td><td>Content-driven layouts</td><td>Layout-driven designs</td></tr>
+            <tr><td>Alignment</td><td>Main and cross axis</td><td>Rows and columns</td></tr>
+            <tr><td>Example</td><td>Navigation, cards, forms</td><td>Page layouts, dashboards</td></tr>
+            <tr><td>Wrap</td><td>flex-wrap</td><td>grid-auto-flow</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>📐 Key insight:</strong> Use Grid for overall page structure and Flexbox for components within that structure. They work great together.
+        </div>
+    </div>
+
+    <!-- ========== 5.3 ========== -->
+    <div class="section">
+        <h2>5.3 CSS Transitions and Animations</h2>
+        <p><strong>Transitions</strong> and <strong>animations</strong> add dynamic effects to elements, enhancing user experience and visual feedback.</p>
+
+        <h3>Transitions</h3>
+        <ul>
+            <li><strong>transition:</strong> property duration timing-function delay.</li>
+            <li><strong>Properties:</strong> color, background, transform, opacity, width, etc.</li>
+            <li><strong>Timing Functions:</strong> ease, linear, ease-in, ease-out, ease-in-out, cubic-bezier().</li>
+        </ul>
+
+        <div class="code-block">
+            <span>/* Transition examples */</span><br>
+            .button {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background: #3498db;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;color: white;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: 10px 20px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;border: none;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;border-radius: 4px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;cursor: pointer;<br>
+            }<br><br>
+            .button:hover {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background: #2980b9;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;transform: scale(1.05);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);<br>
+            }
+        </div>
+
+        <h3>Animations (@keyframes)</h3>
+        <ul>
+            <li><strong>@keyframes:</strong> Define animation sequences.</li>
+            <li><strong>animation:</strong> name duration timing-function delay iteration-count direction fill-mode.</li>
+            <li><strong>Properties:</strong> animation-name, animation-duration, animation-iteration-count, etc.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>/* Keyframes animation */</span><br>
+            @keyframes slide-in {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;0% {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transform: translateX(-100%);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;opacity: 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;100% {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transform: translateX(0);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;opacity: 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            @keyframes pulse {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;0%, 100% { transform: scale(1); }<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;50% { transform: scale(1.1); }<br>
+            }<br><br>
+            @keyframes rotate-spin {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;from { transform: rotate(0deg); }<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;to { transform: rotate(360deg); }<br>
+            }<br><br>
+            .animated-element {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;animation: slide-in 0.8s ease-out forwards;<br>
+            }<br><br>
+            .pulse-element {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;animation: pulse 2s ease-in-out infinite;<br>
+            }<br><br>
+            .spinner {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;animation: rotate-spin 1s linear infinite;<br>
+            }
+        </div>
+
+        <h3>Animation vs Transition</h3>
+        <table>
+            <tr><th>Feature</th><th>Transitions</th><th>Animations</th></tr>
+            <tr><td>Trigger</td><td>State change (hover, focus, etc.)</td><td>Can run automatically</td></tr>
+            <tr><td>Control</td><td>Simple, two-state</td><td>Complex, multi-step</td></tr>
+            <tr><td>Loop</td><td>No (one-time)</td><td>Yes (infinite)</td></tr>
+            <tr><td>Keyframes</td><td>Not required</td><td>Required</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>✨ Key insight:</strong> Use transitions for simple hover effects. Use animations for complex, multi-step, or automatically triggered effects. Keep animations subtle for better UX.
+        </div>
+    </div>
+
+    <!-- ========== 5.4 ========== -->
+    <div class="section">
+        <h2>5.4 Responsive Web Design</h2>
+        <p><strong>Responsive Web Design (RWD)</strong> ensures websites adapt to different devices using flexible layouts, media queries, and relative units.</p>
+
+        <h3>Core Principles</h3>
+        <ul>
+            <li><strong>Fluid Grids:</strong> Use relative units (%, vw, vh, em, rem).</li>
+            <li><strong>Flexible Images:</strong> <code>max-width: 100%; height: auto;</code></li>
+            <li><strong>Media Queries:</strong> Apply styles based on device characteristics.</li>
+            <li><strong>Mobile-First:</strong> Start with mobile styles, then add for larger screens.</li>
+            <li><strong>Touch-Friendly:</strong> Larger touch targets, better spacing.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>/* Mobile-first approach */</span><br>
+            <span>/* Base styles for mobile */</span><br>
+            .container {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: 15px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;width: 100%;<br>
+            }<br><br>
+            .grid {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;display: grid;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;grid-template-columns: 1fr;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;gap: 15px;<br>
+            }<br><br>
+            img {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;max-width: 100%;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;height: auto;<br>
+            }<br><br>
+            <span>/* Tablet styles */</span><br>
+            @media (min-width: 768px) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.container {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;padding: 30px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max-width: 720px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;margin: 0 auto;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.grid {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grid-template-columns: repeat(2, 1fr);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            <span>/* Desktop styles */</span><br>
+            @media (min-width: 1024px) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.container {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max-width: 960px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.grid {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grid-template-columns: repeat(3, 1fr);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            <span>/* Large desktop */</span><br>
+            @media (min-width: 1200px) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.container {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max-width: 1140px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.grid {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grid-template-columns: repeat(4, 1fr);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            <span>/* Print styles */</span><br>
+            @media print {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.no-print { display: none; }<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;body { font-size: 12pt; }<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>📱 Key insight:</strong> Mobile-first responsive design improves performance and user experience. Test on real devices whenever possible.
+        </div>
+    </div>
+
+    <!-- ========== 5.5 ========== -->
+    <div class="section">
+        <h2>5.5 CSS Specificity and Inheritance</h2>
+        <p><strong>Specificity</strong> determines which CSS rule is applied when multiple rules target the same element. <strong>Inheritance</strong> passes styles from parent to child elements.</p>
+
+        <h3>Specificity Calculation</h3>
+        <ul>
+            <li><strong>Inline styles:</strong> Highest specificity (1000).</li>
+            <li><strong>ID selectors:</strong> (0100) — <code>#id</code></li>
+            <li><strong>Class selectors:</strong> (0010) — <code>.class</code>, <code>:pseudo-class</code></li>
+            <li><strong>Element selectors:</strong> (0001) — <code>div</code>, <code>p</code>, <code>h1</code></li>
+            <li><strong>Universal (*):</strong> (0000) — Lowest.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>/* Specificity examples */</span><br>
+            <span>/* Element selector: specificity = 0,0,0,1 */</span><br>
+            p { color: green; }<br><br>
+            <span>/* Class selector: specificity = 0,0,1,0 */</span><br>
+            .text { color: red; }<br><br>
+            <span>/* ID selector: specificity = 0,1,0,0 */</span><br>
+            #main { color: blue; }<br><br>
+            <span>/* Combined: specificity = 0,0,1,1 */</span><br>
+            div.text { color: purple; }<br><br>
+            <span>/* Inline: specificity = 1,0,0,0 */</span><br>
+            &lt;div style="color: black;"&gt;Text&lt;/div&gt;
+        </div>
+
+        <h3>Inheritance</h3>
+        <ul>
+            <li><strong>Inherited Properties:</strong> color, font-family, font-size, line-height, text-align.</li>
+            <li><strong>Non-inherited Properties:</strong> width, height, margin, padding, border, background.</li>
+            <li><strong>Inherit Keyword:</strong> <code>property: inherit;</code> forces inheritance.</li>
+            <li><strong>Initial Keyword:</strong> <code>property: initial;</code> resets to default.</li>
+        </ul>
+
+        <h3>!important</h3>
+        <ul>
+            <li><strong>Overrides:</strong> !important overrides all other rules.</li>
+            <li><strong>Best Practice:</strong> Avoid using !important except for utility classes or overrides.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>/* Inheritance example */</span><br>
+            .parent {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;color: #333; <span>/* Inherited by children */</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;font-family: Arial, sans-serif; <span>/* Inherited */</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;border: 1px solid #ccc; <span>/* Not inherited */</span><br>
+            }<br><br>
+            .child {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;color: inherit; <span>/* Force inheritance of color */</span><br>
+            }<br><br>
+            <span>/* Avoid !important when possible */</span><br>
+            <span>/* Use more specific selectors instead */</span><br>
+            .container .button { color: blue; }  <span>/* More specific */</span><br>
+            <span>/* Instead of: */</span><br>
+            .button { color: blue !important; }
+        </div>
+
+        <div class="note-box">
+            <strong>🔑 Key insight:</strong> Understanding specificity helps you write predictable CSS. Use classes for most styling and avoid !important unless absolutely necessary.
+        </div>
+    </div>
+
+    <!-- ========== 5.6 ========== -->
+    <div class="section">
+        <h2>5.6 CSS Units and Values</h2>
+        <p>CSS supports various units for sizing and positioning, including absolute and relative units.</p>
+
+        <h3>Absolute Units</h3>
+        <ul>
+            <li><code>px</code> — Pixels (1/96th of an inch).</li>
+            <li><code>pt</code> — Points (1/72nd of an inch).</li>
+            <li><code>cm</code>, <code>mm</code>, <code>in</code> — Physical units.</li>
+            <li><code>pc</code> — Picas (12pt).</li>
+        </ul>
+
+        <h3>Relative Units</h3>
+        <ul>
+            <li><code>%</code> — Relative to parent.</li>
+            <li><code>em</code> — Relative to parent font size.</li>
+            <li><code>rem</code> — Relative to root font size (html).</li>
+            <li><code>vw</code> — 1% of viewport width.</li>
+            <li><code>vh</code> — 1% of viewport height.</li>
+            <li><code>vmin</code> — 1% of smaller viewport dimension.</li>
+            <li><code>vmax</code> — 1% of larger viewport dimension.</li>
+            <li><code>ch</code> — Width of character '0'.</li>
+            <li><code>ex</code> — Height of lowercase 'x'.</li>
+        </ul>
+
+        <h3>Custom Properties (CSS Variables)</h3>
+        <ul>
+            <li><strong>Define:</strong> <code>--variable-name: value;</code></li>
+            <li><strong>Use:</strong> <code>var(--variable-name, fallback);</code></li>
+            <li><strong>Scope:</strong> Global (root) or local (element).</li>
+        </ul>
+
+        <div class="code-block">
+            <span>/* CSS Variables */</span><br>
+            :root {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;--primary-color: #3498db;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;--secondary-color: #2ecc71;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;--font-size-base: 16px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;--spacing-unit: 8px;<br>
+            }<br><br>
+            .card {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background: var(--primary-color);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: calc(var(--spacing-unit) * 3);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;font-size: var(--font-size-base);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;border-radius: var(--spacing-unit);<br>
+            }<br><br>
+            .card .title {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;color: var(--secondary-color, #2ecc71); <span>/* With fallback */</span><br>
+            }<br><br>
+            <span>/* Media query with custom property */</span><br>
+            @media (max-width: 768px) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;:root {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--font-size-base: 14px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <table>
+            <tr><th>Unit</th><th>Type</th><th>Relative To</th><th>Example</th></tr>
+            <tr><td>px</td><td>Absolute</td><td>Screen pixels</td><td>font-size: 16px;</td></tr>
+            <tr><td>%</td><td>Relative</td><td>Parent</td><td>width: 100%;</td></tr>
+            <tr><td>em</td><td>Relative</td><td>Parent font size</td><td>padding: 1.5em;</td></tr>
+            <tr><td>rem</td><td>Relative</td><td>Root font size</td><td>font-size: 1.2rem;</td></tr>
+            <tr><td>vw</td><td>Relative</td><td>Viewport width</td><td>font-size: 2vw;</td></tr>
+            <tr><td>vh</td><td>Relative</td><td>Viewport height</td><td>height: 100vh;</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>📏 Key insight:</strong> Use rem for font sizes (accessibility), vw/vh for viewport-based sizing, and CSS variables for maintainable theme values.
+        </div>
+    </div>
+
+    <!-- ========== 5.7 ========== -->
+    <div class="section">
+        <h2>5.7 CSS Preprocessors</h2>
+        <p><strong>CSS preprocessors</strong> like SASS/SCSS and LESS extend CSS with features like variables, nesting, mixins, and functions for better maintainability and developer productivity.</p>
+
+        <h3>Key Features</h3>
+        <ul>
+            <li><strong>Variables:</strong> Store reusable values (colors, fonts, sizes).</li>
+            <li><strong>Nesting:</strong> Write CSS hierarchically to match HTML structure.</li>
+            <li><strong>Mixins:</strong> Reusable blocks of styles.</li>
+            <li><strong>Functions:</strong> Perform calculations and operations.</li>
+            <li><strong>Partials &amp; Import:</strong> Split CSS into multiple files.</li>
+            <li><strong>Extend/Inheritance:</strong> Share styles between selectors.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>/* ===== SCSS Example ===== */</span><br>
+            <span>/* Variables */</span><br>
+            $primary-color: #3498db;<br>
+            $secondary-color: #2ecc71;<br>
+            $font-stack: 'Segoe UI', Arial, sans-serif;<br>
+            $spacing: 8px;<br><br>
+            <span>/* Mixin for buttons */</span><br>
+            @mixin button($bg-color) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background: $bg-color;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;color: white;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: 10px 20px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;border: none;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;border-radius: 4px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;cursor: pointer;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;transition: background 0.3s ease;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&amp;:hover {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background: darken($bg-color, 10%);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            <span>/* Nesting */</span><br>
+            .container {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;max-width: 1200px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;margin: 0 auto;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: $spacing * 2;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.header {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-family: $font-stack;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color: $primary-color;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.btn-primary {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@include button($primary-color);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.btn-success {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@include button($secondary-color);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>/* Extend/Inheritance */</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;%card {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background: white;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;border-radius: 8px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;box-shadow: 0 2px 8px rgba(0,0,0,0.1);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;padding: 20px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.card {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@extend %card;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.featured-card {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@extend %card;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;border: 2px solid $primary-color;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <h3>Popular Preprocessors</h3>
+        <table>
+            <tr><th>Preprocessor</th><th>Syntax</th><th>Features</th><th>Usage</th></tr>
+            <tr><td>SASS/SCSS</td><td>SCSS (CSS-like)</td><td>Variables, nesting, mixins, functions</td><td>Most popular, with frameworks</td></tr>
+            <tr><td>LESS</td><td>LESS (CSS-like)</td><td>Variables, nesting, mixins</td><td>Older, less common</td></tr>
+            <tr><td>PostCSS</td><td>CSS + plugins</td><td>Plugins for autoprefixer, etc.</td><td>Modern toolchain</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>🛠️ Key insight:</strong> Preprocessors are industry standards for large projects. SCSS is recommended due to its widespread adoption and robust features.
+        </div>
+    </div>
+
+    <!-- ========== 5.8 ========== -->
+    <div class="section">
+        <h2>5.8 CSS Best Practices and Optimization</h2>
+        <p>Adopting <strong>best practices</strong> ensures efficient, maintainable, and performant CSS that scales well across projects.</p>
+
+        <h3>Best Practices</h3>
+        <ul>
+            <li><strong>Use a CSS Methodology:</strong> BEM (Block-Element-Modifier), SMACSS, or Atomic CSS.</li>
+            <li><strong>Keep Selectors Simple:</strong> Avoid deep nesting (max 3 levels).</li>
+            <li><strong>Use Shorthand Properties:</strong> <code>margin: 10px 20px;</code> instead of individual properties.</li>
+            <li><strong>Organize CSS:</strong> Group related styles, use comments for sections.</li>
+            <li><strong>Avoid !important:</strong> Use specificity or utility classes instead.</li>
+            <li><strong>Use CSS Variables:</strong> For theming and maintainability.</li>
+            <li><strong>Write Mobile-First:</strong> Start with mobile styles, then add for larger screens.</li>
+        </ul>
+
+        <h3>Optimization Techniques</h3>
+        <ul>
+            <li><strong>Minification:</strong> Remove whitespace, comments, and unused code.</li>
+            <li><strong>Combining Files:</strong> Reduce HTTP requests by combining CSS files.</li>
+            <li><strong>Critical CSS:</strong> Inline critical CSS for faster rendering.</li>
+            <li><strong>Lazy Loading:</strong> Load non-critical CSS asynchronously.</li>
+            <li><strong>Purge Unused CSS:</strong> Remove styles not used in the HTML.</li>
+            <li><strong>Use CSS Variables:</strong> Reduce repetition and file size.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>/* ===== CSS Organization ===== */</span><br>
+            <span>/* 1. Reset / Normalize */</span><br>
+            *, *::before, *::after { box-sizing: border-box; }<br>
+            body { margin: 0; font-family: sans-serif; }<br><br>
+            <span>/* 2. Variables */</span><br>
+            :root {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;--primary: #3498db;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;--text: #2c3e50;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;--spacing: 1rem;<br>
+            }<br><br>
+            <span>/* 3. Layout */</span><br>
+            .container { max-width: 1200px; margin: 0 auto; padding: var(--spacing); }<br>
+            .grid { display: grid; gap: var(--spacing); }<br><br>
+            <span>/* 4. Components (BEM style) */</span><br>
+            <span>/* Block */</span><br>
+            .button {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;display: inline-block;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: 0.75rem 1.5rem;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background: var(--primary);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;color: white;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;border: none;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;border-radius: 4px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;cursor: pointer;<br>
+            }<br><br>
+            <span>/* Element */</span><br>
+            .button__icon { margin-right: 0.5rem; }<br><br>
+            <span>/* Modifier */</span><br>
+            .button--large { padding: 1rem 2rem; }<br>
+            .button--secondary { background: #2ecc71; }<br><br>
+            <span>/* 5. Utilities */</span><br>
+            .text-center { text-align: center; }<br>
+            .mt-1 { margin-top: 0.5rem; }<br>
+            .mt-2 { margin-top: 1rem; }
+        </div>
+
+        <h3>Performance Checklist</h3>
+        <ul>
+            <li>✓ Use <code>will-change</code> for animations.</li>
+            <li>✓ Use <code>contain</code> for layout isolation.</li>
+            <li>✓ Use <code>font-display: swap;</code> for web fonts.</li>
+            <li>✓ Use <code>aspect-ratio</code> for image containers.</li>
+            <li>✓ Use <code>preload</code> for critical resources.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>/* Performance tips */</span><br>
+            <span>/* Use will-change for animated elements */</span><br>
+            .animated-element {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;will-change: transform, opacity;<br>
+            }<br><br>
+            <span>/* Use aspect-ratio for images */</span><br>
+            .image-container {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;aspect-ratio: 16 / 9;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;overflow: hidden;<br>
+            }<br><br>
+            <span>/* Font loading */</span><br>
+            @font-face {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;font-family: 'CustomFont';<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;src: url('font.woff2') format('woff2');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;font-display: swap;<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>⚡ Key insight:</strong> Well-organized CSS is easier to maintain and debug. Regular performance audits and optimization keep your site fast and user-friendly.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 5 summary</strong><br>Advanced CSS topics including Flexbox, Grid, animations, responsive design, specificity, preprocessors, and best practices.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Flexbox: one-dimensional layouts (nav, cards).<br>• Grid: two-dimensional layouts (page structure).<br>• Transitions &amp; animations enhance UX.<br>• Responsive design: mobile-first, media queries.<br>• Specificity: ID > Class > Element.<br>• Preprocessors (SCSS) improve maintainability.<br>• Follow best practices for optimized CSS.</div>
+    </div>
 </body>
 </html>

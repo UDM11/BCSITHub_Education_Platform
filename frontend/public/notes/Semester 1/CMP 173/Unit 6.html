@@ -1,262 +1,909 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unit 6: Client Side Scripting with JavaScript</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-      font-weight: bold;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 6: Client Side Scripting with JavaScript</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Unit 6: Client Side Scripting with JavaScript</h1>
 
-  <div class="section">
-    <h2>6.1 Introduction to JavaScript</h2>
-    <p>JavaScript is a high-level, interpreted programming language used to make web pages interactive. It runs in the browser, enabling dynamic content and user interactions.</p>
-    <ul>
-      <li><strong>Purpose</strong>: Adds interactivity to websites.</li>
-      <li><strong>Client-Side</strong>: Executes in the user’s browser, reducing server load.</li>
-      <li><strong>ECMAScript</strong>: The standard JavaScript is based on, with ES6+ introducing modern features.</li>
-    </ul>
-  </div>
+    <h1>Unit 6: Client Side Scripting with JavaScript</h1>
+    <div class="subhead">JavaScript basics · DOM manipulation · functions · arrays · objects · events · ES6+ features</div>
 
-  <div class="section">
-    <h2>6.2 Using JS in HTML</h2>
-    <p>JavaScript can be integrated into HTML using inline scripts, internal scripts, or external files.</p>
-    <ul>
-      <li><strong>Inline</strong>: Directly in HTML tags using event attributes.</li>
-      <li><strong>Internal</strong>: Within a <code>&lt;script&gt;</code> tag in the <code>&lt;head&gt;</code> or <code>&lt;body&gt;</code>.</li>
-      <li><strong>External</strong>: Linked via <code>&lt;script src="file.js"&gt;</code> for modularity.</li>
-    </ul>
-    <pre><code>&lt;!-- Inline --&gt;
-&lt;button onclick="alert('Clicked!')"&gt;Click Me&lt;/button&gt;
+    <!-- ========== 6.1 ========== -->
+    <div class="section">
+        <h2>6.1 Introduction to JavaScript</h2>
+        <p><strong>JavaScript</strong> is a high-level, interpreted programming language used to make web pages interactive. It runs in the browser, enabling dynamic content, user interactions, and client-side logic without requiring server communication for every action.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🎯 Purpose</strong><br>Adds interactivity to websites, handles events, manipulates the DOM, communicates with servers via AJAX, and creates rich user experiences.</div>
+            <div class="card"><strong>📋 Key Features</strong><br>Lightweight, interpreted, object-oriented, functional, event-driven, and dynamic. Supports both client-side and server-side (Node.js).</div>
+        </div>
 
-&lt;!-- Internal --&gt;
-&lt;script&gt;
-  console.log('Hello, JavaScript!');
-&lt;/script&gt;
+        <h3>JavaScript History</h3>
+        <ul>
+            <li><strong>1995:</strong> Created by Brendan Eich at Netscape in 10 days.</li>
+            <li><strong>1996:</strong> Standardized as ECMAScript (ECMA-262).</li>
+            <li><strong>2005:</strong> AJAX popularized asynchronous web apps.</li>
+            <li><strong>2009:</strong> Node.js introduced server-side JavaScript.</li>
+            <li><strong>2015:</strong> ECMAScript 6 (ES6) added major features.</li>
+            <li><strong>Present:</strong> Continuously evolving with annual updates.</li>
+        </ul>
 
-&lt;!-- External --&gt;
-&lt;script src="script.js"&gt;&lt;/script&gt;</code></pre>
-  </div>
+        <h3>JavaScript in the Browser</h3>
+        <ul>
+            <li><strong>JavaScript Engine:</strong> V8 (Chrome), SpiderMonkey (Firefox), JavaScriptCore (Safari).</li>
+            <li><strong>Browser APIs:</strong> DOM, Fetch, Web Storage, Geolocation, Canvas, etc.</li>
+        </ul>
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> JavaScript is the only programming language natively supported by all browsers, making it the essential language for web development.
+        </div>
+    </div>
 
-  <div class="section">
-    <h2>6.3 JavaScript Output</h2>
-    <p>JavaScript provides multiple ways to display output, such as writing to the console, DOM, or alerts.</p>
-    <ul>
-      <li><strong>console.log()</strong>: Outputs to the browser’s console for debugging.</li>
-      <li><strong>document.write()</strong>: Writes directly to the HTML document.</li>
-      <li><strong>alert()</strong>: Displays a popup message.</li>
-      <li><strong>innerHTML</strong>: Updates content of an HTML element.</li>
-    </ul>
-    <pre><code>console.log('Debug message');
-alert('Welcome!');
-document.write('Hello World');
-document.getElementById('demo').innerHTML = 'Updated content';</code></pre>
-  </div>
+    <!-- ========== 6.2 ========== -->
+    <div class="section">
+        <h2>6.2 Using JS in HTML</h2>
+        <p>JavaScript can be integrated into HTML using three methods: <strong>inline</strong>, <strong>internal</strong>, and <strong>external</strong>.</p>
 
-  <div class="section">
-    <h2>6.4 JavaScript Comments</h2>
-    <p>Comments explain code or disable execution, improving readability and maintenance.</p>
-    <ul>
-      <li><strong>Single-line</strong>: Use <code>//</code> for one line.</li>
-      <li><strong>Multi-line</strong>: Use <code>/* */</code> for multiple lines.</li>
-    </ul>
-    <pre><code>// This is a single-line comment
-/* This is a
-   multi-line comment */
-let x = 5; // Initialize x</code></pre>
-  </div>
+        <h3>Inline JavaScript</h3>
+        <ul>
+            <li><strong>Method:</strong> Using event attributes directly in HTML tags.</li>
+            <li><strong>Pros:</strong> Quick for simple interactions.</li>
+            <li><strong>Cons:</strong> Mixes HTML and JS, hard to maintain.</li>
+        </ul>
+        <div class="code-block">
+            &lt;button onclick="alert('Clicked!')"&gt;Click Me&lt;/button&gt;<br>
+            &lt;div onmouseover="this.style.color='red'"&gt;Hover Me&lt;/div&gt;
+        </div>
 
-  <div class="section">
-    <h2>6.5 Variables and Data Types</h2>
-    <p>Variables store data, and JavaScript supports various data types. Variables are declared using <code>let</code>, <code>const</code>, or <code>var</code>.</p>
-    <ul>
-      <li><strong>Primitive Types</strong>: Number, String, Boolean, Null, Undefined, Symbol.</li>
-      <li><strong>Reference Types</strong>: Objects, Arrays, Functions.</li>
-      <li><strong>let/const</strong>: Block-scoped; <code>const</code> prevents reassignment.</li>
-    </ul>
-    <pre><code>let name = 'John'; // String
-const age = 30; // Number
-let isStudent = true; // Boolean
-let data = null; // Null
-let obj = { key: 'value' }; // Object</code></pre>
-  </div>
+        <h3>Internal JavaScript</h3>
+        <ul>
+            <li><strong>Method:</strong> Using <code>&lt;script&gt;</code> tags within the HTML document.</li>
+            <li><strong>Pros:</strong> Good for single-page scripts.</li>
+            <li><strong>Cons:</strong> Not reusable across pages.</li>
+        </ul>
+        <div class="code-block">
+            &lt;script&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log('Hello from internal script');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;document.querySelector('h1').style.color = 'blue';<br>
+            &lt;/script&gt;
+        </div>
 
-  <div class="section">
-    <h2>6.6 Operators and Expressions</h2>
-    <p>Operators perform operations on variables and values, forming expressions.</p>
-    <ul>
-      <li><strong>Arithmetic</strong>: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>.</li>
-      <li><strong>Comparison</strong>: <code>==</code>, <code>===</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code>.</li>
-      <li><strong>Logical</strong>: <code>&&</code>, <code>||</code>, <code>!</code>.</li>
-      <li><strong>Assignment</strong>: <code>=</code>, <code>+=</code>, <code>-=</code>.</li>
-    </ul>
-    <pre><code>let a = 10;
-let b = 5;
-console.log(a + b); // 15
-console.log(a === b); // false
-console.log(a &gt; b && b &gt; 0); // true
-a += 5; // a = 15</code></pre>
-  </div>
+        <h3>External JavaScript</h3>
+        <ul>
+            <li><strong>Method:</strong> Linking to a separate <code>.js</code> file.</li>
+            <li><strong>Pros:</strong> Reusable, cacheable, separates concerns.</li>
+            <li><strong>Cons:</strong> Additional HTTP request (can be cached).</li>
+        </ul>
+        <div class="code-block">
+            &lt;script src="script.js"&gt;&lt;/script&gt;<br>
+            &lt;script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"&gt;&lt;/script&gt;
+        </div>
 
-  <div class="section">
-    <h2>6.7 Control Flow and Conditionals</h2>
-    <p>Conditionals control program flow based on logical conditions.</p>
-    <ul>
-      <li><strong>if/else</strong>: Executes code based on a condition.</li>
-      <li><strong>switch</strong>: Handles multiple conditions with cases.</li>
-      <li><strong>ternary operator</strong>: Concise <code>condition ? expr1 : expr2</code>.</li>
-    </ul>
-    <pre><code>let score = 85;
-if (score &gt;= 90) {
-  console.log('A');
-} else if (score &gt;= 80) {
-  console.log('B');
-}
-let day = 1;
-switch (day) {
-  case 1:
-    console.log('Monday');
-    break;
-}
-let result = score &gt; 80 ? 'Pass' : 'Fail';</code></pre>
-  </div>
+        <h3>Best Practices</h3>
+        <ul>
+            <li>Place scripts at the bottom of the body for better performance.</li>
+            <li>Use <code>defer</code> or <code>async</code> attributes for non-blocking loading.</li>
+            <li>Use external files for larger projects.</li>
+        </ul>
 
-  <div class="section">
-    <h2>6.8 Loops</h2>
-    <p>Loops execute code repeatedly based on conditions.</p>
-    <ul>
-      <li><strong>for</strong>: Iterates with initialization, condition, and increment.</li>
-      <li><strong>while</strong>: Runs while a condition is true.</li>
-      <li><strong>do-while</strong>: Executes at least once before checking the condition.</li>
-      <li><strong>for...of</strong>: Iterates over iterable objects like arrays.</li>
-    </ul>
-    <pre><code>for (let i = 0; i &lt; 5; i++) {
-  console.log(i);
-}
-let j = 0;
-while (j &lt; 3) {
-  console.log(j);
-  j++;
-}
-let arr = [1, 2, 3];
-for (let value of arr) {
-  console.log(value);
-}</code></pre>
-  </div>
+        <div class="code-block">
+            <span>/* Recommended placement */</span><br>
+            &lt;body&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- HTML content --&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;script src="script.js" defer&gt;&lt;/script&gt;<br>
+            &lt;/body&gt;
+        </div>
+    </div>
 
-  <div class="section">
-    <h2>6.9 Functions</h2>
-    <p>Functions are reusable blocks of code that perform specific tasks.</p>
-    <ul>
-      <li><strong>Declaration</strong>: <code>function name() {}</code>.</li>
-      <li><strong>Expression</strong>: <code>const name = function() {}</code>.</li>
-      <li><strong>Arrow Functions</strong>: Concise syntax <code>const name = () => {}</code>.</li>
-      <li><strong>Parameters/Return</strong>: Pass data and return results.</li>
-    </ul>
-    <pre><code>function greet(name) {
-  return `Hello, ${name}`;
-}
-const add = (a, b) => a + b;
-console.log(greet('John')); // Hello, John
-console.log(add(2, 3)); // 5</code></pre>
-  </div>
+    <!-- ========== 6.3 ========== -->
+    <div class="section">
+        <h2>6.3 JavaScript Output</h2>
+        <p>JavaScript provides multiple ways to display output, which is useful for debugging, user feedback, and dynamic content updates.</p>
 
-  <div class="section">
-    <h2>6.10 Arrays</h2>
-    <p>Arrays store ordered lists of data and provide methods for manipulation.</p>
-    <ul>
-      <li><strong>Creation</strong>: <code>let arr = [1, 2, 3]</code>.</li>
-      <li><strong>Methods</strong>: <code>push()</code>, <code>pop()</code>, <code>map()</code>, <code>filter()</code>.</li>
-      <li><strong>Access</strong>: Use index, e.g., <code>arr[0]</code>.</li>
-    </ul>
-    <pre><code>let arr = [1, 2, 3];
-arr.push(4); // [1, 2, 3, 4]
-let doubled = arr.map(x => x * 2); // [2, 4, 6, 8]
-console.log(arr[0]); // 1</code></pre>
-  </div>
+        <h3>Output Methods</h3>
+        <table>
+            <tr><th>Method</th><th>Description</th><th>Example</th></tr>
+            <tr><td>console.log()</td><td>Outputs to browser console (developer tools)</td><td>console.log('Debug')</td></tr>
+            <tr><td>alert()</td><td>Displays a modal dialog box</td><td>alert('Hello!')</td></tr>
+            <tr><td>document.write()</td><td>Writes directly to the document</td><td>document.write('Hello')</td></tr>
+            <tr><td>innerHTML</td><td>Updates content of an HTML element</td><td>element.innerHTML = 'New text'</td></tr>
+            <tr><td>textContent</td><td>Updates text content (safer than innerHTML)</td><td>element.textContent = 'New text'</td></tr>
+        </table>
 
-  <div class="section">
-    <h2>6.11 Objects</h2>
-    <p>Objects store key-value pairs, representing complex data structures.</p>
-    <ul>
-      <li><strong>Creation</strong>: <code>let obj = { key: value }</code>.</li>
-      <li><strong>Access</strong>: Dot notation (<code>obj.key</code>) or bracket notation (<code>obj['key']</code>).</li>
-      <li><strong>Methods</strong>: Functions as object properties.</li>
-    </ul>
-    <pre><code>let person = {
-  name: 'John',
-  age: 30,
-  greet: function() {
-    return `Hi, I'm ${this.name}`;
-  }
-};
-console.log(person.name); // John
-console.log(person['age']); // 30
-console.log(person.greet()); // Hi, I'm John</code></pre>
-  </div>
+        <div class="code-block">
+            <span>// Console output (for debugging)</span><br>
+            console.log('Debug message');<br>
+            console.error('Error occurred');<br>
+            console.warn('Warning message');<br>
+            console.table([1, 2, 3]);<br><br>
+            <span>// Alert dialog</span><br>
+            alert('Welcome to the page!');<br><br>
+            <span>// Document write (use sparingly)</span><br>
+            document.write('Hello World');<br><br>
+            <span>// DOM manipulation</span><br>
+            document.getElementById('demo').innerHTML = 'Updated content';<br>
+            document.querySelector('.message').textContent = 'New message';
+        </div>
+    </div>
+
+    <!-- ========== 6.4 ========== -->
+    <div class="section">
+        <h2>6.4 JavaScript Comments</h2>
+        <p><strong>Comments</strong> explain code or temporarily disable execution, improving readability and maintenance.</p>
+
+        <h3>Comment Types</h3>
+        <ul>
+            <li><strong>Single-line:</strong> <code>//</code> — Everything after // is ignored.</li>
+            <li><strong>Multi-line:</strong> <code>/* */</code> — Can span multiple lines.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// This is a single-line comment</span><br>
+            let x = 5; <span>// This comment is on the same line</span><br><br>
+            /*<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;This is a multi-line comment<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;It can span multiple lines<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Useful for documentation<br>
+            */<br><br>
+            <span>/* TODO: Add error handling */</span><br>
+            function calculate() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 42; <span>// Return the answer</span><br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>📝 Key insight:</strong> Good comments explain why, not what. Use them to document complex logic, TODOs, or API usage.
+        </div>
+    </div>
+
+    <!-- ========== 6.5 ========== -->
+    <div class="section">
+        <h2>6.5 Variables and Data Types</h2>
+        <p><strong>Variables</strong> store data, and JavaScript supports various <strong>data types</strong>. Variables are declared using <code>let</code>, <code>const</code>, or <code>var</code>.</p>
+
+        <h3>Variable Declaration</h3>
+        <ul>
+            <li><strong>let:</strong> Block-scoped, can be reassigned.</li>
+            <li><strong>const:</strong> Block-scoped, cannot be reassigned (but objects/arrays can be modified).</li>
+            <li><strong>var:</strong> Function-scoped (avoid in modern code).</li>
+        </ul>
+
+        <h3>Data Types</h3>
+        <table>
+            <tr><th>Type</th><th>Description</th><th>Example</th></tr>
+            <tr><td>Number</td><td>Integers and floating-point</td><td>let age = 30; let pi = 3.14;</td></tr>
+            <tr><td>String</td><td>Text enclosed in quotes</td><td>let name = 'John'; let msg = "Hello";</td></tr>
+            <tr><td>Boolean</td><td>true or false</td><td>let isActive = true;</td></tr>
+            <tr><td>Undefined</td><td>Variable declared but not assigned</td><td>let x; // undefined</td></tr>
+            <tr><td>Null</td><td>Intentional absence of value</td><td>let data = null;</td></tr>
+            <tr><td>Symbol</td><td>Unique identifier</td><td>let sym = Symbol('id');</td></tr>
+            <tr><td>BigInt</td><td>Large integers</td><td>let big = 12345678901234567890n;</td></tr>
+            <tr><td>Object</td><td>Key-value pairs</td><td>let obj = { key: 'value' };</td></tr>
+            <tr><td>Array</td><td>Ordered list</td><td>let arr = [1, 2, 3];</td></tr>
+            <tr><td>Function</td><td>Callable object</td><td>function add(a, b) { return a + b; }</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Variable declarations</span><br>
+            let name = 'John'; <span>// String</span><br>
+            const age = 30; <span>// Number (constant)</span><br>
+            let isStudent = true; <span>// Boolean</span><br>
+            let data = null; <span>// Null</span><br>
+            let undefined; <span>// Undefined</span><br><br>
+            <span>// Type checking</span><br>
+            console.log(typeof name); <span>// 'string'</span><br>
+            console.log(typeof age); <span>// 'number'</span><br>
+            console.log(typeof isStudent); <span>// 'boolean'</span><br><br>
+            <span>// Object</span><br>
+            let person = {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;name: 'Alice',<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;age: 25,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;isActive: true<br>
+            };<br><br>
+            <span>// Array</span><br>
+            let colors = ['red', 'green', 'blue'];
+        </div>
+    </div>
+
+    <!-- ========== 6.6 ========== -->
+    <div class="section">
+        <h2>6.6 Operators and Expressions</h2>
+        <p><strong>Operators</strong> perform operations on variables and values, forming <strong>expressions</strong>.</p>
+
+        <h3>Operator Types</h3>
+        <ul>
+            <li><strong>Arithmetic:</strong> +, -, *, /, %, ** (exponentiation), ++, --</li>
+            <li><strong>Comparison:</strong> ==, ===, !=, !==, &gt;, &lt;, &gt;=, &lt;=</li>
+            <li><strong>Logical:</strong> &amp;&amp;, ||, !</li>
+            <li><strong>Assignment:</strong> =, +=, -=, *=, /=, %=</li>
+            <li><strong>Ternary:</strong> condition ? expr1 : expr2</li>
+            <li><strong>Spread/Rest:</strong> ... (spread operator)</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Arithmetic</span><br>
+            let sum = 10 + 5; <span>// 15</span><br>
+            let product = 3 * 4; <span>// 12</span><br>
+            let power = 2 ** 3; <span>// 8</span><br><br>
+            <span>// Comparison (strict vs loose)</span><br>
+            console.log(5 == '5'); <span>// true (loose equality)</span><br>
+            console.log(5 === '5'); <span>// false (strict equality)</span><br>
+            console.log(5 != '5'); <span>// false</span><br>
+            console.log(5 !== '5'); <span>// true</span><br><br>
+            <span>// Logical</span><br>
+            let isAdult = age >= 18 &amp;&amp; age &lt;= 65;<br>
+            let isAdmin = role === 'admin' || role === 'superadmin';<br>
+            let isValid = !isDeleted;<br><br>
+            <span>// Assignment</span><br>
+            let x = 10;<br>
+            x += 5; <span>// x = 15</span><br>
+            x *= 2; <span>// x = 30</span><br><br>
+            <span>// Ternary</span><br>
+            let status = age >= 18 ? 'Adult' : 'Minor';<br><br>
+            <span>// Spread operator</span><br>
+            let arr1 = [1, 2, 3];<br>
+            let arr2 = [...arr1, 4, 5]; <span>// [1, 2, 3, 4, 5]</span>
+        </div>
+    </div>
+
+    <!-- ========== 6.7 ========== -->
+    <div class="section">
+        <h2>6.7 Control Flow and Conditionals</h2>
+        <p><strong>Conditionals</strong> control program flow based on logical conditions, enabling decision-making in code.</p>
+
+        <h3>if-else Statement</h3>
+        <div class="code-block">
+            let score = 85;<br><br>
+            if (score >= 90) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log('Grade: A');<br>
+            } else if (score >= 80) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log('Grade: B');<br>
+            } else if (score >= 70) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log('Grade: C');<br>
+            } else if (score >= 60) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log('Grade: D');<br>
+            } else {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log('Grade: F');<br>
+            }
+        </div>
+
+        <h3>switch Statement</h3>
+        <div class="code-block">
+            let day = 3;<br>
+            switch (day) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;case 1:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log('Monday');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;case 2:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log('Tuesday');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;case 3:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log('Wednesday');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;default:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log('Invalid day');<br>
+            }
+        </div>
+
+        <h3>Ternary Operator</h3>
+        <div class="code-block">
+            let age = 20;<br>
+            let status = age >= 18 ? 'Adult' : 'Minor';<br>
+            console.log(status); <span>// 'Adult'</span><br><br>
+            <span>// Nested ternary (use sparingly)</span><br>
+            let grade = score >= 90 ? 'A' : score >= 80 ? 'B' : score >= 70 ? 'C' : 'F';
+        </div>
+    </div>
+
+    <!-- ========== 6.8 ========== -->
+    <div class="section">
+        <h2>6.8 Loops</h2>
+        <p><strong>Loops</strong> execute code repeatedly based on conditions, enabling iteration over data structures and repetitive tasks.</p>
+
+        <h3>for Loop</h3>
+        <div class="code-block">
+            <span>// for loop with index</span><br>
+            for (let i = 0; i < 5; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log(i);<br>
+            }<br>
+            <span>// Output: 0 1 2 3 4</span>
+        </div>
+
+        <h3>while Loop</h3>
+        <div class="code-block">
+            let i = 0;<br>
+            while (i < 5) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log(i);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;i++;<br>
+            }<br>
+            <span>// Output: 0 1 2 3 4</span>
+        </div>
+
+        <h3>do-while Loop</h3>
+        <div class="code-block">
+            let i = 0;<br>
+            do {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log(i);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;i++;<br>
+            } while (i < 5);<br>
+            <span>// Output: 0 1 2 3 4 (executes at least once)</span>
+        </div>
+
+        <h3>for...of Loop (ES6)</h3>
+        <div class="code-block">
+            let arr = [10, 20, 30, 40, 50];<br>
+            for (let value of arr) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log(value);<br>
+            }<br>
+            <span>// Output: 10 20 30 40 50</span>
+        </div>
+
+        <h3>for...in Loop</h3>
+        <div class="code-block">
+            let person = { name: 'John', age: 30, city: 'NYC' };<br>
+            for (let key in person) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log(`${key}: ${person[key]}`);<br>
+            }<br>
+            <span>// Output: name: John, age: 30, city: NYC</span>
+        </div>
+    </div>
+
+    <!-- ========== 6.9 ========== -->
+    <div class="section">
+        <h2>6.9 Functions</h2>
+        <p><strong>Functions</strong> are reusable blocks of code that perform specific tasks. They are fundamental to JavaScript programming.</p>
+
+        <h3>Function Types</h3>
+        <ul>
+            <li><strong>Function Declaration:</strong> <code>function name() { }</code> — Hoisted.</li>
+            <li><strong>Function Expression:</strong> <code>const name = function() { }</code> — Not hoisted.</li>
+            <li><strong>Arrow Function (ES6):</strong> <code>const name = () => { }</code> — Concise syntax.</li>
+            <li><strong>IIFE:</strong> Immediately Invoked Function Expression — <code>(function() { })();</code></li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Function Declaration</span><br>
+            function greet(name) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return `Hello, ${name}!`;<br>
+            }<br><br>
+            <span>// Function Expression</span><br>
+            const greet2 = function(name) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return `Hello, ${name}!`;<br>
+            };<br><br>
+            <span>// Arrow Function</span><br>
+            const greet3 = (name) => `Hello, ${name}!`;<br><br>
+            <span>// Arrow with multiple parameters</span><br>
+            const add = (a, b) => a + b;<br><br>
+            <span>// Default parameters</span><br>
+            function multiply(a, b = 1) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return a * b;<br>
+            }<br><br>
+            <span>// Rest parameters</span><br>
+            function sum(...numbers) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return numbers.reduce((acc, n) => acc + n, 0);<br>
+            }<br><br>
+            console.log(greet('John')); <span>// Hello, John!</span><br>
+            console.log(add(5, 3)); <span>// 8</span><br>
+            console.log(sum(1, 2, 3, 4)); <span>// 10</span>
+        </div>
+
+        <h3>Callbacks</h3>
+        <div class="code-block">
+            <span>// Function as argument (callback)</span><br>
+            function processUserInput(callback) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;let name = prompt('Enter your name:');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;callback(name);<br>
+            }<br><br>
+            processUserInput(function(name) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log(`Welcome, ${name}!`);<br>
+            });
+        </div>
+    </div>
+
+    <!-- ========== 6.10 ========== -->
+    <div class="section">
+        <h2>6.10 Arrays</h2>
+        <p><strong>Arrays</strong> store ordered lists of data and provide methods for manipulation, iteration, and transformation.</p>
+
+        <h3>Array Methods</h3>
+        <table>
+            <tr><th>Method</th><th>Description</th><th>Example</th></tr>
+            <tr><td>push()</td><td>Add item to end</td><td>arr.push(4)</td></tr>
+            <tr><td>pop()</td><td>Remove last item</td><td>arr.pop()</td></tr>
+            <tr><td>unshift()</td><td>Add item to beginning</td><td>arr.unshift(0)</td></tr>
+            <tr><td>shift()</td><td>Remove first item</td><td>arr.shift()</td></tr>
+            <tr><td>map()</td><td>Transform each element</td><td>arr.map(x => x * 2)</td></tr>
+            <tr><td>filter()</td><td>Filter elements</td><td>arr.filter(x => x > 5)</td></tr>
+            <tr><td>reduce()</td><td>Reduce to single value</td><td>arr.reduce((a,b) => a+b, 0)</td></tr>
+            <tr><td>forEach()</td><td>Iterate over elements</td><td>arr.forEach(x => console.log(x))</td></tr>
+            <tr><td>find()</td><td>Find first matching element</td><td>arr.find(x => x === 5)</td></tr>
+            <tr><td>includes()</td><td>Check if includes value</td><td>arr.includes(3)</td></tr>
+            <tr><td>sort()</td><td>Sort elements</td><td>arr.sort((a,b) => a-b)</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Array creation</span><br>
+            let arr = [1, 2, 3, 4, 5];<br>
+            let empty = [];<br>
+            let mixed = [1, 'text', true, { key: 'value' }];<br><br>
+            <span>// Array methods</span><br>
+            arr.push(6); <span>// [1, 2, 3, 4, 5, 6]</span><br>
+            let doubled = arr.map(x => x * 2); <span>// [2, 4, 6, 8, 10, 12]</span><br>
+            let evens = arr.filter(x => x % 2 === 0); <span>// [2, 4, 6]</span><br>
+            let sum = arr.reduce((acc, x) => acc + x, 0); <span>// 21</span><br><br>
+            <span>// Destructuring</span><br>
+            let [first, second, ...rest] = arr;<br>
+            console.log(first); <span>// 1</span><br>
+            console.log(rest); <span>// [3, 4, 5, 6]</span>
+        </div>
+    </div>
+
+    <!-- ========== 6.11 ========== -->
+    <div class="section">
+        <h2>6.11 Objects</h2>
+        <p><strong>Objects</strong> store key-value pairs, representing complex data structures. They are fundamental to JavaScript and used extensively in web development.</p>
+
+        <h3>Object Creation and Access</h3>
+        <div class="code-block">
+            <span>// Object literal</span><br>
+            let person = {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;name: 'John',<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;age: 30,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;city: 'New York',<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;greet() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return `Hi, I'm ${this.name}`;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            };<br><br>
+            <span>// Access properties</span><br>
+            console.log(person.name); <span>// John (dot notation)</span><br>
+            console.log(person['age']); <span>// 30 (bracket notation)</span><br>
+            console.log(person.greet()); <span>// Hi, I'm John</span><br><br>
+            <span>// Add/update properties</span><br>
+            person.email = 'john@example.com';<br>
+            person.age = 31;<br><br>
+            <span>// Delete property</span><br>
+            delete person.city;
+        </div>
+
+        <h3>Object Methods</h3>
+        <div class="code-block">
+            <span>// Object methods</span><br>
+            let keys = Object.keys(person); <span>// ['name', 'age', 'email', 'greet']</span><br>
+            let values = Object.values(person); <span>// ['John', 31, 'john@example.com', function]</span><br>
+            let entries = Object.entries(person); <span>// [['name','John'], ['age',31], ...]</span><br><br>
+            <span>// Object destructuring</span><br>
+            let { name, age } = person;<br>
+            console.log(name); <span>// John</span><br><br>
+            <span>// Spread with objects</span><br>
+            let personCopy = { ...person, city: 'Boston' };<br>
+            console.log(personCopy.city); <span>// Boston</span>
+        </div>
+
+        <h3>Classes (ES6)</h3>
+        <div class="code-block">
+            <span>// Class syntax</span><br>
+            class Person {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;constructor(name, age) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.name = name;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.age = age;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;greet() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return `Hello, I'm ${this.name}`;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;static createAnonymous() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new Person('Anonymous', 0);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            let john = new Person('John', 30);<br>
+            console.log(john.greet()); <span>// Hello, I'm John</span><br>
+            let anonymous = Person.createAnonymous();
+        </div>
+    </div>
+
+    <!-- ========== 6.12 ========== -->
+    <div class="section">
+        <h2>6.12 DOM Manipulation</h2>
+        <p>The <strong>Document Object Model (DOM)</strong> is a programming interface for HTML documents. JavaScript can manipulate the DOM to dynamically change content, style, and structure.</p>
+
+        <h3>Selecting Elements</h3>
+        <ul>
+            <li><code>document.getElementById('id')</code> — Select by ID.</li>
+            <li><code>document.querySelector('selector')</code> — First matching element.</li>
+            <li><code>document.querySelectorAll('selector')</code> — All matching elements.</li>
+            <li><code>document.getElementsByClassName('class')</code> — By class name.</li>
+            <li><code>document.getElementsByTagName('tag')</code> — By tag name.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Selecting elements</span><br>
+            let header = document.getElementById('header');<br>
+            let button = document.querySelector('.btn');<br>
+            let items = document.querySelectorAll('.list-item');<br><br>
+            <span>// Modifying content</span><br>
+            header.textContent = 'New Header Text';<br>
+            header.innerHTML = '&lt;span&gt;Bold Text&lt;/span&gt;';<br><br>
+            <span>// Modifying attributes</span><br>
+            button.setAttribute('disabled', 'true');<br>
+            button.getAttribute('data-id');<br><br>
+            <span>// Modifying styles</span><br>
+            header.style.color = 'blue';<br>
+            header.style.fontSize = '24px';<br>
+            header.style.backgroundColor = '#f0f0f0';<br><br>
+            <span>// Adding/removing classes</span><br>
+            header.classList.add('active');<br>
+            header.classList.remove('active');<br>
+            header.classList.toggle('highlight');
+        </div>
+
+        <h3>Creating and Modifying Elements</h3>
+        <div class="code-block">
+            <span>// Creating new elements</span><br>
+            let newDiv = document.createElement('div');<br>
+            newDiv.textContent = 'New Content';<br>
+            newDiv.className = 'card';<br><br>
+            <span>// Appending to DOM</span><br>
+            document.body.appendChild(newDiv);<br>
+            document.querySelector('.container').prepend(newDiv);<br>
+            document.querySelector('.container').insertBefore(newDiv, referenceNode);<br><br>
+            <span>// Removing elements</span><br>
+            let element = document.querySelector('.remove-me');<br>
+            element.remove();<br>
+            <span>// or</span><br>
+            element.parentNode.removeChild(element);
+        </div>
+
+        <h3>Event Handling</h3>
+        <div class="code-block">
+            <span>// Adding event listeners</span><br>
+            let button = document.querySelector('#myButton');<br>
+            button.addEventListener('click', function() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log('Button clicked!');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;this.style.backgroundColor = 'green';<br>
+            });<br><br>
+            <span>// Event object</span><br>
+            button.addEventListener('click', function(event) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log('Event type:', event.type);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log('Target:', event.target);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;event.preventDefault(); <span>// Prevent default behavior</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;event.stopPropagation(); <span>// Stop event bubbling</span><br>
+            });<br><br>
+            <span>// Common events</span><br>
+            <span>// click, mouseover, mouseout, keydown, keyup, submit, load, scroll, resize</span>
+        </div>
+    </div>
+
+    <!-- ========== 6.13 ========== -->
+    <div class="section">
+        <h2>6.13 Events and Event Handling</h2>
+        <p><strong>Events</strong> are actions or occurrences that happen in the browser, and <strong>event handling</strong> allows JavaScript to respond to them.</p>
+
+        <h3>Event Types</h3>
+        <ul>
+            <li><strong>Mouse Events:</strong> click, dblclick, mouseover, mouseout, mousedown, mouseup</li>
+            <li><strong>Keyboard Events:</strong> keydown, keyup, keypress</li>
+            <li><strong>Form Events:</strong> submit, change, focus, blur, input</li>
+            <li><strong>Document Events:</strong> DOMContentLoaded, load, unload</li>
+            <li><strong>Window Events:</strong> scroll, resize, hashchange</li>
+            <li><strong>Touch Events:</strong> touchstart, touchmove, touchend</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Event listener examples</span><br>
+            <span>// Mouse event</span><br>
+            element.addEventListener('click', function(e) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log('Clicked at', e.clientX, e.clientY);<br>
+            });<br><br>
+            <span>// Keyboard event</span><br>
+            document.addEventListener('keydown', function(e) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (e.key === 'Enter') {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log('Enter key pressed');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (e.key === 'Escape') {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log('Escape key pressed');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            });<br><br>
+            <span>// Form event</span><br>
+            document.querySelector('form').addEventListener('submit', function(e) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;e.preventDefault();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log('Form submitted');<br>
+            });<br><br>
+            <span>// Event delegation</span><br>
+            document.querySelector('.list').addEventListener('click', function(e) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (e.target.tagName === 'LI') {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log('List item clicked:', e.target.textContent);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            });
+        </div>
+
+        <div class="note-box">
+            <strong>🔄 Key insight:</strong> Event delegation (adding listeners to parent elements) improves performance and handles dynamically created elements.
+        </div>
+    </div>
+
+    <!-- ========== 6.14 ========== -->
+    <div class="section">
+        <h2>6.14 ES6+ Features</h2>
+        <p>ECMAScript 6 (ES6) and later versions introduced many features that modern JavaScript relies on.</p>
+
+        <h3>Key ES6+ Features</h3>
+        <ul>
+            <li><strong>let and const:</strong> Block-scoped declarations.</li>
+            <li><strong>Arrow Functions:</strong> Concise syntax with lexical <code>this</code>.</li>
+            <li><strong>Template Literals:</strong> String interpolation with backticks.</li>
+            <li><strong>Destructuring:</strong> Extract values from arrays/objects.</li>
+            <li><strong>Spread/Rest Operators:</strong> <code>...</code> for arrays and objects.</li>
+            <li><strong>Default Parameters:</strong> Default values in function parameters.</li>
+            <li><strong>Classes:</strong> Syntactic sugar over prototypes.</li>
+            <li><strong>Modules:</strong> <code>import</code> and <code>export</code>.</li>
+            <li><strong>Promises:</strong> Asynchronous operations handling.</li>
+            <li><strong>Async/Await:</strong> Simpler async code.</li>
+            <li><strong>Optional Chaining:</strong> <code>?. (object?.property)</code>.</li>
+            <li><strong>Nullish Coalescing:</strong> <code>?? (value ?? default)</code>.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Template literals</span><br>
+            let name = 'John';<br>
+            console.log(`Hello, ${name}!`);<br><br>
+            <span>// Destructuring</span><br>
+            let [a, b, c] = [1, 2, 3];<br>
+            let { x, y } = { x: 10, y: 20 };<br><br>
+            <span>// Spread operator</span><br>
+            let arr1 = [1, 2, 3];<br>
+            let arr2 = [...arr1, 4, 5];<br><br>
+            <span>// Optional chaining</span><br>
+            let user = { profile: { name: 'John' } };<br>
+            console.log(user?.profile?.name); <span>// John</span><br>
+            console.log(user?.address?.city); <span>// undefined</span><br><br>
+            <span>// Nullish coalescing</span><br>
+            let value = null ?? 'default'; <span>// 'default'</span><br>
+            let value2 = 0 ?? 'default'; <span>// 0</span><br><br>
+            <span>// Async/Await</span><br>
+            async function fetchData() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let response = await fetch('/api/data');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let data = await response.json();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.error(error);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 6 summary</strong><br>JavaScript is the language of the web, enabling interactivity, DOM manipulation, and dynamic content in the browser.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• JavaScript: client-side scripting language.<br>• Integration: inline, internal, external.<br>• Output: console.log, alert, DOM manipulation.<br>• Variables: let, const, var (avoid).<br>• Data types: primitive and reference.<br>• Functions: declarations, expressions, arrows.<br>• Arrays &amp; objects: essential data structures.<br>• DOM: select, modify, create, delete elements.<br>• Events: handle user interactions.<br>• ES6+: modern JavaScript features.</div>
+    </div>
 </body>
 </html>

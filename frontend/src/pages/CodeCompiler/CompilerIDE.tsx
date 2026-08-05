@@ -117,7 +117,7 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
 
   // Reset on language change
   useEffect(() => {
-    const initial = getInitialFiles(language);
+    const initial = overrideInitialFiles || getInitialFiles(language);
     setFiles(initial);
     setActiveFile(initial[0].name);
     setConsoleOutput("");
@@ -127,7 +127,7 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
     setActiveRightTab(isWeb ? "preview" : "console");
     if (isWeb) setTimeout(() => handleRun(), 200);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language.id]);
+  }, [language.id, overrideInitialFiles]);
 
   // Scroll console to bottom on new output
   useEffect(() => {

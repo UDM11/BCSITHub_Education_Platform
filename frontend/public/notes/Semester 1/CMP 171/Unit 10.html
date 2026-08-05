@@ -1,164 +1,645 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 10: Current Trends in Computing</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
     </style>
 </head>
 <body>
     <h1>Unit 10: Current Trends in Computing</h1>
+    <div class="subhead">Data science · AI · cloud · blockchain · IoT · BI · and emerging technologies</div>
 
+    <!-- ========== 10.1 ========== -->
     <div class="section">
         <h2>10.1 Data Warehousing and Data Mining</h2>
-        <p>Data warehousing and data mining are techniques for storing and analyzing large volumes of data to extract valuable insights.</p>
+        <p><strong>Data warehousing</strong> and <strong>data mining</strong> are complementary techniques for storing and analyzing large volumes of data to extract valuable insights for decision-making.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📦 Data Warehousing</strong><br>Centralized repository that collects and stores data from multiple sources. Optimized for querying and reporting. Supports historical data analysis and business intelligence.</div>
+            <div class="card"><strong>⛏️ Data Mining</strong><br>Process of discovering patterns, correlations, and trends in large datasets using statistical and machine learning techniques.</div>
+        </div>
+
+        <h3>Data Warehousing</h3>
         <ul>
-            <li><strong>Data Warehousing:</strong> Involves collecting and storing data from multiple sources in a centralized repository for analysis and reporting.</li>
-            <li><strong>Data Mining:</strong> Extracts patterns, trends, or knowledge from large datasets using techniques like clustering and classification.</li>
-            <li><strong>Examples:</strong> Retail companies use data warehouses for sales analysis and data mining to predict customer buying patterns.</li>
+            <li><strong>Purpose:</strong> Provide a single, consistent view of data for analysis and reporting.</li>
+            <li><strong>ETL Process:</strong> Extract, Transform, Load — data is extracted from sources, transformed to a consistent format, and loaded into the warehouse.</li>
+            <li><strong>Characteristics:</strong> Subject-oriented, integrated, non-volatile, time-variant.</li>
+            <li><strong>Architecture:</strong> Data sources → ETL → Data Warehouse → Data Marts → BI Tools.</li>
+            <li><strong>Tools:</strong> Amazon Redshift, Google BigQuery, Snowflake, Oracle Exadata.</li>
         </ul>
+
+        <h3>Data Mining</h3>
+        <ul>
+            <li><strong>Techniques:</strong> Classification, Clustering, Regression, Association Rule Mining, Anomaly Detection.</li>
+            <li><strong>Applications:</strong> Customer segmentation, fraud detection, market basket analysis, predictive maintenance.</li>
+            <li><strong>Examples:</strong> Retailers mining purchase patterns to recommend products; banks detecting fraudulent transactions.</li>
+        </ul>
+
+        <table>
+            <tr><th>Aspect</th><th>Data Warehousing</th><th>Data Mining</th></tr>
+            <tr><td>Purpose</td><td>Store and organize data</td><td>Extract insights and patterns</td></tr>
+            <tr><td>Process</td><td>ETL (Extract, Transform, Load)</td><td>Analysis and modeling</td></tr>
+            <tr><td>Output</td><td>Structured, queryable data</td><td>Patterns, predictions, models</td></tr>
+            <tr><td>Examples</td><td>Sales data repository</td><td>Customer buying patterns</td></tr>
+        </table>
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> Data warehousing provides the foundation for data mining. Without a well-organized warehouse, mining becomes inefficient and unreliable.
+        </div>
     </div>
 
+    <!-- ========== 10.2 ========== -->
     <div class="section">
         <h2>10.2 Big Data</h2>
-        <p>Big Data refers to massive datasets that are too large or complex to process using traditional methods, characterized by volume, velocity, and variety.</p>
+        <p><strong>Big Data</strong> refers to extremely large and complex datasets that traditional data processing systems cannot handle efficiently. It is characterized by the <strong>3 Vs</strong>: Volume, Velocity, and Variety.</p>
+
+        <h3>The 3 Vs of Big Data</h3>
         <ul>
-            <li><strong>Characteristics:</strong> High volume (large data size), velocity (speed of data generation), and variety (diverse data types).</li>
-            <li><strong>Technologies:</strong> Tools like Hadoop, Spark, and NoSQL databases handle Big Data processing.</li>
-            <li><strong>Examples:</strong> Social media analytics or real-time traffic data processing.</li>
+            <li><strong>Volume:</strong> Massive scale of data — from terabytes to petabytes and beyond. Generated by social media, IoT, sensors, and transactions.</li>
+            <li><strong>Velocity:</strong> Speed at which data is generated and processed — real-time or near-real-time streams.</li>
+            <li><strong>Variety:</strong> Diverse data types — structured (tables), semi-structured (JSON, XML), and unstructured (text, images, video).</li>
+        </ul>
+
+        <h3>Additional Vs</h3>
+        <ul>
+            <li><strong>Veracity:</strong> Trustworthiness and quality of data — dealing with noise, bias, and inconsistencies.</li>
+            <li><strong>Value:</strong> Extracting meaningful insights and business value from data.</li>
+            <li><strong>Variability:</strong> Changing data structures and meanings over time.</li>
+        </ul>
+
+        <h3>Big Data Technologies</h3>
+        <ul>
+            <li><strong>Storage:</strong> Hadoop HDFS, NoSQL databases (MongoDB, Cassandra), cloud storage.</li>
+            <li><strong>Processing:</strong> Apache Spark, Hadoop MapReduce, Apache Flink.</li>
+            <li><strong>Querying:</strong> Hive, Pig, Presto.</li>
+            <li><strong>Streaming:</strong> Kafka, Apache Storm, AWS Kinesis.</li>
+        </ul>
+
+        <h3>Applications</h3>
+        <ul>
+            <li><strong>Social Media:</strong> Analyzing user behavior and trends.</li>
+            <li><strong>Healthcare:</strong> Genomic data analysis, patient monitoring.</li>
+            <li><strong>Finance:</strong> Fraud detection, algorithmic trading.</li>
+            <li><strong>IoT:</strong> Real-time sensor data processing.</li>
         </ul>
     </div>
 
+    <!-- ========== 10.3 ========== -->
     <div class="section">
         <h2>10.3 Data Science</h2>
-        <p>Data Science combines statistics, computer science, and domain expertise to extract insights from structured and unstructured data.</p>
+        <p><strong>Data Science</strong> is an interdisciplinary field that combines statistics, computer science, mathematics, and domain expertise to extract actionable insights from data. It encompasses the entire data lifecycle from collection to deployment.</p>
+
+        <h3>Data Science Process</h3>
         <ul>
-            <li><strong>Process:</strong> Involves data collection, cleaning, analysis, and visualization to inform decision-making.</li>
-            <li><strong>Tools:</strong> Uses languages like Python, R, and platforms like Jupyter Notebook.</li>
-            <li><strong>Examples:</strong> Predicting customer churn or analyzing healthcare trends.</li>
+            <li><strong>1. Problem Definition:</strong> Understand the business problem and define objectives.</li>
+            <li><strong>2. Data Collection:</strong> Gather data from various sources (databases, APIs, web scraping).</li>
+            <li><strong>3. Data Cleaning:</strong> Handle missing values, outliers, and inconsistencies.</li>
+            <li><strong>4. Exploratory Data Analysis (EDA):</strong> Visualize and understand data distributions and relationships.</li>
+            <li><strong>5. Feature Engineering:</strong> Create meaningful features for modeling.</li>
+            <li><strong>6. Modeling:</strong> Apply statistical and machine learning models.</li>
+            <li><strong>7. Evaluation:</strong> Assess model performance using metrics.</li>
+            <li><strong>8. Deployment:</strong> Deploy models into production for real-world use.</li>
         </ul>
+
+        <h3>Tools and Technologies</h3>
+        <ul>
+            <li><strong>Programming Languages:</strong> Python, R, SQL.</li>
+            <li><strong>Libraries:</strong> Pandas, NumPy, Scikit-learn, TensorFlow, PyTorch.</li>
+            <li><strong>Visualization:</strong> Matplotlib, Seaborn, Tableau, Power BI.</li>
+            <li><strong>Platforms:</strong> Jupyter Notebook, Google Colab, Kaggle.</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>📊 Key insight:</strong> Data science is not just about algorithms — it's about asking the right questions and translating data insights into business value.
+        </div>
     </div>
 
+    <!-- ========== 10.4 ========== -->
     <div class="section">
         <h2>10.4 Artificial Intelligence</h2>
-        <p>Artificial Intelligence (AI) enables machines to mimic human intelligence, performing tasks like reasoning, learning, and problem-solving.</p>
+        <p><strong>Artificial Intelligence (AI)</strong> is the simulation of human intelligence in machines that are programmed to think, learn, and make decisions. It is one of the most transformative technologies of the 21st century.</p>
+
+        <h3>AI Subfields</h3>
         <ul>
-            <li><strong>Applications:</strong> Includes natural language processing, image recognition, and autonomous systems.</li>
-            <li><strong>Technologies:</strong> Relies on neural networks, algorithms, and vast datasets.</li>
-            <li><strong>Examples:</strong> Virtual assistants like Siri or AI-driven recommendation systems on streaming platforms.</li>
+            <li><strong>Natural Language Processing (NLP):</strong> Understanding and generating human language (ChatGPT, translation).</li>
+            <li><strong>Computer Vision:</strong> Enabling machines to interpret visual information (face recognition, autonomous vehicles).</li>
+            <li><strong>Robotics:</strong> Designing intelligent machines for automation and tasks.</li>
+            <li><strong>Expert Systems:</strong> Mimicking human expertise in specific domains (medical diagnosis).</li>
+            <li><strong>Speech Recognition:</strong> Converting spoken language to text (Siri, Alexa).</li>
         </ul>
+
+        <h3>AI Applications</h3>
+        <ul>
+            <li><strong>Healthcare:</strong> Disease diagnosis, drug discovery, personalized medicine.</li>
+            <li><strong>Transportation:</strong> Self-driving cars, traffic prediction, route optimization.</li>
+            <li><strong>Finance:</strong> Algorithmic trading, fraud detection, credit scoring.</li>
+            <li><strong>Retail:</strong> Recommendation systems, demand forecasting, customer service chatbots.</li>
+            <li><strong>Education:</strong> Personalized learning, automated grading, tutoring systems.</li>
+        </ul>
+
+        <table>
+            <tr><th>AI Subfield</th><th>Purpose</th><th>Examples</th></tr>
+            <tr><td>NLP</td><td>Language understanding</td><td>ChatGPT, Google Translate</td></tr>
+            <tr><td>Computer Vision</td><td>Visual interpretation</td><td>Face recognition, autonomous cars</td></tr>
+            <tr><td>Robotics</td><td>Automation</td><td>Industrial robots, drones</td></tr>
+            <tr><td>Speech Recognition</td><td>Voice-to-text</td><td>Siri, Alexa, Google Assistant</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 10.5 ========== -->
     <div class="section">
         <h2>10.5 Machine Learning</h2>
-        <p>Machine Learning (ML) is a subset of AI that enables systems to learn from data and improve performance without explicit programming.</p>
+        <p><strong>Machine Learning (ML)</strong> is a subset of AI that enables systems to learn from data and improve performance over time without explicit programming.</p>
+
+        <h3>Types of Machine Learning</h3>
         <ul>
-            <li><strong>Types:</strong> Supervised learning (labeled data), unsupervised learning (unlabeled data), and reinforcement learning.</li>
-            <li><strong>Algorithms:</strong> Includes decision trees, neural networks, and support vector machines.</li>
-            <li><strong>Examples:</strong> Spam email filtering or predictive maintenance in manufacturing.</li>
+            <li><strong>Supervised Learning:</strong> Models learn from labeled data (input-output pairs). Used for classification and regression tasks.</li>
+            <li><strong>Unsupervised Learning:</strong> Models find patterns in unlabeled data. Used for clustering and dimensionality reduction.</li>
+            <li><strong>Reinforcement Learning:</strong> Models learn through trial and error by receiving rewards or penalties.</li>
+            <li><strong>Semi-Supervised Learning:</strong> Combines labeled and unlabeled data for training.</li>
         </ul>
+
+        <h3>Common ML Algorithms</h3>
+        <ul>
+            <li><strong>Classification:</strong> Logistic Regression, Decision Trees, Random Forest, SVM, Neural Networks.</li>
+            <li><strong>Clustering:</strong> K-Means, DBSCAN, Hierarchical Clustering.</li>
+            <li><strong>Regression:</strong> Linear Regression, Ridge, Lasso.</li>
+            <li><strong>Deep Learning:</strong> CNNs (images), RNNs/LSTMs (sequences), Transformers (NLP).</li>
+        </ul>
+
+        <h3>Applications</h3>
+        <ul>
+            <li><strong>Spam Detection:</strong> Classify emails as spam or not.</li>
+            <li><strong>Recommendation Systems:</strong> Netflix, Amazon, Spotify recommendations.</li>
+            <li><strong>Predictive Maintenance:</strong> Predict equipment failure before it happens.</li>
+            <li><strong>Fraud Detection:</strong> Identify suspicious transactions in real-time.</li>
+        </ul>
+
+        <div class="code-block">
+            <span># Example: Simple Linear Regression (Python)</span><br>
+            from sklearn.linear_model import LinearRegression<br>
+            from sklearn.model_selection import train_test_split<br><br>
+            X_train, X_test, y_train, y_test = train_test_split(X, y)<br>
+            model = LinearRegression()<br>
+            model.fit(X_train, y_train)<br>
+            predictions = model.predict(X_test)
+        </div>
     </div>
 
+    <!-- ========== 10.6 ========== -->
     <div class="section">
         <h2>10.6 Cloud Computing</h2>
-        <p>Cloud Computing delivers computing services like storage, processing, and software over the Internet, offering scalability and flexibility.</p>
+        <p><strong>Cloud computing</strong> delivers computing services — servers, storage, databases, networking, software, and analytics — over the internet ("the cloud"). It offers on-demand access to resources with pay-as-you-go pricing.</p>
+
+        <h3>Cloud Service Models</h3>
         <ul>
-            <li><strong>Types:</strong> Public, private, and hybrid clouds; services include IaaS, PaaS, and SaaS.</li>
-            <li><strong>Benefits:</strong> Cost efficiency, scalability, and remote access to resources.</li>
-            <li><strong>Examples:</strong> Amazon Web Services (AWS), Google Cloud, or Microsoft Azure.</li>
+            <li><strong>IaaS (Infrastructure as a Service):</strong> Virtualized computing resources (AWS EC2, Azure VMs, GCP Compute Engine).</li>
+            <li><strong>PaaS (Platform as a Service):</strong> Development and deployment platforms (Google App Engine, AWS Elastic Beanstalk).</li>
+            <li><strong>SaaS (Software as a Service):</strong> Ready-to-use software over the internet (Salesforce, Google Workspace, Microsoft 365).</li>
         </ul>
+
+        <h3>Cloud Deployment Models</h3>
+        <ul>
+            <li><strong>Public Cloud:</strong> Services offered over the internet by third-party providers (AWS, Azure, GCP).</li>
+            <li><strong>Private Cloud:</strong> Dedicated cloud infrastructure for a single organization.</li>
+            <li><strong>Hybrid Cloud:</strong> Combination of public and private cloud.</li>
+            <li><strong>Multi-Cloud:</strong> Using multiple cloud providers.</li>
+        </ul>
+
+        <h3>Benefits</h3>
+        <ul>
+            <li><strong>Scalability:</strong> Scale resources up or down based on demand.</li>
+            <li><strong>Cost Efficiency:</strong> Pay only for what you use — no upfront hardware costs.</li>
+            <li><strong>Global Reach:</strong> Access services from anywhere in the world.</li>
+            <li><strong>Security:</strong> Cloud providers invest heavily in security infrastructure.</li>
+            <li><strong>Innovation:</strong> Access to cutting-edge technologies (AI, ML, analytics).</li>
+        </ul>
+
+        <table>
+            <tr><th>Model</th><th>What You Get</th><th>Control</th><th>Examples</th></tr>
+            <tr><td>IaaS</td><td>Infrastructure (servers, storage, networking)</td><td>High</td><td>AWS EC2, Azure VMs</td></tr>
+            <tr><td>PaaS</td><td>Platform for development</td><td>Medium</td><td>Google App Engine, Heroku</td></tr>
+            <tr><td>SaaS</td><td>Ready-to-use applications</td><td>Low</td><td>Gmail, Salesforce, Office 365</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 10.7 ========== -->
     <div class="section">
         <h2>10.7 Blockchain Technology</h2>
-        <p>Blockchain is a decentralized, secure ledger technology that records transactions across multiple computers, ensuring transparency and immutability.</p>
+        <p><strong>Blockchain</strong> is a distributed, decentralized ledger that records transactions across multiple computers. It ensures transparency, security, and immutability of data.</p>
+
+        <h3>Key Features</h3>
         <ul>
-            <li><strong>Features:</strong> Distributed ledger, cryptographic security, and consensus mechanisms.</li>
-            <li><strong>Applications:</strong> Used in cryptocurrencies, supply chain tracking, and smart contracts.</li>
-            <li><strong>Examples:</strong> Bitcoin, Ethereum, or blockchain-based supply chain systems.</li>
+            <li><strong>Decentralization:</strong> No single authority controls the network — distributed across nodes.</li>
+            <li><strong>Immutability:</strong> Once recorded, data cannot be altered or deleted.</li>
+            <li><strong>Transparency:</strong> All transactions are visible to network participants.</li>
+            <li><strong>Security:</strong> Cryptographic algorithms protect data integrity.</li>
+            <li><strong>Consensus Mechanisms:</strong> PoW (Proof of Work), PoS (Proof of Stake), and others.</li>
         </ul>
+
+        <h3>Applications</h3>
+        <ul>
+            <li><strong>Cryptocurrencies:</strong> Bitcoin, Ethereum, Dogecoin.</li>
+            <li><strong>Supply Chain:</strong> Track product provenance, ensure authenticity.</li>
+            <li><strong>Smart Contracts:</strong> Self-executing contracts with terms directly written in code.</li>
+            <li><strong>Digital Identity:</strong> Secure, verifiable digital identities.</li>
+            <li><strong>Healthcare:</strong> Secure patient data sharing.</li>
+            <li><strong>Voting Systems:</strong> Transparent, tamper-proof voting.</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+Blockchain Structure:
+[Block 1] → [Block 2] → [Block 3] → ...
+  └─ Hash    └─ Hash    └─ Hash
+  └─ Data    └─ Data    └─ Data
+  └─ Prev    └─ Prev    └─ Prev
+            </pre>
+        </div>
+
+        <div class="note-box">
+            <strong>🔗 Key insight:</strong> Blockchain eliminates the need for trusted intermediaries by enabling peer-to-peer transactions with built-in trust through cryptography.
+        </div>
     </div>
 
+    <!-- ========== 10.8 ========== -->
     <div class="section">
         <h2>10.8 Digital Marketing</h2>
-        <p>Digital Marketing leverages online platforms and technologies to promote products or services, targeting audiences through data-driven strategies.</p>
+        <p><strong>Digital marketing</strong> uses digital channels and technologies to promote products, services, and brands. It leverages data-driven strategies to reach and engage target audiences.</p>
+
+        <h3>Digital Marketing Channels</h3>
         <ul>
-            <li><strong>Channels:</strong> Includes social media, SEO, email marketing, and online advertising.</li>
-            <li><strong>Techniques:</strong> Uses analytics, targeted ads, and content marketing for engagement.</li>
-            <li><strong>Examples:</strong> Google Ads campaigns or social media promotions on Instagram.</li>
+            <li><strong>Search Engine Optimization (SEO):</strong> Optimize websites for better organic search rankings.</li>
+            <li><strong>Search Engine Marketing (SEM):</strong> Paid advertising on search engines (Google Ads).</li>
+            <li><strong>Social Media Marketing:</strong> Promote on Facebook, Instagram, Twitter, LinkedIn, TikTok.</li>
+            <li><strong>Email Marketing:</strong> Targeted email campaigns for lead nurturing and retention.</li>
+            <li><strong>Content Marketing:</strong> Create valuable content to attract and engage audiences.</li>
+            <li><strong>Influencer Marketing:</strong> Partner with influencers to reach their followers.</li>
+            <li><strong>Affiliate Marketing:</strong> Earn commissions by promoting products.</li>
+        </ul>
+
+        <h3>Key Technologies</h3>
+        <ul>
+            <li><strong>Analytics:</strong> Google Analytics, Adobe Analytics.</li>
+            <li><strong>CRM:</strong> Salesforce, HubSpot.</li>
+            <li><strong>Marketing Automation:</strong> Mailchimp, Marketo.</li>
+            <li><strong>Ad Platforms:</strong> Google Ads, Facebook Ads, LinkedIn Ads.</li>
+        </ul>
+
+        <h3>Trends in Digital Marketing</h3>
+        <ul>
+            <li><strong>Personalization:</strong> Tailored experiences based on user behavior and preferences.</li>
+            <li><strong>AI Integration:</strong> Chatbots, predictive analytics, automated content creation.</li>
+            <li><strong>Video Marketing:</strong> Short-form videos (TikTok, Reels), live streaming.</li>
+            <li><strong>Voice Search:</strong> Optimizing for voice-assisted searches.</li>
         </ul>
     </div>
 
+    <!-- ========== 10.9 ========== -->
     <div class="section">
         <h2>10.9 Internet of Things</h2>
-        <p>The Internet of Things (IoT) connects physical devices to the Internet, enabling data exchange and automation.</p>
+        <p>The <strong>Internet of Things (IoT)</strong> is a network of physical devices embedded with sensors, software, and connectivity to collect and exchange data. It connects the physical world to the digital world.</p>
+
+        <h3>IoT Components</h3>
         <ul>
-            <li><strong>Components:</strong> Devices with sensors, connectivity, and data processing capabilities.</li>
-            <li><strong>Applications:</strong> Smart homes, healthcare monitoring, and industrial automation.</li>
-            <li><strong>Examples:</strong> Smart thermostats like Nest or IoT-enabled wearable health devices.</li>
+            <li><strong>Sensors:</strong> Detect and measure physical conditions (temperature, motion, light).</li>
+            <li><strong>Connectivity:</strong> Wi-Fi, Bluetooth, Zigbee, LoRa, 5G.</li>
+            <li><strong>Data Processing:</strong> Edge computing (local processing) or cloud computing.</li>
+            <li><strong>User Interface:</strong> Dashboards, mobile apps, web portals.</li>
         </ul>
+
+        <h3>Applications</h3>
+        <ul>
+            <li><strong>Smart Home:</strong> Thermostats (Nest), lighting, security cameras, door locks.</li>
+            <li><strong>Healthcare:</strong> Wearable fitness trackers, remote patient monitoring, smart pills.</li>
+            <li><strong>Industrial IoT (IIoT):</strong> Predictive maintenance, automation, supply chain tracking.</li>
+            <li><strong>Smart Cities:</strong> Traffic management, waste management, smart lighting.</li>
+            <li><strong>Agriculture:</strong> Precision farming, soil monitoring, automated irrigation.</li>
+        </ul>
+
+        <h3>Challenges</h3>
+        <ul>
+            <li><strong>Security:</strong> Vulnerable devices can be hacked.</li>
+            <li><strong>Privacy:</strong> Extensive data collection raises privacy concerns.</li>
+            <li><strong>Interoperability:</strong> Lack of standardization across devices and platforms.</li>
+            <li><strong>Data Volume:</strong> Managing and analyzing massive amounts of data.</li>
+        </ul>
+
+        <table>
+            <tr><th>Sector</th><th>IoT Application</th><th>Example</th></tr>
+            <tr><td>Smart Home</td><td>Home automation</td><td>Nest Thermostat, Ring Doorbell</td></tr>
+            <tr><td>Healthcare</td><td>Patient monitoring</td><td>Fitbit, Apple Watch, glucose monitors</td></tr>
+            <tr><td>Industry</td><td>Predictive maintenance</td><td>Sensor-equipped machinery</td></tr>
+            <tr><td>Smart City</td><td>Infrastructure management</td><td>Smart streetlights, traffic sensors</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 10.10 ========== -->
     <div class="section">
         <h2>10.10 Geographical Information System</h2>
-        <p>Geographical Information System (GIS) captures, analyzes, and visualizes spatial and geographic data for decision-making.</p>
+        <p>A <strong>Geographical Information System (GIS)</strong> captures, stores, analyzes, and visualizes spatial and geographic data. It combines maps with data to support decision-making.</p>
+
+        <h3>Key Functions</h3>
         <ul>
-            <li><strong>Functions:</strong> Maps data, analyzes spatial patterns, and supports urban planning or environmental monitoring.</li>
-            <li><strong>Tools:</strong> Software like ArcGIS or QGIS for mapping and analysis.</li>
-            <li><strong>Examples:</strong> Mapping flood zones or tracking urban development.</li>
+            <li><strong>Mapping:</strong> Create and customize maps with layers of information.</li>
+            <li><strong>Spatial Analysis:</strong> Analyze patterns, relationships, and trends in geographic data.</li>
+            <li><strong>Data Visualization:</strong> Represent data through thematic maps, charts, and 3D models.</li>
+            <li><strong>Geocoding:</strong> Convert addresses to geographic coordinates.</li>
         </ul>
+
+        <h3>Applications</h3>
+        <ul>
+            <li><strong>Urban Planning:</strong> Land use mapping, zoning, infrastructure planning.</li>
+            <li><strong>Environmental Science:</strong> Climate modeling, deforestation tracking, wildlife conservation.</li>
+            <li><strong>Emergency Response:</strong> Disaster management, evacuation planning, resource allocation.</li>
+            <li><strong>Transportation:</strong> Route optimization, traffic analysis, logistics planning.</li>
+            <li><strong>Real Estate:</strong> Site selection, property valuation, demographic analysis.</li>
+        </ul>
+
+        <h3>GIS Tools</h3>
+        <ul>
+            <li><strong>ArcGIS:</strong> Industry-leading commercial GIS software.</li>
+            <li><strong>QGIS:</strong> Open-source, free GIS software.</li>
+            <li><strong>Google Earth Engine:</strong> Cloud-based platform for geospatial analysis.</li>
+            <li><strong>Leaflet:</strong> JavaScript library for interactive maps.</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>🗺️ Key insight:</strong> GIS transforms raw geographic data into actionable insights, supporting decisions in urban planning, environmental management, and disaster response.
+        </div>
     </div>
 
+    <!-- ========== 10.11 ========== -->
     <div class="section">
         <h2>10.11 Business Intelligence</h2>
-        <p>Business Intelligence (BI) uses data analysis tools and techniques to transform raw data into actionable insights for business decision-making.</p>
+        <p><strong>Business Intelligence (BI)</strong> refers to the technologies, processes, and tools used to collect, analyze, and present business data to support informed decision-making.</p>
+
+        <h3>BI Components</h3>
         <ul>
-            <li><strong>Components:</strong> Includes data visualization, dashboards, and reporting tools.</li>
-            <li><strong>Benefits:</strong> Improves strategic planning, operational efficiency, and market analysis.</li>
-            <li><strong>Examples:</strong> Tools like Tableau or Power BI for sales performance analysis.</li>
+            <li><strong>Data Collection:</strong> Integrate data from various sources (databases, spreadsheets, APIs).</li>
+            <li><strong>Data Warehousing:</strong> Centralized storage of historical data.</li>
+            <li><strong>Analytics:</strong> Descriptive (what happened), diagnostic (why it happened), predictive (what will happen), and prescriptive (what to do).</li>
+            <li><strong>Reporting:</strong> Generate dashboards, reports, and visualizations.</li>
+            <li><strong>Data Visualization:</strong> Present data in easy-to-understand formats (charts, graphs, heatmaps).</li>
         </ul>
+
+        <h3>BI Tools</h3>
+        <ul>
+            <li><strong>Tableau:</strong> Leading data visualization tool.</li>
+            <li><strong>Power BI:</strong> Microsoft's BI platform integrated with Office 365.</li>
+            <li><strong>Looker:</strong> Google's BI and analytics platform.</li>
+            <li><strong>QlikView:</strong> Self-service BI and analytics.</li>
+            <li><strong>Domo:</strong> Cloud-based BI platform.</li>
+        </ul>
+
+        <h3>Benefits</h3>
+        <ul>
+            <li><strong>Better Decision-Making:</strong> Data-driven insights reduce guesswork.</li>
+            <li><strong>Operational Efficiency:</strong> Identify bottlenecks and optimize processes.</li>
+            <li><strong>Competitive Advantage:</strong> Understand market trends and customer behavior.</li>
+            <li><strong>Revenue Growth:</strong> Identify opportunities for cross-selling and upselling.</li>
+            <li><strong>Risk Management:</strong> Detect and mitigate risks proactively.</li>
+        </ul>
+
+        <table>
+            <tr><th>BI Tool</th><th>Type</th><th>Key Feature</th><th>Best For</th></tr>
+            <tr><td>Tableau</td><td>Visualization</td><td>Interactive dashboards</td><td>Data analysts, enterprises</td></tr>
+            <tr><td>Power BI</td><td>Platform</td><td>Integration with Microsoft</td><td>Microsoft users</td></tr>
+            <tr><td>Looker</td><td>Platform</td><td>Modern data stack</td><td>Cloud-based analytics</td></tr>
+            <tr><td>QlikView</td><td>Platform</td><td>In-memory processing</td><td>Self-service BI</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>📈 Key insight:</strong> Business Intelligence turns raw data into meaningful insights. It empowers organizations to make smarter, faster, and more informed decisions.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 10 summary</strong><br>Current trends in computing include AI, ML, Cloud Computing, Blockchain, IoT, Data Science, and Business Intelligence.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Big Data: Volume, Velocity, Variety.<br>• AI/ML: Learning from data.<br>• Cloud: Scalable on-demand computing.<br>• Blockchain: Decentralized ledgers.<br>• IoT: Connected devices.<br>• BI: Data-driven decision making.</div>
     </div>
 </body>
 </html>

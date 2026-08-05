@@ -1,105 +1,484 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 8: Multimedia</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
     </style>
 </head>
 <body>
     <h1>Unit 8: Multimedia</h1>
+    <div class="subhead">Elements · web-based multimedia · applications · AR &amp; VR</div>
 
+    <!-- ========== 8.1 ========== -->
     <div class="section">
         <h2>8.1 Introduction</h2>
-        <p>Multimedia refers to the integration of multiple forms of media, such as text, graphics, audio, video, and animations, to deliver information or create engaging user experiences. It combines these elements to enhance communication and interaction in digital environments.</p>
+        <p><strong>Multimedia</strong> is the integration and interactive use of multiple forms of media — including text, graphics, audio, video, and animation — to convey information or create immersive experiences. It combines these elements to enhance communication, engagement, and understanding in digital environments.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🎯 Purpose</strong><br>To enrich content delivery by engaging multiple senses, making information more accessible, memorable, and interactive. Multimedia is used in education, entertainment, business, and more.</div>
+            <div class="card"><strong>🧩 Characteristics</strong><br>Interactive, multi-sensory, digital, and often delivered through computers, smartphones, tablets, or web platforms.</div>
+        </div>
         <ul>
-            <li><strong>Purpose:</strong> Multimedia enriches content delivery by combining various media types for better engagement and understanding.</li>
-            <li><strong>Characteristics:</strong> Interactive, multi-sensory, and delivered through platforms like computers, smartphones, or the web.</li>
-            <li><strong>Examples:</strong> Multimedia is used in video games, educational software, and online advertisements.</li>
+            <li><strong>Interactivity:</strong> Users can interact with multimedia content (click, navigate, control playback).</li>
+            <li><strong>Integration:</strong> Different media types are combined seamlessly to create a unified experience.</li>
+            <li><strong>Examples:</strong> Video games, e-learning platforms, interactive websites, digital advertising, virtual tours, and social media content.</li>
         </ul>
+        <div class="note-box">
+            <strong>💡 Core idea:</strong> Multimedia transforms passive content consumption into active, engaging experiences by leveraging multiple sensory channels.
+        </div>
     </div>
 
+    <!-- ========== 8.2 ========== -->
     <div class="section">
-        <h2>8.2 Elements of a Multimedia System (Graphics, Sound, Image File Format)</h2>
-        <p>A multimedia system integrates various elements to create a cohesive and interactive experience. Key elements include graphics, sound, and image file formats, each contributing to the overall impact.</p>
+        <h2>8.2 Elements of a Multimedia System</h2>
+        <p>A <strong>multimedia system</strong> integrates various media elements to create cohesive and interactive experiences. The key elements include <strong>graphics</strong>, <strong>sound</strong>, and <strong>image file formats</strong>, each contributing to the overall impact.</p>
+
+        <h3>Graphics</h3>
         <ul>
-            <li><strong>Graphics:</strong> Visual elements like drawings, charts, or diagrams created using tools such as Adobe Illustrator. They enhance visual appeal and simplify complex information.</li>
-            <li><strong>Sound:</strong> Audio components like music, voiceovers, or sound effects in formats such as MP3, WAV, or AAC, used to engage users emotionally or provide cues.</li>
-            <li><strong>Image File Format:</strong> Digital images stored in formats like JPEG (compressed, suitable for photos), PNG (supports transparency), or GIF (supports animations), used for visual storytelling.</li>
+            <li><strong>Definition:</strong> Visual elements such as drawings, illustrations, charts, diagrams, and photographs created using graphic design tools.</li>
+            <li><strong>Purpose:</strong> Enhance visual appeal, simplify complex information, and guide user attention.</li>
+            <li><strong>Types:</strong>
+                <ul>
+                    <li><strong>Raster Graphics:</strong> Pixel-based images (JPEG, PNG, GIF) — resolution-dependent, best for photographs.</li>
+                    <li><strong>Vector Graphics:</strong> Mathematical shapes (SVG, AI, EPS) — scalable without loss of quality, ideal for logos and illustrations.</li>
+                </ul>
+            </li>
+            <li><strong>Tools:</strong> Adobe Photoshop, Illustrator, GIMP, CorelDRAW, Canva.</li>
         </ul>
+
+        <h3>Sound (Audio)</h3>
+        <ul>
+            <li><strong>Definition:</strong> Audio components including music, voiceovers, sound effects, and ambient sounds.</li>
+            <li><strong>Purpose:</strong> Evoke emotions, provide auditory cues, enhance storytelling, and improve user engagement.</li>
+            <li><strong>Audio Formats:</strong>
+                <ul>
+                    <li><strong>Uncompressed:</strong> WAV, AIFF — high quality, large file size.</li>
+                    <li><strong>Lossy Compressed:</strong> MP3, AAC — smaller size, acceptable quality.</li>
+                    <li><strong>Lossless Compressed:</strong> FLAC, ALAC — high quality with compression.</li>
+                </ul>
+            </li>
+            <li><strong>Tools:</strong> Audacity, Adobe Audition, GarageBand, Pro Tools.</li>
+        </ul>
+
+        <h3>Image File Formats</h3>
+        <ul>
+            <li><strong>JPEG (Joint Photographic Experts Group):</strong> Lossy compression, suitable for photographs and realistic images. Small file size, widely supported.</li>
+            <li><strong>PNG (Portable Network Graphics):</strong> Lossless compression, supports transparency. Ideal for graphics, logos, and web images.</li>
+            <li><strong>GIF (Graphics Interchange Format):</strong> Supports animation and transparency. Limited to 256 colors, small file size.</li>
+            <li><strong>SVG (Scalable Vector Graphics):</strong> Vector format, scalable, lightweight, ideal for responsive web design.</li>
+            <li><strong>BMP (Bitmap):</strong> Uncompressed, large file size, used in legacy applications.</li>
+            <li><strong>WebP:</strong> Modern format with superior compression, supports both lossy and lossless, and transparency.</li>
+        </ul>
+
+        <table>
+            <tr><th>Element</th><th>Description</th><th>Common Formats</th><th>Tools</th></tr>
+            <tr><td>Graphics</td><td>Visual art, illustrations, charts</td><td>JPEG, PNG, SVG, GIF</td><td>Photoshop, Illustrator</td></tr>
+            <tr><td>Sound</td><td>Audio, music, voice, effects</td><td>MP3, WAV, AAC, FLAC</td><td>Audacity, Adobe Audition</td></tr>
+            <tr><td>Image Formats</td><td>Storage of digital images</td><td>JPEG, PNG, GIF, SVG, WebP</td><td>Various</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>🎨 Key insight:</strong> The choice of media format impacts quality, file size, and compatibility. Selecting the right format is crucial for performance and user experience.
+        </div>
     </div>
 
+    <!-- ========== 8.3 ========== -->
     <div class="section">
         <h2>8.3 Web-Based Multimedia</h2>
-        <p>Web-based multimedia refers to the use of multimedia elements delivered through websites or online platforms, accessible via browsers.</p>
+        <p><strong>Web-based multimedia</strong> refers to the integration and delivery of multimedia elements (text, images, audio, video, animations) through websites and web applications. It leverages web technologies to create dynamic, interactive, and engaging online experiences.</p>
+
+        <h3>Key Technologies</h3>
         <ul>
-            <li><strong>Features:</strong> Combines text, images, audio, video, and animations to create dynamic web content, often using HTML5, CSS, and JavaScript.</li>
-            <li><strong>Delivery:</strong> Streamed or embedded content, such as YouTube videos or interactive infographics, enhances user engagement.</li>
-            <li><strong>Examples:</strong> Streaming services like Netflix, interactive tutorials on educational websites, or animated ads.</li>
+            <li><strong>HTML5:</strong> Provides native support for audio and video elements without third-party plugins.</li>
+            <li><strong>CSS3:</strong> Enables animations, transitions, and responsive design for visually appealing layouts.</li>
+            <li><strong>JavaScript:</strong> Adds interactivity, dynamic content, and control over multimedia playback.</li>
+            <li><strong>WebGL:</strong> Enables 3D graphics and immersive experiences directly in the browser.</li>
+            <li><strong>Canvas and SVG:</strong> Used for rendering graphics and animations.</li>
         </ul>
+
+        <h3>Common Web-Based Multimedia Applications</h3>
+        <ul>
+            <li><strong>Video Streaming:</strong> YouTube, Netflix, Vimeo — deliver video content via adaptive streaming (HLS, DASH).</li>
+            <li><strong>Audio Streaming:</strong> Spotify, SoundCloud, Apple Music — stream music and podcasts.</li>
+            <li><strong>Interactive Media:</strong> Online games, interactive infographics, virtual tours.</li>
+            <li><strong>E-Learning:</strong> Educational videos, interactive simulations, and multimedia-rich course content.</li>
+            <li><strong>Social Media:</strong> Instagram, TikTok, Facebook — share and consume multimedia content.</li>
+        </ul>
+
+        <h3>Considerations for Web-Based Multimedia</h3>
+        <ul>
+            <li><strong>Bandwidth:</strong> Optimize media for various network speeds (adaptive bitrate streaming).</li>
+            <li><strong>Accessibility:</strong> Provide captions, transcripts, and alt text for inclusive access.</li>
+            <li><strong>Cross-Platform Compatibility:</strong> Ensure multimedia works across browsers and devices.</li>
+            <li><strong>Performance:</strong> Lazy loading, compression, and caching to improve load times.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>&lt;!-- HTML5 video example --&gt;</span><br>
+            &lt;video controls width="640" height="360"&gt;<br>
+                &lt;source src="video.mp4" type="video/mp4"&gt;<br>
+                &lt;source src="video.webm" type="video/webm"&gt;<br>
+                Your browser does not support the video tag.<br>
+            &lt;/video&gt;<br><br>
+            <span>&lt;!-- Audio example --&gt;</span><br>
+            &lt;audio controls&gt;<br>
+                &lt;source src="audio.mp3" type="audio/mpeg"&gt;<br>
+                Your browser does not support the audio element.<br>
+            &lt;/audio&gt;
+        </div>
     </div>
 
+    <!-- ========== 8.4 ========== -->
     <div class="section">
         <h2>8.4 Applications of Multimedia</h2>
-        <p>Multimedia is applied across various domains to enhance communication, education, and entertainment.</p>
+        <p>Multimedia has become integral to virtually every industry, transforming how information is created, delivered, and consumed.</p>
+
+        <h3>Education and Training</h3>
         <ul>
-            <li><strong>Education:</strong> Used in e-learning platforms, interactive simulations, and educational videos to improve learning outcomes.</li>
-            <li><strong>Entertainment:</strong> Powers video games, movies, and music streaming for immersive experiences.</li>
-            <li><strong>Business:</strong> Enhances presentations, marketing campaigns, and virtual product demos for better engagement.</li>
-            <li><strong>Healthcare:</strong> Supports medical training, patient education, and diagnostic visualizations.</li>
+            <li><strong>E-Learning Platforms:</strong> Coursera, Udemy, Khan Academy — use video lectures, interactive quizzes, and simulations.</li>
+            <li><strong>Virtual Labs:</strong> Simulate scientific experiments for remote learning.</li>
+            <li><strong>Educational Games:</strong> Gamified learning experiences for K-12 and professional training.</li>
+            <li><strong>Digital Textbooks:</strong> Multimedia-rich content with embedded videos, animations, and interactive elements.</li>
         </ul>
+
+        <h3>Entertainment and Media</h3>
+        <ul>
+            <li><strong>Video Games:</strong> Combine graphics, audio, and interactivity for immersive experiences.</li>
+            <li><strong>Movies and Streaming:</strong> Netflix, Disney+, YouTube — deliver video content globally.</li>
+            <li><strong>Music and Podcasts:</strong> Spotify, Apple Music, podcast platforms.</li>
+            <li><strong>Digital Art:</strong> Interactive installations, digital painting, generative art.</li>
+        </ul>
+
+        <h3>Business and Marketing</h3>
+        <ul>
+            <li><strong>Digital Advertising:</strong> Video ads, interactive banners, and rich media ads.</li>
+            <li><strong>Product Demonstrations:</strong> 3D product visualizations, virtual try-ons, and explainer videos.</li>
+            <li><strong>Presentations:</strong> Multimedia-rich slideshows (PowerPoint, Prezi) with video and audio.</li>
+            <li><strong>Virtual Events:</strong> Webinars, virtual conferences, and trade shows.</li>
+        </ul>
+
+        <h3>Healthcare</h3>
+        <ul>
+            <li><strong>Medical Training:</strong> VR simulations for surgical training and anatomy visualization.</li>
+            <li><strong>Patient Education:</strong> Animated videos explaining medical procedures and conditions.</li>
+            <li><strong>Diagnostic Imaging:</strong> 3D visualization of MRI, CT scans, and other medical imaging.</li>
+        </ul>
+
+        <h3>Other Applications</h3>
+        <ul>
+            <li><strong>Architecture and Design:</strong> 3D modeling, virtual walkthroughs, and CAD visualization.</li>
+            <li><strong>Tourism and Hospitality:</strong> Virtual tours of hotels, museums, and tourist attractions.</li>
+            <li><strong>Journalism:</strong> Interactive news articles with embedded video and data visualizations.</li>
+        </ul>
+
+        <table>
+            <tr><th>Industry</th><th>Application</th><th>Multimedia Elements Used</th></tr>
+            <tr><td>Education</td><td>E-Learning, Virtual Labs</td><td>Video, Animation, Interactive Quizzes</td></tr>
+            <tr><td>Entertainment</td><td>Games, Streaming</td><td>Graphics, Audio, Video, Interactivity</td></tr>
+            <tr><td>Business</td><td>Advertising, Demos</td><td>Video, 3D Graphics, Audio</td></tr>
+            <tr><td>Healthcare</td><td>Training, Patient Education</td><td>VR, Animation, Video</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 8.5 ========== -->
     <div class="section">
         <h2>8.5 Concept of Augmented and Virtual Reality</h2>
-        <p>Augmented Reality (AR) and Virtual Reality (VR) are advanced multimedia technologies that create immersive digital experiences.</p>
+        <p><strong>Augmented Reality (AR)</strong> and <strong>Virtual Reality (VR)</strong> are advanced multimedia technologies that create immersive digital experiences, transforming how users interact with digital content.</p>
+
+        <h3>Augmented Reality (AR)</h3>
         <ul>
-            <li><strong>Augmented Reality (AR):</strong> Overlays digital content (e.g., images, text) onto the real world, enhancing real-time environments, e.g., Pokémon GO or AR navigation apps.</li>
-            <li><strong>Virtual Reality (VR):</strong> Creates a fully immersive digital environment, isolating users from the real world, e.g., VR gaming or training simulations.</li>
-            <li><strong>Examples:</strong> AR in retail apps for virtual try-ons or VR in flight simulators for pilot training.</li>
+            <li><strong>Definition:</strong> AR overlays digital content (images, text, 3D models) onto the real-world environment in real-time, enhancing the user's perception of reality.</li>
+            <li><strong>Technology:</strong> Uses cameras, sensors, and displays on smartphones, tablets, or AR glasses (e.g., Microsoft HoloLens, Google Glass).</li>
+            <li><strong>Applications:</strong>
+                <ul>
+                    <li><strong>Retail:</strong> Virtual try-on for clothing, makeup, and furniture (IKEA Place).</li>
+                    <li><strong>Navigation:</strong> AR-powered directions overlayed on real-world streets (Google Maps Live View).</li>
+                    <li><strong>Gaming:</strong> Pokémon GO — overlay digital characters onto real-world environments.</li>
+                    <li><strong>Education:</strong> AR textbooks with interactive 3D models.</li>
+                    <li><strong>Healthcare:</strong> AR-assisted surgery and medical training.</li>
+                </ul>
+            </li>
         </ul>
+
+        <h3>Virtual Reality (VR)</h3>
+        <ul>
+            <li><strong>Definition:</strong> VR creates a fully immersive digital environment that replaces the real world. Users are completely isolated from their physical surroundings and interact within a virtual space.</li>
+            <li><strong>Technology:</strong> Uses VR headsets (Oculus Rift, HTC Vive, PlayStation VR), motion controllers, and sometimes full-body tracking.</li>
+            <li><strong>Applications:</strong>
+                <ul>
+                    <li><strong>Gaming:</strong> Immersive gaming experiences (Half-Life: Alyx, Beat Saber).</li>
+                    <li><strong>Training:</strong> Flight simulators, military training, surgical simulations.</li>
+                    <li><strong>Virtual Travel:</strong> Explore landmarks and destinations from anywhere.</li>
+                    <li><strong>Real Estate:</strong> Virtual property tours.</li>
+                    <li><strong>Social:</strong> VR meeting spaces and social platforms (VRChat, Horizon Worlds).</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>AR vs. VR Comparison</h3>
+        <ul>
+            <li><strong>AR:</strong> Enhances the real world by overlaying digital elements — user remains aware of their surroundings.</li>
+            <li><strong>VR:</strong> Replaces the real world with a fully digital environment — user is fully immersed and isolated from physical surroundings.</li>
+        </ul>
+
+        <h3>Mixed Reality (MR)</h3>
+        <ul>
+            <li><strong>Definition:</strong> MR blends AR and VR, allowing digital and physical objects to interact in real-time (e.g., Microsoft HoloLens).</li>
+            <li><strong>Applications:</strong> Advanced industrial design, collaborative workspaces, and complex training simulations.</li>
+        </ul>
+
+        <table>
+            <tr><th>Feature</th><th>Augmented Reality (AR)</th><th>Virtual Reality (VR)</th></tr>
+            <tr><td>Environment</td><td>Real world enhanced with digital content</td><td>Fully digital, immersive environment</td></tr>
+            <tr><td>User Awareness</td><td>Aware of physical surroundings</td><td>Isolated from physical world</td></tr>
+            <tr><td>Device</td><td>Smartphones, tablets, AR glasses</td><td>VR headsets, motion controllers</td></tr>
+            <tr><td>Examples</td><td>Pokémon GO, IKEA Place</td><td>Oculus Rift, HTC Vive</td></tr>
+            <tr><td>Primary Use</td><td>Education, retail, navigation</td><td>Gaming, training, simulation</td></tr>
+        </table>
+
+        <div class="figure-box">
+            <pre>
+Reality Spectrum:
+Physical World ←────────────────────────→ Virtual World
+    │                  │                      │
+    │    AR           │        MR           │    VR
+    │  (Enhanced)     │    (Mixed)          │ (Immersive)
+    └─────────────────────────────────────────┘
+            </pre>
+        </div>
+
+        <div class="note-box">
+            <strong>🚀 Future trend:</strong> AR and VR are converging with AI and 5G to enable more immersive, responsive, and accessible experiences. The Metaverse represents the next evolution of AR/VR integration.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 8 summary</strong><br>Multimedia integrates text, graphics, audio, video, and animation to create engaging digital experiences across industries.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Key elements: Graphics, Sound, Image Formats.<br>• Web-based multimedia uses HTML5, CSS, JS.<br>• Applications: Education, Entertainment, Business, Healthcare.<br>• AR enhances reality; VR creates immersive digital worlds.</div>
     </div>
 </body>
 </html>

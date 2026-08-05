@@ -1,174 +1,613 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 9: Computer Security and Privacy</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
     </style>
 </head>
 <body>
     <h1>Unit 9: Computer Security and Privacy</h1>
+    <div class="subhead">Security principles · access control · malware · encryption · cyber law · network security</div>
 
+    <!-- ========== 9.1 ========== -->
     <div class="section">
         <h2>9.1 Computer Security</h2>
-        <p>Computer security involves protecting computer systems, networks, and data from unauthorized access, attacks, or damage. It ensures the confidentiality, integrity, and availability of information.</p>
+        <p><strong>Computer security</strong> (also known as cybersecurity) is the practice of protecting computer systems, networks, and data from unauthorized access, theft, damage, or disruption. It encompasses a wide range of measures designed to ensure the <strong>confidentiality</strong>, <strong>integrity</strong>, and <strong>availability</strong> (CIA triad) of information.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🔒 Purpose</strong><br>To safeguard hardware, software, and data from threats such as hacking, malware, phishing, and insider threats.</div>
+            <div class="card"><strong>🧩 Components</strong><br>Access controls, encryption, firewalls, antivirus software, intrusion detection systems, and security policies.</div>
+        </div>
+
+        <h3>The CIA Triad</h3>
         <ul>
-            <li><strong>Purpose:</strong> Safeguards hardware, software, and data against threats like hacking, malware, and data breaches.</li>
-            <li><strong>Components:</strong> Includes access controls, encryption, and security software.</li>
-            <li><strong>Examples:</strong> Firewalls, antivirus programs, and secure authentication systems.</li>
+            <li><strong>Confidentiality:</strong> Ensuring that data is accessible only to authorized individuals. Achieved through encryption, access controls, and authentication.</li>
+            <li><strong>Integrity:</strong> Ensuring that data is accurate, complete, and has not been tampered with. Achieved through checksums, digital signatures, and version control.</li>
+            <li><strong>Availability:</strong> Ensuring that data and systems are accessible when needed. Achieved through redundancy, backups, and disaster recovery plans.</li>
         </ul>
+
+        <table>
+            <tr><th>Security Goal</th><th>Description</th><th>Protection Mechanisms</th></tr>
+            <tr><td>Confidentiality</td><td>Data is private and secure</td><td>Encryption, Access Control, MFA</td></tr>
+            <tr><td>Integrity</td><td>Data is accurate and untampered</td><td>Hashing, Digital Signatures, Auditing</td></tr>
+            <tr><td>Availability</td><td>Systems and data are accessible</td><td>Backups, Redundancy, DDoS Protection</td></tr>
+        </table>
+        <div class="note-box">
+            <strong>🛡️ Core idea:</strong> Computer security is not a single technology but a layered approach combining policies, procedures, and technical controls.
+        </div>
     </div>
 
+    <!-- ========== 9.2 ========== -->
     <div class="section">
         <h2>9.2 Access Control</h2>
-        <p>Access control restricts access to systems or data to authorized users only, preventing unauthorized use.</p>
+        <p><strong>Access control</strong> is the process of restricting access to systems, resources, and data to authorized users only. It is a fundamental security mechanism that prevents unauthorized use and protects sensitive information.</p>
+
+        <h3>Types of Access Control</h3>
         <ul>
-            <li><strong>Methods:</strong> Uses authentication (e.g., passwords, biometrics) and authorization (e.g., role-based permissions).</li>
-            <li><strong>Types:</strong> Discretionary (owner-based), mandatory (system-enforced), or role-based access control.</li>
-            <li><strong>Examples:</strong> Login credentials for a computer or restricted access to sensitive files.</li>
+            <li><strong>Discretionary Access Control (DAC):</strong> The owner of the resource determines who can access it. Common in file systems (e.g., file permissions).</li>
+            <li><strong>Mandatory Access Control (MAC):</strong> Access is determined by system policies based on security labels. Used in military and government systems.</li>
+            <li><strong>Role-Based Access Control (RBAC):</strong> Access is based on the user's role within the organization (e.g., admin, manager, employee).</li>
+            <li><strong>Attribute-Based Access Control (ABAC):</strong> Access is granted based on attributes (user, resource, environment). Dynamic and flexible.</li>
         </ul>
+
+        <h3>Access Control Components</h3>
+        <ul>
+            <li><strong>Authentication:</strong> Verifying the identity of a user (something you know, have, or are).</li>
+            <li><strong>Authorization:</strong> Determining what an authenticated user is allowed to do.</li>
+            <li><strong>Accounting (Auditing):</strong> Tracking user activities for security monitoring and compliance.</li>
+        </ul>
+
+        <table>
+            <tr><th>Access Control Model</th><th>Decision Maker</th><th>Use Case</th></tr>
+            <tr><td>DAC</td><td>Resource Owner</td><td>File systems, personal documents</td></tr>
+            <tr><td>MAC</td><td>System Policy</td><td>Military, government systems</td></tr>
+            <tr><td>RBAC</td><td>User Roles</td><td>Corporate applications, ERP</td></tr>
+            <tr><td>ABAC</td><td>Attributes</td><td>Cloud services, dynamic environments</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 9.3 ========== -->
     <div class="section">
         <h2>9.3 Protecting Against Unauthorized Access</h2>
-        <p>Protecting against unauthorized access involves implementing measures to prevent intruders from accessing systems or data.</p>
+        <p>Protecting against unauthorized access involves implementing multiple layers of defense to prevent intruders from gaining access to systems and data.</p>
+
+        <h3>Key Protection Measures</h3>
         <ul>
-            <li><strong>Techniques:</strong> Strong passwords, multi-factor authentication (MFA), and account lockout mechanisms.</li>
-            <li><strong>Monitoring:</strong> Tracks login attempts and flags suspicious activities.</li>
-            <li><strong>Examples:</strong> Using biometric authentication or security questions to secure user accounts.</li>
+            <li><strong>Strong Password Policies:</strong> Require complex passwords (min length, special characters, numbers). Enforce regular password changes.</li>
+            <li><strong>Multi-Factor Authentication (MFA):</strong> Requires two or more verification factors (e.g., password + OTP, biometric).</li>
+            <li><strong>Account Lockout:</strong> Temporarily lock accounts after multiple failed login attempts to prevent brute-force attacks.</li>
+            <li><strong>Session Management:</strong> Timeout inactive sessions, use secure session tokens.</li>
+            <li><strong>Intrusion Detection and Prevention:</strong> Monitor for suspicious activities and automatically block threats.</li>
+            <li><strong>Physical Security:</strong> Secure server rooms, use biometric access for data centers.</li>
         </ul>
+
+        <h3>Common Attack Vectors and Mitigations</h3>
+        <ul>
+            <li><strong>Brute Force:</strong> Mitigated by MFA, account lockout, and CAPTCHA.</li>
+            <li><strong>Phishing:</strong> Mitigated by user education, email filtering, and anti-phishing tools.</li>
+            <li><strong>Social Engineering:</strong> Mitigated by security awareness training and verification procedures.</li>
+        </ul>
+        <div class="note-box">
+            <strong>🔑 Key insight:</strong> The strongest security is layered (defense in depth). No single measure is sufficient; multiple controls work together to provide comprehensive protection.
+        </div>
     </div>
 
+    <!-- ========== 9.4 ========== -->
     <div class="section">
         <h2>9.4 Software Piracy</h2>
-        <p>Software piracy is the unauthorized copying, distribution, or use of software, violating licensing agreements.</p>
+        <p><strong>Software piracy</strong> is the unauthorized copying, distribution, or use of software that is protected by copyright or licensing agreements. It is a significant issue that affects both developers and users.</p>
+
+        <h3>Types of Software Piracy</h3>
         <ul>
-            <li><strong>Forms:</strong> Includes illegal downloads, counterfeit software, or using single-user licenses for multiple users.</li>
-            <li><strong>Impact:</strong> Causes financial losses to developers and increases security risks from unverified software.</li>
-            <li><strong>Examples:</strong> Downloading cracked versions of paid software like Adobe Photoshop.</li>
+            <li><strong>Counterfeiting:</strong> Illegal copying and distribution of software with fake packaging.</li>
+            <li><strong>OEM Piracy:</strong> Installing software on more computers than the license allows.</li>
+            <li><strong>Downloading Cracked Software:</strong> Using illegal keygens, cracks, or unauthorized copies from torrent sites.</li>
+            <li><strong>Corporate Piracy:</strong> Using one license for multiple users in an organization.</li>
+        </ul>
+
+        <h3>Consequences of Software Piracy</h3>
+        <ul>
+            <li><strong>Financial Losses:</strong> Developers lose revenue, which affects innovation and job creation.</li>
+            <li><strong>Security Risks:</strong> Pirated software often contains malware, spyware, or backdoors.</li>
+            <li><strong>Legal Consequences:</strong> Users and organizations can face fines and legal action.</li>
+            <li><strong>No Support:</strong> Pirated software does not receive updates or technical support.</li>
+        </ul>
+
+        <h3>Prevention and Alternatives</h3>
+        <ul>
+            <li><strong>Use Open Source Software:</strong> Alternatives like LibreOffice, GIMP, and Linux.</li>
+            <li><strong>Subscription Models:</strong> SaaS (Software as a Service) provides legal access at lower cost.</li>
+            <li><strong>Educational Discounts:</strong> Many vendors offer affordable licenses for students and educators.</li>
+            <li><strong>Digital Rights Management (DRM):</strong> Technical measures to prevent unauthorized copying.</li>
         </ul>
     </div>
 
+    <!-- ========== 9.5 ========== -->
     <div class="section">
         <h2>9.5 Computer Viruses (Spyware, Malware, Ransomware)</h2>
-        <p>Computer viruses are malicious programs designed to harm systems, steal data, or disrupt operations.</p>
+        <p><strong>Malicious software (malware)</strong> is any software designed to harm, exploit, or compromise computer systems. Understanding the different types helps in prevention and response.</p>
+
+        <h3>Types of Malware</h3>
         <ul>
-            <li><strong>Spyware:</strong> Secretly monitors user activity and collects sensitive information, e.g., keyloggers.</li>
-            <li><strong>Malware:</strong> General term for malicious software, including viruses, worms, and trojans.</li>
-            <li><strong>Ransomware:</strong> Locks or encrypts data, demanding payment for access, e.g., WannaCry.</li>
+            <li><strong>Virus:</strong> A program that attaches itself to legitimate files and spreads when executed. Can corrupt or delete data.</li>
+            <li><strong>Worm:</strong> Self-replicating malware that spreads across networks without user intervention (e.g., Morris Worm).</li>
+            <li><strong>Trojan Horse:</strong> Disguised as legitimate software but contains malicious payload (e.g., banking trojans).</li>
+            <li><strong>Spyware:</strong> Secretly monitors user activities, captures keystrokes, and steals personal information (e.g., keyloggers).</li>
+            <li><strong>Ransomware:</strong> Encrypts files and demands payment (ransom) for decryption (e.g., WannaCry, LockBit).</li>
+            <li><strong>Adware:</strong> Displays unwanted advertisements, often bundled with legitimate software.</li>
+            <li><strong>Rootkit:</strong> Provides hidden, privileged access to a computer, often used to conceal other malware.</li>
+            <li><strong>Fileless Malware:</strong> Resides in memory and uses legitimate system tools, making detection difficult.</li>
         </ul>
+
+        <table>
+            <tr><th>Malware Type</th><th>Purpose</th><th>Examples</th></tr>
+            <tr><td>Virus</td><td>Spread, corrupt files</td><td>CIH, Melissa</td></tr>
+            <tr><td>Worm</td><td>Self-replicate, spread</td><td>Morris Worm, Stuxnet</td></tr>
+            <tr><td>Trojan</td><td>Disguise, steal data</td><td>Zeus, Emotet</td></tr>
+            <tr><td>Spyware</td><td>Monitor, steal info</td><td>Keyloggers, Pegasus</td></tr>
+            <tr><td>Ransomware</td><td>Encrypt, extort money</td><td>WannaCry, Ryuk</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>⚠️ Key insight:</strong> Malware is constantly evolving. Regular updates, antivirus software, and cautious online behavior are essential for protection.
+        </div>
     </div>
 
+    <!-- ========== 9.6 ========== -->
     <div class="section">
         <h2>9.6 Anti-Virus</h2>
-        <p>Anti-virus software detects, prevents, and removes malicious programs to protect computer systems.</p>
+        <p><strong>Antivirus software</strong> (also called anti-malware) is designed to detect, prevent, and remove malicious software from computer systems. It is a critical component of computer security.</p>
+
+        <h3>How Antivirus Works</h3>
         <ul>
-            <li><strong>Functions:</strong> Scans files, monitors real-time activity, and updates virus definitions to combat new threats.</li>
-            <li><strong>Features:</strong> Includes quarantine, removal, and system repair capabilities.</li>
-            <li><strong>Examples:</strong> Norton, McAfee, and Windows Defender.</li>
+            <li><strong>Signature-Based Detection:</strong> Compares files against a database of known virus signatures (hashes).</li>
+            <li><strong>Heuristic Analysis:</strong> Detects suspicious behaviors and previously unknown threats based on patterns.</li>
+            <li><strong>Behavioral Monitoring:</strong> Observes program behavior in real-time to identify malicious activities.</li>
+            <li><strong>Cloud-Based Detection:</strong> Uses cloud resources for faster threat intelligence and updates.</li>
+        </ul>
+
+        <h3>Key Features</h3>
+        <ul>
+            <li><strong>Real-Time Scanning:</strong> Continuously monitors files, emails, and downloads for threats.</li>
+            <li><strong>Scheduled Scans:</strong> Perform full system scans at regular intervals.</li>
+            <li><strong>Quarantine:</strong> Isolates suspicious files to prevent damage.</li>
+            <li><strong>Automatic Updates:</strong> Regular updates to virus definitions protect against new threats.</li>
+            <li><strong>Web Protection:</strong> Blocks malicious websites and phishing attempts.</li>
+        </ul>
+
+        <h3>Popular Antivirus Solutions</h3>
+        <ul>
+            <li><strong>Free:</strong> Windows Defender (built-in), Avast Free, AVG Free, Bitdefender Free.</li>
+            <li><strong>Paid:</strong> Norton, McAfee, Kaspersky, ESET, Malwarebytes.</li>
+            <li><strong>Enterprise:</strong> Symantec Endpoint Protection, CrowdStrike, SentinelOne.</li>
         </ul>
     </div>
 
+    <!-- ========== 9.7 ========== -->
     <div class="section">
         <h2>9.7 Ethical Issues</h2>
-        <p>Ethical issues in computer security involve moral considerations in the use and management of technology.</p>
+        <p>Computer security involves significant <strong>ethical considerations</strong> related to privacy, data usage, and the responsibilities of technology professionals.</p>
+
+        <h3>Key Ethical Issues</h3>
         <ul>
-            <li><strong>Concerns:</strong> Includes privacy invasion, unauthorized data access, and misuse of technology for harmful purposes.</li>
-            <li><strong>Principles:</strong> Respect for user privacy, transparency, and accountability in system design.</li>
-            <li><strong>Examples:</strong> Ethical dilemmas in hacking (white-hat vs. black-hat) or data collection without consent.</li>
+            <li><strong>Privacy:</strong> Balancing security needs with individual privacy rights. Excessive surveillance can infringe on civil liberties.</li>
+            <li><strong>Data Collection:</strong> Ethical concerns about collecting, storing, and using personal data without consent.</li>
+            <li><strong>Hacking:</strong> The ethical divide between white-hat (ethical) hackers who help secure systems and black-hat hackers who exploit them.</li>
+            <li><strong>Disclosure:</strong> Responsible disclosure of vulnerabilities to vendors before public release.</li>
+            <li><strong>Surveillance:</strong> Government surveillance programs and their impact on citizen privacy.</li>
+        </ul>
+
+        <h3>Ethical Frameworks</h3>
+        <ul>
+            <li><strong>Professional Codes of Conduct:</strong> ACM, IEEE, and ISC² codes guide ethical behavior.</li>
+            <li><strong>Transparency:</strong> Organizations should be transparent about data collection and usage.</li>
+            <li><strong>Accountability:</strong> Individuals and organizations should be responsible for their security practices.</li>
         </ul>
     </div>
 
+    <!-- ========== 9.8 ========== -->
     <div class="section">
         <h2>9.8 Cyber Law</h2>
-        <p>Cyber law encompasses legal frameworks governing the use of computers, networks, and digital data.</p>
+        <p><strong>Cyber law</strong> (also called IT law) encompasses the legal frameworks governing the use of computers, networks, and digital data. It addresses cybercrimes, data protection, and intellectual property in the digital realm.</p>
+
+        <h3>Key Areas of Cyber Law</h3>
         <ul>
-            <li><strong>Purpose:</strong> Addresses cybercrimes like hacking, data theft, and online fraud.</li>
-            <li><strong>Regulations:</strong> Includes laws on data protection, intellectual property, and cybercrime penalties.</li>
-            <li><strong>Examples:</strong> GDPR (General Data Protection Regulation) in Europe or IT Act 2000 in India.</li>
+            <li><strong>Cybercrime:</strong> Criminal activities conducted via computers (hacking, fraud, identity theft).</li>
+            <li><strong>Data Protection:</strong> Laws protecting personal data from misuse (GDPR, CCPA).</li>
+            <li><strong>Intellectual Property:</strong> Copyright, patents, and trademarks in the digital domain.</li>
+            <li><strong>E-Commerce:</strong> Legal regulations for online transactions and digital signatures.</li>
+            <li><strong>Digital Evidence:</strong> Admissibility and handling of electronic evidence in legal proceedings.</li>
         </ul>
+
+        <h3>Important Cyber Laws Worldwide</h3>
+        <ul>
+            <li><strong>GDPR (EU):</strong> General Data Protection Regulation — protects personal data of EU citizens.</li>
+            <li><strong>CCPA (California):</strong> California Consumer Privacy Act — rights for data privacy.</li>
+            <li><strong>IT Act (India):</strong> Information Technology Act — governs cybercrime and e-commerce.</li>
+            <li><strong>CFAA (USA):</strong> Computer Fraud and Abuse Act — criminalizes unauthorized access.</li>
+            <li><strong>DPA (UK):</strong> Data Protection Act — implements GDPR in the UK.</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>⚖️ Key insight:</strong> Cyber law is constantly evolving to address emerging technologies and threats. Organizations must comply with relevant regulations to avoid legal penalties.
+        </div>
     </div>
 
+    <!-- ========== 9.9 ========== -->
     <div class="section">
         <h2>9.9 Network Security</h2>
-        <p>Network security protects the integrity, confidentiality, and availability of data transmitted across networks.</p>
+        <p><strong>Network security</strong> involves protecting the integrity, confidentiality, and availability of data during transmission across networks. It encompasses both hardware and software solutions.</p>
+
+        <h3>Network Security Threats</h3>
         <ul>
-            <li><strong>Techniques:</strong> Uses firewalls, intrusion detection systems, and secure protocols like HTTPS.</li>
-            <li><strong>Threats:</strong> Includes hacking, phishing, and denial-of-service (DoS) attacks.</li>
-            <li><strong>Examples:</strong> Securing Wi-Fi networks with WPA3 encryption or using VPNs for secure communication.</li>
+            <li><strong>Hacking:</strong> Unauthorized access to network resources.</li>
+            <li><strong>Phishing:</strong> Deceptive attacks to obtain sensitive information.</li>
+            <li><strong>Denial of Service (DoS):</strong> Overwhelming systems to make them unavailable.</li>
+            <li><strong>Man-in-the-Middle (MITM):</strong> Intercepting communication between parties.</li>
+            <li><strong>Eavesdropping:</strong> Unauthorized interception of network traffic.</li>
+        </ul>
+
+        <h3>Network Security Measures</h3>
+        <ul>
+            <li><strong>Firewalls:</strong> Control traffic based on rules.</li>
+            <li><strong>Intrusion Detection/Prevention Systems (IDS/IPS):</strong> Monitor and block threats.</li>
+            <li><strong>Virtual Private Networks (VPNs):</strong> Secure communication over public networks.</li>
+            <li><strong>Network Segmentation:</strong> Divide networks to limit threat spread.</li>
+            <li><strong>Secure Protocols:</strong> Use HTTPS, SSH, SFTP for encrypted communication.</li>
         </ul>
     </div>
 
+    <!-- ========== 9.10 ========== -->
     <div class="section">
         <h2>9.10 Hardware and Software Firewall</h2>
-        <p>Firewalls are security systems that monitor and control network traffic to protect systems from unauthorized access.</p>
+        <p>A <strong>firewall</strong> is a security system that monitors and controls incoming and outgoing network traffic based on predetermined security rules. Firewalls can be hardware-based, software-based, or a combination of both.</p>
+
+        <h3>Hardware Firewall</h3>
         <ul>
-            <li><strong>Hardware Firewall:</strong> Physical devices that filter traffic at the network level, e.g., routers with built-in firewalls.</li>
-            <li><strong>Software Firewall:</strong> Programs installed on devices to control incoming and outgoing traffic, e.g., Windows Firewall.</li>
-            <li><strong>Examples:</strong> Cisco ASA (hardware) or ZoneAlarm (software) firewalls.</li>
+            <li><strong>Description:</strong> Physical devices placed between a network and the internet (e.g., routers with built-in firewalls).</li>
+            <li><strong>Advantages:</strong> Centralized protection, no performance impact on individual devices, protects the entire network.</li>
+            <li><strong>Examples:</strong> Cisco ASA, Fortinet, Palo Alto Networks.</li>
         </ul>
+
+        <h3>Software Firewall</h3>
+        <ul>
+            <li><strong>Description:</strong> Programs installed on individual devices to control traffic.</li>
+            <li><strong>Advantages:</strong> Granular control per device, customizable rules, protection even outside the network.</li>
+            <li><strong>Examples:</strong> Windows Firewall, ZoneAlarm, Norton Firewall.</li>
+        </ul>
+
+        <h3>Comparison</h3>
+        <table>
+            <tr><th>Feature</th><th>Hardware Firewall</th><th>Software Firewall</th></tr>
+            <tr><td>Protection Scope</td><td>Entire network</td><td>Individual device</td></tr>
+            <tr><td>Performance Impact</td><td>Minimal</td><td>Uses system resources</td></tr>
+            <tr><td>Configuration</td><td>More complex</td><td>Simpler, per-device</td></tr>
+            <tr><td>Cost</td><td>Higher</td><td>Lower</td></tr>
+            <tr><td>Best For</td><td>Organizations, businesses</td><td>Individuals, home users</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 9.11 ========== -->
     <div class="section">
         <h2>9.11 Data and Message Security</h2>
-        <p>Data and message security ensures the protection of information during storage and transmission.</p>
+        <p><strong>Data and message security</strong> involves protecting information during storage (data at rest) and transmission (data in motion). It ensures confidentiality, integrity, and authenticity.</p>
+
+        <h3>Data Security (At Rest)</h3>
         <ul>
-            <li><strong>Data Security:</strong> Protects stored data using encryption, access controls, and backups.</li>
-            <li><strong>Message Security:</strong> Secures communication through protocols like SSL/TLS or end-to-end encryption.</li>
-            <li><strong>Examples:</strong> Encrypting sensitive files or using WhatsApp’s end-to-end encryption for messaging.</li>
+            <li><strong>Encryption:</strong> Encrypt data stored on devices (Full Disk Encryption, File-level encryption).</li>
+            <li><strong>Access Controls:</strong> Restrict who can read/write data.</li>
+            <li><strong>Backups:</strong> Regular backups to prevent data loss.</li>
+            <li><strong>Data Masking:</strong> Hide sensitive data elements in non-production environments.</li>
+            <li><strong>Hardware Security Modules (HSM):</strong> Secure key storage and crypto operations.</li>
+        </ul>
+
+        <h3>Message Security (In Transit)</h3>
+        <ul>
+            <li><strong>SSL/TLS:</strong> Secures HTTP traffic (HTTPS).</li>
+            <li><strong>End-to-End Encryption:</strong> Only sender and receiver can read messages (WhatsApp, Signal).</li>
+            <li><strong>VPN:</strong> Encrypts all traffic between device and server.</li>
+            <li><strong>Secure Email:</strong> PGP, S/MIME for email encryption.</li>
+        </ul>
+
+        <h3>Best Practices</h3>
+        <ul>
+            <li>Use strong encryption algorithms (AES-256, RSA-2048).</li>
+            <li>Implement secure key management.</li>
+            <li>Regularly update and patch systems.</li>
+            <li>Use secure communication protocols.</li>
         </ul>
     </div>
 
+    <!-- ========== 9.12 ========== -->
     <div class="section">
         <h2>9.12 Encryption and Decryption</h2>
-        <p>Encryption and decryption are processes to secure and access data by converting it into unreadable and readable formats, respectively.</p>
+        <p><strong>Encryption</strong> is the process of converting plaintext (readable data) into ciphertext (unreadable data) using an algorithm and a key. <strong>Decryption</strong> is the reverse process — converting ciphertext back to plaintext using a decryption key.</p>
+
+        <h3>Types of Encryption</h3>
         <ul>
-            <li><strong>Encryption:</strong> Converts data into a coded form using algorithms (e.g., AES, RSA) to prevent unauthorized access.</li>
-            <li><strong>Decryption:</strong> Reverses encryption to make data readable using a key.</li>
-            <li><strong>Examples:</strong> HTTPS websites use encryption to secure data transmission, and encrypted USB drives require keys for decryption.</li>
+            <li><strong>Symmetric Encryption:</strong> Same key for encryption and decryption. Fast but requires secure key exchange.</li>
+            <li><strong>Asymmetric Encryption:</strong> Two keys — public key for encryption, private key for decryption. Slower but more secure for key exchange.</li>
         </ul>
+
+        <h3>Common Encryption Algorithms</h3>
+        <ul>
+            <li><strong>Symmetric:</strong> AES (Advanced Encryption Standard), DES (Data Encryption Standard), Blowfish, Twofish.</li>
+            <li><strong>Asymmetric:</strong> RSA (Rivest-Shamir-Adleman), ECC (Elliptic Curve Cryptography), Diffie-Hellman.</li>
+            <li><strong>Hashing:</strong> SHA-256, MD5 (not recommended for security), bcrypt.</li>
+        </ul>
+
+        <h3>Encryption Applications</h3>
+        <ul>
+            <li><strong>HTTPS:</strong> Uses SSL/TLS to secure web traffic.</li>
+            <li><strong>VPNs:</strong> Encrypt all internet traffic.</li>
+            <li><strong>Email Encryption:</strong> PGP, S/MIME.</li>
+            <li><strong>File Encryption:</strong> BitLocker (Windows), FileVault (macOS), VeraCrypt.</li>
+            <li><strong>Messaging:</strong> End-to-end encryption in Signal, WhatsApp, Telegram.</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+Encryption Process:
+Plaintext → [Encryption Algorithm + Key] → Ciphertext
+
+Decryption Process:
+Ciphertext → [Decryption Algorithm + Key] → Plaintext
+
+Symmetric Key:    [Key] ←── Shared ──→ [Key]
+                    │                   │
+Asymmetric Key:   [Public Key] ←──→ [Private Key]
+                    │                   │
+                    ▼                   ▼
+                Encryption          Decryption
+            </pre>
+        </div>
+
+        <div class="code-block">
+            <span># Example: AES-256 symmetric encryption (Python)</span><br>
+            from cryptography.fernet import Fernet<br><br>
+            <span># Generate a key</span><br>
+            key = Fernet.generate_key()<br>
+            cipher = Fernet(key)<br><br>
+            <span># Encrypt</span><br>
+            plaintext = b"Hello, World!"<br>
+            ciphertext = cipher.encrypt(plaintext)<br><br>
+            <span># Decrypt</span><br>
+            decrypted = cipher.decrypt(ciphertext)<br>
+            print(decrypted)  <span># b'Hello, World!'</span>
+        </div>
+
+        <div class="note-box">
+            <strong>🔐 Key insight:</strong> Encryption is the foundation of modern digital security. It protects data from unauthorized access during storage and transmission, making it essential for privacy and compliance.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 9 summary</strong><br>Computer security protects systems and data through access controls, firewalls, encryption, and compliance with cyber laws.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• CIA Triad: Confidentiality, Integrity, Availability.<br>• Malware types: viruses, spyware, ransomware, worms.<br>• Encryption: symmetric and asymmetric.<br>• Cyber law: GDPR, IT Act, CFAA.<br>• Network security: firewalls, VPNs, IDS/IPS.</div>
     </div>
 </body>
 </html>

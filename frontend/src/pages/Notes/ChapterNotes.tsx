@@ -247,55 +247,7 @@ export default function ChapterNotes() {
         return "c";
       };
 
-      // Wrap code blocks inside relative container and inject "Try Live" button
-      const pres = doc.querySelectorAll("pre");
-      pres.forEach((pre) => {
-        const codeEl = pre.querySelector("code");
-        const rawCode = codeEl ? codeEl.textContent || "" : pre.textContent || "";
-        const codeClass = codeEl ? codeEl.getAttribute("class") || "" : "";
-        const lang = detectLanguage(subjectId || "", codeClass);
 
-        const container = doc.createElement("div");
-        container.className = "code-sandbox-wrapper relative group my-4";
-        container.style.position = "relative";
-
-        pre.parentNode?.insertBefore(container, pre);
-        container.appendChild(pre);
-
-        const btn = doc.createElement("button");
-        btn.innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:3px;"><polygon points="6 3 20 12 6 21 6 3"/></svg>
-          Try Live
-        `;
-        btn.style.position = "absolute";
-        btn.style.top = "12px";
-        btn.style.right = "12px";
-        btn.style.zIndex = "10";
-        btn.style.padding = "4px 8px";
-        btn.style.fontSize = "10px";
-        btn.style.fontWeight = "800";
-        btn.style.textTransform = "uppercase";
-        btn.style.letterSpacing = "0.05em";
-        btn.style.borderRadius = "8px";
-        btn.style.border = "1px solid rgba(99, 102, 241, 0.3)";
-        btn.style.backgroundColor = "rgba(99, 102, 241, 0.1)";
-        btn.style.color = "#6366f1";
-        btn.style.cursor = "pointer";
-        btn.style.display = "flex";
-        btn.style.alignItems = "center";
-        btn.style.transition = "all 0.15s ease";
-
-        btn.setAttribute("onmouseover", "this.style.backgroundColor='rgba(99, 102, 241, 0.2)'; this.style.borderColor='rgba(99, 102, 241, 0.5)';");
-        btn.setAttribute("onmouseout", "this.style.backgroundColor='rgba(99, 102, 241, 0.1)'; this.style.borderColor='rgba(99, 102, 241, 0.3)';");
-
-        try {
-          const base64Code = btoa(unescape(encodeURIComponent(rawCode)));
-          btn.setAttribute("onclick", `window.handleTryInSandbox('${base64Code}', '${lang}')`);
-          container.appendChild(btn);
-        } catch (e) {
-          console.error("Failed to encode code snippet:", e);
-        }
-      });
 
       return {
         html: scopedStyles + doc.body.innerHTML,

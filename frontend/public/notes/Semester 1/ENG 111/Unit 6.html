@@ -1,126 +1,607 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 6: Basic Research Skills</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1>Unit 6: Basic Research Skills</h1>
 
+    <h1>Unit 6: Basic Research Skills</h1>
+    <div class="subhead">Note-taking · summarizing · paraphrasing · referencing · precision · ethical integrity</div>
+
+    <!-- ========== 6.1 ========== -->
     <div class="section">
         <h2>6.1 Note-taking</h2>
-        <p>Note-taking is a fundamental research skill that involves recording key information from sources to support comprehension, analysis, and future reference, especially in academic and IT contexts.</p>
+        <p><strong>Note-taking</strong> is a fundamental research skill that involves recording key information from sources to support comprehension, analysis, and future reference, especially in academic and IT contexts.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📝 Purpose</strong><br>Capture and organize information for later use. Supports memory, comprehension, and synthesis of ideas from multiple sources.</div>
+            <div class="card"><strong>🔑 Key Skills</strong><br>Active listening/reading, selective recording, summarizing, and organizing information for easy retrieval.</div>
+        </div>
+
+        <h3>Note-taking Methods</h3>
         <ul>
-            <li><strong>Structured Methods:</strong> Use techniques like the Cornell system or outlining to organize notes into main ideas, supporting details, and questions for clarity.</li>
-            <li><strong>Selective Recording:</strong> Focus on essential points, such as key concepts, data, or technical terms, avoiding verbatim transcription to save time and enhance understanding.</li>
-            <li><strong>Active Engagement:</strong> Summarize ideas in your own words while noting source details (e.g., author, page) to facilitate referencing and avoid plagiarism.</li>
-            <li><strong>Digital Tools:</strong> Utilize apps like OneNote or Notion for searchable, organized notes, particularly useful for managing technical documentation or research papers.</li>
+            <li><strong>Cornell Method:</strong>
+                <ul>
+                    <li>Divide page into cues (left), notes (right), and summary (bottom).</li>
+                    <li>Take notes during reading/lecture.</li>
+                    <li>Write cues/questions after.</li>
+                    <li>Summarize at the end.</li>
+                </ul>
+            </li>
+            <li><strong>Outlining:</strong>
+                <ul>
+                    <li>Hierarchical structure with main topics and subpoints.</li>
+                    <li>Use headings, subheadings, and indentation.</li>
+                    <li>Clear structure, easy to follow.</li>
+                </ul>
+            </li>
+            <li><strong>Mind Mapping:</strong>
+                <ul>
+                    <li>Visual representation of ideas with central topic and branches.</li>
+                    <li>Shows relationships between ideas.</li>
+                    <li>Flexible and creative.</li>
+                </ul>
+            </li>
+            <li><strong>Charting:</strong>
+                <ul>
+                    <li>Use tables to compare and contrast information.</li>
+                    <li>Good for multiple sources or categories.</li>
+                    <li>Easy to see patterns and differences.</li>
+                </ul>
+            </li>
+            <li><strong>Sentence Method:</strong>
+                <ul>
+                    <li>Write full sentences in chronological order.</li>
+                    <li>Detailed, captures context.</li>
+                    <li>Good for dense content.</li>
+                </ul>
+            </li>
         </ul>
-        <p>Effective note-taking streamlines research and supports accurate recall for writing or discussions.</p>
+
+        <h3>Note-taking Best Practices</h3>
+        <ul>
+            <li><strong>Be Selective:</strong> Focus on key concepts, technical terms, and data.</li>
+            <li><strong>Use Your Own Words:</strong> Paraphrase to improve understanding.</li>
+            <li><strong>Include Source Information:</strong> Record author, title, page numbers, URLs.</li>
+            <li><strong>Review and Revise:</strong> Within 24 hours, review and organize your notes.</li>
+            <li><strong>Use Digital Tools:</strong> OneNote, Notion, Evernote for searchable, organized notes.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Example: Cornell Notes for a Research Paper</span><br>
+            +------------------+-------------------------------------+<br>
+            | Cues/Questions   | Notes                               |<br>
+            +------------------+-------------------------------------+<br>
+            | What is the main | - Cloud computing offers scalability| <br>
+            | argument?        | - Cost savings over traditional IT |<br>
+            |                  | - Security concerns remain         |<br>
+            |                  |                                     |<br>
+            | What evidence?   | - Study of 500 companies           |<br>
+            |                  | - 60% reduced operational costs    |<br>
+            |                  |                                     |<br>
+            | How to apply?    | - Start with pilot project         |<br>
+            |                  | - Train staff on cloud security    |<br>
+            +------------------+-------------------------------------+<br>
+            | Summary: Cloud computing offers significant benefits   |<br>
+            | with careful security planning.                       |<br>
+            +------------------+-------------------------------------+
+        </div>
+
+        <div class="note-box">
+            <strong>📓 Key insight:</strong> Effective note-taking is an active process that improves comprehension and retention. Find the method that works best for you and use it consistently.
+        </div>
     </div>
 
+    <!-- ========== 6.2 ========== -->
     <div class="section">
         <h2>6.2 Summarizing</h2>
-        <p>Summarizing involves condensing a source’s main ideas into a concise overview, preserving essential meaning while omitting minor details, crucial for academic and professional writing.</p>
+        <p><strong>Summarizing</strong> involves condensing a source's main ideas into a concise overview, preserving essential meaning while omitting minor details, crucial for academic and professional writing.</p>
+
+        <h3>Steps to Effective Summarizing</h3>
         <ul>
-            <li><strong>Identify Key Points:</strong> Focus on the source’s primary arguments or findings, such as a study’s conclusions or a technical report’s objectives, ignoring examples or anecdotes.</li>
-            <li><strong>Concise Expression:</strong> Write summaries in your own words, typically 10-20% of the original length, ensuring clarity and brevity (e.g., summarizing a 500-word article in 50-100 words).</li>
-            <li><strong>Objective Tone:</strong> Avoid personal opinions, sticking to the source’s content to maintain neutrality, especially in technical or academic contexts.</li>
-            <li><strong>Application:</strong> Use summaries in literature reviews, project reports, or presentations to convey key insights efficiently without overwhelming the audience.</li>
+            <li><strong>Read and Understand:</strong> Thoroughly read the source material to grasp the main argument.</li>
+            <li><strong>Identify Key Points:</strong> Focus on primary arguments, findings, or objectives.</li>
+            <li><strong>Write in Your Own Words:</strong> Paraphrase the main ideas without copying.</li>
+            <li><strong>Be Concise:</strong> Aim for 10-20% of the original length.</li>
+            <li><strong>Maintain Objectivity:</strong> Avoid personal opinions or evaluation.</li>
+            <li><strong>Include Main Idea Only:</strong> Omit examples, anecdotes, and minor details.</li>
         </ul>
-        <p>Summarizing enhances comprehension and communicates complex information effectively.</p>
+
+        <div class="code-block">
+            <span>// Original Text (500 words)</span><br>
+            <span>// "The article discusses the evolution of microservices architecture,</span><br>
+            <span>// tracing its origins from monoliths, the challenges of scaling,</span><br>
+            <span>// and the benefits of decoupling. It highlights case studies from</span><br>
+            <span>// Netflix and Amazon, and concludes with best practices for migration."</span><br><br>
+            <span>// Summary (50 words)</span><br>
+            <span>// "The article examines microservices architecture, covering its</span><br>
+            <span>// evolution from monolithic systems, benefits of decoupling,</span><br>
+            <span>// case studies from major companies, and best practices for</span><br>
+            <span>// implementation."</span>
+        </div>
+
+        <h3>Applications of Summarizing</h3>
+        <ul>
+            <li><strong>Literature Reviews:</strong> Condense multiple sources for synthesis.</li>
+            <li><strong>Project Reports:</strong> Provide executive summaries.</li>
+            <li><strong>Presentations:</strong> Communicate key insights efficiently.</li>
+            <li><strong>Research Notes:</strong> Create quick reference summaries.</li>
+        </ul>
+
+        <table>
+            <tr><th>Element</th><th>Include</th><th>Exclude</th></tr>
+            <tr><td>Main Argument</td><td>Yes</td><td>—</td></tr>
+            <tr><td>Supporting Evidence</td><td>Briefly</td><td>Detailed data</td></tr>
+            <tr><td>Examples</td><td>No</td><td>All</td></tr>
+            <tr><td>Personal Opinion</td><td>No</td><td>All</td></tr>
+            <tr><td>Technical Terms</td><td>Yes (if essential)</td><td>Excessive jargon</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 6.3 ========== -->
     <div class="section">
         <h2>6.3 Paraphrasing</h2>
-        <p>Paraphrasing entails restating a source’s ideas in your own words while retaining the original meaning, a key skill for integrating research into writing without plagiarism.</p>
+        <p><strong>Paraphrasing</strong> entails restating a source's ideas in your own words while retaining the original meaning, a key skill for integrating research into writing without plagiarism.</p>
+
+        <h3>Steps to Effective Paraphrasing</h3>
         <ul>
-            <li><strong>Understanding First:</strong> Fully comprehend the source material before rephrasing to ensure accuracy, particularly for technical concepts like algorithms or system designs.</li>
-            <li><strong>Vocabulary Variation:</strong> Use synonyms and alter sentence structure (e.g., change “The system enhances performance” to “The platform improves efficiency”) while preserving meaning.</li>
-            <li><strong>Citation Requirement:</strong> Always credit the original source when paraphrasing to maintain academic integrity, even if the words are your own.</li>
-            <li><strong>Practice Techniques:</strong> Read a passage, set it aside, and rewrite it from memory, then compare to ensure fidelity to the original idea.</li>
+            <li><strong>Understand First:</strong> Fully comprehend the source material before attempting to paraphrase.</li>
+            <li><strong>Change Vocabulary:</strong> Use synonyms (e.g., "system" → "platform," "enhance" → "improve").</li>
+            <li><strong>Alter Sentence Structure:</strong> Change the grammatical structure (e.g., active to passive, rearrange clauses).</li>
+            <li><strong>Write from Memory:</strong> Read the passage, set it aside, and rewrite it from memory.</li>
+            <li><strong>Compare and Revise:</strong> Check that you've preserved the meaning without copying the original.</li>
+            <li><strong>Cite the Source:</strong> Always cite the original source, even when paraphrasing.</li>
         </ul>
-        <p>Effective paraphrasing demonstrates understanding and integrates sources seamlessly into your work.</p>
+
+        <div class="code-block">
+            <span>// Original Text</span><br>
+            <span>// "The implementation of RESTful APIs requires adherence to six</span><br>
+            <span>// constraints: client-server, stateless, cacheable, uniform interface,</span><br>
+            <span>// layered system, and code on demand."</span><br><br>
+            <span>// Paraphrased</span><br>
+            <span>// "To successfully implement RESTful APIs, developers must follow</span><br>
+            <span>// six key principles: a clear separation between client and server,</span><br>
+            <span>// stateless communication, cacheability, a consistent interface,</span><br>
+            <span>// a layered architecture, and optional code execution."</span>
+        </div>
+
+        <h3>Paraphrasing vs. Summarizing</h3>
+        <table>
+            <tr><th>Feature</th><th>Paraphrasing</th><th>Summarizing</th></tr>
+            <tr><td>Length</td><td>Similar to original</td><td>Much shorter</td></tr>
+            <tr><td>Purpose</td><td>Rephrase in your own words</td><td>Condense main ideas</td></tr>
+            <tr><td>Detail</td><td>Includes all key details</td><td>Only main points</td></tr>
+            <tr><td>Use</td><td>To integrate sources smoothly</td><td>To provide overview</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>✍️ Key insight:</strong> Paraphrasing is a skill that requires practice. It demonstrates your understanding of the source material and helps you avoid plagiarism while integrating sources into your writing.
+        </div>
     </div>
 
+    <!-- ========== 6.4 ========== -->
     <div class="section">
         <h2>6.4 Referencing Skills</h2>
-        <p>Referencing skills involve citing sources accurately to credit original authors and enable readers to locate referenced material, essential for credibility in academic and professional writing.</p>
+        <p><strong>Referencing skills</strong> involve citing sources accurately to credit original authors and enable readers to locate referenced material, essential for credibility in academic and professional writing.</p>
+
+        <h3>Citation Styles</h3>
         <ul>
-            <li><strong>Citation Styles:</strong> Use formats like APA, MLA, or IEEE, common in IT and academic fields, ensuring consistency in in-text citations and reference lists (e.g., APA: Author, Year).</li>
-            <li><strong>In-text Citations:</strong> Include brief references within the text (e.g., “Smith, 2020”) to acknowledge sources for ideas, data, or quotes, avoiding plagiarism.</li>
-            <li><strong>Reference Lists:</strong> Provide full bibliographic details at the document’s end, including author, title, publication date, and source (e.g., journal, website, or book).</li>
-            <li><strong>Tools for Accuracy:</strong> Use reference management tools like Zotero or EndNote to organize sources and generate citations, reducing errors in technical writing.</li>
+            <li><strong>APA (American Psychological Association):</strong> Common in social sciences and education.
+                <div class="code-block">
+                    <span>// In-text: (Smith, 2020)</span><br>
+                    <span>// Reference: Smith, J. (2020). Title of work. Publisher.</span>
+                </div>
+            </li>
+            <li><strong>MLA (Modern Language Association):</strong> Common in humanities and literature.
+                <div class="code-block">
+                    <span>// In-text: (Smith 45)</span><br>
+                    <span>// Reference: Smith, John. Title of Work. Publisher, 2020.</span>
+                </div>
+            </li>
+            <li><strong>IEEE (Institute of Electrical and Electronics Engineers):</strong> Common in engineering and IT.
+                <div class="code-block">
+                    <span>// In-text: [1]</span><br>
+                    <span>// Reference: [1] J. Smith, "Title of paper," Journal, vol. 1, pp. 1-10, 2020.</span>
+                </div>
+            </li>
+            <li><strong>Harvard (Author-Date):</strong> Similar to APA.
+                <div class="code-block">
+                    <span>// In-text: (Smith, 2020)</span><br>
+                    <span>// Reference: Smith, J. (2020) Title. Publisher.</span>
+                </div>
+            </li>
         </ul>
-        <p>Proper referencing builds trust and supports traceability in research and technical documentation.</p>
+
+        <h3>Components of a Reference</h3>
+        <ul>
+            <li><strong>Author(s):</strong> Last name, first initial(s).</li>
+            <li><strong>Year:</strong> Year of publication.</li>
+            <li><strong>Title:</strong> Full title of the work.</li>
+            <li><strong>Source:</strong> Journal name, book publisher, website URL, etc.</li>
+            <li><strong>Volume/Issue:</strong> For journals.</li>
+            <li><strong>Page Numbers:</strong> For articles or book chapters.</li>
+            <li><strong>DOI/URL:</strong> For online sources.</li>
+        </ul>
+
+        <h3>Reference Management Tools</h3>
+        <ul>
+            <li><strong>Zotero:</strong> Free, open-source, easy to use.</li>
+            <li><strong>EndNote:</strong> Comprehensive, widely used in academia.</li>
+            <li><strong>Mendeley:</strong> Integrated with academic social network.</li>
+            <li><strong>BibTeX:</strong> For LaTeX users.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Example Reference List (IEEE)</span><br>
+            <span>[1] R. Fielding, "Representational State Transfer (REST),"</span><br>
+            <span>    Ph.D. dissertation, University of California, 2000.</span><br>
+            <span>[2] M. Fowler, Patterns of Enterprise Application Architecture.</span><br>
+            <span>    Addison-Wesley, 2002.</span><br>
+            <span>[3] "React Documentation," React, 2024. [Online]. Available:</span><br>
+            <span>    https://reactjs.org/docs/ [Accessed: 15 Jan 2024].</span>
+        </div>
     </div>
 
+    <!-- ========== 6.5 ========== -->
     <div class="section">
         <h2>6.5 Precision for Proficiency</h2>
-        <p>Precision in research and writing ensures clarity, accuracy, and professionalism, particularly when conveying complex technical or academic information.</p>
+        <p><strong>Precision</strong> in research and writing ensures clarity, accuracy, and professionalism, particularly when conveying complex technical or academic information.</p>
+
+        <h3>Elements of Precision</h3>
         <ul>
-            <li><strong>Clear Language:</strong> Use specific, concise terms (e.g., “The algorithm reduces latency by 20%” instead of “The program works better”) to avoid ambiguity.</li>
-            <li><strong>Accurate Data:</strong> Verify facts, figures, and technical details before including them, ensuring reliability in reports or research papers.</li>
-            <li><strong>Focused Content:</strong> Eliminate unnecessary details or jargon, tailoring content to the audience, such as IT professionals or academic peers, for maximum impact.</li>
-            <li><strong>Editing and Proofreading:</strong> Review work for grammatical, factual, and stylistic errors to enhance clarity and credibility in final drafts.</li>
+            <li><strong>Clear Language:</strong>
+                <ul>
+                    <li>Use specific, concise terms.</li>
+                    <li>Avoid vague or ambiguous phrases.</li>
+                    <li>Define technical terms when first used.</li>
+                </ul>
+            </li>
+            <li><strong>Accurate Data:</strong>
+                <ul>
+                    <li>Verify facts, figures, and statistics.</li>
+                    <li>Double-check formulas, code, and calculations.</li>
+                    <li>Use reliable and up-to-date sources.</li>
+                </ul>
+            </li>
+            <li><strong>Focused Content:</strong>
+                <ul>
+                    <li>Eliminate unnecessary details or jargon.</li>
+                    <li>Tailor content to the audience.</li>
+                    <li>Maintain a clear argument or purpose.</li>
+                </ul>
+            </li>
+            <li><strong>Editing and Proofreading:</strong>
+                <ul>
+                    <li>Review for grammatical and spelling errors.</li>
+                    <li>Check for consistency in formatting and style.</li>
+                    <li>Read aloud to catch awkward phrasing.</li>
+                </ul>
+            </li>
         </ul>
-        <p>Precision strengthens the quality and effectiveness of research and communication.</p>
+
+        <div class="code-block">
+            <span>// Imprecise (vague)</span><br>
+            <span>// "The new system is better than the old one."</span><br><br>
+            <span>// Precise (specific)</span><br>
+            <span>// "The new microservices architecture reduced response time</span><br>
+            <span>// from 500ms to 200ms and improved scalability."</span><br><br>
+            <span>// Imprecise (ambiguous)</span><br>
+            <span>// "The algorithm works well with most data."</span><br><br>
+            <span>// Precise (clear)</span><br>
+            <span>// "The algorithm achieved 95% accuracy on training data</span><br>
+            <span>// and 92% accuracy on test data."</span>
+        </div>
+
+        <h3>Precision Checklist</h3>
+        <table>
+            <tr><th>Check</th><th>Questions to Ask</th></tr>
+            <tr><td>Clarity</td><td>Is the meaning unambiguous? Would a non-expert understand?</td></tr>
+            <tr><td>Accuracy</td><td>Are all facts and figures verified?</td></tr>
+            <tr><td>Relevance</td><td>Is all information relevant to the topic?</td></tr>
+            <tr><td>Conciseness</td><td>Could any words or sentences be removed?</td></tr>
+            <tr><td>Consistency</td><td>Are terms and formatting consistent throughout?</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 6.6 ========== -->
     <div class="section">
         <h2>6.6 Ethical Integrity in Academic Writing</h2>
-        <p>Ethical integrity in academic writing involves maintaining honesty, fairness, and respect for intellectual property, ensuring credibility and trust in research.</p>
+        <p><strong>Ethical integrity</strong> in academic writing involves maintaining honesty, fairness, and respect for intellectual property, ensuring credibility and trust in research.</p>
+
+        <h3>Key Principles of Ethical Academic Writing</h3>
         <ul>
-            <li><strong>Avoiding Plagiarism:</strong> Always credit sources for ideas, quotes, or data, using proper citations to acknowledge original authors and avoid misrepresentation.</li>
-            <li><strong>Accurate Representation:</strong> Present data or findings honestly, without fabrication or manipulation, to uphold the integrity of research, especially in technical fields.</li>
-            <li><strong>Respecting Sources:</strong> Use credible, peer-reviewed sources and avoid misquoting or taking information out of context to maintain fairness.</li>
-            <li><strong>Transparency:</strong> Disclose any conflicts of interest or limitations in research, ensuring readers can trust the objectivity of the work.</li>
+            <li><strong>Avoiding Plagiarism:</strong>
+                <ul>
+                    <li>Always cite sources for ideas, quotes, and data.</li>
+                    <li>Use quotation marks for direct quotes.</li>
+                    <li>Paraphrase properly and cite appropriately.</li>
+                    <li>Understand and follow your institution's plagiarism policy.</li>
+                </ul>
+            </li>
+            <li><strong>Accurate Representation:</strong>
+                <ul>
+                    <li>Present data honestly and without manipulation.</li>
+                    <li>Report both positive and negative findings.</li>
+                    <li>Do not fabricate or falsify results.</li>
+                </ul>
+            </li>
+            <li><strong>Respecting Sources:</strong>
+                <ul>
+                    <li>Use credible, peer-reviewed sources.</li>
+                    <li>Avoid misquoting or taking quotes out of context.</li>
+                    <li>Respect intellectual property rights.</li>
+                </ul>
+            </li>
+            <li><strong>Transparency:</strong>
+                <ul>
+                    <li>Disclose conflicts of interest.</li>
+                    <li>Acknowledge limitations in research.</li>
+                    <li>Be open about funding sources.</li>
+                </ul>
+            </li>
         </ul>
-        <p>Ethical integrity fosters accountability and upholds the standards of academic and professional communities.</p>
+
+        <h3>Types of Plagiarism</h3>
+        <table>
+            <tr><th>Type</th><th>Description</th><th>Example</th></tr>
+            <tr><td>Direct</td><td>Copying text verbatim without attribution</td><td>Using someone else's exact words</td></tr>
+            <tr><td>Mosaic</td><td>Patchwork of phrases from multiple sources</td><td>Mixing copied phrases without citation</td></tr>
+            <tr><td>Paraphrase</td><td>Paraphrasing without citing</td><td>Rewording someone's ideas without credit</td></tr>
+            <tr><td>Self</td><td>Reusing your own work without permission</td><td>Submitting the same paper to multiple courses</td></tr>
+            <tr><td>Source</td><td>Citing a source that doesn't exist</td><td>Fabricating a reference</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Ethical vs. Unethical Writing</span><br><br>
+            <span>// Unethical (plagiarism)</span><br>
+            <span>// "The RESTful API is a widely adopted architectural style."</span><br><br>
+            <span>// Ethical (proper citation)</span><br>
+            <span>// "The RESTful API is a widely adopted architectural style</span><br>
+            <span>// (Fielding, 2000)."</span><br><br>
+            <span>// Ethical (proper paraphrase + citation)</span><br>
+            <span>// "Representational State Transfer (REST) has become one of</span><br>
+            <span>// the most popular API design patterns (Fielding, 2000)."</span>
+        </div>
+
+        <div class="note-box">
+            <strong>⚖️ Key insight:</strong> Ethical integrity is the foundation of trustworthy research. Always give credit where it's due, present data honestly, and follow academic integrity policies. In the digital age, tools like Turnitin and plagiarism checkers make it essential to cite sources properly.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 6 summary</strong><br>Basic research skills include note-taking, summarizing, paraphrasing, referencing, precision, and ethical integrity for academic and professional writing.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Note-taking: Cornell, outlining, mind mapping.<br>• Summarizing: condense main ideas concisely.<br>• Paraphrasing: restate in your own words.<br>• Referencing: cite sources using APA, MLA, IEEE.<br>• Precision: clarity, accuracy, focus.<br>• Ethical integrity: avoid plagiarism, be honest, transparent.</div>
     </div>
 </body>
 </html>

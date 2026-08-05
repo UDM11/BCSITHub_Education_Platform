@@ -1,90 +1,461 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 2: Listening Skills</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1>Unit 2: Listening Skills</h1>
 
+    <h1>Unit 2: Listening Skills</h1>
+    <div class="subhead">Spoken English · technical discussions · note-taking · key point identification</div>
+
+    <!-- ========== 2.1 ========== -->
     <div class="section">
         <h2>2.1 Understanding English Language; Spoken English in Various Contexts</h2>
         <p>Understanding spoken English across diverse contexts is essential for effective communication, particularly in professional and social settings. This skill involves recognizing linguistic nuances, accents, and situational language use.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🗣️ Conversational English</strong><br>Everyday interactions require attentiveness to informal language, slang, and varying speech paces. Includes casual discussions, small talk, and workplace conversations.</div>
+            <div class="card"><strong>🏢 Professional Contexts</strong><br>Meetings, interviews, and client interactions demand comprehension of formal language, industry-specific jargon, and polite discourse.</div>
+            <div class="card"><strong>🌍 Cultural Nuances</strong><br>English varies by region and culture, with differences in accents, idioms, and expressions. Understanding these enhances cross-cultural communication.</div>
+            <div class="card"><strong>📺 Media and Public Speaking</strong><br>Listening to podcasts, webinars, or speeches involves grasping main ideas, tone, and intent, often under time constraints or with background noise.</div>
+        </div>
+
+        <h3>Types of Listening</h3>
         <ul>
-            <li><strong>Conversational English:</strong> Everyday interactions, such as casual discussions or workplace conversations, require attentiveness to informal language, slang, and varying speech paces.</li>
-            <li><strong>Professional Contexts:</strong> Meetings, interviews, and client interactions demand comprehension of formal language, industry-specific jargon, and polite discourse to ensure clarity and respect.</li>
-            <li><strong>Cultural Nuances:</strong> Spoken English varies by region and culture, with differences in accents, idioms, and expressions. Understanding these enhances cross-cultural communication.</li>
-            <li><strong>Media and Public Speaking:</strong> Listening to podcasts, webinars, or speeches involves grasping main ideas, tone, and intent, often under time constraints or with background noise.</li>
+            <li><strong>Discriminative Listening:</strong> Distinguishing between sounds, tones, and pronunciation differences.</li>
+            <li><strong>Comprehensive Listening:</strong> Understanding the full meaning of the message.</li>
+            <li><strong>Critical Listening:</strong> Evaluating and analyzing the message for accuracy and bias.</li>
+            <li><strong>Empathetic Listening:</strong> Understanding the speaker's emotions and perspective.</li>
+            <li><strong>Appreciative Listening:</strong> Enjoying the aesthetic aspects of spoken language (stories, speeches).</li>
         </ul>
-        <p>Developing this skill enables individuals to adapt to diverse communication scenarios, fostering better collaboration and understanding.</p>
+
+        <h3>Contexts of Spoken English</h3>
+        <table>
+            <tr><th>Context</th><th>Characteristics</th><th>Challenges</th><th>Strategies</th></tr>
+            <tr><td>Casual Conversation</td><td>Informal, fast-paced, slang, interruptions</td><td>Understanding colloquialisms, following multiple speakers</td><td>Focus on key words, ask for clarification</td></tr>
+            <tr><td>Professional Meetings</td><td>Formal, structured, technical terms</td><td>Jargon, fast technical explanations</td><td>Take notes, ask questions, prepare vocabulary</td></tr>
+            <tr><td>Presentations</td><td>Monologue, structured, visual aids</td><td>Information density, accent variations</td><td>Preview slides, take structured notes</td></tr>
+            <tr><td>Telephone/Video Calls</td><td>No visual cues, may have audio issues</td><td>Missing body language, background noise</td><td>Confirm understanding, summarize key points</td></tr>
+            <tr><td>Podcasts/Audio</td><td>Varied topics, may be scripted or unscripted</td><td>Speed, unfamiliar topics</td><td>Use transcripts, slow down playback</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Example: Listening Strategies for IT Professionals</span><br>
+            <span>// Before listening: Preview agenda, prepare vocabulary</span><br>
+            <span>// During listening: Note key terms, use abbreviations</span><br>
+            <span>// After listening: Summarize, ask follow-up questions</span>
+        </div>
+
+        <div class="note-box">
+            <strong>👂 Key insight:</strong> Effective listening is an active process. It requires focus, practice, and adaptation to different contexts. In IT, understanding spoken English across various contexts is crucial for collaboration and client interaction.
+        </div>
     </div>
 
+    <!-- ========== 2.2 ========== -->
     <div class="section">
         <h2>2.2 Technical Discussions and Presentations; Note-taking Skills</h2>
         <p>Technical discussions and presentations in fields like information technology require active listening and effective note-taking to capture critical information and facilitate follow-up actions.</p>
+
+        <h3>Technical Discussions</h3>
         <ul>
-            <li><strong>Technical Discussions:</strong> These involve complex terminology and concepts, such as coding frameworks or system architectures. Listening actively helps identify key points and ask relevant questions.</li>
-            <li><strong>Presentations:</strong> Technical presentations often include data-heavy content or visual aids. Focusing on the speaker’s emphasis and structure aids in understanding objectives and outcomes.</li>
-            <li><strong>Note-taking Strategies:</strong> Use methods like the Cornell system or mind mapping to organize notes. Summarize main ideas, jot down key terms, and note questions for clarity.</li>
-            <li><strong>Active Engagement:</strong> Effective note-taking involves filtering irrelevant details, using abbreviations, and highlighting action items to ensure accurate recall and application.</li>
+            <li><strong>Complex Terminology:</strong> Technical discussions involve specialized vocabulary (e.g., <span class="highlight">API</span>, <span class="highlight">microservices</span>, <span class="highlight">Agile</span>, <span class="highlight">DevOps</span>).</li>
+            <li><strong>Problem-Solving:</strong> Teams discuss issues, propose solutions, and evaluate alternatives.</li>
+            <li><strong>Decision-Making:</strong> Technical discussions often lead to decisions about architecture, tools, and implementation.</li>
+            <li><strong>Key Skills:</strong> Active listening, asking clarifying questions, and summarizing agreements.</li>
         </ul>
-        <p>Mastering these skills ensures IT professionals can retain and apply information from discussions and presentations effectively.</p>
+
+        <h3>Technical Presentations</h3>
+        <ul>
+            <li><strong>Data-Heavy Content:</strong> Presentations often include charts, diagrams, code snippets, and performance metrics.</li>
+            <li><strong>Structure:</strong> Typically follow a logical flow: introduction, problem statement, solution, results, conclusion.</li>
+            <li><strong>Visual Aids:</strong> Slides, demos, and prototypes help convey complex information.</li>
+            <li><strong>Key Skills:</strong> Focusing on the speaker's emphasis, identifying main points, and tracking the presentation structure.</li>
+        </ul>
+
+        <h3>Note-taking Strategies</h3>
+
+        <h4>Cornell Method</h4>
+        <ul>
+            <li><strong>Structure:</strong> Divide page into cues (left), notes (right), and summary (bottom).</li>
+            <li><strong>Process:</strong> Take notes during the discussion, write cues/questions after, and summarize at the end.</li>
+            <li><strong>Benefits:</strong> Organized, easy to review, promotes active engagement.</li>
+        </ul>
+
+        <h4>Mind Mapping</h4>
+        <ul>
+            <li><strong>Structure:</strong> Central topic with branching subtopics and details.</li>
+            <li><strong>Process:</strong> Start with the main idea in the center, add branches for key points.</li>
+            <li><strong>Benefits:</strong> Visual representation of relationships, flexible, creative.</li>
+        </ul>
+
+        <h4>Outline Method</h4>
+        <ul>
+            <li><strong>Structure:</strong> Hierarchical structure with main topics, subpoints, and details.</li>
+            <li><strong>Process:</strong> Use headings, subheadings, and indentation to organize information.</li>
+            <li><strong>Benefits:</strong> Clear structure, logical flow, easy to follow.</li>
+        </ul>
+
+        <h4>Charting Method</h4>
+        <ul>
+            <li><strong>Structure:</strong> Tables to compare and contrast information.</li>
+            <li><strong>Process:</strong> Create columns for categories, rows for topics or speakers.</li>
+            <li><strong>Benefits:</strong> Good for comparing options, tracking multiple speakers.</li>
+        </ul>
+
+        <h4>Sentence Method</h4>
+        <ul>
+            <li><strong>Structure:</strong> Full sentences in a linear format.</li>
+            <li><strong>Process:</strong> Write complete sentences in chronological order.</li>
+            <li><strong>Benefits:</strong> Detailed, captures context, good for dense content.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Example: Cornell Notes for a Technical Presentation</span><br>
+            +------------------+-------------------------------------+<br>
+            | Cues/Questions   | Notes                               |<br>
+            +------------------+-------------------------------------+<br>
+            | What is the main | - New microservices architecture   |<br>
+            | problem?         | - Current monolith is too slow     |<br>
+            |                  | - Need better scalability          |<br>
+            |                  |                                     |<br>
+            | What are the     | - Service A: User management       |<br>
+            | proposed         | - Service B: Order processing      |<br>
+            | services?        | - Service C: Payment handling      |<br>
+            |                  |                                     |<br>
+            | What tools?      | - Docker for containerization      |<br>
+            |                  | - Kubernetes for orchestration     |<br>
+            |                  | - gRPC for communication           |<br>
+            +------------------+-------------------------------------+<br>
+            | Summary:         | Migrate to microservices using     |<br>
+            |                  | Docker, Kubernetes, and gRPC to    |<br>
+            |                  | improve scalability and performance|<br>
+            +------------------+-------------------------------------+
+        </div>
+
+        <h3>Note-taking Tips for IT Professionals</h3>
+        <ul>
+            <li><strong>Use Abbreviations:</strong> <span class="highlight">DB</span> for database, <span class="highlight">API</span> for application programming interface.</li>
+            <li><strong>Focus on Action Items:</strong> Note who is responsible for what and deadlines.</li>
+            <li><strong>Ask Clarifying Questions:</strong> Don't hesitate to ask the speaker to repeat or explain.</li>
+            <li><strong>Review and Revise:</strong> Within 24 hours, review and organize your notes.</li>
+            <li><strong>Digital Tools:</strong> Use OneNote, Evernote, Notion, or simple text files.</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>📝 Key insight:</strong> Effective note-taking is a skill that improves with practice. Good notes serve as a reference for future work, aid in knowledge retention, and facilitate clear communication.
+        </div>
     </div>
 
+    <!-- ========== 2.3 ========== -->
     <div class="section">
         <h2>2.3 Key Points and Ideas from Spoken English</h2>
         <p>Identifying key points and ideas from spoken English enhances comprehension and enables effective responses in professional and academic settings.</p>
+
+        <h3>Identifying Main Ideas</h3>
         <ul>
-            <li><strong>Main Idea Identification:</strong> Focus on the speaker’s primary message or purpose, often signaled by introductory statements, repeated phrases, or emphasized points.</li>
-            <li><strong>Supporting Details:</strong> Listen for examples, data, or anecdotes that reinforce the main idea, helping to contextualize and deepen understanding.</li>
-            <li><strong>Cues and Transitions:</strong> Pay attention to verbal cues like “firstly,” “in conclusion,” or changes in tone to track the structure of the speech and prioritize information.</li>
-            <li><strong>Paraphrasing and Summarizing:</strong> Mentally or in notes, rephrase key points to confirm understanding, ensuring retention of critical ideas for later use.</li>
+            <li><strong>Look for Signposts:</strong> Speakers often signal main ideas with phrases like:
+                <ul>
+                    <li>"The main point is..."</li>
+                    <li>"What I want to emphasize is..."</li>
+                    <li>"The key takeaway is..."</li>
+                </ul>
+            </li>
+            <li><strong>Listen for Repetition:</strong> Important points are often repeated for emphasis.</li>
+            <li><strong>Pay Attention to Tone:</strong> Changes in volume, pace, or pitch can indicate important points.</li>
+            <li><strong>Focus on Introductions and Conclusions:</strong> Speakers often state the main idea at the beginning or end of a talk.</li>
         </ul>
-        <p>By honing these skills, individuals can extract essential information from spoken English, improving decision-making and communication.</p>
+
+        <h3>Supporting Details</h3>
+        <ul>
+            <li><strong>Examples:</strong> Speakers often use examples to illustrate main points.</li>
+            <li><strong>Data and Statistics:</strong> Numbers, percentages, and metrics provide evidence.</li>
+            <li><strong>Anecdotes:</strong> Stories and personal experiences make points relatable and memorable.</li>
+            <li><strong>Quotes:</strong> References to experts or authoritative sources strengthen arguments.</li>
+        </ul>
+
+        <h3>Cues and Transitions</h3>
+        <ul>
+            <li><strong>Sequential Cues:</strong> "First... second... finally..."</li>
+            <li><strong>Contrasting Cues:</strong> "However... on the other hand..."</li>
+            <li><strong>Additive Cues:</strong> "Furthermore... in addition..."</li>
+            <li><strong>Concluding Cues:</strong> "In conclusion... to summarize..."</li>
+        </ul>
+
+        <h3>Paraphrasing and Summarizing</h3>
+        <ul>
+            <li><strong>Paraphrasing:</strong> Restating the speaker's ideas in your own words.</li>
+            <li><strong>Summarizing:</strong> Condensing the main points into a brief overview.</li>
+            <li><strong>Benefits:</strong>
+                <ul>
+                    <li>Confirms understanding</li>
+                    <li>Reinforces retention</li>
+                    <li>Prepares for follow-up questions</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Example: Identifying Key Points from a Technical Talk</span><br>
+            <span>// Speaker: "The future of cloud computing is serverless"</span><br>
+            <span>// Key Points:</span><br>
+            <span>// 1. Serverless reduces operational overhead</span><br>
+            <span>// 2. Auto-scaling is built-in</span><br>
+            <span>// 3. Pay-per-execution reduces costs</span><br>
+            <span>// 4. Challenges include cold starts and vendor lock-in</span><br><br>
+            <span>// Summary:</span><br>
+            <span>// Serverless computing offers scalability and cost-efficiency</span><br>
+            <span>// but has challenges with cold starts and vendor lock-in.</span>
+        </div>
+
+        <h3>Common Listening Challenges and Solutions</h3>
+        <table>
+            <tr><th>Challenge</th><th>Description</th><th>Solution</th></tr>
+            <tr><td>Accents</td><td>Different regional or foreign accents</td><td>Expose yourself to diverse accents through media</td></tr>
+            <tr><td>Speed</td><td>Speaker talks too fast</td><td>Ask to slow down, take notes, use playback controls</td></tr>
+            <tr><td>Jargon</td><td>Unfamiliar technical terms</td><td>Prepare vocabulary, ask for definitions</td></tr>
+            <tr><td>Distractions</td><td>Background noise, multitasking</td><td>Find a quiet space, focus intentionally</td></tr>
+            <tr><td>Information Overload</td><td>Too many details</td><td>Focus on main ideas, use note-taking strategies</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>🎯 Key insight:</strong> Active listening involves more than just hearing words—it requires identifying key points, understanding structure, and extracting meaning. These skills are essential for effective communication and professional development in IT.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 2 summary</strong><br>Listening skills involve understanding spoken English in various contexts, participating in technical discussions, and identifying key points and ideas.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Spoken English varies by context: conversational, professional, cultural, and media.<br>• Technical discussions require active listening and effective note-taking.<br>• Note-taking methods: Cornell, Mind Mapping, Outline, Charting, Sentence.<br>• Identifying key points: look for signposts, repetition, tone, and structure.<br>• Paraphrasing and summarizing confirm understanding and enhance retention.</div>
     </div>
 </body>
 </html>

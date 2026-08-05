@@ -1,158 +1,590 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 4: Operating System</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
     </style>
 </head>
 <body>
     <h1>Unit 4: Operating System</h1>
+    <div class="subhead">Core functions · process &amp; memory management · file systems · security &amp; user interface</div>
 
+    <!-- ========== 4.1 ========== -->
     <div class="section">
-        <h2>4.4 Introduction</h2>
-        <p>An operating system (OS) is a software that acts as an intermediary between computer hardware and users. It manages hardware resources, provides services for software applications, and enables users to interact with the computer system efficiently.</p>
+        <h2>4.1 Introduction</h2>
+        <p>An <strong>Operating System (OS)</strong> is the most fundamental software that runs on a computer. It acts as an intermediary between the user and the computer hardware, managing all hardware resources and providing services for application software.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🖥️ Purpose</strong><br>The OS abstracts hardware complexity, provides a consistent environment for applications, and ensures efficient and fair resource allocation.</div>
+            <div class="card"><strong>🧩 Components</strong><br>Kernel (core), device drivers, system libraries, user interface (GUI/CLI), and system utilities.</div>
+        </div>
         <ul>
-            <li><strong>Purpose:</strong> The OS ensures smooth operation of the computer by managing resources and providing a user-friendly interface.</li>
-            <li><strong>Components:</strong> Includes kernel, device drivers, and user interface components like graphical or command-line interfaces.</li>
-            <li><strong>Examples:</strong> Popular operating systems include Windows, Linux, macOS, and Android.</li>
+            <li><strong>Abstraction:</strong> The OS hides hardware details (memory addresses, I/O ports) from users and applications.</li>
+            <li><strong>Resource Manager:</strong> Allocates CPU time, memory space, storage, and I/O devices among competing processes.</li>
+            <li><strong>Examples:</strong> Windows 11, Ubuntu Linux, macOS Ventura, Android 14, iOS 17.</li>
+        </ul>
+        <div class="note-box">
+            <strong>💡 Core idea:</strong> Without an operating system, a computer is just a collection of electronic components. The OS brings it to life.
+        </div>
+    </div>
+
+    <!-- ========== 4.2 ========== -->
+    <div class="section">
+        <h2>4.2 Objectives of Operating System</h2>
+        <p>The operating system is designed with several key objectives that guide its design and functionality.</p>
+        <ul>
+            <li><strong>Resource Management:</strong> Efficiently manage CPU, memory, storage, and I/O devices to maximize system throughput and minimize response time.</li>
+            <li><strong>User Convenience:</strong> Provide an intuitive interface that makes the computer easy to use for both novice and expert users.</li>
+            <li><strong>System Efficiency:</strong> Ensure that system resources are utilized optimally without waste or contention.</li>
+            <li><strong>Reliability and Stability:</strong> Maintain system stability even under heavy load or hardware failures. Prevent crashes and data loss.</li>
+            <li><strong>Security and Protection:</strong> Protect user data and system resources from unauthorized access, malware, and other threats.</li>
+            <li><strong>Extensibility:</strong> Allow new hardware and software to be added without disrupting existing functionality.</li>
+        </ul>
+        <table>
+            <tr><th>Objective</th><th>Description</th><th>How it's achieved</th></tr>
+            <tr><td>Resource Management</td><td>Optimal allocation of CPU, memory, I/O</td><td>Scheduling algorithms, memory paging</td></tr>
+            <tr><td>User Convenience</td><td>Easy interaction with system</td><td>GUI, CLI, user-friendly design</td></tr>
+            <tr><td>System Efficiency</td><td>Maximize throughput, minimize latency</td><td>Caching, buffering, load balancing</td></tr>
+            <tr><td>Security</td><td>Protect data and resources</td><td>Authentication, encryption, access control</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== 4.3 ========== -->
+    <div class="section">
+        <h2>4.3 Types of Operating Systems</h2>
+        <p>Operating systems are classified based on their architecture, processing approach, and target environment. Each type serves distinct purposes.</p>
+        
+        <h3>Batch Operating System</h3>
+        <ul>
+            <li><strong>Characteristics:</strong> Processes jobs in batches without user interaction. Jobs are collected, sorted, and executed sequentially.</li>
+            <li><strong>Advantages:</strong> Efficient for large volumes of similar tasks; minimal overhead.</li>
+            <li><strong>Disadvantages:</strong> No user interaction; long turnaround time; CPU idle time during I/O.</li>
+            <li><strong>Example:</strong> Early mainframes (IBM 7090).</li>
+        </ul>
+
+        <h3>Multitasking / Time-Sharing OS</h3>
+        <ul>
+            <li><strong>Characteristics:</strong> Allows multiple users to interact with the system simultaneously. CPU time is shared among processes using time slices.</li>
+            <li><strong>Advantages:</strong> Interactive, efficient resource utilization, fast response.</li>
+            <li><strong>Disadvantages:</strong> More complex scheduling; overhead from context switching.</li>
+            <li><strong>Examples:</strong> Unix, Linux, Windows, macOS.</li>
+        </ul>
+
+        <h3>Real-Time Operating System (RTOS)</h3>
+        <ul>
+            <li><strong>Characteristics:</strong> Processes data with strict timing constraints. Guarantees that critical tasks complete within specified deadlines.</li>
+            <li><strong>Advantages:</strong> Predictable, deterministic, reliable for mission-critical applications.</li>
+            <li><strong>Disadvantages:</strong> Limited flexibility; difficult to design and debug.</li>
+            <li><strong>Examples:</strong> VxWorks, FreeRTOS, QNX (used in automotive, medical, aerospace).</li>
+        </ul>
+
+        <h3>Distributed Operating System</h3>
+        <ul>
+            <li><strong>Characteristics:</strong> Manages a cluster of interconnected computers that appear as a single coherent system to users.</li>
+            <li><strong>Advantages:</strong> High availability, scalability, fault tolerance.</li>
+            <li><strong>Disadvantages:</strong> Complex to implement; network latency and synchronization challenges.</li>
+            <li><strong>Examples:</strong> Amoeba, Mach, Google's Kubernetes (container orchestration).</li>
+        </ul>
+
+        <h3>Mobile Operating System</h3>
+        <ul>
+            <li><strong>Characteristics:</strong> Optimized for smartphones, tablets, and wearables with touch interfaces, power management, and connectivity.</li>
+            <li><strong>Advantages:</strong> Power-efficient, responsive, supports a wide range of apps.</li>
+            <li><strong>Disadvantages:</strong> Limited multitasking compared to desktop OS; security challenges.</li>
+            <li><strong>Examples:</strong> Android, iOS, HarmonyOS, watchOS.</li>
+        </ul>
+
+        <table>
+            <tr><th>OS Type</th><th>Primary Use</th><th>Key Feature</th><th>Examples</th></tr>
+            <tr><td>Batch</td><td>Early mainframes, data processing</td><td>Sequential job processing</td><td>IBM OS/360 (batch mode)</td></tr>
+            <tr><td>Multitasking</td><td>General-purpose computing</td><td>Time-sharing, multiple processes</td><td>Windows, Linux, Unix</td></tr>
+            <tr><td>RTOS</td><td>Embedded, critical systems</td><td>Guaranteed response times</td><td>FreeRTOS, VxWorks</td></tr>
+            <tr><td>Distributed</td><td>Clusters, cloud computing</td><td>Single system image, scalability</td><td>Kubernetes, Amoeba</td></tr>
+            <tr><td>Mobile</td><td>Smartphones, tablets</td><td>Touch interface, power efficiency</td><td>Android, iOS</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== 4.4 ========== -->
+    <div class="section">
+        <h2>4.4 Functions of Operating System</h2>
+        <p>The OS performs a wide range of functions to manage system resources and provide a stable environment for applications.</p>
+
+        <h3>Process Management</h3>
+        <ul>
+            <li><strong>Process Creation and Termination:</strong> Creates and terminates processes as needed.</li>
+            <li><strong>Scheduling:</strong> Determines which process runs on the CPU and for how long using algorithms like Round-Robin, Priority, and Multi-level Queue.</li>
+            <li><strong>Process Synchronization:</strong> Coordinates concurrent processes to avoid conflicts (mutex, semaphores).</li>
+            <li><strong>Inter-Process Communication (IPC):</strong> Enables processes to exchange data via pipes, message queues, shared memory.</li>
+        </ul>
+
+        <h3>Memory Management</h3>
+        <ul>
+            <li><strong>Allocation and Deallocation:</strong> Assigns memory to processes and frees it when no longer needed.</li>
+            <li><strong>Virtual Memory:</strong> Uses disk space to simulate larger memory capacity (paging, segmentation).</li>
+            <li><strong>Address Translation:</strong> Maps virtual addresses to physical addresses using MMU.</li>
+            <li><strong>Protection:</strong> Prevents processes from accessing each other's memory space.</li>
+        </ul>
+
+        <h3>File Management</h3>
+        <ul>
+            <li><strong>File Operations:</strong> Create, read, write, delete, and append files.</li>
+            <li><strong>Directory Management:</strong> Organize files in hierarchical structures.</li>
+            <li><strong>File Systems:</strong> Implement file systems like NTFS, FAT32, ext4, APFS.</li>
+            <li><strong>Access Control:</strong> Manage permissions (read, write, execute) for users and groups.</li>
+        </ul>
+
+        <h3>Device Management</h3>
+        <ul>
+            <li><strong>Device Drivers:</strong> Interface with hardware devices (printers, keyboards, displays).</li>
+            <li><strong>I/O Scheduling:</strong> Manage requests to devices to improve throughput.</li>
+            <li><strong>Buffering and Caching:</strong> Temporarily store data to handle speed mismatches between devices.</li>
+        </ul>
+
+        <h3>Protection and Security</h3>
+        <ul>
+            <li><strong>Authentication:</strong> Verify user identity (passwords, biometrics, multi-factor).</li>
+            <li><strong>Authorization:</strong> Control access to resources based on user permissions.</li>
+            <li><strong>Encryption:</strong> Protect data at rest and in transit.</li>
+            <li><strong>Auditing:</strong> Log system events for security monitoring.</li>
+        </ul>
+
+        <h3>User Interface</h3>
+        <ul>
+            <li><strong>GUI:</strong> Graphical environment with windows, icons, menus (Windows, macOS).</li>
+            <li><strong>CLI:</strong> Command-line interface for advanced users (Bash, PowerShell).</li>
+            <li><strong>Voice/gesture:</strong> Modern interfaces like Cortana, Siri, touch gestures.</li>
         </ul>
     </div>
 
+    <!-- ========== 4.5 ========== -->
     <div class="section">
-        <h2>4.5 Objective of Operating System</h2>
-        <p>The primary objectives of an operating system are to optimize resource utilization, enhance user experience, and ensure system reliability.</p>
+        <h2>4.5 Process Management – In Depth</h2>
+        <p>A <strong>process</strong> is a program in execution. Process management is one of the core responsibilities of the operating system.</p>
+
+        <h3>Process States</h3>
         <ul>
-            <li><strong>Resource Management:</strong> Efficiently allocates CPU, memory, and storage to maximize performance.</li>
-            <li><strong>User Convenience:</strong> Provides an intuitive interface for users to interact with the system.</li>
-            <li><strong>System Efficiency:</strong> Ensures reliable execution of programs and minimizes system downtime.</li>
+            <li><strong>New:</strong> Process is being created.</li>
+            <li><strong>Ready:</strong> Process is waiting for CPU allocation.</li>
+            <li><strong>Running:</strong> Process is currently executing on the CPU.</li>
+            <li><strong>Waiting:</strong> Process is waiting for I/O or an event.</li>
+            <li><strong>Terminated:</strong> Process has finished execution.</li>
         </ul>
+
+        <h3>Process Scheduling Algorithms</h3>
+        <ul>
+            <li><strong>FCFS (First-Come, First-Served):</strong> Simple, non-preemptive, but can cause convoy effect.</li>
+            <li><strong>SJF (Shortest Job First):</strong> Minimizes average waiting time, but needs knowledge of burst times.</li>
+            <li><strong>Round-Robin:</strong> Preemptive, fair, uses time quantum — good for time-sharing systems.</li>
+            <li><strong>Priority Scheduling:</strong> Higher priority processes run first — can cause starvation without aging.</li>
+            <li><strong>Multi-level Queue:</strong> Combines multiple scheduling algorithms for different priority levels.</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+Process State Diagram:
+┌──────────────┐     scheduler     ┌──────────────┐
+│    NEW       │ ───────────────> │    READY     │
+└──────────────┘                   └──────┬───────┘
+                                          │   dispatcher
+                                          ▼
+                                   ┌──────────────┐
+                                   │   RUNNING    │
+                                   └──────┬───────┘
+                                      │   │ I/O or event
+                          preempted   │   ▼
+                                      │  ┌──────────────┐
+                                      └─>│   WAITING    │
+                                         └──────────────┘
+            </pre>
+        </div>
+
+        <div class="note-box">
+            <strong>⏱️ Context Switching:</strong> The OS saves the state of a running process and loads the state of the next — this is overhead but essential for multitasking.
+        </div>
     </div>
 
+    <!-- ========== 4.6 ========== -->
     <div class="section">
-        <h2>4.6 Types of Operating System</h2>
-        <p>Operating systems are classified based on their design, functionality, and intended use.</p>
+        <h2>4.6 Memory Management – In Depth</h2>
+        <p>Memory management ensures that each process has enough memory to execute and that processes do not interfere with each other.</p>
+
+        <h3>Memory Allocation Techniques</h3>
         <ul>
-            <li><strong>Batch OS:</strong> Processes jobs in batches without user interaction, used in early mainframes.</li>
-            <li><strong>Multitasking OS:</strong> Allows multiple tasks to run simultaneously, e.g., Windows, Linux.</li>
-            <li><strong>Real-Time OS:</strong> Processes data with strict time constraints, used in embedded systems like medical devices.</li>
-            <li><strong>Distributed OS:</strong> Manages multiple computers working together, appearing as a single system.</li>
-            <li><strong>Mobile OS:</strong> Designed for mobile devices, e.g., Android, iOS.</li>
+            <li><strong>Contiguous Allocation:</strong> Each process gets a single block of contiguous memory. Simple but causes external fragmentation.</li>
+            <li><strong>Paging:</strong> Divides physical memory into fixed-size frames and logical memory into pages. Eliminates fragmentation.</li>
+            <li><strong>Segmentation:</strong> Divides process into variable-sized segments (code, data, stack). Provides logical separation.</li>
+            <li><strong>Virtual Memory:</strong> Allows processes to use more memory than physically available by swapping data to disk (page file).</li>
         </ul>
+
+        <h3>Page Replacement Algorithms</h3>
+        <ul>
+            <li><strong>FIFO:</strong> Replaces the oldest page — simple but can cause poor performance.</li>
+            <li><strong>LRU (Least Recently Used):</strong> Replaces the page not used for the longest time — good performance, but hardware overhead.</li>
+            <li><strong>Optimal:</strong> Replaces the page that will not be needed for the longest time — theoretical optimum, not practical.</li>
+        </ul>
+
+        <table>
+            <tr><th>Technique</th><th>Advantages</th><th>Disadvantages</th><th>Example</th></tr>
+            <tr><td>Contiguous</td><td>Simple, fast access</td><td>External fragmentation</td><td>MS-DOS</td></tr>
+            <tr><td>Paging</td><td>No fragmentation, efficient</td><td>Internal fragmentation</td><td>Linux, Windows</td></tr>
+            <tr><td>Segmentation</td><td>Logical separation</td><td>External fragmentation</td><td>Early Unix</td></tr>
+            <tr><td>Virtual Memory</td><td>Larger address space</td><td>Slower (disk access)</td><td>All modern OS</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 4.7 ========== -->
     <div class="section">
-        <h2>4.7 Functions of Operating System</h2>
-        <p>The operating system performs essential functions to manage hardware and software resources effectively.</p>
+        <h2>4.7 File Management – In Depth</h2>
+        <p>File management handles the organization, storage, and retrieval of data on storage devices.</p>
+
+        <h3>File Operations</h3>
         <ul>
-            <li><strong>Process Management:</strong> Handles creation, scheduling, and termination of processes.</li>
-            <li><strong>Memory Management:</strong> Allocates and deallocates memory for processes.</li>
-            <li><strong>File Management:</strong> Organizes, stores, and retrieves files on storage devices.</li>
-            <li><strong>Device Management:</strong> Controls hardware devices through drivers.</li>
-            <li><strong>User Interface:</strong> Provides interfaces like GUI or CLI for user interaction.</li>
+            <li><strong>Create:</strong> Allocate space and establish an entry in the directory.</li>
+            <li><strong>Read:</strong> Copy data from file to memory.</li>
+            <li><strong>Write:</strong> Copy data from memory to file.</li>
+            <li><strong>Delete:</strong> Free space and remove directory entry.</li>
+            <li><strong>Append:</strong> Add data to the end of an existing file.</li>
         </ul>
+
+        <h3>File Systems</h3>
+        <ul>
+            <li><strong>NTFS:</strong> Windows default — supports large volumes, permissions, journaling.</li>
+            <li><strong>FAT32:</strong> Legacy, compatible with many OS but limited to 4GB max file size.</li>
+            <li><strong>ext4:</strong> Linux standard — reliable, supports large files and volumes.</li>
+            <li><strong>APFS:</strong> Apple's file system — optimized for SSDs, snapshots, encryption.</li>
+        </ul>
+
+        <h3>Directory Structure</h3>
+        <ul>
+            <li><strong>Single-level:</strong> All files in one directory — simple but limited.</li>
+            <li><strong>Two-level:</strong> User directories separate files by user.</li>
+            <li><strong>Hierarchical:</strong> Tree structure with nested directories — most common (Unix, Windows).</li>
+        </ul>
+        <div class="note-box">
+            <strong>📂 File System Features:</strong> Modern file systems include journaling (prevent data corruption), snapshots (point-in-time copies), and encryption (protect data at rest).
+        </div>
     </div>
 
+    <!-- ========== 4.8 ========== -->
     <div class="section">
-        <h2>4.8 Process Management</h2>
-        <p>Process management involves handling the execution of processes (running programs) in the system.</p>
+        <h2>4.8 Device Management</h2>
+        <p>Device management controls and coordinates all hardware devices connected to the computer.</p>
+
+        <h3>Device Drivers</h3>
         <ul>
-            <li><strong>Process States:</strong> Manages states like ready, running, waiting, and terminated.</li>
-            <li><strong>Scheduling:</strong> Allocates CPU time to processes using algorithms like Round-Robin or Priority Scheduling.</li>
-            <li><strong>Examples:</strong> Task Manager in Windows or ‘top’ command in Linux monitors active processes.</li>
+            <li><strong>Role:</strong> Provide a uniform interface for the OS to communicate with hardware.</li>
+            <li><strong>Types:</strong> Character drivers (keyboard, serial), block drivers (storage), network drivers.</li>
+            <li><strong>Plug and Play:</strong> Automatically detect and configure devices.</li>
         </ul>
+
+        <h3>I/O Scheduling</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Optimize the order of I/O requests to improve device throughput.</li>
+            <li><strong>Algorithms:</strong> FCFS, SCAN (elevator), C-SCAN, SSTF (shortest seek time first).</li>
+        </ul>
+
+        <h3>Buffering and Caching</h3>
+        <ul>
+            <li><strong>Buffering:</strong> Temporarily stores data to handle speed mismatches between device and CPU.</li>
+            <li><strong>Caching:</strong> Stores frequently accessed data in fast memory for faster retrieval.</li>
+        </ul>
+        <table>
+            <tr><th>Device Type</th><th>Driver Example</th><th>Purpose</th></tr>
+            <tr><td>Storage</td><td>nvme, ahci</td><td>Access hard drives, SSDs</td></tr>
+            <tr><td>Display</td><td>NVIDIA, AMD, Intel</td><td>Render graphics</td></tr>
+            <tr><td>Network</td><td>e1000, realtek</td><td>Network communication</td></tr>
+            <tr><td>Input</td><td>HID drivers</td><td>Keyboard, mouse, touch</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 4.9 ========== -->
     <div class="section">
-        <h2>4.9 Memory Management</h2>
-        <p>Memory management ensures efficient use of a computer’s memory resources for running processes.</p>
+        <h2>4.9 Protection and Security</h2>
+        <p>Protection and security are critical OS functions to safeguard data and system resources.</p>
+
+        <h3>Protection Mechanisms</h3>
         <ul>
-            <li><strong>Allocation:</strong> Assigns memory space to processes and deallocates it when no longer needed.</li>
-            <li><strong>Virtual Memory:</strong> Uses disk space as an extension of RAM to run larger programs.</li>
-            <li><strong>Examples:</strong> Paging and segmentation techniques in Windows and Linux manage memory effectively.</li>
+            <li><strong>Access Control Lists (ACL):</strong> Define permissions for users and groups.</li>
+            <li><strong>Capability-based:</strong> Process has specific capabilities to access resources.</li>
+            <li><strong>Ring protection:</strong> CPU rings (0-3) isolate kernel from user processes.</li>
         </ul>
+
+        <h3>Security Features</h3>
+        <ul>
+            <li><strong>Authentication:</strong> Verify user identity via passwords, biometrics, or tokens.</li>
+            <li><strong>Authorization:</strong> Control what authenticated users can do.</li>
+            <li><strong>Encryption:</strong> Protect data with BitLocker (Windows), FileVault (macOS), LUKS (Linux).</li>
+            <li><strong>Firewall:</strong> Control network traffic to prevent unauthorized access.</li>
+            <li><strong>Antivirus:</strong> Detect and remove malware.</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>🛡️ Security best practices:</strong> Regular updates, least privilege principle, strong passwords, and security auditing are essential for system protection.
+        </div>
     </div>
 
+    <!-- ========== 4.10 ========== -->
     <div class="section">
-        <h2>4.10 File Management</h2>
-        <p>File management handles the organization, storage, and retrieval of data in files on storage devices.</p>
+        <h2>4.10 User Interface</h2>
+        <p>The user interface is the part of the OS that users interact with directly. It provides access to all system functions.</p>
+
+        <h3>Graphical User Interface (GUI)</h3>
         <ul>
-            <li><strong>File Operations:</strong> Supports creation, deletion, reading, and writing of files.</li>
-            <li><strong>File Systems:</strong> Organizes files using systems like NTFS, FAT32, or ext4.</li>
-            <li><strong>Examples:</strong> File Explorer in Windows or ‘ls’ command in Linux for file navigation.</li>
+            <li><strong>Elements:</strong> Windows, icons, menus, pointers (WIMP).</li>
+            <li><strong>Examples:</strong> Windows Desktop, macOS Finder, GNOME, KDE.</li>
+            <li><strong>Features:</strong> Drag-and-drop, context menus, taskbars, notifications.</li>
         </ul>
+
+        <h3>Command-Line Interface (CLI)</h3>
+        <ul>
+            <li><strong>Characteristics:</strong> Text-based, fast, powerful for automation.</li>
+            <li><strong>Examples:</strong> PowerShell, Command Prompt, Bash, Zsh.</li>
+            <li><strong>Features:</strong> Scripting, pipes, redirection, environment variables.</li>
+        </ul>
+
+        <h3>Touch and Voice Interfaces</h3>
+        <ul>
+            <li><strong>Touch:</strong> Gestures (swipe, tap, pinch) on mobile devices and touchscreens.</li>
+            <li><strong>Voice:</strong> Virtual assistants like Cortana, Siri, Google Assistant.</li>
+            <li><strong>Future:</strong> AR/VR interfaces, brain-computer interfaces (BCI).</li>
+        </ul>
+
+        <div class="code-block">
+            <span># Example CLI commands in Linux</span><br>
+            ls -la          <span># List all files with details</span><br>
+            cd /var/log     <span># Change directory to logs</span><br>
+            grep "error" *.log  <span># Search for errors in log files</span><br>
+            sudo apt update <span># Update package list</span>
+        </div>
     </div>
 
-    <div class="section">
-        <h2>4.11 Device Management</h2>
-        <p>Device management controls and coordinates hardware devices connected to the computer.</p>
-        <ul>
-            <li><strong>Device Drivers:</strong> Software that enables communication between the OS and hardware devices.</li>
-            <li><strong>Resource Allocation:</strong> Assigns devices like printers or USB drives to processes as needed.</li>
-            <li><strong>Examples:</strong> Device Manager in Windows or ‘dmesg’ in Linux monitors hardware status.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>4.12 Protection and Security</h2>
-        <p>Protection and security mechanisms safeguard the system and data from unauthorized access and threats.</p>
-        <ul>
-            <li><strong>Protection:</strong> Controls access to resources, ensuring processes operate within their permissions.</li>
-            <li><strong>Security:</strong> Implements authentication (e.g., passwords), encryption, and firewalls to prevent attacks.</li>
-            <li><strong>Examples:</strong> User account controls in Windows or SELinux in Linux enforce security policies.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>4.13 User Interface</h2>
-        <p>The user interface allows users to interact with the operating system and execute tasks.</p>
-        <ul>
-            <li><strong>Graphical User Interface (GUI):</strong> Provides visual elements like windows, icons, and menus, e.g., Windows Desktop or macOS.</li>
-            <li><strong>Command-Line Interface (CLI):</strong> Enables interaction through text commands, e.g., Windows PowerShell or Linux Terminal.</li>
-            <li><strong>Examples:</strong> Start Menu in Windows or ‘bash’ shell in Linux for user interaction.</li>
-        </ul>
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 4 summary</strong><br>The operating system is the essential software layer that manages hardware, runs applications, and provides user interfaces.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• OS manages processes, memory, files, devices, and security.<br>• Different OS types serve different purposes (batch, real-time, mobile).<br>• User interfaces (GUI/CLI) enable human-computer interaction.</div>
     </div>
 </body>
 </html>

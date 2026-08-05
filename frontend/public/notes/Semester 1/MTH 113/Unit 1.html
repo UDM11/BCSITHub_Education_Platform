@@ -1,174 +1,609 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 1: Basic Concept</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1>Unit 1: Basic Concept</h1>
 
+    <h1>Unit 1: Basic Concept</h1>
+    <div class="subhead">Elementary logic · connectives · quantifiers · sets · proof techniques · real numbers</div>
+
+    <!-- ========== 1.1 ========== -->
     <div class="section">
         <h2>1.1 Elementary Logic</h2>
-        <p>Elementary logic is the foundation of reasoning, used to construct and evaluate arguments systematically, particularly in mathematics and computer science.</p>
+        <p><strong>Elementary logic</strong> is the foundation of reasoning, used to construct and evaluate arguments systematically, particularly in mathematics and computer science.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📊 Propositions</strong><br>Statements that are either true or false (e.g., "2 + 2 = 4" is true; "2 + 2 = 5" is false). Questions and commands are not propositions.</div>
+            <div class="card"><strong>🧩 Logical Arguments</strong><br>Consist of premises (given statements) leading to a conclusion. An argument is valid if the conclusion follows logically from the premises.</div>
+        </div>
+
+        <h3>Key Concepts in Elementary Logic</h3>
         <ul>
-            <li><strong>Propositions:</strong> Statements that are either true or false (e.g., “2 + 2 = 4” is true; “2 + 2 = 5” is false). Non-propositional statements, like questions, are excluded.</li>
-            <li><strong>Logical Arguments:</strong> Consist of premises (given statements) leading to a conclusion. An argument is valid if the conclusion follows logically from the premises.</li>
             <li><strong>Truth Values:</strong> Propositions are evaluated as true (T) or false (F), forming the basis for logical operations and proofs.</li>
-            <li><strong>Applications:</strong> Used in programming (e.g., Boolean logic in conditionals), mathematics, and decision-making to ensure consistent reasoning.</li>
+            <li><strong>Negation:</strong> The opposite of a proposition (¬p). If p is true, ¬p is false.</li>
+            <li><strong>Logical Equivalence:</strong> Two propositions are logically equivalent if they have the same truth value in all possible cases.</li>
+            <li><strong>Applications:</strong> Used in programming (Boolean logic in conditionals), mathematics, and decision-making to ensure consistent reasoning.</li>
         </ul>
-        <p>Elementary logic provides tools to analyze and construct valid arguments, essential for problem-solving.</p>
+
+        <div class="code-block">
+            <span>// Example: Proposition in Code</span><br>
+            let isLoggedIn = true;  <span>// Proposition</span><br>
+            let isAdmin = false;    <span>// Proposition</span><br><br>
+            if (isLoggedIn &amp;&amp; isAdmin) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log("Access granted");<br>
+            } else {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log("Access denied");<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> Elementary logic provides the tools to analyze and construct valid arguments, essential for problem-solving in mathematics, programming, and everyday reasoning.
+        </div>
     </div>
 
+    <!-- ========== 1.2 ========== -->
     <div class="section">
         <h2>1.2 Connectives, Quantifiers</h2>
-        <p>Logical connectives and quantifiers are tools to combine propositions and express relationships, forming the basis of complex logical statements.</p>
+        <p><strong>Logical connectives</strong> and <strong>quantifiers</strong> are tools to combine propositions and express relationships, forming the basis of complex logical statements.</p>
+
+        <h3>Logical Connectives</h3>
+        <table>
+            <tr><th>Connective</th><th>Symbol</th><th>Name</th><th>Example</th><th>Truth</th></tr>
+            <tr><td>AND</td><td>∧</td><td>Conjunction</td><td>p ∧ q</td><td>True only if both p and q are true</td></tr>
+            <tr><td>OR</td><td>∨</td><td>Disjunction</td><td>p ∨ q</td><td>True if at least one is true</td></tr>
+            <tr><td>NOT</td><td>¬</td><td>Negation</td><td>¬p</td><td>True if p is false</td></tr>
+            <tr><td>IMPLIES</td><td>→</td><td>Implication</td><td>p → q</td><td>False only if p is true and q is false</td></tr>
+            <tr><td>IFF</td><td>↔</td><td>Biconditional</td><td>p ↔ q</td><td>True if p and q have same truth value</td></tr>
+        </table>
+
+        <h3>Truth Tables</h3>
+        <div class="code-block">
+            <span>// Truth Table for Implication (p → q)</span><br>
+            +-------+-------+-------------------+<br>
+            |   p   |   q   |      p → q       |<br>
+            +-------+-------+-------------------+<br>
+            |   T   |   T   |        T         |<br>
+            |   T   |   F   |        F         |<br>
+            |   F   |   T   |        T         |<br>
+            |   F   |   F   |        T         |<br>
+            +-------+-------+-------------------+
+        </div>
+
+        <h3>Quantifiers</h3>
         <ul>
-            <li><strong>Connectives:</strong> Include AND (conjunction, ∧), OR (disjunction, ∨), NOT (negation, ¬), IMPLIES (implication, →), and IF AND ONLY IF (biconditional, ↔). For example, “p ∧ q” is true only if both p and q are true.</li>
-            <li><strong>Truth Tables:</strong> Used to evaluate connectives by listing all possible truth values (e.g., for p → q, the statement is false only when p is true and q is false).</li>
-            <li><strong>Quantifiers:</strong> Express scope of variables. Universal quantifier (∀, “for all”) applies to every element (e.g., ∀x (x > 0)), while existential quantifier (∃, “there exists”) applies to at least one (e.g., ∃x (x² = 4)).</li>
-            <li><strong>Applications:</strong> Connectives and quantifiers are used in programming logic, database queries, and mathematical proofs to define conditions and relationships.</li>
+            <li><strong>Universal Quantifier (∀):</strong> "For all" — applies to every element in a set.
+                <div class="code-block">
+                    ∀x ∈ ℝ (x² ≥ 0)  <span>// For all real numbers x, x² is non-negative</span>
+                </div>
+            </li>
+            <li><strong>Existential Quantifier (∃):</strong> "There exists" — applies to at least one element.
+                <div class="code-block">
+                    ∃x ∈ ℝ (x² = 9)  <span>// There exists a real number x such that x² = 9</span>
+                </div>
+            </li>
+            <li><strong>Negation of Quantifiers:</strong>
+                <div class="code-block">
+                    ¬∀x P(x) = ∃x ¬P(x)  <span>// Negating universal gives existential</span><br>
+                    ¬∃x P(x) = ∀x ¬P(x)  <span>// Negating existential gives universal</span>
+                </div>
+            </li>
         </ul>
-        <p>These tools enable precise formulation of logical expressions in reasoning and computation.</p>
     </div>
 
+    <!-- ========== 1.3 ========== -->
     <div class="section">
         <h2>1.3 Basic Laws of Logic</h2>
         <p>Basic laws of logic govern how propositions and connectives interact, ensuring consistent and valid reasoning in mathematical and computational contexts.</p>
-        <ul>
-            <li><strong>Commutative Law:</strong> Order doesn’t matter in AND or OR operations (e.g., p ∧ q = q ∧ p; p ∨ q = q ∨ p).</li>
-            <li><strong>Associative Law:</strong> Grouping doesn’t affect AND or OR (e.g., (p ∧ q) ∧ r = p ∧ (q ∧ r)).</li>
-            <li><strong>Distributive Law:</strong> AND and OR distribute over each other (e.g., p ∧ (q ∨ r) = (p ∧ q) ∨ (p ∧ r)).</li>
-            <li><strong>De Morgan’s Laws:</strong> Negation of conjunctions and disjunctions: ¬(p ∧ q) = ¬p ∨ ¬q; ¬(p ∨ q) = ¬p ∧ ¬q. These are critical for simplifying logical expressions.</li>
-        </ul>
-        <p>These laws ensure logical equivalence and simplify complex expressions in proofs and algorithms.</p>
+
+        <h3>Fundamental Laws</h3>
+        <table>
+            <tr><th>Law</th><th>Formula</th><th>Example</th></tr>
+            <tr><td>Commutative</td><td>p ∧ q = q ∧ p<br>p ∨ q = q ∨ p</td><td>p AND q is same as q AND p</td></tr>
+            <tr><td>Associative</td><td>(p ∧ q) ∧ r = p ∧ (q ∧ r)<br>(p ∨ q) ∨ r = p ∨ (q ∨ r)</td><td>Grouping doesn't matter</td></tr>
+            <tr><td>Distributive</td><td>p ∧ (q ∨ r) = (p ∧ q) ∨ (p ∧ r)<br>p ∨ (q ∧ r) = (p ∨ q) ∧ (p ∨ r)</td><td>AND distributes over OR and vice versa</td></tr>
+            <tr><td>De Morgan's</td><td>¬(p ∧ q) = ¬p ∨ ¬q<br>¬(p ∨ q) = ¬p ∧ ¬q</td><td>Negation flips AND to OR and vice versa</td></tr>
+            <tr><td>Double Negation</td><td>¬(¬p) = p</td><td>Negating twice returns original</td></tr>
+            <tr><td>Idempotent</td><td>p ∧ p = p<br>p ∨ p = p</td><td>Repeating doesn't change value</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Example: Simplifying with De Morgan's Law</span><br>
+            <span>// Original: ¬(A ∧ B) ∨ C</span><br>
+            <span>// Apply De Morgan's: (¬A ∨ ¬B) ∨ C</span><br>
+            <span>// Result: ¬A ∨ ¬B ∨ C</span>
+        </div>
     </div>
 
+    <!-- ========== 1.4 ========== -->
     <div class="section">
         <h2>1.4 Quantifiers</h2>
         <p>Quantifiers specify the scope of variables in logical statements, crucial for precise mathematical and computational reasoning.</p>
+
+        <h3>Quantifiers in Detail</h3>
         <ul>
-            <li><strong>Universal Quantifier (∀):</strong> Indicates a statement is true for all elements in a set (e.g., ∀x ∈ ℝ (x² ≥ 0) means “for all real numbers x, x² is non-negative”).</li>
-            <li><strong>Existential Quantifier (∃):</strong> Indicates a statement is true for at least one element (e.g., ∃x ∈ ℝ (x² = 9) means “there exists a real number x such that x² = 9”).</li>
-            <li><strong>Negation of Quantifiers:</strong> Negating a universal quantifier yields an existential one, and vice versa (e.g., ¬∀x P(x) = ∃x ¬P(x)).</li>
-            <li><strong>Applications:</strong> Used in formal specifications, database queries (e.g., SQL), and proofs to define conditions over sets or domains.</li>
+            <li><strong>Universal Quantifier (∀):</strong> "For all" — statement is true for every element.
+                <div class="code-block">
+                    ∀x ∈ ℕ (x + 1 > 0)  <span>// For all natural numbers x, x+1 is greater than 0</span>
+                </div>
+            </li>
+            <li><strong>Existential Quantifier (∃):</strong> "There exists" — at least one element makes the statement true.
+                <div class="code-block">
+                    ∃x ∈ ℤ (x² = 4)  <span>// There exists an integer x such that x² = 4 (x = 2 or -2)</span>
+                </div>
+            </li>
+            <li><strong>Nested Quantifiers:</strong>
+                <div class="code-block">
+                    ∀x ∃y (x + y = 0)  <span>// For every x, there exists a y such that x + y = 0</span>
+                </div>
+            </li>
         </ul>
-        <p>Quantifiers enable precise expression of generalizations and existence in logical arguments.</p>
+
+        <h3>Quantifier Rules</h3>
+        <ul>
+            <li><strong>Order Matters:</strong> ∀x ∃y P(x,y) ≠ ∃y ∀x P(x,y)</li>
+            <li><strong>Negation:</strong>
+                <div class="code-block">
+                    ¬∀x P(x) = ∃x ¬P(x)<br>
+                    ¬∃x P(x) = ∀x ¬P(x)
+                </div>
+            </li>
+        </ul>
+
+        <div class="note-box">
+            <strong>📐 Key insight:</strong> Quantifiers are essential for formalizing statements in mathematics, logic, and computer science. They enable precise expression of properties over sets and domains.
+        </div>
     </div>
 
+    <!-- ========== 1.5 ========== -->
     <div class="section">
         <h2>1.5 Techniques of Proof</h2>
-        <p>Techniques of proof are methods to establish the truth of mathematical statements, widely used in logic, mathematics, and computer science.</p>
+        <p><strong>Techniques of proof</strong> are methods to establish the truth of mathematical statements, widely used in logic, mathematics, and computer science.</p>
+
+        <h3>Proof Methods</h3>
         <ul>
-            <li><strong>Direct Proof:</strong> Assume premises are true and logically derive the conclusion (e.g., prove “if n is even, then n² is even” by showing n = 2k implies n² = 4k²).</li>
-            <li><strong>Proof by Contradiction:</strong> Assume the opposite of the conclusion, derive a contradiction (e.g., to prove √2 is irrational, assume it’s rational and show it leads to a contradiction).</li>
-            <li><strong>Mathematical Induction:</strong> Prove a statement for a base case and show it holds for the next case (e.g., prove Σn = n(n+1)/2 for all n ≥ 1).</li>
-            <li><strong>Counterexample:</strong> Disprove a universal statement by providing a single example where it fails (e.g., “all primes are odd” is disproved by n = 2).</li>
+            <li><strong>Direct Proof:</strong> Assume premises are true and logically derive the conclusion.
+                <div class="code-block">
+                    <span>// Prove: If n is even, then n² is even</span><br>
+                    <span>// n = 2k (even definition)</span><br>
+                    <span>// n² = (2k)² = 4k² = 2(2k²)</span><br>
+                    <span>// Therefore, n² is even.</span>
+                </div>
+            </li>
+            <li><strong>Proof by Contradiction:</strong> Assume the opposite of the conclusion and derive a contradiction.
+                <div class="code-block">
+                    <span>// Prove: √2 is irrational</span><br>
+                    <span>// Assume √2 is rational → √2 = a/b in lowest terms</span><br>
+                    <span>// Then 2 = a²/b² → a² = 2b²</span><br>
+                    <span>// This implies a is even, then b is even → contradiction</span>
+                </div>
+            </li>
+            <li><strong>Mathematical Induction:</strong> Prove a base case and the inductive step.
+                <div class="code-block">
+                    <span>// Prove: sum of first n natural numbers = n(n+1)/2</span><br>
+                    <span>// Base case: n=1 → 1 = 1(2)/2 ✓</span><br>
+                    <span>// Inductive step: assume true for n, prove for n+1</span>
+                </div>
+            </li>
+            <li><strong>Counterexample:</strong> Disprove a universal statement with one example.
+                <div class="code-block">
+                    <span>// Statement: "All primes are odd"</span><br>
+                    <span>// Counterexample: 2 is prime and even</span>
+                </div>
+            </li>
         </ul>
-        <p>These techniques ensure rigorous validation of claims in theoretical and applied fields.</p>
     </div>
 
+    <!-- ========== 1.6 ========== -->
     <div class="section">
         <h2>1.6 Sets, Types of Sets, Venn Diagram</h2>
-        <p>Sets are collections of distinct elements, fundamental to mathematics and computer science, with Venn diagrams visually representing relationships.</p>
+        <p><strong>Sets</strong> are collections of distinct elements, fundamental to mathematics and computer science, with <strong>Venn diagrams</strong> visually representing relationships.</p>
+
+        <h3>Sets</h3>
         <ul>
-            <li><strong>Sets:</strong> Defined by elements (e.g., A = {1, 2, 3}) or properties (e.g., {x | x is even}). Notation includes ∈ for membership (e.g., 2 ∈ A).</li>
-            <li><strong>Types of Sets:</strong> Include empty set (∅), finite sets (e.g., {1, 2}), infinite sets (e.g., ℕ), universal set (all elements in context), and subsets (B ⊆ A if all elements of B are in A).</li>
-            <li><strong>Venn Diagrams:</strong> Use circles to represent sets and their relationships, such as intersections (shared elements) or unions (all elements). For example, two overlapping circles show A ∩ B.</li>
-            <li><strong>Applications:</strong> Sets are used in databases, programming (e.g., sets in Python), and logic to organize and analyze data.</li>
+            <li><strong>Definition:</strong> A collection of distinct objects (elements).</li>
+            <li><strong>Notation:</strong> A = {1, 2, 3} or A = {x | x is even}</li>
+            <li><strong>Membership:</strong> 2 ∈ A (2 is in A), 4 ∉ A (4 is not in A)</li>
         </ul>
-        <p>Sets and Venn diagrams provide a framework for understanding relationships and structures.</p>
+
+        <h3>Types of Sets</h3>
+        <table>
+            <tr><th>Type</th><th>Description</th><th>Example</th></tr>
+            <tr><td>Empty Set</td><td>Set with no elements</td><td>∅ or {}</td></tr>
+            <tr><td>Finite Set</td><td>Has a countable number of elements</td><td>{1, 2, 3, 4, 5}</td></tr>
+            <tr><td>Infinite Set</td><td>Has an unlimited number of elements</td><td>ℕ = {1, 2, 3, ...}</td></tr>
+            <tr><td>Universal Set</td><td>All elements in a given context</td><td>U = {1, 2, 3, 4, 5}</td></tr>
+            <tr><td>Subset</td><td>All elements of one set are in another</td><td>B ⊆ A</td></tr>
+        </table>
+
+        <h3>Venn Diagrams</h3>
+        <div class="figure-box">
+            <pre>
+Venn Diagram of Two Sets:
+┌─────────────────────────────┐
+│  ┌──────────┐              │
+│  │    A      │  ┌──────────┼──┐
+│  │           │  │          │  │
+│  │           │  │    B     │  │
+│  │   A only  │  │  B only  │  │
+│  │           │  │          │  │
+│  │           │  │          │  │
+│  └───────────┼──┘          │  │
+│              │   A ∩ B     │  │
+│              └─────────────┼──┘
+│                            │
+└────────────────────────────┘
+            </pre>
+        </div>
     </div>
 
+    <!-- ========== 1.7 ========== -->
     <div class="section">
         <h2>1.7 Set Operations, Laws of the Algebra of Sets</h2>
-        <p>Set operations manipulate sets to form new ones, governed by algebraic laws, essential for data analysis and logical reasoning.</p>
+        <p><strong>Set operations</strong> manipulate sets to form new ones, governed by algebraic laws, essential for data analysis and logical reasoning.</p>
+
+        <h3>Set Operations</h3>
+        <table>
+            <tr><th>Operation</th><th>Symbol</th><th>Definition</th><th>Example</th></tr>
+            <tr><td>Union</td><td>A ∪ B</td><td>Elements in A or B</td><td>{1,2} ∪ {2,3} = {1,2,3}</td></tr>
+            <tr><td>Intersection</td><td>A ∩ B</td><td>Elements in both A and B</td><td>{1,2} ∩ {2,3} = {2}</td></tr>
+            <tr><td>Difference</td><td>A \ B</td><td>Elements in A but not B</td><td>{1,2} \ {2,3} = {1}</td></tr>
+            <tr><td>Complement</td><td>A'</td><td>Elements not in A</td><td>If U={1,2,3}, {1}'={2,3}</td></tr>
+        </table>
+
+        <h3>Laws of Algebra of Sets</h3>
         <ul>
-            <li><strong>Operations:</strong> Union (A ∪ B: all elements in A or B), intersection (A ∩ B: elements in both A and B), difference (A \ B: elements in A but not B), and complement (A’: elements not in A).</li>
-            <li><strong>Commutative Law:</strong> A ∪ B = B ∪ A; A ∩ B = B ∩ A.</li>
-            <li><strong>Associative Law:</strong> (A ∪ B) ∪ C = A ∪ (B ∪ C); (A ∩ B) ∩ C = A ∩ (B ∩ C).</li>
-            <li><strong>De Morgan’s Laws for Sets:</strong> (A ∪ B)’ = A’ ∩ B’; (A ∩ B)’ = A’ ∪ B’. These simplify set expressions and are used in programming and database queries.</li>
+            <li><strong>Commutative:</strong> A ∪ B = B ∪ A, A ∩ B = B ∩ A</li>
+            <li><strong>Associative:</strong> (A ∪ B) ∪ C = A ∪ (B ∪ C), (A ∩ B) ∩ C = A ∩ (B ∩ C)</li>
+            <li><strong>Distributive:</strong> A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C), A ∪ (B ∩ C) = (A ∪ B) ∩ (A ∪ C)</li>
+            <li><strong>De Morgan's:</strong> (A ∪ B)' = A' ∩ B', (A ∩ B)' = A' ∪ B'</li>
+            <li><strong>Idempotent:</strong> A ∪ A = A, A ∩ A = A</li>
+            <li><strong>Identity:</strong> A ∪ ∅ = A, A ∩ U = A</li>
         </ul>
-        <p>Set operations and laws enable efficient manipulation and analysis of data collections.</p>
     </div>
 
+    <!-- ========== 1.8 ========== -->
     <div class="section">
         <h2>1.8 Real Number System, Representation on the Real Line</h2>
-        <p>The real number system encompasses all numbers on the number line, used extensively in mathematics and computing for measurements and calculations.</p>
+        <p>The <strong>real number system</strong> encompasses all numbers on the number line, used extensively in mathematics and computing for measurements and calculations.</p>
+
+        <h3>Number System Hierarchy</h3>
         <ul>
-            <li><strong>Real Numbers:</strong> Include integers, rational numbers (e.g., 1/2), and irrational numbers (e.g., √2, π), forming a complete, ordered system.</li>
-            <li><strong>Real Line Representation:</strong> Each real number corresponds to a unique point on an infinite line, with 0 as the origin, positive numbers to the right, and negative to the left.</li>
-            <li><strong>Subsets:</strong> Naturals (ℕ: 1, 2, …), integers (ℤ: …, -1, 0, 1, …), rationals (ℚ: fractions), and irrationals (non-repeating decimals).</li>
-            <li><strong>Applications:</strong> Real numbers are used in algorithms, data modeling, and graphical representations in programming and engineering.</li>
+            <li><strong>Natural Numbers (ℕ):</strong> 1, 2, 3, ... (positive integers)</li>
+            <li><strong>Whole Numbers:</strong> 0, 1, 2, 3, ...</li>
+            <li><strong>Integers (ℤ):</strong> ..., -2, -1, 0, 1, 2, ...</li>
+            <li><strong>Rational Numbers (ℚ):</strong> All numbers expressible as p/q (q ≠ 0)</li>
+            <li><strong>Irrational Numbers:</strong> Numbers that cannot be expressed as p/q (e.g., √2, π)</li>
+            <li><strong>Real Numbers (ℝ):</strong> All rational and irrational numbers</li>
         </ul>
-        <p>The real number system and its visual representation provide a foundation for quantitative analysis.</p>
+
+        <h3>Real Line Representation</h3>
+        <div class="figure-box">
+            <pre>
+Real Number Line:
+←─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────→
+     -3    -2    -1     0     1     2     3     4
+
+        Negative ←─ Origin ─→ Positive
+            </pre>
+        </div>
     </div>
 
+    <!-- ========== 1.9 ========== -->
     <div class="section">
         <h2>1.9 Properties of Real Numbers, Ordered Sets, Inequalities</h2>
         <p>Properties of real numbers and their ordering underpin mathematical operations and comparisons, critical for logical and computational tasks.</p>
+
+        <h3>Properties of Real Numbers</h3>
         <ul>
-            <li><strong>Properties:</strong> Commutative (a + b = b + a), associative ((a + b) + c = a + (b + c)), distributive (a(b + c) = ab + ac), and identity (a + 0 = a; a × 1 = a).</li>
-            <li><strong>Ordered Sets:</strong> Real numbers are totally ordered; for any a, b, either a < b, a = b, or a > b, enabling consistent comparisons.</li>
-            <li><strong>Inequalities:</strong> Express relationships like a ≤ b or a > b. Properties include transitivity (if a < b and b < c, then a < c) and addition (if a < b, then a + c < b + c).</li>
-            <li><strong>Applications:</strong> Used in optimization problems, algorithm design, and data sorting to establish relationships and constraints.</li>
+            <li><strong>Commutative:</strong> a + b = b + a, a × b = b × a</li>
+            <li><strong>Associative:</strong> (a + b) + c = a + (b + c), (a × b) × c = a × (b × c)</li>
+            <li><strong>Distributive:</strong> a × (b + c) = a × b + a × c</li>
+            <li><strong>Identity:</strong> a + 0 = a, a × 1 = a</li>
+            <li><strong>Inverse:</strong> a + (-a) = 0, a × (1/a) = 1 (a ≠ 0)</li>
         </ul>
-        <p>These properties ensure reliable calculations and comparisons in mathematical and computational contexts.</p>
+
+        <h3>Ordered Sets</h3>
+        <ul>
+            <li><strong>Total Order:</strong> For any a, b, exactly one of a < b, a = b, or a > b holds.</li>
+            <li><strong>Transitivity:</strong> If a < b and b < c, then a < c.</li>
+            <li><strong>Addition:</strong> If a < b, then a + c < b + c.</li>
+            <li><strong>Multiplication:</strong> If a < b and c > 0, then ac < bc.</li>
+        </ul>
+
+        <h3>Inequalities</h3>
+        <div class="code-block">
+            <span>// Solving inequalities</span><br>
+            <span>// 2x + 5 > 13</span><br>
+            <span>// 2x > 8</span><br>
+            <span>// x > 4</span><br><br>
+            <span>// Absolute value inequality</span><br>
+            <span>// |x - 3| < 5</span><br>
+            <span>// -5 < x - 3 < 5</span><br>
+            <span>// -2 < x < 8</span>
+        </div>
     </div>
 
+    <!-- ========== 1.10 ========== -->
     <div class="section">
         <h2>1.10 Intervals, Absolute Value, Cartesian Product, Relation</h2>
         <p>Intervals, absolute values, Cartesian products, and relations are key concepts for defining ranges, distances, and relationships in mathematics and computer science.</p>
+
+        <h3>Intervals</h3>
+        <table>
+            <tr><th>Type</th><th>Notation</th><th>Definition</th><th>Example</th></tr>
+            <tr><td>Closed</td><td>[a, b]</td><td>a ≤ x ≤ b</td><td>[1, 5] = {1, 2, 3, 4, 5}</td></tr>
+            <tr><td>Open</td><td>(a, b)</td><td>a < x < b</td><td>(1, 5) = {2, 3, 4}</td></tr>
+            <tr><td>Half-Open</td><td>[a, b) or (a, b]</td><td>a ≤ x < b or a < x ≤ b</td><td>[1, 5) = {1, 2, 3, 4}</td></tr>
+            <tr><td>Infinite</td><td>[a, ∞) or (-∞, b]</td><td>Unbounded</td><td>[1, ∞) = {1, 2, 3, ...}</td></tr>
+        </table>
+
+        <h3>Absolute Value</h3>
+        <div class="code-block">
+            |x| = { x, if x ≥ 0<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ -x, if x < 0<br><br>
+            <span>// Properties</span><br>
+            |a| ≥ 0<br>
+            |ab| = |a| × |b|<br>
+            |a + b| ≤ |a| + |b|  <span>// Triangle inequality</span>
+        </div>
+
+        <h3>Cartesian Product and Relation</h3>
         <ul>
-            <li><strong>Intervals:</strong> Subsets of real numbers, e.g., closed [a, b] (includes a, b), open (a, b) (excludes a, b). Used to define ranges in programming and analysis.</li>
-            <li><strong>Absolute Value:</strong> |x| represents the distance from x to 0 (e.g., |-3| = 3). Used in error calculations and optimization algorithms.</li>
-            <li><strong>Cartesian Product:</strong> For sets A and B, A × B is the set of all ordered pairs (a, b) where a ∈ A, b ∈ B. Used in databases and coordinate systems.</li>
-            <li><strong>Relation:</strong> A subset of A × B, defining how elements of A relate to B (e.g., {(1, a), (2, b)}). Used in graphs, databases, and function definitions.</li>
+            <li><strong>Cartesian Product (A × B):</strong> Set of all ordered pairs (a, b) where a ∈ A and b ∈ B.
+                <div class="code-block">
+                    A = {1, 2}, B = {a, b}<br>
+                    A × B = {(1, a), (1, b), (2, a), (2, b)}
+                </div>
+            </li>
+            <li><strong>Relation:</strong> A subset of A × B that defines how elements relate to each other.
+                <div class="code-block">
+                    R = {(1, a), (2, b)}<br>
+                    1 R a (1 is related to a)<br>
+                    2 R b (2 is related to b)
+                </div>
+            </li>
         </ul>
-        <p>These concepts provide tools for modeling relationships and constraints in theoretical and applied fields.</p>
+
+        <div class="note-box">
+            <strong>📐 Key insight:</strong> Intervals, absolute values, Cartesian products, and relations are fundamental tools for modeling ranges, distances, and relationships in mathematics and computer science.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 1 summary</strong><br>Basic concepts include elementary logic, connectives, quantifiers, proof techniques, sets, real numbers, and related concepts.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Elementary logic: propositions, arguments, truth values.<br>• Connectives: AND, OR, NOT, IMPLIES, IFF.<br>• Quantifiers: universal (∀) and existential (∃).<br>• Proof techniques: direct, contradiction, induction.<br>• Sets: types, operations, Venn diagrams, laws.<br>• Real numbers: properties, order, inequalities.<br>• Intervals, absolute value, Cartesian product, relation.</div>
     </div>
 </body>
 </html>

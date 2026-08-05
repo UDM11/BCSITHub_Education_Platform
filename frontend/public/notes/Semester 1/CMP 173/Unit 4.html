@@ -1,340 +1,993 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unit 4: Cascading Style Sheets</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-      font-weight: bold;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 4: Cascading Style Sheets</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Unit 4: Cascading Style Sheets</h1>
+    <h1>Unit 4: Cascading Style Sheets</h1>
+    <div class="subhead">CSS basics · syntax · selectors · box model · layout · responsive design · properties</div>
 
-  <div class="section">
-    <h2>4.1 Introduction to CSS</h2>
-    <p>Cascading Style Sheets (CSS) is a stylesheet language used to control the presentation and layout of HTML documents. It separates content from design, enabling consistent styling across multiple pages.</p>
-    <ul>
-      <li><strong>Purpose</strong>: Enhances visual appeal and user experience.</li>
-      <li><strong>Cascading</strong>: Styles are applied based on specificity and order of rules.</li>
-      <li><strong>Versions</strong>: CSS3 is the latest, supporting animations, gradients, and more.</li>
-    </ul>
-  </div>
+    <!-- ========== 4.1 ========== -->
+    <div class="section">
+        <h2>4.1 Introduction to CSS</h2>
+        <p><strong>Cascading Style Sheets (CSS)</strong> is a stylesheet language used to control the presentation and layout of HTML documents. It separates content from design, enabling consistent styling across multiple pages and improving maintainability.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🎨 Purpose</strong><br>Enhances visual appeal, user experience, and accessibility. Allows control over colors, fonts, spacing, layout, and responsive behavior.</div>
+            <div class="card"><strong>📋 Key Concepts</strong><br>Cascading: Styles apply based on specificity, source order, and importance. CSS3 is the latest version with advanced features.</div>
+        </div>
 
-  <div class="section">
-    <h2>4.2 CSS Syntax</h2>
-    <p>CSS syntax consists of selectors and declaration blocks. A declaration block contains properties and their values, enclosed in curly braces.</p>
-    <ul>
-      <li><strong>Selector</strong>: Targets HTML elements (e.g., <code>h1</code>, <code>.class</code>).</li>
-      <li><strong>Property</strong>: Defines what to style (e.g., <code>color</code>).</li>
-      <li><strong>Value</strong>: Specifies the style (e.g., <code>blue</code>).</li>
-    </ul>
-    <pre><code>h1 {
-  color: blue;
-  font-size: 24px;
-}</code></pre>
-  </div>
+        <h3>Benefits of CSS</h3>
+        <ul>
+            <li><strong>Separation of Concerns:</strong> Content (HTML) and presentation (CSS) are kept separate.</li>
+            <li><strong>Consistency:</strong> Apply the same styles across multiple pages with one stylesheet.</li>
+            <li><strong>Maintainability:</strong> Make global design changes from a single file.</li>
+            <li><strong>Performance:</strong> Reduce file size and improve load times.</li>
+            <li><strong>Accessibility:</strong> Support different devices and user preferences.</li>
+        </ul>
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> CSS is essential for modern web development. Without CSS, the web would consist of unstyled, plain text documents.
+        </div>
+    </div>
 
-  <div class="section">
-    <h2>4.3 Using CSS with HTML</h2>
-    <p>CSS can be applied to HTML in three ways: inline, internal, and external.</p>
-    <ul>
-      <li><strong>Inline CSS</strong>: Uses the <code>style</code> attribute in HTML tags.</li>
-      <li><strong>Internal CSS</strong>: Defined within a <code>&lt;style&gt;</code> tag in the <code>&lt;head&gt;</code>.</li>
-      <li><strong>External CSS</strong>: Linked via a <code>&lt;link&gt;</code> tag to a separate <code>.css</code> file.</li>
-    </ul>
-    <pre><code>&lt;!-- Inline CSS --&gt;
-&lt;p style="color: red;"&gt;Inline text&lt;/p&gt;
+    <!-- ========== 4.2 ========== -->
+    <div class="section">
+        <h2>4.2 CSS Syntax</h2>
+        <p>CSS syntax consists of <strong>selectors</strong> and <strong>declaration blocks</strong>. A declaration block contains properties and their values, enclosed in curly braces.</p>
 
-&lt;!-- Internal CSS --&gt;
-&lt;head&gt;
-  &lt;style&gt;
-    p { color: blue; }
-  &lt;/style&gt;
-&lt;/head&gt;
+        <h3>Basic Syntax</h3>
+        <div class="code-block">
+            selector {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;property: value;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;property: value;<br>
+            }
+        </div>
 
-&lt;!-- External CSS --&gt;
-&lt;link rel="stylesheet" href="styles.css"&gt;</code></pre>
-  </div>
+        <h3>Components</h3>
+        <ul>
+            <li><strong>Selector:</strong> Targets HTML elements (e.g., <code>h1</code>, <code>.class</code>, <code>#id</code>).</li>
+            <li><strong>Property:</strong> Defines what to style (e.g., <code>color</code>, <code>font-size</code>).</li>
+            <li><strong>Value:</strong> Specifies the style (e.g., <code>blue</code>, <code>16px</code>).</li>
+            <li><strong>Declaration:</strong> Property + value pair (e.g., <code>color: blue;</code>).</li>
+            <li><strong>Declaration Block:</strong> Group of declarations inside <code>{ }</code>.</li>
+        </ul>
 
-  <div class="section">
-    <h2>4.4 CSS Selectors</h2>
-    <p>Selectors target HTML elements to apply styles. They range from basic to complex for precise targeting.</p>
-    <ul>
-      <li><strong>Element Selector</strong>: Targets HTML tags (e.g., <code>p</code>).</li>
-      <li><strong>Class Selector</strong>: Targets elements with a class (e.g., <code>.class</code>).</li>
-      <li><strong>ID Selector</strong>: Targets a unique element (e.g., <code>#id</code>).</li>
-      <li><strong>Pseudo-classes</strong>: Style elements based on state (e.g., <code>:hover</code>).</li>
-    </ul>
-    <pre><code>p { color: black; }
-.my-class { font-size: 16px; }
-#my-id { background: yellow; }
-a:hover { color: red; }</code></pre>
-  </div>
+        <div class="code-block">
+            <span>/* CSS Syntax Example */</span><br>
+            h1 {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;color: #2c3e50;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;font-size: 32px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;text-align: center;<br>
+            }<br><br>
+            .highlight {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background-color: yellow;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: 4px 8px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;border-radius: 4px;<br>
+            }
+        </div>
+    </div>
 
-  <div class="section">
-    <h2>4.5 CSS Comments</h2>
-    <p>Comments in CSS are used to explain code or temporarily disable styles, improving maintainability.</p>
-    <ul>
-      <li><strong>Syntax</strong>: Enclosed in <code>/* */</code>.</li>
-      <li><strong>Use</strong>: Add notes or debug by commenting out code.</li>
-    </ul>
-    <pre><code>/* This is a comment */
-p {
-  color: blue; /* Text color */
-}</code></pre>
-  </div>
+    <!-- ========== 4.3 ========== -->
+    <div class="section">
+        <h2>4.3 Using CSS with HTML</h2>
+        <p>CSS can be applied to HTML in three ways: <strong>inline</strong>, <strong>internal</strong>, and <strong>external</strong>. Each method has its use cases and advantages.</p>
 
-  <div class="section">
-    <h2>4.6 CSS Properties</h2>
-    <p>CSS properties define the visual characteristics of elements. Below are key properties:</p>
+        <h3>Inline CSS</h3>
+        <ul>
+            <li><strong>Method:</strong> Use the <code>style</code> attribute directly on HTML elements.</li>
+            <li><strong>Pros:</strong> Quick and specific styling.</li>
+            <li><strong>Cons:</strong> Not reusable, difficult to maintain, violates separation of concerns.</li>
+        </ul>
+        <div class="code-block">
+            &lt;p style="color: red; font-size: 18px;"&gt;Styled inline&lt;/p&gt;
+        </div>
 
-    <h3>4.6.1 Backgrounds</h3>
-    <p>Sets background color, image, or gradient for elements.</p>
-    <pre><code>.box {
-  background-color: #f0f0f0;
-  background-image: url('image.jpg');
-  background-size: cover;
-}</code></pre>
+        <h3>Internal CSS</h3>
+        <ul>
+            <li><strong>Method:</strong> Defined within a <code>&lt;style&gt;</code> tag in the <code>&lt;head&gt;</code> section.</li>
+            <li><strong>Pros:</strong> Good for single-page styling, all CSS in one place.</li>
+            <li><strong>Cons:</strong> Not reusable across multiple pages.</li>
+        </ul>
+        <div class="code-block">
+            &lt;head&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;style&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p { color: blue; font-size: 16px; }<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/style&gt;<br>
+            &lt;/head&gt;
+        </div>
 
-    <h3>4.6.2 Border, Margin</h3>
-    <p>Defines borders and outer spacing around elements.</p>
-    <pre><code>.box {
-  border: 2px solid black;
-  margin: 10px;
-}</code></pre>
+        <h3>External CSS</h3>
+        <ul>
+            <li><strong>Method:</strong> Linked via a <code>&lt;link&gt;</code> tag to a separate <code>.css</code> file.</li>
+            <li><strong>Pros:</strong> Reusable, maintainable, cached for better performance.</li>
+            <li><strong>Cons:</strong> Requires an extra HTTP request (can be cached).</li>
+        </ul>
+        <div class="code-block">
+            &lt;head&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel="stylesheet" href="styles.css"&gt;<br>
+            &lt;/head&gt;
+        </div>
 
-    <h3>4.6.3 Padding</h3>
-    <p>Adds inner spacing between content and borders.</p>
-    <pre><code>.box {
-  padding: 15px;
-}</code></pre>
+        <h3>Comparison</h3>
+        <table>
+            <tr><th>Method</th><th>Scope</th><th>Reusable</th><th>Maintainable</th><th>Performance</th></tr>
+            <tr><td>Inline</td><td>Single element</td><td>No</td><td>Difficult</td><td>Fast</td></tr>
+            <tr><td>Internal</td><td>Single page</td><td>Limited</td><td>Moderate</td><td>Fast</td></tr>
+            <tr><td>External</td><td>Whole site</td><td>Yes</td><td>Excellent</td><td>Cached</td></tr>
+        </table>
+        <div class="note-box">
+            <strong>📌 Key insight:</strong> External CSS is the recommended approach for professional websites. It provides the best maintainability and performance benefits.
+        </div>
+    </div>
 
-    <h3>4.6.4 Height</h3>
-    <p>Sets the height of an element.</p>
-    <pre><code>.box {
-  height: 200px;
-}</code></pre>
+    <!-- ========== 4.4 ========== -->
+    <div class="section">
+        <h2>4.4 CSS Selectors</h2>
+        <p><strong>Selectors</strong> target HTML elements to apply styles. They range from basic to complex for precise targeting. Understanding selectors is fundamental to writing efficient CSS.</p>
 
-    <h3>4.6.5 Width</h3>
-    <p>Sets the width of an element.</p>
-    <pre><code>.box {
-  width: 300px;
-}</code></pre>
+        <h3>Basic Selectors</h3>
+        <table>
+            <tr><th>Selector</th><th>Syntax</th><th>Example</th><th>Description</th></tr>
+            <tr><td>Element</td><td><code>element</code></td><td><code>p { }</code></td><td>All paragraphs</td></tr>
+            <tr><td>Class</td><td><code>.class</code></td><td><code>.highlight { }</code></td><td>Elements with class="highlight"</td></tr>
+            <tr><td>ID</td><td><code>#id</code></td><td><code>#header { }</code></td><td>Element with id="header"</td></tr>
+            <tr><td>Universal</td><td><code>*</code></td><td><code>* { }</code></td><td>All elements</td></tr>
+            <tr><td>Grouping</td><td><code>,</code></td><td><code>h1, h2, h3 { }</code></td><td>Multiple selectors</td></tr>
+        </table>
 
-    <h3>4.6.6 Color (Color Wheel)</h3>
-    <p>Defines text or element color using names, hex, RGB, or HSL.</p>
-    <pre><code>p {
-  color: #ff0000; /* Red */
-  color: rgb(0, 255, 0); /* Green */
-  color: hsl(240, 100%, 50%); /* Blue */
-}</code></pre>
-  </div>
+        <h3>Combinators</h3>
+        <ul>
+            <li><strong>Descendant (space):</strong> <code>div p { }</code> — All paragraphs inside divs.</li>
+            <li><strong>Child (&gt;):</strong> <code>div &gt; p { }</code> — Paragraphs directly inside divs.</li>
+            <li><strong>Adjacent Sibling (+):</strong> <code>h1 + p { }</code> — Paragraph immediately after h1.</li>
+            <li><strong>General Sibling (~):</strong> <code>h1 ~ p { }</code> — All paragraphs after h1.</li>
+        </ul>
 
-  <div class="section">
-    <h2>4.7 Text</h2>
-    <p>Controls text appearance, such as decoration, transformation, and spacing.</p>
-    <ul>
-      <li><strong>text-decoration</strong>: Adds underline, overline, or strikethrough.</li>
-      <li><strong>text-transform</strong>: Changes case (e.g., uppercase).</li>
-      <li><strong>letter-spacing</strong>: Adjusts space between characters.</li>
-    </ul>
-    <pre><code>p {
-  text-decoration: underline;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}</code></pre>
-  </div>
+        <h3>Pseudo-classes</h3>
+        <ul>
+            <li><code>:hover</code> — On mouse hover.</li>
+            <li><code>:active</code> — When element is active (clicked).</li>
+            <li><code>:focus</code> — When element has focus.</li>
+            <li><code>:visited</code> — Visited links.</li>
+            <li><code>:nth-child()</code> — Specific children.</li>
+            <li><code>:first-child</code>, <code>:last-child</code></li>
+            <li><code>:not()</code> — Exclude elements.</li>
+        </ul>
 
-  <div class="section">
-    <h2>4.8 Font</h2>
-    <p>Defines font properties like family, size, weight, and style.</p>
-    <ul>
-      <li><strong>font-family</strong>: Specifies the font (e.g., Arial).</li>
-      <li><strong>font-size</strong>: Sets text size (e.g., 16px).</li>
-      <li><strong>font-weight</strong>: Controls boldness (e.g., bold).</li>
-    </ul>
-    <pre><code>p {
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  font-weight: bold;
-}</code></pre>
-  </div>
+        <h3>Pseudo-elements</h3>
+        <ul>
+            <li><code>::before</code> — Insert before content.</li>
+            <li><code>::after</code> — Insert after content.</li>
+            <li><code>::first-line</code> — First line of text.</li>
+            <li><code>::first-letter</code> — First letter of text.</li>
+        </ul>
 
-  <div class="section">
-    <h2>4.9 Alignment</h2>
-    <p>Controls the alignment of text or elements within their container.</p>
-    <ul>
-      <li><strong>text-align</strong>: Aligns text (e.g., center, justify).</li>
-      <li><strong>vertical-align</strong>: Aligns inline elements vertically.</li>
-    </ul>
-    <pre><code>p {
-  text-align: center;
-}
-img {
-  vertical-align: middle;
-}</code></pre>
-  </div>
+        <div class="code-block">
+            <span>/* Advanced selectors example */</span><br>
+            <span>/* All links inside nav */</span><br>
+            nav a { color: white; }<br><br>
+            <span>/* Direct children of nav */</span><br>
+            nav &gt; ul { list-style: none; }<br><br>
+            <span>/* Hover effect */</span><br>
+            a:hover { color: #3498db; }<br><br>
+            <span>/* Every 2nd list item */</span><br>
+            li:nth-child(2n) { background: #f0f0f0; }<br><br>
+            <span>/* Pseudo-element */</span><br>
+            h1::before { content: "★ "; color: gold; }
+        </div>
+    </div>
 
-  <div class="section">
-    <h2>4.10 Line Height</h2>
-    <p>Adjusts the vertical spacing between lines of text for readability.</p>
-    <pre><code>p {
-  line-height: 1.8;
-}</code></pre>
-  </div>
+    <!-- ========== 4.5 ========== -->
+    <div class="section">
+        <h2>4.5 CSS Comments</h2>
+        <p><strong>Comments</strong> in CSS are used to explain code, document sections, or temporarily disable styles. They improve code maintainability and collaboration.</p>
 
-  <div class="section">
-    <h2>4.11 Box Model</h2>
-    <p>The CSS box model represents the structure of elements, consisting of content, padding, border, and margin.</p>
-    <ul>
-      <li><strong>Content</strong>: The actual content (text, images).</li>
-      <li><strong>Padding</strong>: Space inside the border.</li>
-      <li><strong>Border</strong>: Surrounds padding and content.</li>
-      <li><strong>Margin</strong>: Space outside the border.</li>
-    </ul>
-    <pre><code>.box {
-  width: 200px;
-  padding: 10px;
-  border: 2px solid black;
-  margin: 15px;
-}</code></pre>
-  </div>
+        <h3>Syntax</h3>
+        <ul>
+            <li><strong>Single-line or Multi-line:</strong> Enclosed in <code>/* */</code>.</li>
+            <li>Cannot be nested (no <code>/* /* */ */</code>).</li>
+        </ul>
 
-  <div class="section">
-    <h2>4.12 Working with Images</h2>
-    <p>CSS styles images for size, positioning, and effects like borders or filters.</p>
-    <ul>
-      <li><strong>object-fit</strong>: Controls image scaling (e.g., cover, contain).</li>
-      <li><strong>border-radius</strong>: Rounds image corners.</li>
-      <li><strong>filter</strong>: Applies effects like blur or grayscale.</li>
-    </ul>
-    <pre><code>img {
-  width: 100%;
-  object-fit: cover;
-  border-radius: 10px;
-  filter: grayscale(50%);
-}</code></pre>
-  </div>
+        <div class="code-block">
+            <span>/* This is a CSS comment */</span><br><br>
+            <span>/*</span><br>
+            <span>   This is a multi-line comment</span><br>
+            <span>   Used for documenting sections</span><br>
+            <span>*/</span><br><br>
+            <span>/* ========== HEADER STYLES ========== */</span><br>
+            header {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background: #2c3e50;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;color: white;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: 20px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>/* margin: 10px;  /* Temporarily disabled */</span><br>
+            }
+        </div>
+        <div class="note-box">
+            <strong>📝 Key insight:</strong> Good comments explain why, not what. Use them to document complex logic, browser hacks, or sections that need clarification.
+        </div>
+    </div>
 
-  <div class="section">
-    <h2>4.13 Layout and Positioning</h2>
-    <p>CSS controls element placement using positioning, flexbox, or grid layouts.</p>
-    <ul>
-      <li><strong>position</strong>: Static, relative, absolute, fixed, or sticky.</li>
-      <li><strong>Flexbox</strong>: Flexible box layout for one-dimensional arrangements.</li>
-      <li><strong>Grid</strong>: Two-dimensional layout system.</li>
-    </ul>
-    <pre><code>.container {
-  display: flex;
-  justify-content: space-between;
-}
-.box {
-  position: relative;
-  top: 10px;
-}</code></pre>
-  </div>
+    <!-- ========== 4.6 ========== -->
+    <div class="section">
+        <h2>4.6 CSS Properties</h2>
+        <p>CSS properties define the visual characteristics of elements. Below are key property categories.</p>
 
-  <div class="section">
-    <h2>4.14 Media Query</h2>
-    <p>Media queries apply styles based on device characteristics, enabling responsive design.</p>
-    <ul>
-      <li><strong>Syntax</strong>: Uses <code>@media</code> to define conditions.</li>
-      <li><strong>Breakpoints</strong>: Common for mobile, tablet, and desktop.</li>
-    </ul>
-    <pre><code>@media (max-width: 600px) {
-  .container {
-    flex-direction: column;
-  }
-}</code></pre>
-  </div>
+        <h3>4.6.1 Backgrounds</h3>
+        <ul>
+            <li><code>background-color</code> — Solid color background.</li>
+            <li><code>background-image</code> — Image or gradient background.</li>
+            <li><code>background-size</code> — Size of background (cover, contain).</li>
+            <li><code>background-position</code> — Position of background.</li>
+            <li><code>background-repeat</code> — Repeat behavior.</li>
+        </ul>
+        <div class="code-block">
+            .hero {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background-size: cover;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background-position: center;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;min-height: 400px;<br>
+            }
+        </div>
 
-  <div class="section">
-    <h2>4.15 CSS Website Layout</h2>
-    <p>Combines CSS techniques to create structured, responsive website layouts.</p>
-    <ul>
-      <li><strong>Header, Main, Footer</strong>: Common layout structure.</li>
-      <li><strong>Grid/Flexbox</strong>: Used for multi-column or responsive layouts.</li>
-      <li><strong>Navigation</strong>: Styled menus for user navigation.</li>
-    </ul>
-    <pre><code>body {
-  margin: 0;
-}
-.header {
-  background: #333;
-  color: white;
-  padding: 10px;
-}
-.main {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-}
-@media (max-width: 768px) {
-  .main {
-    grid-template-columns: 1fr;
-  }
-}</code></pre>
-  </div>
+        <h3>4.6.2 Border and Margin</h3>
+        <ul>
+            <li><code>border</code> — Width, style, color (e.g., <code>border: 2px solid #333</code>).</li>
+            <li><code>border-radius</code> — Rounded corners.</li>
+            <li><code>margin</code> — Outer spacing (top, right, bottom, left).</li>
+        </ul>
+        <div class="code-block">
+            .box {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;border: 2px solid #2c3e50;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;border-radius: 8px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;margin: 20px auto;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;width: 300px;<br>
+            }
+        </div>
+
+        <h3>4.6.3 Padding</h3>
+        <ul>
+            <li><code>padding</code> — Inner spacing between content and border.</li>
+            <li><code>padding-top</code>, <code>padding-right</code>, <code>padding-bottom</code>, <code>padding-left</code>.</li>
+        </ul>
+        <div class="code-block">
+            .card {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: 20px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>/* Individual values: top right bottom left */</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: 10px 20px 10px 20px;<br>
+            }
+        </div>
+
+        <h3>4.6.4 Height and Width</h3>
+        <ul>
+            <li><code>height</code> — Element height.</li>
+            <li><code>width</code> — Element width.</li>
+            <li><code>max-width</code>, <code>max-height</code> — Maximum dimensions.</li>
+            <li><code>min-width</code>, <code>min-height</code> — Minimum dimensions.</li>
+        </ul>
+        <div class="code-block">
+            .container {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;width: 100%;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;max-width: 1200px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;height: 100vh; <span>/* Full viewport height */</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;margin: 0 auto;<br>
+            }
+        </div>
+
+        <h3>4.6.5 Color (Color Wheel)</h3>
+        <ul>
+            <li><strong>Named Colors:</strong> <code>red</code>, <code>blue</code>, <code>transparent</code>.</li>
+            <li><strong>Hexadecimal:</strong> <code>#ff0000</code> (red), <code>#00ff00</code> (green), <code>#0000ff</code> (blue).</li>
+            <li><strong>RGB:</strong> <code>rgb(255, 0, 0)</code>, <code>rgba(255, 0, 0, 0.5)</code> (with alpha).</li>
+            <li><strong>HSL:</strong> <code>hsl(240, 100%, 50%)</code>, <code>hsla(240, 100%, 50%, 0.5)</code>.</li>
+        </ul>
+        <div class="code-block">
+            .text-primary { color: #3498db; }<br>
+            .text-success { color: rgb(46, 204, 113); }<br>
+            .text-warning { color: hsl(45, 100%, 50%); }<br>
+            .text-danger { color: rgba(231, 76, 60, 0.8); }
+        </div>
+    </div>
+
+    <!-- ========== 4.7 ========== -->
+    <div class="section">
+        <h2>4.7 Text</h2>
+        <p>Controls text appearance, including decoration, transformation, spacing, and alignment.</p>
+
+        <h3>Text Properties</h3>
+        <ul>
+            <li><code>text-decoration</code> — underline, overline, line-through, none.</li>
+            <li><code>text-transform</code> — uppercase, lowercase, capitalize.</li>
+            <li><code>text-align</code> — left, right, center, justify.</li>
+            <li><code>letter-spacing</code> — Space between characters.</li>
+            <li><code>word-spacing</code> — Space between words.</li>
+            <li><code>text-indent</code> — First line indentation.</li>
+            <li><code>text-shadow</code> — Shadow effect on text.</li>
+        </ul>
+        <div class="code-block">
+            .article {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;text-align: justify;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;text-indent: 2em;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;letter-spacing: 0.5px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;line-height: 1.8;<br>
+            }<br><br>
+            .title {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;text-transform: uppercase;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;text-decoration: underline;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;text-shadow: 2px 2px 4px rgba(0,0,0,0.3);<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 4.8 ========== -->
+    <div class="section">
+        <h2>4.8 Font</h2>
+        <p>Defines font properties like family, size, weight, and style to control typography.</p>
+
+        <h3>Font Properties</h3>
+        <ul>
+            <li><code>font-family</code> — Font name (e.g., Arial, Times New Roman, system-ui).</li>
+            <li><code>font-size</code> — Text size (px, em, rem, %).</li>
+            <li><code>font-weight</code> — Boldness (normal, bold, 100-900).</li>
+            <li><code>font-style</code> — normal, italic, oblique.</li>
+            <li><code>font-variant</code> — small-caps.</li>
+            <li><code>font</code> — Shorthand property.</li>
+        </ul>
+
+        <div class="code-block">
+            .body-text {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;font-size: 16px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;font-weight: 400;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;font-style: normal;<br>
+            }<br><br>
+            .heading {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;font: bold 2.5rem/1.2 'Georgia', serif;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>/* weight size/line-height family */</span><br>
+            }
+        </div>
+
+        <h3>Web Fonts</h3>
+        <ul>
+            <li><strong>Google Fonts:</strong> <code>&lt;link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"&gt;</code></li>
+            <li><strong>@font-face:</strong> Custom fonts.</li>
+        </ul>
+        <div class="code-block">
+            @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap');<br><br>
+            body {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;font-family: 'Open Sans', sans-serif;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 4.9 ========== -->
+    <div class="section">
+        <h2>4.9 Alignment</h2>
+        <p>Controls the alignment of text or elements within their container.</p>
+
+        <h3>Text Alignment</h3>
+        <ul>
+            <li><code>text-align</code> — left, right, center, justify.</li>
+            <li><code>vertical-align</code> — top, middle, bottom, baseline.</li>
+        </ul>
+
+        <h3>Element Alignment</h3>
+        <ul>
+            <li><strong>Flexbox:</strong> <code>justify-content</code>, <code>align-items</code>, <code>align-self</code>.</li>
+            <li><strong>Grid:</strong> <code>justify-items</code>, <code>align-items</code>, <code>place-items</code>.</li>
+            <li><strong>Margin Auto:</strong> <code>margin: 0 auto;</code> for horizontal centering.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>/* Text alignment */</span><br>
+            .center-text { text-align: center; }<br>
+            .justify-text { text-align: justify; }<br><br>
+            <span>/* Flex alignment */</span><br>
+            .flex-center {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;display: flex;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;justify-content: center;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;align-items: center;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;min-height: 100vh;<br>
+            }<br><br>
+            <span>/* Block centering */</span><br>
+            .container {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;width: 80%;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;max-width: 1200px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;margin: 0 auto;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 4.10 ========== -->
+    <div class="section">
+        <h2>4.10 Line Height</h2>
+        <p><code>line-height</code> adjusts the vertical spacing between lines of text, improving readability and aesthetics.</p>
+
+        <h3>Values</h3>
+        <ul>
+            <li><strong>Number:</strong> Multiplier of font size (e.g., <code>line-height: 1.5;</code> → 1.5 × font-size).</li>
+            <li><strong>Length:</strong> Fixed value (e.g., <code>line-height: 24px;</code>).</li>
+            <li><strong>Percentage:</strong> Relative to font size (e.g., <code>line-height: 150%;</code>).</li>
+        </ul>
+
+        <div class="code-block">
+            .text-content {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;font-size: 16px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;line-height: 1.8;  <span>/* 28.8px */</span><br>
+            }<br><br>
+            .compact {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;line-height: 1.2;  <span>/* Tighter spacing */</span><br>
+            }<br><br>
+            .spacious {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;line-height: 2.0;  <span>/* More breathing room */</span><br>
+            }
+        </div>
+        <div class="note-box">
+            <strong>📖 Key insight:</strong> A line height of 1.5 to 1.8 is generally recommended for body text for optimal readability.
+        </div>
+    </div>
+
+    <!-- ========== 4.11 ========== -->
+    <div class="section">
+        <h2>4.11 Box Model</h2>
+        <p>The <strong>CSS box model</strong> represents the structure of every HTML element, consisting of <strong>content</strong>, <strong>padding</strong>, <strong>border</strong>, and <strong>margin</strong>.</p>
+
+        <div class="figure-box">
+            <pre>
++---------------------------+
+|          Margin           |
+|  +---------------------+  |
+|  |       Border        |  |
+|  |  +-----------------+ |  |
+|  |  |     Padding     | |  |
+|  |  |  +-----------+  | |  |
+|  |  |  |  Content  |  | |  |
+|  |  |  +-----------+  | |  |
+|  |  +-----------------+ |  |
+|  +---------------------+  |
++---------------------------+
+            </pre>
+        </div>
+
+        <ul>
+            <li><strong>Content:</strong> The actual content (text, images, etc.).</li>
+            <li><strong>Padding:</strong> Space between content and border.</li>
+            <li><strong>Border:</strong> Line surrounding padding and content.</li>
+            <li><strong>Margin:</strong> Space outside the border (between elements).</li>
+        </ul>
+
+        <div class="code-block">
+            .box {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;width: 200px;       <span>/* Content width */</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: 20px;       <span>/* Inner spacing */</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;border: 2px solid #333; <span>/* Border */</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;margin: 15px;        <span>/* Outer spacing */</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;box-sizing: border-box; <span>/* Include padding and border in width */</span><br>
+            }
+        </div>
+
+        <h3>box-sizing</h3>
+        <ul>
+            <li><strong>content-box (default):</strong> Width/height applies to content only.</li>
+            <li><strong>border-box:</strong> Width/height includes padding and border.</li>
+        </ul>
+        <div class="code-block">
+            <span>/* Reset all elements to border-box */</span><br>
+            *, *::before, *::after {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;box-sizing: border-box;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 4.12 ========== -->
+    <div class="section">
+        <h2>4.12 Working with Images</h2>
+        <p>CSS styles images for size, positioning, and visual effects.</p>
+
+        <h3>Image Properties</h3>
+        <ul>
+            <li><code>width</code>, <code>height</code> — Set dimensions.</li>
+            <li><code>object-fit</code> — cover, contain, fill, none, scale-down.</li>
+            <li><code>object-position</code> — Position within container.</li>
+            <li><code>border-radius</code> — Round corners.</li>
+            <li><code>filter</code> — blur, brightness, contrast, grayscale, sepia.</li>
+            <li><code>opacity</code> — Transparency (0 to 1).</li>
+        </ul>
+
+        <div class="code-block">
+            <span>/* Image gallery styles */</span><br>
+            .gallery-image {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;width: 100%;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;height: 250px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;object-fit: cover;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;border-radius: 8px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;transition: transform 0.3s ease;<br>
+            }<br><br>
+            .gallery-image:hover {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;transform: scale(1.05);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;filter: brightness(1.1);<br>
+            }<br><br>
+            <span>/* Background image with overlay */</span><br>
+            .hero-section {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background-image: url('hero.jpg');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background-size: cover;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background-position: center;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;height: 500px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;position: relative;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 4.13 ========== -->
+    <div class="section">
+        <h2>4.13 Layout and Positioning</h2>
+        <p>CSS controls element placement using positioning, flexbox, or grid layouts.</p>
+
+        <h3>Position Properties</h3>
+        <ul>
+            <li><strong>static (default):</strong> Normal flow.</li>
+            <li><strong>relative:</strong> Relative to its normal position.</li>
+            <li><strong>absolute:</strong> Relative to nearest positioned ancestor.</li>
+            <li><strong>fixed:</strong> Relative to viewport (scrolls with page).</li>
+            <li><strong>sticky:</strong> Hybrid of relative and fixed.</li>
+        </ul>
+
+        <h3>Flexbox</h3>
+        <ul>
+            <li>One-dimensional layout (row or column).</li>
+            <li><code>display: flex;</code> — Enables flexbox.</li>
+            <li><code>flex-direction</code> — row, column, row-reverse, column-reverse.</li>
+            <li><code>justify-content</code> — Horizontal alignment.</li>
+            <li><code>align-items</code> — Vertical alignment.</li>
+            <li><code>flex-wrap</code> — Wrap items.</li>
+        </ul>
+
+        <h3>Grid</h3>
+        <ul>
+            <li>Two-dimensional layout (rows and columns).</li>
+            <li><code>display: grid;</code> — Enables grid.</li>
+            <li><code>grid-template-columns</code> — Define columns.</li>
+            <li><code>grid-template-rows</code> — Define rows.</li>
+            <li><code>gap</code> — Spacing between items.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>/* Flexbox example */</span><br>
+            .flex-container {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;display: flex;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;justify-content: space-between;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;align-items: center;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;flex-wrap: wrap;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;gap: 20px;<br>
+            }<br><br>
+            <span>/* Grid example */</span><br>
+            .grid-container {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;display: grid;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;grid-template-columns: repeat(3, 1fr);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;gap: 20px;<br>
+            }<br><br>
+            <span>/* Position example */</span><br>
+            .sticky-nav {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;position: sticky;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;top: 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background: white;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;z-index: 1000;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 4.14 ========== -->
+    <div class="section">
+        <h2>4.14 Media Query</h2>
+        <p><strong>Media queries</strong> apply styles based on device characteristics, enabling responsive design for different screen sizes and devices.</p>
+
+        <h3>Syntax</h3>
+        <div class="code-block">
+            @media (condition) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;/* CSS rules */<br>
+            }
+        </div>
+
+        <h3>Common Breakpoints</h3>
+        <ul>
+            <li><strong>Mobile:</strong> max-width: 480px.</li>
+            <li><strong>Tablet:</strong> 481px - 768px.</li>
+            <li><strong>Desktop:</strong> 769px - 1200px.</li>
+            <li><strong>Large Desktop:</strong> min-width: 1201px.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>/* Mobile-first approach */</span><br>
+            .container {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: 15px;<br>
+            }<br><br>
+            <span>/* Tablet */</span><br>
+            @media (min-width: 768px) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.container {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;padding: 30px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max-width: 720px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;margin: 0 auto;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            <span>/* Desktop */</span><br>
+            @media (min-width: 1024px) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.container {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max-width: 960px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.grid {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grid-template-columns: repeat(3, 1fr);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            <span>/* Orientation */</span><br>
+            @media (orientation: landscape) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.hero {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;height: 80vh;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            <span>/* Dark mode */</span><br>
+            @media (prefers-color-scheme: dark) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;body {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background: #1a1a2e;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color: #eee;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>📱 Key insight:</strong> Use a mobile-first approach (min-width) for better performance and progressive enhancement. Media queries are essential for creating responsive websites.
+        </div>
+    </div>
+
+    <!-- ========== 4.15 ========== -->
+    <div class="section">
+        <h2>4.15 CSS Website Layout</h2>
+        <p>Combines CSS techniques to create structured, responsive website layouts. A typical layout includes header, navigation, main content, sidebar, and footer.</p>
+
+        <h3>Common Layout Patterns</h3>
+        <ul>
+            <li><strong>Single Column:</strong> Simple, mobile-friendly.</li>
+            <li><strong>Two Column:</strong> Content + sidebar.</li>
+            <li><strong>Three Column:</strong> Content + two sidebars.</li>
+            <li><strong>Full Width:</strong> No sidebars.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>/* Complete website layout */</span><br>
+            <span>/* Reset */</span><br>
+            * { margin: 0; padding: 0; box-sizing: border-box; }<br><br>
+            body {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;font-family: 'Segoe UI', sans-serif;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;line-height: 1.6;<br>
+            }<br><br>
+            <span>/* Header */</span><br>
+            .header {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background: #2c3e50;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;color: white;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: 20px 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;text-align: center;<br>
+            }<br><br>
+            <span>/* Navigation */</span><br>
+            .nav {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background: #34495e;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: 10px 0;<br>
+            }<br>
+            .nav ul {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;list-style: none;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;display: flex;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;justify-content: center;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;gap: 20px;<br>
+            }<br>
+            .nav a { color: white; text-decoration: none; }<br><br>
+            <span>/* Main Layout */</span><br>
+            .container {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;max-width: 1200px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;margin: 0 auto;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: 20px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;display: grid;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;grid-template-columns: 2fr 1fr;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;gap: 30px;<br>
+            }<br><br>
+            <span>/* Main Content */</span><br>
+            .main {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background: white;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: 20px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;border-radius: 8px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;box-shadow: 0 2px 5px rgba(0,0,0,0.1);<br>
+            }<br><br>
+            <span>/* Sidebar */</span><br>
+            .sidebar {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background: #f8f9fa;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: 20px;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;border-radius: 8px;<br>
+            }<br><br>
+            <span>/* Footer */</span><br>
+            .footer {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;background: #2c3e50;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;color: white;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;text-align: center;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;padding: 20px 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;margin-top: 30px;<br>
+            }<br><br>
+            <span>/* Responsive */</span><br>
+            @media (max-width: 768px) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.container {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grid-template-columns: 1fr;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;.nav ul {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flex-direction: column;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;align-items: center;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <div class="code-block">
+            <span>&lt;!-- HTML Structure --&gt;</span><br>
+            &lt;body&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;header class="header"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;My Website&lt;/h1&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/header&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;nav class="nav"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a href="#"&gt;About&lt;/a&gt;&lt;/li&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a href="#"&gt;Services&lt;/a&gt;&lt;/li&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a href="#"&gt;Contact&lt;/a&gt;&lt;/li&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/nav&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="container"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;main class="main"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;Main Content&lt;/h2&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;This is the main content area.&lt;/p&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/main&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;aside class="sidebar"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;Sidebar&lt;/h3&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Additional content.&lt;/p&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/aside&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;footer class="footer"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;&amp;copy; 2025 My Website&lt;/p&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/footer&gt;<br>
+            &lt;/body&gt;
+        </div>
+
+        <div class="note-box">
+            <strong>🏗️ Key insight:</strong> CSS layout techniques (flexbox, grid, positioning) combined with media queries enable the creation of modern, responsive, and accessible websites.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 4 summary</strong><br>CSS controls the presentation and layout of web pages. It uses selectors, properties, and values to style HTML elements.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• CSS syntax: selectors, properties, declaration blocks.<br>• Three methods: inline, internal, external.<br>• Selectors: element, class, ID, combinators, pseudo-classes.<br>• Box model: content, padding, border, margin.<br>• Layout: flexbox, grid, positioning, media queries.<br>• Responsive design: mobile-first approach.</div>
+    </div>
 </body>
 </html>

@@ -1,188 +1,652 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit I: Introduction to Web Technology</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1>Unit I: Introduction to Web Technology</h1>
 
+    <h1>Unit I: Introduction to Web Technology</h1>
+    <div class="subhead">Web basics · client-server architecture · HTTP · URLs · scripting · Web 1.0 to 3.0</div>
+
+    <!-- ========== 1.1 ========== -->
     <div class="section">
         <h2>1.1 Web Basics</h2>
-        <p>Web technology encompasses tools, protocols, and systems used to create, manage, and access content on the Internet. It forms the foundation of how information is shared and accessed online.</p>
-
-        <div class="section">
-            <h2>1.1.1 Internet, Intranet, WWW</h2>
-            <p>The Internet, Intranet, and World Wide Web (WWW) are interconnected concepts that enable global and local communication and data sharing.</p>
-            <ul>
-                <li><strong>Internet:</strong> A global network of interconnected computers that communicate using standardized protocols, enabling data exchange worldwide.</li>
-                <li><strong>Intranet:</strong> A private network within an organization, using Internet technologies to share information securely among employees.</li>
-                <li><strong>WWW (World Wide Web):</strong> A service on the Internet that allows users to access interlinked documents (web pages) via browsers using HTTP/HTTPS.</li>
-            </ul>
+        <p><strong>Web technology</strong> encompasses the tools, protocols, and systems used to create, manage, and access content on the Internet. It forms the foundation of how information is shared and accessed online, enabling everything from simple websites to complex web applications.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🌐 Purpose</strong><br>Enable global information sharing, communication, and access to resources through standardized protocols and technologies.</div>
+            <div class="card"><strong>🧩 Components</strong><br>Clients (browsers), servers (web servers), protocols (HTTP/HTTPS), and content (HTML, CSS, JavaScript).</div>
         </div>
 
-        <div class="section">
-            <h2>1.1.2 Static and Dynamic Web Page</h2>
-            <p>Web pages are classified based on how their content is generated and delivered to users.</p>
-            <ul>
-                <li><strong>Static Web Page:</strong> Fixed content delivered as pre-built HTML files, unchanging unless manually edited, e.g., informational pages.</li>
-                <li><strong>Dynamic Web Page:</strong> Content generated in real-time using scripts or databases, tailored to user interactions, e.g., social media feeds.</li>
-                <li><strong>Examples:</strong> A company’s contact page (static) vs. an online shopping cart (dynamic).</li>
-            </ul>
-        </div>
+        <h3>1.1.1 Internet, Intranet, WWW</h3>
+        <ul>
+            <li><strong>Internet:</strong> A global network of interconnected computers that communicate using standardized protocols (TCP/IP). Enables worldwide data exchange.</li>
+            <li><strong>Intranet:</strong> A private network within an organization, using Internet technologies to share information securely among employees. Access is restricted to authorized users.</li>
+            <li><strong>WWW (World Wide Web):</strong> A service on the Internet that allows users to access interlinked documents (web pages) via browsers using HTTP/HTTPS. The Web is a subset of the Internet.</li>
+        </ul>
 
-        <div class="section">
-            <h2>1.1.3 Web Clients</h2>
-            <p>Web clients are software or devices that request and display content from web servers.</p>
-            <ul>
-                <li><strong>Function:</strong> Sends requests to servers and renders responses, typically web pages or media.</li>
-                <li><strong>Types:</strong> Includes web browsers, mobile apps, or IoT devices accessing web services.</li>
-                <li><strong>Examples:</strong> Google Chrome, Firefox, or a smart TV accessing streaming services.</li>
-            </ul>
-        </div>
+        <table>
+            <tr><th>Feature</th><th>Internet</th><th>Intranet</th><th>WWW</th></tr>
+            <tr><td>Scope</td><td>Global</td><td>Organization-wide</td><td>Global</td></tr>
+            <tr><td>Access</td><td>Public</td><td>Private (restricted)</td><td>Public</td></tr>
+            <tr><td>Protocol</td><td>TCP/IP</td><td>TCP/IP</td><td>HTTP/HTTPS</td></tr>
+            <tr><td>Purpose</td><td>Global communication</td><td>Internal communication</td><td>Information sharing</td></tr>
+            <tr><td>Examples</td><td>Internet backbone</td><td>Company portal</td><td>Websites, web apps</td></tr>
+        </table>
 
-        <div class="section">
-            <h2>1.1.4 Web Servers</h2>
-            <p>Web servers are hardware or software systems that store, process, and deliver web content to clients upon request.</p>
-            <ul>
-                <li><strong>Function:</strong> Hosts websites, processes client requests, and sends responses like HTML pages or files.</li>
-                <li><strong>Software:</strong> Includes Apache, Nginx, or Microsoft IIS for handling HTTP requests.</li>
-                <li><strong>Examples:</strong> A server hosting a website like amazon.com or a local server for an intranet.</li>
-            </ul>
+        <h3>1.1.2 Static and Dynamic Web Pages</h3>
+        <ul>
+            <li><strong>Static Web Page:</strong> Fixed content delivered as pre-built HTML files. Content is the same for every user unless manually updated.
+                <ul>
+                    <li><strong>Pros:</strong> Fast loading, simple to create, low server load.</li>
+                    <li><strong>Cons:</strong> No interactivity, difficult to update.</li>
+                    <li><strong>Examples:</strong> Company brochure sites, landing pages.</li>
+                </ul>
+            </li>
+            <li><strong>Dynamic Web Page:</strong> Content generated in real-time using server-side scripts and databases. Customized for each user.
+                <ul>
+                    <li><strong>Pros:</strong> Interactive, personalized, easy to update.</li>
+                    <li><strong>Cons:</strong> Slower loading, higher server load.</li>
+                    <li><strong>Examples:</strong> Social media feeds, e-commerce sites, search results.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <table>
+            <tr><th>Feature</th><th>Static Web Pages</th><th>Dynamic Web Pages</th></tr>
+            <tr><td>Content</td><td>Fixed, pre-built</td><td>Generated on request</td></tr>
+            <tr><td>Database</td><td>Not required</td><td>Required</td></tr>
+            <tr><td>Interactivity</td><td>Low</td><td>High</td></tr>
+            <tr><td>Load Time</td><td>Fast</td><td>Slower</td></tr>
+            <tr><td>Example</td><td>About Us page</td><td>Shopping cart</td></tr>
+        </table>
+
+        <h3>1.1.3 Web Clients</h3>
+        <ul>
+            <li><strong>Definition:</strong> Software or devices that request and display content from web servers.</li>
+            <li><strong>Function:</strong> Send HTTP requests and render HTML responses.</li>
+            <li><strong>Types:</strong>
+                <ul>
+                    <li><strong>Web Browsers:</strong> Chrome, Firefox, Safari, Edge, Brave.</li>
+                    <li><strong>Mobile Apps:</strong> Apps that consume web APIs (REST, GraphQL).</li>
+                    <li><strong>IoT Devices:</strong> Smart TVs, voice assistants (Alexa, Google Home).</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>1.1.4 Web Servers</h3>
+        <ul>
+            <li><strong>Definition:</strong> Hardware or software systems that store, process, and deliver web content to clients.</li>
+            <li><strong>Function:</strong> Receive HTTP requests, process them, and send HTTP responses.</li>
+            <li><strong>Popular Web Servers:</strong>
+                <ul>
+                    <li><strong>Apache:</strong> Most widely used, open-source.</li>
+                    <li><strong>Nginx:</strong> High performance, event-driven.</li>
+                    <li><strong>Microsoft IIS:</strong> Windows-based, integrates with .NET.</li>
+                    <li><strong>Node.js:</strong> JavaScript-based server-side runtime.</li>
+                </ul>
+            </li>
+        </ul>
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> The Web is built on a client-server model where clients request resources and servers respond with content. Understanding this interaction is fundamental to web development.
         </div>
     </div>
 
+    <!-- ========== 1.2 ========== -->
     <div class="section">
         <h2>1.2 Client-Server Architecture</h2>
-        <p>Client-server architecture is a model where clients request services or resources from servers over a network, forming the basis of most web applications.</p>
+        <p><strong>Client-server architecture</strong> is a distributed system model where clients request services or resources from servers over a network. This architecture is the foundation of most web applications and enterprise systems.</p>
+
+        <div class="figure-box">
+            <pre>
+Client-Server Model:
+┌────────────┐                    ┌────────────┐
+│   Client   │ ── Request ──────> │   Server   │
+│  (Browser) │ <── Response ───── │ (Web App)  │
+└────────────┘                    └────────────┘
+            </pre>
+        </div>
+
+        <h3>1.2.1 Single-Tier Architecture</h3>
         <ul>
-            <li><strong>Overview:</strong> Clients initiate communication, and servers respond with data or services.</li>
-            <li><strong>Benefits:</strong> Centralizes data management and enables scalable, distributed systems.</li>
+            <li><strong>Description:</strong> All components (client, server, database) are on a single system.</li>
+            <li><strong>Characteristics:</strong> Simple, self-contained, no network dependency.</li>
+            <li><strong>Pros:</strong> Easy to develop, no network overhead.</li>
+            <li><strong>Cons:</strong> No scalability, limited to single user.</li>
+            <li><strong>Examples:</strong> Desktop calculator app, local database on a single PC.</li>
         </ul>
 
-        <div class="section">
-            <h2>1.2.1 Single Tier</h2>
-            <p>Single-tier architecture combines all components (client, server, and database) on a single system.</p>
-            <ul>
-                <li><strong>Characteristics:</strong> Simple, self-contained, but limited in scalability and resource sharing.</li>
-                <li><strong>Use Case:</strong> Standalone applications like a desktop-based calculator program.</li>
-                <li><strong>Examples:</strong> A local database application running entirely on one computer.</li>
-            </ul>
-        </div>
+        <h3>1.2.2 Two-Tier Architecture</h3>
+        <ul>
+            <li><strong>Description:</strong> Client handles presentation and business logic; server handles data storage.</li>
+            <li><strong>Characteristics:</strong> Client-server direct communication, typically using database APIs.</li>
+            <li><strong>Pros:</strong> Centralized data, better than single-tier.</li>
+            <li><strong>Cons:</strong> Limited scalability, logic tied to client.</li>
+            <li><strong>Examples:</strong> Desktop application querying a database server, client-server banking apps.</li>
+        </ul>
 
-        <div class="section">
-            <h2>1.2.2 Two-Tier</h2>
-            <p>Two-tier architecture separates the client (user interface) and server (data storage/processing) into two layers.</p>
-            <ul>
-                <li><strong>Characteristics:</strong> Client handles presentation and logic, while the server manages data storage and retrieval.</li>
-                <li><strong>Use Case:</strong> Client applications accessing a centralized database.</li>
-                <li><strong>Examples:</strong> A desktop application querying a remote database server.</li>
-            </ul>
-        </div>
+        <h3>1.2.3 Multi-Tier (N-Tier) Architecture</h3>
+        <ul>
+            <li><strong>Description:</strong> Divides functionality into three or more layers: presentation (client), application logic (middleware), and data (database).</li>
+            <li><strong>Characteristics:</strong> Separation of concerns, scalability, maintainability.</li>
+            <li><strong>Pros:</strong> Highly scalable, flexible, easier maintenance.</li>
+            <li><strong>Cons:</strong> Complex, higher development cost.</li>
+            <li><strong>Examples:</strong> E-commerce platforms, enterprise ERP systems, modern web applications.</li>
+        </ul>
 
-        <div class="section">
-            <h2>1.2.3 Multi-Tier</h2>
-            <p>Multi-tier architecture divides functionality into three or more layers, typically presentation, application logic, and data storage.</p>
-            <ul>
-                <li><strong>Characteristics:</strong> Enhances scalability, flexibility, and maintainability by separating concerns.</li>
-                <li><strong>Use Case:</strong> Complex web applications with distributed processing.</li>
-                <li><strong>Examples:</strong> E-commerce platforms with separate layers for user interface, business logic, and database.</li>
-            </ul>
-        </div>
+        <table>
+            <tr><th>Feature</th><th>Single-Tier</th><th>Two-Tier</th><th>Multi-Tier</th></tr>
+            <tr><td>Layers</td><td>1</td><td>2</td><td>3+</td></tr>
+            <tr><td>Scalability</td><td>Low</td><td>Medium</td><td>High</td></tr>
+            <tr><td>Complexity</td><td>Low</td><td>Medium</td><td>High</td></tr>
+            <tr><td>Maintenance</td><td>Easy</td><td>Moderate</td><td>Complex</td></tr>
+            <tr><td>Example</td><td>Desktop app</td><td>Client-database</td><td>Web application</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 1.3 ========== -->
     <div class="section">
         <h2>1.3 HTTP: HTTP Request and Response</h2>
-        <p>HTTP (HyperText Transfer Protocol) is a protocol for transmitting data over the web, governing client-server communication.</p>
+        <p><strong>HTTP (HyperText Transfer Protocol)</strong> is the foundation of data communication on the World Wide Web. It is a request-response protocol that defines how messages are formatted and transmitted between clients and servers.</p>
+
+        <h3>HTTP Request</h3>
         <ul>
-            <li><strong>HTTP Request:</strong> Sent by the client to the server, specifying an action (e.g., GET, POST) and resource (e.g., a webpage).</li>
-            <li><strong>HTTP Response:</strong> Server’s reply to the client, containing requested data or status (e.g., 200 OK, 404 Not Found).</li>
-            <li><strong>Examples:</strong> A browser sending a GET request for a webpage and receiving an HTML response.</li>
+            <li><strong>Definition:</strong> A message sent by the client to the server to request a resource or perform an action.</li>
+            <li><strong>Components:</strong>
+                <ul>
+                    <li><strong>Request Line:</strong> Method, URL, HTTP version (e.g., GET /index.html HTTP/1.1)</li>
+                    <li><strong>Headers:</strong> Metadata like Host, User-Agent, Accept, Authorization.</li>
+                    <li><strong>Body:</strong> Optional data (for POST, PUT requests).</li>
+                </ul>
+            </li>
+            <li><strong>Common HTTP Methods:</strong>
+                <ul>
+                    <li><strong>GET:</strong> Retrieve a resource.</li>
+                    <li><strong>POST:</strong> Submit data to be processed.</li>
+                    <li><strong>PUT:</strong> Update a resource.</li>
+                    <li><strong>DELETE:</strong> Delete a resource.</li>
+                    <li><strong>PATCH:</strong> Partial update.</li>
+                    <li><strong>HEAD:</strong> Retrieve headers only.</li>
+                </ul>
+            </li>
         </ul>
+
+        <h3>HTTP Response</h3>
+        <ul>
+            <li><strong>Definition:</strong> A message sent by the server in reply to a client request.</li>
+            <li><strong>Components:</strong>
+                <ul>
+                    <li><strong>Status Line:</strong> HTTP version, Status Code, Status Message (e.g., HTTP/1.1 200 OK)</li>
+                    <li><strong>Headers:</strong> Content-Type, Content-Length, Set-Cookie, etc.</li>
+                    <li><strong>Body:</strong> The requested resource (HTML, JSON, image, etc.).</li>
+                </ul>
+            </li>
+            <li><strong>Common Status Codes:</strong>
+                <ul>
+                    <li><strong>2xx Success:</strong> 200 OK, 201 Created</li>
+                    <li><strong>3xx Redirection:</strong> 301 Moved Permanently, 302 Found</li>
+                    <li><strong>4xx Client Error:</strong> 404 Not Found, 401 Unauthorized</li>
+                    <li><strong>5xx Server Error:</strong> 500 Internal Server Error, 503 Service Unavailable</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Example HTTP Request</span><br>
+            GET /api/users/123 HTTP/1.1<br>
+            Host: example.com<br>
+            Authorization: Bearer token123<br>
+            Accept: application/json<br><br>
+            <span>// Example HTTP Response</span><br>
+            HTTP/1.1 200 OK<br>
+            Content-Type: application/json<br>
+            Content-Length: 45<br><br>
+            {"id":123,"name":"Alice","email":"alice@example.com"}
+        </div>
+
+        <div class="note-box">
+            <strong>🌐 Key insight:</strong> HTTP is stateless — each request is independent. State management is handled using cookies, sessions, or tokens.
+        </div>
     </div>
 
+    <!-- ========== 1.4 ========== -->
     <div class="section">
         <h2>1.4 URL</h2>
-        <p>A URL (Uniform Resource Locator) is a web address that specifies the location of a resource on the Internet.</p>
+        <p><strong>URL (Uniform Resource Locator)</strong> is a web address that specifies the location of a resource on the Internet. It is a standardized way to identify resources like web pages, images, files, or APIs.</p>
+
+        <h3>URL Structure</h3>
+        <div class="figure-box">
+            <pre>
+URL: https://www.example.com:443/path/to/page?name=value&amp;key=value#section
+
+Parts:
+├── https://   → Protocol/Scheme
+├── www.example.com → Domain Name
+├── :443      → Port (optional)
+├── /path/to/page → Path
+├── ?name=value&amp;key=value → Query String (optional)
+└── #section   → Fragment (optional)
+            </pre>
+        </div>
+
+        <h3>URL Components</h3>
         <ul>
-            <li><strong>Components:</strong> Includes protocol (e.g., https), domain (e.g., example.com), path, and optional parameters.</li>
-            <li><strong>Function:</strong> Directs clients to specific resources like web pages, images, or files.</li>
-            <li><strong>Examples:</strong> https://www.example.com/page.html or ftp://server.com/file.txt.</li>
+            <li><strong>Protocol:</strong> http, https, ftp, file, etc. Specifies how to access the resource.</li>
+            <li><strong>Domain Name:</strong> Human-readable name of the server (e.g., google.com).</li>
+            <li><strong>Port:</strong> Optional (default: 80 for HTTP, 443 for HTTPS).</li>
+            <li><strong>Path:</strong> Location of the resource on the server.</li>
+            <li><strong>Query String:</strong> Key-value pairs for parameters (starts with ?).</li>
+            <li><strong>Fragment:</strong> Anchor to a specific part of the page (starts with #).</li>
         </ul>
+
+        <h3>Example URLs</h3>
+        <div class="code-block">
+            https://www.wikipedia.org/wiki/Web_technology<br>
+            http://localhost:3000/api/users?page=2<br>
+            ftp://files.example.com/document.pdf<br>
+            https://www.youtube.com/watch?v=dQw4w9WgXcQ<br>
+            file:///C:/Users/user/documents/report.pdf
+        </div>
+
+        <table>
+            <tr><th>URL Part</th><th>Example</th><th>Description</th></tr>
+            <tr><td>Protocol</td><td>https://</td><td>Secure HTTP</td></tr>
+            <tr><td>Domain</td><td>www.example.com</td><td>Server name</td></tr>
+            <tr><td>Port</td><td>:443</td><td>HTTPS port</td></tr>
+            <tr><td>Path</td><td>/products/123</td><td>Resource location</td></tr>
+            <tr><td>Query</td><td>?category=electronics</td><td>Parameters</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 1.5 ========== -->
     <div class="section">
         <h2>1.5 Client-Side Scripting</h2>
-        <p>Client-side scripting involves executing scripts in the user’s browser to enhance web page interactivity and functionality.</p>
+        <p><strong>Client-side scripting</strong> involves executing scripts in the user's browser to enhance web page interactivity and functionality. It runs on the client machine and does not require server communication for every action.</p>
+
+        <h3>Key Technologies</h3>
         <ul>
-            <li><strong>Languages:</strong> Primarily JavaScript, with frameworks like React or Vue.js.</li>
-            <li><strong>Functions:</strong> Handles user interactions, validates input, and updates content without server requests.</li>
-            <li><strong>Examples:</strong> Form validation or dynamic menus on a webpage.</li>
+            <li><strong>JavaScript:</strong> The primary language for client-side scripting.</li>
+            <li><strong>HTML:</strong> Structure of the web page.</li>
+            <li><strong>CSS:</strong> Styling and presentation.</li>
+            <li><strong>Frameworks:</strong> React, Vue.js, Angular, Svelte.</li>
+            <li><strong>Libraries:</strong> jQuery, D3.js, Three.js.</li>
         </ul>
+
+        <h3>Common Uses</h3>
+        <ul>
+            <li><strong>Form Validation:</strong> Validate user input before submission.</li>
+            <li><strong>Dynamic Content:</strong> Update page content without reloading (AJAX).</li>
+            <li><strong>Interactivity:</strong> Menus, animations, drag-and-drop, modal dialogs.</li>
+            <li><strong>User Interface:</strong> Responsive designs, interactive dashboards.</li>
+            <li><strong>API Communication:</strong> Fetch data from servers using fetch() or Axios.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Client-side JavaScript example</span><br>
+            document.getElementById('btn').addEventListener('click', function() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;const name = document.getElementById('name').value;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (name.length < 2) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert('Name must be at least 2 characters');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fetch('/api/user', {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;method: 'POST',<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body: JSON.stringify({name: name})<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(response => response.json())<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(data => console.log(data));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            });
+        </div>
+
+        <div class="note-box">
+            <strong>⚡ Key insight:</strong> Client-side scripting reduces server load by handling interactions locally. However, it should not be relied upon for security-critical operations — server-side validation is essential.
+        </div>
     </div>
 
+    <!-- ========== 1.6 ========== -->
     <div class="section">
         <h2>1.6 Server-Side Scripting</h2>
-        <p>Server-side scripting involves executing scripts on the server to generate dynamic web content before sending it to the client.</p>
+        <p><strong>Server-side scripting</strong> involves executing scripts on the server to generate dynamic web content before sending it to the client. It processes requests, interacts with databases, and produces customized responses.</p>
+
+        <h3>Key Technologies</h3>
         <ul>
-            <li><strong>Languages:</strong> Includes PHP, Python (Django), Ruby (Rails), or Node.js.</li>
-            <li><strong>Functions:</strong> Processes data, interacts with databases, and generates customized responses.</li>
-            <li><strong>Examples:</strong> Generating user-specific content like a shopping cart or retrieving database records.</li>
+            <li><strong>Languages:</strong> PHP, Python (Django/Flask), Ruby (Rails), Java (Spring), JavaScript (Node.js), C# (ASP.NET).</li>
+            <li><strong>Frameworks:</strong> Express.js, Laravel, Spring Boot, Django, Ruby on Rails.</li>
+            <li><strong>Databases:</strong> MySQL, PostgreSQL, MongoDB, Redis.</li>
         </ul>
+
+        <h3>Common Uses</h3>
+        <ul>
+            <li><strong>Data Processing:</strong> Process form data, handle file uploads.</li>
+            <li><strong>Database Operations:</strong> Query, insert, update, delete data.</li>
+            <li><strong>Authentication:</strong> User login, registration, session management.</li>
+            <li><strong>API Development:</strong> RESTful APIs, GraphQL endpoints.</li>
+            <li><strong>Business Logic:</strong> Process payments, calculate shipping costs, apply business rules.</li>
+            <li><strong>Security:</strong> Input validation, sanitization, encryption.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Server-side example (Node.js/Express)</span><br>
+            const express = require('express');<br>
+            const app = express();<br><br>
+            app.get('/users/:id', async (req, res) => {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const user = await db.users.findById(req.params.id);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!user) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return res.status(404).json({error: 'User not found'});<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;res.json(user);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;res.status(500).json({error: error.message});<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            });
+        </div>
+
+        <h3>Client-Side vs Server-Side Scripting</h3>
+        <table>
+            <tr><th>Feature</th><th>Client-Side</th><th>Server-Side</th></tr>
+            <tr><td>Execution Location</td><td>Browser (client)</td><td>Server</td></tr>
+            <tr><td>Language</td><td>JavaScript</td><td>PHP, Python, Ruby, Node.js, Java</td></tr>
+            <tr><td>Visibility</td><td>Source code visible</td><td>Source code hidden</td></tr>
+            <tr><td>Database Access</td><td>No direct access</td><td>Yes</td></tr>
+            <tr><td>Security</td><td>Low (client can modify)</td><td>High (controlled by server)</td></tr>
+            <tr><td>Examples</td><td>Form validation, animations</td><td>Authentication, database queries</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 1.7 ========== -->
     <div class="section">
         <h2>1.7 Web 1.0, Web 2.0, and Web 3.0</h2>
-        <p>The evolution of the web is categorized into three phases based on functionality and user interaction.</p>
+        <p>The evolution of the World Wide Web is categorized into three distinct phases, each characterized by different technologies, user interactions, and philosophies.</p>
+
+        <h3>Web 1.0 (The Static Web) — 1990s</h3>
         <ul>
-            <li><strong>Web 1.0:</strong> Static, read-only web with limited interactivity, focused on delivering information (e.g., early informational websites).</li>
-            <li><strong>Web 2.0:</strong> Interactive, user-driven web with social media, user-generated content, and collaboration (e.g., YouTube, Facebook).</li>
-            <li><strong>Web 3.0:</strong> Decentralized, AI-driven, and semantic web with enhanced personalization and blockchain integration (e.g., decentralized apps, smart contracts).</li>
+            <li><strong>Characteristics:</strong> Static, read-only web.</li>
+            <li><strong>Content:</strong> Information delivery, text-heavy, limited multimedia.</li>
+            <li><strong>Interaction:</strong> One-way communication (publisher → reader).</li>
+            <li><strong>Technologies:</strong> HTML, HTTP, basic CSS, static pages.</li>
+            <li><strong>Examples:</strong> Personal web pages, company brochures, early news sites.</li>
+            <li><strong>Users:</strong> Consumers of content.</li>
         </ul>
+
+        <h3>Web 2.0 (The Social Web) — 2000s</h3>
+        <ul>
+            <li><strong>Characteristics:</strong> Interactive, user-driven web.</li>
+            <li><strong>Content:</strong> User-generated content, multimedia, social media.</li>
+            <li><strong>Interaction:</strong> Two-way communication, collaboration, sharing.</li>
+            <li><strong>Technologies:</strong> AJAX, JavaScript frameworks, CSS3, HTML5, APIs.</li>
+            <li><strong>Examples:</strong> Facebook, YouTube, Wikipedia, Twitter, Instagram.</li>
+            <li><strong>Users:</strong> Content creators and consumers.</li>
+        </ul>
+
+        <h3>Web 3.0 (The Semantic Web) — 2010s onwards</h3>
+        <ul>
+            <li><strong>Characteristics:</strong> Decentralized, AI-driven, semantic web.</li>
+            <li><strong>Content:</strong> Machine-readable, interconnected data, personalization.</li>
+            <li><strong>Interaction:</strong> Intelligent, context-aware, personalized experiences.</li>
+            <li><strong>Technologies:</strong> Blockchain, AI/ML, IoT, Edge Computing, Semantic Web standards.</li>
+            <li><strong>Examples:</strong> Decentralized apps (dApps), smart contracts, NFT platforms, AI assistants.</li>
+            <li><strong>Users:</strong> Active participants in a decentralized ecosystem.</li>
+        </ul>
+
+        <table>
+            <tr><th>Feature</th><th>Web 1.0</th><th>Web 2.0</th><th>Web 3.0</th></tr>
+            <tr><td>Era</td><td>1990s</td><td>2000s</td><td>2010s+</td></tr>
+            <tr><td>Content</td><td>Static, read-only</td><td>User-generated</td><td>Intelligent, personalized</td></tr>
+            <tr><td>Interaction</td><td>One-way</td><td>Two-way, social</td><td>Intelligent, decentralized</td></tr>
+            <tr><td>Key Technology</td><td>HTML, HTTP</td><td>AJAX, APIs, JavaScript</td><td>AI, Blockchain, IoT</td></tr>
+            <tr><td>User Role</td><td>Consumer</td><td>Creator &amp; Consumer</td><td>Participant &amp; Contributor</td></tr>
+            <tr><td>Example</td><td>Static website</td><td>YouTube, Facebook</td><td>Decentralized apps</td></tr>
+        </table>
+
+        <div class="figure-box">
+            <pre>
+Web Evolution:
+Web 1.0 → Web 2.0 → Web 3.0
+Read    → Read/Write → Read/Write/Own
+Static  → Social    → Semantic &amp; Decentralized
+            </pre>
+        </div>
+
+        <div class="note-box">
+            <strong>🚀 Key insight:</strong> The web is continuously evolving. Web 3.0 represents a shift toward a more intelligent, decentralized, and user-centric internet, where users have more control over their data and digital identity.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit I summary</strong><br>Web technology encompasses the tools, protocols, and architectures that power the Internet and World Wide Web.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Internet vs Intranet vs WWW: global, private, and web services.<br>• Client-server architecture: single, two, and multi-tier.<br>• HTTP: request-response protocol with methods and status codes.<br>• URL structure: protocol, domain, path, query, fragment.<br>• Client-side vs Server-side scripting.<br>• Web evolution: Web 1.0 (static) → Web 2.0 (social) → Web 3.0 (decentralized).</div>
     </div>
 </body>
 </html>
