@@ -12,6 +12,7 @@ import { PWAInstallBanner } from './components/PWAInstallBanner';
 import { PWAUpdateToast } from './components/common/PWAUpdateToast';
 import { AIChatBot } from './components/common/AIChatBot';
 import ProtectedRoute from './components/routes/ProtectedRoute';
+import GuestRoute from './components/routes/GuestRoute';
 import ScrollToTop from './components/ScrollToTop';
 import { useAuth } from './context/AuthContext';
 
@@ -72,10 +73,38 @@ function AppContent() {
       <main className="flex-1">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route
+            path="/signin"
+            element={
+              <GuestRoute>
+                <SignIn />
+              </GuestRoute>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <GuestRoute>
+                <SignUp />
+              </GuestRoute>
+            }
+          />
+          <Route
+            path="/forgot-password"
+            element={
+              <GuestRoute>
+                <ForgotPassword />
+              </GuestRoute>
+            }
+          />
+          <Route
+            path="/reset-password"
+            element={
+              <GuestRoute>
+                <ResetPassword />
+              </GuestRoute>
+            }
+          />
           <Route path="/syllabus" element={<Syllabus />} />
           <Route path="/notes" element={<Notes />} />
           <Route path="/notes/semester/:semesterId" element={<SemesterSubjects />} />
