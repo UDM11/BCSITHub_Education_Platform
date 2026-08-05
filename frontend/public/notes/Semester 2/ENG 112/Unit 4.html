@@ -1,158 +1,353 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 4: Non-verbal and Intercultural Business Communication</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            color: black;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
         }
         li {
-            margin-bottom: 10px;
+            margin-bottom: 0.6rem;
         }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
+        strong {
+            color: #0f3d66;
         }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
         }
-        h2 {
-            font-size: 1rem; /* smaller sub-header */
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
         }
-        .section {
-            padding: 8px; /* less padding for small screens */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
-    }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1><b>Unit 4: Non-verbal and Intercultural Business Communication</b></h1>
+    <h1>Unit 4: Non-verbal and Intercultural Business Communication</h1>
+    <div class="subhead">Non-verbal meaning · characteristics · types · considerations · intercultural communication · barriers · solutions</div>
 
+    <!-- ========== 4.1 ========== -->
     <div class="section">
-        <h2><b>4.1 Meaning of Non-verbal Communication</b></h2>
-        <p>Non-verbal communication refers to the transmission of messages or information without the use of words, through cues such as body language, facial expressions, gestures, and tone of voice. In a business context, it complements or substitutes verbal communication to convey emotions, attitudes, or reactions.</p>
+        <h2>4.1 Meaning of Non-verbal Communication</h2>
+        <p><strong>Non-verbal communication</strong> refers to the transmission of messages or information without the use of words, through cues such as body language, facial expressions, gestures, and tone of voice. In a business context, it complements or substitutes verbal communication to convey emotions, attitudes, or reactions.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📌 Purpose</strong><br>Enhances understanding, reinforces spoken words, or communicates independently. Example: A nod during a meeting signals agreement.</div>
+            <div class="card"><strong>📊 Importance</strong><br>Influences perceptions, builds trust, and conveys professionalism. Example: A firm handshake can project confidence.</div>
+        </div>
+
+        <h3>Key Aspects</h3>
         <ul>
-            <li><strong>Purpose:</strong> Enhances understanding, reinforces spoken words, or communicates independently. Example: A nod during a meeting signals agreement.</li>
-            <li><strong>Importance:</strong> Influences perceptions, builds trust, and conveys professionalism. Example: A firm handshake can project confidence.</li>
             <li><strong>Scope:</strong> Includes physical appearance, gestures, and spatial dynamics in professional interactions.</li>
+            <li><strong>Complement:</strong> Non-verbal cues can reinforce or contradict verbal messages.</li>
+            <li><strong>Subconscious:</strong> Often occurs instinctively, reflecting genuine emotions.</li>
         </ul>
     </div>
 
+    <!-- ========== 4.2 ========== -->
     <div class="section">
-        <h2><b>4.2 Characteristics of Non-verbal Communication</b></h2>
-        <p>Non-verbal communication has distinct features that differentiate it from verbal communication:</p>
+        <h2>4.2 Characteristics of Non-verbal Communication</h2>
+        <p>Non-verbal communication has distinct features that differentiate it from verbal communication.</p>
+
         <ul>
             <li><strong>Subconscious:</strong> Often occurs instinctively, reflecting genuine emotions. Example: A smile during a positive discussion.</li>
             <li><strong>Context-dependent:</strong> Meaning varies by culture or situation. Example: Eye contact signifies confidence in some cultures but disrespect in others.</li>
             <li><strong>Continuous:</strong> Unlike verbal communication, non-verbal cues are constant during interaction. Example: Posture conveys attentiveness even when silent.</li>
             <li><strong>Ambiguous:</strong> Can be open to interpretation, requiring context for clarity. Example: Crossed arms may indicate discomfort or simply a relaxed posture.</li>
-            <li><strong>Multichannel:</strong> Involves multiple cues (e.g., facial expression, tone) simultaneously. Example: A presenter’s enthusiastic tone and gestures reinforce a message.</li>
+            <li><strong>Multichannel:</strong> Involves multiple cues (e.g., facial expression, tone) simultaneously. Example: A presenter's enthusiastic tone and gestures reinforce a message.</li>
         </ul>
+
+        <table>
+            <tr><th>Characteristic</th><th>Description</th><th>Example</th></tr>
+            <tr><td>Subconscious</td><td>Instinctive, reflects genuine emotions</td><td>Smiling during a positive discussion</td></tr>
+            <tr><td>Context-dependent</td><td>Meaning varies by culture or situation</td><td>Eye contact norms differ across cultures</td></tr>
+            <tr><td>Continuous</td><td>Constant during interaction</td><td>Posture conveys attentiveness</td></tr>
+            <tr><td>Ambiguous</td><td>Open to interpretation</td><td>Crossed arms may indicate discomfort or relaxation</td></tr>
+            <tr><td>Multichannel</td><td>Multiple cues simultaneously</td><td>Tone and gestures reinforce a message</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 4.3 ========== -->
     <div class="section">
-        <h2><b>4.3 Types of Non-verbal Communication</b></h2>
+        <h2>4.3 Types of Non-verbal Communication</h2>
         <p>Non-verbal communication encompasses various forms, each playing a unique role in business interactions.</p>
-    </div>
 
-    <div class="section">
-        <h2><b>4.3.1 Physical Appearance</b></h2>
-        <p>Physical appearance includes clothing, grooming, and overall presentation, which influence first impressions.</p>
+        <h3>4.3.1 Physical Appearance</h3>
         <ul>
             <li><strong>Impact:</strong> Conveys professionalism, credibility, and organizational alignment. Example: Formal attire for a client meeting signals respect.</li>
             <li><strong>Considerations:</strong> Adhere to industry norms and cultural expectations. Example: Business casual in a tech startup vs. suits in finance.</li>
             <li><strong>Examples:</strong> Clean, pressed clothing, neat hairstyle, and minimal accessories enhance professional image.</li>
         </ul>
-    </div>
 
-    <div class="section">
-        <h2><b>4.3.2 Vocal Characteristics</b></h2>
-        <p>Vocal characteristics, or paralanguage, include tone, pitch, volume, and pace of speech, which add meaning to spoken words.</p>
+        <h3>4.3.2 Vocal Characteristics</h3>
         <ul>
             <li><strong>Tone:</strong> Reflects emotions like confidence or empathy. Example: A warm tone during customer service calls builds rapport.</li>
             <li><strong>Pitch and Volume:</strong> High pitch may indicate excitement; low volume may suggest confidentiality. Example: Louder voice in presentations to engage a large audience.</li>
             <li><strong>Pace:</strong> Slow speech aids clarity; fast speech may convey urgency. Example: Pause during key points in a speech for emphasis.</li>
         </ul>
-    </div>
 
-    <div class="section">
-        <h2><b>4.3.3 Gesture and Posture</b></h2>
-        <p>Gestures (hand or body movements) and posture (body positioning) convey emotions and reinforce messages.</p>
+        <h3>4.3.3 Gesture and Posture</h3>
         <ul>
             <li><strong>Gestures:</strong> Emphasize points or direct attention. Example: Pointing to a chart during a presentation.</li>
             <li><strong>Posture:</strong> Open posture (e.g., uncrossed arms) signals approachability; slouching may suggest disinterest. Example: Standing straight during a pitch conveys confidence.</li>
             <li><strong>Cultural Sensitivity:</strong> Gestures like a thumbs-up may be positive in some cultures but offensive in others.</li>
         </ul>
-    </div>
 
-    <div class="section">
-        <h2><b>4.3.4 Facial Expression</b></h2>
-        <p>Facial expressions convey emotions such as happiness, concern, or confusion, often instinctively.</p>
+        <h3>4.3.4 Facial Expression</h3>
         <ul>
             <li><strong>Impact:</strong> Builds trust and rapport. Example: Smiling during a greeting creates a welcoming atmosphere.</li>
             <li><strong>Consistency:</strong> Expressions should align with the verbal message. Example: A serious expression during a discussion about budget cuts.</li>
             <li><strong>Cultural Variations:</strong> Some cultures value neutral expressions in formal settings, while others encourage expressiveness.</li>
         </ul>
-    </div>
 
-    <div class="section">
-        <h2><b>4.3.5 Use of Space</b></h2>
-        <p>Proxemics, or the use of physical space, influences communication dynamics.</p>
+        <h3>4.3.5 Use of Space</h3>
         <ul>
             <li><strong>Personal Space:</strong> Varies by culture; close proximity may indicate warmth or intrusion. Example: Maintaining 2-3 feet distance in a business meeting in Western cultures.</li>
             <li><strong>Seating Arrangements:</strong> Affects interaction. Example: A round table encourages collaboration, while a head table denotes authority.</li>
             <li><strong>Workplace Design:</strong> Open-plan offices foster communication; private offices signal hierarchy.</li>
         </ul>
-    </div>
 
-    <div class="section">
-        <h2><b>4.3.6 Touch</b></h2>
-        <p>Haptics, or touch, communicates emotions or status but must be used cautiously in business.</p>
+        <h3>4.3.6 Touch</h3>
         <ul>
             <li><strong>Appropriate Use:</strong> Limited to professional gestures like handshakes. Example: A firm handshake to greet a client.</li>
-            <li><strong>Cultural Sensitivity:</strong> Touch is acceptable in some cultures but inappropriate in others. Example: Avoid patting someone’s back in formal Asian business settings.</li>
+            <li><strong>Cultural Sensitivity:</strong> Touch is acceptable in some cultures but inappropriate in others. Example: Avoid patting someone's back in formal Asian business settings.</li>
             <li><strong>Context:</strong> Consider hierarchy and relationship. Example: A manager avoiding touch with subordinates to maintain professionalism.</li>
         </ul>
-    </div>
 
-    <div class="section">
-        <h2><b>4.3.7 Use of Time</b></h2>
-        <p>Chronemics, or the use of time, reflects priorities and respect in communication.</p>
+        <h3>4.3.7 Use of Time</h3>
         <ul>
             <li><strong>Punctuality:</strong> Being on time signals respect and professionalism. Example: Arriving early for a meeting.</li>
             <li><strong>Response Time:</strong> Prompt responses show efficiency. Example: Replying to emails within 24 hours.</li>
             <li><strong>Cultural Differences:</strong> Some cultures view strict punctuality as critical, while others are more flexible. Example: Germans prioritize timeliness, while some Latin cultures are more relaxed.</li>
         </ul>
+
+        <table>
+            <tr><th>Type</th><th>Description</th><th>Business Example</th></tr>
+            <tr><td>Physical Appearance</td><td>Clothing, grooming, presentation</td><td>Formal attire for client meetings</td></tr>
+            <tr><td>Vocal Characteristics</td><td>Tone, pitch, volume, pace</td><td>Warm tone in customer service</td></tr>
+            <tr><td>Gesture and Posture</td><td>Hand/body movements, positioning</td><td>Open posture for approachability</td></tr>
+            <tr><td>Facial Expression</td><td>Emotions conveyed through face</td><td>Smiling to build rapport</td></tr>
+            <tr><td>Use of Space</td><td>Proxemics, seating, workplace design</td><td>Round table for collaboration</td></tr>
+            <tr><td>Touch</td><td>Haptics, physical contact</td><td>Firm handshake</td></tr>
+            <tr><td>Use of Time</td><td>Punctuality, response time</td><td>Arriving early for meetings</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 4.4 ========== -->
     <div class="section">
-        <h2><b>4.4 Key Considerations in Non-verbal Communication</b></h2>
-        <p>Effective non-verbal communication requires attention to several factors:</p>
+        <h2>4.4 Key Considerations in Non-verbal Communication</h2>
+        <p>Effective non-verbal communication requires attention to several factors.</p>
+
         <ul>
             <li><strong>Cultural Awareness:</strong> Understand cultural norms to avoid misinterpretation. Example: Research local customs before an international meeting.</li>
             <li><strong>Consistency:</strong> Align non-verbal cues with verbal messages to avoid confusion. Example: Avoid smiling when delivering serious news.</li>
@@ -160,26 +355,25 @@
             <li><strong>Observation:</strong> Monitor audience reactions to adjust cues. Example: If an audience seems disengaged, increase energy or eye contact.</li>
             <li><strong>Professionalism:</strong> Maintain appropriate appearance, gestures, and tone to uphold credibility. Example: Dress according to company culture.</li>
         </ul>
+
+        <div class="note-box">
+            <strong>👀 Key insight:</strong> Non-verbal cues are powerful but can be misinterpreted. Cultural awareness, consistency, and context are essential for effective non-verbal communication.
+        </div>
     </div>
 
+    <!-- ========== 4.5 ========== -->
     <div class="section">
-        <h2><b>4.5 Intercultural Communication and Diversity Sensitivity in Business Communication</b></h2>
-        <p>Intercultural communication involves exchanging information across different cultures, requiring sensitivity to diversity.</p>
-    </div>
+        <h2>4.5 Intercultural Communication and Diversity Sensitivity in Business Communication</h2>
 
-    <div class="section">
-        <h2><b>4.5.1 Meaning of Intercultural Communication</b></h2>
-        <p>Intercultural communication is the process of exchanging information between individuals or groups from different cultural backgrounds, aiming for mutual understanding in a business context.</p>
+        <h3>4.5.1 Meaning of Intercultural Communication</h3>
+        <p><strong>Intercultural communication</strong> is the process of exchanging information between individuals or groups from different cultural backgrounds, aiming for mutual understanding in a business context.</p>
         <ul>
             <li><strong>Purpose:</strong> Facilitates collaboration in diverse workplaces or global markets. Example: Negotiating with international clients.</li>
             <li><strong>Importance:</strong> Enhances teamwork, reduces misunderstandings, and supports global business expansion. Example: Understanding cultural preferences in marketing campaigns.</li>
             <li><strong>Scope:</strong> Includes verbal, non-verbal, and written communication across cultures.</li>
         </ul>
-    </div>
 
-    <div class="section">
-        <h2><b>4.5.2 Barriers to Effective Intercultural Communication</b></h2>
-        <p>Challenges in intercultural communication can hinder effective interactions:</p>
+        <h3>4.5.2 Barriers to Effective Intercultural Communication</h3>
         <ul>
             <li><strong>Language Differences:</strong> Limited proficiency or jargon can cause misunderstandings. Example: Misinterpreting technical terms in a multilingual meeting.</li>
             <li><strong>Cultural Misunderstandings:</strong> Differing values or norms lead to misinterpretations. Example: Direct feedback may be seen as rude in high-context cultures.</li>
@@ -187,20 +381,37 @@
             <li><strong>Non-verbal Misinterpretations:</strong> Gestures or expressions have different meanings across cultures. Example: A thumbs-up may offend in some Middle Eastern cultures.</li>
             <li><strong>Prejudice or Bias:</strong> Unconscious biases can create hostility or mistrust. Example: Favoring one cultural group in team assignments.</li>
         </ul>
-    </div>
 
-    <div class="section">
-        <h2><b>4.5.3 Overcoming the Barriers to Intercultural Communication</b></h2>
-        <p>Strategies to enhance intercultural communication include:</p>
+        <h3>4.5.3 Overcoming the Barriers to Intercultural Communication</h3>
         <ul>
             <li><strong>Cultural Awareness Training:</strong> Educate employees on cultural norms and practices. Example: Workshops on global business etiquette.</li>
             <li><strong>Active Listening:</strong> Pay attention to verbal and non-verbal cues to understand intent. Example: Paraphrase to confirm understanding in meetings.</li>
             <li><strong>Language Simplification:</strong> Use clear, simple language to avoid confusion. Example: Avoid idioms in international emails.</li>
-            <li><strong>Adaptability:</strong> Adjust communication style to suit the audience’s cultural context. Example: Use formal greetings in high-context cultures like Japan.</li>
+            <li><strong>Adaptability:</strong> Adjust communication style to suit the audience's cultural context. Example: Use formal greetings in high-context cultures like Japan.</li>
             <li><strong>Inclusivity:</strong> Foster an environment that values diverse perspectives. Example: Encourage input from all team members in multicultural teams.</li>
             <li><strong>Feedback Mechanisms:</strong> Seek clarification to ensure mutual understanding. Example: Ask open-ended questions to gauge comprehension.</li>
         </ul>
-        <p><strong>Best Practices:</strong> Research cultural norms, practice empathy, and use inclusive language to build trust and collaboration.</p>
+
+        <div class="code-block">
+            <span>// Intercultural Communication Checklist</span><br>
+            <span>// ✓ Research cultural norms before meetings</span><br>
+            <span>// ✓ Practice active listening</span><br>
+            <span>// ✓ Use clear, simple language</span><br>
+            <span>// ✓ Adapt communication style</span><br>
+            <span>// ✓ Foster inclusivity</span><br>
+            <span>// ✓ Seek feedback to confirm understanding</span>
+        </div>
+
+        <div class="note-box">
+            <strong>🌍 Key insight:</strong> Intercultural communication requires cultural awareness, adaptability, and inclusivity. Overcoming barriers through training and active listening fosters collaboration and mutual respect.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 4 summary</strong><br>Non-verbal communication conveys messages without words through appearance, voice, gestures, space, touch, and time. Intercultural communication involves exchanging information across cultures, requiring sensitivity and adaptability.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Non-verbal: subconscious, context-dependent, continuous, ambiguous, multichannel.<br>• Types: appearance, vocal, gesture, facial, space, touch, time.<br>• Key considerations: cultural awareness, consistency, context, observation.<br>• Intercultural: exchanging information across cultures.<br>• Barriers: language, cultural misunderstandings, stereotyping, bias.<br>• Solutions: training, active listening, language simplification, adaptability, inclusivity.</div>
     </div>
 </body>
 </html>

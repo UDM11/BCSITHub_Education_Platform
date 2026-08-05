@@ -1,157 +1,485 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit I: Foundation of Business Communication</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-        @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1><b>Unit I: Foundation of Business Communication</b></h1>
+    <h1>Unit I: Foundation of Business Communication</h1>
+    <div class="subhead">Meaning · process · principles · modes · barriers · organizational flow · digital age · etiquette</div>
 
+    <!-- ========== 1.1 ========== -->
     <div class="section">
-        <h2><b>1.1 Meaning and Definition of Business Communication</b></h2>
+        <h2>1.1 Meaning and Definition of Business Communication</h2>
         <p><strong>Definition:</strong> Business communication is the process of sharing information between individuals within and outside an organization to achieve business objectives. It involves the exchange of ideas, facts, opinions, or emotions to facilitate coordination, decision-making, and relationship-building.</p>
-        <p><strong>Meaning:</strong> Business communication is a goal-oriented process that ensures the smooth functioning of an organization. It encompasses written, verbal, and non-verbal interactions aimed at achieving clarity, mutual understanding, and organizational efficiency.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📌 Meaning</strong><br>A goal-oriented process that ensures smooth functioning of an organization. Encompasses written, verbal, and non-verbal interactions.</div>
+            <div class="card"><strong>🎯 Purpose</strong><br>To inform, persuade, or collaborate effectively in a professional setting. Includes internal and external communication.</div>
+        </div>
+
+        <h3>Key Aspects</h3>
         <ul>
-            <li><strong>Purpose:</strong> To inform, persuade, or collaborate effectively in a professional setting.</li>
-            <li><strong>Scope:</strong> Includes internal communication (within teams, departments) and external communication (with clients, stakeholders, or partners).</li>
+            <li><strong>Scope:</strong> Internal communication (within teams, departments) and external communication (with clients, stakeholders, partners).</li>
             <li><strong>Examples:</strong> Emails, reports, meetings, presentations, and negotiations.</li>
+            <li><strong>Importance:</strong> Facilitates decision-making, builds relationships, and enhances organizational efficiency.</li>
         </ul>
     </div>
 
+    <!-- ========== 1.2 ========== -->
     <div class="section">
-        <h2><b>1.2 Process of Communication</b></h2>
-        <p>The communication process is a systematic flow of transmitting a message from sender to receiver, ensuring mutual understanding. It consists of the following components:</p>
+        <h2>1.2 Process of Communication</h2>
+        <p>The communication process is a systematic flow of transmitting a message from sender to receiver, ensuring mutual understanding.</p>
+
+        <div class="figure-box">
+            <pre>
+Communication Process:
+┌────────────┐    ┌────────────┐    ┌────────────┐
+│   Sender   │───▶│  Encoding  │───▶│  Channel   │
+└────────────┘    └────────────┘    └─────┬──────┘
+                                          │
+                                          ▼
+┌────────────┐    ┌────────────┐    ┌────────────┐
+│  Receiver  │◀───│  Decoding  │◀───│  Message   │
+└────────────┘    └────────────┘    └────────────┘
+       │
+       ▼
+┌────────────┐
+│  Feedback  │
+└────────────┘
+            </pre>
+        </div>
+
+        <h3>Components</h3>
         <ul>
             <li><strong>Sender:</strong> The originator of the message who initiates communication.</li>
             <li><strong>Message:</strong> The information, idea, or emotion to be conveyed.</li>
-            <li><strong>Encoding:</strong> Converting the message into a suitable format (words, symbols, or gestures).</li>
-            <li><strong>Channel:</strong> The medium used to transmit the message (e.g., email, phone, face-to-face).</li>
+            <li><strong>Encoding:</strong> Converting the message into a suitable format (words, symbols, gestures).</li>
+            <li><strong>Channel:</strong> The medium used to transmit the message (email, phone, face-to-face).</li>
             <li><strong>Receiver:</strong> The individual or group for whom the message is intended.</li>
             <li><strong>Decoding:</strong> The receiver's interpretation of the message.</li>
-            <li><strong>Feedback:</strong> The receiver's response, which completes the communication loop and confirms understanding.</li>
-            <li><strong>Noise:</strong> Any interference that distorts or disrupts the message (e.g., physical noise, cultural differences).</li>
+            <li><strong>Feedback:</strong> The receiver's response, completing the communication loop.</li>
+            <li><strong>Noise:</strong> Interference that distorts or disrupts the message.</li>
         </ul>
-        <p><strong>Process Flow:</strong> The sender encodes a message, selects a channel, and sends it to the receiver, who decodes it and provides feedback. Noise can disrupt any stage, affecting clarity.</p>
+
+        <div class="note-box">
+            <strong>🔄 Key insight:</strong> Effective communication requires that the message is encoded clearly, transmitted through an appropriate channel, and decoded accurately by the receiver, with feedback confirming understanding.
+        </div>
     </div>
 
+    <!-- ========== 1.3 ========== -->
     <div class="section">
-        <h2><b>1.3 Principles of Effective Business Communication</b></h2>
-        <p>Effective business communication follows the "7 Cs" to ensure messages are clear and impactful:</p>
-        <ul>
-            <li><strong>Clarity:</strong> Use simple, precise language to avoid ambiguity. Example: Instead of "Please expedite the process," say "Please complete the task by 5 PM today."</li>
-            <li><strong>Conciseness:</strong> Be brief and to the point, avoiding unnecessary details. Example: Use "Meet at 10 AM" instead of "Let’s arrange a meeting for 10 o’clock in the morning."</li>
-            <li><strong>Completeness:</strong> Provide all necessary information to avoid confusion. Example: Include deadlines, contacts, and context in project instructions.</li>
-            <li><strong>Correctness:</strong> Ensure accuracy in grammar, facts, and tone to maintain credibility. Example: Proofread emails to avoid errors.</li>
-            <li><strong>Concreteness:</strong> Use specific facts and figures to make messages tangible. Example: "Sales increased by 15% in Q2" is more concrete than "Sales improved."</li>
-            <li><strong>Consideration:</strong> Tailor the message to the audience’s needs, interests, and emotions. Example: Acknowledge a client’s concerns before proposing solutions.</li>
-            <li><strong>Courtesy:</strong> Use polite, respectful language to foster goodwill. Example: Say "Thank you for your feedback" instead of "Your feedback was received."</li>
-        </ul>
+        <h2>1.3 Principles of Effective Business Communication</h2>
+        <p>Effective business communication follows the <strong>7 Cs</strong> to ensure messages are clear and impactful.</p>
+
+        <h3>The 7 Cs of Communication</h3>
+        <table>
+            <tr><th>C</th><th>Principle</th><th>Description</th><th>Example</th></tr>
+            <tr><td>1</td><td>Clarity</td><td>Use simple, precise language to avoid ambiguity</td><td>"Please complete the task by 5 PM today"</td></tr>
+            <tr><td>2</td><td>Conciseness</td><td>Be brief and to the point, avoiding unnecessary details</td><td>"Meet at 10 AM"</td></tr>
+            <tr><td>3</td><td>Completeness</td><td>Provide all necessary information</td><td>Include deadlines, contacts, and context</td></tr>
+            <tr><td>4</td><td>Correctness</td><td>Ensure accuracy in grammar, facts, and tone</td><td>Proofread emails to avoid errors</td></tr>
+            <tr><td>5</td><td>Concreteness</td><td>Use specific facts and figures</td><td>"Sales increased by 15% in Q2"</td></tr>
+            <tr><td>6</td><td>Consideration</td><td>Tailor message to audience's needs</td><td>Acknowledge client concerns before proposing solutions</td></tr>
+            <tr><td>7</td><td>Courtesy</td><td>Use polite, respectful language</td><td>"Thank you for your feedback"</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Example: Applying the 7 Cs</span><br>
+            <span>// Poor: "Let's arrange a meeting for 10 o'clock in the morning."</span><br>
+            <span>// Good (Conciseness): "Meet at 10 AM."</span><br><br>
+            <span>// Poor: "Sales improved."</span><br>
+            <span>// Good (Concreteness): "Sales increased by 15% in Q2."</span>
+        </div>
     </div>
 
+    <!-- ========== 1.4 ========== -->
     <div class="section">
-        <h2><b>1.4 Modes of Communication</b></h2>
-        <p>Business communication employs various modes to convey messages effectively:</p>
+        <h2>1.4 Modes of Communication</h2>
+        <p>Business communication employs various modes to convey messages effectively.</p>
+
+        <h3>Modes of Communication</h3>
         <ul>
-            <li><strong>Intra-personal Communication:</strong> Internal self-talk or reflection that influences decision-making. Example: A manager mentally evaluates options before a meeting.</li>
-            <li><strong>Inter-personal Communication:</strong> Direct, one-on-one or small-group interactions. Example: A performance review discussion between a manager and an employee.</li>
-            <li><strong>Visual or Presentational Mode:</strong> Using visuals like charts, graphs, or slides to convey information. Example: A PowerPoint presentation during a board meeting.</li>
-            <li><strong>Electronic or Digital Mode:</strong> Communication through digital tools like emails, video conferencing, or social media. Example: Collaborating via Zoom or sharing updates on a company intranet.</li>
+            <li><strong>Intra-personal Communication:</strong> Internal self-talk or reflection influencing decision-making.</li>
+            <li><strong>Inter-personal Communication:</strong> Direct, one-on-one or small-group interactions.</li>
+            <li><strong>Visual or Presentational Mode:</strong> Using visuals like charts, graphs, or slides to convey information.</li>
+            <li><strong>Electronic or Digital Mode:</strong> Communication through digital tools like emails, video conferencing, or social media.</li>
         </ul>
+
+        <table>
+            <tr><th>Mode</th><th>Description</th><th>Examples</th></tr>
+            <tr><td>Intra-personal</td><td>Self-reflection</td><td>Mental evaluation before a meeting</td></tr>
+            <tr><td>Inter-personal</td><td>One-on-one interactions</td><td>Performance review discussion</td></tr>
+            <tr><td>Visual</td><td>Visual aids</td><td>PowerPoint presentation</td></tr>
+            <tr><td>Electronic</td><td>Digital tools</td><td>Zoom meetings, emails, Slack</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 1.5 ========== -->
     <div class="section">
-        <h2><b>1.5 Barriers to Effective Communication</b></h2>
-        <p>Barriers can hinder the communication process, leading to misunderstandings. Common barriers include:</p>
+        <h2>1.5 Barriers to Effective Communication</h2>
+        <p>Barriers can hinder the communication process, leading to misunderstandings.</p>
+
+        <h3>Common Barriers</h3>
         <ul>
-            <li><strong>Noise and Distractions:</strong> Physical or environmental interruptions, such as loud sounds or poor internet connections, that disrupt message delivery.</li>
-            <li><strong>Filters:</strong> Psychological or emotional barriers, such as preconceived notions, biases, or stress, that distort message interpretation.</li>
-            <li><strong>Competing Messages:</strong> Multiple messages vying for attention, causing the receiver to miss key information. Example: Overloaded email inboxes.</li>
-            <li><strong>Channel Breakdown:</strong> Inappropriate or ineffective communication channels, such as using email for urgent matters requiring immediate discussion.</li>
+            <li><strong>Noise and Distractions:</strong> Physical or environmental interruptions (loud sounds, poor internet).</li>
+            <li><strong>Filters:</strong> Psychological or emotional barriers (preconceived notions, biases, stress).</li>
+            <li><strong>Competing Messages:</strong> Multiple messages vying for attention, causing missed key information.</li>
+            <li><strong>Channel Breakdown:</strong> Inappropriate or ineffective communication channels.</li>
         </ul>
-        <p><strong>Solutions:</strong> Use clear channels, active listening, feedback, and culturally sensitive communication to overcome barriers.</p>
+
+        <h3>Solutions</h3>
+        <ul>
+            <li>Use clear and appropriate channels.</li>
+            <li>Practice active listening.</li>
+            <li>Encourage feedback and ask clarifying questions.</li>
+            <li>Be culturally sensitive.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Example: Overcoming Barriers</span><br>
+            <span>// Barrier: Poor internet connection during a virtual meeting</span><br>
+            <span>// Solution: Use phone call as backup or follow up with meeting notes</span>
+        </div>
     </div>
 
+    <!-- ========== 1.6 ========== -->
     <div class="section">
-        <h2><b>1.6 Communication in an Organizational Structure</b></h2>
-        <p>Communication flows in different directions within an organization, depending on its structure:</p>
-        <ul>
-            <li><strong>Downward Communication:</strong> From higher management to subordinates. Example: A CEO issuing company policies to employees.</li>
-            <li><strong>Upward Communication:</strong> From subordinates to higher management. Example: Employees providing feedback or reports to their manager.</li>
-            <li><strong>Horizontal Communication:</strong> Between peers or colleagues at the same level. Example: Team members collaborating on a project.</li>
-            <li><strong>Diagonal Communication:</strong> Across different levels and departments, bypassing the traditional hierarchy. Example: A marketing team member consulting with an IT specialist on a campaign.</li>
-        </ul>
-        <p><strong>Importance:</strong> Each type ensures coordination, feedback, and collaboration across organizational levels.</p>
+        <h2>1.6 Communication in an Organizational Structure</h2>
+        <p>Communication flows in different directions within an organization, depending on its structure.</p>
+
+        <h3>Types of Organizational Communication</h3>
+        <table>
+            <tr><th>Type</th><th>Direction</th><th>Description</th><th>Example</th></tr>
+            <tr><td>Downward</td><td>Top → Bottom</td><td>From higher management to subordinates</td><td>CEO issuing company policies</td></tr>
+            <tr><td>Upward</td><td>Bottom → Top</td><td>From subordinates to higher management</td><td>Employees providing feedback to manager</td></tr>
+            <tr><td>Horizontal</td><td>Peer → Peer</td><td>Between colleagues at the same level</td><td>Team members collaborating on a project</td></tr>
+            <tr><td>Diagonal</td><td>Across levels</td><td>Across different levels and departments</td><td>Marketing consulting with IT</td></tr>
+        </table>
+
+        <div class="figure-box">
+            <pre>
+Organizational Communication Flow:
+          ┌─────────────┐
+          │   CEO       │ ← Downward (policies, directives)
+          └──────┬──────┘
+                 │
+          ┌──────┴──────┐
+          │  Managers   │ ← Diagonal (cross-department)
+          └──────┬──────┘
+                 │
+          ┌──────┴──────┐
+          │  Employees  │ ← Upward (feedback, reports)
+          └─────────────┘
+                 │
+          ┌──────┴──────┐
+          │  Peers      │ ← Horizontal (collaboration)
+          └─────────────┘
+            </pre>
+        </div>
     </div>
 
+    <!-- ========== 1.7 ========== -->
     <div class="section">
-        <h2><b>1.7 Business Communication in the Digital Age</b></h2>
-        <p>The digital age has transformed business communication through technology and globalization:</p>
+        <h2>1.7 Business Communication in the Digital Age</h2>
+        <p>The digital age has transformed business communication through technology and globalization.</p>
+
+        <h3>Digital Communication Tools</h3>
         <ul>
-            <li><strong>Tools:</strong> Platforms like Slack, Microsoft Teams, and email enable instant communication across geographies.</li>
-            <li><strong>Social Media:</strong> Businesses use platforms like X or LinkedIn for branding, customer engagement, and networking.</li>
-            <li><strong>Challenges:</strong> Information overload, cybersecurity risks, and maintaining professionalism in digital interactions.</li>
-            <li><strong>Opportunities:</strong> Enhanced accessibility, real-time collaboration, and data-driven communication strategies.</li>
-            <li><strong>Examples:</strong> Virtual meetings via Zoom, automated customer service chatbots, and cloud-based project management tools.</li>
+            <li><strong>Collaboration Platforms:</strong> Slack, Microsoft Teams, Google Workspace.</li>
+            <li><strong>Video Conferencing:</strong> Zoom, Google Meet, Microsoft Teams.</li>
+            <li><strong>Social Media:</strong> LinkedIn, X (Twitter), Facebook for branding and engagement.</li>
+            <li><strong>Project Management:</strong> Trello, Asana, Jira for task tracking.</li>
         </ul>
+
+        <h3>Challenges</h3>
+        <ul>
+            <li>Information overload</li>
+            <li>Cybersecurity risks</li>
+            <li>Maintaining professionalism in digital interactions</li>
+            <li>Digital divide and accessibility issues</li>
+        </ul>
+
+        <h3>Opportunities</h3>
+        <ul>
+            <li>Enhanced accessibility and reach</li>
+            <li>Real-time collaboration across geographies</li>
+            <li>Data-driven communication strategies</li>
+            <li>Automation and AI-powered communication tools</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Example: Digital Communication in Action</span><br>
+            <span>// A multinational team uses Slack for daily updates,</span><br>
+            <span>// Zoom for weekly meetings, and Trello for project tracking.</span>
+        </div>
     </div>
 
+    <!-- ========== 1.8 ========== -->
     <div class="section">
-        <h2><b>1.8 Etiquettes of Business Communication</b></h2>
-        <p>Etiquettes ensure professionalism and respect in business interactions. Key etiquettes include:</p>
+        <h2>1.8 Etiquettes of Business Communication</h2>
+        <p>Etiquettes ensure professionalism and respect in business interactions.</p>
+
+        <h3>Key Etiquettes</h3>
         <ul>
-            <li><strong>Professional Tone:</strong> Use formal language in written and verbal communication, avoiding slang or overly casual phrases.</li>
-            <li><strong>Timeliness:</strong> Respond to messages promptly and adhere to deadlines. Example: Reply to emails within 24-48 hours.</li>
-            <li><strong>Respectful Listening:</strong> Practice active listening by acknowledging others’ viewpoints without interrupting.</li>
-            <li><strong>Cultural Sensitivity:</strong> Be aware of cultural differences in communication styles, especially in global business settings.</li>
-            <li><strong>Confidentiality:</strong> Protect sensitive information and avoid sharing it inappropriately.</li>
-            <li><strong>Non-verbal Cues:</strong> Maintain appropriate body language, eye contact, and tone in face-to-face or virtual meetings.</li>
+            <li><strong>Professional Tone:</strong> Use formal language, avoid slang or overly casual phrases.</li>
+            <li><strong>Timeliness:</strong> Respond to messages promptly and adhere to deadlines.</li>
+            <li><strong>Respectful Listening:</strong> Practice active listening without interrupting.</li>
+            <li><strong>Cultural Sensitivity:</strong> Be aware of cultural differences in communication styles.</li>
+            <li><strong>Confidentiality:</strong> Protect sensitive information and avoid sharing inappropriately.</li>
+            <li><strong>Non-verbal Cues:</strong> Maintain appropriate body language, eye contact, and tone.</li>
         </ul>
-        <p><strong>Examples:</strong> Starting emails with a polite greeting, using “please” and “thank you,” and dressing appropriately for video calls.</p>
+
+        <div class="code-block">
+            <span>// Email Etiquette Example</span><br>
+            <span>// Subject: Meeting Request - Project Update</span><br><br>
+            <span>// Dear Mr. Smith,</span><br><br>
+            <span>// I hope this email finds you well. I would like to schedule a meeting</span><br>
+            <span>// to discuss the project update. Please let me know your availability</span><br>
+            <span>// for this Thursday or Friday.</span><br><br>
+            <span>// Best regards,</span><br>
+            <span>// Jane Doe</span><br>
+            <span>// Project Manager</span>
+        </div>
+
+        <div class="note-box">
+            <strong>📝 Key insight:</strong> Professional etiquette builds trust, fosters positive relationships, and reflects the organization's culture and values.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit I summary</strong><br>Business communication is the exchange of information to achieve organizational goals. It follows a systematic process, adheres to principles, and adapts to various modes and digital tools.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Business communication: goal-oriented, internal/external.<br>• Process: sender → encoding → channel → decoding → feedback.<br>• 7 Cs: clarity, conciseness, completeness, correctness, concreteness, consideration, courtesy.<br>• Modes: intra-personal, inter-personal, visual, electronic.<br>• Barriers: noise, filters, competing messages, channel breakdown.<br>• Organizational flow: downward, upward, horizontal, diagonal.<br>• Digital age: tools, challenges, opportunities.<br>• Etiquette: professionalism, timeliness, respect, cultural sensitivity.</div>
     </div>
 </body>
 </html>

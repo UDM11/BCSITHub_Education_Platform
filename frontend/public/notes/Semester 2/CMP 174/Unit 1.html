@@ -1,159 +1,571 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 1: Binary Foundation and Digital Representation</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            color: black;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
         }
         li {
-            margin-bottom: 10px;
+            margin-bottom: 0.6rem;
         }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
+        strong {
+            color: #0f3d66;
         }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
         }
-        h2 {
-            font-size: 1rem; /* smaller sub-header */
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
         }
-        .section {
-            padding: 8px; /* less padding for small screens */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
-    }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
     <h1>Unit 1: Binary Foundation and Digital Representation</h1>
+    <div class="subhead">Digital systems · number systems · conversions · binary codes · alphanumeric codes · negative numbers · subtraction</div>
 
+    <!-- ========== 1.1 ========== -->
     <div class="section">
-        <h2><b>1.1 Introduction to Digital System</b></h2>
-        <p>A digital system is an electronic system that processes and stores data using discrete values, typically represented as binary digits (0s and 1s). These systems form the backbone of modern computing and communication technologies.</p>
-        <ul>
-            <li><strong>Definition:</strong> Digital systems manipulate discrete signals to perform computations, store information, or control processes. Example: Computers, smartphones, and digital watches.</li>
-            <li><strong>Characteristics:</strong> Operate using binary logic, are noise-resistant, and allow precise data representation. Example: A digital signal with values 0 or 1 is less prone to distortion than analog signals.</li>
-            <li><strong>Components:</strong> Include logic gates, memory units, and processors that handle binary data.</li>
-            <li><strong>Applications:</strong> Used in computing, telecommunications, digital signal processing, and embedded systems.</li>
-        </ul>
+        <h2>1.1 Introduction to Digital System</h2>
+        <p>A <strong>digital system</strong> is an electronic system that processes and stores data using discrete values, typically represented as binary digits (0s and 1s). These systems form the backbone of modern computing and communication technologies.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>💡 Definition</strong><br>Digital systems manipulate discrete signals to perform computations, store information, or control processes. Examples: Computers, smartphones, and digital watches.</div>
+            <div class="card"><strong>⚡ Characteristics</strong><br>Operate using binary logic, are noise-resistant, and allow precise data representation. Digital signals (0/1) are less prone to distortion than analog signals.</div>
+            <div class="card"><strong>🧩 Components</strong><br>Include logic gates, memory units, and processors that handle binary data. These components work together to execute instructions.</div>
+            <div class="card"><strong>📱 Applications</strong><br>Used in computing, telecommunications, digital signal processing, and embedded systems across all modern industries.</div>
+        </div>
+
+        <h3>Analog vs Digital Systems</h3>
+        <table>
+            <tr><th>Feature</th><th>Analog System</th><th>Digital System</th></tr>
+            <tr><td>Signal Type</td><td>Continuous (infinite values)</td><td>Discrete (finite values: 0 and 1)</td></tr>
+            <tr><td>Noise Immunity</td><td>Low (susceptible to distortion)</td><td>High (noise-resistant)</td></tr>
+            <tr><td>Processing</td><td>Physical quantities (voltage, current)</td><td>Binary logic (0/1)</td></tr>
+            <tr><td>Examples</td><td>Vinyl records, analog clocks</td><td>Computers, smartphones, digital watches</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> Digital systems use discrete binary values, making them reliable, scalable, and versatile. They are the foundation of all modern computing and communication technologies.
+        </div>
     </div>
 
+    <!-- ========== 1.2 ========== -->
     <div class="section">
-        <h2><b>1.2 Binary Number System, Hexadecimal and Octal Number Systems</b></h2>
-        <p>Number systems represent numerical values using different bases, with binary, hexadecimal, and octal being critical in digital systems.</p>
+        <h2>1.2 Binary Number System, Hexadecimal and Octal Number Systems</h2>
+        <p>Number systems represent numerical values using different bases, with <strong>binary</strong>, <strong>hexadecimal</strong>, and <strong>octal</strong> being critical in digital systems.</p>
+
+        <h3>Binary Number System (Base-2)</h3>
         <ul>
-            <li><strong>Binary Number System (Base-2):</strong> Uses digits 0 and 1. Each position represents a power of 2. Example: <em>1011₂ = 1·2³ + 0·2² + 1·2¹ + 1·2⁰ = 8 + 0 + 2 + 1 = 11₁₀</em>.</li>
-            <li><strong>Hexadecimal Number System (Base-16):</strong> Uses digits 0–9 and letters A–F (A=10, B=11, ..., F=15). Each position represents a power of 16. Example: <em>2A₁₆ = 2·16¹ + 10·16⁰ = 32 + 10 = 42₁₀</em>.</li>
-            <li><strong>Octal Number System (Base-8):</strong> Uses digits 0–7. Each position represents a power of 8. Example: <em>23₈ = 2·8¹ + 3·8⁰ = 16 + 3 = 19₁₀</em>.</li>
-            <li><strong>Applications:</strong> Binary is used in computer hardware; hexadecimal simplifies binary representation (e.g., memory addresses); octal is less common but used in some legacy systems.</li>
+            <li><strong>Digits:</strong> 0 and 1</li>
+            <li><strong>Positional Value:</strong> Each position represents a power of 2</li>
+            <li><strong>Example:</strong> <code>1011₂ = 1·2³ + 0·2² + 1·2¹ + 1·2⁰ = 8 + 0 + 2 + 1 = 11₁₀</code></li>
+            <li><strong>Applications:</strong> Fundamental to all computer hardware and digital logic.</li>
         </ul>
+
+        <h3>Hexadecimal Number System (Base-16)</h3>
+        <ul>
+            <li><strong>Digits:</strong> 0–9 and A–F (A=10, B=11, C=12, D=13, E=14, F=15)</li>
+            <li><strong>Positional Value:</strong> Each position represents a power of 16</li>
+            <li><strong>Example:</strong> <code>2A₁₆ = 2·16¹ + 10·16⁰ = 32 + 10 = 42₁₀</code></li>
+            <li><strong>Applications:</strong> Simplifies binary representation (memory addresses, color codes).</li>
+        </ul>
+
+        <h3>Octal Number System (Base-8)</h3>
+        <ul>
+            <li><strong>Digits:</strong> 0–7</li>
+            <li><strong>Positional Value:</strong> Each position represents a power of 8</li>
+            <li><strong>Example:</strong> <code>23₈ = 2·8¹ + 3·8⁰ = 16 + 3 = 19₁₀</code></li>
+            <li><strong>Applications:</strong> Used in legacy systems and Unix file permissions.</li>
+        </ul>
+
+        <h3>Number System Comparison</h3>
+        <table>
+            <tr><th>System</th><th>Base</th><th>Digits</th><th>Example</th><th>Use Case</th></tr>
+            <tr><td>Binary</td><td>2</td><td>0, 1</td><td>1011₂</td><td>Computer hardware</td></tr>
+            <tr><td>Octal</td><td>8</td><td>0–7</td><td>23₈</td><td>Legacy systems</td></tr>
+            <tr><td>Decimal</td><td>10</td><td>0–9</td><td>19₁₀</td><td>Human use</td></tr>
+            <tr><td>Hexadecimal</td><td>16</td><td>0–9, A–F</td><td>2A₁₆</td><td>Memory addresses</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 1.3 ========== -->
     <div class="section">
-        <h2><b>1.3 Number System Conversion</b></h2>
+        <h2>1.3 Number System Conversion</h2>
         <p>Converting between number systems is essential for data representation and processing in digital systems.</p>
+
+        <h3>Decimal to Binary</h3>
         <ul>
-            <li><strong>Decimal to Binary:</strong> Divide by 2, record remainders in reverse order. Example: Convert <em>19₁₀</em> to binary: 19 ÷ 2 = 9 rem 1, 9 ÷ 2 = 4 rem 1, 4 ÷ 2 = 2 rem 0, 2 ÷ 2 = 1 rem 0, 1 ÷ 2 = 0 rem 1. Result: <em>10011₂</em>.</li>
-            <li><strong>Binary to Decimal:</strong> Sum the powers of 2 for each 1 bit. Example: <em>1011₂ = 1·2³ + 0·2² + 1·2¹ + 1·2⁰ = 8 + 0 + 2 + 1 = 11₁₀</em>.</li>
-            <li><strong>Binary to Hexadecimal:</strong> Group binary digits into sets of 4, convert each to a hex digit. Example: <em>10110110₂ = 1011 0110 = B6₁₆</em> (1011 = B, 0110 = 6).</li>
-            <li><strong>Hexadecimal to Binary:</strong> Convert each hex digit to its 4-bit binary equivalent. Example: <em>2A₁₆ = 0010 1010₂</em>.</li>
-            <li><strong>Decimal to Octal:</strong> Divide by 8, record remainders in reverse order. Example: <em>19₁₀</em>: 19 ÷ 8 = 2 rem 3, 2 ÷ 8 = 0 rem 2. Result: <em>23₈</em>.</li>
-            <li><strong>Octal to Decimal:</strong> Sum the powers of 8. Example: <em>23₈ = 2·8¹ + 3·8⁰ = 16 + 3 = 19₁₀</em>.</li>
-            <li><strong>Best Practices:</strong> Verify conversions by converting back to the original base; use grouping for binary-hex/oct conversions.</li>
+            <li><strong>Method:</strong> Divide by 2 repeatedly, record remainders in reverse order.</li>
+            <li><strong>Example:</strong> Convert <code>19₁₀</code> to binary:
+                <div class="code-block">
+                    19 ÷ 2 = 9 rem 1<br>
+                    9 ÷ 2 = 4 rem 1<br>
+                    4 ÷ 2 = 2 rem 0<br>
+                    2 ÷ 2 = 1 rem 0<br>
+                    1 ÷ 2 = 0 rem 1<br>
+                    Result: <span style="color:#66ff99;">10011₂</span>
+                </div>
+            </li>
         </ul>
+
+        <h3>Binary to Decimal</h3>
+        <ul>
+            <li><strong>Method:</strong> Sum the powers of 2 for each 1 bit.</li>
+            <li><strong>Example:</strong> <code>1011₂ = 1·2³ + 0·2² + 1·2¹ + 1·2⁰ = 8 + 0 + 2 + 1 = 11₁₀</code></li>
+        </ul>
+
+        <h3>Binary to Hexadecimal</h3>
+        <ul>
+            <li><strong>Method:</strong> Group binary digits into sets of 4 (from right), convert each to hex digit.</li>
+            <li><strong>Example:</strong> <code>10110110₂ = 1011 0110 = B6₁₆</code> (1011 = B, 0110 = 6)</li>
+        </ul>
+
+        <h3>Hexadecimal to Binary</h3>
+        <ul>
+            <li><strong>Method:</strong> Convert each hex digit to its 4-bit binary equivalent.</li>
+            <li><strong>Example:</strong> <code>2A₁₆ = 0010 1010₂</code></li>
+        </ul>
+
+        <h3>Decimal to Octal</h3>
+        <ul>
+            <li><strong>Method:</strong> Divide by 8 repeatedly, record remainders in reverse order.</li>
+            <li><strong>Example:</strong> <code>19₁₀</code>: 19 ÷ 8 = 2 rem 3, 2 ÷ 8 = 0 rem 2 → <code>23₈</code></li>
+        </ul>
+
+        <h3>Octal to Decimal</h3>
+        <ul>
+            <li><strong>Method:</strong> Sum the powers of 8 for each digit.</li>
+            <li><strong>Example:</strong> <code>23₈ = 2·8¹ + 3·8⁰ = 16 + 3 = 19₁₀</code></li>
+        </ul>
+
+        <div class="note-box">
+            <strong>📐 Key insight:</strong> Practice conversions regularly. Verify by converting back to the original base. Use grouping for binary-hex/oct conversions.
+        </div>
     </div>
 
+    <!-- ========== 1.4 ========== -->
     <div class="section">
-        <h2><b>1.4 Binary Codes: Weighted and Non-Weighted Codes</b></h2>
-        <p>Binary codes represent data in binary form, with weighted and non-weighted codes serving different purposes.</p>
+        <h2>1.4 Binary Codes: Weighted and Non-Weighted Codes</h2>
+        <p>Binary codes represent data in binary form, with <strong>weighted</strong> and <strong>non-weighted</strong> codes serving different purposes.</p>
+
+        <h3>Weighted Codes</h3>
         <ul>
-            <li><strong>Weighted Codes:</strong> Each digit position has a specific weight, and the value is the sum of weights for non-zero digits.
+            <li><strong>Definition:</strong> Each digit position has a specific weight; value is the sum of weights for non-zero digits.</li>
+            <li><strong>BCD (Binary-Coded Decimal):</strong>
                 <ul>
-                    <li><strong>Binary-Coded Decimal (BCD):</strong> Each decimal digit is represented by a 4-bit binary code (0000 to 1001). Example: <em>45₁₀ = 0100 0101_BCD</em>.</li>
-                    <li><strong>2421 Code:</strong> Weights are 2, 4, 2, 1 for each position. Example: <em>5₁₀ = 0101_2421</em> (0·2 + 1·4 + 0·2 + 1·1 = 5).</li>
+                    <li>Each decimal digit represented by 4-bit binary (0000 to 1001).</li>
+                    <li><strong>Example:</strong> <code>45₁₀ = 0100 0101_BCD</code></li>
                     <li><strong>Use:</strong> Simplifies decimal arithmetic in digital systems.</li>
                 </ul>
             </li>
-            <li><strong>Non-Weighted Codes:</strong> No fixed weights; designed for specific properties like error detection.
+            <li><strong>2421 Code:</strong>
                 <ul>
-                    <li><strong>Gray Code:</strong> Adjacent numbers differ by one bit. Example: <em>3₁₀ = 010_Gray</em>, <em>4₁₀ = 110_Gray</em>. Used in rotary encoders to reduce errors.</li>
-                    <li><strong>Excess-3 Code:</strong> BCD value plus 3. Example: <em>5₁₀ = 0101_BCD = 1000_Excess-3</em> (0101 + 0011).</li>
-                    <li><strong>Use:</strong> Error detection and minimization in digital transitions.</li>
+                    <li>Weights: 2, 4, 2, 1</li>
+                    <li><strong>Example:</strong> <code>5₁₀ = 0101_2421</code> (0·2 + 1·4 + 0·2 + 1·1 = 5)</li>
                 </ul>
             </li>
-            <li><strong>Applications:</strong> Weighted codes in calculators; non-weighted codes in sensors and communication systems.</li>
         </ul>
-    </div>
 
-    <div class="section">
-        <h2><b>1.5 Alphanumeric Codes (ASCII, EBCDIC)</b></h2>
-        <p>Alphanumeric codes represent letters, digits, and special characters in binary for computer processing.</p>
+        <h3>Non-Weighted Codes</h3>
         <ul>
-            <li><strong>ASCII (American Standard Code for Information Interchange):</strong>
+            <li><strong>Definition:</strong> No fixed weights; designed for error detection or specific properties.</li>
+            <li><strong>Gray Code:</strong>
                 <ul>
-                    <li>Uses 7 or 8 bits to represent 128 or 256 characters. Example: <em>A = 65₁₀ = 1000001₂</em>, <em>a = 97₁₀ = 1100001₂</em>.</li>
-                    <li>Includes letters, digits, punctuation, and control characters (e.g., newline).</li>
-                    <li><strong>Use:</strong> Standard in modern computing, internet protocols, and text files.</li>
+                    <li>Adjacent numbers differ by one bit.</li>
+                    <li><strong>Example:</strong> <code>3₁₀ = 010_Gray</code>, <code>4₁₀ = 110_Gray</code></li>
+                    <li><strong>Use:</strong> Rotary encoders to reduce errors during transitions.</li>
                 </ul>
             </li>
-            <li><strong>EBCDIC (Extended Binary Coded Decimal Interchange Code):</strong>
+            <li><strong>Excess-3 Code:</strong>
                 <ul>
-                    <li>Uses 8 bits for 256 characters, developed by IBM. Example: <em>A = 11000001₂</em> in EBCDIC.</li>
-                    <li>Primarily used in IBM mainframes and legacy systems.</li>
-                    <li><strong>Use:</strong> Common in older enterprise systems.</li>
+                    <li>BCD value plus 3.</li>
+                    <li><strong>Example:</strong> <code>5₁₀ = 0101_BCD = 1000_Excess-3</code> (0101 + 0011)</li>
+                    <li><strong>Use:</strong> BCD addition and subtraction.</li>
                 </ul>
             </li>
-            <li><strong>Comparison:</strong> ASCII is more universal; EBCDIC is specific to IBM systems. ASCII is simpler for text interchange.</li>
-            <li><strong>Applications:</strong> Text storage, data transmission, and programming interfaces.</li>
         </ul>
+
+        <table>
+            <tr><th>Feature</th><th>Weighted Codes</th><th>Non-Weighted Codes</th></tr>
+            <tr><td>Weights</td><td>Fixed (e.g., 8-4-2-1)</td><td>No fixed weights</td></tr>
+            <tr><td>Examples</td><td>BCD, 2421</td><td>Gray, Excess-3</td></tr>
+            <tr><td>Use</td><td>Decimal arithmetic</td><td>Error detection, sensors</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 1.5 ========== -->
     <div class="section">
-        <h2><b>1.6 Representation of Negative Numbers</b></h2>
+        <h2>1.5 Alphanumeric Codes (ASCII, EBCDIC)</h2>
+        <p><strong>Alphanumeric codes</strong> represent letters, digits, and special characters in binary for computer processing.</p>
+
+        <h3>ASCII (American Standard Code for Information Interchange)</h3>
+        <ul>
+            <li><strong>Bits:</strong> 7 or 8 bits (128 or 256 characters)</li>
+            <li><strong>Examples:</strong>
+                <ul>
+                    <li><code>A = 65₁₀ = 1000001₂</code></li>
+                    <li><code>a = 97₁₀ = 1100001₂</code></li>
+                    <li><code>0 = 48₁₀ = 0110000₂</code></li>
+                </ul>
+            </li>
+            <li><strong>Includes:</strong> Letters, digits, punctuation, control characters (newline, carriage return).</li>
+            <li><strong>Use:</strong> Standard in modern computing, internet protocols, text files.</li>
+        </ul>
+
+        <h3>EBCDIC (Extended Binary Coded Decimal Interchange Code)</h3>
+        <ul>
+            <li><strong>Bits:</strong> 8 bits (256 characters)</li>
+            <li><strong>Developed by:</strong> IBM</li>
+            <li><strong>Example:</strong> <code>A = 11000001₂</code> in EBCDIC</li>
+            <li><strong>Use:</strong> IBM mainframes and legacy enterprise systems.</li>
+        </ul>
+
+        <h3>ASCII vs EBCDIC</h3>
+        <table>
+            <tr><th>Feature</th><th>ASCII</th><th>EBCDIC</th></tr>
+            <tr><td>Bits</td><td>7 or 8</td><td>8</td></tr>
+            <tr><td>Characters</td><td>128 or 256</td><td>256</td></tr>
+            <tr><td>Developed by</td><td>ANSI</td><td>IBM</td></tr>
+            <tr><td>Use</td><td>Universal (computers, internet)</td><td>IBM mainframes</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// ASCII values</span><br>
+            'A' = 65 (1000001₂)<br>
+            'B' = 66 (1000010₂)<br>
+            'a' = 97 (1100001₂)<br>
+            '0' = 48 (0110000₂)<br>
+            '\n' = 10 (0001010₂)  <span>// Newline</span>
+        </div>
+    </div>
+
+    <!-- ========== 1.6 ========== -->
+    <div class="section">
+        <h2>1.6 Representation of Negative Numbers</h2>
         <p>Negative numbers in digital systems are represented using specific formats to facilitate arithmetic operations.</p>
+
+        <h3>Sign-Magnitude</h3>
         <ul>
-            <li><strong>Sign-Magnitude:</strong> The most significant bit indicates sign (0 for positive, 1 for negative), with the remaining bits representing the magnitude. Example: In 8 bits, <em>+5 = 00000101₂</em>, <em>-5 = 10000101₂</em>. Drawback: Complex arithmetic.</li>
-            <li><strong>One’s Complement:</strong> For a negative number, invert all bits of the positive number. Example: <em>+5 = 00000101₂</em>, <em>-5 = 11111010₂</em>. Drawback: Two representations of zero (<em>00000000₂</em>, <em>11111111₂</em>).</li>
-            <li><strong>Two’s Complement:</strong> Invert bits of the positive number and add 1. Example: <em>+5 = 00000101₂</em>, <em>-5 = 11111010₂ + 1 = 11111011₂</em>. Advantage: Simplifies arithmetic; only one zero representation.</li>
-            <li><strong>Applications:</strong> Two’s complement is standard in modern computers for efficient addition and subtraction.</li>
+            <li><strong>Format:</strong> Most significant bit = sign (0 for positive, 1 for negative)</li>
+            <li><strong>Example (8 bits):</strong>
+                <ul>
+                    <li><code>+5 = 00000101₂</code></li>
+                    <li><code>-5 = 10000101₂</code></li>
+                </ul>
+            </li>
+            <li><strong>Drawback:</strong> Two zeros (<code>+0</code> and <code>-0</code>), complex arithmetic.</li>
         </ul>
+
+        <h3>One's Complement</h3>
+        <ul>
+            <li><strong>Format:</strong> Invert all bits of the positive number.</li>
+            <li><strong>Example (8 bits):</strong>
+                <ul>
+                    <li><code>+5 = 00000101₂</code></li>
+                    <li><code>-5 = 11111010₂</code></li>
+                </ul>
+            </li>
+            <li><strong>Drawback:</strong> Two zeros (<code>00000000₂</code> and <code>11111111₂</code>).</li>
+        </ul>
+
+        <h3>Two's Complement</h3>
+        <ul>
+            <li><strong>Format:</strong> Invert bits of positive number and add 1.</li>
+            <li><strong>Example (8 bits):</strong>
+                <ul>
+                    <li><code>+5 = 00000101₂</code></li>
+                    <li><code>-5 = 11111010₂ + 1 = 11111011₂</code></li>
+                </ul>
+            </li>
+            <li><strong>Advantage:</strong> Only one zero, simple arithmetic (addition and subtraction).</li>
+        </ul>
+
+        <h3>Comparison of Negative Number Representations</h3>
+        <table>
+            <tr><th>Format</th><th>+5 (8-bit)</th><th>-5 (8-bit)</th><th>Zeros</th><th>Arithmetic</th></tr>
+            <tr><td>Sign-Magnitude</td><td>00000101</td><td>10000101</td><td>+0, -0</td><td>Complex</td></tr>
+            <tr><td>One's Complement</td><td>00000101</td><td>11111010</td><td>+0, -0</td><td>Complex</td></tr>
+            <tr><td>Two's Complement</td><td>00000101</td><td>11111011</td><td>Only +0</td><td>Simple</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>🔑 Key insight:</strong> Two's complement is the standard for modern computers due to its simplicity in arithmetic operations and single representation of zero.
+        </div>
     </div>
 
+    <!-- ========== 1.7 ========== -->
     <div class="section">
-        <h2><b>1.7 Subtraction Using Complements</b></h2>
+        <h2>1.7 Subtraction Using Complements</h2>
         <p>Complements simplify subtraction in digital systems by converting it to addition.</p>
+
+        <h3>One's Complement Subtraction</h3>
         <ul>
-            <li><strong>One’s Complement Subtraction:</strong> To subtract <em>a - b</em>, compute <em>a + (one’s complement of b)</em>. If there’s a carry-out, add 1 to the result (end-around carry). Example: <em>7 - 4</em> in 4 bits: <em>7 = 0111₂</em>, <em>4 = 0100₂</em>, one’s complement of 4 = <em>1011₂</em>. Compute <em>0111 + 1011 = 10010₂</em>, discard carry, result <em>0010 + 1 = 0011₂ = 3₁₀</em>.</li>
-            <li><strong>Two’s Complement Subtraction:</strong> To subtract <em>a - b</em>, compute <em>a + (two’s complement of b)</em>. Example: <em>7 - 4</em> in 4 bits: <em>7 = 0111₂</em>, <em>4 = 0100₂</em>, two’s complement of 4 = <em>1011₂ + 1 = 1100₂</em>. Compute <em>0111 + 1100 = 10011₂</em>, discard carry, result <em>0011₂ = 3₁₀</em>.</li>
-            <li><strong>Advantages:</strong> Two’s complement is preferred in computers due to simpler circuitry and no need for end-around carry.</li>
-            <li><strong>Applications:</strong> Used in CPU arithmetic operations, ensuring efficient and accurate subtraction.</li>
+            <li><strong>Method:</strong> <code>a - b = a + (one's complement of b)</code></li>
+            <li><strong>End-Around Carry:</strong> If there's a carry-out, add 1 to the result.</li>
+            <li><strong>Example:</strong> <code>7 - 4</code> in 4 bits:
+                <div class="code-block">
+                    7 = 0111₂<br>
+                    4 = 0100₂<br>
+                    One's complement of 4 = 1011₂<br>
+                    0111 + 1011 = 10010₂<br>
+                    Discard carry → 0010₂ + 1 = 0011₂ = 3₁₀
+                </div>
+            </li>
         </ul>
+
+        <h3>Two's Complement Subtraction</h3>
+        <ul>
+            <li><strong>Method:</strong> <code>a - b = a + (two's complement of b)</code></li>
+            <li><strong>Example:</strong> <code>7 - 4</code> in 4 bits:
+                <div class="code-block">
+                    7 = 0111₂<br>
+                    4 = 0100₂<br>
+                    Two's complement of 4 = 1100₂<br>
+                    0111 + 1100 = 10011₂<br>
+                    Discard carry → 0011₂ = 3₁₀
+                </div>
+            </li>
+        </ul>
+
+        <h3>Comparison</h3>
+        <ul>
+            <li><strong>One's Complement:</strong> Requires end-around carry, more circuitry.</li>
+            <li><strong>Two's Complement:</strong> No end-around carry, simpler hardware.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Subtraction examples</span><br>
+            <span>// 8 - 3 = 5</span><br>
+            <span>// Using two's complement</span><br>
+            8 = 1000₂<br>
+            3 = 0011₂<br>
+            Two's complement of 3 = 1101₂<br>
+            1000 + 1101 = 10101₂ → Discard carry → 0101₂ = 5₁₀
+        </div>
+
+        <div class="note-box">
+            <strong>📐 Key insight:</strong> Two's complement subtraction is preferred in digital systems because it uses the same addition circuitry, making hardware simpler and more efficient.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 1 summary</strong><br>Binary foundation covers digital systems, number systems, conversions, binary codes, alphanumeric codes, and negative number representation.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Digital systems: binary logic (0/1).<br>• Number systems: binary, octal, hexadecimal.<br>• Conversions: between binary, decimal, hex, octal.<br>• Binary codes: weighted (BCD) and non-weighted (Gray).<br>• Alphanumeric codes: ASCII, EBCDIC.<br>• Negative numbers: two's complement is standard.<br>• Subtraction: using one's or two's complement.</div>
     </div>
 </body>
 </html>

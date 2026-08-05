@@ -1,233 +1,486 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GUI Programming with Swing in Java</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 7: GUI Programming with Swing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-    <h1><b>Unit 7: GUI Programming with Swing</b></h1>
+    <h1>Unit 7: GUI Programming with Swing</h1>
+    <div class="subhead">Introduction · Swing components · event-driven programming · mouse & key events · interactive applications</div>
 
+    <!-- ========== 7.1 ========== -->
     <div class="section">
-        <h2><b>7.1 Introduction to Graphical User Interface (GUI) Programming in Java</b></h2>
-        <p><b>Graphical User Interface (GUI)</b> programming in Java allows developers to create interactive, user-friendly applications with visual components like buttons, text fields, and windows. Java provides the <code>Swing</code> library in the <code>javax.swing</code> package for building platform-independent GUIs.</p>
+        <h2>7.1 Introduction to Graphical User Interface (GUI) Programming in Java</h2>
+        <p><strong>Graphical User Interface (GUI)</strong> programming in Java allows developers to create interactive, user-friendly applications with visual components like buttons, text fields, and windows. Java provides the <code>Swing</code> library in the <code>javax.swing</code> package for building platform-independent GUIs.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🖥️ What is Swing?</strong><br>A lightweight, platform-independent toolkit for creating GUIs, built on top of the older AWT (Abstract Window Toolkit). Provides a rich set of components.</div>
+            <div class="card"><strong>🎨 Key Features</strong><br>Rich set of components, customizable look and feel, support for event-driven programming, and platform-independent.</div>
+        </div>
+
+        <h3>Swing vs AWT</h3>
+        <table>
+            <tr><th>Feature</th><th>AWT</th><th>Swing</th></tr>
+            <tr><td>Package</td><td>java.awt</td><td>javax.swing</td></tr>
+            <tr><td>Look and Feel</td><td>Platform-dependent</td><td>Platform-independent (pluggable)</td></tr>
+            <tr><td>Components</td><td>Heavyweight</td><td>Lightweight</td></tr>
+            <tr><td>Performance</td><td>Faster</td><td>Slightly slower</td></tr>
+            <tr><td>Features</td><td>Basic components</td><td>Rich set of components</td></tr>
+        </table>
+
+        <h3>Key Swing Classes</h3>
         <ul>
-            <li><b>Swing:</b> A lightweight, platform-independent toolkit for creating GUIs, built on top of the older AWT (Abstract Window Toolkit).</li>
-            <li><b>Features:</b> Rich set of components, customizable look and feel, and support for event-driven programming.</li>
-            <li><b>Key Class:</b> <code>JFrame</code> is the top-level container for Swing applications, acting as the main window.</li>
+            <li><code>JFrame</code> — Top-level container (main window).</li>
+            <li><code>JPanel</code> — Container for grouping components.</li>
+            <li><code>JButton</code> — Clickable button.</li>
+            <li><code>JLabel</code> — Display text or images.</li>
+            <li><code>JTextField</code> — Single-line text input.</li>
+            <li><code>JTextArea</code> — Multi-line text input/display.</li>
+            <li><code>JCheckBox</code> — Checkbox for options.</li>
+            <li><code>JRadioButton</code> — Radio button for mutually exclusive options.</li>
         </ul>
-        <p>Example (Basic JFrame):</p>
-        <pre>
-import javax.swing.*;
 
-public class SimpleFrame {
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Simple GUI");
-        frame.setSize(300, 200);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
-}
-        </pre>
-    </div>
-
-    <div class="section">
-        <h2><b>7.2 Using Swing Components</b></h2>
-        <p>Swing provides a variety of components for building GUIs, including buttons, labels, text fields, and text areas. These are part of the <code>javax.swing</code> package and typically start with a "J" prefix (e.g., <code>JButton</code>, <code>JLabel</code>).</p>
-        <ul>
-            <li><b>JButton:</b> A clickable button that triggers an action.</li>
-            <li><b>JLabel:</b> Displays text or images, typically non-interactive.</li>
-            <li><b>JTextField:</b> Allows single-line text input.</li>
-            <li><b>JTextArea:</b> Supports multi-line text input or display.</li>
-            <li><b>JCheckBox, JRadioButton:</b> For selecting options.</li>
-            <li><b>JPanel:</b> A container to group components.</li>
-        </ul>
-        <p>Example (Using Swing Components):</p>
-        <pre>
-import javax.swing.*;
-import java.awt.*;
-
-public class SwingComponents {
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Swing Components");
-        frame.setSize(400, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new FlowLayout());
-
-        JLabel label = new JLabel("Enter Name:");
-        JTextField textField = new JTextField(10);
-        JTextArea textArea = new JTextArea(5, 20);
-        JButton button = new JButton("Submit");
-
-        frame.add(label);
-        frame.add(textField);
-        frame.add(textArea);
-        frame.add(button);
-
-        frame.setVisible(true);
-    }
-}
-        </pre>
-    </div>
-
-    <div class="section">
-        <h2><b>7.3 Event-Driven Programming and Event Handling: Mouse Event and Key Event</b></h2>
-        <p><b>Event-driven programming</b> is a paradigm where the flow of the program is determined by events such as user actions (e.g., clicks, key presses). In Swing, events are handled using listeners that respond to specific actions.</p>
-        <ul>
-            <li><b>Mouse Events:</b> Handled by <code>MouseListener</code> or <code>MouseMotionListener</code>. Examples include <code>mouseClicked</code>, <code>mousePressed</code>, and <code>mouseMoved</code>.</li>
-            <li><b>Key Events:</b> Handled by <code>KeyListener</code>. Examples include <code>keyPressed</code>, <code>keyReleased</code>, and <code>keyTyped</code>.</li>
-            <li><b>Action Events:</b> Common for buttons, handled by <code>ActionListener</code>.</li>
-        </ul>
-        <p>Example (Handling Mouse and Key Events):</p>
-        <pre>
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-
-public class EventHandling {
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Event Handling");
-        frame.setSize(400, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new FlowLayout());
-
-        JButton button = new JButton("Click Me");
-        JTextField textField = new JTextField(20);
-
-        // ActionListener for button
-        button.addActionListener(e -> textField.setText("Button Clicked!"));
-
-        // MouseListener for frame
-        frame.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                textField.setText("Mouse Clicked at: " + e.getX() + ", " + e.getY());
+        <div class="code-block">
+            <span>// Basic JFrame Example</span><br>
+            import javax.swing.*;<br><br>
+            public class SimpleFrame {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JFrame frame = new JFrame("Simple GUI");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setSize(300, 200);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setVisible(true);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
             }
-        });
-
-        // KeyListener for text field
-        textField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                textField.setText("Key Typed: " + e.getKeyChar());
-            }
-        });
-
-        frame.add(button);
-        frame.add(textField);
-        frame.setVisible(true);
-    }
-}
-        </pre>
+        </div>
     </div>
 
+    <!-- ========== 7.2 ========== -->
     <div class="section">
-        <h2><b>7.4 Building Simple Interactive Applications</b></h2>
+        <h2>7.2 Using Swing Components</h2>
+        <p>Swing provides a variety of components for building GUIs, including buttons, labels, text fields, and text areas. These are part of the <code>javax.swing</code> package and typically start with a "J" prefix.</p>
+
+        <h3>Common Swing Components</h3>
+        <table>
+            <tr><th>Component</th><th>Description</th><th>Example</th></tr>
+            <tr><td>JButton</td><td>Clickable button</td><td>JButton btn = new JButton("Click Me");</td></tr>
+            <tr><td>JLabel</td><td>Displays text or image</td><td>JLabel label = new JLabel("Hello");</td></tr>
+            <tr><td>JTextField</td><td>Single-line text input</td><td>JTextField tf = new JTextField(20);</td></tr>
+            <tr><td>JTextArea</td><td>Multi-line text input/display</td><td>JTextArea ta = new JTextArea(5, 20);</td></tr>
+            <tr><td>JCheckBox</td><td>Checkbox option</td><td>JCheckBox cb = new JCheckBox("Option");</td></tr>
+            <tr><td>JRadioButton</td><td>Radio button (mutually exclusive)</td><td>JRadioButton rb = new JRadioButton("Yes");</td></tr>
+            <tr><td>JPanel</td><td>Container for grouping components</td><td>JPanel panel = new JPanel();</td></tr>
+            <tr><td>JComboBox</td><td>Drop-down list</td><td>String[] items = {"A", "B"}; JComboBox cb = new JComboBox(items);</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Swing Components Example</span><br>
+            import javax.swing.*;<br>
+            import java.awt.*;<br><br>
+            public class SwingComponents {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JFrame frame = new JFrame("Swing Components");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setSize(400, 300);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setLayout(new FlowLayout());<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JLabel label = new JLabel("Name:");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JTextField textField = new JTextField(15);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JButton button = new JButton("Submit");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JCheckBox checkBox = new JCheckBox("Agree");<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.add(label);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.add(textField);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.add(checkBox);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.add(button);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setVisible(true);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <h3>Layout Managers</h3>
+        <ul>
+            <li><code>FlowLayout</code> — Arranges components left to right.</li>
+            <li><code>BorderLayout</code> — North, South, East, West, Center.</li>
+            <li><code>GridLayout</code> — Components in a grid.</li>
+            <li><code>BoxLayout</code> — Vertical or horizontal stacking.</li>
+            <li><code>GridBagLayout</code> — Flexible grid with complex constraints.</li>
+        </ul>
+    </div>
+
+    <!-- ========== 7.3 ========== -->
+    <div class="section">
+        <h2>7.3 Event-Driven Programming and Event Handling: Mouse Event and Key Event</h2>
+        <p><strong>Event-driven programming</strong> is a paradigm where the flow of the program is determined by events such as user actions (e.g., clicks, key presses). In Swing, events are handled using listeners that respond to specific actions.</p>
+
+        <h3>Event Handling Mechanism</h3>
+        <ul>
+            <li><strong>Event Source:</strong> The component that generates the event (e.g., button).</li>
+            <li><strong>Event Listener:</strong> The interface that defines methods to handle events.</li>
+            <li><strong>Event Object:</strong> Contains information about the event (e.g., MouseEvent).</li>
+        </ul>
+
+        <h3>Common Event Types</h3>
+        <table>
+            <tr><th>Event Type</th><th>Listener Interface</th><th>Methods</th></tr>
+            <tr><td>Action</td><td>ActionListener</td><td>actionPerformed(ActionEvent e)</td></tr>
+            <tr><td>Mouse</td><td>MouseListener, MouseMotionListener</td><td>mouseClicked, mousePressed, mouseReleased, mouseEntered, mouseExited, mouseMoved, mouseDragged</td></tr>
+            <tr><td>Key</td><td>KeyListener</td><td>keyPressed, keyReleased, keyTyped</td></tr>
+            <tr><td>Window</td><td>WindowListener</td><td>windowOpened, windowClosing, windowClosed, etc.</td></tr>
+            <tr><td>Item</td><td>ItemListener</td><td>itemStateChanged(ItemEvent e)</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Mouse and Key Events Example</span><br>
+            import javax.swing.*;<br>
+            import java.awt.*;<br>
+            import java.awt.event.*;<br><br>
+            public class EventHandling {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JFrame frame = new JFrame("Event Handling");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setSize(400, 300);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setLayout(new FlowLayout());<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JButton button = new JButton("Click Me");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JTextField textField = new JTextField(20);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>// ActionListener for button</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;button.addActionListener(e -><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textField.setText("Button Clicked!")<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>// MouseListener for frame</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.addMouseListener(new MouseAdapter() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Override<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public void mouseClicked(MouseEvent e) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textField.setText("Mouse Clicked at: " + e.getX() + ", " + e.getY());<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>// KeyListener for text field</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textField.addKeyListener(new KeyAdapter() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Override<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public void keyTyped(KeyEvent e) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textField.setText("Key Typed: " + e.getKeyChar());<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.add(button);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.add(textField);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setVisible(true);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>🔄 Key insight:</strong> Event-driven programming is the foundation of GUI applications. Understanding listeners and event objects is essential for creating interactive Swing applications.
+        </div>
+    </div>
+
+    <!-- ========== 7.4 ========== -->
+    <div class="section">
+        <h2>7.4 Building Simple Interactive Applications</h2>
         <p>Swing enables the creation of interactive applications by combining components, layouts, and event handling. A simple interactive application typically includes a user interface with input/output components and responds to user actions.</p>
-        <p>Example (Simple Calculator Application):</p>
-        <pre>
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
 
-public class SimpleCalculator {
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Simple Calculator");
-        frame.setSize(300, 200);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new FlowLayout());
-
-        JTextField num1 = new JTextField(5);
-        JTextField num2 = new JTextField(5);
-        JLabel resultLabel = new JLabel("Result: ");
-        JButton addButton = new JButton("Add");
-
-        addButton.addActionListener(e -> {
-            try {
-                double n1 = Double.parseDouble(num1.getText());
-                double n2 = Double.parseDouble(num2.getText());
-                double result = n1 + n2;
-                resultLabel.setText("Result: " + result);
-            } catch (NumberFormatException ex) {
-                resultLabel.setText("Invalid input");
+        <h3>Simple Calculator Application</h3>
+        <div class="code-block">
+            <span>// Simple Calculator Example</span><br>
+            import javax.swing.*;<br>
+            import java.awt.*;<br>
+            import java.awt.event.*;<br><br>
+            public class SimpleCalculator {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JFrame frame = new JFrame("Simple Calculator");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setSize(350, 200);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setLayout(new FlowLayout());<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JTextField num1 = new JTextField(8);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JTextField num2 = new JTextField(8);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JLabel resultLabel = new JLabel("Result: ");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JButton addButton = new JButton("+");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JButton subButton = new JButton("-");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JButton mulButton = new JButton("×");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JButton divButton = new JButton("÷");<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>// Action listener for all buttons</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ActionListener calcListener = e -> {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double n1 = Double.parseDouble(num1.getText());<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double n2 = Double.parseDouble(num2.getText());<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double result = 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String op = ((JButton)e.getSource()).getText();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch(op) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "+": result = n1 + n2; break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "-": result = n1 - n2; break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "×": result = n1 * n2; break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "÷":<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (n2 == 0) throw new ArithmeticException("Divide by zero");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result = n1 / n2; break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resultLabel.setText("Result: " + result);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch (NumberFormatException ex) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resultLabel.setText("Invalid input");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch (ArithmeticException ex) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resultLabel.setText("Cannot divide by zero");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addButton.addActionListener(calcListener);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subButton.addActionListener(calcListener);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mulButton.addActionListener(calcListener);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;divButton.addActionListener(calcListener);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.add(new JLabel("Num 1:"));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.add(num1);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.add(new JLabel("Num 2:"));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.add(num2);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.add(addButton);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.add(subButton);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.add(mulButton);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.add(divButton);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.add(resultLabel);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setVisible(true);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
             }
-        });
+        </div>
 
-        frame.add(new JLabel("Number 1: "));
-        frame.add(num1);
-        frame.add(new JLabel("Number 2: "));
-        frame.add(num2);
-        frame.add(addButton);
-        frame.add(resultLabel);
+        <h3>Key Concepts in Building Interactive Apps</h3>
+        <ul>
+            <li><strong>Components:</strong> Use Swing components for input/output.</li>
+            <li><strong>Layout:</strong> Choose appropriate layout manager.</li>
+            <li><strong>Events:</strong> Add listeners for user interactions.</li>
+            <li><strong>Validation:</strong> Handle invalid input gracefully.</li>
+            <li><strong>Feedback:</strong> Provide visual feedback to users.</li>
+        </ul>
 
-        frame.setVisible(true);
-    }
-}
-        </pre>
-        <p>This example creates a simple calculator with two text fields for input, a button to perform addition, and a label to display the result. It demonstrates the integration of Swing components, layout management, and event handling.</p>
+        <div class="note-box">
+            <strong>🚀 Key insight:</strong> Building interactive applications requires combining components, layouts, and event handling. Start with simple applications and gradually add complexity as you become comfortable with Swing.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 7 summary</strong><br>Swing provides a comprehensive framework for building platform-independent GUI applications in Java with components, layouts, and event handling.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Swing: javax.swing, lightweight components.<br>• Common components: JFrame, JPanel, JButton, JLabel, JTextField, JTextArea.<br>• Layout managers: FlowLayout, BorderLayout, GridLayout, etc.<br>• Event handling: ActionListener, MouseListener, KeyListener.<br>• Mouse events: click, press, release, move, drag.<br>• Key events: press, release, type.<br>• Build interactive apps with components and listeners.</div>
     </div>
 </body>
 </html>

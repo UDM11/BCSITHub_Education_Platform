@@ -1,203 +1,514 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Recursion in Data Structures</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 2: Recursion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-  <h1><b>Unit 2: Recursion</b></h1>
+    <h1>Unit 2: Recursion</h1>
+    <div class="subhead">Introduction · principle · types · examples (TOH, Fibonacci) · applications</div>
 
-  <div class="section">
-    <h2><b>2.1 Introduction to Recursion</b></h2>
-    <p><b>Recursion</b> is a programming technique where a function calls itself to solve a smaller instance of the same problem. It breaks a complex problem into simpler subproblems, each solved in the same manner, until a base case is reached that stops the recursion. Recursion is widely used in data structures and algorithms for tasks like tree traversals and divide-and-conquer strategies.</p>
-  </div>
+    <!-- ========== 2.1 ========== -->
+    <div class="section">
+        <h2>2.1 Introduction to Recursion</h2>
+        <p><strong>Recursion</strong> is a programming technique where a function calls itself to solve a smaller instance of the same problem. It breaks a complex problem into simpler subproblems, each solved in the same manner, until a base case is reached that stops the recursion.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🔄 What is Recursion?</strong><br>A function that calls itself to solve smaller subproblems. It's a powerful technique for problems that can be defined in terms of themselves.</div>
+            <div class="card"><strong>📐 Key Components</strong><br>Base Case (termination condition) and Recursive Case (self-call with smaller input).</div>
+        </div>
 
-  <div class="section">
-    <h2><b>2.2 Principle of Recursion</b></h2>
-    <p>The principle of recursion relies on two key components:</p>
-    <ul>
-      <li><b>Base Case:</b> The condition that terminates the recursion, preventing infinite calls. It provides a direct solution for the smallest subproblem.</li>
-      <li><b>Recursive Case:</b> The part where the function calls itself with a modified input, reducing the problem size toward the base case.</li>
-    </ul>
-    <p>Recursion uses a call stack to manage function calls, where each recursive call is pushed onto the stack until the base case is reached, then the stack unwinds to compute the final result.</p>
-    <p>Example (Factorial):</p>
-    <pre><code>
-int factorial(int n) {
-    if (n == 0 || n == 1) // Base case
-        return 1;
-    return n * factorial(n - 1); // Recursive case
-}
-    </code></pre>
-  </div>
+        <h3>Why Use Recursion?</h3>
+        <ul>
+            <li><strong>Simplifies Complex Problems:</strong> Breaks problems into smaller, manageable pieces.</li>
+            <li><strong>Natural Fit:</strong> Some problems are inherently recursive (tree traversal, divide-and-conquer).</li>
+            <li><strong>Readability:</strong> Recursive solutions can be more elegant and easier to understand.</li>
+        </ul>
 
-  <div class="section">
-    <h2><b>2.3 Types of Recursions</b></h2>
-    <p>Recursion can be categorized based on how the recursive calls are structured:</p>
-    <ul>
-      <li><b>Direct Recursion:</b> A function calls itself directly within its body.
-        <p>Example:</p>
-        <pre><code>
-int sum(int n) {
-    if (n <= 0) return 0;
-    return n + sum(n - 1);
-}
-        </code></pre>
-      </li>
-      <li><b>Indirect Recursion:</b> A function calls another function, which eventually calls the original function, forming a cycle.
-        <p>Example:</p>
-        <pre><code>
-void funcB(int n); // Forward declaration
+        <div class="code-block">
+            <span>// Basic Recursion Structure</span><br>
+            void recursiveFunction(parameters) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (baseCondition) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>// Base case: stop recursion</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Recursive case: call itself with smaller input</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;recursiveFunction(modifiedParameters);<br>
+            }
+        </div>
+    </div>
 
-void funcA(int n) {
-    if (n > 0) {
-        printf("%d\n", n);
-        funcB(n - 1);
-    }
-}
+    <!-- ========== 2.2 ========== -->
+    <div class="section">
+        <h2>2.2 Principle of Recursion</h2>
+        <p>The principle of recursion relies on two key components:</p>
 
-void funcB(int n) {
-    if (n > 0) {
-        printf("%d\n", n);
-        funcA(n - 1);
-    }
-}
-        </code></pre>
-      </li>
-      <li><b>Linear Recursion:</b> A function makes a single recursive call in each invocation.
-        <p>Example: The factorial function above is linear recursion.</p>
-      </li>
-      <li><b>Tail Recursion:</b> The recursive call is the last operation in the function, allowing compilers to optimize it by reusing the same stack frame.
-        <p>Example:</p>
-        <pre><code>
-int factorialTail(int n, int acc) {
-    if (n == 0 || n == 1) return acc;
-    return factorialTail(n - 1, acc * n);
-}
-// Call with factorialTail(n, 1)
-        </code></pre>
-      </li>
-    </ul>
-  </div>
+        <h3>Components of Recursion</h3>
+        <ul>
+            <li><strong>Base Case:</strong> The condition that terminates the recursion, preventing infinite calls. Provides a direct solution for the smallest subproblem.</li>
+            <li><strong>Recursive Case:</strong> The part where the function calls itself with a modified input, reducing the problem size toward the base case.</li>
+        </ul>
 
-  <div class="section">
-    <h2><b>2.4 Recursion Examples</b></h2>
-    <p>Below are two classic examples of recursion:</p>
-    <ul>
-      <li><b>Tower of Hanoi (TOH):</b> A puzzle where n disks are moved from one peg to another using an auxiliary peg, following rules that only one disk can be moved at a time, and a larger disk cannot be placed on a smaller one.
-        <p>Example:</p>
-        <pre><code>
-void towerOfHanoi(int n, char source, char auxiliary, char destination) {
-    if (n == 1) {
-        printf("Move disk 1 from %c to %c\n", source, destination);
-        return;
-    }
-    towerOfHanoi(n - 1, source, destination, auxiliary);
-    printf("Move disk %d from %c to %c\n", n, source, destination);
-    towerOfHanoi(n - 1, auxiliary, source, destination);
-}
-        </code></pre>
-        <p>For n=2, it prints steps to move two disks from source to destination.</p>
-      </li>
-      <li><b>Fibonacci Series:</b> A sequence where each number is the sum of the two preceding ones (0, 1, 1, 2, 3, 5, ...).
-        <p>Example:</p>
-        <pre><code>
-int fibonacci(int n) {
-    if (n <= 1) return n;
-    return fibonacci(n - 1) + fibonacci(n - 2);
-}
-        </code></pre>
-        <p>Note: This recursive Fibonacci has exponential time complexity O(2^n), which can be optimized using dynamic programming.</p>
-      </li>
-    </ul>
-  </div>
+        <h3>How Recursion Works</h3>
+        <ul>
+            <li><strong>Call Stack:</strong> Each recursive call is pushed onto the stack until the base case is reached.</li>
+            <li><strong>Unwinding:</strong> After the base case, the stack unwinds, returning results back up the chain.</li>
+        </ul>
 
-  <div class="section">
-    <h2><b>2.5 Application of Recursion</b></h2>
-    <p>Recursion is applied in various domains due to its ability to simplify complex problems:</p>
-    <ul>
-      <li><b>Tree and Graph Traversal:</b> Recursive algorithms like depth-first search (DFS) and tree traversals (preorder, inorder, postorder) naturally fit recursive solutions.</li>
-      <li><b>Divide-and-Conquer Algorithms:</b> Algorithms like Merge Sort, Quick Sort, and Binary Search use recursion to break problems into smaller subproblems.</li>
-      <li><b>Mathematical Computations:</b> Calculating factorials, Fibonacci numbers, or solving combinatorial problems like permutations and combinations.</li>
-      <li><b>Backtracking:</b> Solving puzzles like N-Queens, Sudoku, or maze problems by exploring possible solutions recursively.</li>
-      <li><b>Dynamic Programming:</b> Recursive solutions with memoization optimize problems like knapsack or longest common subsequence.</li>
-    </ul>
-    <p>Example (Binary Search using Recursion):</p>
-    <pre><code>
-int binarySearch(int arr[], int left, int right, int x) {
-    if (right >= left) {
-        int mid = left + (right - left) / 2;
-        if (arr[mid] == x) return mid;
-        if (arr[mid] > x)
-            return binarySearch(arr, left, mid - 1, x);
-        return binarySearch(arr, mid + 1, right, x);
-    }
-    return -1;
-}
-    </code></pre>
-  </div>
+        <div class="figure-box">
+            <pre>
+Recursion Flow:
+factorial(4)
+    ├── 4 * factorial(3)
+    │   ├── 3 * factorial(2)
+    │   │   ├── 2 * factorial(1)
+    │   │   │   ├── 1 * factorial(0)
+    │   │   │   │   └── 1 (base case)
+    │   │   │   └── 1 * 1 = 1
+    │   │   └── 2 * 1 = 2
+    │   └── 3 * 2 = 6
+    └── 4 * 6 = 24
+            </pre>
+        </div>
+
+        <div class="code-block">
+            <span>// Factorial Example</span><br>
+            int factorial(int n) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (n == 0 || n == 1) {  <span>// Base case</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return n * factorial(n - 1);  <span>// Recursive case</span><br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 2.3 ========== -->
+    <div class="section">
+        <h2>2.3 Types of Recursions</h2>
+        <p>Recursion can be categorized based on how the recursive calls are structured.</p>
+
+        <h3>Direct Recursion</h3>
+        <ul>
+            <li>A function calls itself directly within its body.</li>
+            <li>Example: Factorial, Fibonacci.</li>
+        </ul>
+        <div class="code-block">
+            int sum(int n) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (n <= 0) return 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return n + sum(n - 1);<br>
+            }
+        </div>
+
+        <h3>Indirect Recursion</h3>
+        <ul>
+            <li>A function calls another function, which eventually calls the original function.</li>
+            <li>Forms a cycle of calls.</li>
+        </ul>
+        <div class="code-block">
+            void funcB(int n);  <span>// Forward declaration</span><br><br>
+            void funcA(int n) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (n > 0) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%d\n", n);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;funcB(n - 1);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            void funcB(int n) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (n > 0) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%d\n", n);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;funcA(n - 1);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <h3>Linear Recursion</h3>
+        <ul>
+            <li>Makes a single recursive call in each invocation.</li>
+            <li>Example: Factorial, sum of numbers.</li>
+        </ul>
+
+        <h3>Tree Recursion</h3>
+        <ul>
+            <li>Makes multiple recursive calls in each invocation.</li>
+            <li>Example: Fibonacci (calls itself twice).</li>
+        </ul>
+
+        <h3>Tail Recursion</h3>
+        <ul>
+            <li>The recursive call is the last operation in the function.</li>
+            <li>Allows compilers to optimize by reusing the same stack frame.</li>
+        </ul>
+        <div class="code-block">
+            <span>// Tail Recursive Factorial</span><br>
+            int factorialTail(int n, int acc) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (n == 0 || n == 1) return acc;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return factorialTail(n - 1, acc * n);<br>
+            }<br>
+            <span>// Call with factorialTail(n, 1)</span>
+        </div>
+
+        <h3>Recursion Types Summary</h3>
+        <table>
+            <tr><th>Type</th><th>Description</th><th>Example</th></tr>
+            <tr><td>Direct</td><td>Function calls itself</td><td>factorial(n)</td></tr>
+            <tr><td>Indirect</td><td>Cycle of calls</td><td>funcA → funcB → funcA</td></tr>
+            <tr><td>Linear</td><td>Single recursive call</td><td>sum(n)</td></tr>
+            <tr><td>Tree</td><td>Multiple recursive calls</td><td>fibonacci(n)</td></tr>
+            <tr><td>Tail</td><td>Recursive call is last</td><td>factorialTail(n, acc)</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== 2.4 ========== -->
+    <div class="section">
+        <h2>2.4 Recursion Examples</h2>
+
+        <h3>Tower of Hanoi (TOH)</h3>
+        <ul>
+            <li>A classic puzzle where n disks are moved from one peg to another using an auxiliary peg.</li>
+            <li><strong>Rules:</strong> Only one disk at a time, larger disk cannot be placed on a smaller one.</li>
+        </ul>
+        <div class="code-block">
+            void towerOfHanoi(int n, char source, char auxiliary, char destination) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (n == 1) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Move disk 1 from %c to %c\n", source, destination);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;towerOfHanoi(n - 1, source, destination, auxiliary);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Move disk %d from %c to %c\n", n, source, destination);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;towerOfHanoi(n - 1, auxiliary, source, destination);<br>
+            }<br><br>
+            <span>// For n=2: prints steps to move 2 disks</span>
+        </div>
+
+        <h3>Fibonacci Series</h3>
+        <ul>
+            <li>Sequence where each number is the sum of the two preceding ones: 0, 1, 1, 2, 3, 5, 8, ...</li>
+        </ul>
+        <div class="code-block">
+            int fibonacci(int n) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (n <= 1) return n;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return fibonacci(n - 1) + fibonacci(n - 2);<br>
+            }<br><br>
+            <span>// Time Complexity: O(2^n) - exponential</span><br>
+            <span>// Space Complexity: O(n) - call stack depth</span>
+        </div>
+
+        <h3>Recursion vs Iteration</h3>
+        <table>
+            <tr><th>Feature</th><th>Recursion</th><th>Iteration</th></tr>
+            <tr><td>Code Length</td><td>Shorter, more elegant</td><td>Longer</td></tr>
+            <tr><td>Readability</td><td>Better for complex problems</td><td>Better for simple repetitions</td></tr>
+            <tr><td>Memory Usage</td><td>More (call stack)</td><td>Less</td></tr>
+            <tr><td>Performance</td><td>Slower (function calls)</td><td>Faster</td></tr>
+            <tr><td>Risk</td><td>Stack overflow</td><td>Infinite loop</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== 2.5 ========== -->
+    <div class="section">
+        <h2>2.5 Application of Recursion</h2>
+        <p>Recursion is applied in various domains due to its ability to simplify complex problems.</p>
+
+        <h3>Common Applications</h3>
+        <ul>
+            <li><strong>Tree and Graph Traversal:</strong>
+                <ul>
+                    <li>Depth-First Search (DFS)</li>
+                    <li>Tree traversals: preorder, inorder, postorder</li>
+                    <li>Binary search trees operations</li>
+                </ul>
+            </li>
+            <li><strong>Divide-and-Conquer Algorithms:</strong>
+                <ul>
+                    <li>Merge Sort</li>
+                    <li>Quick Sort</li>
+                    <li>Binary Search</li>
+                </ul>
+            </li>
+            <li><strong>Mathematical Computations:</strong>
+                <ul>
+                    <li>Factorial, Fibonacci</li>
+                    <li>GCD (Greatest Common Divisor)</li>
+                    <li>Power/exponentiation</li>
+                </ul>
+            </li>
+            <li><strong>Backtracking:</strong>
+                <ul>
+                    <li>N-Queens problem</li>
+                    <li>Sudoku solver</li>
+                    <li>Maze solving</li>
+                </ul>
+            </li>
+            <li><strong>Dynamic Programming:</strong>
+                <ul>
+                    <li>Knapsack problem (with memoization)</li>
+                    <li>Longest Common Subsequence</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Binary Search using Recursion</span><br>
+            int binarySearch(int arr[], int left, int right, int x) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (right >= left) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int mid = left + (right - left) / 2;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (arr[mid] == x) return mid;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (arr[mid] > x)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return binarySearch(arr, left, mid - 1, x);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return binarySearch(arr, mid + 1, right, x);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return -1;<br>
+            }<br>
+            <span>// Time: O(log n), Space: O(log n) for call stack</span>
+        </div>
+
+        <div class="code-block">
+            <span>// Preorder Tree Traversal using Recursion</span><br>
+            void preorder(Node* root) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (root == NULL) return;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", root->data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;preorder(root->left);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;preorder(root->right);<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>🔄 Key insight:</strong> Recursion is a powerful tool for problems that have a recursive structure. Understanding when to use recursion and when to use iteration is crucial for writing efficient code.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 2 summary</strong><br>Recursion is a technique where a function calls itself. It requires a base case and recursive case. Types include direct, indirect, linear, tree, and tail recursion.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Recursion: function calls itself.<br>• Base case: stops recursion.<br>• Recursive case: calls itself with smaller input.<br>• Types: direct, indirect, linear, tree, tail.<br>• Examples: factorial, Tower of Hanoi, Fibonacci.<br>• Applications: tree traversal, divide-and-conquer, backtracking, dynamic programming.<br>• Trade-off: readability vs performance and memory usage.</div>
+    </div>
 </body>
 </html>

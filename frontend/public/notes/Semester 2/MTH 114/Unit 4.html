@@ -1,117 +1,396 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 4: Optimization: Functions of Several Variables</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            color: black;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
         }
         li {
-            margin-bottom: 10px;
+            margin-bottom: 0.6rem;
         }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
+        strong {
+            color: #0f3d66;
         }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
         }
-        h2 {
-            font-size: 1rem; /* smaller sub-header */
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
         }
-        .section {
-            padding: 8px; /* less padding for small screens */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
-    }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1><b>Unit 4: Optimization: Functions of Several Variables</b></h1>
+    <h1>Unit 4: Optimization: Functions of Several Variables</h1>
+    <div class="subhead">Introduction · partial derivatives · rules · maxima & minima · second derivative test</div>
 
+    <!-- ========== 4.1 ========== -->
     <div class="section">
-        <h2><b>4.1 Introduction</b></h2>
-        <p>Optimization for functions of several variables involves finding the maximum or minimum values of a function with multiple independent variables, often subject to constraints. This is a key concept in multivariable calculus, used to solve problems in economics, engineering, physics, and data science.</p>
+        <h2>4.1 Introduction</h2>
+        <p><strong>Optimization</strong> for functions of several variables involves finding the maximum or minimum values of a function with multiple independent variables, often subject to constraints. This is a key concept in multivariable calculus, used to solve problems in economics, engineering, physics, and data science.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📐 Definition</strong><br>A function f(x₁, x₂, ..., xₙ) maps multiple variables to a single output. Optimization seeks points where f achieves its highest (maxima) or lowest (minima) values.</div>
+            <div class="card"><strong>📊 Applications</strong><br>Cost minimization, profit maximization, machine learning (error minimization), and design optimization.</div>
+        </div>
+
+        <h3>Types of Extrema</h3>
         <ul>
-            <li><strong>Definition:</strong> A function <em>f(x₁, x₂, ..., xₙ)</em> maps multiple variables to a single output. Optimization seeks points where <em>f</em> achieves its highest (maxima) or lowest (minima) values. Example: <em>f(x, y) = x² + y²</em> represents a paraboloid, with a minimum at (0, 0).</li>
-            <li><strong>Types of Extrema:</strong>
-                <ul>
-                    <li><strong>Local Maxima/Minima:</strong> Points where <em>f</em> is higher/lower than nearby points. Example: <em>f(x, y) = x² - y²</em> has a saddle point at (0, 0).</li>
-                    <li><strong>Global Maxima/Minima:</strong> The absolute highest/lowest value of <em>f</em> over its domain.</li>
-                </ul>
-            </li>
-            <li><strong>Applications:</strong> Used in cost minimization (e.g., production costs), profit maximization, machine learning (e.g., minimizing error functions), and design optimization (e.g., minimizing material use).</li>
-            <li><strong>Tools:</strong> Partial derivatives, critical points, and second derivative tests are used to locate and classify extrema.</li>
+            <li><strong>Local Maxima/Minima:</strong> Points where f is higher/lower than nearby points.</li>
+            <li><strong>Global Maxima/Minima:</strong> The absolute highest/lowest value of f over its domain.</li>
+            <li><strong>Saddle Points:</strong> Points that are neither maxima nor minima (e.g., f(x,y) = x² - y² at (0,0)).</li>
         </ul>
+
+        <div class="figure-box">
+            <pre>
+Types of Extrema:
+Local Maximum:  hilltop
+Local Minimum:  valley
+Saddle Point:   horse saddle (up in one direction, down in another)
+            </pre>
+        </div>
     </div>
 
+    <!-- ========== 4.2 ========== -->
     <div class="section">
-        <h2><b>4.2 Partial Derivative</b></h2>
-        <p>The partial derivative measures the rate of change of a function with respect to one variable, while holding other variables constant.</p>
+        <h2>4.2 Partial Derivative</h2>
+        <p>The <strong>partial derivative</strong> measures the rate of change of a function with respect to one variable, while holding other variables constant.</p>
+
+        <h3>Definition</h3>
         <ul>
-            <li><strong>Definition:</strong> For a function <em>f(x, y)</em>, the partial derivative with respect to <em>x</em> is <em>∂f/∂x = lim<sub>h→0</sub> [f(x+h, y) - f(x, y)]/h</em>, treating <em>y</em> as a constant. Similarly, <em>∂f/∂y</em> treats <em>x</em> as constant. Example: For <em>f(x, y) = x² + xy + y²</em>, <em>∂f/∂x = 2x + y</em>, <em>∂f/∂y = x + 2y</em>.</li>
-            <li><strong>Notation:</strong> <em>∂f/∂x</em>, <em>fₓ</em>, or <em>∂f/∂y</em>, <em>fᵧ</em>. For functions of more variables, e.g., <em>f(x, y, z)</em>, compute <em>∂f/∂x</em>, <em>∂f/∂y</em>, <em>∂f/∂z</em>.</li>
-            <li><strong>Higher-Order Partial Derivatives:</strong> Second partial derivatives include <em>∂²f/∂x²</em>, <em>∂²f/∂y²</em>, and mixed partials <em>∂²f/∂x∂y</em>, <em>∂²f/∂y∂x</em>. Example: For <em>f(x, y) = x² + xy</em>, <em>∂²f/∂x² = 2</em>, <em>∂²f/∂y∂x = 1</em>. If <em>f</em> is sufficiently smooth, mixed partials are equal: <em>∂²f/∂x∂y = ∂²f/∂y∂x</em>.</li>
-            <li><strong>Applications:</strong> Partial derivatives identify critical points for optimization and describe surfaces (e.g., slopes in different directions).</li>
+            <li>For f(x, y), ∂f/∂x = lim<sub>h→0</sub> [f(x+h, y) - f(x, y)]/h (treating y as constant)</li>
+            <li>Similarly, ∂f/∂y = lim<sub>h→0</sub> [f(x, y+h) - f(x, y)]/h (treating x as constant)</li>
         </ul>
+
+        <div class="code-block">
+            <span>// Partial Derivatives Example</span><br>
+            f(x, y) = x² + xy + y²<br>
+            ∂f/∂x = 2x + y<br>
+            ∂f/∂y = x + 2y
+        </div>
+
+        <h3>Higher-Order Partial Derivatives</h3>
+        <ul>
+            <li>Second derivatives: ∂²f/∂x², ∂²f/∂y², ∂²f/∂x∂y, ∂²f/∂y∂x</li>
+            <li>If f is sufficiently smooth, mixed partials are equal: ∂²f/∂x∂y = ∂²f/∂y∂x</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Higher-Order Partial Derivatives</span><br>
+            f(x, y) = x² + xy<br>
+            ∂²f/∂x² = 2<br>
+            ∂²f/∂y² = 0<br>
+            ∂²f/∂x∂y = 1<br>
+            ∂²f/∂y∂x = 1
+        </div>
     </div>
 
+    <!-- ========== 4.3 ========== -->
     <div class="section">
-        <h2><b>4.3 Rules of Partial Differentiation</b></h2>
-        <p>Partial differentiation follows rules analogous to single-variable calculus, applied to one variable at a time while treating others as constants.</p>
-        <ul>
-            <li><strong>Constant Rule:</strong> If <em>f(x, y) = k</em>, where <em>k</em> is a constant, then <em>∂f/∂x = 0</em>, <em>∂f/∂y = 0</em>. Example: <em>f(x, y) = 5</em>, <em>∂f/∂x = 0</em>.</li>
-            <li><strong>Power Rule:</strong> For <em>f(x, y) = xⁿ</em>, <em>∂f/∂x = n xⁿ⁻¹</em>, <em>∂f/∂y = 0</em>. Example: <em>f(x, y) = x³y</em>, <em>∂f/∂x = 3x²y</em>, <em>∂f/∂y = x³</em>.</li>
-            <li><strong>Sum Rule:</strong> <em>∂/∂x [f(x, y) + g(x, y)] = ∂f/∂x + ∂g/∂x</em>. Example: <em>f(x, y) = x² + y²</em>, <em>∂f/∂x = 2x</em>.</li>
-            <li><strong>Product Rule:</strong> For <em>f(x, y) = u(x, y) · v(x, y)</em>, <em>∂f/∂x = u (∂v/∂x) + v (∂u/∂x)</em>. Example: <em>f(x, y) = xy</em>, <em>∂f/∂x = y · 1 + x · 0 = y</em>.</li>
-            <li><strong>Chain Rule:</strong> If <em>z = f(u, v)</em>, where <em>u = u(x, y)</em>, <em>v = v(x, y)</em>, then <em>∂z/∂x = (∂f/∂u)(∂u/∂x) + (∂f/∂v)(∂v/∂x)</em>. Example: <em>z = u² + v</em>, <em>u = xy</em>, <em>v = y</em>, then <em>∂z/∂x = 2u · y + 0 = 2xy · y = 2xy²</em>.</li>
-            <li><strong>Quotient Rule:</strong> For <em>f(x, y) = u(x, y) / v(x, y)</em>, <em>∂f/∂x = [(∂u/∂x)v - u(∂v/∂x)] / v²</em>. Example: <em>f(x, y) = x/y</em>, <em>∂f/∂x = (1 · y - x · 0) / y² = y/y² = 1/y</em>.</li>
-            <li><strong>Best Practices:</strong> Differentiate with respect to one variable at a time, simplify expressions, and verify higher-order derivatives for accuracy.</li>
-        </ul>
+        <h2>4.3 Rules of Partial Differentiation</h2>
+
+        <table>
+            <tr><th>Rule</th><th>Formula</th><th>Example</th></tr>
+            <tr><td>Constant</td><td>∂/∂x (k) = 0</td><td>f(x,y) = 5 → ∂f/∂x = 0</td></tr>
+            <tr><td>Power</td><td>∂/∂x (xⁿ) = n xⁿ⁻¹</td><td>f(x,y) = x³y → ∂f/∂x = 3x²y</td></tr>
+            <tr><td>Sum</td><td>∂/∂x (f + g) = ∂f/∂x + ∂g/∂x</td><td>f = x² + y² → ∂f/∂x = 2x</td></tr>
+            <tr><td>Product</td><td>∂/∂x (u·v) = u·∂v/∂x + v·∂u/∂x</td><td>f = xy → ∂f/∂x = y</td></tr>
+            <tr><td>Chain</td><td>∂z/∂x = ∂z/∂u·∂u/∂x + ∂z/∂v·∂v/∂x</td><td>z = u²+v, u=xy, v=y → ∂z/∂x = 2xy²</td></tr>
+            <tr><td>Quotient</td><td>∂/∂x (u/v) = (uₓv - uvₓ)/v²</td><td>f = x/y → ∂f/∂x = 1/y</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Chain Rule Example</span><br>
+            z = u² + v, u = xy, v = y<br>
+            ∂z/∂x = (∂z/∂u)(∂u/∂x) + (∂z/∂v)(∂v/∂x)<br>
+            = (2u)(y) + (1)(0) = 2xy²
+        </div>
     </div>
 
+    <!-- ========== 4.4 ========== -->
     <div class="section">
-        <h2><b>4.4 Maxima and Minima for the Function of Two Variables</b></h2>
-        <p>Finding maxima and minima for a function <em>f(x, y)</em> involves identifying critical points and classifying them using partial derivatives.</p>
+        <h2>4.4 Maxima and Minima for the Function of Two Variables</h2>
+
+        <h3>Critical Points</h3>
         <ul>
-            <li><strong>Critical Points:</strong> Points where the gradient is zero or undefined, i.e., <em>∂f/∂x = 0</em> and <em>∂f/∂y = 0</em>. Example: For <em>f(x, y) = x² + y²</em>, <em>∂f/∂x = 2x = 0</em>, <em>∂f/∂y = 2y = 0</em>, so (0, 0) is a critical point.</li>
-            <li><strong>Second Derivative Test:</strong> To classify critical points, use the Hessian determinant <em>D = (∂²f/∂x²)(∂²f/∂y²) - (∂²f/∂x∂y)²</em> at the critical point (a, b):
-                <ul>
-                    <li>Let <em>A = ∂²f/∂x²</em>, <em>B = ∂²f/∂x∂y</em>, <em>C = ∂²f/∂y²</em>. Compute <em>D = A · C - B²</em>.</li>
-                    <li>If <em>D > 0</em> and <em>A > 0</em>, then (a, b) is a local minimum.</li>
-                    <li>If <em>D > 0</em> and <em>A < 0</em>, then (a, b) is a local maximum.</li>
-                    <li>If <em>D < 0</em>, then (a, b) is a saddle point.</li>
-                    <li>If <em>D = 0</em>, the test is inconclusive.</li>
-                </ul>
-                Example: For <em>f(x, y) = x² + y²</em>, critical point is (0, 0). Compute <em>∂²f/∂x² = 2</em>, <em>∂²f/∂y² = 2</em>, <em>∂²f/∂x∂y = 0</em>. Then <em>D = 2 · 2 - 0² = 4 > 0</em>, <em>A = 2 > 0</em>, so (0, 0) is a local minimum.</li>
-            <li><strong>Example with Saddle Point:</strong> For <em>f(x, y) = x² - y²</em>, <em>∂f/∂x = 2x = 0</em>, <em>∂f/∂y = -2y = 0</em>, critical point is (0, 0). Second derivatives: <em>∂²f/∂x² = 2</em>, <em>∂²f/∂y² = -2</em>, <em>∂²f/∂x∂y = 0</em>. Then <em>D = 2 · (-2) - 0² = -4 < 0</em>, so (0, 0) is a saddle point.</li>
-            <li><strong>Boundary Points:</strong> To find global extrema, check critical points and evaluate <em>f</em> on the boundary of the domain (if constrained). Example: For <em>f(x, y) = x² + y²</em> on <em>x² + y² ≤ 1</em>, check boundary <em>x² + y² = 1</em> using parameterization or Lagrange multipliers.</li>
-            <li><strong>Applications:</strong> Optimize profit (e.g., <em>f(x, y) = revenue - cost</em>), minimize error in machine learning, or maximize efficiency in resource allocation.</li>
+            <li>Points where ∂f/∂x = 0 and ∂f/∂y = 0 (or gradient is undefined).</li>
         </ul>
+
+        <h3>Second Derivative Test (Hessian)</h3>
+        <ul>
+            <li>Let A = ∂²f/∂x², B = ∂²f/∂x∂y, C = ∂²f/∂y²</li>
+            <li>D = A·C - B²</li>
+            <li>If D > 0 and A > 0 → local minimum</li>
+            <li>If D > 0 and A < 0 → local maximum</li>
+            <li>If D < 0 → saddle point</li>
+            <li>If D = 0 → inconclusive</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Example: f(x, y) = x² + y²</span><br>
+            ∂f/∂x = 2x = 0 → x = 0<br>
+            ∂f/∂y = 2y = 0 → y = 0<br>
+            Critical point: (0, 0)<br><br>
+            A = 2, B = 0, C = 2<br>
+            D = 2·2 - 0 = 4 > 0, A > 0<br>
+            → Local minimum at (0, 0)
+        </div>
+
+        <div class="code-block">
+            <span>// Example: f(x, y) = x² - y²</span><br>
+            ∂f/∂x = 2x = 0 → x = 0<br>
+            ∂f/∂y = -2y = 0 → y = 0<br>
+            Critical point: (0, 0)<br><br>
+            A = 2, B = 0, C = -2<br>
+            D = 2·(-2) - 0 = -4 < 0<br>
+            → Saddle point at (0, 0)
+        </div>
+
+        <h3>Global Extrema on Closed Domains</h3>
+        <ul>
+            <li>Check critical points inside the domain.</li>
+            <li>Check the boundary of the domain.</li>
+            <li>Compare values to find global max/min.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Global Extrema on Closed Domain</span><br>
+            f(x, y) = x² + y² on x² + y² ≤ 1<br>
+            Critical point: (0, 0) → f = 0<br>
+            Boundary: x² + y² = 1 → f = 1<br>
+            Global min = 0 at (0, 0), Global max = 1 on boundary
+        </div>
+
+        <h3>Applications</h3>
+        <ul>
+            <li><strong>Profit Maximization:</strong> Maximize revenue minus cost.</li>
+            <li><strong>Cost Minimization:</strong> Minimize production costs subject to constraints.</li>
+            <li><strong>Machine Learning:</strong> Minimize error/loss functions.</li>
+            <li><strong>Resource Allocation:</strong> Optimize distribution of resources.</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>📊 Key insight:</strong> The second derivative test for functions of two variables uses the Hessian determinant to classify critical points. For optimization with constraints, Lagrange multipliers are often used.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 4 summary</strong><br>Optimization of functions of several variables involves finding extrema using partial derivatives, critical points, and the second derivative test.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Partial derivatives: rate of change w.r.t. one variable.<br>• Rules: constant, power, sum, product, chain, quotient.<br>• Critical points: ∂f/∂x = 0, ∂f/∂y = 0.<br>• Second derivative test: D = A·C - B².<br>• D > 0 and A > 0 → local min; D > 0 and A < 0 → local max; D < 0 → saddle point.<br>• Global extrema: check critical points and boundaries.</div>
     </div>
 </body>
 </html>

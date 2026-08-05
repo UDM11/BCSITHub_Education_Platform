@@ -1,307 +1,568 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stacks in Data Structures</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 3: Stacks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-    <h1><b>Unit 3: Stacks</b></h1>
+    <h1>Unit 3: Stacks</h1>
+    <div class="subhead">Introduction · operations · terminology · algorithms · applications · infix to postfix</div>
 
+    <!-- ========== 3.1 ========== -->
     <div class="section">
-        <h2><b>3.1 Introduction</b></h2>
-        <p>A <b>stack</b> is a linear data structure that follows the Last-In-First-Out (LIFO) principle, where the last element added is the first to be removed. It can be visualized as a stack of plates, where you can only add or remove plates from the top. Stacks are used in various applications like function call management, expression evaluation, and backtracking algorithms.</p>
+        <h2>3.1 Introduction</h2>
+        <p>A <strong>stack</strong> is a linear data structure that follows the <strong>Last-In-First-Out (LIFO)</strong> principle, where the last element added is the first to be removed. It can be visualized as a stack of plates, where you can only add or remove plates from the top.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📚 LIFO Principle</strong><br>Last In, First Out — the most recently added element is the first to be removed. Like a stack of books or plates.</div>
+            <div class="card"><strong>🎯 Key Operations</strong><br>Push (add to top) and Pop (remove from top). Additional operations: Peek, isEmpty, isFull.</div>
+        </div>
+
+        <h3>Real-World Analogy</h3>
+        <ul>
+            <li><strong>Stack of Plates:</strong> Add plates on top, remove from top.</li>
+            <li><strong>Browser Back Button:</strong> Stores visited pages; pressing back goes to the most recent page.</li>
+            <li><strong>Undo Operation:</strong> Reverses the most recent action first.</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+Stack Visualization:
+    ┌─────┐
+    │  3  │  ← Top
+    ├─────┤
+    │  2  │
+    ├─────┤
+    │  1  │
+    ├─────┤
+    │  0  │
+    └─────┘
+Push: Add to top
+Pop: Remove from top
+            </pre>
+        </div>
     </div>
 
+    <!-- ========== 3.2 ========== -->
     <div class="section">
-        <h2><b>3.2 Operation Stack</b></h2>
+        <h2>3.2 Operation Stack</h2>
         <p>Stacks support two primary operations:</p>
+
+        <h3>Primary Operations</h3>
         <ul>
-            <li><b>Push:</b> Adds an element to the top of the stack.</li>
-            <li><b>Pop:</b> Removes and returns the top element from the stack.</li>
+            <li><strong>Push:</strong> Adds an element to the top of the stack.
+                <div class="code-block">
+                    <span>// Push Operation</span><br>
+                    void push(int value) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;if (isFull()) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Stack Overflow\n");<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;stack[++top] = value;<br>
+                    }
+                </div>
+            </li>
+            <li><strong>Pop:</strong> Removes and returns the top element from the stack.
+                <div class="code-block">
+                    <span>// Pop Operation</span><br>
+                    int pop() {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;if (isEmpty()) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Stack Underflow\n");<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return -1;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return stack[top--];<br>
+                    }
+                </div>
+            </li>
         </ul>
-        <p>Additional operations include:</p>
+
+        <h3>Additional Operations</h3>
         <ul>
-            <li><b>Peek/Top:</b> Returns the top element without removing it.</li>
-            <li><b>IsEmpty:</b> Checks if the stack is empty.</li>
-            <li><b>IsFull:</b> Checks if the stack is full (for fixed-size stacks).</li>
+            <li><strong>Peek/Top:</strong> Returns the top element without removing it.</li>
+            <li><strong>isEmpty:</strong> Checks if the stack is empty.</li>
+            <li><strong>isFull:</strong> Checks if the stack is full (for fixed-size stacks).</li>
         </ul>
     </div>
 
+    <!-- ========== 3.3 ========== -->
     <div class="section">
-        <h2><b>3.3 Stack Terminology</b></h2>
+        <h2>3.3 Stack Terminology</h2>
         <p>Key terms associated with stacks:</p>
+
+        <table>
+            <tr><th>Term</th><th>Description</th></tr>
+            <tr><td>Top</td><td>The index or pointer indicating the topmost element of the stack.</td></tr>
+            <tr><td>Capacity</td><td>The maximum number of elements a stack can hold (for array-based stacks).</td></tr>
+            <tr><td>Size</td><td>The current number of elements in the stack.</td></tr>
+            <tr><td>Stack Overflow</td><td>Occurs when trying to push an element onto a full stack.</td></tr>
+            <tr><td>Stack Underflow</td><td>Occurs when trying to pop an element from an empty stack.</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Stack Terminology in Code</span><br>
+            #define MAX 100<br>
+            int stack[MAX];<br>
+            int top = -1;  <span>// top = -1 indicates empty stack</span><br>
+            <span>// top = MAX-1 indicates full stack</span>
+        </div>
+    </div>
+
+    <!-- ========== 3.4 ========== -->
+    <div class="section">
+        <h2>3.4 Algorithm for POP and PUSH</h2>
+
+        <h3>Push Algorithm</h3>
+        <div class="code-block">
+            <span>// Algorithm: Push</span><br>
+            Algorithm Push(stack, element, maxSize)<br>
+            1. If size(stack) >= maxSize<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Print "Stack Overflow"<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Return<br>
+            2. top = top + 1<br>
+            3. stack[top] = element
+        </div>
+
+        <h3>Pop Algorithm</h3>
+        <div class="code-block">
+            <span>// Algorithm: Pop</span><br>
+            Algorithm Pop(stack)<br>
+            1. If isEmpty(stack)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Print "Stack Underflow"<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Return null<br>
+            2. element = stack[top]<br>
+            3. top = top - 1<br>
+            4. Return element
+        </div>
+
+        <div class="code-block">
+            <span>// Complete Stack Implementation in C</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #define MAX 100<br><br>
+            int stack[MAX];<br>
+            int top = -1;<br><br>
+            void push(int value) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (top >= MAX - 1) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Stack Overflow\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;stack[++top] = value;<br>
+            }<br><br>
+            int pop() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (top < 0) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Stack Underflow\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return -1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return stack[top--];<br>
+            }<br><br>
+            int peek() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (top < 0) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Stack is empty\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return -1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return stack[top];<br>
+            }<br><br>
+            int isEmpty() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return top == -1;<br>
+            }<br><br>
+            int isFull() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return top == MAX - 1;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 3.5 ========== -->
+    <div class="section">
+        <h2>3.5 Stack Applications</h2>
+
+        <h3>1. Function Call Management (Call Stack)</h3>
         <ul>
-            <li><b>Top:</b> The index or pointer indicating the topmost element of the stack.</li>
-            <li><b>Capacity:</b> The maximum number of elements a stack can hold (for array-based stacks).</li>
-            <li><b>Size:</b> The current number of elements in the stack.</li>
-            <li><b>Stack Overflow:</b> Occurs when trying to push an element onto a full stack.</li>
-            <li><b>Stack Underflow:</b> Occurs when trying to pop an element from an empty stack.</li>
+            <li>Used to manage function calls and recursion.</li>
+            <li>Each function call creates a stack frame with local variables and return address.</li>
+        </ul>
+
+        <h3>2. Reverse a String</h3>
+        <div class="code-block">
+            <span>// Reverse String using Stack</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #include &lt;string.h&gt;<br>
+            #define MAX 100<br><br>
+            char stack[MAX];<br>
+            int top = -1;<br><br>
+            void push(char c) { stack[++top] = c; }<br>
+            char pop() { return stack[top--]; }<br><br>
+            void reverse(char *str) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < strlen(str); i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;push(str[i]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < strlen(str); i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str[i] = pop();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char str[MAX] = "hello";<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;reverse(str);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Reversed: %s\n", str);  <span>// "olleh"</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>3. Postfix Expression Evaluation</h3>
+        <div class="code-block">
+            <span>// Postfix Evaluation using Stack</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #include &lt;ctype.h&gt;<br><br>
+            int stack[100];<br>
+            int top = -1;<br><br>
+            void push(int x) { stack[++top] = x; }<br>
+            int pop() { return stack[top--]; }<br><br>
+            int evaluate(char* exp) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; exp[i]; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (isdigit(exp[i])) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;push(exp[i] - '0');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int b = pop();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int a = pop();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (exp[i]) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case '+': push(a + b); break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case '-': push(a - b); break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case '*': push(a * b); break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case '/': push(a / b); break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return pop();<br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char exp[] = "34+";<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Result: %d\n", evaluate(exp));  <span>// 7</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>4. Undo/Redo Operations</h3>
+        <ul>
+            <li>Two stacks: one for undo history, one for redo history.</li>
+            <li>Push operations onto undo stack; pop and push to redo when undoing.</li>
         </ul>
     </div>
 
+    <!-- ========== 3.6 ========== -->
     <div class="section">
-        <h2><b>3.4 Algorithm for POP and PUSH</b></h2>
-        <p><b>Push Algorithm:</b></p>
-        <pre>
-Algorithm Push(stack, element, maxSize)
-1. If size(stack) >= maxSize
-    Print "Stack Overflow"
-    Return
-2. top = top + 1
-3. stack[top] = element
-        </pre>
-        <p><b>Pop Algorithm:</b></p>
-        <pre>
-Algorithm Pop(stack)
-1. If isEmpty(stack)
-    Print "Stack Underflow"
-    Return null
-2. element = stack[top]
-3. top = top - 1
-4. Return element
-        </pre>
-        <p>Example Implementation in C:</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#define MAX 100
+        <h2>3.6 Algorithm for Converting Infix Expression to Postfix Form</h2>
+        <p>An <strong>infix expression</strong> (e.g., A + B * C) is converted to <strong>postfix form</strong> (e.g., A B C * +) using a stack.</p>
 
-int stack[MAX];
-int top = -1;
-
-void push(int value) {
-    if (top >= MAX - 1) {
-        printf("Stack Overflow\n");
-    } else {
-        stack[++top] = value;
-    }
-}
-
-int pop() {
-    if (top < 0) {
-        printf("Stack Underflow\n");
-        return -1;
-    } else {
-        return stack[top--];
-    }
-}
-        </pre>
-    </div>
-
-    <div class="section">
-        <h2><b>3.5 Stack Applications</b></h2>
+        <h3>Algorithm</h3>
         <ul>
-            <li><b>Stack Frame:</b> Used in function call management during program execution.
-                <p>Example: Recursive function calls use the call stack to manage execution.</p>
-            </li>
-            <li><b>Reverse String:</b> Example in C:
-                <pre>
-#include &lt;stdio.h&gt;
-#include &lt;string.h&gt;
-#define MAX 100
-
-char stack[MAX];
-int top = -1;
-
-void push(char c) {
-    stack[++top] = c;
-}
-
-char pop() {
-    return stack[top--];
-}
-
-void reverse(char *str) {
-    for (int i = 0; i < strlen(str); i++) {
-        push(str[i]);
-    }
-    for (int i = 0; i < strlen(str); i++) {
-        str[i] = pop();
-    }
-}
-
-int main() {
-    char str[MAX] = "hello";
-    reverse(str);
-    printf("Reversed: %s\n", str);
-    return 0;
-}
-                </pre>
-            </li>
-            <li><b>Calculation of Postfix Expression:</b>
-                <pre>
-#include &lt;stdio.h&gt;
-#include &lt;ctype.h&gt;
-
-int stack[100];
-int top = -1;
-
-void push(int x) {
-    stack[++top] = x;
-}
-
-int pop() {
-    return stack[top--];
-}
-
-int evaluate(char* exp) {
-    for (int i = 0; exp[i]; i++) {
-        if (isdigit(exp[i])) {
-            push(exp[i] - '0');
-        } else {
-            int b = pop();
-            int a = pop();
-            switch (exp[i]) {
-                case '+': push(a + b); break;
-                case '-': push(a - b); break;
-                case '*': push(a * b); break;
-                case '/': push(a / b); break;
-            }
-        }
-    }
-    return pop();
-}
-
-int main() {
-    char exp[] = "34+";
-    printf("Result: %d\n", evaluate(exp));
-    return 0;
-}
-                </pre>
-            </li>
+            <li>Scan the infix expression from left to right.</li>
+            <li>If operand: add to postfix expression.</li>
+            <li>If '(': push onto stack.</li>
+            <li>If ')': pop and output until '(' is encountered.</li>
+            <li>If operator: pop operators with higher or equal precedence and output them, then push the current operator.</li>
+            <li>At the end, pop all remaining operators.</li>
         </ul>
+
+        <div class="code-block">
+            <span>// Infix to Postfix Conversion in C</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #include &lt;ctype.h&gt;<br>
+            #include &lt;string.h&gt;<br><br>
+            #define MAX 100<br>
+            char stack[MAX];<br>
+            int top = -1;<br><br>
+            void push(char c) { stack[++top] = c; }<br>
+            char pop() { return stack[top--]; }<br><br>
+            int precedence(char op) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;switch(op) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case '+':<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case '-': return 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case '*':<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case '/': return 2;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case '^': return 3;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default: return 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            void infixToPostfix(char* infix, char* postfix) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int i, j = 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char c;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (i = 0; infix[i]; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c = infix[i];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (isalnum(c)) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;postfix[j++] = c;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if (c == '(') {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;push(c);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if (c == ')') {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (top != -1 && stack[top] != '(') {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;postfix[j++] = pop();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pop();  <span>// remove '('</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (top != -1 && precedence(stack[top]) >= precedence(c)) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;postfix[j++] = pop();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;push(c);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (top != -1) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;postfix[j++] = pop();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;postfix[j] = '\0';<br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char infix[MAX] = "A+B*C";<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char postfix[MAX];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;infixToPostfix(infix, postfix);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("Postfix: %s\n", postfix);  <span>// "ABC*+"</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <h3>Example: Infix to Postfix Conversion</h3>
+        <table>
+            <tr><th>Infix</th><th>Postfix</th></tr>
+            <tr><td>A + B * C</td><td>A B C * +</td></tr>
+            <tr><td>(A + B) * C</td><td>A B + C *</td></tr>
+            <tr><td>A * B + C</td><td>A B * C +</td></tr>
+            <tr><td>A + B * C - D / E</td><td>A B C * + D E / -</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>📚 Key insight:</strong> Stacks are fundamental data structures used in expression evaluation, function calls, undo operations, and many algorithms. Understanding stack operations and applications is essential for solving complex problems.
+        </div>
     </div>
 
-    <div class="section">
-        <h2><b>3.6 Algorithm for Converting Infix Expression to Postfix Form</b></h2>
-        <p>An <b>infix expression</b> (e.g., A + B * C) is converted to <b>postfix form</b> (e.g., A B C * +) using a stack.</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;ctype.h&gt;
-#include &lt;string.h&gt;
-
-#define MAX 100
-char stack[MAX];
-int top = -1;
-
-void push(char c) {
-    stack[++top] = c;
-}
-
-char pop() {
-    return stack[top--];
-}
-
-int precedence(char op) {
-    switch (op) {
-        case '+':
-        case '-': return 1;
-        case '*':
-        case '/': return 2;
-        case '^': return 3;
-    }
-    return 0;
-}
-
-void infixToPostfix(char* infix, char* postfix) {
-    int i, j = 0;
-    char c;
-    for (i = 0; infix[i]; i++) {
-        c = infix[i];
-        if (isalnum(c)) {
-            postfix[j++] = c;
-        } else if (c == '(') {
-            push(c);
-        } else if (c == ')') {
-            while (top != -1 && stack[top] != '(') {
-                postfix[j++] = pop();
-            }
-            pop(); // pop '('
-        } else {
-            while (top != -1 && precedence(stack[top]) >= precedence(c)) {
-                postfix[j++] = pop();
-            }
-            push(c);
-        }
-    }
-    while (top != -1) {
-        postfix[j++] = pop();
-    }
-    postfix[j] = '\0';
-}
-
-int main() {
-    char infix[MAX] = "A+B*C";
-    char postfix[MAX];
-    infixToPostfix(infix, postfix);
-    printf("Postfix: %s\n", postfix);
-    return 0;
-}
-        </pre>
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 3 summary</strong><br>Stacks are LIFO data structures with push, pop, and peek operations. They are used in function calls, expression evaluation, and many algorithms.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Stack: LIFO (Last In, First Out).<br>• Operations: push, pop, peek, isEmpty, isFull.<br>• Terminology: top, capacity, overflow, underflow.<br>• Applications: function calls, reverse string, postfix evaluation, undo/redo.<br>• Infix to postfix: uses stack for operator precedence.</div>
     </div>
 </body>
 </html>

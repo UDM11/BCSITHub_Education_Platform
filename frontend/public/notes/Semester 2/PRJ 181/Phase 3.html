@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phase 3: Final Presentation and Defense</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
+        }
+        .section {
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
+        }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Unit III: Final Presentation and Defense</h1>
+    <div class="subhead">Implementation · Test Cases · AJAX & jQuery · Report Formatting · Final Evaluation</div>
+
+    <!-- ========== Final Implementation ========== -->
+    <div class="section">
+        <h2>3.1 System Implementation and Testing</h2>
+        <p>
+            The final phase requires teams to deliver a fully functional web-based solution. The codebase must incorporate 
+            advanced concepts from the Project I syllabus:
+        </p>
+        <ul>
+            <li><strong>Advanced jQuery:</strong> Use sliders, date pickers, and table sort modifications.</li>
+            <li><strong>AJAX & JSON:</strong> Fetch information asynchronously via the Fetch API or XMLHttpRequest.</li>
+            <li><strong>Framework Overview:</strong> Practical understanding of modern libraries like React, Angular, or Vue.js.</li>
+        </ul>
+        <div class="code-block">
+            <span>// Fetching and Displaying JSON Data Asynchronously</span><br />
+            <span>async function fetchProjectData() {</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;try {</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let response = await fetch('/api/projects');</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let data = await response.json();</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log('Loaded Data:', data);</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.error('Fetch error:', error);</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;}</span><br />
+            <span>}</span>
+        </div>
+    </div>
+
+    <!-- ========== Testing & Test Cases ========== -->
+    <div class="section">
+        <h2>3.2 Test Case Documentation</h2>
+        <p>
+            Students must verify their codebase by creating test case matrices. Below is the standard template 
+            required in Chapter 4 of the main report:
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Test ID</th>
+                    <th>Test Scenario</th>
+                    <th>Input Data</th>
+                    <th>Expected Result</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>TC-01</td>
+                    <td>Empty Form Submit</td>
+                    <td>Submit with empty inputs</td>
+                    <td>Show required error warnings</td>
+                    <td>Pass / Fail</td>
+                </tr>
+                <tr>
+                    <td>TC-02</td>
+                    <td>Invalid Email Address</td>
+                    <td>"testuser@com"</td>
+                    <td>Trigger regex error prompt</td>
+                    <td>Pass / Fail</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ========== Final Report Layout ========== -->
+    <div class="section">
+        <h2>3.3 Prescribed Chapters in the Main Report</h2>
+        <p>
+            The project report must be compiled in standard A4 format and follow these chapters strictly:
+        </p>
+        <ol>
+            <li><strong>Chapter 1: Introduction:</strong> Background, problem statement, objectives, scope, and limitations.</li>
+            <li><strong>Chapter 2: Review of Literature:</strong> Fundamental theories, general terminologies, and review of similar projects.</li>
+            <li><strong>Chapter 3: System Analysis and Design:</strong> Requirements analysis (Functional & Non-Functional), Feasibility analysis, Data & Process modeling, and Interface designs.</li>
+            <li><strong>Chapter 4: Implementation and Testing:</strong>
+                <ul>
+                    <li><em>Implementation:</em> Development tools used, programming languages, libraries, and module logic.</li>
+                    <li><em>Testing:</em> Detailed matrices for Unit Testing and System Testing.</li>
+                </ul>
+            </li>
+            <li><strong>Chapter 5: Conclusion & Future Recommendations:</strong> Lessons learned and project summary.</li>
+        </ol>
+        <div class="note-box">
+            <strong>📂 Report Appendices:</strong> The document must append: 1. System screenshots, 2. Core source code listings, and 3. Supervisor Visit Log Sheets.
+        </div>
+    </div>
+
+    <!-- ========== Final Defense ========== -->
+    <div class="section">
+        <h2>3.4 Final Evaluation and Viva Voce</h2>
+        <p>
+            The final defense (50% Weight) is presented before an external examiner appointed by the university.
+        </p>
+        <h3>Evaluation Criteria Breakdown:</h3>
+        <ul>
+            <li><strong>Final Project Report (10%):</strong> Structural adherence, clear citations, and documentation quality.</li>
+            <li><strong>Slide Presentation (5%):</strong> Quality of presentation slides and defense timing.</li>
+            <li><strong>System Demonstration (15%):</strong> Smooth execution of the web application, layout responsiveness, and error handling.</li>
+            <li><strong>External Q&A / Viva (15%):</strong> In-depth questions regarding frontend code logic, DOM methods, and scripting.</li>
+            <li><strong>Teamwork (5%):</strong> Contribution validation based on log sheets.</li>
+        </ul>
+    </div>
+</body>
+</html>

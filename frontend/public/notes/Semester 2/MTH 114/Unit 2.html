@@ -1,118 +1,400 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 2: Infinite Sequence and Series</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            color: black;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
         }
         li {
-            margin-bottom: 10px;
+            margin-bottom: 0.6rem;
         }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
+        strong {
+            color: #0f3d66;
         }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
         }
-        h2 {
-            font-size: 1rem; /* smaller sub-header */
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
         }
-        .section {
-            padding: 8px; /* less padding for small screens */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
-    }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1><b>Unit 2: Infinite Sequence and Series</b></h1>
+    <h1>Unit 2: Infinite Sequence and Series</h1>
+    <div class="subhead">Introduction · convergence · comparison tests · p-series · ratio test · alternating series test</div>
 
+    <!-- ========== 2.1 ========== -->
     <div class="section">
-        <h2><b>2.1 Introduction</b></h2>
-        <p>An infinite sequence is an ordered list of numbers that continues indefinitely, denoted as <em>{aₙ}</em>, where <em>aₙ</em> is the <em>n</em>-th term. An infinite series is the sum of the terms of an infinite sequence, written as <em>∑ aₙ</em> (from <em>n=1</em> to infinity). These concepts are fundamental in understanding convergence and divergence in mathematical analysis.</p>
+        <h2>2.1 Introduction</h2>
+        <p>An <strong>infinite sequence</strong> is an ordered list of numbers that continues indefinitely, denoted as <em>{aₙ}</em>, where <em>aₙ</em> is the <em>n</em>-th term. An <strong>infinite series</strong> is the sum of the terms of an infinite sequence, written as <em>∑ aₙ</em> (from <em>n=1</em> to infinity). These concepts are fundamental in understanding convergence and divergence in mathematical analysis.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📊 Sequence</strong><br>An ordered list of numbers: {a₁, a₂, a₃, ...}. Example: {1/n} = 1, 1/2, 1/3, ...</div>
+            <div class="card"><strong>📈 Series</strong><br>The sum of terms of a sequence: ∑ aₙ. Example: ∑ 1/n = 1 + 1/2 + 1/3 + ...</div>
+        </div>
+
+        <h3>Key Concepts</h3>
         <ul>
-            <li><strong>Sequence:</strong> A function from the natural numbers to real numbers. Example: The sequence <em>{1/n}</em> is <em>1, 1/2, 1/3, 1/4, ...</em>.</li>
-            <li><strong>Series:</strong> The sum of a sequence’s terms. Example: The series <em>∑ 1/n</em> is <em>1 + 1/2 + 1/3 + 1/4 + ...</em>.</li>
-            <li><strong>Convergence:</strong> A sequence converges if its terms approach a finite limit as <em>n</em> approaches infinity; a series converges if the sum of its terms approaches a finite value. Example: The sequence <em>{1/n}</em> converges to 0; the geometric series <em>∑ (1/2)ⁿ</em> converges to 1.</li>
-            <li><strong>Divergence:</strong> A sequence or series diverges if it does not approach a finite limit. Example: The series <em>∑ 1/n</em> (harmonic series) diverges.</li>
-            <li><strong>Applications:</strong> Used in calculus, physics, and engineering to model phenomena like signal processing or financial calculations.</li>
+            <li><strong>Convergence:</strong> A sequence converges if its terms approach a finite limit as n → ∞. A series converges if the sum of its terms approaches a finite value.</li>
+            <li><strong>Divergence:</strong> A sequence or series diverges if it does not approach a finite limit.</li>
+            <li><strong>Partial Sums:</strong> Sₙ = a₁ + a₂ + ... + aₙ. The series converges if limₙ→∞ Sₙ exists.</li>
         </ul>
+
+        <div class="code-block">
+            <span>// Examples of Sequences and Series</span><br>
+            Sequence: {1/n} → 1, 1/2, 1/3, ... (converges to 0)<br>
+            Series: ∑ 1/n → 1 + 1/2 + 1/3 + ... (diverges)<br>
+            Geometric Series: ∑ (1/2)ⁿ → converges to 1
+        </div>
     </div>
 
+    <!-- ========== 2.2 ========== -->
     <div class="section">
-        <h2><b>2.2 Convergence Test of Infinite Series (Statement Only)</b></h2>
+        <h2>2.2 Convergence Test of Infinite Series (Statement Only)</h2>
         <p>An infinite series <em>∑ aₙ</em> converges if the sequence of partial sums <em>Sₙ = a₁ + a₂ + ... + aₙ</em> approaches a finite limit as <em>n → ∞</em>. Otherwise, it diverges.</p>
+
+        <h3>N-th Term Test (Divergence Test)</h3>
         <ul>
-            <li><strong>N-th Term Test (Divergence Test):</strong> If <em>limₙ→∞ aₙ ≠ 0</em> or the limit does not exist, then <em>∑ aₙ</em> diverges. Note: If <em>limₙ→∞ aₙ = 0</em>, the series may still diverge.</li>
-            <li><strong>Example:</strong> For <em>∑ n/(n+1)</em>, <em>limₙ→∞ aₙ = limₙ→∞ n/(n+1) = 1 ≠ 0</em>, so the series diverges.</li>
+            <li><strong>Statement:</strong> If limₙ→∞ aₙ ≠ 0 or the limit does not exist, then ∑ aₙ diverges.</li>
+            <li><strong>Note:</strong> If limₙ→∞ aₙ = 0, the series may still diverge (e.g., harmonic series).</li>
         </ul>
+
+        <div class="code-block">
+            <span>// N-th Term Test Examples</span><br>
+            <span>// Diverges: lim aₙ ≠ 0</span><br>
+            ∑ n/(n+1): lim n/(n+1) = 1 ≠ 0 → diverges<br><br>
+            <span>// Inconclusive: lim aₙ = 0</span><br>
+            ∑ 1/n: lim 1/n = 0 → test inconclusive (harmonic series diverges)
+        </div>
     </div>
 
+    <!-- ========== 2.3 ========== -->
     <div class="section">
-        <h2><b>2.3 Direct Comparison Test, Limit Comparison Test (Statement Only)</b></h2>
+        <h2>2.3 Direct Comparison Test, Limit Comparison Test (Statement Only)</h2>
+
+        <h3>Direct Comparison Test</h3>
         <ul>
-            <li><strong>Direct Comparison Test:</strong> Let <em>∑ aₙ</em> and <em>∑ bₙ</em> be series with <em>aₙ ≥ 0</em> and <em>bₙ ≥ 0</em>. If <em>0 ≤ aₙ ≤ bₙ</em> for all <em>n</em> sufficiently large:
+            <li><strong>Statement:</strong> Let ∑ aₙ and ∑ bₙ be series with aₙ ≥ 0 and bₙ ≥ 0.
                 <ul>
-                    <li>If <em>∑ bₙ</em> converges, then <em>∑ aₙ</em> converges.</li>
-                    <li>If <em>∑ aₙ</em> diverges, then <em>∑ bₙ</em> diverges.</li>
+                    <li>If 0 ≤ aₙ ≤ bₙ for all large n and ∑ bₙ converges, then ∑ aₙ converges.</li>
+                    <li>If 0 ≤ bₙ ≤ aₙ for all large n and ∑ aₙ diverges, then ∑ bₙ diverges.</li>
                 </ul>
-                Example: Compare <em>∑ 1/(n² + 1)</em> to <em>∑ 1/n²</em>. Since <em>1/(n² + 1) < 1/n²</em> and <em>∑ 1/n²</em> converges, <em>∑ 1/(n² + 1)</em> converges.
             </li>
-            <li><strong>Limit Comparison Test:</strong> Let <em>∑ aₙ</em> and <em>∑ bₙ</em> be series with <em>aₙ > 0</em> and <em>bₙ > 0</em>. If <em>limₙ→∞ (aₙ / bₙ) = L</em>, where <em>L</em> is a positive finite number, then either both series converge or both diverge. If <em>L = 0</em> and <em>∑ bₙ</em> converges, then <em>∑ aₙ</em> converges. If <em>L = ∞</em> and <em>∑ bₙ</em> diverges, then <em>∑ aₙ</em> diverges.</li>
-            <li><strong>Example:</strong> For <em>∑ 1/(n + n²)</em>, compare with <em>∑ 1/n²</em>. Compute <em>limₙ→∞ [(1/(n + n²)) / (1/n²)] = limₙ→∞ n²/(n + n²) = 1</em>. Since <em>∑ 1/n²</em> converges, <em>∑ 1/(n + n²)</em> converges.</li>
         </ul>
+
+        <div class="code-block">
+            <span>// Direct Comparison Test Example</span><br>
+            <span>// Compare ∑ 1/(n² + 1) with ∑ 1/n²</span><br>
+            1/(n² + 1) < 1/n²<br>
+            ∑ 1/n² converges (p-series, p=2)<br>
+            Therefore, ∑ 1/(n² + 1) converges.
+        </div>
+
+        <h3>Limit Comparison Test</h3>
+        <ul>
+            <li><strong>Statement:</strong> Let ∑ aₙ and ∑ bₙ be series with aₙ > 0 and bₙ > 0.
+                <ul>
+                    <li>If limₙ→∞ (aₙ/bₙ) = L, where 0 < L < ∞, then both series converge or both diverge.</li>
+                    <li>If L = 0 and ∑ bₙ converges, then ∑ aₙ converges.</li>
+                    <li>If L = ∞ and ∑ bₙ diverges, then ∑ aₙ diverges.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Limit Comparison Test Example</span><br>
+            <span>// Compare ∑ 1/(n + n²) with ∑ 1/n²</span><br>
+            lim [1/(n + n²)] / [1/n²] = lim n²/(n + n²) = 1<br>
+            Since 0 < 1 < ∞ and ∑ 1/n² converges,<br>
+            ∑ 1/(n + n²) converges.
+        </div>
     </div>
 
+    <!-- ========== 2.4 ========== -->
     <div class="section">
-        <h2><b>2.4 P-series Test, D’Alembert’s Ratio Test, and Alternating Series Test (Statement Only)</b></h2>
+        <h2>2.4 P-series Test, D'Alembert's Ratio Test, and Alternating Series Test (Statement Only)</h2>
+
+        <h3>P-series Test</h3>
         <ul>
-            <li><strong>P-series Test:</strong> The series <em>∑ 1/nᵖ</em> converges if <em>p > 1</em> and diverges if <em>p ≤ 1</em>.
+            <li><strong>Statement:</strong> The series ∑ 1/nᵖ converges if p > 1 and diverges if p ≤ 1.</li>
+        </ul>
+        <div class="code-block">
+            <span>// P-series Test Examples</span><br>
+            ∑ 1/n²: p = 2 > 1 → converges<br>
+            ∑ 1/n: p = 1 → diverges (harmonic series)<br>
+            ∑ 1/√n: p = 0.5 < 1 → diverges
+        </div>
+
+        <h3>D'Alembert's Ratio Test</h3>
+        <ul>
+            <li><strong>Statement:</strong> For ∑ aₙ with aₙ ≠ 0, compute L = limₙ→∞ |aₙ₊₁/aₙ|.
                 <ul>
-                    <li>Example: <em>∑ 1/n²</em> converges (<em>p = 2 > 1</em>); <em>∑ 1/n</em> diverges (<em>p = 1</em>).</li>
-                </ul>
-            </li>
-            <li><strong>D’Alembert’s Ratio Test:</strong> For a series <em>∑ aₙ</em> with <em>aₙ ≠ 0</em>, compute <em>limₙ→∞ |aₙ₊₁ / aₙ| = L</em>:
-                <ul>
-                    <li>If <em>L < 1</em>, the series converges absolutely.</li>
-                    <li>If <em>L > 1</em> or <em>L = ∞</em>, the series diverges.</li>
-                    <li>If <em>L = 1</em>, the test is inconclusive.</li>
-                    <li>Example: For <em>∑ n!/2ⁿ</em>, <em>|aₙ₊₁ / aₙ| = [(n+1)!/2ⁿ⁺¹] / [n!/2ⁿ] = (n+1)/2 → ∞</em>, so the series diverges.</li>
-                </ul>
-            </li>
-            <li><strong>Alternating Series Test:</strong> For an alternating series <em>∑ (-1)ⁿ aₙ</em> or <em>∑ (-1)ⁿ⁺¹ aₙ</em> with <em>aₙ > 0</em>, the series converges if:
-                <ul>
-                    <li><em>aₙ</em> is decreasing (or eventually decreasing).</li>
-                    <li><em>limₙ→∞ aₙ = 0</em>.</li>
-                    <li>Example: For <em>∑ (-1)ⁿ⁺¹ (1/n)</em>, <em>aₙ = 1/n</em> is decreasing, and <em>limₙ→∞ 1/n = 0</em>, so the series converges.</li>
+                    <li>If L < 1, the series converges absolutely.</li>
+                    <li>If L > 1 or L = ∞, the series diverges.</li>
+                    <li>If L = 1, the test is inconclusive.</li>
                 </ul>
             </li>
         </ul>
+        <div class="code-block">
+            <span>// Ratio Test Examples</span><br>
+            <span>// ∑ n!/2ⁿ</span><br>
+            L = lim [(n+1)!/2ⁿ⁺¹] / [n!/2ⁿ] = lim (n+1)/2 = ∞ → diverges<br><br>
+            <span>// ∑ 1/n!</span><br>
+            L = lim [1/(n+1)!] / [1/n!] = lim 1/(n+1) = 0 → converges
+        </div>
+
+        <h3>Alternating Series Test</h3>
+        <ul>
+            <li><strong>Statement:</strong> For an alternating series ∑ (-1)ⁿ aₙ or ∑ (-1)ⁿ⁺¹ aₙ with aₙ > 0, the series converges if:
+                <ul>
+                    <li>aₙ is decreasing (or eventually decreasing).</li>
+                    <li>limₙ→∞ aₙ = 0.</li>
+                </ul>
+            </li>
+        </ul>
+        <div class="code-block">
+            <span>// Alternating Series Test Example</span><br>
+            <span>// ∑ (-1)ⁿ⁺¹ (1/n)</span><br>
+            aₙ = 1/n<br>
+            aₙ is decreasing (1 > 1/2 > 1/3 > ...)<br>
+            lim 1/n = 0<br>
+            Therefore, the alternating harmonic series converges.
+        </div>
+
+        <h3>Test Comparison Summary</h3>
+        <table>
+            <tr><th>Test</th><th>When to Use</th><th>Condition for Convergence</th></tr>
+            <tr><td>N-th Term</td><td>Quick divergence check</td><td>lim aₙ = 0 (inconclusive)</td></tr>
+            <tr><td>Direct Comparison</td><td>Comparable series known</td><td>aₙ ≤ bₙ and ∑ bₙ converges</td></tr>
+            <tr><td>Limit Comparison</td><td>Ratio of terms has finite limit</td><td>0 < L < ∞ and known series converges</td></tr>
+            <tr><td>P-series</td><td>Series of the form ∑ 1/nᵖ</td><td>p > 1</td></tr>
+            <tr><td>Ratio Test</td><td>Terms have factorials or exponentials</td><td>L < 1</td></tr>
+            <tr><td>Alternating Series</td><td>Alternating signs</td><td>aₙ decreasing → 0</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>📊 Key insight:</strong> Choosing the right convergence test depends on the form of the series. The ratio test is powerful for series with factorials or exponentials, while comparison tests work well with rational functions.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 2 summary</strong><br>Infinite sequences and series are fundamental in calculus. Convergence tests determine whether a series converges or diverges.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Sequence: ordered list, Series: sum of sequence terms.<br>• N-th term test: if lim aₙ ≠ 0 → diverges.<br>• Comparison tests: direct and limit comparison.<br>• P-series: converges if p > 1.<br>• Ratio test: L < 1 → converges.<br>• Alternating series: decreasing terms → 0 → converges.</div>
     </div>
 </body>
 </html>

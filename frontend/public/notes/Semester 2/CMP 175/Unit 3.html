@@ -1,230 +1,502 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Object-Oriented Programming in Java</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 3: Object-Oriented Programming</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-    <h1><b>Unit 3: Object-Oriented Programming</b></h1>
+    <h1>Unit 3: Object-Oriented Programming</h1>
+    <div class="subhead">Classes & objects · access specifiers · encapsulation · constructors · garbage collection · this · static members</div>
 
+    <!-- ========== 3.1 ========== -->
     <div class="section">
-        <h2><b>3.1 Classes and Objects: Object Creation, Initializing the Instance Variables</b></h2>
-        <p>A <b>class</b> in Java is a blueprint for creating objects, defining their properties (instance variables) and behaviors (methods). An <b>object</b> is an instance of a class, representing a specific entity with its own state and behavior.</p>
-        <p><b>Object Creation:</b> Objects are created using the <code>new</code> keyword, which allocates memory and invokes a constructor.</p>
-        <p><b>Initializing Instance Variables:</b> Instance variables (non-static fields) can be initialized directly, through constructors, or via setter methods.</p>
-        <p>Example:</p>
-        <pre>
-public class Student {
-    String name; // Instance variable
-    int age;
+        <h2>3.1 Classes and Objects: Object Creation, Initializing the Instance Variables</h2>
+        <p>A <strong>class</strong> in Java is a blueprint for creating objects, defining their properties (instance variables) and behaviors (methods). An <strong>object</strong> is an instance of a class, representing a specific entity with its own state and behavior.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📦 Class</strong><br>A blueprint or template that defines the structure and behavior of objects. Contains fields (variables) and methods (functions).</div>
+            <div class="card"><strong>🎯 Object</strong><br>An instance of a class, created using the <code>new</code> keyword. Each object has its own copy of instance variables.</div>
+        </div>
 
-    // Constructor for initialization
-    public Student(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
-
-    public void display() {
-        System.out.println("Name: " + name + ", Age: " + age);
-    }
-
-    public static void main(String[] args) {
-        // Object creation
-        Student s1 = new Student("Alice", 20);
-        s1.display(); // Output: Name: Alice, Age: 20
-    }
-}
-        </pre>
-    </div>
-
-    <div class="section">
-        <h2><b>3.2 Access Specifiers and Encapsulation</b></h2>
-        <p><b>Access Specifiers:</b> Control the visibility and accessibility of class members (fields, methods, constructors).</p>
+        <h3>Object Creation</h3>
         <ul>
-            <li><b>public:</b> Accessible from everywhere.</li>
-            <li><b>protected:</b> Accessible within the same package and in subclasses (even if in different packages).</li>
-            <li><b>default:</b> (No specifier) Accessible only within the same package.</li>
-            <li><b>private:</b> Accessible only within the same class.</li>
+            <li>Objects are created using the <code>new</code> keyword, which allocates memory and invokes a constructor.</li>
+            <li><strong>Syntax:</strong> <code>ClassName objectName = new ClassName();</code></li>
+            <li><strong>Example:</strong> <code>Student s1 = new Student();</code></li>
         </ul>
-        <p><b>Encapsulation:</b> The process of bundling data (instance variables) and methods that operate on the data into a single unit (class), while restricting direct access to some components. Achieved by making fields <code>private</code> and providing public getter/setter methods.</p>
-        <p>Example:</p>
-        <pre>
-public class BankAccount {
-    private double balance; // Private field
 
-    // Public getter
-    public double getBalance() {
-        return balance;
-    }
-
-    // Public setter
-    public void setBalance(double balance) {
-        if (balance >= 0) {
-            this.balance = balance;
-        }
-    }
-}
-        </pre>
-    </div>
-
-    <div class="section">
-        <h2><b>3.3 Constructors and Garbage Collection</b></h2>
-        <p><b>Constructors:</b> Special methods used to initialize objects. They have the same name as the class and no return type.</p>
+        <h3>Initializing Instance Variables</h3>
         <ul>
-            <li><b>Default Constructor:</b> Provided automatically if no constructors are defined, initializes fields to default values (e.g., 0, null).</li>
-            <li><b>Parameterized Constructor:</b> Accepts parameters to initialize fields.</li>
-            <li><b>Constructor Overloading:</b> Multiple constructors with different parameter lists.</li>
+            <li><strong>Direct Initialization:</strong> Assign values at the time of declaration.</li>
+            <li><strong>Constructor Initialization:</strong> Use constructors to initialize fields.</li>
+            <li><strong>Setter Methods:</strong> Use public setter methods to set values.</li>
         </ul>
-        <p><b>Garbage Collection:</b> Java’s automatic memory management system that deallocates memory for objects no longer referenced. The JVM’s garbage collector identifies and frees unused objects, preventing memory leaks.</p>
-        <p>Example:</p>
-        <pre>
-public class Car {
-    String model;
 
-    // Default constructor
-    public Car() {
-        model = "Unknown";
-    }
-
-    // Parameterized constructor
-    public Car(String model) {
-        this.model = model;
-    }
-
-    public static void main(String[] args) {
-        Car c1 = new Car(); // Uses default constructor
-        Car c2 = new Car("Toyota"); // Uses parameterized constructor
-        c1 = null; // c1 eligible for garbage collection
-    }
-}
-        </pre>
+        <div class="code-block">
+            <span>// Class and Object Example</span><br>
+            public class Student {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;String name;   <span>// Instance variable</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int age;       <span>// Instance variable</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Constructor for initialization</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public Student(String name, int age) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.name = name;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.age = age;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public void display() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Name: " + name + ", Age: " + age);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>// Object creation</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student s1 = new Student("Alice", 20);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s1.display();  <span>// Output: Name: Alice, Age: 20</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
     </div>
 
+    <!-- ========== 3.2 ========== -->
     <div class="section">
-        <h2><b>3.4 "this" Pointer</b></h2>
+        <h2>3.2 Access Specifiers and Encapsulation</h2>
+
+        <h3>Access Specifiers</h3>
+        <p>Access specifiers control the visibility and accessibility of class members (fields, methods, constructors).</p>
+        <table>
+            <tr><th>Modifier</th><th>Same Class</th><th>Same Package</th><th>Subclass</th><th>World</th></tr>
+            <tr><td>private</td><td>✓</td><td>✗</td><td>✗</td><td>✗</td></tr>
+            <tr><td>default</td><td>✓</td><td>✓</td><td>✗</td><td>✗</td></tr>
+            <tr><td>protected</td><td>✓</td><td>✓</td><td>✓</td><td>✗</td></tr>
+            <tr><td>public</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        </table>
+
+        <h3>Encapsulation</h3>
+        <ul>
+            <li><strong>Definition:</strong> The process of bundling data (instance variables) and methods that operate on the data into a single unit (class), while restricting direct access to some components.</li>
+            <li><strong>Implementation:</strong> Make fields <code>private</code> and provide public getter/setter methods.</li>
+            <li><strong>Benefits:</strong>
+                <ul>
+                    <li>Data hiding and protection</li>
+                    <li>Controlled access to fields</li>
+                    <li>Flexibility to change internal implementation</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Encapsulation Example</span><br>
+            public class BankAccount {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;private double balance;  <span>// Private field</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Public getter</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public double getBalance() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return balance;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Public setter with validation</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public void setBalance(double balance) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (balance >= 0) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.balance = balance;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>🔒 Key insight:</strong> Encapsulation is a fundamental principle of OOP that protects data integrity and promotes modular design. It allows implementation details to change without affecting other parts of the code.
+        </div>
+    </div>
+
+    <!-- ========== 3.3 ========== -->
+    <div class="section">
+        <h2>3.3 Constructors and Garbage Collection</h2>
+
+        <h3>Constructors</h3>
+        <ul>
+            <li><strong>Definition:</strong> Special methods used to initialize objects. They have the same name as the class and no return type.</li>
+            <li><strong>Default Constructor:</strong> Provided automatically if no constructors are defined, initializes fields to default values (e.g., 0, null).</li>
+            <li><strong>Parameterized Constructor:</strong> Accepts parameters to initialize fields.</li>
+            <li><strong>Constructor Overloading:</strong> Multiple constructors with different parameter lists.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Constructor Example</span><br>
+            public class Car {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;String model;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int year;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Default constructor</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public Car() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model = "Unknown";<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;year = 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Parameterized constructor</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public Car(String model, int year) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.model = model;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.year = year;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Constructor overloading</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public Car(String model) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.model = model;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.year = 2024;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <h3>Garbage Collection</h3>
+        <ul>
+            <li><strong>Definition:</strong> Java's automatic memory management system that deallocates memory for objects no longer referenced.</li>
+            <li><strong>Process:</strong> The JVM's garbage collector identifies and frees unused objects, preventing memory leaks.</li>
+            <li><strong>Eligibility:</strong> Objects are eligible for garbage collection when they are no longer reachable (no references point to them).</li>
+            <li><strong>Method:</strong> <code>System.gc()</code> can be used to request garbage collection (but not guaranteed).</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Garbage Collection Example</span><br>
+            public class GarbageDemo {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Car c1 = new Car("Toyota", 2020);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Car c2 = new Car("Honda", 2021);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c1 = null;  <span>// c1 eligible for garbage collection</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c2 = null;  <span>// c2 eligible for garbage collection</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.gc();  <span>// Request garbage collection</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 3.4 ========== -->
+    <div class="section">
+        <h2>3.4 "this" Pointer</h2>
         <p>The <code>this</code> keyword refers to the current object in a method or constructor. It is used to:</p>
         <ul>
             <li>Distinguish instance variables from local variables or parameters with the same name.</li>
             <li>Invoke another constructor of the same class (<code>this()</code>).</li>
             <li>Pass the current object as a parameter to methods.</li>
+            <li>Return the current object from a method.</li>
         </ul>
-        <p>Example:</p>
-        <pre>
-public class Employee {
-    String name;
-    int id;
 
-    public Employee(String name, int id) {
-        this.name = name; // Differentiates instance variable from parameter
-        this.id = id;
-    }
-
-    public void display() {
-        System.out.println("Name: " + this.name + ", ID: " + this.id); // Refers to current object
-    }
-
-    public static void main(String[] args) {
-        Employee e = new Employee("Bob", 101);
-        e.display(); // Output: Name: Bob, ID: 101
-    }
-}
-        </pre>
+        <div class="code-block">
+            <span>// "this" Keyword Example</span><br>
+            public class Employee {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;String name;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int id;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Constructor using 'this' to distinguish parameters</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public Employee(String name, int id) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.name = name;  <span>// this.name refers to instance variable</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.id = id;      <span>// this.id refers to instance variable</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Calling another constructor</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public Employee() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this("Unknown", 0);  <span>// Calls parameterized constructor</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public void display() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Name: " + this.name + ", ID: " + this.id);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public Employee getInstance() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return this;  <span>// Returning current object</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
     </div>
 
+    <!-- ========== 3.5 ========== -->
     <div class="section">
-        <h2><b>3.5 Static Members</b></h2>
-        <p><b>Static Members:</b> Belong to the class rather than any specific object. Declared with the <code>static</code> keyword. They are shared across all instances of the class.</p>
+        <h2>3.5 Static Members</h2>
+        <p><strong>Static members</strong> belong to the class rather than any specific object. They are declared with the <code>static</code> keyword and are shared across all instances of the class.</p>
+
+        <h3>Static Variables</h3>
         <ul>
-            <li><b>Static Variables:</b> Single copy shared by all objects (e.g., a counter for the number of objects created).</li>
-            <li><b>Static Methods:</b> Can be called without creating an object, often used for utility functions.</li>
-            <li><b>Static Blocks:</b> Used to initialize static variables, executed when the class is loaded.</li>
+            <li>Single copy shared by all objects.</li>
+            <li>Used for constants, counters, or shared state.</li>
+            <li>Accessed using the class name (e.g., <code>ClassName.staticVar</code>).</li>
         </ul>
-        <p>Example:</p>
-        <pre>
-public class Counter {
-    static int count = 0; // Static variable
 
-    // Constructor increments count
-    public Counter() {
-        count++;
-    }
+        <h3>Static Methods</h3>
+        <ul>
+            <li>Can be called without creating an object.</li>
+            <li>Often used for utility functions.</li>
+            <li>Cannot directly access instance variables (non-static).</li>
+        </ul>
 
-    // Static method to access count
-    public static int getCount() {
-        return count;
-    }
+        <h3>Static Blocks</h3>
+        <ul>
+            <li>Used to initialize static variables.</li>
+            <li>Executed when the class is loaded.</li>
+        </ul>
 
-    public static void main(String[] args) {
-        Counter c1 = new Counter();
-        Counter c2 = new Counter();
-        System.out.println("Total objects: " + Counter.getCount()); // Output: Total objects: 2
-    }
-}
-        </pre>
+        <div class="code-block">
+            <span>// Static Members Example</span><br>
+            public class Counter {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;static int count = 0;  <span>// Static variable</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int instanceId;         <span>// Instance variable</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Static block</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;static {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Static block executed once");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count = 100;  <span>// Initialize static variable</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Constructor</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public Counter() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count++;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instanceId = count;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Static method</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static int getCount() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return count;  <span>// Can access static variables only</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Counter c1 = new Counter();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Counter c2 = new Counter();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Total objects: " + Counter.getCount());<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("c1 ID: " + c1.instanceId);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("c2 ID: " + c2.instanceId);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <h3>Static vs Instance Members</h3>
+        <table>
+            <tr><th>Feature</th><th>Static</th><th>Instance</th></tr>
+            <tr><td>Belongs to</td><td>Class</td><td>Object</td></tr>
+            <tr><td>Memory</td><td>Single copy</td><td>Per object</td></tr>
+            <tr><td>Access</td><td>ClassName.member</td><td>objectName.member</td></tr>
+            <tr><td>Can access static</td><td>Yes</td><td>Yes</td></tr>
+            <tr><td>Can access instance</td><td>No</td><td>Yes</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>📌 Key insight:</strong> Static members are useful for shared state and utility functions. However, overusing static members can lead to tightly coupled code and make testing difficult.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 3 summary</strong><br>Object-Oriented Programming in Java covers classes, objects, access specifiers, encapsulation, constructors, garbage collection, the 'this' keyword, and static members.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Classes: blueprints for objects.<br>• Objects: instances of classes created with 'new'.<br>• Access specifiers: private, default, protected, public.<br>• Encapsulation: data hiding with private fields and public methods.<br>• Constructors: initialize objects; default, parameterized, overloading.<br>• Garbage collection: automatic memory management.<br>• 'this': refers to current object.<br>• Static: shared class-level members.</div>
     </div>
 </body>
 </html>

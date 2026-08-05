@@ -1,159 +1,436 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 2: Written Business Communication</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1><b>Unit 2: Written Business Communication</b></h1>
+    <h1>Unit 2: Written Business Communication</h1>
+    <div class="subhead">Writing process · qualities · document design · brief messages · proposals · reports · ethics</div>
 
+    <!-- ========== 2.1 ========== -->
     <div class="section">
-        <h2><b>2.1 Writing Process</b></h2>
-        <p>The writing process in business communication involves three main stages: planning, writing, and completing. Each stage ensures the message is clear, effective, and professional.</p>
+        <h2>2.1 Writing Process</h2>
+        <p>The writing process in business communication involves three main stages: <strong>planning</strong>, <strong>writing</strong>, and <strong>completing</strong>. Each stage ensures the message is clear, effective, and professional.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📋 Planning</strong><br>Analyze situation and audience, choose medium, organize information. Sets the foundation for effective communication.</div>
+            <div class="card"><strong>✍️ Writing</strong><br>Be sensitive to audience, compose message with clarity and conciseness. The actual drafting of the content.</div>
+            <div class="card"><strong>✅ Completing</strong><br>Revise, produce, proofread, and distribute. Ensures accuracy and professional presentation.</div>
+        </div>
+
+        <h3>Detailed Writing Process</h3>
         <ul>
             <li><strong>Planning:</strong>
                 <ul>
-                    <li><strong>Analyzing the Situation:</strong> Define the purpose of the communication (e.g., to inform, persuade, or request) and the context. Example: Writing a memo to inform employees about a policy change.</li>
-                    <li><strong>Analyzing the Audience:</strong> Understand the audience’s needs, expectations, and knowledge level to tailor the message. Example: Use technical terms for engineers but simpler language for a general audience.</li>
-                    <li><strong>Choosing the Medium:</strong> Select the appropriate format (e.g., email, report, memo) based on urgency, formality, and audience preference. Example: Use email for quick updates, reports for detailed analysis.</li>
-                    <li><strong>Organizing the Information:</strong> Structure the content logically, using outlines or frameworks (e.g., problem-solution, chronological). Example: Start with key points, followed by supporting details.</li>
+                    <li><strong>Analyzing the Situation:</strong> Define purpose (inform, persuade, request) and context.</li>
+                    <li><strong>Analyzing the Audience:</strong> Understand needs, expectations, and knowledge level.</li>
+                    <li><strong>Choosing the Medium:</strong> Select format (email, report, memo) based on urgency and audience.</li>
+                    <li><strong>Organizing the Information:</strong> Structure content logically using outlines or frameworks.</li>
                 </ul>
             </li>
             <li><strong>Writing:</strong>
                 <ul>
-                    <li><strong>Being Sensitive to the Audience:</strong> Adapt tone, style, and content to suit the audience’s values and expectations. Example: Use a respectful tone when addressing senior management.</li>
-                    <li><strong>Composing the Message:</strong> Draft the content, ensuring clarity, conciseness, and coherence. Example: Avoid jargon in customer-facing emails to ensure understanding.</li>
+                    <li><strong>Being Sensitive to the Audience:</strong> Adapt tone, style, and content to audience values.</li>
+                    <li><strong>Composing the Message:</strong> Draft content ensuring clarity, conciseness, and coherence.</li>
                 </ul>
             </li>
             <li><strong>Completing:</strong>
                 <ul>
-                    <li><strong>Revising:</strong> Review the draft for clarity, coherence, and tone. Example: Simplify complex sentences to improve readability.</li>
-                    <li><strong>Producing:</strong> Format the document appropriately, ensuring visual appeal (e.g., headings, bullet points). Example: Use consistent fonts in a report.</li>
-                    <li><strong>Proofreading:</strong> Check for grammar, spelling, and punctuation errors. Example: Use tools like Grammarly or manual checks to ensure accuracy.</li>
-                    <li><strong>Distributing:</strong> Deliver the message through the chosen medium (e.g., email, printed copy). Example: Send a meeting agenda via email to all participants.</li>
+                    <li><strong>Revising:</strong> Review draft for clarity, coherence, and tone.</li>
+                    <li><strong>Producing:</strong> Format document for visual appeal (headings, bullet points).</li>
+                    <li><strong>Proofreading:</strong> Check for grammar, spelling, and punctuation errors.</li>
+                    <li><strong>Distributing:</strong> Deliver message through chosen medium.</li>
                 </ul>
             </li>
         </ul>
+
+        <div class="figure-box">
+            <pre>
+Writing Process Flow:
+┌────────────┐    ┌────────────┐    ┌────────────┐
+│  Planning  │───▶│  Writing   │───▶│ Completing │
+└────────────┘    └────────────┘    └────────────┘
+   • Analyze         • Compose        • Revise
+   • Organize        • Adapt          • Proofread
+   • Choose Medium                    • Distribute
+            </pre>
+        </div>
     </div>
 
+    <!-- ========== 2.2 ========== -->
     <div class="section">
-        <h2><b>2.2 Qualities of Business Writing</b></h2>
-        <p>Effective business writing adheres to qualities that ensure clarity, professionalism, and impact:</p>
+        <h2>2.2 Qualities of Business Writing</h2>
+        <p>Effective business writing adheres to qualities that ensure clarity, professionalism, and impact.</p>
+
+        <h3>Key Qualities</h3>
+        <table>
+            <tr><th>Quality</th><th>Description</th><th>Example</th></tr>
+            <tr><td>Clarity</td><td>Simple, straightforward language</td><td>"The meeting is at 2 PM"</td></tr>
+            <tr><td>Conciseness</td><td>Brief, informative, no unnecessary words</td><td>"Please review the report"</td></tr>
+            <tr><td>Accuracy</td><td>Factual correctness and proper grammar</td><td>Verify data before submission</td></tr>
+            <tr><td>Courtesy</td><td>Polite and respectful tone</td><td>"Dear [Name]" and "Thank you"</td></tr>
+            <tr><td>Coherence</td><td>Logical organization of ideas</td><td>Use bullet points for action items</td></tr>
+            <tr><td>Engagement</td><td>Relevant content, appropriate tone</td><td>Highlight benefits in proposals</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Quality Comparison</span><br>
+            <span>// Poor: "The scheduled gathering will occur post-meridian."</span><br>
+            <span>// Clear: "The meeting is at 2 PM."</span><br><br>
+            <span>// Poor: "Kindly take some time to look over the detailed report."</span><br>
+            <span>// Concise: "Please review the report."</span>
+        </div>
+    </div>
+
+    <!-- ========== 2.3 ========== -->
+    <div class="section">
+        <h2>2.3 Preparing Business Documents: Basics of Document Design</h2>
+        <p>Effective document design enhances readability and accessibility.</p>
+
+        <h3>Key Design Principles</h3>
         <ul>
-            <li><strong>Clarity:</strong> Use simple, straightforward language to convey the message. Example: “The meeting is at 2 PM” instead of “The scheduled gathering will occur post-meridian.”</li>
-            <li><strong>Conciseness:</strong> Eliminate unnecessary words to make the message brief yet informative. Example: “Please review the report” instead of “Kindly take some time to look over the detailed report.”</li>
-            <li><strong>Accuracy:</strong> Ensure factual correctness and proper grammar. Example: Verify data in a financial report before submission.</li>
-            <li><strong>Courtesy:</strong> Maintain a polite and respectful tone. Example: Start an email with “Dear [Name]” and end with “Thank you for your time.”</li>
-            <li><strong>Coherence:</strong> Organize ideas logically for easy understanding. Example: Use bullet points to list action items in a memo.</li>
-            <li><strong>Engagement:</strong> Capture the audience’s interest with relevant content and an appropriate tone. Example: Highlight benefits in a proposal to persuade stakeholders.</li>
+            <li><strong>Organization:</strong> Structure document logically (introduction, body, conclusion).</li>
+            <li><strong>Order:</strong> Arrange content in logical sequence (chronological, priority-based).</li>
+            <li><strong>Access:</strong> Use headings, subheadings, and tables of contents for easy navigation.</li>
+            <li><strong>Variety:</strong> Incorporate visual elements like charts, graphs, or bullet points.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Document Design Best Practices</span><br>
+            <span>// 1. Consistent formatting (fonts, sizes, spacing)</span><br>
+            <span>// 2. Use white space effectively</span><br>
+            <span>// 3. Choose readable fonts (Arial, 12pt)</span><br>
+            <span>// 4. Include visual aids for complex data</span>
+        </div>
+
+        <h3>Example: Report Structure</h3>
+        <ul>
+            <li><strong>Title Page:</strong> Document title, author, date</li>
+            <li><strong>Executive Summary:</strong> Brief overview of key points</li>
+            <li><strong>Table of Contents:</strong> Section listing for navigation</li>
+            <li><strong>Body:</strong> Detailed content with analysis and recommendations</li>
+            <li><strong>Appendices:</strong> Supplementary data or references</li>
         </ul>
     </div>
 
+    <!-- ========== 2.4 ========== -->
     <div class="section">
-        <h2><b>2.3 Preparing Business Documents: Basics of Document Design</b></h2>
-        <p>Effective document design enhances readability and accessibility. Key aspects include:</p>
-        <ul>
-            <li><strong>Organization:</strong> Structure the document logically with clear sections (e.g., introduction, body, conclusion). Example: A report with an executive summary, findings, and recommendations.</li>
-            <li><strong>Order:</strong> Arrange content in a logical sequence, such as chronological, priority-based, or problem-solution. Example: Present project milestones in chronological order.</li>
-            <li><strong>Access:</strong> Use headings, subheadings, and tables of contents to make information easy to find. Example: Include a clickable table of contents in a digital report.</li>
-            <li><strong>Variety:</strong> Incorporate visual elements like charts, graphs, or bullet points to break up text and enhance understanding. Example: Use a pie chart to show budget allocation in a financial report.</li>
-        </ul>
-        <p><strong>Best Practices:</strong> Maintain consistent formatting, use white space effectively, and choose readable fonts (e.g., Arial, 12pt).</p>
+        <h2>2.4 Writing Brief Messages</h2>
+        <p>Brief messages are concise, purpose-driven communications used in business settings.</p>
+
+        <h3>Types of Brief Messages</h3>
+        <table>
+            <tr><th>Type</th><th>Purpose</th><th>Example</th></tr>
+            <tr><td>Memos</td><td>Internal announcements or updates</td><td>Policy change announcement</td></tr>
+            <tr><td>Letters</td><td>Formal external communication</td><td>Cover letter, client proposal</td></tr>
+            <tr><td>Emails</td><td>Versatile digital communication</td><td>Meeting confirmation</td></tr>
+            <tr><td>Blogs</td><td>Informal insights or updates</td><td>Product launch announcement</td></tr>
+            <tr><td>Notices</td><td>Short announcements</td><td>Office closure notice</td></tr>
+            <tr><td>Press Releases</td><td>Formal media announcements</td><td>Company merger announcement</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Email Etiquette Guidelines</span><br>
+            <span>// 1. Clear subject line</span><br>
+            <span>// 2. Professional greeting and closing</span><br>
+            <span>// 3. Brief and focused content</span><br>
+            <span>// 4. Proofread before sending</span>
+        </div>
     </div>
 
+    <!-- ========== 2.5 ========== -->
     <div class="section">
-        <h2><b>2.4 Writing Brief Messages</b></h2>
-        <p>Brief messages are concise, purpose-driven communications used in business settings. Types include:</p>
+        <h2>2.5 Writing Business Proposals, Reports, Plans</h2>
+        <p>These documents are critical for decision-making and planning in organizations.</p>
+
+        <h3>Types of Business Documents</h3>
         <ul>
-            <li><strong>Memos:</strong> Internal documents for announcements or updates. Example: A memo announcing a new company policy.</li>
-            <li><strong>Letters:</strong> Formal external communication, such as client proposals or thank-you notes. Example: A cover letter for a job application.</li>
-            <li><strong>Emails:</strong> Versatile digital messages for internal or external communication. Example: An email confirming a meeting time.</li>
-            <li><strong>Blogs:</strong> Informal posts for sharing insights or updates. Example: A company blog about a product launch.</li>
-            <li><strong>Notices:</strong> Short announcements for public or internal audiences. Example: A notice about office closure due to holidays.</li>
-            <li><strong>Press Releases:</strong> Formal announcements for media to share news. Example: A press release about a company merger.</li>
+            <li><strong>Informal Reports:</strong> Concise internal documents (progress reports, meeting summaries).</li>
+            <li><strong>Proposals and Plans:</strong> Persuasive documents proposing ideas or strategies with objectives, budget, and timeline.</li>
         </ul>
-        <p><strong>Guidelines:</strong> Use a clear subject line, maintain a professional tone, and ensure brevity while covering essential details.</p>
+
+        <h3>Formal Components of Advanced Business Documents</h3>
+        <ul>
+            <li><strong>Title Page:</strong> Includes document title, author, and date.</li>
+            <li><strong>Executive Summary:</strong> Brief overview of key points.</li>
+            <li><strong>Table of Contents:</strong> Lists sections for easy navigation.</li>
+            <li><strong>Body:</strong> Detailed content with data, analysis, and recommendations.</li>
+            <li><strong>Appendices:</strong> Supplementary data or references.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Proposal Structure</span><br>
+            <span>// 1. Executive Summary</span><br>
+            <span>// 2. Problem Statement</span><br>
+            <span>// 3. Proposed Solution</span><br>
+            <span>// 4. Budget and Timeline</span><br>
+            <span>// 5. Expected Outcomes</span><br>
+            <span>// 6. Conclusion and Call to Action</span>
+        </div>
     </div>
 
+    <!-- ========== 2.6 ========== -->
     <div class="section">
-        <h2><b>2.5 Writing Business Proposals, Reports, Plans</b></h2>
-        <p>These documents are critical for decision-making and planning in organizations:</p>
+        <h2>2.6 Ethical Considerations in Business Writing</h2>
+        <p>Ethical writing ensures trust, credibility, and professionalism.</p>
+
+        <h3>Key Ethical Principles</h3>
         <ul>
-            <li><strong>Informal Reports:</strong> Concise documents for internal use, such as progress reports or meeting summaries. Example: A weekly team update on project status.</li>
-            <li><strong>Proposals and Plans:</strong> Documents proposing ideas or strategies, often persuasive. Example: A business proposal to secure funding for a new project, including objectives, budget, and timeline.</li>
-            <li><strong>Formal Components of Advanced Business Documents:</strong>
-                <ul>
-                    <li><strong>Title Page:</strong> Includes document title, author, and date.</li>
-                    <li><strong>Executive Summary:</strong> A brief overview of key points.</li>
-                    <li><strong>Table of Contents:</strong> Lists sections for easy navigation.</li>
-                    <li><strong>Body:</strong> Detailed content with data, analysis, and recommendations.</li>
-                    <li><strong>Appendices:</strong> Supplementary data or references.</li>
-                </ul>
-            </li>
+            <li><strong>Plagiarism:</strong> Avoid using others' work without credit.</li>
+            <li><strong>Crediting and Referencing Sources:</strong> Use proper citation formats (APA, MLA).</li>
+            <li><strong>Honesty:</strong> Avoid exaggerating claims or falsifying data.</li>
+            <li><strong>Confidentiality:</strong> Protect sensitive information.</li>
+            <li><strong>Transparency:</strong> Clearly disclose conflicts of interest.</li>
         </ul>
-        <p><strong>Best Practices:</strong> Use clear headings, support claims with data, and tailor content to the audience’s needs.</p>
+
+        <div class="code-block">
+            <span>// Ethical Writing Checklist</span><br>
+            <span>// ✓ Cite all sources properly</span><br>
+            <span>// ✓ Use plagiarism detection tools</span><br>
+            <span>// ✓ Verify data accuracy</span><br>
+            <span>// ✓ Protect confidential information</span><br>
+            <span>// ✓ Disclose any conflicts of interest</span>
+        </div>
+
+        <div class="note-box">
+            <strong>⚖️ Key insight:</strong> Ethical writing builds trust and credibility. Always give credit to sources, maintain honesty, and protect sensitive information.
+        </div>
     </div>
 
-    <div class="section">
-        <h2><b>2.6 Ethical Considerations in Business Writing</b></h2>
-        <p>Ethical writing ensures trust, credibility, and professionalism:</p>
-        <ul>
-            <li><strong>Plagiarism:</strong> Avoid using others’ work without credit, as it undermines integrity. Example: Copying a competitor’s report without permission is unethical.</li>
-            <li><strong>Crediting and Referencing Sources:</strong> Acknowledge all sources using proper citation formats (e.g., APA, MLA). Example: Cite a market research study in a business proposal.</li>
-            <li><strong>Other Considerations:</strong>
-                <ul>
-                    <li><strong>Honesty:</strong> Avoid exaggerating claims or falsifying data. Example: Do not inflate sales figures in a report.</li>
-                    <li><strong>Confidentiality:</strong> Protect sensitive information. Example: Avoid sharing client data in public documents.</li>
-                    <li><strong>Transparency:</strong> Clearly disclose any conflicts of interest. Example: Mention affiliations in a research report.</li>
-                </ul>
-            </li>
-        </ul>
-        <p><strong>Best Practices:</strong> Use plagiarism detection tools, follow citation guidelines, and maintain transparency to uphold ethical standards.</p>
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 2 summary</strong><br>Written business communication involves a structured writing process, adherence to key qualities, effective document design, and ethical considerations.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Writing process: planning → writing → completing.<br>• Qualities: clarity, conciseness, accuracy, courtesy, coherence, engagement.<br>• Document design: organization, order, access, variety.<br>• Brief messages: memos, letters, emails, blogs, notices, press releases.<br>• Formal documents: proposals, reports, plans with executive summaries and appendices.<br>• Ethics: avoid plagiarism, cite sources, maintain honesty and confidentiality.</div>
     </div>
 </body>
 </html>

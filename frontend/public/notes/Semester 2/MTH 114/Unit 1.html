@@ -1,167 +1,523 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 1: Complex Numbers</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            color: black;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
         }
         li {
-            margin-bottom: 10px;
+            margin-bottom: 0.6rem;
         }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
+        strong {
+            color: #0f3d66;
         }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
         }
-        h2 {
-            font-size: 1rem; /* smaller sub-header */
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
         }
-        .section {
-            padding: 8px; /* less padding for small screens */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
-    }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1><b>Unit 1: Complex Numbers</b></h1>
+    <h1>Unit 1: Complex Numbers</h1>
+    <div class="subhead">Definition · algebra · properties · conjugate · modulus · Argand diagram · polar form · De Moivre's theorem</div>
 
+    <!-- ========== 1.1 ========== -->
     <div class="section">
-        <h2><b>1.1 Definition of a Complex Number, Integral Powers of i</b></h2>
-        <p>A complex number is a number of the form <em>z = a + bi</em>, where <em>a</em> and <em>b</em> are real numbers, and <em>i</em> is the imaginary unit with the property <em>i² = -1</em>. Here, <em>a</em> is the real part, and <em>b</em> is the imaginary part.</p>
+        <h2>1.1 Definition of a Complex Number, Integral Powers of i</h2>
+        <p>A <strong>complex number</strong> is a number of the form <em>z = a + bi</em>, where <em>a</em> and <em>b</em> are real numbers, and <em>i</em> is the imaginary unit with the property <em>i² = -1</em>. Here, <em>a</em> is the <strong>real part</strong> and <em>b</em> is the <strong>imaginary part</strong>.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📐 Definition</strong><br>z = a + bi, where a, b ∈ ℝ, i² = -1. Real part = a, Imaginary part = b.</div>
+            <div class="card"><strong>🔄 Powers of i</strong><br>i¹ = i, i² = -1, i³ = -i, i⁴ = 1. The pattern repeats every 4 powers.</div>
+        </div>
+
+        <h3>Integral Powers of i</h3>
         <ul>
-            <li><strong>Definition:</strong> A complex number combines a real number and an imaginary number. Example: <em>3 + 4i</em> has real part 3 and imaginary part 4.</li>
-            <li><strong>Integral Powers of i:</strong> The imaginary unit <em>i</em> follows a cyclic pattern when raised to integer powers:
+            <li><strong>Pattern:</strong>
                 <ul>
-                    <li><em>i¹ = i</em></li>
-                    <li><em>i² = -1</em></li>
-                    <li><em>i³ = i² · i = -i</em></li>
-                    <li><em>i⁴ = (i²)² = (-1)² = 1</em></li>
-                    <li><em>i⁵ = i⁴ · i = 1 · i = i</em>, and the cycle repeats every four powers.</li>
+                    <li>i⁰ = 1</li>
+                    <li>i¹ = i</li>
+                    <li>i² = -1</li>
+                    <li>i³ = -i</li>
+                    <li>i⁴ = 1</li>
+                    <li>i⁵ = i (cycle repeats)</li>
                 </ul>
-                Example: To find <em>i^7</em>, note that <em>7 = 4 + 3</em>, so <em>i^7 = i⁴ · i³ = 1 · (-i) = -i</em>.</li>
-            <li><strong>General Rule:</strong> For any integer <em>n</em>, compute <em>i^n</em> by finding <em>n mod 4</em>: <em>i^0 = 1</em>, <em>i^1 = i</em>, <em>i^2 = -1</em>, <em>i^3 = -i</em>.</li>
+            </li>
+            <li><strong>Rule:</strong> For any integer n, find n mod 4 to determine the result:
+                <ul>
+                    <li>n mod 4 = 0 → iⁿ = 1</li>
+                    <li>n mod 4 = 1 → iⁿ = i</li>
+                    <li>n mod 4 = 2 → iⁿ = -1</li>
+                    <li>n mod 4 = 3 → iⁿ = -i</li>
+                </ul>
+            </li>
+            <li><strong>Example:</strong> i⁷ = i⁴⁺³ = i⁴ · i³ = 1 · (-i) = -i</li>
         </ul>
+
+        <div class="code-block">
+            <span>// Powers of i</span><br>
+            i¹ = i<br>
+            i² = -1<br>
+            i³ = -i<br>
+            i⁴ = 1<br>
+            i⁵ = i<br>
+            i⁶ = -1<br>
+            i⁷ = -i<br>
+            i⁸ = 1
+        </div>
+
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> The imaginary unit i cycles through four values, making it easy to compute high powers using modular arithmetic.
+        </div>
     </div>
 
+    <!-- ========== 1.2 ========== -->
     <div class="section">
-        <h2><b>1.2 Algebra of Complex Numbers</b></h2>
+        <h2>1.2 Algebra of Complex Numbers</h2>
         <p>Complex numbers can be added, subtracted, multiplied, and divided using standard algebraic operations, treating <em>i</em> as a variable with <em>i² = -1</em>.</p>
+
+        <h3>Addition and Subtraction</h3>
         <ul>
-            <li><strong>Sum:</strong> Add real and imaginary parts separately. For <em>z₁ = a + bi</em> and <em>z₂ = c + di</em>, <em>z₁ + z₂ = (a + c) + (b + d)i</em>. Example: <em>(3 + 4i) + (2 - 5i) = (3 + 2) + (4 - 5)i = 5 - i</em>.</li>
-            <li><strong>Difference:</strong> Subtract real and imaginary parts. <em>z₁ - z₂ = (a - c) + (b - d)i</em>. Example: <em>(3 + 4i) - (2 - 5i) = (3 - 2) + (4 - (-5))i = 1 + 9i</em>.</li>
-            <li><strong>Multiplication:</strong> Use the distributive property and simplify using <em>i² = -1</em>. <em>z₁ · z₂ = (a + bi)(c + di) = ac + adi + bci + bdi² = (ac - bd) + (ad + bc)i</em>. Example: <em>(3 + 4i)(2 - 5i) = 6 - 15i + 8i - 20i² = 6 + 20 - 7i = 26 - 7i</em>.</li>
-            <li><strong>Division:</strong> Multiply numerator and denominator by the conjugate of the denominator to make the denominator real. For <em>z₁ / z₂ = (a + bi) / (c + di)</em>, multiply by <em>(c - di) / (c - di)</em>. Example: <em>(3 + 4i) / (2 + i) = [(3 + 4i)(2 - i)] / [(2 + i)(2 - i)] = (6 - 3i + 8i - 4i²) / (4 - i²) = (10 + 5i) / 5 = 2 + i</em>.</li>
+            <li><strong>Addition:</strong> (a + bi) + (c + di) = (a + c) + (b + d)i</li>
+            <li><strong>Subtraction:</strong> (a + bi) - (c + di) = (a - c) + (b - d)i</li>
+            <li><strong>Example:</strong> (3 + 4i) + (2 - 5i) = 5 - i</li>
         </ul>
+
+        <h3>Multiplication</h3>
+        <ul>
+            <li><strong>Formula:</strong> (a + bi)(c + di) = (ac - bd) + (ad + bc)i</li>
+            <li><strong>Example:</strong> (3 + 4i)(2 - 5i) = 6 - 15i + 8i - 20i² = 6 + 20 - 7i = 26 - 7i</li>
+        </ul>
+
+        <h3>Division</h3>
+        <ul>
+            <li><strong>Method:</strong> Multiply numerator and denominator by the conjugate of the denominator.</li>
+            <li><strong>Formula:</strong> (a + bi)/(c + di) = [(a + bi)(c - di)] / [(c + di)(c - di)]</li>
+            <li><strong>Example:</strong> (3 + 4i)/(2 + i) = [(3 + 4i)(2 - i)] / [(2 + i)(2 - i)] = (10 + 5i)/5 = 2 + i</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Complex Number Operations</span><br>
+            <span>// Addition</span><br>
+            (3 + 4i) + (2 - 5i) = 5 - i<br><br>
+            <span>// Multiplication</span><br>
+            (3 + 4i)(2 - 5i) = 26 - 7i<br><br>
+            <span>// Division</span><br>
+            (3 + 4i)/(2 + i) = 2 + i
+        </div>
     </div>
 
+    <!-- ========== 1.3 ========== -->
     <div class="section">
-        <h2><b>1.3 Properties of Complex Numbers, Conjugate of a Complex Number</b></h2>
-        <p>Complex numbers have specific properties that govern their behavior, and the conjugate is a key concept.</p>
+        <h2>1.3 Properties of Complex Numbers, Conjugate of a Complex Number</h2>
+
+        <h3>Properties of Complex Numbers</h3>
         <ul>
-            <li><strong>Properties (Without Proof):</strong>
+            <li><strong>Commutative:</strong> z₁ + z₂ = z₂ + z₁, z₁ · z₂ = z₂ · z₁</li>
+            <li><strong>Associative:</strong> (z₁ + z₂) + z₃ = z₁ + (z₂ + z₃), (z₁ · z₂) · z₃ = z₁ · (z₂ · z₃)</li>
+            <li><strong>Distributive:</strong> z₁ · (z₂ + z₃) = z₁ · z₂ + z₁ · z₃</li>
+            <li><strong>Additive Identity:</strong> z + 0 = z, where 0 = 0 + 0i</li>
+            <li><strong>Multiplicative Identity:</strong> z · 1 = z, where 1 = 1 + 0i</li>
+        </ul>
+
+        <h3>Conjugate of a Complex Number</h3>
+        <ul>
+            <li><strong>Definition:</strong> For z = a + bi, the conjugate is z̅ = a - bi</li>
+            <li><strong>Properties:</strong>
                 <ul>
-                    <li><strong>Commutative:</strong> <em>z₁ + z₂ = z₂ + z₁</em> and <em>z₁ · z₂ = z₂ · z₁</em>.</li>
-                    <li><strong>Associative:</strong> <em>(z₁ + z₂) + z₃ = z₁ + (z₂ + z₃)</em> and <em>(z₁ · z₂) · z₃ = z₁ · (z₂ · z₃)</em>.</li>
-                    <li><strong>Distributive:</strong> <em>z₁ · (z₂ + z₃) = z₁ · z₂ + z₁ · z₃</em>.</li>
-                    <li><strong>Additive Identity:</strong> <em>z + 0 = z</em>, where <em>0 = 0 + 0i</em>.</li>
-                    <li><strong>Multiplicative Identity:</strong> <em>z · 1 = z</em>, where <em>1 = 1 + 0i</em>.</li>
+                    <li>z + z̅ = 2a (real)</li>
+                    <li>z - z̅ = 2bi (purely imaginary)</li>
+                    <li>z · z̅ = a² + b² (real, non-negative)</li>
+                    <li>(z̅)̅ = z</li>
                 </ul>
             </li>
-            <li><strong>Conjugate:</strong> For <em>z = a + bi</em>, the conjugate is <em>z̅ = a - bi</em>. Example: Conjugate of <em>3 + 4i</em> is <em>3 - 4i</em>.</li>
-            <li><strong>Properties of Conjugate:</strong>
+            <li><strong>Example:</strong> For z = 3 + 4i, z̅ = 3 - 4i</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Conjugate Examples</span><br>
+            z = 3 + 4i<br>
+            z̅ = 3 - 4i<br>
+            z + z̅ = 6<br>
+            z - z̅ = 8i<br>
+            z · z̅ = 9 + 16 = 25
+        </div>
+    </div>
+
+    <!-- ========== 1.4 ========== -->
+    <div class="section">
+        <h2>1.4 Modulus of a Complex Number and Argand's Diagram</h2>
+
+        <h3>Modulus</h3>
+        <ul>
+            <li><strong>Definition:</strong> For z = a + bi, |z| = √(a² + b²)</li>
+            <li><strong>Properties:</strong>
                 <ul>
-                    <li><em>z + z̅ = 2a</em> (real number). Example: <em>(3 + 4i) + (3 - 4i) = 6</em>.</li>
-                    <li><em>z - z̅ = 2bi</em> (purely imaginary). Example: <em>(3 + 4i) - (3 - 4i) = 8i</em>.</li>
-                    <li><em>z · z̅ = a² + b²</em> (real number). Example: <em>(3 + 4i)(3 - 4i) = 9 + 16 = 25</em>.</li>
-                    <li><em>(z̅)̅ = z</em>. Example: Conjugate of <em>3 - 4i</em> is <em>3 + 4i</em>.</li>
+                    <li>|z| ≥ 0, |z| = 0 iff z = 0</li>
+                    <li>|z₁ · z₂| = |z₁| · |z₂|</li>
+                    <li>|z₁/z₂| = |z₁|/|z₂| (if z₂ ≠ 0)</li>
+                    <li>|z̅| = |z|</li>
+                </ul>
+            </li>
+            <li><strong>Example:</strong> |3 + 4i| = √(9 + 16) = 5</li>
+        </ul>
+
+        <h3>Argand's Diagram</h3>
+        <ul>
+            <li><strong>Definition:</strong> A 2D plane where the x-axis is the real axis and the y-axis is the imaginary axis.</li>
+            <li><strong>Representation:</strong> z = a + bi is plotted at point (a, b).</li>
+            <li><strong>Example:</strong> 3 + 4i is plotted at (3, 4).</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+Argand's Diagram:
+Imaginary
+    ↑
+    │
+   4│    * (3, 4)
+    │   /
+    │  /
+    │ /
+    │/
+    └────────────────→ Real
+              3
+            </pre>
+        </div>
+    </div>
+
+    <!-- ========== 1.5 ========== -->
+    <div class="section">
+        <h2>1.5 Polar Representation of a Complex Number</h2>
+
+        <h3>Polar Form</h3>
+        <ul>
+            <li><strong>Definition:</strong> z = r(cos θ + i sin θ), where r = |z| and θ = arg(z)</li>
+            <li><strong>Modulus (r):</strong> r = √(a² + b²)</li>
+            <li><strong>Argument (θ):</strong> θ = tan⁻¹(b/a), adjusted for quadrant</li>
+        </ul>
+
+        <h3>Converting to Polar Form</h3>
+        <ul>
+            <li><strong>Example:</strong> z = 3 + 4i
+                <ul>
+                    <li>r = √(3² + 4²) = 5</li>
+                    <li>θ = tan⁻¹(4/3) ≈ 53.13°</li>
+                    <li>z = 5(cos 53.13° + i sin 53.13°)</li>
                 </ul>
             </li>
         </ul>
+
+        <div class="code-block">
+            <span>// Polar Form Conversion</span><br>
+            z = 3 + 4i<br>
+            r = 5<br>
+            θ = tan⁻¹(4/3) = 53.13°<br>
+            z = 5(cos 53.13° + i sin 53.13°)
+        </div>
+
+        <h3>Advantages of Polar Form</h3>
+        <ul>
+            <li>Simplifies multiplication: multiply moduli, add arguments</li>
+            <li>Simplifies division: divide moduli, subtract arguments</li>
+            <li>Simplifies powers: De Moivre's theorem</li>
+        </ul>
     </div>
 
+    <!-- ========== 1.6 ========== -->
     <div class="section">
-        <h2><b>1.4 Modulus of a Complex Number and Argand’s Diagram</b></h2>
-        <p>The modulus measures the magnitude of a complex number, and Argand’s diagram represents it geometrically.</p>
+        <h2>1.6 Square Roots of a Complex Number (Cartesian Form)</h2>
+
+        <h3>Method</h3>
         <ul>
-            <li><strong>Modulus:</strong> For <em>z = a + bi</em>, the modulus is <em>|z| = √(a² + b²)</em>, representing the distance from the origin in the complex plane. Example: For <em>3 + 4i</em>, <em>|z| = √(3² + 4²) = √25 = 5</em>.</li>
-            <li><strong>Properties of Modulus (Without Proof):</strong>
+            <li>Let √(a + bi) = x + yi</li>
+            <li>Then (x + yi)² = a + bi</li>
+            <li>Equating real and imaginary parts:
                 <ul>
-                    <li><em>|z| ≥ 0</em>, and <em>|z| = 0</em> if and only if <em>z = 0</em>.</li>
-                    <li><em>|z₁ · z₂| = |z₁| · |z₂|</em>. Example: For <em>z₁ = 3 + 4i</em> and <em>z₂ = 1 + i</em>, verify using moduli.</li>
-                    <li><em>|z₁ / z₂| = |z₁| / |z₂|</em> (if <em>z₂ ≠ 0</em>).</li>
-                    <li><em>|z̅| = |z|</em>. Example: Modulus of <em>3 - 4i</em> is also 5.</li>
+                    <li>x² - y² = a</li>
+                    <li>2xy = b</li>
+                    <li>x² + y² = √(a² + b²)</li>
                 </ul>
             </li>
-            <li><strong>Argand’s Diagram:</strong> Represents a complex number <em>z = a + bi</em> as a point (a, b) in a 2D plane, with the x-axis as the real axis and the y-axis as the imaginary axis. Example: <em>3 + 4i</em> is plotted at (3, 4).</li>
         </ul>
+
+        <div class="code-block">
+            <span>// Find √(3 + 4i)</span><br>
+            x² + y² = 5<br>
+            2xy = 4 → y = 2/x<br>
+            x² - (2/x)² = 3<br>
+            x⁴ - 3x² - 4 = 0<br>
+            x² = 4 → x = ±2, y = ±1<br>
+            √(3 + 4i) = 2 + i or -2 - i
+        </div>
+
+        <div class="note-box">
+            <strong>📐 Key insight:</strong> The square root of a complex number yields two roots that are negatives of each other.
+        </div>
     </div>
 
+    <!-- ========== 1.7 ========== -->
     <div class="section">
-        <h2><b>1.5 Polar Representation of a Complex Number</b></h2>
-        <p>Polar form expresses a complex number using its modulus and argument (angle).</p>
-        <ul>
-            <li><strong>Definition:</strong> For <em>z = a + bi</em>, polar form is <em>z = r(cosθ + i sinθ)</em>, where <em>r = |z| = √(a² + b²)</em> is the modulus, and <em>θ = tan⁻¹(b/a)</em> is the argument (adjusted for quadrant). Example: For <em>3 + 4i</em>, <em>r = 5</em>, <em>θ ≈ tan⁻¹(4/3) ≈ 53.13°</em>, so <em>z = 5(cos 53.13° + i sin 53.13°)</em>.</li>
-            <li><strong>Argument:</strong> The angle <em>θ</em> is measured from the positive real axis, with <em>-π < θ ≤ π</em> (principal value). Adjust <em>θ</em> based on the quadrant of (a, b).</li>
-            <li><strong>Advantages:</strong> Simplifies multiplication, division, and powers of complex numbers. Example: Multiplication involves multiplying moduli and adding arguments.</li>
-        </ul>
-    </div>
+        <h2>1.7 De Moivre's Theorem and Its Application</h2>
 
-    <div class="section">
-        <h2><b>1.6 Square Roots of a Complex Number (Cartesian Form)</b></h2>
-        <p>The square root of a complex number <em>z = a + bi</em> yields two complex numbers whose square equals <em>z</em>.</p>
+        <h3>Statement</h3>
         <ul>
-            <li><strong>Method:</strong> Let the square root be <em>w = x + yi</em>. Then <em>w² = z</em>, so <em>(x + yi)² = x² - y² + 2xyi = a + bi</em>. Equate real and imaginary parts:
-                <ul>
-                    <li><em>x² - y² = a</em></li>
-                    <li><em>2xy = b</em></li>
-                    <li>Solve with <em>|w| = √|z|</em>, where <em>x² + y² = √(a² + b²)</em>.</li>
-                </ul>
-                Example: For <em>z = 3 + 4i</em>, solve for <em>w</em>. Let <em>x² + y² = √(3² + 4²) = 5</em>. From <em>2xy = 4</em>, <em>y = 2/x</em>. Substitute into <em>x² - (2/x)² = 3</em>, yielding <em>x⁴ - 3x² - 4 = 0</em>. Solve to get <em>x² = 4</em> or <em>x² = -1</em> (discard negative). Thus, <em>x = ±2</em>, <em>y = ±1</em>. Roots are <em>2 + i</em> and <em>-2 - i</em>.</li>
-            <li><strong>Verification:</strong> Check: <em>(2 + i)² = 4 + 4i + i² = 3 + 4i</em>. Similarly for <em>-2 - i</em>.</li>
+            <li>For z = r(cos θ + i sin θ) and integer n: zⁿ = rⁿ(cos nθ + i sin nθ)</li>
         </ul>
-    </div>
 
-    <div class="section">
-        <h2><b>1.7 De Moivre’s Theorem and Its Application</b></h2>
-        <p>De Moivre’s theorem provides a method to compute powers and roots of complex numbers in polar form.</p>
+        <h3>Applications</h3>
         <ul>
-            <li><strong>Statement:</strong> For a complex number <em>z = r(cosθ + i sinθ)</em> and integer <em>n</em>, <em>z^n = r^n (cos(nθ) + i sin(nθ))</em>.</li>
-            <li><strong>Applications:</strong>
-                <ul>
-                    <li><strong>Powers:</strong> Simplify high powers of complex numbers. Example: For <em>z = 1 + i</em>, polar form is <em>√2 (cos 45° + i sin 45°)</em>. Then <em>z³ = (√2)³ (cos(3·45°) + i sin(3·45°)) = 2√2 (cos 135° + i sin 135°) = 2√2 (-1/√2 + i/√2) = -2 + 2i</em>.</li>
-                    <li><strong>Roots:</strong> Find <em>n</em>-th roots using <em>z^(1/n) = r^(1/n) [cos((θ + 2kπ)/n) + i sin((θ + 2kπ)/n)]</em> for <em>k = 0, 1, ..., n-1</em>. Example: Cube roots of <em>1 = 1 + 0i</em> (r = 1, θ = 0) are <em>cos(2kπ/3) + i sin(2kπ/3)</em> for <em>k = 0, 1, 2</em>, yielding <em>1</em>, <em>-1/2 + i√3/2</em>, <em>-1/2 - i√3/2</em>.</li>
-                </ul>
+            <li><strong>Powers:</strong> Compute high powers of complex numbers.
+                <div class="code-block">
+                    <span>// (1 + i)³</span><br>
+                    1 + i = √2(cos 45° + i sin 45°)<br>
+                    (1 + i)³ = (√2)³(cos 135° + i sin 135°)<br>
+                    = 2√2(-1/√2 + i/√2) = -2 + 2i
+                </div>
             </li>
-            <li><strong>Best Practices:</strong> Convert to polar form for easier computation, especially for high powers or roots.</li>
+            <li><strong>Roots:</strong> Find n-th roots of complex numbers.
+                <div class="code-block">
+                    <span>// Cube roots of 1</span><br>
+                    1 = 1(cos 0° + i sin 0°)<br>
+                    Roots: cos(2kπ/3) + i sin(2kπ/3), k=0,1,2<br>
+                    1, -1/2 + i√3/2, -1/2 - i√3/2
+                </div>
+            </li>
         </ul>
+
+        <div class="code-block">
+            <span>// De Moivre's Theorem General Formula</span><br>
+            z = r(cos θ + i sin θ)<br>
+            zⁿ = rⁿ(cos nθ + i sin nθ)<br>
+            z^(1/n) = r^(1/n)[cos((θ + 2kπ)/n) + i sin((θ + 2kπ)/n)]<br>
+            for k = 0, 1, 2, ..., n-1
+        </div>
+
+        <div class="note-box">
+            <strong>📊 Key insight:</strong> De Moivre's theorem is a powerful tool for computing powers and roots of complex numbers, especially when expressed in polar form.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 1 summary</strong><br>Complex numbers extend the real number system with the imaginary unit i. They have algebraic properties, conjugates, modulus, and polar forms.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Complex number: z = a + bi, i² = -1.<br>• Powers of i cycle: i, -1, -i, 1.<br>• Algebra: addition, subtraction, multiplication, division.<br>• Conjugate: z̅ = a - bi.<br>• Modulus: |z| = √(a² + b²).<br>• Polar form: z = r(cos θ + i sin θ).<br>• De Moivre's theorem: zⁿ = rⁿ(cos nθ + i sin nθ).</div>
     </div>
 </body>
 </html>

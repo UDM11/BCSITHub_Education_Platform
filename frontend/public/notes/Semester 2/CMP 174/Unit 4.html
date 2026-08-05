@@ -1,187 +1,499 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 4: Combinational Logic</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            color: black;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
         }
         li {
-            margin-bottom: 10px;
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
         }
         table {
+            width: 100%;
             border-collapse: collapse;
-            margin: 10px 0;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
-        th, td {
-            border: 1px solid black;
-            padding: 5px;
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
             text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
         }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
         }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
         }
-        h2 {
-            font-size: 1rem; /* smaller sub-header */
-        }
-        .section {
-            padding: 8px; /* less padding for small screens */
-        }
-    }
     </style>
 </head>
 <body>
-    <h1><b>Unit 4: Combinational Logic</b></h1>
+    <h1>Unit 4: Combinational Logic</h1>
+    <div class="subhead">Combinational circuits · adders · subtractors · decoders · encoders · multiplexers · demultiplexers · code conversion · PROM</div>
 
+    <!-- ========== 4.1 ========== -->
     <div class="section">
-        <h2><b>4.1 Introduction to Combinational Logic Circuit</b></h2>
-        <p>Combinational logic circuits produce outputs that depend solely on the current inputs, with no memory or feedback. They are fundamental building blocks in digital systems.</p>
+        <h2>4.1 Introduction to Combinational Logic Circuit</h2>
+        <p><strong>Combinational logic circuits</strong> produce outputs that depend solely on the current inputs, with no memory or feedback. They are fundamental building blocks in digital systems.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📐 Definition</strong><br>A combinational circuit's output is a function of its inputs at any given time. Examples: Adders, multiplexers, decoders.</div>
+            <div class="card"><strong>⚡ Characteristics</strong><br>No memory elements; outputs are determined by Boolean functions of inputs. Example: F = A·B + C'.</div>
+        </div>
+
+        <h3>Design Process</h3>
         <ul>
-            <li><strong>Definition:</strong> A combinational circuit’s output is a function of its inputs at any given time. Example: Adders, multiplexers, and decoders.</li>
-            <li><strong>Characteristics:</strong> No memory elements; outputs are determined by Boolean functions of inputs. Example: A circuit computing <em>F = A · B + C'</em>.</li>
-            <li><strong>Design Process:</strong> Define inputs/outputs, derive truth table, obtain Boolean expression, simplify using K-maps, and implement with logic gates.</li>
-            <li><strong>Applications:</strong> Arithmetic operations, data routing, and code conversion in processors, calculators, and communication systems.</li>
+            <li><strong>Step 1:</strong> Define inputs and outputs.</li>
+            <li><strong>Step 2:</strong> Create the truth table.</li>
+            <li><strong>Step 3:</strong> Derive Boolean expressions from the truth table.</li>
+            <li><strong>Step 4:</strong> Simplify using Boolean algebra or K-maps.</li>
+            <li><strong>Step 5:</strong> Implement with logic gates.</li>
+        </ul>
+
+        <h3>Applications</h3>
+        <ul>
+            <li>Arithmetic operations (adders, subtractors)</li>
+            <li>Data routing (multiplexers, demultiplexers)</li>
+            <li>Code conversion (BCD to 7-segment, etc.)</li>
+            <li>Control logic in processors and communication systems</li>
         </ul>
     </div>
 
+    <!-- ========== 4.2 ========== -->
     <div class="section">
-        <h2><b>4.2 Adders and Subtractors</b></h2>
-        <p>Adders and subtractors are combinational circuits used for binary arithmetic operations.</p>
+        <h2>4.2 Adders and Subtractors</h2>
+        <p><strong>Adders</strong> and <strong>subtractors</strong> are combinational circuits used for binary arithmetic operations.</p>
+
+        <h3>Half Adder</h3>
         <ul>
-            <li><strong>Half Adder:</strong> Adds two single-bit inputs (A, B). Outputs: Sum (<em>S = A ⊕ B</em>) and Carry (<em>C = A · B</em>).
-                <table>
-                    <tr><th>A</th><th>B</th><th>Sum</th><th>Carry</th></tr>
-                    <tr><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-                    <tr><td>0</td><td>1</td><td>1</td><td>0</td></tr>
-                    <tr><td>1</td><td>0</td><td>1</td><td>0</td></tr>
-                    <tr><td>1</td><td>1</td><td>0</td><td>1</td></tr>
-                </table>
-            </li>
-            <li><strong>Full Adder:</strong> Adds three single-bit inputs (A, B, Carry-in). Outputs: Sum (<em>S = A ⊕ B ⊕ C_in</em>) and Carry-out (<em>C_out = (A · B) + (B · C_in) + (A · C_in)</em>). Implemented with two half adders and an OR gate.</li>
-            <li><strong>Ripple Carry Adder:</strong> Chains full adders to add multi-bit numbers. Example: 4-bit adder for <em>A = A₃A₂A₁A₀</em> and <em>B = B₃B₂B₁B₀</em>. Drawback: Delay due to carry propagation.</li>
-            <li><strong>Subtractor:</strong>
+            <li><strong>Inputs:</strong> A, B (2 single-bit inputs)</li>
+            <li><strong>Outputs:</strong> Sum (S), Carry (C)</li>
+            <li><strong>Formulas:</strong>
                 <ul>
-                    <li><strong>Half Subtractor:</strong> Subtracts two bits (A - B). Outputs: Difference (<em>D = A ⊕ B</em>) and Borrow (<em>B_out = A' · B</em>).</li>
-                    <li><strong>Full Subtractor:</strong> Subtracts three bits (A - B - Borrow-in). Outputs: Difference (<em>D = A ⊕ B ⊕ B_in</em>) and Borrow-out (<em>B_out = A' · B + A' · B_in + B · B_in</em>).</li>
-                    <li><strong>Using Two’s Complement:</strong> Subtraction <em>A - B</em> is performed as <em>A + (two’s complement of B)</em> using an adder circuit.</li>
+                    <li>S = A ⊕ B</li>
+                    <li>C = A · B</li>
                 </ul>
             </li>
-            <li><strong>Applications:</strong> Used in ALUs, calculators, and digital signal processing.</li>
+        </ul>
+        <table>
+            <tr><th>A</th><th>B</th><th>Sum (S)</th><th>Carry (C)</th></tr>
+            <tr><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+            <tr><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+            <tr><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+        </table>
+
+        <h3>Full Adder</h3>
+        <ul>
+            <li><strong>Inputs:</strong> A, B, Carry-in (Cin)</li>
+            <li><strong>Outputs:</strong> Sum (S), Carry-out (Cout)</li>
+            <li><strong>Formulas:</strong>
+                <ul>
+                    <li>S = A ⊕ B ⊕ Cin</li>
+                    <li>Cout = (A·B) + (B·Cin) + (A·Cin)</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Ripple Carry Adder</h3>
+        <ul>
+            <li>Chains full adders to add multi-bit numbers.</li>
+            <li><strong>Example:</strong> 4-bit adder for A = A₃A₂A₁A₀ and B = B₃B₂B₁B₀.</li>
+            <li><strong>Drawback:</strong> Delay due to carry propagation.</li>
+        </ul>
+
+        <h3>Subtractors</h3>
+        <ul>
+            <li><strong>Half Subtractor:</strong>
+                <ul>
+                    <li>D = A ⊕ B (Difference)</li>
+                    <li>Bout = A' · B (Borrow)</li>
+                </ul>
+            </li>
+            <li><strong>Full Subtractor:</strong>
+                <ul>
+                    <li>D = A ⊕ B ⊕ Bin</li>
+                    <li>Bout = A'·B + A'·Bin + B·Bin</li>
+                </ul>
+            </li>
+            <li><strong>Two's Complement Subtraction:</strong> A - B = A + (two's complement of B)</li>
         </ul>
     </div>
 
+    <!-- ========== 4.3 ========== -->
     <div class="section">
-        <h2><b>4.3 Decoder and Encoder</b></h2>
-        <p>Decoders and encoders are combinational circuits used for data selection and conversion.</p>
+        <h2>4.3 Decoder and Encoder</h2>
+        <p><strong>Decoders</strong> and <strong>encoders</strong> are combinational circuits used for data selection and conversion.</p>
+
+        <h3>Decoder</h3>
         <ul>
-            <li><strong>Decoder:</strong> Converts a binary input code to activate one of many outputs.
+            <li><strong>Function:</strong> Converts binary input to activate one of many outputs.</li>
+            <li><strong>Example:</strong> 2-to-4 Decoder
                 <ul>
-                    <li>Example: 2-to-4 decoder has 2 inputs (A₁, A₀) and 4 outputs (D₀ to D₃). Only one output is 1 based on input. Truth table:
-                        <table>
-                            <tr><th>A₁</th><th>A₀</th><th>D₀</th><th>D₁</th><th>D₂</th><th>D₃</th></tr>
-                            <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
-                            <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
-                            <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
-                            <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
-                        </table>
-                    </li>
-                    <li><strong>Logic:</strong> <em>D₀ = A₁'A₀'</em>, <em>D₁ = A₁'A₀</em>, <em>D₂ = A₁A₀'</em>, <em>D₃ = A₁A₀</em>.</li>
+                    <li><strong>Inputs:</strong> A₁, A₀ (2 bits)</li>
+                    <li><strong>Outputs:</strong> D₀, D₁, D₂, D₃ (4 outputs)</li>
                 </ul>
             </li>
-            <li><strong>Encoder:</strong> Converts one active input (from many) to a binary output code.
+        </ul>
+        <table>
+            <tr><th>A₁</th><th>A₀</th><th>D₀</th><th>D₁</th><th>D₂</th><th>D₃</th></tr>
+            <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+            <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+            <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+        </table>
+        <div class="code-block">
+            <span>// Decoder logic equations</span><br>
+            D₀ = A₁' · A₀'<br>
+            D₁ = A₁' · A₀<br>
+            D₂ = A₁ · A₀'<br>
+            D₃ = A₁ · A₀
+        </div>
+
+        <h3>Encoder</h3>
+        <ul>
+            <li><strong>Function:</strong> Converts one active input to a binary output code.</li>
+            <li><strong>Example:</strong> 4-to-2 Encoder
                 <ul>
-                    <li>Example: 4-to-2 encoder has 4 inputs (D₀ to D₃) and 2 outputs (A₁, A₀). Only one input is 1. Outputs: <em>A₁ = D₂ + D₃</em>, <em>A₀ = D₁ + D₃</em>.</li>
-                    <li><strong>Priority Encoder:</strong> Handles multiple active inputs by prioritizing the highest-indexed input.</li>
+                    <li><strong>Inputs:</strong> D₀, D₁, D₂, D₃</li>
+                    <li><strong>Outputs:</strong> A₁, A₀</li>
                 </ul>
             </li>
-            <li><strong>Applications:</strong> Decoders in memory addressing; encoders in keyboards and data compression.</li>
+            <li><strong>Priority Encoder:</strong> Handles multiple active inputs by prioritizing the highest-indexed input.</li>
         </ul>
     </div>
 
+    <!-- ========== 4.4 ========== -->
     <div class="section">
-        <h2><b>4.4 Multiplexer and Demultiplexer</b></h2>
-        <p>Multiplexers and demultiplexers route data by selecting inputs or distributing outputs.</p>
+        <h2>4.4 Multiplexer and Demultiplexer</h2>
+        <p><strong>Multiplexers</strong> and <strong>demultiplexers</strong> route data by selecting inputs or distributing outputs.</p>
+
+        <h3>Multiplexer (MUX)</h3>
         <ul>
-            <li><strong>Multiplexer (MUX):</strong> Selects one of many inputs to a single output based on select lines.
+            <li><strong>Function:</strong> Selects one of many inputs to a single output based on select lines.</li>
+            <li><strong>Example:</strong> 4-to-1 MUX
                 <ul>
-                    <li>Example: 4-to-1 MUX with 4 inputs (D₀ to D₃), 2 select lines (S₁, S₀), and 1 output (Y). Output: <em>Y = S₁'S₀'D₀ + S₁'S₀D₁ + S₁S₀'D₂ + S₁S₀D₃</em>.</li>
-                    <li><strong>Truth Table (4-to-1 MUX):</strong>
-                        <table>
-                            <tr><th>S₁</th><th>S₀</th><th>Y</th></tr>
-                            <tr><td>0</td><td>0</td><td>D₀</td></tr>
-                            <tr><td>0</td><td>1</td><td>D₁</td></tr>
-                            <tr><td>1</td><td>0</td><td>D₂</td></tr>
-                            <tr><td>1</td><td>1</td><td>D₃</td></tr>
-                        </table>
-                    </li>
+                    <li><strong>Inputs:</strong> D₀, D₁, D₂, D₃</li>
+                    <li><strong>Select Lines:</strong> S₁, S₀</li>
+                    <li><strong>Output:</strong> Y = S₁'S₀'D₀ + S₁'S₀D₁ + S₁S₀'D₂ + S₁S₀D₃</li>
                 </ul>
             </li>
-            <li><strong>Demultiplexer (DEMUX):</strong> Routes one input to one of many outputs based on select lines.
+        </ul>
+        <table>
+            <tr><th>S₁</th><th>S₀</th><th>Y</th></tr>
+            <tr><td>0</td><td>0</td><td>D₀</td></tr>
+            <tr><td>0</td><td>1</td><td>D₁</td></tr>
+            <tr><td>1</td><td>0</td><td>D₂</td></tr>
+            <tr><td>1</td><td>1</td><td>D₃</td></tr>
+        </table>
+
+        <h3>Demultiplexer (DEMUX)</h3>
+        <ul>
+            <li><strong>Function:</strong> Routes one input to one of many outputs based on select lines.</li>
+            <li><strong>Example:</strong> 1-to-4 DEMUX
                 <ul>
-                    <li>Example: 1-to-4 DEMUX with 1 input (D), 2 select lines (S₁, S₀), and 4 outputs (Y₀ to Y₃). Outputs: <em>Y₀ = S₁'S₀'D</em>, <em>Y₁ = S₁'S₀D</em>, <em>Y₂ = S₁S₀'D</em>, <em>Y₃ = S₁S₀D</em>.</li>
+                    <li><strong>Input:</strong> D</li>
+                    <li><strong>Select Lines:</strong> S₁, S₀</li>
+                    <li><strong>Outputs:</strong> Y₀ = S₁'S₀'D, Y₁ = S₁'S₀D, Y₂ = S₁S₀'D, Y₃ = S₁S₀D</li>
                 </ul>
             </li>
-            <li><strong>Applications:</strong> MUX in data selection (e.g., CPU registers); DEMUX in data distribution (e.g., memory systems).</li>
         </ul>
     </div>
 
+    <!-- ========== 4.5 ========== -->
     <div class="section">
-        <h2><b>4.5 Code Conversion (8421, BCD, Gray, Excess-3, 2421)</b></h2>
-        <p>Code conversion transforms numbers between different binary coding schemes used in digital systems.</p>
-        <ul>
-            <li><strong>8421 (BCD):</strong> Each decimal digit is represented by a 4-bit binary code (0000 to 1001). Example: <em>45₁₀ = 0100 0101_BCD</em>.</li>
-            <li><strong>Gray Code:</strong> Adjacent numbers differ by one bit. Example: <em>3₁₀ = 010_Gray</em>, <em>4₁₀ = 110_Gray</em>. Conversion from binary: <em>Gᵢ = Bᵢ ⊕ Bᵢ₊₁</em> (B₀ = G₀).</li>
-            <li><strong>Excess-3:</strong> BCD code plus 3. Example: <em>5₁₀ = 0101_BCD = 1000_Excess-3</em> (0101 + 0011).</li>
-            <li><strong>2421 Code:</strong> Weighted code with weights 2, 4, 2, 1. Example: <em>5₁₀ = 0101_2421</em> (0·2 + 1·4 + 0·2 + 1·1 = 5).</li>
-            <li><strong>Conversion Example:</strong> Convert BCD <em>0101</em> to Gray. BCD <em>0101 = 5₁₀</em>. Binary <em>5 = 0101</em>. Gray: <em>G₃ = 0 ⊕ 1 = 1</em>, <em>G₂ = 1 ⊕ 0 = 1</em>, <em>G₁ = 0 ⊕ 1 = 1</em>, <em>G₀ = 1</em>. Result: <em>1111_Gray</em>.</li>
-            <li><strong>Applications:</strong> BCD in calculators, Gray in error-free encoding (e.g., rotary encoders), Excess-3 in arithmetic circuits.</li>
-        </ul>
-    </div>
+        <h2>4.5 Code Conversion (8421, BCD, Gray, Excess-3, 2421)</h2>
+        <p><strong>Code conversion</strong> transforms numbers between different binary coding schemes used in digital systems.</p>
 
-    <div class="section">
-        <h2><b>4.6 Programmable Logic Device (PROM)</b></h2>
-        <p>Programmable Read-Only Memory (PROM) is a combinational logic device used to implement complex Boolean functions.</p>
+        <h3>Code Types</h3>
+        <table>
+            <tr><th>Code</th><th>Description</th><th>Example (5₁₀)</th></tr>
+            <tr><td>8421 (BCD)</td><td>Binary Coded Decimal — each decimal digit in 4-bit binary</td><td>0101</td></tr>
+            <tr><td>Gray</td><td>Adjacent numbers differ by one bit</td><td>0111</td></tr>
+            <tr><td>Excess-3</td><td>BCD + 3</td><td>1000</td></tr>
+            <tr><td>2421</td><td>Weighted code with weights 2,4,2,1</td><td>0101</td></tr>
+        </table>
+
+        <h3>Binary to Gray Code Conversion</h3>
         <ul>
-            <li><strong>Definition:</strong> PROM is a memory device with a fixed AND array (decodes inputs to minterms) and a programmable OR array (connects minterms to outputs). It stores truth tables for Boolean functions.</li>
-            <li><strong>Structure:</strong>
+            <li><strong>Formula:</strong> Gₙ = Bₙ, Gᵢ = Bᵢ ⊕ Bᵢ₊₁</li>
+            <li><strong>Example:</strong> Binary 0101 (5₁₀)
                 <ul>
-                    <li><strong>AND Array:</strong> Fixed, generates all possible minterms for input combinations.</li>
-                    <li><strong>OR Array:</strong> Programmable fuses connect minterms to outputs, defining the function.</li>
-                    <li>Example: For <em>F(A, B) = A'B + AB</em>, PROM stores 1s for minterms <em>m₁, m₃</em> at the output.</li>
+                    <li>G₃ = B₃ = 0</li>
+                    <li>G₂ = B₂ ⊕ B₃ = 1 ⊕ 0 = 1</li>
+                    <li>G₁ = B₁ ⊕ B₂ = 0 ⊕ 1 = 1</li>
+                    <li>G₀ = B₀ ⊕ B₁ = 1 ⊕ 0 = 1</li>
+                    <li>Result: 0111_Gray</li>
                 </ul>
             </li>
-            <li><strong>Programming:</strong> Fuses are blown to configure the OR array, making PROM one-time programmable.</li>
-            <li><strong>Applications:</strong> Used in microcontrollers, lookup tables, and implementing combinational logic in embedded systems.</li>
         </ul>
+
+        <h3>Gray to Binary Code Conversion</h3>
+        <ul>
+            <li><strong>Formula:</strong> Bₙ = Gₙ, Bᵢ = Bᵢ₊₁ ⊕ Gᵢ</li>
+            <li><strong>Example:</strong> Gray 0111 → Binary 0101</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// BCD to Excess-3 Conversion</span><br>
+            BCD + 3 = Excess-3<br>
+            Example: 0101 + 0011 = 1000<br><br>
+            <span>// 2421 Code Weights</span><br>
+            <span>// 5 = 0·2 + 1·4 + 0·2 + 1·1 = 0101</span>
+        </div>
+    </div>
+
+    <!-- ========== 4.6 ========== -->
+    <div class="section">
+        <h2>4.6 Programmable Logic Device (PROM)</h2>
+        <p><strong>Programmable Read-Only Memory (PROM)</strong> is a combinational logic device used to implement complex Boolean functions.</p>
+
+        <h3>Structure</h3>
+        <ul>
+            <li><strong>AND Array:</strong> Fixed — generates all possible minterms for input combinations.</li>
+            <li><strong>OR Array:</strong> Programmable — fuses connect minterms to outputs.</li>
+            <li><strong>Example:</strong> For F(A,B) = A'B + AB, PROM stores 1s for minterms m₁, m₃ at the output.</li>
+        </ul>
+
+        <h3>PROM Programming</h3>
+        <ul>
+            <li>Fuses are blown to configure the OR array.</li>
+            <li>One-time programmable (OTP).</li>
+            <li>Stores truth tables for Boolean functions.</li>
+        </ul>
+
+        <h3>Applications</h3>
+        <ul>
+            <li>Microcontrollers</li>
+            <li>Lookup tables</li>
+            <li>Implementing combinational logic in embedded systems</li>
+            <li>Boot code storage in embedded devices</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+PROM Structure:
+Inputs → [AND Array (Fixed)] → Minterms → [OR Array (Programmable)] → Outputs
+                                          ↑
+                                      Fuses (blown to configure)
+            </pre>
+        </div>
+
+        <div class="note-box">
+            <strong>🔑 Key insight:</strong> PROMs are useful for implementing functions that may change during development. PALs and PLAs offer more flexibility with programmable AND and OR arrays.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 4 summary</strong><br>Combinational logic circuits produce outputs based on current inputs. Key components include adders, subtractors, decoders, encoders, multiplexers, demultiplexers, code converters, and PROMs.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Combinational circuits: no memory, output = f(input).<br>• Adders: half, full, ripple carry.<br>• Subtractors: half, full, two's complement.<br>• Decoder: n inputs → 2ⁿ outputs.<br>• Encoder: 2ⁿ inputs → n outputs.<br>• MUX: selects one of many inputs.<br>• DEMUX: routes one input to many outputs.<br>• Code conversion: BCD, Gray, Excess-3, 2421.<br>• PROM: fixed AND, programmable OR.</div>
     </div>
 </body>
 </html>

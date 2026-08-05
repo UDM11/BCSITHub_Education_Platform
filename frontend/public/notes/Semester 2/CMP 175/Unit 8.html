@@ -1,235 +1,468 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generics in Java</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 8: Generics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-    <h1><b>Unit 8: Generics</b></h1>
+    <h1>Unit 8: Generics</h1>
+    <div class="subhead">Advantages · generic classes · generic methods · generic constructors · polymorphism & wildcards</div>
 
+    <!-- ========== 8.1 ========== -->
     <div class="section">
-        <h2><b>8.1 Advantages of Using Generics</b></h2>
-        <p><b>Generics</b> in Java, introduced in Java 5, allow classes, interfaces, and methods to operate on parameterized types, providing type safety and flexibility. They enable developers to write reusable code that works with different data types without sacrificing compile-time type checking.</p>
+        <h2>8.1 Advantages of Using Generics</h2>
+        <p><strong>Generics</strong> in Java, introduced in Java 5, allow classes, interfaces, and methods to operate on parameterized types, providing type safety and flexibility. They enable developers to write reusable code that works with different data types without sacrificing compile-time type checking.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🛡️ Type Safety</strong><br>Generics ensure that only the specified type is used, preventing runtime errors like <code>ClassCastException</code>.</div>
+            <div class="card"><strong>♻️ Code Reusability</strong><br>Generic classes and methods can work with any data type, reducing code duplication.</div>
+            <div class="card"><strong>⬇️ Elimination of Casts</strong><br>Generics remove the need for explicit type casting when retrieving objects from collections.</div>
+            <div class="card"><strong>🔍 Compile-Time Checking</strong><br>Type errors are caught at compile-time rather than runtime, improving reliability.</div>
+        </div>
+
+        <div class="code-block">
+            <span>// Without Generics (requires casting)</span><br>
+            ArrayList list = new ArrayList();<br>
+            list.add("Hello");<br>
+            String str = (String) list.get(0);  <span>// Explicit cast</span><br><br>
+            <span>// With Generics (no casting needed)</span><br>
+            ArrayList<String> genericList = new ArrayList<>();<br>
+            genericList.add("Hello");<br>
+            String genericStr = genericList.get(0);  <span>// No cast needed</span>
+        </div>
+
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> Generics shift type checking to compile time, making code safer, more readable, and more maintainable. They are especially useful with collections.
+        </div>
+    </div>
+
+    <!-- ========== 8.2 ========== -->
+    <div class="section">
+        <h2>8.2 Generic Classes</h2>
+        <p>A <strong>generic class</strong> is a class that can operate on a parameterized type, defined using type parameters in angle brackets (<code>&lt;T&gt;</code>). The type parameter acts as a placeholder for the actual type used when the class is instantiated.</p>
+
+        <h3>Syntax</h3>
+        <div class="code-block">
+            public class ClassName&lt;T&gt; {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;private T field;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public void set(T value) { this.field = value; }<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public T get() { return field; }<br>
+            }
+        </div>
+
+        <div class="code-block">
+            <span>// Generic Class Example</span><br>
+            public class Box&lt;T&gt; {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;private T content;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public void setContent(T content) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.content = content;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public T getContent() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return content;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Box&lt;Integer&gt; intBox = new Box&lt;&gt;();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intBox.setContent(123);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Integer Box: " + intBox.getContent());<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Box&lt;String&gt; strBox = new Box&lt;&gt;();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strBox.setContent("Hello");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("String Box: " + strBox.getContent());<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <h3>Multiple Type Parameters</h3>
+        <div class="code-block">
+            public class Pair&lt;K, V&gt; {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;private K key;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;private V value;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public Pair(K key, V value) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.key = key;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.value = value;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public K getKey() { return key; }<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public V getValue() { return value; }<br>
+            }<br><br>
+            Pair&lt;String, Integer&gt; pair = new Pair&lt;&gt;("Age", 25);
+        </div>
+    </div>
+
+    <!-- ========== 8.3 ========== -->
+    <div class="section">
+        <h2>8.3 Generic Methods</h2>
+        <p><strong>Generic methods</strong> are methods that introduce their own type parameters, independent of the class's type parameters. They are defined with a type parameter before the return type.</p>
+
+        <h3>Syntax</h3>
+        <div class="code-block">
+            public &lt;T&gt; returnType methodName(T parameter) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// method body</span><br>
+            }
+        </div>
+
+        <div class="code-block">
+            <span>// Generic Method Example</span><br>
+            public class GenericMethodExample {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Generic method</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static &lt;T&gt; void printArray(T[] array) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (T element : array) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(element + " ");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Integer[] intArray = {1, 2, 3};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] strArray = {"A", "B", "C"};<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printArray(intArray);  <span>// Output: 1 2 3</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printArray(strArray);  <span>// Output: A B C</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <div class="code-block">
+            <span>// Generic method with return type</span><br>
+            public static &lt;T&gt; T getMiddle(T... items) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return items[items.length / 2];<br>
+            }<br><br>
+            String middle = getMiddle("A", "B", "C", "D", "E");  <span>// "C"</span>
+        </div>
+    </div>
+
+    <!-- ========== 8.4 ========== -->
+    <div class="section">
+        <h2>8.4 Generic Constructors</h2>
+        <p><strong>Generic constructors</strong> allow constructors to use type parameters, either from the class or independently. They are useful when the constructor needs to handle different types dynamically.</p>
+
+        <div class="code-block">
+            <span>// Generic Constructor Example</span><br>
+            public class GenericConstructor&lt;T&gt; {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;private T data;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// Generic constructor with independent type parameter</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public &lt;U&gt; GenericConstructor(U data) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.data = (T) data;  <span>// Cast required if U != T</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Data: " + data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public T getData() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return data;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GenericConstructor&lt;String&gt; strObj =<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new GenericConstructor&lt;&gt;("Test");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Stored: " + strObj.getData());<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GenericConstructor&lt;Integer&gt; intObj =<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new GenericConstructor&lt;&gt;(100);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Stored: " + intObj.getData());<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <div class="code-block">
+            <span>// Better approach: Constructor with same type as class</span><br>
+            public GenericConstructor(T data) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;this.data = data;<br>
+            }<br><br>
+            GenericConstructor&lt;String&gt; obj = new GenericConstructor&lt;&gt;("Hello");
+        </div>
+    </div>
+
+    <!-- ========== 8.5 ========== -->
+    <div class="section">
+        <h2>8.5 Polymorphism in Generics</h2>
+        <p><strong>Polymorphism in generics</strong> allows generic types to work with class hierarchies, using bounded type parameters to restrict the types that can be used.</p>
+
+        <h3>Upper Bounded Types</h3>
         <ul>
-            <li><b>Type Safety:</b> Generics ensure that only the specified type is used, preventing runtime errors like <code>ClassCastException</code>.</li>
-            <li><b>Code Reusability:</b> Generic classes and methods can work with any data type, reducing code duplication.</li>
-            <li><b>Elimination of Casts:</b> Generics remove the need for explicit type casting when retrieving objects from collections.</li>
-            <li><b>Compile-Time Checking:</b> Type errors are caught at compile-time rather than runtime, improving reliability.</li>
+            <li>Restrict the type to a class or its subclasses using <code>&lt;T extends Class&gt;</code>.</li>
+            <li>Example: <code>&lt;T extends Number&gt;</code> allows Integer, Double, Float, etc.</li>
         </ul>
-        <p>Example (Without vs. With Generics):</p>
-        <pre>
-import java.util.ArrayList;
 
-public class GenericsAdvantage {
-    public static void main(String[] args) {
-        // Without Generics
-        ArrayList list = new ArrayList();
-        list.add("Hello");
-        String str = (String) list.get(0); // Requires casting
+        <div class="code-block">
+            <span>// Upper Bounded Generic Method</span><br>
+            public static &lt;T extends Number&gt; double sum(T num1, T num2) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return num1.doubleValue() + num2.doubleValue();<br>
+            }<br><br>
+            System.out.println(sum(10, 20));      <span>// 30.0</span><br>
+            System.out.println(sum(10.5, 20.5));  <span>// 31.0</span>
+        </div>
 
-        // With Generics
-        ArrayList<String> genericList = new ArrayList<>();
-        genericList.add("Hello");
-        String genericStr = genericList.get(0); // No casting needed
-    }
-}
-        </pre>
-    </div>
-
-    <div class="section">
-        <h2><b>8.2 Generic Classes</b></h2>
-        <p>A <b>generic class</b> is a class that can operate on a parameterized type, defined using type parameters in angle brackets (<code><T></code>). The type parameter acts as a placeholder for the actual type used when the class is instantiated.</p>
-        <p>Example:</p>
-        <pre>
-public class Box<T> {
-    private T content;
-
-    public void setContent(T content) {
-        this.content = content;
-    }
-
-    public T getContent() {
-        return content;
-    }
-
-    public static void main(String[] args) {
-        Box<Integer> intBox = new Box<>();
-        intBox.setContent(123);
-        System.out.println("Integer Box: " + intBox.getContent());
-
-        Box<String> strBox = new Box<>();
-        strBox.setContent("Hello");
-        System.out.println("String Box: " + strBox.getContent());
-    }
-}
-        </pre>
-        <p>In this example, <code>Box<T></code> is a generic class that can hold any type, specified when creating instances like <code>Box<Integer></code> or <code>Box<String></code>.</p>
-    </div>
-
-    <div class="section">
-        <h2><b>8.3 Generic Methods</b></h2>
-        <p><b>Generic methods</b> are methods that introduce their own type parameters, independent of the class’s type parameters. They are defined with a type parameter before the return type.</p>
-        <p>Example:</p>
-        <pre>
-public class GenericMethodExample {
-    // Generic method
-    public static <T> void printArray(T[] array) {
-        for (T element : array) {
-            System.out.print(element + " ");
-        }
-        System.out.println();
-    }
-
-    public static void main(String[] args) {
-        Integer[] intArray = {1, 2, 3};
-        String[] strArray = {"A", "B", "C"};
-
-        printArray(intArray); // Output: 1 2 3
-        printArray(strArray); // Output: A B C
-    }
-}
-        </pre>
-        <p>The method <code>printArray</code> uses a type parameter <code>T</code> to handle arrays of any type.</p>
-    </div>
-
-    <div class="section">
-        <h2><b>8.4 Generic Constructors</b></h2>
-        <p><b>Generic constructors</b> allow constructors to use type parameters, either from the class or independently. They are useful when the constructor needs to handle different types dynamically.</p>
-        <p>Example:</p>
-        <pre>
-public class GenericConstructor<T> {
-    private T data;
-
-    // Generic constructor
-     GenericConstructor(U data) {
-        this.data = (T) data; // Cast required if U is not guaranteed to be T
-        System.out.println("Data: " + data);
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public static void main(String[] args) {
-        GenericConstructor<String> strObj = new GenericConstructor<>("Test");
-        System.out.println("Stored: " + strObj.getData());
-
-        GenericConstructor<Integer> intObj = new GenericConstructor<>(100);
-        System.out.println("Stored: " + intObj.getData());
-    }
-}
-        </pre>
-        <p>In this example, the constructor accepts a type <code>U</code> and assigns it to the class’s type <code>T</code>.</p>
-    </div>
-
-    <div class="section">
-        <h2><b>8.5 Polymorphism in Generics</b></h2>
-        <p><b>Polymorphism in generics</b> allows generic types to work with class hierarchies, using bounded type parameters to restrict the types that can be used. There are two main types of bounds:</p>
+        <h3>Wildcards (?) for Polymorphism</h3>
         <ul>
-            <li><b>Upper Bounded Types:</b> Restrict the type to a class or its subclasses using <code><T extends Class></code>.</li>
-            <li><b>Lower Bounded Types:</b> Restrict the type to a class or its superclasses using <code><T super Class></code>.</li>
+            <li><strong>Unbounded Wildcard:</strong> <code>&lt;?&gt;</code> — Any type.</li>
+            <li><strong>Upper Bounded Wildcard:</strong> <code>&lt;? extends Class&gt;</code> — Class or subclasses.</li>
+            <li><strong>Lower Bounded Wildcard:</strong> <code>&lt;? super Class&gt;</code> — Class or superclasses.</li>
         </ul>
-        <p>Example (Upper Bounded Generic):</p>
-        <pre>
-public class BoundedGeneric {
-    // Generic method with upper bound
-    public static <T extends Number> double sum(T num1, T num2) {
-        return num1.doubleValue() + num2.doubleValue();
-    }
 
-    public static void main(String[] args) {
-        System.out.println("Sum of Integers: " + sum(10, 20)); // Output: 30.0
-        System.out.println("Sum of Doubles: " + sum(10.5, 20.5)); // Output: 31.0
-    }
-}
-        </pre>
-        <p>Example (Using Wildcards for Polymorphism):</p>
-        <pre>
-import java.util.*;
+        <div class="code-block">
+            <span>// Wildcard Example - Upper Bound</span><br>
+            import java.util.*;<br><br>
+            public static void printList(List&lt;? extends Number&gt; list) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (Number num : list) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(num + " ");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;System.out.println();<br>
+            }<br><br>
+            List&lt;Integer&gt; intList = Arrays.asList(1, 2, 3);<br>
+            List&lt;Double&gt; doubleList = Arrays.asList(1.1, 2.2, 3.3);<br><br>
+            printList(intList);    <span>// 1 2 3</span><br>
+            printList(doubleList); <span>// 1.1 2.2 3.3</span>
+        </div>
 
-public class WildcardExample {
-    // Method with wildcard for polymorphism
-    public static void printList(List<? extends Number> list) {
-        for (Number num : list) {
-            System.out.print(num + " ");
-        }
-        System.out.println();
-    }
+        <h3>Bounded Type Parameters Summary</h3>
+        <table>
+            <tr><th>Type</th><th>Syntax</th><th>Usage</th></tr>
+            <tr><td>Upper Bound</td><td>&lt;T extends Class&gt;</td><td>T must be Class or subclass</td></tr>
+            <tr><td>Upper Bound Wildcard</td><td>&lt;? extends Class&gt;</td><td>Any subclass of Class</td></tr>
+            <tr><td>Lower Bound Wildcard</td><td>&lt;? super Class&gt;</td><td>Any superclass of Class</td></tr>
+            <tr><td>Unbounded Wildcard</td><td>&lt;?&gt;</td><td>Any type</td></tr>
+        </table>
 
-    public static void main(String[] args) {
-        List<Integer> intList = Arrays.asList(1, 2, 3);
-        List<Double> doubleList = Arrays.asList(1.1, 2.2, 3.3);
+        <div class="code-block">
+            <span>// Lower Bound Wildcard Example</span><br>
+            public static void addNumbers(List&lt;? super Integer&gt; list) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;list.add(10);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;list.add(20);<br>
+            }<br><br>
+            List&lt;Number&gt; numList = new ArrayList&lt;&gt;();<br>
+            addNumbers(numList);  <span>// Works because Number is superclass of Integer</span>
+        </div>
 
-        printList(intList); // Output: 1 2 3
-        printList(doubleList); // Output: 1.1 2.2 3.3
-    }
-}
-        </pre>
-        <p>Wildcards (<code>?</code>) and bounded types enable flexible and polymorphic behavior in generic code, allowing methods to handle related types in a type-safe manner.</p>
+        <div class="note-box">
+            <strong>🔑 Key insight:</strong> Bounded types and wildcards enable flexible, type-safe polymorphic behavior in generic code. Use upper bounds for reading, lower bounds for writing, and PECS (Producer Extends, Consumer Super) principle.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 8 summary</strong><br>Generics provide type safety and reusability through parameterized types. Key concepts include generic classes, methods, constructors, and bounded types.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Advantages: type safety, reusability, no casts.<br>• Generic classes: &lt;T&gt; type parameter.<br>• Generic methods: &lt;T&gt; before return type.<br>• Generic constructors: independent type parameters.<br>• Upper bounds: &lt;T extends Class&gt;.<br>• Wildcards: ? (unbounded), ? extends (upper), ? super (lower).<br>• PECS: Producer Extends, Consumer Super.</div>
     </div>
 </body>
 </html>

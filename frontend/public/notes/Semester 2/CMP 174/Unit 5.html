@@ -1,191 +1,492 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 5: Sequential Logic</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            color: black;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
         }
         li {
-            margin-bottom: 10px;
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
         }
         table {
+            width: 100%;
             border-collapse: collapse;
-            margin: 10px 0;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
-        th, td {
-            border: 1px solid black;
-            padding: 5px;
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
             text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
         }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
         }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
         }
-        h2 {
-            font-size: 1rem; /* smaller sub-header */
-        }
-        .section {
-            padding: 8px; /* less padding for small screens */
-        }
-    }
     </style>
 </head>
 <body>
-    <h1><b>Unit 5: Sequential Logic</b></h1>
+    <h1>Unit 5: Sequential Logic</h1>
+    <div class="subhead">Sequential circuits · triggering · flip-flops (RS, JK, T, D, master-slave) · state diagrams · state tables</div>
 
+    <!-- ========== 5.1 ========== -->
     <div class="section">
-        <h2><b>5.1 Types of Sequential Logic Circuit</b></h2>
-        <p>Sequential logic circuits have outputs that depend on both current inputs and previous states (memory), unlike combinational circuits, which depend only on current inputs.</p>
+        <h2>5.1 Types of Sequential Logic Circuit</h2>
+        <p><strong>Sequential logic circuits</strong> have outputs that depend on both current inputs and previous states (memory), unlike combinational circuits, which depend only on current inputs.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>⏱️ Definition</strong><br>Sequential circuits incorporate memory elements, enabling them to store and process information over time. Examples: Counters, registers, flip-flops.</div>
+            <div class="card"><strong>📋 Types</strong><br>Synchronous (clock-driven) and Asynchronous (input-driven). Components include flip-flops, latches, and combinational logic.</div>
+        </div>
+
+        <h3>Synchronous vs Asynchronous</h3>
+        <table>
+            <tr><th>Feature</th><th>Synchronous</th><th>Asynchronous</th></tr>
+            <tr><td>Clock Signal</td><td>Yes (all operations synchronized)</td><td>No (operations depend on input changes)</td></tr>
+            <tr><td>Stability</td><td>More reliable, predictable timing</td><td>Less reliable, race conditions possible</td></tr>
+            <tr><td>Example</td><td>Edge-triggered flip-flops</td><td>Unclocked latches</td></tr>
+            <tr><td>Applications</td><td>CPUs, counters, shift registers</td><td>Simple control circuits</td></tr>
+        </table>
+
+        <h3>Applications</h3>
         <ul>
-            <li><strong>Definition:</strong> Sequential circuits incorporate memory elements, enabling them to store and process information over time. Example: Counters, registers.</li>
+            <li>Memory units (RAM, registers)</li>
+            <li>Counters and timers</li>
+            <li>Shift registers</li>
+            <li>Finite state machines in processors and controllers</li>
+        </ul>
+    </div>
+
+    <!-- ========== 5.2 ========== -->
+    <div class="section">
+        <h2>5.2 Triggering of Flip-Flops</h2>
+        <p><strong>Triggering</strong> determines how and when a flip-flop changes its state based on input signals and clock events.</p>
+
+        <h3>Level Triggering</h3>
+        <ul>
+            <li><strong>Definition:</strong> Flip-flop responds to input levels (high or low).</li>
+            <li><strong>Example:</strong> Latches change state as long as the enable signal is active.</li>
+            <li><strong>Drawback:</strong> Sensitive to noise during the active level.</li>
+        </ul>
+
+        <h3>Edge Triggering</h3>
+        <ul>
+            <li><strong>Definition:</strong> Flip-flop responds to the rising (positive) or falling (negative) edge of a clock signal.</li>
             <li><strong>Types:</strong>
                 <ul>
-                    <li><strong>Synchronous Sequential Circuits:</strong> Operations are synchronized with a clock signal. Example: Flip-flops triggered by clock pulses.</li>
-                    <li><strong>Asynchronous Sequential Circuits:</strong> Operations depend on input changes without a clock. Example: Circuits using unclocked latches.</li>
+                    <li><strong>Positive Edge (Rising Edge):</strong> State changes when clock transitions from 0 to 1.</li>
+                    <li><strong>Negative Edge (Falling Edge):</strong> State changes when clock transitions from 1 to 0.</li>
                 </ul>
             </li>
-            <li><strong>Components:</strong> Include flip-flops, latches, and combinational logic for state transitions.</li>
-            <li><strong>Applications:</strong> Used in memory units, counters, shift registers, and state machines in processors and controllers.</li>
+            <li><strong>Advantage:</strong> More stable, predictable timing.</li>
         </ul>
+
+        <div class="figure-box">
+            <pre>
+Clock Signal:
+   ┌─┐ ┌─┐ ┌─┐
+───┘ └─┘ └─┘ └─
+   ↑   ↑   ↑   ↑
+Positive Edge (Rising)
+   └───┘
+Negative Edge (Falling)
+            </pre>
+        </div>
+
+        <div class="code-block">
+            <span>// Edge Detection Logic</span><br>
+            <span>// Positive edge: clock goes from 0 to 1</span><br>
+            if (clk && !clk_prev) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Q = D;  <span>// Update state</span><br>
+            }<br>
+            clk_prev = clk;
+        </div>
+
+        <div class="note-box">
+            <strong>⏰ Key insight:</strong> Edge triggering is preferred in synchronous digital systems because it ensures that flip-flops update at precise clock edges, avoiding race conditions and timing hazards.
+        </div>
     </div>
 
+    <!-- ========== 5.3 ========== -->
     <div class="section">
-        <h2><b>5.2 Triggering of Flip-Flops</b></h2>
-        <p>Triggering determines how and when a flip-flop changes its state based on input signals and clock events.</p>
+        <h2>5.3 Flip-Flops (RS, JK, T, D, Master-Slave)</h2>
+        <p><strong>Flip-flops</strong> are basic memory elements in sequential circuits, storing one bit of information.</p>
+
+        <h3>RS (Set-Reset) Flip-Flop</h3>
         <ul>
-            <li><strong>Level Triggering:</strong> Flip-flop responds to input levels (high or low). Example: Latches change state as long as the enable signal is active. Drawback: Sensitive to noise during the active level.</li>
-            <li><strong>Edge Triggering:</strong> Flip-flop responds to the rising (positive) or falling (negative) edge of a clock signal. Example: Edge-triggered flip-flops update only at clock transitions, ensuring stability.</li>
-            <li><strong>Types of Edge Triggering:</strong>
+            <li><strong>Inputs:</strong> S (Set), R (Reset)</li>
+            <li><strong>Operation:</strong>
                 <ul>
-                    <li><strong>Positive Edge:</strong> State changes when clock transitions from 0 to 1.</li>
-                    <li><strong>Negative Edge:</strong> State changes when clock transitions from 1 to 0.</li>
+                    <li>S=1, R=0 → Q=1 (Set)</li>
+                    <li>S=0, R=1 → Q=0 (Reset)</li>
+                    <li>S=0, R=0 → Hold state</li>
+                    <li>S=1, R=1 → Invalid (race condition)</li>
                 </ul>
             </li>
-            <li><strong>Example:</strong> A D flip-flop with positive edge triggering updates its output to match the D input only at the rising clock edge.</li>
-            <li><strong>Applications:</strong> Edge triggering is used in synchronous circuits to ensure predictable timing in processors and memory systems.</li>
         </ul>
+        <table>
+            <tr><th>S</th><th>R</th><th>Q(next)</th></tr>
+            <tr><td>0</td><td>0</td><td>Q (Hold)</td></tr>
+            <tr><td>0</td><td>1</td><td>0 (Reset)</td></tr>
+            <tr><td>1</td><td>0</td><td>1 (Set)</td></tr>
+            <tr><td>1</td><td>1</td><td>Invalid</td></tr>
+        </table>
+
+        <h3>JK Flip-Flop</h3>
+        <ul>
+            <li><strong>Inputs:</strong> J, K, Clock</li>
+            <li><strong>Operation:</strong>
+                <ul>
+                    <li>J=0, K=0 → Hold</li>
+                    <li>J=0, K=1 → Reset (Q=0)</li>
+                    <li>J=1, K=0 → Set (Q=1)</li>
+                    <li>J=1, K=1 → Toggle (Q = Q')</li>
+                </ul>
+            </li>
+            <li><strong>Advantage:</strong> Resolves RS invalid state.</li>
+        </ul>
+        <table>
+            <tr><th>J</th><th>K</th><th>Q(next)</th></tr>
+            <tr><td>0</td><td>0</td><td>Q (Hold)</td></tr>
+            <tr><td>0</td><td>1</td><td>0 (Reset)</td></tr>
+            <tr><td>1</td><td>0</td><td>1 (Set)</td></tr>
+            <tr><td>1</td><td>1</td><td>Q' (Toggle)</td></tr>
+        </table>
+
+        <h3>T (Toggle) Flip-Flop</h3>
+        <ul>
+            <li><strong>Input:</strong> T, Clock</li>
+            <li><strong>Operation:</strong>
+                <ul>
+                    <li>T=0 → Hold</li>
+                    <li>T=1 → Toggle (Q = Q')</li>
+                </ul>
+            </li>
+            <li><strong>Derived from JK:</strong> J = K = T</li>
+        </ul>
+        <table>
+            <tr><th>T</th><th>Q(next)</th></tr>
+            <tr><td>0</td><td>Q (Hold)</td></tr>
+            <tr><td>1</td><td>Q' (Toggle)</td></tr>
+        </table>
+
+        <h3>D (Data) Flip-Flop</h3>
+        <ul>
+            <li><strong>Input:</strong> D, Clock</li>
+            <li><strong>Operation:</strong> Q follows D at the clock edge.</li>
+            <li><strong>Advantage:</strong> Prevents invalid states.</li>
+        </ul>
+        <table>
+            <tr><th>D</th><th>Q(next)</th></tr>
+            <tr><td>0</td><td>0</td></tr>
+            <tr><td>1</td><td>1</td></tr>
+        </table>
+
+        <h3>Master-Slave Flip-Flop</h3>
+        <ul>
+            <li><strong>Structure:</strong> Two flip-flops in series (Master and Slave).</li>
+            <li><strong>Operation:</strong>
+                <ul>
+                    <li>Master updates on clock active edge.</li>
+                    <li>Slave copies master on opposite clock edge.</li>
+                </ul>
+            </li>
+            <li><strong>Advantage:</strong> Prevents race conditions, ensures stable output.</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+Master-Slave Flip-Flop:
+Input → [Master] → [Slave] → Output
+         ↑          ↑
+         Clock     Clock
+         (active)  (opposite)
+            </pre>
+        </div>
     </div>
 
+    <!-- ========== 5.4 ========== -->
     <div class="section">
-        <h2><b>5.3 Flip-Flops (RS, JK, T, D, Master-Slave)</b></h2>
-        <p>Flip-flops are basic memory elements in sequential circuits, storing one bit of information.</p>
+        <h2>5.4 State Diagrams and State Tables</h2>
+        <p><strong>State diagrams</strong> and <strong>state tables</strong> describe the behavior of sequential circuits, showing how states transition based on inputs.</p>
+
+        <h3>State Diagram</h3>
         <ul>
-            <li><strong>RS Flip-Flop (Set-Reset):</strong>
-                <ul>
-                    <li>Inputs: S (Set), R (Reset). Outputs: Q, Q' (complement).</li>
-                    <li>Operation: S=1, R=0 sets Q=1; S=0, R=1 resets Q=0; S=0, R=0 holds state; S=1, R=1 is invalid (race condition).</li>
-                    <li>Truth Table:
-                        <table>
-                            <tr><th>S</th><th>R</th><th>Q(next)</th></tr>
-                            <tr><td>0</td><td>0</td><td>Q</td></tr>
-                            <tr><td>0</td><td>1</td><td>0</td></tr>
-                            <tr><td>1</td><td>0</td><td>1</td></tr>
-                            <tr><td>1</td><td>1</td><td>Invalid</td></tr>
-                        </table>
-                    </li>
-                </ul>
-            </li>
-            <li><strong>JK Flip-Flop:</strong>
-                <ul>
-                    <li>Inputs: J, K, Clock. Resolves RS invalid state. J=1, K=0 sets Q=1; J=0, K=1 resets Q=0; J=1, K=1 toggles Q; J=0, K=0 holds state.</li>
-                    <li>Truth Table:
-                        <table>
-                            <tr><th>J</th><th>K</th><th>Q(next)</th></tr>
-                            <tr><td>0</td><td>0</td><td>Q</td></tr>
-                            <tr><td>0</td><td>1</td><td>0</td></tr>
-                            <tr><td>1</td><td>0</td><td>1</td></tr>
-                            <tr><td>1</td><td>1</td><td>Q'</td></tr>
-                        </table>
-                    </li>
-                </ul>
-            </li>
-            <li><strong>T Flip-Flop (Toggle):</strong>
-                <ul>
-                    <li>Input: T, Clock. T=1 toggles Q; T=0 holds state. Derived from JK with J=K=T.</li>
-                    <li>Truth Table:
-                        <table>
-                            <tr><th>T</th><th>Q(next)</th></tr>
-                            <tr><td>0</td><td>Q</td></tr>
-                            <tr><td>1</td><td>Q'</td></tr>
-                        </table>
-                    </li>
-                </ul>
-            </li>
-            <li><strong>D Flip-Flop (Data):</strong>
-                <ul>
-                    <li>Input: D, Clock. Output Q follows D at clock edge. Prevents invalid states.</li>
-                    <li>Truth Table:
-                        <table>
-                            <tr><th>D</th><th>Q(next)</th></tr>
-                            <tr><td>0</td><td>0</td></tr>
-                            <tr><td>1</td><td>1</td></tr>
-                        </table>
-                    </li>
-                </ul>
-            </li>
-            <li><strong>Master-Slave Flip-Flop:</strong> Two flip-flops (master and slave) connected in series. Master updates on clock’s active edge; slave copies master on opposite edge, preventing race conditions. Example: Master-slave JK flip-flop ensures stable toggling.</li>
-            <li><strong>Applications:</strong> Flip-flops are used in registers, counters, and finite state machines.</li>
+            <li><strong>Definition:</strong> A graphical representation where nodes represent states, and directed edges show transitions based on inputs.</li>
+            <li><strong>Labels:</strong> Edges are labeled with input/output conditions.</li>
+            <li><strong>Example:</strong> 2-bit up-counter (00 → 01 → 10 → 11 → 00).</li>
         </ul>
+
+        <div class="figure-box">
+            <pre>
+State Diagram: 2-bit Up-Counter
+         Clock
+  ┌──────────────┐
+  │              ▼
+ 00 ── Clock ──→ 01
+  ▲              │
+  │              │ Clock
+  │  Clock       ▼
+  └────────────── 10
+        ▲          │
+        │  Clock   │
+        └──────────┘
+            </pre>
+        </div>
+
+        <h3>State Table</h3>
+        <ul>
+            <li><strong>Definition:</strong> A tabular representation of state transitions.</li>
+            <li><strong>Columns:</strong> Current State, Input, Next State, Output.</li>
+            <li><strong>Example:</strong> 2-bit up-counter state table.</li>
+        </ul>
+        <table>
+            <tr><th>Current State</th><th>Input (Clock)</th><th>Next State</th></tr>
+            <tr><td>00</td><td>1</td><td>01</td></tr>
+            <tr><td>01</td><td>1</td><td>10</td></tr>
+            <tr><td>10</td><td>1</td><td>11</td></tr>
+            <tr><td>11</td><td>1</td><td>00</td></tr>
+        </table>
+
+        <h3>Designing with State Diagrams</h3>
+        <ul>
+            <li><strong>Step 1:</strong> Identify states and inputs.</li>
+            <li><strong>Step 2:</strong> Draw state diagram.</li>
+            <li><strong>Step 3:</strong> Create state table.</li>
+            <li><strong>Step 4:</strong> Derive Boolean equations for next state and output.</li>
+            <li><strong>Step 5:</strong> Implement using flip-flops and combinational logic.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// State Table Example: JK Flip-Flop</span><br>
+            <span>// Current Q, J, K → Next Q</span><br>
+            <span>// 0, 0, 0 → 0</span><br>
+            <span>// 0, 0, 1 → 0</span><br>
+            <span>// 0, 1, 0 → 1</span><br>
+            <span>// 0, 1, 1 → 1</span><br>
+            <span>// 1, 0, 0 → 1</span><br>
+            <span>// 1, 0, 1 → 0</span><br>
+            <span>// 1, 1, 0 → 1</span><br>
+            <span>// 1, 1, 1 → 0</span>
+        </div>
+
+        <div class="note-box">
+            <strong>📊 Key insight:</strong> State diagrams and state tables are essential tools for designing and analyzing sequential circuits. They provide a systematic way to describe the behavior of counters, registers, and finite state machines.
+        </div>
     </div>
 
-    <div class="section">
-        <h2><b>5.4 State Diagrams and State Tables</b></h2>
-        <p>State diagrams and state tables describe the behavior of sequential circuits, showing how states transition based on inputs.</p>
-        <ul>
-            <li><strong>State Diagram:</strong> A graphical representation where nodes represent states (flip-flop outputs), and directed edges show transitions based on inputs, labeled with input/output. Example: A 2-bit counter (states 00, 01, 10, 11) has edges showing transitions (e.g., 00 → 01 on clock pulse).</li>
-            <li><strong>State Table:</strong> A tabular representation listing current states, inputs, next states, and outputs. Example: For a JK flip-flop:
-                <table>
-                    <tr><th>Current Q</th><th>J</th><th>K</th><th>Next Q</th></tr>
-                    <tr><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-                    <tr><td>0</td><td>0</td><td>1</td><td>0</td></tr>
-                    <tr><td>0</td><td>1</td><td>0</td><td>1</td></tr>
-                    <tr><td>0</td><td>1</td><td>1</td><td>1</td></tr>
-                    <tr><td>1</td><td>0</td><td>0</td><td>1</td></tr>
-                    <tr><td>1</td><td>0</td><td>1</td><td>0</td></tr>
-                    <tr><td>1</td><td>1</td><td>0</td><td>1</td></tr>
-                    <tr><td>1</td><td>1</td><td>1</td><td>0</td></tr>
-                </table>
-            </li>
-            <li><strong>Example:</strong> A 2-bit up-counter (states 00, 01, 10, 11). State diagram: 00 → 01 → 10 → 11 → 00 on clock pulses. State table:
-                <table>
-                    <tr><th>Current State</th><th>Input (Clock)</th><th>Next State</th></tr>
-                    <tr><td>00</td><td>1</td><td>01</td></tr>
-                    <tr><td>01</td><td>1</td><td>10</td></tr>
-                    <tr><td>10</td><td>1</td><td>11</td></tr>
-                    <tr><td>11</td><td>1</td><td>00</td></tr>
-                </table>
-            </li>
-            <li><strong>Applications:</strong> Used to design finite state machines, model sequential circuits, and analyze system behavior in controllers and processors.</li>
-        </ul>
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 5 summary</strong><br>Sequential logic circuits use memory elements (flip-flops) to store state. Key components include flip-flop types, triggering methods, and state diagrams/tables for design.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Sequential circuits: synchronous vs asynchronous.<br>• Triggering: level vs edge (positive/negative).<br>• Flip-flops: RS, JK, T, D, Master-Slave.<br>• State diagrams: graphical state transitions.<br>• State tables: tabular state transitions.<br>• Applications: counters, registers, finite state machines.</div>
     </div>
 </body>
 </html>

@@ -1,226 +1,494 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Streams in Java</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 6: Streams in Java</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-    <h1><b>Unit 6: Streams in Java</b></h1>
+    <h1>Unit 6: Streams in Java</h1>
+    <div class="subhead">Introduction · byte streams · character streams · I/O hierarchy · file streams · data streams · object streams</div>
 
+    <!-- ========== 6.1 ========== -->
     <div class="section">
-        <h2><b>6.1 Introduction to Stream, Byte Stream, and Character Stream</b></h2>
-        <p>A <b>stream</b> in Java is a sequence of data elements made available over time, used for input/output (I/O) operations such as reading from or writing to files, networks, or other sources. Java provides a robust I/O framework through the <code>java.io</code> package.</p>
+        <h2>6.1 Introduction to Stream, Byte Stream, and Character Stream</h2>
+        <p>A <strong>stream</strong> in Java is a sequence of data elements made available over time, used for input/output (I/O) operations such as reading from or writing to files, networks, or other sources. Java provides a robust I/O framework through the <code>java.io</code> package.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📥 What is a Stream?</strong><br>A stream is a sequence of data that flows between a program and an external source (file, network, etc.). It abstracts the details of the underlying data source.</div>
+            <div class="card"><strong>📤 Two Types of Streams</strong><br>Byte Streams (raw binary data) and Character Streams (text data with Unicode support).</div>
+        </div>
+
+        <h3>Byte Streams</h3>
         <ul>
-            <li><b>Byte Streams:</b> Handle raw binary data (bytes). Used for reading/writing data like images, audio, or raw files. Classes include <code>InputStream</code> and <code>OutputStream</code>.</li>
-            <li><b>Character Streams:</b> Handle text data (Unicode characters). Used for reading/writing text files or strings. Classes include <code>Reader</code> and <code>Writer</code>.</li>
+            <li><strong>Purpose:</strong> Handle raw binary data (bytes).</li>
+            <li><strong>Use Case:</strong> Reading/writing images, audio, video, or any binary file.</li>
+            <li><strong>Base Classes:</strong> <code>InputStream</code> (read), <code>OutputStream</code> (write).</li>
+            <li><strong>Examples:</strong> <code>FileInputStream</code>, <code>FileOutputStream</code>, <code>BufferedInputStream</code>.</li>
         </ul>
-        <p>Example (Byte Stream vs. Character Stream):</p>
-        <pre>
-import java.io.*;
 
-public class StreamExample {
-    public static void main(String[] args) throws IOException {
-        // Byte Stream
-        FileInputStream fis = new FileInputStream("bytefile.txt");
-        int data = fis.read(); // Reads a byte
-        fis.close();
+        <h3>Character Streams</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Handle text data (Unicode characters).</li>
+            <li><strong>Use Case:</strong> Reading/writing text files, strings, and other character-based data.</li>
+            <li><strong>Base Classes:</strong> <code>Reader</code> (read), <code>Writer</code> (write).</li>
+            <li><strong>Examples:</strong> <code>FileReader</code>, <code>FileWriter</code>, <code>BufferedReader</code>, <code>PrintWriter</code>.</li>
+        </ul>
 
-        // Character Stream
-        FileReader fr = new FileReader("charfile.txt");
-        int charData = fr.read(); // Reads a character
-        fr.close();
-    }
-}
-        </pre>
+        <div class="code-block">
+            <span>// Byte Stream Example</span><br>
+            import java.io.*;<br><br>
+            public class ByteStreamDemo {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) throws IOException {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileInputStream fis = new FileInputStream("image.jpg");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileOutputStream fos = new FileOutputStream("image_copy.jpg");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int data;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ((data = fis.read()) != -1) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fos.write(data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fis.close();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fos.close();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            <span>// Character Stream Example</span><br>
+            FileReader fr = new FileReader("text.txt");<br>
+            FileWriter fw = new FileWriter("text_copy.txt");<br>
+            int ch;<br>
+            while ((ch = fr.read()) != -1) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fw.write(ch);<br>
+            }<br>
+            fr.close();<br>
+            fw.close();
+        </div>
     </div>
 
+    <!-- ========== 6.2 ========== -->
     <div class="section">
-        <h2><b>6.2 I/O Class Hierarchy</b></h2>
+        <h2>6.2 I/O Class Hierarchy</h2>
         <p>The <code>java.io</code> package provides a hierarchy of classes for handling I/O operations. The main base classes are:</p>
-        <ul>
-            <li><b>InputStream:</b> Abstract class for byte input streams (e.g., <code>FileInputStream</code>, <code>ObjectInputStream</code>).</li>
-            <li><b>OutputStream:</b> Abstract class for byte output streams (e.g., <code>FileOutputStream</code>, <code>ObjectOutputStream</code>).</li>
-            <li><b>Reader:</b> Abstract class for character input streams (e.g., <code>FileReader</code>, <code>BufferedReader</code>).</li>
-            <li><b>Writer:</b> Abstract class for character output streams (e.g., <code>FileWriter</code>, <code>BufferedWriter</code>).</li>
-        </ul>
-        <p>Key characteristics:</p>
-        <ul>
-            <li>Byte stream classes handle raw binary data, while character stream classes handle text with proper encoding.</li>
-            <li>Buffered streams (e.g., <code>BufferedInputStream</code>, <code>BufferedReader</code>) improve performance by reducing direct access to underlying resources.</li>
-        </ul>
+
+        <h3>Byte Stream Hierarchy</h3>
+        <div class="figure-box">
+            <pre>
+InputStream (abstract)
+    ├── FileInputStream
+    ├── BufferedInputStream
+    ├── DataInputStream
+    ├── ObjectInputStream
+    └── ByteArrayInputStream
+
+OutputStream (abstract)
+    ├── FileOutputStream
+    ├── BufferedOutputStream
+    ├── DataOutputStream
+    ├── ObjectOutputStream
+    └── ByteArrayOutputStream
+            </pre>
+        </div>
+
+        <h3>Character Stream Hierarchy</h3>
+        <div class="figure-box">
+            <pre>
+Reader (abstract)
+    ├── FileReader
+    ├── BufferedReader
+    ├── InputStreamReader
+    ├── StringReader
+    └── CharArrayReader
+
+Writer (abstract)
+    ├── FileWriter
+    ├── BufferedWriter
+    ├── OutputStreamWriter
+    ├── StringWriter
+    └── CharArrayWriter
+            </pre>
+        </div>
+
+        <h3>Key Differences</h3>
+        <table>
+            <tr><th>Feature</th><th>Byte Streams</th><th>Character Streams</th></tr>
+            <tr><td>Data Type</td><td>Raw bytes (8-bit)</td><td>Unicode characters (16-bit)</td></tr>
+            <tr><td>Base Classes</td><td>InputStream, OutputStream</td><td>Reader, Writer</td></tr>
+            <tr><td>Use Case</td><td>Binary data (images, audio)</td><td>Text data (files, strings)</td></tr>
+            <tr><td>Encoding</td><td>No encoding</td><td>Character encoding support</td></tr>
+            <tr><td>Buffered Classes</td><td>BufferedInputStream, BufferedOutputStream</td><td>BufferedReader, BufferedWriter</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>📚 Key insight:</strong> Character streams handle text with proper character encoding, while byte streams handle raw binary data. Choose the appropriate stream type based on the data you're processing.
+        </div>
     </div>
 
+    <!-- ========== 6.3 ========== -->
     <div class="section">
-        <h2><b>6.3 Manipulating File</b></h2>
-        <p>Java provides several classes for file manipulation under the <code>java.io</code> package. Below are key classes for handling file I/O:</p>
+        <h2>6.3 Manipulating File</h2>
+        <p>Java provides several classes for file manipulation under the <code>java.io</code> package. Below are key classes for handling file I/O.</p>
 
-        <h3><b>File Input Stream</b></h3>
-        <p><code>FileInputStream</code> reads raw bytes from a file. Used for binary data or non-text files.</p>
-        <p>Example:</p>
-        <pre>
-import java.io.*;
+        <h3>FileInputStream</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Reads raw bytes from a file.</li>
+            <li><strong>Use Case:</strong> Binary data or non-text files.</li>
+        </ul>
+        <div class="code-block">
+            <span>// FileInputStream Example</span><br>
+            FileInputStream fis = new FileInputStream("input.txt");<br>
+            int data;<br>
+            while ((data = fis.read()) != -1) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;System.out.print((char) data);<br>
+            }<br>
+            fis.close();
+        </div>
 
-public class FileInputStreamExample {
-    public static void main(String[] args) throws IOException {
-        FileInputStream fis = new FileInputStream("input.txt");
-        int data;
-        while ((data = fis.read()) != -1) { // Read byte by byte
-            System.out.print((char) data);
-        }
-        fis.close();
-    }
-}
-        </pre>
+        <h3>FileOutputStream</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Writes raw bytes to a file.</li>
+            <li><strong>Use Case:</strong> Binary data or non-text files.</li>
+        </ul>
+        <div class="code-block">
+            <span>// FileOutputStream Example</span><br>
+            FileOutputStream fos = new FileOutputStream("output.txt");<br>
+            String text = "Hello, Java!";<br>
+            fos.write(text.getBytes());<br>
+            fos.close();
+        </div>
 
-        <h3><b>File Output Stream</b></h3>
-        <p><code>FileOutputStream</code> writes raw bytes to a file. Used for binary data or non-text files.</p>
-        <p>Example:</p>
-        <pre>
-import java.io.*;
+        <h3>FileReader</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Reads characters from a file.</li>
+            <li><strong>Use Case:</strong> Text files.</li>
+        </ul>
+        <div class="code-block">
+            <span>// FileReader Example</span><br>
+            FileReader fr = new FileReader("text.txt");<br>
+            int ch;<br>
+            while ((ch = fr.read()) != -1) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;System.out.print((char) ch);<br>
+            }<br>
+            fr.close();
+        </div>
 
-public class FileOutputStreamExample {
-    public static void main(String[] args) throws IOException {
-        FileOutputStream fos = new FileOutputStream("output.txt");
-        String text = "Hello, Java!";
-        fos.write(text.getBytes()); // Write bytes
-        fos.close();
-    }
-}
-        </pre>
+        <h3>FileWriter</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Writes characters to a file.</li>
+            <li><strong>Use Case:</strong> Text files.</li>
+        </ul>
+        <div class="code-block">
+            <span>// FileWriter Example</span><br>
+            FileWriter fw = new FileWriter("text_output.txt");<br>
+            fw.write("Hello, Java!");<br>
+            fw.close();
+        </div>
 
-        <h3><b>Data Input Stream</b></h3>
-        <p><code>DataInputStream</code> reads primitive Java data types (e.g., int, double) from an underlying input stream in a machine-independent way.</p>
-        <p>Example:</p>
-        <pre>
-import java.io.*;
+        <h3>DataInputStream &amp; DataOutputStream</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Read/write primitive data types (int, double, etc.) in a machine-independent way.</li>
+        </ul>
+        <div class="code-block">
+            <span>// DataInputStream & DataOutputStream Example</span><br>
+            <span>// Write</span><br>
+            FileOutputStream fos = new FileOutputStream("data.bin");<br>
+            DataOutputStream dos = new DataOutputStream(fos);<br>
+            dos.writeInt(100);<br>
+            dos.writeDouble(3.14);<br>
+            dos.close();<br><br>
+            <span>// Read</span><br>
+            FileInputStream fis = new FileInputStream("data.bin");<br>
+            DataInputStream dis = new DataInputStream(fis);<br>
+            int num = dis.readInt();<br>
+            double dbl = dis.readDouble();<br>
+            System.out.println("Number: " + num + ", Double: " + dbl);<br>
+            dis.close();
+        </div>
 
-public class DataInputStreamExample {
-    public static void main(String[] args) throws IOException {
-        FileInputStream fis = new FileInputStream("data.bin");
-        DataInputStream dis = new DataInputStream(fis);
-        int number = dis.readInt(); // Read an integer
-        System.out.println("Number: " + number);
-        dis.close();
-        fis.close();
-    }
-}
-        </pre>
+        <h3>ObjectInputStream &amp; ObjectOutputStream (Serialization)</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Serialize/deserialize Java objects.</li>
+            <li><strong>Requirement:</strong> Objects must implement <code>Serializable</code> interface.</li>
+        </ul>
+        <div class="code-block">
+            <span>// ObjectOutputStream Example</span><br>
+            class Person implements Serializable {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;String name;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int age;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Person(String name, int age) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.name = name;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.age = age;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            <span>// Serialize</span><br>
+            Person p = new Person("Alice", 25);<br>
+            FileOutputStream fos = new FileOutputStream("person.ser");<br>
+            ObjectOutputStream oos = new ObjectOutputStream(fos);<br>
+            oos.writeObject(p);<br>
+            oos.close();<br><br>
+            <span>// Deserialize</span><br>
+            FileInputStream fis = new FileInputStream("person.ser");<br>
+            ObjectInputStream ois = new ObjectInputStream(fis);<br>
+            Person person = (Person) ois.readObject();<br>
+            System.out.println(person.name + " - " + person.age);<br>
+            ois.close();
+        </div>
 
-        <h3><b>Data Output Stream</b></h3>
-        <p><code>DataOutputStream</code> writes primitive Java data types to an output stream in a machine-independent way.</p>
-        <p>Example:</p>
-        <pre>
-import java.io.*;
+        <h3>Buffered Streams</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Improve performance by reducing direct access to underlying resources.</li>
+            <li><strong>Examples:</strong> <code>BufferedReader</code>, <code>BufferedWriter</code>, <code>BufferedInputStream</code>, <code>BufferedOutputStream</code>.</li>
+        </ul>
+        <div class="code-block">
+            <span>// BufferedReader & BufferedWriter Example</span><br>
+            <span>// Reading</span><br>
+            BufferedReader br = new BufferedReader(new FileReader("file.txt"));<br>
+            String line;<br>
+            while ((line = br.readLine()) != null) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(line);<br>
+            }<br>
+            br.close();<br><br>
+            <span>// Writing</span><br>
+            BufferedWriter bw = new BufferedWriter(new FileWriter("output.txt"));<br>
+            bw.write("Hello, World!");<br>
+            bw.newLine();<br>
+            bw.write("Line 2");<br>
+            bw.close();
+        </div>
 
-public class DataOutputStreamExample {
-    public static void main(String[] args) throws IOException {
-        FileOutputStream fos = new FileOutputStream("data.bin");
-        DataOutputStream dos = new DataOutputStream(fos);
-        dos.writeInt(100); // Write an integer
-        dos.close();
-        fos.close();
-    }
-}
-        </pre>
+        <div class="note-box">
+            <strong>📁 Key insight:</strong> Use the appropriate stream type for your data. Buffered streams improve performance significantly. For text files, use Readers/Writers; for binary files, use Streams.
+        </div>
+    </div>
 
-        <h3><b>Object Input Stream</b></h3>
-        <p><code>ObjectInputStream</code> deserializes Java objects and primitive data from an input stream. The objects must implement the <code>Serializable</code> interface.</p>
-        <p>Example:</p>
-        <pre>
-import java.io.*;
-
-public class ObjectInputStreamExample {
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
-        FileInputStream fis = new FileInputStream("object.dat");
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        Object obj = ois.readObject(); // Read an object
-        System.out.println("Object: " + obj);
-        ois.close();
-        fis.close();
-    }
-}
-        </pre>
-
-        <h3><b>Object Output Stream</b></h3>
-        <p><code>ObjectOutputStream</code> serializes Java objects and primitive data to an output stream. The objects must implement the <code>Serializable</code> interface.</p>
-        <p>Example:</p>
-        <pre>
-import java.io.*;
-
-public class ObjectOutputStreamExample {
-    public static void main(String[] args) throws IOException {
-        FileOutputStream fos = new FileOutputStream("object.dat");
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject("Hello, Java!"); // Write an object
-        oos.close();
-        fos.close();
-    }
-}
-        </pre>
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 6 summary</strong><br>Java streams provide a framework for I/O operations. Byte streams handle binary data, character streams handle text data. Various classes support file, data, and object I/O.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Stream: sequence of data for I/O.<br>• Byte streams: InputStream/OutputStream (binary).<br>• Character streams: Reader/Writer (text).<br>• File streams: FileInputStream, FileOutputStream, FileReader, FileWriter.<br>• Data streams: DataInputStream, DataOutputStream (primitives).<br>• Object streams: ObjectInputStream, ObjectOutputStream (serialization).<br>• Buffered streams: improve performance.<br>• Always close streams after use.</div>
     </div>
 </body>
 </html>

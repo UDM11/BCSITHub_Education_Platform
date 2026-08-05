@@ -1,561 +1,732 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trees in Data Structures</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 6: Trees</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-    <h1><b>Unit 6: Trees</b></h1>
+    <h1>Unit 6: Trees</h1>
+    <div class="subhead">Introduction · terminology · binary tree · BST · traversals · AVL · Huffman · B-Tree</div>
 
+    <!-- ========== 6.1 ========== -->
     <div class="section">
-        <h2><b>6.1 Introduction</b></h2>
-        <p>A <b>tree</b> is a non-linear data structure consisting of nodes connected by edges, forming a hierarchical structure. Unlike linear structures like arrays or linked lists, trees represent relationships in a parent-child hierarchy, with a single root node and no cycles. Trees are widely used in applications like file systems, organizational charts, and search algorithms.</p>
+        <h2>6.1 Introduction</h2>
+        <p>A <strong>tree</strong> is a non-linear data structure consisting of nodes connected by edges, forming a hierarchical structure. Unlike linear structures like arrays or linked lists, trees represent relationships in a parent-child hierarchy, with a single root node and no cycles.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🌳 What is a Tree?</strong><br>A hierarchical data structure with a root node and child nodes. Used to represent hierarchical relationships like file systems or organizational charts.</div>
+            <div class="card"><strong>📊 Key Features</strong><br>Non-linear, hierarchical, each node has zero or more children, no cycles.</div>
+        </div>
+
+        <div class="figure-box">
+            <pre>
+Tree Structure:
+        ┌─────┐
+        │Root │
+        └──┬──┘
+       ┌──┴──┐
+    ┌──┴──┐ ┌┴──┐
+    │Node │ │Node│
+    └──┬──┘ └─┬─┘
+   ┌──┴──┐   │
+┌──┴──┐ ┌┴──┐│
+│Leaf │ │Leaf││
+└─────┘ └───┘┘
+            </pre>
+        </div>
     </div>
 
+    <!-- ========== 6.2 ========== -->
     <div class="section">
-        <h2><b>6.2 Tree Terminology</b></h2>
+        <h2>6.2 Tree Terminology</h2>
+
+        <table>
+            <tr><th>Term</th><th>Description</th></tr>
+            <tr><td>Node</td><td>Fundamental unit containing data and links to other nodes.</td></tr>
+            <tr><td>Root</td><td>The topmost node with no parent.</td></tr>
+            <tr><td>Parent</td><td>A node with one or more child nodes.</td></tr>
+            <tr><td>Child</td><td>A node directly connected to a parent node.</td></tr>
+            <tr><td>Leaf</td><td>A node with no children.</td></tr>
+            <tr><td>Subtree</td><td>A tree formed by a node and its descendants.</td></tr>
+            <tr><td>Edge</td><td>The connection between two nodes.</td></tr>
+            <tr><td>Height</td><td>Length of the longest path from the root to a leaf.</td></tr>
+            <tr><td>Depth</td><td>Length of the path from the root to a specific node.</td></tr>
+            <tr><td>Level</td><td>The number of edges from the root to a node (same as depth).</td></tr>
+        </table>
+
+        <div class="figure-box">
+            <pre>
+Terminology Example:
+        Root (Level 0, Depth 0)
+        ┌───┴───┐
+        │       │
+    Parent  Child (Level 1, Depth 1)
+    ┌───┴───┐
+    │       │
+  Leaf    Leaf (Level 2, Depth 2)
+            </pre>
+        </div>
+    </div>
+
+    <!-- ========== 6.3 ========== -->
+    <div class="section">
+        <h2>6.3 Binary Tree</h2>
+        <p>A <strong>binary tree</strong> is a tree where each node has at most two children, referred to as the left child and the right child.</p>
+
+        <h3>Types of Binary Trees</h3>
         <ul>
-            <li><b>Node:</b> A fundamental unit of a tree, containing data and links to other nodes.</li>
-            <li><b>Root:</b> The topmost node with no parent.</li>
-            <li><b>Parent:</b> A node with one or more child nodes.</li>
-            <li><b>Child:</b> A node directly connected to a parent node.</li>
-            <li><b>Leaf:</b> A node with no children.</li>
-            <li><b>Subtree:</b> A tree formed by a node and its descendants.</li>
-            <li><b>Edge:</b> The connection between two nodes.</li>
-            <li><b>Height:</b> The length of the longest path from the root to a leaf.</li>
-            <li><b>Depth:</b> The length of the path from the root to a specific node.</li>
-            <li><b>Level:</b> The number of edges from the root to a node (depth).</li>
+            <li><strong>Strictly Binary Tree:</strong> Every node has either zero or two children.</li>
+            <li><strong>Complete Binary Tree:</strong> All levels except possibly the last are fully filled, and all nodes in the last level are as far left as possible.</li>
+            <li><strong>Full Binary Tree:</strong> Every node has exactly 0 or 2 children.</li>
+            <li><strong>Perfect Binary Tree:</strong> All internal nodes have two children and all leaves are at the same level.</li>
         </ul>
+
+        <div class="figure-box">
+            <pre>
+Binary Tree Example:
+        ┌─────┐
+        │  1  │
+        └──┬──┘
+       ┌──┴──┐
+    ┌──┴──┐ ┌┴──┐
+    │  2  │ │ 3 │
+    └──┬──┘ └───┘
+   ┌──┴──┐
+┌──┴──┐ ┌┴──┐
+│  4  │ │ 5 │
+└─────┘ └───┘
+            </pre>
+        </div>
+
+        <div class="code-block">
+            <span>// Binary Tree Node Structure</span><br>
+            typedef struct Node {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int data;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Node* left;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Node* right;<br>
+            } Node;
+        </div>
     </div>
 
+    <!-- ========== 6.4 ========== -->
     <div class="section">
-        <h2><b>6.3 Binary Tree</b></h2>
-        <p>A <b>binary tree</b> is a tree where each node has at most two children, referred to as the left child and the right child.</p>
-        <ul>
-            <li><b>Strictly Binary Tree:</b> Every node has either zero or two children.</li>
-            <li><b>Complete Binary Tree:</b> All levels except possibly the last are fully filled, and all nodes in the last level are as far left as possible.</li>
-            <li><b>Extended Binary Tree:</b> A binary tree where every node has two children or is a leaf, often used to represent incomplete trees by adding dummy nodes.</li>
-        </ul>
-    </div>
+        <h2>6.4 Binary Tree Representation</h2>
 
-    <div class="section">
-        <h2><b>6.4 Binary Tree Representation</b></h2>
-        <p>Binary trees can be represented in two ways:</p>
+        <h3>Array Representation</h3>
         <ul>
-            <li><b>Array Representation:</b> Nodes are stored in an array, with parent-child relationships determined by index calculations (e.g., for node at index i, left child at 2i+1, right child at 2i+2). Suitable for complete binary trees.
-                <p>Example: A tree with nodes [A, B, C, D, E] can be stored as an array [A, B, C, D, E].</p>
+            <li>Nodes are stored in an array.</li>
+            <li>For node at index i:
+                <ul>
+                    <li>Left child: 2i + 1</li>
+                    <li>Right child: 2i + 2</li>
+                    <li>Parent: (i - 1) / 2</li>
+                </ul>
             </li>
-            <li><b>Linked List Representation:</b> Each node contains data and pointers to its left and right children.
-                <p>Example:</p>
-                <pre>
-#include &lt;stdlib.h&gt;
+            <li>Suitable for complete binary trees.</li>
+        </ul>
 
-typedef struct Node {
-    int data;
-    struct Node* left;
-    struct Node* right;
-} Node;
+        <div class="code-block">
+            <span>// Array Representation</span><br>
+            int tree[] = {1, 2, 3, 4, 5, 6, 7};<br>
+            <span>// Root: tree[0] = 1</span><br>
+            <span>// Left child of 1: tree[1] = 2</span><br>
+            <span>// Right child of 1: tree[2] = 3</span>
+        </div>
 
-Node* createNode(int data) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = data;
-    newNode->left = NULL;
-    newNode->right = NULL;
-    return newNode;
-}
-                </pre>
+        <h3>Linked List Representation</h3>
+        <ul>
+            <li>Each node contains data and pointers to left and right children.</li>
+            <li>Dynamic and flexible.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Linked List Representation</span><br>
+            typedef struct Node {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int data;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Node* left;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Node* right;<br>
+            } Node;<br><br>
+            Node* createNode(int data) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* newNode = (Node*)malloc(sizeof(Node));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->data = data;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->left = NULL;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->right = NULL;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return newNode;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 6.5 ========== -->
+    <div class="section">
+        <h2>6.5 Create Binary Tree</h2>
+
+        <div class="code-block">
+            <span>// Create Binary Tree</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #include &lt;stdlib.h&gt;<br><br>
+            typedef struct Node {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int data;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Node* left;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Node* right;<br>
+            } Node;<br><br>
+            typedef struct {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* root;<br>
+            } BinaryTree;<br><br>
+            Node* createNode(int data) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* newNode = (Node*)malloc(sizeof(Node));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->data = data;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->left = NULL;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->right = NULL;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return newNode;<br>
+            }<br><br>
+            void createTree(BinaryTree* tree) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;tree->root = createNode(1);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;tree->root->left = createNode(2);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;tree->root->right = createNode(3);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;tree->root->left->left = createNode(4);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;tree->root->left->right = createNode(5);<br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;BinaryTree tree;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;createTree(&tree);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 6.6 ========== -->
+    <div class="section">
+        <h2>6.6 Traversal of Binary Tree</h2>
+
+        <h3>Preorder Traversal (Root, Left, Right)</h3>
+        <ul>
+            <li>Visit root, then recursively traverse left and right subtrees.</li>
+            <li>Order: Root → Left → Right</li>
+        </ul>
+
+        <h3>Inorder Traversal (Left, Root, Right)</h3>
+        <ul>
+            <li>Recursively traverse left subtree, visit root, then right subtree.</li>
+            <li>Order: Left → Root → Right</li>
+            <li>For BST: gives sorted order.</li>
+        </ul>
+
+        <h3>Postorder Traversal (Left, Right, Root)</h3>
+        <ul>
+            <li>Recursively traverse left and right subtrees, then visit root.</li>
+            <li>Order: Left → Right → Root</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Tree Traversals</span><br>
+            void preorder(Node* node) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (node == NULL) return;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", node->data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;preorder(node->left);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;preorder(node->right);<br>
+            }<br><br>
+            void inorder(Node* node) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (node == NULL) return;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;inorder(node->left);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", node->data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;inorder(node->right);<br>
+            }<br><br>
+            void postorder(Node* node) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (node == NULL) return;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;postorder(node->left);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;postorder(node->right);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", node->data);<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>📊 Key insight:</strong> Inorder traversal of a BST produces sorted order. Preorder is useful for creating a copy of the tree. Postorder is used for deleting the tree.
+        </div>
+    </div>
+
+    <!-- ========== 6.7 ========== -->
+    <div class="section">
+        <h2>6.7 Binary Search Tree</h2>
+        <p>A <strong>Binary Search Tree (BST)</strong> is a binary tree where each node's left subtree contains values less than the node, and the right subtree contains values greater than the node.</p>
+
+        <h3>Properties</h3>
+        <ul>
+            <li>Left subtree values < node value < Right subtree values</li>
+            <li>No duplicate values (typically).</li>
+            <li>Inorder traversal gives sorted order.</li>
+        </ul>
+
+        <h3>Operations</h3>
+        <ul>
+            <li><strong>Insert:</strong> O(log n) average, O(n) worst case.</li>
+            <li><strong>Search:</strong> O(log n) average, O(n) worst case.</li>
+            <li><strong>Delete:</strong> O(log n) average, O(n) worst case.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// BST Operations</span><br>
+            Node* insert(Node* node, int data) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (node == NULL) return createNode(data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (data < node->data)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node->left = insert(node->left, data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;else if (data > node->data)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node->right = insert(node->right, data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return node;<br>
+            }<br><br>
+            Node* search(Node* node, int data) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (node == NULL || node->data == data) return node;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (data < node->data)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return search(node->left, data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return search(node->right, data);<br>
+            }<br><br>
+            Node* minValueNode(Node* node) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* current = node;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (current && current->left != NULL)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;current = current->left;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return current;<br>
+            }<br><br>
+            Node* deleteNode(Node* node, int data) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (node == NULL) return node;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (data < node->data)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node->left = deleteNode(node->left, data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;else if (data > node->data)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node->right = deleteNode(node->right, data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;else {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (node->left == NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node* temp = node->right;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;free(node);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return temp;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (node->right == NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node* temp = node->left;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;free(node);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return temp;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node* temp = minValueNode(node->right);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node->data = temp->data;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node->right = deleteNode(node->right, temp->data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return node;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 6.8 ========== -->
+    <div class="section">
+        <h2>6.8 Tree Height, Level, and Depth</h2>
+
+        <ul>
+            <li><strong>Height:</strong> Length of the longest path from the root to a leaf (measured in edges). Height of leaf = 0, height of empty tree = -1.</li>
+            <li><strong>Level:</strong> Number of edges from the root to a node (root level = 0).</li>
+            <li><strong>Depth:</strong> Number of edges from the root to a node (same as level).</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Calculate Height of Tree</span><br>
+            int height(Node* node) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (node == NULL) return 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int leftHeight = height(node->left);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int rightHeight = height(node->right);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 1 + (leftHeight > rightHeight ? leftHeight : rightHeight);<br>
+            }<br><br>
+            <span>// Calculate Depth of a Node</span><br>
+            int depth(Node* root, Node* node, int d) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (root == NULL) return -1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (root == node) return d;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int left = depth(root->left, node, d + 1);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (left != -1) return left;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return depth(root->right, node, d + 1);<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 6.9 ========== -->
+    <div class="section">
+        <h2>6.9 Balanced Tree: AVL Balanced Trees</h2>
+        <p>An <strong>AVL tree</strong> is a self-balancing binary search tree where the height difference (balance factor) between the left and right subtrees of any node is at most 1.</p>
+
+        <h3>Balance Factor</h3>
+        <ul>
+            <li>Balance Factor = height(left) - height(right)</li>
+            <li>Valid values: -1, 0, 1</li>
+        </ul>
+
+        <h3>Rotations</h3>
+        <ul>
+            <li><strong>Right Rotation:</strong> For left-left case.</li>
+            <li><strong>Left Rotation:</strong> For right-right case.</li>
+            <li><strong>Left-Right Rotation:</strong> For left-right case.</li>
+            <li><strong>Right-Left Rotation:</strong> For right-left case.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// AVL Tree Insertion</span><br>
+            typedef struct AVLNode {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int data, height;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct AVLNode* left;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct AVLNode* right;<br>
+            } AVLNode;<br><br>
+            int height(AVLNode* node) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return node ? node->height : 0;<br>
+            }<br><br>
+            int balanceFactor(AVLNode* node) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return node ? height(node->left) - height(node->right) : 0;<br>
+            }<br><br>
+            AVLNode* rightRotate(AVLNode* y) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;AVLNode* x = y->left;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;AVLNode* T2 = x->right;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;x->right = y;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;y->left = T2;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;y->height = max(height(y->left), height(y->right)) + 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;x->height = max(height(x->left), height(x->right)) + 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return x;<br>
+            }<br><br>
+            AVLNode* insert(AVLNode* node, int data) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (node == NULL) return createAVLNode(data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (data < node->data) node->left = insert(node->left, data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;else if (data > node->data) node->right = insert(node->right, data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;else return node;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;node->height = max(height(node->left), height(node->right)) + 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int balance = balanceFactor(node);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (balance > 1 && data < node->left->data) return rightRotate(node);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (balance < -1 && data > node->right->data) return leftRotate(node);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (balance > 1 && data > node->left->data) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node->left = leftRotate(node->left);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return rightRotate(node);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (balance < -1 && data < node->right->data) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node->right = rightRotate(node->right);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return leftRotate(node);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return node;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 6.10 ========== -->
+    <div class="section">
+        <h2>6.10 The Huffman Algorithm</h2>
+        <p>The <strong>Huffman Algorithm</strong> is used for lossless data compression, creating a binary tree (Huffman tree) to assign variable-length codes to characters based on their frequencies.</p>
+
+        <h3>Algorithm Steps</h3>
+        <ol>
+            <li>Create a min-heap of nodes, each storing a character and its frequency.</li>
+            <li>While heap has more than one node:
+                <ul>
+                    <li>Extract two nodes with the lowest frequencies.</li>
+                    <li>Create a new internal node with frequency = sum of the two nodes.</li>
+                    <li>Make the two nodes as left and right children.</li>
+                    <li>Insert the new node into the heap.</li>
+                </ul>
             </li>
-        </ul>
+            <li>The remaining node is the root of the Huffman tree.</li>
+            <li>Traverse the tree to generate codes (left = 0, right = 1).</li>
+        </ol>
+
+        <div class="code-block">
+            <span>// Huffman Coding Implementation</span><br>
+            typedef struct HuffmanNode {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int frequency;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;char data;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct HuffmanNode* left;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct HuffmanNode* right;<br>
+            } HuffmanNode;<br><br>
+            void printCodes(HuffmanNode* root, char* code, int top) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (root == NULL) return;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (root->data != '\0') {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;code[top] = '\0';<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%c: %s\n", root->data, code);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (root->left) { code[top] = '0'; printCodes(root->left, code, top+1); }<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (root->right) { code[top] = '1'; printCodes(root->right, code, top+1); }<br>
+            }
+        </div>
     </div>
 
+    <!-- ========== 6.11 ========== -->
     <div class="section">
-        <h2><b>6.5 Create Binary Tree</b></h2>
-        <p>Creating a binary tree involves defining a node structure and linking nodes to form the tree.</p>
-        <p>Example:</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+        <h2>6.11 B-Tree</h2>
+        <p>A <strong>B-Tree</strong> is a self-balancing tree data structure that maintains sorted data and allows efficient insertion, deletion, and search operations. It is widely used in databases and file systems.</p>
 
-typedef struct Node {
-    int data;
-    struct Node* left;
-    struct Node* right;
-} Node;
-
-typedef struct {
-    Node* root;
-} BinaryTree;
-
-Node* createNode(int data) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = data;
-    newNode->left = NULL;
-    newNode->right = NULL;
-    return newNode;
-}
-
-void create(BinaryTree* tree) {
-    tree->root = createNode(1);
-    tree->root->left = createNode(2);
-    tree->root->right = createNode(3);
-    tree->root->left->left = createNode(4);
-    tree->root->left->right = createNode(5);
-}
-
-int main() {
-    BinaryTree tree;
-    create(&tree);
-    return 0;
-}
-        </pre>
-    </div>
-
-    <div class="section">
-        <h2><b>6.6 Traversal of Binary Tree</b></h2>
-        <p>Tree traversal involves visiting all nodes in a specific order. The three main types for binary trees are:</p>
+        <h3>Properties</h3>
         <ul>
-            <li><b>Preorder Traversal (Root, Left, Right):</b> Visit root, then recursively traverse left and right subtrees.</li>
-            <li><b>Inorder Traversal (Left, Root, Right):</b> Recursively traverse left subtree, visit root, then right subtree.</li>
-            <li><b>Postorder Traversal (Left, Right, Root):</b> Recursively traverse left and right subtrees, then visit root.</li>
+            <li>Each node can have multiple keys and children.</li>
+            <li>All leaves are at the same level.</li>
+            <li>Number of children = number of keys + 1.</li>
+            <li>Minimum degree t:
+                <ul>
+                    <li>Each node (except root) has at least t-1 keys.</li>
+                    <li>Each node has at most 2t-1 keys.</li>
+                </ul>
+            </li>
+            <li>Operations: O(log n) time.</li>
         </ul>
-        <p>Example:</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
 
-typedef struct Node {
-    int data;
-    struct Node* left;
-    struct Node* right;
-} Node;
-
-typedef struct {
-    Node* root;
-} BinaryTree;
-
-Node* createNode(int data) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = data;
-    newNode->left = NULL;
-    newNode->right = NULL;
-    return newNode;
-}
-
-void preorder(Node* node) {
-    if (node != NULL) {
-        printf("%d ", node->data);
-        preorder(node->left);
-        preorder(node->right);
-    }
-}
-
-void inorder(Node* node) {
-    if (node != NULL) {
-        inorder(node->left);
-        printf("%d ", node->data);
-        inorder(node->right);
-    }
-}
-
-void postorder(Node* node) {
-    if (node != NULL) {
-        postorder(node->left);
-        postorder(node->right);
-        printf("%d ", node->data);
-    }
-}
-
-int main() {
-    BinaryTree tree;
-    tree.root = createNode(1);
-    tree.root->left = createNode(2);
-    tree.root->right = createNode(3);
-    preorder(tree.root); // Output: 1 2 3
-    printf("\n");
-    inorder(tree.root);  // Output: 2 1 3
-    printf("\n");
-    postorder(tree.root); // Output: 2 3 1
-    printf("\n");
-    return 0;
-}
-        </pre>
-    </div>
-
-    <div class="section">
-        <h2><b>6.7 Binary Search Tree</b></h2>
-        <p>A <b>Binary Search Tree (BST)</b> is a binary tree where each node’s left subtree contains values less than the node, and the right subtree contains values greater than the node.</p>
+        <h3>Applications</h3>
         <ul>
-            <li><b>Insertion:</b> Insert a new node by comparing it with the current node and moving left or right based on the value.</li>
-            <li><b>Search:</b> Search for a value by traversing left or right based on comparisons.</li>
-            <li><b>Deletion:</b> Remove a node, handling cases for leaf nodes, nodes with one child, or nodes with two children.</li>
+            <li>Database indexing (MySQL, MongoDB).</li>
+            <li>File systems (NTFS, ext4).</li>
+            <li>File systems indexing.</li>
         </ul>
-        <p>Example:</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
 
-typedef struct Node {
-    int data;
-    struct Node* left;
-    struct Node* right;
-} Node;
+        <div class="code-block">
+            <span>// B-Tree Node Structure</span><br>
+            typedef struct BTreeNode {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int* keys;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct BTreeNode** children;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int numKeys;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int isLeaf;<br>
+            } BTreeNode;<br><br>
+            BTreeNode* createBTreeNode(int degree, int isLeaf) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;BTreeNode* newNode = (BTreeNode*)malloc(sizeof(BTreeNode));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->isLeaf = isLeaf;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->keys = (int*)malloc((2*degree - 1) * sizeof(int));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->children = (BTreeNode**)malloc(2*degree * sizeof(BTreeNode*));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->numKeys = 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < 2*degree; i++)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newNode->children[i] = NULL;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return newNode;<br>
+            }
+        </div>
 
-typedef struct {
-    Node* root;
-} BST;
-
-Node* createNode(int data) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = data;
-    newNode->left = NULL;
-    newNode->right = NULL;
-    return newNode;
-}
-
-Node* insert(Node* node, int data) {
-    if (node == NULL) return createNode(data);
-    if (data < node->data)
-        node->left = insert(node->left, data);
-    else if (data > node->data)
-        node->right = insert(node->right, data);
-    return node;
-}
-
-Node* search(Node* node, int data) {
-    if (node == NULL || node->data == data) return node;
-    if (data < node->data)
-        return search(node->left, data);
-    return search(node->right, data);
-}
-
-Node* minValueNode(Node* node) {
-    Node* current = node;
-    while (current && current->left != NULL)
-        current = current->left;
-    return current;
-}
-
-Node* delete(Node* node, int data) {
-    if (node == NULL) return node;
-    if (data < node->data)
-        node->left = delete(node->left, data);
-    else if (data > node->data)
-        node->right = delete(node->right, data);
-    else {
-        if (node->left == NULL) {
-            Node* temp = node->right;
-            free(node);
-            return temp;
-        }
-        if (node->right == NULL) {
-            Node* temp = node->left;
-            free(node);
-            return temp;
-        }
-        Node* temp = minValueNode(node->right);
-        node->data = temp->data;
-        node->right = delete(node->right, temp->data);
-    }
-    return node;
-}
-        </pre>
+        <div class="note-box">
+            <strong>📊 Key insight:</strong> Trees are fundamental for hierarchical data and efficient searching. Different tree types (BST, AVL, B-Tree) offer trade-offs between simplicity, balance, and performance.
+        </div>
     </div>
 
-    <div class="section">
-        <h2><b>6.8 Tree Height, Level, and Depth</b></h2>
-        <ul>
-            <li><b>Height:</b> The length of the longest path from the root to a leaf, measured in edges.</li>
-            <li><b>Level:</b> The number of edges from the root to a node (same as depth).</li>
-            <li><b>Depth:</b> The number of edges from the root to a specific node.</li>
-        </ul>
-        <p>Example:</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-typedef struct Node {
-    int data;
-    struct Node* left;
-    struct Node* right;
-} Node;
-
-typedef struct {
-    Node* root;
-} BinaryTree;
-
-Node* createNode(int data) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = data;
-    newNode->left = NULL;
-    newNode->right = NULL;
-    return newNode;
-}
-
-int max(int a, int b) {
-    return (a > b) ? a : b;
-}
-
-int height(Node* node) {
-    if (node == NULL) return 0;
-    return 1 + max(height(node->left), height(node->right));
-}
-
-int main() {
-    BinaryTree tree;
-    tree.root = createNode(1);
-    tree.root->left = createNode(2);
-    tree.root->right = createNode(3);
-    tree.root->left->left = createNode(4);
-    printf("Height: %d\n", height(tree.root)); // Output: 3
-    return 0;
-}
-        </pre>
-    </div>
-
-    <div class="section">
-        <h2><b>6.9 Balanced Tree: AVL Balanced Trees</b></h2>
-        <p>An <b>AVL tree</b> is a self-balancing binary search tree where the height difference (balance factor) between the left and right subtrees of any node is at most 1. It ensures O(log n) time for operations by performing rotations when the balance is violated.</p>
-        <p>Example:</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-typedef struct AVLNode {
-    int data, height;
-    struct AVLNode* left;
-    struct AVLNode* right;
-} AVLNode;
-
-typedef struct {
-    AVLNode* root;
-} AVLTree;
-
-AVLNode* createAVLNode(int data) {
-    AVLNode* newNode = (AVLNode*)malloc(sizeof(AVLNode));
-    newNode->data = data;
-    newNode->height = 1;
-    newNode->left = NULL;
-    newNode->right = NULL;
-    return newNode;
-}
-
-int max(int a, int b) {
-    return (a > b) ? a : b;
-}
-
-int height(AVLNode* node) {
-    if (node == NULL) return 0;
-    return node->height;
-}
-
-int balanceFactor(AVLNode* node) {
-    if (node == NULL) return 0;
-    return height(node->left) - height(node->right);
-}
-
-AVLNode* rightRotate(AVLNode* y) {
-    AVLNode* x = y->left;
-    AVLNode* T2 = x->right;
-    x->right = y;
-    y->left = T2;
-    y->height = max(height(y->left), height(y->right)) + 1;
-    x->height = max(height(x->left), height(x->right)) + 1;
-    return x;
-}
-
-AVLNode* leftRotate(AVLNode* x) {
-    AVLNode* y = x->right;
-    AVLNode* T2 = y->left;
-    y->left = x;
-    x->right = T2;
-    x->height = max(height(x->left), height(x->right)) + 1;
-    y->height = max(height(y->left), height(y->right)) + 1;
-    return y;
-}
-
-AVLNode* insert(AVLNode* node, int data) {
-    if (node == NULL) return createAVLNode(data);
-    if (data < node->data)
-        node->left = insert(node->left, data);
-    else if (data > node->data)
-        node->right = insert(node->right, data);
-    else
-        return node;
-
-    node->height = max(height(node->left), height(node->right)) + 1;
-    int balance = balanceFactor(node);
-
-    if (balance > 1 && data < node->left->data)
-        return rightRotate(node);
-    if (balance < -1 && data > node->right->data)
-        return leftRotate(node);
-    if (balance > 1 && data > node->left->data) {
-        node->left = leftRotate(node->left);
-        return rightRotate(node);
-    }
-    if (balance < -1 && data < node->right->data) {
-        node->right = rightRotate(node->right);
-        return leftRotate(node);
-    }
-    return node;
-}
-        </pre>
-    </div>
-
-    <div class="section">
-        <h2><b>6.10 The Huffman Algorithm</b></h2>
-        <p>The <b>Huffman Algorithm</b> is used for lossless data compression, creating a binary tree (Huffman tree) to assign variable-length codes to characters based on their frequencies. Characters with higher frequencies get shorter codes.</p>
-        <p><b>Algorithm:</b></p>
-        <pre>
-1. Create a min-heap of nodes, each storing a character and its frequency.
-2. While heap has more than one node:
-    a. Extract two nodes with the lowest frequencies.
-    b. Create a new internal node with frequency equal to the sum of the two nodes.
-    c. Make the two nodes as left and right children of the new node.
-    d. Insert the new node into the heap.
-3. The remaining node is the root of the Huffman tree.
-4. Traverse the tree to generate codes (left edge = 0, right edge = 1).
-        </pre>
-        <p>Example:</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;string.h&gt;
-
-typedef struct HuffmanNode {
-    int frequency;
-    char data;
-    struct HuffmanNode* left;
-    struct HuffmanNode* right;
-} HuffmanNode;
-
-HuffmanNode* createHuffmanNode(char data, int frequency) {
-    HuffmanNode* newNode = (HuffmanNode*)malloc(sizeof(HuffmanNode));
-    newNode->data = data;
-    newNode->frequency = frequency;
-    newNode->left = NULL;
-    newNode->right = NULL;
-    return newNode;
-}
-
-void printCodes(HuffmanNode* root, char* code, int top) {
-    if (root == NULL) return;
-    if (root->data != '\0') {
-        code[top] = '\0';
-        printf("%c: %s\n", root->data, code);
-    }
-    if (root->left) {
-        code[top] = '0';
-        printCodes(root->left, code, top + 1);
-    }
-    if (root->right) {
-        code[top] = '1';
-        printCodes(root->right, code, top + 1);
-    }
-}
-
-void freeTree(HuffmanNode* root) {
-    if (root == NULL) return;
-    freeTree(root->left);
-    freeTree(root->right);
-    free(root);
-}
-        </pre>
-    </div>
-
-    <div class="section">
-        <h2><b>6.11 B-Tree</b></h2>
-        <p>A <b>B-Tree</b> is a self-balancing tree data structure that maintains sorted data and allows efficient insertion, deletion, and search operations. It is widely used in databases and file systems due to its ability to handle large datasets with minimal disk I/O.</p>
-        <ul>
-            <li><b>Properties:</b> Each node can have multiple keys and children, with a maximum degree (order) defining the number of children. Nodes are kept balanced to ensure O(log n) operations.</li>
-            <li><b>Applications:</b> Used in database indexing (e.g., MySQL, MongoDB) and file systems (e.g., NTFS).</li>
-        </ul>
-        <p>Example (Conceptual B-Tree Node):</p>
-        <pre>
-#include &lt;stdlib.h&gt;
-
-typedef struct BTreeNode {
-    int* keys;
-    struct BTreeNode** children;
-    int numKeys;
-    int isLeaf;
-} BTreeNode;
-
-BTreeNode* createBTreeNode(int degree, int isLeaf) {
-    BTreeNode* newNode = (BTreeNode*)malloc(sizeof(BTreeNode));
-    newNode->isLeaf = isLeaf;
-    newNode->keys = (int*)malloc((2 * degree - 1) * sizeof(int));
-    newNode->children = (BTreeNode**)malloc(2 * degree * sizeof(BTreeNode*));
-    newNode->numKeys = 0;
-    for (int i = 0; i < 2 * degree; i++)
-        newNode->children[i] = NULL;
-    return newNode;
-}
-        </pre>
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 6 summary</strong><br>Trees are hierarchical data structures. Binary trees, BSTs, AVL trees, Huffman trees, and B-Trees are key variants with specific applications.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Tree: hierarchical, root, parent, child, leaf.<br>• Binary tree: max 2 children per node.<br>• BST: left < node < right.<br>• Traversals: preorder, inorder, postorder.<br>• AVL: self-balancing (balance factor ±1).<br>• Huffman: lossless compression with variable-length codes.<br>• B-Tree: balanced, multiple keys, database indexing.</div>
     </div>
 </body>
 </html>

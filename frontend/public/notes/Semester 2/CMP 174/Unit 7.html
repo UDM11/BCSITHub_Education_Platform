@@ -1,154 +1,485 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 7: Digital Systems Design</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            color: black;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
         }
         li {
-            margin-bottom: 10px;
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
         }
         table {
+            width: 100%;
             border-collapse: collapse;
-            margin: 10px 0;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
-        th, td {
-            border: 1px solid black;
-            padding: 5px;
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
             text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
         }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
         }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
         }
-        h2 {
-            font-size: 1rem; /* smaller sub-header */
-        }
-        .section {
-            padding: 8px; /* less padding for small screens */
-        }
-    }
     </style>
 </head>
 <body>
-    <h1><b>Unit 7: Digital Systems Design</b></h1>
+    <h1>Unit 7: Digital Systems Design</h1>
+    <div class="subhead">ALU design · accumulator · status register · flags · processor unit · CPU architecture</div>
 
+    <!-- ========== 7.1 ========== -->
     <div class="section">
-        <h2><b>7.1 Arithmetic Logic Unit (Design of 4-bit ALU)</b></h2>
-        <p>The Arithmetic Logic Unit (ALU) is a core component of a processor that performs arithmetic and logical operations on binary data.</p>
+        <h2>7.1 Arithmetic Logic Unit (Design of 4-bit ALU)</h2>
+        <p>The <strong>Arithmetic Logic Unit (ALU)</strong> is a core component of a processor that performs arithmetic and logical operations on binary data.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🔢 Definition</strong><br>A 4-bit ALU processes 4-bit operands, performing operations like addition, subtraction, AND, OR, and NOT based on control signals.</div>
+            <div class="card"><strong>📐 Design</strong><br>Uses four 1-bit ALUs in parallel, each with logic unit, arithmetic unit (full adder), and multiplexer to select output based on control signals.</div>
+        </div>
+
+        <h3>ALU Inputs and Outputs</h3>
         <ul>
-            <li><strong>Definition:</strong> A 4-bit ALU processes 4-bit operands, performing operations like addition, subtraction, AND, OR, and NOT based on control signals.</li>
-            <li><strong>Design of 4-bit ALU:</strong>
+            <li><strong>Inputs:</strong>
                 <ul>
-                    <li><strong>Inputs:</strong> Two 4-bit operands (A = A₃A₂A₁A₀, B = B₃B₂B₁B₀), control signals (S₁, S₀) to select operation, and a carry-in (C_in).</li>
-                    <li><strong>Outputs:</strong> 4-bit result (F = F₃F₂F₁F₀), carry-out (C_out), and status flags (e.g., zero, overflow).</li>
-                    <li><strong>Operations:</strong> Example operations based on control signals:
-                        <table>
-                            <tr><th>S₁</th><th>S₀</th><th>Operation</th></tr>
-                            <tr><td>0</td><td>0</td><td>F = A AND B</td></tr>
-                            <tr><td>0</td><td>1</td><td>F = A OR B</td></tr>
-                            <tr><td>1</td><td>0</td><td>F = A + B</td></tr>
-                            <tr><td>1</td><td>1</td><td>F = A - B</td></tr>
-                        </table>
-                    </li>
-                    <li><strong>Implementation:</strong> Uses four 1-bit ALUs in parallel, each with:
-                        <ul>
-                            <li>Logic unit: AND, OR gates for logical operations.</li>
-                            <li>Arithmetic unit: Full adder for addition; subtraction via two’s complement (A - B = A + (B’ + 1)).</li>
-                            <li>Multiplexer: Selects output based on S₁, S₀.</li>
-                        </ul>
-                        Example: For addition, each 1-bit ALU computes <em>Fᵢ = Aᵢ ⊕ Bᵢ ⊕ C_in</em>, <em>C_out = (Aᵢ · Bᵢ) + (Bᵢ · C_in) + (Aᵢ · C_in)</em>, chained via ripple carry.
-                    </li>
+                    <li>Operand A (4-bit): A₃A₂A₁A₀</li>
+                    <li>Operand B (4-bit): B₃B₂B₁B₀</li>
+                    <li>Control Signals: S₁, S₀ (select operation)</li>
+                    <li>Carry-in: C_in</li>
                 </ul>
             </li>
-            <li><strong>Example:</strong> For A = 1010 (10₁₀), B = 0011 (3₁₀), S₁=1, S₀=0 (addition), result F = 1010 + 0011 = 1101 (13₁₀).</li>
-            <li><strong>Applications:</strong> Used in CPUs for arithmetic (e.g., addition in loops), logical operations (e.g., bit manipulation), and data processing.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2><b>7.2 Accumulator</b></h2>
-        <p>An accumulator is a register that stores intermediate results during processing, typically used in arithmetic and logic operations.</p>
-        <ul>
-            <li><strong>Definition:</strong> A special-purpose register that holds one operand and the result of an ALU operation, updated after each operation.</li>
-            <li><strong>Operation:</strong> The accumulator receives data from memory or input, feeds it to the ALU, and stores the ALU’s output. Example: In <em>ADD B</em>, accumulator (A) adds B and stores A + B.</li>
-            <li><strong>Structure:</strong> Typically a 4-bit or 8-bit register (e.g., D flip-flops). Example: A 4-bit accumulator uses four D flip-flops to store a 4-bit value, updated on clock pulses.</li>
-            <li><strong>Example:</strong> Accumulator = 0011 (3₁₀), ADD 0100 (4₁₀). ALU computes 0011 + 0100 = 0111 (7₁₀), stored back in the accumulator.</li>
-            <li><strong>Applications:</strong> Used in CPUs for iterative computations, data accumulation (e.g., summing values), and temporary storage in microprocessors.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2><b>7.3 Status Register and Flags</b></h2>
-        <p>The status register, also called the flag register, stores condition flags that indicate the outcome of ALU operations.</p>
-        <ul>
-            <li><strong>Definition:</strong> A register containing single-bit flags that reflect the status of the processor after an operation.</li>
-            <li><strong>Common Flags:</strong>
+            <li><strong>Outputs:</strong>
                 <ul>
-                    <li><strong>Zero Flag (Z):</strong> Set to 1 if the ALU result is zero. Example: <em>5 - 5 = 0</em> sets Z=1.</li>
-                    <li><strong>Carry Flag (C):</strong> Set to 1 if there’s a carry-out in addition or borrow in subtraction. Example: <em>15 + 1 = 16</em> (4-bit overflow) sets C=1.</li>
-                    <li><strong>Sign Flag (S):</strong> Set to 1 if the result is negative (MSB = 1 in two’s complement). Example: <em>-3</em> (1101₂) sets S=1.</li>
-                    <li><strong>Overflow Flag (V):</strong> Set to 1 if arithmetic overflow occurs. Example: Adding two positive 4-bit numbers <em>7 (0111) + 7 (0111) = 14 (1110)</em> sets V=1 (result appears negative).</li>
+                    <li>Result F (4-bit): F₃F₂F₁F₀</li>
+                    <li>Carry-out: C_out</li>
+                    <li>Status Flags: Zero (Z), Overflow (V), Sign (S)</li>
                 </ul>
             </li>
-            <li><strong>Implementation:</strong> A 4-bit status register may store Z, C, S, V as individual flip-flops, updated after each ALU operation.</li>
-            <li><strong>Example:</strong> For <em>7 - 4 = 3</em> (0111 - 0100 = 0011), flags: Z=0 (non-zero), C=0 (no borrow), S=0 (positive), V=0 (no overflow).</li>
-            <li><strong>Applications:</strong> Flags control program flow (e.g., conditional jumps), indicate errors, and support decision-making in CPUs.</li>
         </ul>
+
+        <h3>ALU Operation Table</h3>
+        <table>
+            <tr><th>S₁</th><th>S₀</th><th>Operation</th><th>Description</th></tr>
+            <tr><td>0</td><td>0</td><td>F = A AND B</td><td>Bitwise AND</td></tr>
+            <tr><td>0</td><td>1</td><td>F = A OR B</td><td>Bitwise OR</td></tr>
+            <tr><td>1</td><td>0</td><td>F = A + B</td><td>Arithmetic Addition</td></tr>
+            <tr><td>1</td><td>1</td><td>F = A - B</td><td>Arithmetic Subtraction (two's complement)</td></tr>
+        </table>
+
+        <h3>1-Bit ALU Design</h3>
+        <ul>
+            <li><strong>Logic Unit:</strong> AND, OR gates for logical operations.</li>
+            <li><strong>Arithmetic Unit:</strong> Full adder for addition; subtraction via two's complement.</li>
+            <li><strong>Multiplexer:</strong> Selects output based on S₁, S₀.</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+1-Bit ALU:
+┌─────────────────────────────────────┐
+│  A ───┐         ┌─────────┐        │
+│       ├──[AND]──┤         │        │
+│  B ───┼──[OR]───┤  MUX    ├── F    │
+│       ├──[ADD]──┤         │        │
+│  C_in ┤         └─────────┘        │
+│       └─────────────────────────────┘
+│  S₁, S₀ ─────────────────────► Select
+└─────────────────────────────────────┘
+            </pre>
+        </div>
+
+        <div class="code-block">
+            <span>// 4-bit ALU Example</span><br>
+            <span>// A = 1010 (10), B = 0011 (3), S₁=1, S₀=0 (ADD)</span><br>
+            <span>// Result: F = 1010 + 0011 = 1101 (13)</span><br>
+            <span>// Flags: Z=0, C=0, V=0</span>
+        </div>
+
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> The ALU is the computational engine of the CPU. Its design balances speed, functionality, and complexity. A 4-bit ALU is a fundamental building block for larger processors.
+        </div>
     </div>
 
+    <!-- ========== 7.2 ========== -->
     <div class="section">
-        <h2><b>7.4 Processor Unit</b></h2>
-        <p>The processor unit, or Central Processing Unit (CPU), is the core of a digital system, executing instructions by processing data through its components.</p>
+        <h2>7.2 Accumulator</h2>
+        <p>An <strong>accumulator</strong> is a register that stores intermediate results during processing, typically used in arithmetic and logic operations.</p>
+
+        <h3>Definition and Operation</h3>
         <ul>
-            <li><strong>Definition:</strong> The processor unit fetches, decodes, and executes instructions, coordinating data flow between memory, ALU, and registers.</li>
-            <li><strong>Components:</strong>
+            <li><strong>Definition:</strong> A special-purpose register that holds one operand and the result of an ALU operation.</li>
+            <li><strong>Operation:</strong>
                 <ul>
-                    <li><strong>ALU:</strong> Performs arithmetic and logical operations (see 7.1).</li>
-                    <li><strong>Registers:</strong> Include accumulator, program counter (PC), instruction register (IR), and general-purpose registers for temporary storage.</li>
-                    <li><strong>Control Unit:</strong> Generates control signals to coordinate operations (e.g., fetch, decode, execute cycles).</li>
-                    <li><strong>Status Register:</strong> Stores flags to guide instruction execution (see 7.3).</li>
+                    <li>Receives data from memory or input.</li>
+                    <li>Feeds data to the ALU.</li>
+                    <li>Stores the ALU's output after each operation.</li>
                 </ul>
             </li>
-            <li><strong>Operation:</strong> 
-                <ul>
-                    <li><strong>Fetch:</strong> PC retrieves instruction from memory, increments PC.</li>
-                    <li><strong>Decode:</strong> Control unit interprets instruction in IR.</li>
-                    <li><strong>Execute:</strong> ALU processes data, updates accumulator and flags.</li>
-                </ul>
-                Example: For <em>ADD B</em>, fetch instruction, decode to add B to accumulator, execute via ALU, store result in accumulator, update flags.</li>
-            <li><strong>Example:</strong> A 4-bit processor adds <em>1010</em> and <em>0011</em>. PC fetches ADD instruction, ALU computes <em>1101</em>, stores in accumulator, sets flags (e.g., Z=0, C=0).</li>
-            <li><strong>Applications:</strong> CPUs in computers, microcontrollers, and embedded systems for executing programs and processing data.</li>
         </ul>
+
+        <h3>Structure</h3>
+        <ul>
+            <li>Typically a 4-bit or 8-bit register using D flip-flops.</li>
+            <li>Example: A 4-bit accumulator uses four D flip-flops, updated on clock pulses.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Accumulator Example</span><br>
+            <span>// Acc = 0011 (3), ADD 0100 (4)</span><br>
+            <span>// ALU computes 0011 + 0100 = 0111 (7)</span><br>
+            <span>// Result stored back in accumulator</span><br>
+            <span>// New Acc = 0111 (7)</span>
+        </div>
+
+        <h3>Applications</h3>
+        <ul>
+            <li>Iterative computations (e.g., summing values)</li>
+            <li>Arithmetic operations in CPUs</li>
+            <li>Temporary storage in microprocessors</li>
+            <li>Data accumulation in signal processing</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+Accumulator in CPU:
+Memory → [Accumulator] → [ALU] → [Accumulator]
+                            ↑
+                       Control Signals
+            </pre>
+        </div>
+    </div>
+
+    <!-- ========== 7.3 ========== -->
+    <div class="section">
+        <h2>7.3 Status Register and Flags</h2>
+        <p>The <strong>status register</strong> (or flag register) stores condition flags that indicate the outcome of ALU operations.</p>
+
+        <h3>Common Flags</h3>
+        <table>
+            <tr><th>Flag</th><th>Symbol</th><th>Condition</th><th>Example</th></tr>
+            <tr><td>Zero</td><td>Z</td><td>Result = 0</td><td>5 - 5 = 0 → Z=1</td></tr>
+            <tr><td>Carry</td><td>C</td><td>Carry-out in addition, borrow in subtraction</td><td>15 + 1 = 16 (4-bit) → C=1</td></tr>
+            <tr><td>Sign</td><td>S</td><td>Result is negative (MSB=1 in two's complement)</td><td>-3 (1101₂) → S=1</td></tr>
+            <tr><td>Overflow</td><td>V</td><td>Arithmetic overflow occurred</td><td>7 + 7 = 14 (4-bit) → V=1</td></tr>
+        </table>
+
+        <h3>Flag Examples</h3>
+        <div class="code-block">
+            <span>// 7 - 4 = 3</span><br>
+            <span>// 0111 - 0100 = 0011</span><br>
+            <span>// Flags: Z=0, C=0, S=0, V=0</span><br><br>
+            <span>// 7 + 7 = 14 (4-bit overflow)</span><br>
+            <span>// 0111 + 0111 = 1110</span><br>
+            <span>// Flags: Z=0, C=0, S=1, V=1</span>
+        </div>
+
+        <h3>Implementation</h3>
+        <ul>
+            <li>A 4-bit status register stores Z, C, S, V as individual flip-flops.</li>
+            <li>Updated after each ALU operation.</li>
+            <li>Used for conditional jumps and decision-making in CPUs.</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>🚩 Key insight:</strong> Flags enable conditional execution in programs. The status register allows the processor to make decisions based on previous operation results.
+        </div>
+    </div>
+
+    <!-- ========== 7.4 ========== -->
+    <div class="section">
+        <h2>7.4 Processor Unit</h2>
+        <p>The <strong>processor unit</strong> (Central Processing Unit or CPU) is the core of a digital system, executing instructions by processing data through its components.</p>
+
+        <h3>CPU Components</h3>
+        <ul>
+            <li><strong>ALU:</strong> Performs arithmetic and logical operations.</li>
+            <li><strong>Registers:</strong>
+                <ul>
+                    <li>Accumulator (Acc) — stores ALU results</li>
+                    <li>Program Counter (PC) — points to next instruction</li>
+                    <li>Instruction Register (IR) — holds current instruction</li>
+                    <li>General-purpose registers</li>
+                </ul>
+            </li>
+            <li><strong>Control Unit:</strong> Generates control signals for fetch-decode-execute cycles.</li>
+            <li><strong>Status Register:</strong> Stores flags for conditional execution.</li>
+        </ul>
+
+        <h3>CPU Operation Cycle</h3>
+        <ul>
+            <li><strong>Fetch:</strong>
+                <ul>
+                    <li>PC sends address to memory.</li>
+                    <li>Instruction loaded into IR.</li>
+                    <li>PC incremented.</li>
+                </ul>
+            </li>
+            <li><strong>Decode:</strong>
+                <ul>
+                    <li>Control unit interprets instruction in IR.</li>
+                    <li>Generates control signals.</li>
+                </ul>
+            </li>
+            <li><strong>Execute:</strong>
+                <ul>
+                    <li>ALU processes data based on control signals.</li>
+                    <li>Results stored in accumulator or memory.</li>
+                    <li>Flags updated in status register.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+CPU Architecture:
+┌─────────────────────────────────────────────────────┐
+│              CONTROL UNIT                          │
+│   ┌───────────────────────────────────────────┐    │
+│   │   ALU  │  Registers  │ Status Register   │    │
+│   │        │  (Acc, PC,  │ (Z, C, S, V)      │    │
+│   │        │   IR, etc.) │                    │    │
+│   └───────────────────────────────────────────┘    │
+│                     ↓                              │
+│              DATA BUS / ADDRESS BUS                │
+└─────────────────────────────────────────────────────┘
+            </pre>
+        </div>
+
+        <div class="code-block">
+            <span>// 4-bit Processor Execution Example</span><br>
+            <span>// Instruction: ADD B</span><br>
+            <span>// Fetch: PC points to ADD instruction</span><br>
+            <span>// Decode: Control unit identifies ADD</span><br>
+            <span>// Execute: ALU computes Acc + B</span><br>
+            <span>// Result stored in Acc, flags updated</span>
+        </div>
+
+        <h3>Applications</h3>
+        <ul>
+            <li>CPUs in computers</li>
+            <li>Microcontrollers for embedded systems</li>
+            <li>Digital signal processors</li>
+            <li>IoT devices and edge computing</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>⚡ Key insight:</strong> The processor unit integrates all components to execute programs. Understanding its architecture is fundamental to computer science and digital system design.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 7 summary</strong><br>Digital systems design covers ALU architecture, accumulator operation, status flags, and the complete processor unit.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• 4-bit ALU: arithmetic & logic operations, control signals.<br>• Accumulator: stores intermediate results.<br>• Status register: flags for zero, carry, sign, overflow.<br>• Processor unit: ALU, registers, control unit, status register.<br>• CPU cycle: fetch, decode, execute.</div>
     </div>
 </body>
 </html>

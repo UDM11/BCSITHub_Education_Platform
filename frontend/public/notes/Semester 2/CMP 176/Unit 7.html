@@ -1,303 +1,499 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sorting in Data Structures</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 7: Sorting</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-    <h1><b>Unit 7: Sorting</b></h1>
+    <h1>Unit 7: Sorting</h1>
+    <div class="subhead">Introduction · internal vs external · bubble · insertion · selection · quick · merge · shell · binary insertion · efficiency</div>
 
+    <!-- ========== 7.1 ========== -->
     <div class="section">
-        <h2><b>7.1 Introduction</b></h2>
-        <p><b>Sorting</b> is the process of arranging elements in a specific order, typically ascending or descending. It is a fundamental operation in computer science, used in databases, searching, and data processing. Efficient sorting improves the performance of algorithms that rely on ordered data.</p>
-    </div>
+        <h2>7.1 Introduction</h2>
+        <p><strong>Sorting</strong> is the process of arranging elements in a specific order, typically ascending or descending. It is a fundamental operation in computer science, used in databases, searching, and data processing. Efficient sorting improves the performance of algorithms that rely on ordered data.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📊 What is Sorting?</strong><br>Arranging data in a specific order (ascending or descending) to enable efficient searching, indexing, and data processing.</div>
+            <div class="card"><strong>🎯 Why Sort?</strong><br>Improves search efficiency (binary search), enables data analysis, and is a building block for many algorithms.</div>
+        </div>
 
-    <div class="section">
-        <h2><b>7.2 Internal & External Sort</b></h2>
+        <h3>Real-World Applications</h3>
         <ul>
-            <li><b>Internal Sort:</b> Sorting performed entirely within the main memory (RAM) of the computer. Suitable for small datasets that fit in memory. Examples include Bubble Sort, Quick Sort, and Merge Sort.</li>
-            <li><b>External Sort:</b> Sorting used for large datasets that cannot fit in main memory, requiring disk storage. It involves dividing data into smaller chunks, sorting them in memory, and merging them. Example: External Merge Sort.</li>
+            <li>Database indexing and query optimization.</li>
+            <li>E-commerce product listings (price, rating, popularity).</li>
+            <li>Data analysis and statistics (sorting for percentiles, medians).</li>
+            <li>Operating system process scheduling.</li>
         </ul>
     </div>
 
+    <!-- ========== 7.2 ========== -->
     <div class="section">
-        <h2><b>7.3 Common Sorting Algorithms</b></h2>
-        <p>Below are common sorting algorithms with their implementations in C:</p>
+        <h2>7.2 Internal & External Sort</h2>
+
+        <h3>Internal Sort</h3>
         <ul>
-            <li><b>Bubble Sort:</b> Repeatedly compares adjacent elements and swaps them if they are in the wrong order.
-                <p>Example:</p>
-                <pre>
-#include &lt;stdio.h&gt;
-
-void bubbleSort(int arr[], int n) {
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
-            if (arr[j] > arr[j + 1]) {
-                int temp = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = temp;
-            }
-        }
-    }
-}
-                </pre>
-            </li>
-            <li><b>Insertion Sort:</b> Builds a sorted array one element at a time by inserting each element into its correct position.
-                <p>Example:</p>
-                <pre>
-#include &lt;stdio.h&gt;
-
-void insertionSort(int arr[], int n) {
-    for (int i = 1; i < n; i++) {
-        int key = arr[i];
-        int j = i - 1;
-        while (j >= 0 && arr[j] > key) {
-            arr[j + 1] = arr[j];
-            j--;
-        }
-        arr[j + 1] = key;
-    }
-}
-                </pre>
-            </li>
-            <li><b>Selection Sort:</b> Repeatedly selects the smallest element from the unsorted portion and places it at the beginning.
-                <p>Example:</p>
-                <pre>
-#include &lt;stdio.h&gt;
-
-void selectionSort(int arr[], int n) {
-    for (int i = 0; i < n - 1; i++) {
-        int minIdx = i;
-        for (int j = i + 1; j < n; j++) {
-            if (arr[j] < arr[minIdx]) {
-                minIdx = j;
-            }
-        }
-        int temp = arr[i];
-        arr[i] = arr[minIdx];
-        arr[minIdx] = temp;
-    }
-}
-                </pre>
-            </li>
-            <li><b>Quick Sort:</b> Uses a divide-and-conquer approach, selecting a pivot and partitioning the array around it.
-                <p>Example:</p>
-                <pre>
-#include &lt;stdio.h&gt;
-
-void swap(int* a, int* b) {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
-int partition(int arr[], int low, int high) {
-    int pivot = arr[high];
-    int i = low - 1;
-    for (int j = low; j < high; j++) {
-        if (arr[j] <= pivot) {
-            i++;
-            swap(&arr[i], &arr[j]);
-        }
-    }
-    swap(&arr[i + 1], &arr[high]);
-    return i + 1;
-}
-
-void quickSort(int arr[], int low, int high) {
-    if (low < high) {
-        int pi = partition(arr, low, high);
-        quickSort(arr, low, pi - 1);
-        quickSort(arr, pi + 1, high);
-    }
-}
-                </pre>
-            </li>
-            <li><b>Merge Sort:</b> Divides the array into halves, recursively sorts them, and merges the sorted halves.
-                <p>Example:</p>
-                <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-void merge(int arr[], int l, int m, int r) {
-    int n1 = m - l + 1;
-    int n2 = r - m;
-    int* L = (int*)malloc(n1 * sizeof(int));
-    int* R = (int*)malloc(n2 * sizeof(int));
-    for (int i = 0; i < n1; i++) L[i] = arr[l + i];
-    for (int i = 0; i < n2; i++) R[i] = arr[m + 1 + i];
-    int i = 0, j = 0, k = l;
-    while (i < n1 && j < n2) {
-        if (L[i] <= R[j]) {
-            arr[k] = L[i];
-            i++;
-        } else {
-            arr[k] = R[j];
-            j++;
-        }
-        k++;
-    }
-    while (i < n1) {
-        arr[k] = L[i];
-        i++;
-        k++;
-    }
-    while (j < n2) {
-        arr[k] = R[j];
-        j++;
-        k++;
-    }
-    free(L);
-    free(R);
-}
-
-void mergeSort(int arr[], int l, int r) {
-    if (l < r) {
-        int m = l + (r - l) / 2;
-        mergeSort(arr, l, m);
-        mergeSort(arr, m + 1, r);
-        merge(arr, l, m, r);
-    }
-}
-                </pre>
-            </li>
-            <li><b>Shell Sort:</b> An optimization of insertion sort that uses a gap sequence to sort elements farther apart first.
-                <p>Example:</p>
-                <pre>
-#include &lt;stdio.h&gt;
-
-void shellSort(int arr[], int n) {
-    for (int gap = n / 2; gap > 0; gap /= 2) {
-        for (int i = gap; i < n; i++) {
-            int temp = arr[i];
-            int j;
-            for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
-                arr[j] = arr[j - gap];
-            }
-            arr[j] = temp;
-        }
-    }
-}
-                </pre>
-            </li>
-            <li><b>Binary Sort (Binary Insertion Sort):</b> A variant of insertion sort that uses binary search to find the insertion point.
-                <p>Example:</p>
-                <pre>
-#include &lt;stdio.h&gt;
-
-int binarySearch(int arr[], int key, int low, int high) {
-    while (low < high) {
-        int mid = low + (high - low) / 2;
-        if (arr[mid] <= key) {
-            low = mid + 1;
-        } else {
-            high = mid;
-        }
-    }
-    return low;
-}
-
-void binaryInsertionSort(int arr[], int n) {
-    for (int i = 1; i < n; i++) {
-        int key = arr[i];
-        int j = i - 1;
-        int loc = binarySearch(arr, key, 0, i);
-        while (j >= loc) {
-            arr[j + 1] = arr[j];
-            j--;
-        }
-        arr[loc] = key;
-    }
-}
-                </pre>
-            </li>
+            <li><strong>Definition:</strong> Sorting performed entirely within the main memory (RAM).</li>
+            <li><strong>Suitable For:</strong> Small to medium datasets that fit in memory.</li>
+            <li><strong>Examples:</strong> Bubble Sort, Quick Sort, Merge Sort, Insertion Sort.</li>
+            <li><strong>Characteristics:</strong> Fast access, no disk I/O overhead.</li>
         </ul>
+
+        <h3>External Sort</h3>
+        <ul>
+            <li><strong>Definition:</strong> Sorting used for large datasets that cannot fit in main memory, requiring disk storage.</li>
+            <li><strong>Approach:</strong> Divide data into smaller chunks, sort each chunk in memory, then merge the sorted chunks.</li>
+            <li><strong>Example:</strong> External Merge Sort.</li>
+            <li><strong>Characteristics:</strong> Uses disk I/O, more complex, handles large datasets.</li>
+        </ul>
+
+        <table>
+            <tr><th>Feature</th><th>Internal Sort</th><th>External Sort</th></tr>
+            <tr><td>Memory</td><td>All in RAM</td><td>Uses disk storage</td></tr>
+            <tr><td>Dataset Size</td><td>Small to medium</td><td>Large (terabytes)</td></tr>
+            <tr><td>Speed</td><td>Fast (no disk I/O)</td><td>Slower (disk I/O overhead)</td></tr>
+            <tr><td>Examples</td><td>Quick Sort, Merge Sort</td><td>External Merge Sort</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 7.3 ========== -->
     <div class="section">
-        <h2><b>7.4 Efficiency of Sorting</b></h2>
-        <p>The efficiency of sorting algorithms is analyzed using <b>Big O notation</b>, which describes the worst-case time and space complexity as a function of input size (n).</p>
+        <h2>7.3 Common Sorting Algorithms</h2>
+
+        <h3>Bubble Sort</h3>
         <ul>
-            <li><b>Bubble Sort:</b> Time Complexity: O(n²), Space Complexity: O(1)</li>
-            <li><b>Insertion Sort:</b> Time Complexity: O(n²), Space Complexity: O(1)</li>
-            <li><b>Selection Sort:</b> Time Complexity: O(n²), Space Complexity: O(1)</li>
-            <li><b>Quick Sort:</b> Time Complexity: O(n log n) average, O(n²) worst case, Space Complexity: O(log n)</li>
-            <li><b>Merge Sort:</b> Time Complexity: O(n log n), Space Complexity: O(n)</li>
-            <li><b>Shell Sort:</b> Time Complexity: O(n^(4/3)) to O(n²) depending on gap sequence, Space Complexity: O(1)</li>
-            <li><b>Binary Insertion Sort:</b> Time Complexity: O(n²) for insertions, O(n log n) for binary search, Space Complexity: O(1)</li>
+            <li><strong>Approach:</strong> Repeatedly compares adjacent elements and swaps them if they are in the wrong order.</li>
+            <li><strong>Time Complexity:</strong> O(n²)</li>
+            <li><strong>Space Complexity:</strong> O(1)</li>
         </ul>
-        <p><b>Big O Notation:</b></p>
+        <div class="code-block">
+            void bubbleSort(int arr[], int n) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < n - 1; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int j = 0; j < n - i - 1; j++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (arr[j] > arr[j + 1]) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;swap(&arr[j], &arr[j+1]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <h3>Insertion Sort</h3>
         <ul>
-            <li><b>O(1):</b> Constant time, independent of input size.</li>
-            <li><b>O(n):</b> Linear time, grows proportionally with input size.</li>
-            <li><b>O(n²):</b> Quadratic time, grows with the square of input size.</li>
-            <li><b>O(n log n):</b> Log-linear time, efficient for large datasets.</li>
+            <li><strong>Approach:</strong> Builds sorted array one element at a time by inserting each element into its correct position.</li>
+            <li><strong>Time Complexity:</strong> O(n²)</li>
+            <li><strong>Space Complexity:</strong> O(1)</li>
+            <li><strong>Best For:</strong> Small datasets or partially sorted arrays.</li>
         </ul>
-        <p>Choosing the right sorting algorithm depends on the dataset size, memory constraints, and whether stability (preserving relative order of equal elements) is required.</p>
+        <div class="code-block">
+            void insertionSort(int arr[], int n) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i < n; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int key = arr[i];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int j = i - 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (j >= 0 && arr[j] > key) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[j + 1] = arr[j];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;j--;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[j + 1] = key;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <h3>Selection Sort</h3>
+        <ul>
+            <li><strong>Approach:</strong> Repeatedly selects the smallest element from the unsorted portion and places it at the beginning.</li>
+            <li><strong>Time Complexity:</strong> O(n²)</li>
+            <li><strong>Space Complexity:</strong> O(1)</li>
+        </ul>
+        <div class="code-block">
+            void selectionSort(int arr[], int n) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < n - 1; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int minIdx = i;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int j = i + 1; j < n; j++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (arr[j] < arr[minIdx])<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;minIdx = j;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;swap(&arr[i], &arr[minIdx]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <h3>Quick Sort</h3>
+        <ul>
+            <li><strong>Approach:</strong> Divide-and-conquer. Selects a pivot and partitions the array around it.</li>
+            <li><strong>Time Complexity:</strong> O(n log n) average, O(n²) worst case.</li>
+            <li><strong>Space Complexity:</strong> O(log n) (recursive stack).</li>
+            <li><strong>Best For:</strong> Large datasets, general-purpose sorting.</li>
+        </ul>
+        <div class="code-block">
+            int partition(int arr[], int low, int high) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int pivot = arr[high];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int i = low - 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int j = low; j < high; j++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (arr[j] <= pivot) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i++;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;swap(&arr[i], &arr[j]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;swap(&arr[i+1], &arr[high]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return i + 1;<br>
+            }<br><br>
+            void quickSort(int arr[], int low, int high) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (low < high) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int pi = partition(arr, low, high);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quickSort(arr, low, pi - 1);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quickSort(arr, pi + 1, high);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <h3>Merge Sort</h3>
+        <ul>
+            <li><strong>Approach:</strong> Divide-and-conquer. Divides array into halves, recursively sorts, and merges.</li>
+            <li><strong>Time Complexity:</strong> O(n log n)</li>
+            <li><strong>Space Complexity:</strong> O(n)</li>
+            <li><strong>Best For:</strong> Large datasets where stability is required.</li>
+        </ul>
+        <div class="code-block">
+            void merge(int arr[], int l, int m, int r) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int n1 = m - l + 1, n2 = r - m;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int L[n1], R[n2];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < n1; i++) L[i] = arr[l+i];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < n2; i++) R[i] = arr[m+1+i];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int i = 0, j = 0, k = l;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (i < n1 && j < n2) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[k++] = (L[i] <= R[j]) ? L[i++] : R[j++];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (i < n1) arr[k++] = L[i++];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (j < n2) arr[k++] = R[j++];<br>
+            }<br><br>
+            void mergeSort(int arr[], int l, int r) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (l < r) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int m = l + (r - l) / 2;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mergeSort(arr, l, m);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mergeSort(arr, m + 1, r);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;merge(arr, l, m, r);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <h3>Shell Sort</h3>
+        <ul>
+            <li><strong>Approach:</strong> Optimization of insertion sort using a gap sequence.</li>
+            <li><strong>Time Complexity:</strong> O(n^(4/3)) to O(n²) depending on gap sequence.</li>
+            <li><strong>Space Complexity:</strong> O(1)</li>
+        </ul>
+        <div class="code-block">
+            void shellSort(int arr[], int n) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int gap = n/2; gap > 0; gap /= 2) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = gap; i < n; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int temp = arr[i], j;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (j = i; j >= gap && arr[j - gap] > temp; j -= gap)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[j] = arr[j - gap];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[j] = temp;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <h3>Binary Insertion Sort</h3>
+        <ul>
+            <li><strong>Approach:</strong> Insertion sort that uses binary search to find the insertion point.</li>
+            <li><strong>Time Complexity:</strong> O(n²) for insertions, O(n log n) for searches.</li>
+            <li><strong>Space Complexity:</strong> O(1)</li>
+        </ul>
+        <div class="code-block">
+            int binarySearch(int arr[], int key, int low, int high) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (low < high) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int mid = low + (high - low) / 2;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (arr[mid] <= key) low = mid + 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else high = mid;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return low;<br>
+            }<br><br>
+            void binaryInsertionSort(int arr[], int n) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i < n; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int key = arr[i];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int loc = binarySearch(arr, key, 0, i);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int j = i - 1; j >= loc; j--)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[j + 1] = arr[j];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[loc] = key;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 7.4 ========== -->
+    <div class="section">
+        <h2>7.4 Efficiency of Sorting</h2>
+
+        <h3>Algorithm Comparison</h3>
+        <table>
+            <tr><th>Algorithm</th><th>Best Case</th><th>Average Case</th><th>Worst Case</th><th>Space</th><th>Stable</th></tr>
+            <tr><td>Bubble Sort</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>Yes</td></tr>
+            <tr><td>Insertion Sort</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>Yes</td></tr>
+            <tr><td>Selection Sort</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>No</td></tr>
+            <tr><td>Quick Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n²)</td><td>O(log n)</td><td>No</td></tr>
+            <tr><td>Merge Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td><td>Yes</td></tr>
+            <tr><td>Shell Sort</td><td>O(n log n)</td><td>O(n^(4/3))</td><td>O(n²)</td><td>O(1)</td><td>No</td></tr>
+            <tr><td>Binary Insertion</td><td>O(n log n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>Yes</td></tr>
+        </table>
+
+        <h3>Big O Notation Summary</h3>
+        <ul>
+            <li><strong>O(1):</strong> Constant time — independent of input size.</li>
+            <li><strong>O(n):</strong> Linear time — grows proportionally with input size.</li>
+            <li><strong>O(n²):</strong> Quadratic time — grows with the square of input size (inefficient for large n).</li>
+            <li><strong>O(n log n):</strong> Log-linear time — efficient for large datasets.</li>
+        </ul>
+
+        <h3>Choosing the Right Algorithm</h3>
+        <ul>
+            <li><strong>Small datasets:</strong> Insertion Sort or Selection Sort.</li>
+            <li><strong>Large datasets:</strong> Quick Sort or Merge Sort.</li>
+            <li><strong>Data nearly sorted:</strong> Insertion Sort (O(n) best case).</li>
+            <li><strong>Stability required:</strong> Merge Sort or Insertion Sort.</li>
+            <li><strong>Memory constraints:</strong> Quick Sort (in-place) or Heap Sort.</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>📊 Key insight:</strong> No single sorting algorithm is best for all cases. The choice depends on dataset size, memory constraints, stability requirements, and whether the data is partially sorted.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 7 summary</strong><br>Sorting arranges data in order. Internal sorting uses memory, external sorting uses disk. Algorithms vary in efficiency and use cases.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Internal sort: in-memory (Quick Sort, Merge Sort).<br>• External sort: disk-based for large datasets.<br>• Common algorithms: Bubble, Insertion, Selection, Quick, Merge, Shell.<br>• Time complexities: O(n²) vs O(n log n).<br>• Choose algorithm based on data size, stability, and memory.</div>
     </div>
 </body>
 </html>

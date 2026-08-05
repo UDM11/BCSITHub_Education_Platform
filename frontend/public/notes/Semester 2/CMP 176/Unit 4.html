@@ -1,336 +1,548 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Queues in Data Structures</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 4: Queue</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
-</head>
-<body>
-    <h1><b>Unit 4: Queue</b></h1>
-
-    <div class="section">
-        <h2><b>4.1 Introduction</b></h2>
-        <p>A <b>queue</b> is a linear data structure that follows the First-In-First-Out (FIFO) principle, where elements are added at the rear and removed from the front. It resembles a line of people waiting, where the first person in line is served first. Queues are used in scheduling, resource sharing, and buffering in computing systems.</p>
-    </div>
-
-    <div class="section">
-        <h2><b>4.2 Queue Terminology</b></h2>
-        <p>Key terms associated with queues:</p>
-        <ul>
-            <li><b>Front:</b> The index or pointer to the first element in the queue, where elements are removed (dequeued).</li>
-            <li><b>Rear:</b> The index or pointer to the last element in the queue, where elements are added (enqueued).</li>
-            <li><b>Enqueue:</b> The operation to add an element to the rear of the queue.</li>
-            <li><b>Dequeue:</b> The operation to remove and return the front element from the queue.</li>
-            <li><b>Capacity:</b> The maximum number of elements a queue can hold (for array-based queues).</li>
-            <li><b>Size:</b> The current number of elements in the queue.</li>
-            <li><b>Queue Overflow:</b> Occurs when trying to enqueue an element into a full queue.</li>
-            <li><b>Queue Underflow:</b> Occurs when trying to dequeue an element from an empty queue.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2><b>4.3 Algorithm for Insertion in Queue (Enqueue)</b></h2>
-        <p><b>Enqueue Algorithm:</b></p>
-        <pre>
-Algorithm Enqueue(queue, element, maxSize)
-1. If size(queue) >= maxSize
-    Print "Queue Overflow"
-    Return
-2. rear = rear + 1
-3. queue[rear] = element
-4. If front == -1
-    front = 0
-        </pre>
-        <p>Example Implementation in C:</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#define MAX_SIZE 100
-
-typedef struct {
-    int front, rear;
-    int queue[MAX_SIZE];
-} Queue;
-
-void enqueue(Queue* q, int element) {
-    if (q->rear >= MAX_SIZE - 1) {
-        printf("Queue Overflow\n");
-        return;
-    }
-    if (q->front == -1) {
-        q->front = 0;
-    }
-    q->queue[++(q->rear)] = element;
-}
-        </pre>
-    </div>
-
-    <div class="section">
-        <h2><b>4.4 Algorithm for Deletion in Queue (Dequeue)</b></h2>
-        <p><b>Dequeue Algorithm:</b></p>
-        <pre>
-Algorithm Dequeue(queue)
-1. If front == -1
-    Print "Queue Underflow"
-    Return null
-2. element = queue[front]
-3. If front == rear
-    front = rear = -1
-4. Else
-    front = front + 1
-5. Return element
-        </pre>
-        <p>Example Implementation in C:</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#define MAX_SIZE 100
-
-typedef struct {
-    int front, rear;
-    int queue[MAX_SIZE];
-} Queue;
-
-int dequeue(Queue* q) {
-    if (q->front == -1) {
-        printf("Queue Underflow\n");
-        return -1;
-    }
-    int element = q->queue[q->front];
-    if (q->front == q->rear) {
-        q->front = q->rear = -1;
-    } else {
-        q->front++;
-    }
-    return element;
-}
-        </pre>
-    </div>
-
-    <div class="section">
-        <h2><b>4.5 Limitation of Simple Queue</b></h2>
-        <p>A simple queue implemented using an array has the following limitations:</p>
-        <ul>
-            <li><b>Wasted Space:</b> After dequeuing elements, the space at the front of the array cannot be reused, even if the queue is not full.</li>
-            <li><b>Fixed Size:</b> The queue's size is fixed at creation, leading to overflow if more elements are added than the capacity allows.</li>
-            <li><b>Inefficient Memory Usage:</b> As elements are dequeued, the rear pointer moves forward, reducing available space until the queue is considered full, even with free slots at the front.</li>
-        </ul>
-        <p>These limitations are addressed by variations like circular queues and dynamic queues (e.g., linked list-based queues).</p>
-    </div>
-
-    <div class="section">
-        <h2><b>4.6 Variations in Queue</b></h2>
-        <p>Variations of queues overcome the limitations of simple queues and cater to specific needs:</p>
-        <ul>
-            <li><b>Circular Queue:</b> An improved version of the simple queue where the front and rear pointers wrap around to the beginning of the array when they reach the end, forming a circular structure. This allows reuse of space freed by dequeued elements.
-                <p>Enqueue Algorithm for Circular Queue:</p>
-                <pre>
-Algorithm CircularEnqueue(queue, element, maxSize)
-1. If (rear + 1) % maxSize == front
-    Print "Queue Overflow"
-    Return
-2. If front == -1
-    front = 0
-3. rear = (rear + 1) % maxSize
-4. queue[rear] = element
-                </pre>
-                <p>Example Implementation in C:</p>
-                <pre>
-#include &lt;stdio.h&gt;
-#define MAX_SIZE 100
-
-typedef struct {
-    int front, rear;
-    int queue[MAX_SIZE];
-} CircularQueue;
-
-void enqueue(CircularQueue* q, int element) {
-    if ((q->rear + 1) % MAX_SIZE == q->front) {
-        printf("Queue Overflow\n");
-        return;
-    }
-    if (q->front == -1) {
-        q->front = 0;
-    }
-    q->rear = (q->rear + 1) % MAX_SIZE;
-    q->queue[q->rear] = element;
-}
-                </pre>
-            </li>
-            <li><b>Priority Queue:</b> A queue where elements are dequeued based on priority rather than their order of insertion. Elements with higher priority are removed first. It can be implemented using arrays, linked lists, or heaps.
-                <p>Example: In a hospital, patients with critical conditions are treated before others, regardless of arrival time.</p>
-                <p>Example Implementation in C (Using Array):</p>
-                <pre>
-#include &lt;stdio.h&gt;
-#define MAX_SIZE 100
-
-typedef struct {
-    int queue[MAX_SIZE];
-    int size;
-} PriorityQueue;
-
-void init(PriorityQueue* pq) {
-    pq->size = 0;
-}
-
-void add(PriorityQueue* pq, int element) {
-    if (pq->size >= MAX_SIZE) {
-        printf("Queue Overflow\n");
-        return;
-    }
-    pq->queue[pq->size++] = element;
-}
-
-int poll(PriorityQueue* pq) {
-    if (pq->size == 0) {
-        printf("Queue Underflow\n");
-        return -1;
-    }
-    int min = pq->queue[0];
-    int minIndex = 0;
-    for (int i = 1; i < pq->size; i++) {
-        if (pq->queue[i] < min) {
-            min = pq->queue[i];
-            minIndex = i;
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
         }
-    }
-    for (int i = minIndex; i < pq->size - 1; i++) {
-        pq->queue[i] = pq->queue[i + 1];
-    }
-    pq->size--;
-    return min;
-}
-
-int main() {
-    PriorityQueue pq;
-    init(&pq);
-    add(&pq, 30);
-    add(&pq, 10);
-    add(&pq, 20);
-    while (pq.size > 0) {
-        printf("%d\n", poll(&pq)); // Output: 10, 20, 30
-    }
-    return 0;
-}
-                </pre>
-            </li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2><b>4.7 Application of Queue</b></h2>
-        <p>Queues are widely used in computing and real-world scenarios due to their FIFO nature:</p>
-        <ul>
-            <li><b>Process Scheduling:</b> Operating systems use queues to manage processes in CPU scheduling (e.g., ready queue).</li>
-            <li><b>Task Management:</b> Print job queues in printers or task queues in multitasking systems.</li>
-            <li><b>Buffering:</b> Queues handle data buffering in input/output operations, such as keyboard input or network packet processing.</li>
-            <li><b>Breadth-First Search (BFS):</b> Queues are used in graph algorithms like BFS to explore nodes level by level.</li>
-            <li><b>Simulation Systems:</b> Queues model real-world systems like customer lines in banks or supermarkets.</li>
-            <li><b>Message Queues:</b> Used in messaging systems to handle asynchronous communication between components.</li>
-        </ul>
-        <p>Example (Queue in BFS):</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#define MAX_SIZE 100
-
-typedef struct {
-    int front, rear;
-    int queue[MAX_SIZE];
-} Queue;
-
-void enqueue(Queue* q, int element) {
-    if (q->rear >= MAX_SIZE - 1) return;
-    if (q->front == -1) q->front = 0;
-    q->queue[++(q->rear)] = element;
-}
-
-int dequeue(Queue* q) {
-    if (q->front == -1) return -1;
-    int element = q->queue[q->front];
-    if (q->front == q->rear) q->front = q->rear = -1;
-    else q->front++;
-    return element;
-}
-
-void bfs(int start, int** adj, int V, int* visited) {
-    Queue q = {-1, -1, {0}};
-    visited[start] = 1;
-    enqueue(&q, start);
-
-    while (q.front != -1) {
-        int node = dequeue(&q);
-        printf("%d ", node);
-        for (int i = 0; i < V; i++) {
-            if (adj[node][i] && !visited[i]) {
-                visited[i] = 1;
-                enqueue(&q, i);
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
             }
         }
-    }
-}
-        </pre>
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Unit 4: Queue</h1>
+    <div class="subhead">Introduction · terminology · enqueue · dequeue · limitations · variations · applications</div>
+
+    <!-- ========== 4.1 ========== -->
+    <div class="section">
+        <h2>4.1 Introduction</h2>
+        <p>A <strong>queue</strong> is a linear data structure that follows the <strong>First-In-First-Out (FIFO)</strong> principle, where elements are added at the rear and removed from the front. It resembles a line of people waiting, where the first person in line is served first.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📋 FIFO Principle</strong><br>First In, First Out — the element that has been in the queue the longest is removed first. Like a line at a ticket counter.</div>
+            <div class="card"><strong>🎯 Key Operations</strong><br>Enqueue (add to rear) and Dequeue (remove from front). Additional operations: Peek, isEmpty, isFull.</div>
+        </div>
+
+        <div class="figure-box">
+            <pre>
+Queue Visualization:
+    Front → ┌─────┐
+            │  1  │
+            ├─────┤
+            │  2  │
+            ├─────┤
+            │  3  │
+            ├─────┤
+            │  4  │
+    Rear  → └─────┘
+
+Enqueue: Add to rear
+Dequeue: Remove from front
+            </pre>
+        </div>
+    </div>
+
+    <!-- ========== 4.2 ========== -->
+    <div class="section">
+        <h2>4.2 Queue Terminology</h2>
+        <p>Key terms associated with queues:</p>
+
+        <table>
+            <tr><th>Term</th><th>Description</th></tr>
+            <tr><td>Front</td><td>Index or pointer to the first element (removed from here).</td></tr>
+            <tr><td>Rear</td><td>Index or pointer to the last element (added here).</td></tr>
+            <tr><td>Enqueue</td><td>Operation to add an element to the rear.</td></tr>
+            <tr><td>Dequeue</td><td>Operation to remove and return the front element.</td></tr>
+            <tr><td>Capacity</td><td>Maximum number of elements (for array-based queues).</td></tr>
+            <tr><td>Size</td><td>Current number of elements in the queue.</td></tr>
+            <tr><td>Queue Overflow</td><td>Occurs when trying to enqueue into a full queue.</td></tr>
+            <tr><td>Queue Underflow</td><td>Occurs when trying to dequeue from an empty queue.</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Queue Terminology in Code</span><br>
+            #define MAX 100<br>
+            int queue[MAX];<br>
+            int front = -1;  <span>// -1 indicates empty</span><br>
+            int rear = -1;   <span>// -1 indicates empty</span>
+        </div>
+    </div>
+
+    <!-- ========== 4.3 ========== -->
+    <div class="section">
+        <h2>4.3 Algorithm for Insertion in Queue (Enqueue)</h2>
+
+        <div class="code-block">
+            <span>// Algorithm: Enqueue</span><br>
+            Algorithm Enqueue(queue, element, maxSize)<br>
+            1. If size(queue) >= maxSize<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Print "Queue Overflow"<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Return<br>
+            2. rear = rear + 1<br>
+            3. queue[rear] = element<br>
+            4. If front == -1<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;front = 0
+        </div>
+
+        <div class="code-block">
+            <span>// Enqueue Implementation in C</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #define MAX 100<br><br>
+            int queue[MAX];<br>
+            int front = -1;<br>
+            int rear = -1;<br><br>
+            void enqueue(int value) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (rear >= MAX - 1) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Queue Overflow\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (front == -1) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;front = 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;queue[++rear] = value;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 4.4 ========== -->
+    <div class="section">
+        <h2>4.4 Algorithm for Deletion in Queue (Dequeue)</h2>
+
+        <div class="code-block">
+            <span>// Algorithm: Dequeue</span><br>
+            Algorithm Dequeue(queue)<br>
+            1. If front == -1<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Print "Queue Underflow"<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Return null<br>
+            2. element = queue[front]<br>
+            3. If front == rear<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;front = rear = -1<br>
+            4. Else<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;front = front + 1<br>
+            5. Return element
+        </div>
+
+        <div class="code-block">
+            <span>// Dequeue Implementation in C</span><br>
+            int dequeue() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (front == -1) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Queue Underflow\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return -1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int element = queue[front];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (front == rear) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;front = rear = -1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;front++;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return element;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 4.5 ========== -->
+    <div class="section">
+        <h2>4.5 Limitation of Simple Queue</h2>
+        <p>A simple queue implemented using an array has the following limitations:</p>
+
+        <ul>
+            <li><strong>Wasted Space:</strong> After dequeuing elements, the space at the front cannot be reused, even if the queue is not full.</li>
+            <li><strong>Fixed Size:</strong> The queue's size is fixed at creation, leading to overflow if more elements are added than capacity.</li>
+            <li><strong>Inefficient Memory Usage:</strong> As elements are dequeued, the rear pointer moves forward, reducing available space until the queue is considered full, even with free slots at the front.</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+Simple Queue Limitation:
+    ┌─────┬─────┬─────┬─────┬─────┐
+    │  X  │  X  │  3  │  4  │  5  │
+    └─────┴─────┴─────┴─────┴─────┘
+      ↑front        ↑rear
+      (space wasted, cannot be reused)
+            </pre>
+        </div>
+
+        <div class="note-box">
+            <strong>⚠️ Key insight:</strong> Simple queues waste memory because dequeued spaces cannot be reused. This is addressed by circular queues and linked-list based queues.
+        </div>
+    </div>
+
+    <!-- ========== 4.6 ========== -->
+    <div class="section">
+        <h2>4.6 Variations in Queue</h2>
+
+        <h3>Circular Queue</h3>
+        <ul>
+            <li><strong>Concept:</strong> Front and rear pointers wrap around to the beginning when they reach the end, forming a circular structure.</li>
+            <li><strong>Advantage:</strong> Reuses space freed by dequeued elements.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Circular Queue Enqueue Algorithm</span><br>
+            Algorithm CircularEnqueue(queue, element, maxSize)<br>
+            1. If (rear + 1) % maxSize == front<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Print "Queue Overflow"<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Return<br>
+            2. If front == -1<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;front = 0<br>
+            3. rear = (rear + 1) % maxSize<br>
+            4. queue[rear] = element
+        </div>
+
+        <div class="code-block">
+            <span>// Circular Queue Implementation in C</span><br>
+            #define MAX 5<br>
+            int queue[MAX];<br>
+            int front = -1, rear = -1;<br><br>
+            void enqueue(int value) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if ((rear + 1) % MAX == front) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Queue Overflow\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (front == -1) front = 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;rear = (rear + 1) % MAX;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;queue[rear] = value;<br>
+            }<br><br>
+            int dequeue() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (front == -1) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Queue Underflow\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return -1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int element = queue[front];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (front == rear) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;front = rear = -1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;front = (front + 1) % MAX;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return element;<br>
+            }
+        </div>
+
+        <h3>Priority Queue</h3>
+        <ul>
+            <li><strong>Concept:</strong> Elements are dequeued based on priority rather than FIFO.</li>
+            <li><strong>Example:</strong> Hospital emergency room (critical patients first).</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Priority Queue using Array (Simple Min-Heap)</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #define MAX 100<br><br>
+            int pq[MAX];<br>
+            int size = 0;<br><br>
+            void add(int element) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (size >= MAX) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Queue Overflow\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;pq[size++] = element;<br>
+            }<br><br>
+            int poll() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (size == 0) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Queue Underflow\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return -1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int min = pq[0], minIdx = 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i < size; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pq[i] < min) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min = pq[i];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;minIdx = i;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = minIdx; i < size - 1; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pq[i] = pq[i + 1];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;size--;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return min;<br>
+            }
+        </div>
+
+        <h3>Deque (Double-Ended Queue)</h3>
+        <ul>
+            <li><strong>Concept:</strong> Insertion and deletion can occur at both ends.</li>
+            <li><strong>Operations:</strong> addFirst, addLast, removeFirst, removeLast.</li>
+            <li><strong>Use:</strong> Sliding window algorithms, palindrome checking.</li>
+        </ul>
+
+        <table>
+            <tr><th>Queue Type</th><th>Insertion</th><th>Deletion</th><th>Use Case</th></tr>
+            <tr><td>Simple Queue</td><td>Rear</td><td>Front</td><td>Basic FIFO</td></tr>
+            <tr><td>Circular Queue</td><td>Rear (wraps)</td><td>Front (wraps)</td><td>Memory reuse</td></tr>
+            <tr><td>Priority Queue</td><td>Based on priority</td><td>Highest priority</td><td>Emergency systems</td></tr>
+            <tr><td>Deque</td><td>Both ends</td><td>Both ends</td><td>Flexible operations</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== 4.7 ========== -->
+    <div class="section">
+        <h2>4.7 Application of Queue</h2>
+        <p>Queues are widely used in computing and real-world scenarios due to their FIFO nature.</p>
+
+        <h3>Applications</h3>
+        <ul>
+            <li><strong>Process Scheduling:</strong> Operating systems use ready queues for CPU scheduling.</li>
+            <li><strong>Task Management:</strong> Print job queues in printers, task queues in multitasking systems.</li>
+            <li><strong>Buffering:</strong> Keyboard input buffers, network packet processing.</li>
+            <li><strong>Breadth-First Search (BFS):</strong> Queue-based traversal in graphs.</li>
+            <li><strong>Simulation Systems:</strong> Modeling customer lines in banks or supermarkets.</li>
+            <li><strong>Message Queues:</strong> Asynchronous communication between system components.</li>
+            <li><strong>Request Queues:</strong> Web server requests handling.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// BFS using Queue (Graph Traversal)</span><br>
+            void bfs(int start, int** adj, int V) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int visited[V] = {0};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int queue[MAX];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int front = 0, rear = 0;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;visited[start] = 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;queue[rear++] = start;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (front < rear) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int node = queue[front++];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", node);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < V; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (adj[node][i] && !visited[i]) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;visited[i] = 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queue[rear++] = i;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>📊 Key insight:</strong> Queues are essential for managing data in a FIFO manner. They are fundamental to operating systems, networking, and many algorithms like BFS.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 4 summary</strong><br>Queues are FIFO data structures with enqueue and dequeue operations. Variations include circular queues, priority queues, and deques.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Queue: FIFO (First In, First Out).<br>• Operations: enqueue (rear), dequeue (front).<br>• Terminology: front, rear, overflow, underflow.<br>• Limitation: simple queues waste space.<br>• Circular queue: reuses space by wrapping around.<br>• Priority queue: dequeues by priority.<br>• Applications: scheduling, BFS, buffering, message queues.</div>
     </div>
 </body>
 </html>

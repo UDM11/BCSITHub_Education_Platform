@@ -151,8 +151,9 @@ export const chapterData: SubjectChapters[] = [
   {
     courseCode: "PRJ 181",
     chapters: [
-        { id: "Project I", title: "Project I: Syllabus" },
-        { id: "Guidelines", title: "Project I: Guidelines" }
+      { id: "Phase 1", title: "Phase 1: Conceptual Framework and Proposal" },
+      { id: "Phase 2", title: "Phase 2: Progress Report & System Design" },
+      { id: "Phase 3", title: "Phase 3: Final Presentation and Defense" }
     ]
   },
   // Start 3rd Semester

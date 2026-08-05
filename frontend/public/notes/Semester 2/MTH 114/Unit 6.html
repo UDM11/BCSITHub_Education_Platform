@@ -1,123 +1,423 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 6: Integers and Division</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            color: black;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
         }
         li {
-            margin-bottom: 10px;
+            margin-bottom: 0.6rem;
         }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
+        strong {
+            color: #0f3d66;
         }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
         }
-        h2 {
-            font-size: 1rem; /* smaller sub-header */
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
         }
-        .section {
-            padding: 8px; /* less padding for small screens */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
-    }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1><b>Unit 6: Integers and Division</b></h1>
+    <h1>Unit 6: Integers and Division</h1>
+    <div class="subhead">Introduction · division · primes · fundamental theorem · infinitude of primes · GCD · LCM · modular arithmetic · cryptography</div>
 
+    <!-- ========== 6.1 ========== -->
     <div class="section">
-        <h2><b>6.1 Introduction</b></h2>
-        <p>The study of integers and division forms the foundation of number theory, focusing on the properties and relationships of whole numbers (..., -2, -1, 0, 1, 2, ...). Division concepts underpin key ideas like divisibility, prime numbers, and modular arithmetic, which are essential in mathematics and applications like cryptography.</p>
+        <h2>6.1 Introduction</h2>
+        <p>The study of <strong>integers</strong> and <strong>division</strong> forms the foundation of number theory, focusing on the properties and relationships of whole numbers (..., -2, -1, 0, 1, 2, ...). Division concepts underpin key ideas like divisibility, prime numbers, and modular arithmetic, which are essential in mathematics and applications like cryptography.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🔢 Integers</strong><br>The set of all positive and negative whole numbers, including zero, denoted ℤ. Example: -3, 0, 7.</div>
+            <div class="card"><strong>➗ Division</strong><br>For integers a and b (b ≠ 0), a divided by b yields quotient and remainder, leading to GCD and LCM.</div>
+        </div>
+
+        <h3>Applications</h3>
         <ul>
-            <li><strong>Integers:</strong> The set of all positive and negative whole numbers, including zero, denoted <em>ℤ</em>. Example: -3, 0, 7.</li>
-            <li><strong>Division:</strong> For integers <em>a</em> and <em>b</em> (<em>b ≠ 0</em>), <em>a</em> divided by <em>b</em> yields a quotient and remainder, leading to concepts like greatest common divisor (GCD) and least common multiple (LCM).</li>
-            <li><strong>Applications:</strong> Used in computer science (e.g., algorithms), cryptography (e.g., encryption), and pure mathematics (e.g., solving Diophantine equations).</li>
+            <li><strong>Computer Science:</strong> Algorithms, hashing, and data structures.</li>
+            <li><strong>Cryptography:</strong> RSA encryption, digital signatures.</li>
+            <li><strong>Pure Mathematics:</strong> Diophantine equations, number theory.</li>
         </ul>
     </div>
 
+    <!-- ========== 6.2 ========== -->
     <div class="section">
-        <h2><b>6.2 Division, Primes, The Fundamental Theorem of Arithmetic (Statement Only)</b></h2>
+        <h2>6.2 Division, Primes, The Fundamental Theorem of Arithmetic</h2>
+
+        <h3>Division</h3>
         <ul>
-            <li><strong>Division:</strong> An integer <em>a</em> is divisible by <em>b</em> (<em>b ≠ 0</em>) if there exists an integer <em>k</em> such that <em>a = b · k</em>. Notation: <em>b | a</em>. Example: <em>6 | 12</em> since <em>12 = 6 · 2</em>.</li>
-            <li><strong>Primes:</strong> A prime number is a positive integer greater than 1 divisible only by 1 and itself. Example: 2, 3, 5, 7. A composite number has divisors other than 1 and itself. Example: 4, 6.</li>
-            <li><strong>Fundamental Theorem of Arithmetic:</strong> Every positive integer greater than 1 can be expressed as a unique product of prime numbers (up to the order of factors). Example: <em>12 = 2² · 3</em>, <em>100 = 2² · 5²</em>.</li>
+            <li><strong>Definition:</strong> a is divisible by b (b ≠ 0) if there exists integer k such that a = b·k. Notation: b | a.</li>
+            <li><strong>Example:</strong> 6 | 12 since 12 = 6 · 2.</li>
         </ul>
+
+        <h3>Primes</h3>
+        <ul>
+            <li><strong>Prime:</strong> Positive integer > 1 divisible only by 1 and itself. Example: 2, 3, 5, 7.</li>
+            <li><strong>Composite:</strong> Positive integer > 1 with divisors other than 1 and itself. Example: 4, 6, 9.</li>
+        </ul>
+
+        <h3>Fundamental Theorem of Arithmetic</h3>
+        <ul>
+            <li><strong>Statement:</strong> Every positive integer > 1 can be expressed uniquely as a product of prime numbers (up to order).</li>
+            <li><strong>Example:</strong> 12 = 2² · 3, 100 = 2² · 5².</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Prime Factorization Examples</span><br>
+            12 = 2 × 2 × 3 = 2² · 3<br>
+            100 = 2 × 2 × 5 × 5 = 2² · 5²<br>
+            84 = 2 × 2 × 3 × 7 = 2² · 3 · 7
+        </div>
     </div>
 
+    <!-- ========== 6.3 ========== -->
     <div class="section">
-        <h2><b>6.3 The Infinitude of Primes</b></h2>
-        <p>The infinitude of primes states that there are infinitely many prime numbers. This was famously proven by Euclid around 300 BCE.</p>
-        <ul>
-            <li><strong>Proof Idea (Euclid’s Proof):</strong> Assume there are finitely many primes: <em>p₁, p₂, ..., pₙ</em>. Construct <em>N = p₁ · p₂ · ... · pₙ + 1</em>. <em>N</em> is either prime or composite. If prime, it’s a new prime not in the list. If composite, it must be divisible by a prime, but none of <em>p₁, p₂, ..., pₙ</em> divide <em>N</em> (since <em>N</em> leaves a remainder of 1 when divided by any <em>pᵢ</em>). Thus, there must be another prime, contradicting the assumption. Hence, there are infinitely many primes.</li>
-            <li><strong>Example:</strong> Let primes be <em>2, 3, 5</em>. Then <em>N = 2 · 3 · 5 + 1 = 31</em>, which is prime. Repeating this process generates more primes indefinitely.</li>
-            <li><strong>Applications:</strong> Ensures an infinite supply of primes for cryptography and number theory problems.</li>
-        </ul>
-    </div>
+        <h2>6.3 The Infinitude of Primes</h2>
+        <p>There are infinitely many prime numbers. This was famously proven by Euclid around 300 BCE.</p>
 
-    <div class="section">
-        <h2><b>6.4 The Division Algorithm, GCD, and LCM</b></h2>
-        <p>The division algorithm formalizes division of integers, and GCD and LCM are key tools for solving problems involving divisibility.</p>
+        <h3>Euclid's Proof</h3>
         <ul>
-            <li><strong>Division Algorithm:</strong> For integers <em>a</em> and <em>b</em> (<em>b > 0</em>), there exist unique integers <em>q</em> (quotient) and <em>r</em> (remainder) such that <em>a = bq + r</em>, where <em>0 ≤ r < b</em>. Example: Divide <em>a = 17</em> by <em>b = 5</em>. Then <em>17 = 5 · 3 + 2</em>, so <em>q = 3</em>, <em>r = 2</em>.</li>
-            <li><strong>Greatest Common Divisor (GCD):</strong> The largest positive integer that divides both <em>a</em> and <em>b</em> without a remainder. Found using the Euclidean algorithm: If <em>a = bq + r</em>, then <em>GCD(a, b) = GCD(b, r)</em>. Example: Find <em>GCD(48, 18)</em>. Steps: <em>48 = 18 · 2 + 12</em>, <em>18 = 12 · 1 + 6</em>, <em>12 = 6 · 2 + 0</em>. Thus, <em>GCD = 6</em>.</li>
-            <li><strong>Least Common Multiple (LCM):</strong> The smallest positive integer divisible by both <em>a</em> and <em>b</em>. Computed as <em>LCM(a, b) = |a · b| / GCD(a, b)</em>. Example: For <em>48, 18</em>, <em>LCM = (48 · 18) / 6 = 144</em>.</li>
-            <li><strong>Applications:</strong> GCD is used in simplifying fractions and solving Diophantine equations; LCM is used in adding fractions and scheduling problems.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2><b>6.5 Modular Arithmetic</b></h2>
-        <p>Modular arithmetic deals with integers “wrapped around” a modulus, focusing on remainders after division.</p>
-        <ul>
-            <li><strong>Definition:</strong> For integers <em>a</em>, <em>b</em>, and modulus <em>n > 0</em>, <em>a ≡ b (mod n)</em> if <em>n</em> divides <em>a - b</em>, i.e., <em>a</em> and <em>b</em> have the same remainder when divided by <em>n</em>. Example: <em>17 ≡ 5 (mod 12)</em> since <em>17 - 5 = 12</em> is divisible by 12.</li>
-            <li><strong>Properties:</strong>
+            <li><strong>Assume:</strong> There are finitely many primes: p₁, p₂, ..., pₙ.</li>
+            <li><strong>Construct:</strong> N = p₁ · p₂ · ... · pₙ + 1.</li>
+            <li><strong>N is either prime or composite:</strong>
                 <ul>
-                    <li><strong>Addition:</strong> If <em>a ≡ b (mod n)</em> and <em>c ≡ d (mod n)</em>, then <em>a + c ≡ b + d (mod n)</em>. Example: <em>7 ≡ 2 (mod 5)</em>, <em>4 ≡ 9 (mod 5)</em>, so <em>7 + 4 ≡ 2 + 9 ≡ 11 ≡ 1 (mod 5)</em>.</li>
-                    <li><strong>Multiplication:</strong> <em>a · c ≡ b · d (mod n)</em>. Example: <em>3 ≡ 8 (mod 5)</em>, so <em>3 · 4 ≡ 8 · 4 ≡ 12 ≡ 2 (mod 5)</em>.</li>
-                    <li><strong>Exponentiation:</strong> If <em>a ≡ b (mod n)</em>, then <em>a^k ≡ b^k (mod n)</em>. Example: <em>2 ≡ 7 (mod 5)</em>, so <em>2³ ≡ 7³ ≡ 8 ≡ 3 (mod 5)</em>.</li>
+                    <li>If prime: N is a new prime not in the list.</li>
+                    <li>If composite: N must be divisible by a prime, but none of p₁, p₂, ..., pₙ divide N (remainder 1).</li>
                 </ul>
             </li>
-            <li><strong>Applications:</strong> Used in computer algorithms, hash functions, and cryptography (e.g., RSA).</li>
+            <li><strong>Contradiction:</strong> There must be another prime, proving infinitely many primes.</li>
         </ul>
+
+        <div class="code-block">
+            <span>// Example with primes 2, 3, 5</span><br>
+            N = 2 · 3 · 5 + 1 = 31 (prime)<br>
+            <span>// This process generates new primes indefinitely.</span>
+        </div>
     </div>
 
+    <!-- ========== 6.4 ========== -->
     <div class="section">
-        <h2><b>6.6 Application of Congruences in Cryptology</b></h2>
-        <p>Congruences in modular arithmetic are fundamental to cryptology, particularly in encryption algorithms like RSA.</p>
+        <h2>6.4 The Division Algorithm, GCD, and LCM</h2>
+
+        <h3>Division Algorithm</h3>
         <ul>
-            <li><strong>Congruences in Cryptography:</strong> Congruences ensure secure encoding and decoding of messages by working with modular arithmetic to obscure data. Example: In RSA, a message <em>M</em> is encrypted as <em>C ≡ M^e (mod n)</em>, where <em>e</em> and <em>n</em> are public keys, and decrypted as <em>M ≡ C^d (mod n)</em>, where <em>d</em> is the private key.</li>
-            <li><strong>RSA Encryption Example:</strong> Choose primes <em>p = 3</em>, <em>q = 11</em>, so <em>n = p · q = 33</em>. Compute <em>φ(n) = (p-1)(q-1) = 20</em>. Choose <em>e = 7</em> (coprime to 20), and find <em>d</em> such that <em>e · d ≡ 1 (mod 20)</em>, so <em>d = 3</em> (since <em>7 · 3 = 21 ≡ 1 (mod 20)</em>). To encrypt <em>M = 5</em>, compute <em>C = 5⁷ ≡ 14 (mod 33)</em>. Decrypt: <em>C³ = 14³ ≡ 5 (mod 33)</em>.</li>
-            <li><strong>Other Applications:</strong> Congruences are used in hash functions, digital signatures, and error detection (e.g., ISBN check digits).</li>
-            <li><strong>Best Practices:</strong> Use large primes in RSA for security, ensure proper key management, and verify modular computations for accuracy.</li>
+            <li>For integers a and b (b > 0), there exist unique q (quotient) and r (remainder) such that a = bq + r, with 0 ≤ r < b.</li>
+            <li><strong>Example:</strong> 17 = 5 · 3 + 2 → q = 3, r = 2.</li>
         </ul>
+
+        <h3>Greatest Common Divisor (GCD)</h3>
+        <ul>
+            <li>Largest positive integer dividing both a and b.</li>
+            <li><strong>Euclidean Algorithm:</strong> If a = bq + r, then GCD(a, b) = GCD(b, r).</li>
+            <li><strong>Example:</strong> GCD(48, 18):
+                <ul>
+                    <li>48 = 18 · 2 + 12</li>
+                    <li>18 = 12 · 1 + 6</li>
+                    <li>12 = 6 · 2 + 0</li>
+                    <li>GCD = 6</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Least Common Multiple (LCM)</h3>
+        <ul>
+            <li>Smallest positive integer divisible by both a and b.</li>
+            <li>LCM(a, b) = |a · b| / GCD(a, b).</li>
+            <li><strong>Example:</strong> LCM(48, 18) = (48 · 18) / 6 = 144.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// GCD and LCM Example</span><br>
+            a = 48, b = 18<br>
+            GCD = 6<br>
+            LCM = (48 × 18) / 6 = 144
+        </div>
+    </div>
+
+    <!-- ========== 6.5 ========== -->
+    <div class="section">
+        <h2>6.5 Modular Arithmetic</h2>
+
+        <h3>Definition</h3>
+        <ul>
+            <li>a ≡ b (mod n) if n divides (a - b), i.e., a and b have the same remainder when divided by n.</li>
+            <li><strong>Example:</strong> 17 ≡ 5 (mod 12) since 17 - 5 = 12.</li>
+        </ul>
+
+        <h3>Properties</h3>
+        <ul>
+            <li><strong>Addition:</strong> If a ≡ b (mod n) and c ≡ d (mod n), then a + c ≡ b + d (mod n).</li>
+            <li><strong>Multiplication:</strong> a · c ≡ b · d (mod n).</li>
+            <li><strong>Exponentiation:</strong> If a ≡ b (mod n), then a^k ≡ b^k (mod n).</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Modular Arithmetic Examples</span><br>
+            7 ≡ 2 (mod 5), 4 ≡ 9 (mod 5)<br>
+            7 + 4 ≡ 2 + 9 ≡ 11 ≡ 1 (mod 5)<br>
+            3 ≡ 8 (mod 5) → 3 · 4 ≡ 8 · 4 ≡ 12 ≡ 2 (mod 5)
+        </div>
+    </div>
+
+    <!-- ========== 6.6 ========== -->
+    <div class="section">
+        <h2>6.6 Application of Congruences in Cryptology</h2>
+        <p>Congruences in modular arithmetic are fundamental to cryptology, particularly in encryption algorithms like RSA.</p>
+
+        <h3>RSA Encryption</h3>
+        <ul>
+            <li><strong>Encryption:</strong> C ≡ M^e (mod n)</li>
+            <li><strong>Decryption:</strong> M ≡ C^d (mod n)</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// RSA Example</span><br>
+            p = 3, q = 11 → n = 33<br>
+            φ(n) = (2)(10) = 20<br>
+            e = 7, d = 3 (since 7·3 ≡ 1 mod 20)<br>
+            M = 5 → C = 5⁷ ≡ 14 (mod 33)<br>
+            Decrypt: C³ = 14³ ≡ 5 (mod 33) → M = 5
+        </div>
+
+        <h3>Other Applications</h3>
+        <ul>
+            <li><strong>Hash Functions:</strong> Secure data integrity.</li>
+            <li><strong>Digital Signatures:</strong> Authentication and non-repudiation.</li>
+            <li><strong>ISBN Check Digits:</strong> Error detection in book numbers.</li>
+        </ul>
+
+        <table>
+            <tr><th>Application</th><th>Description</th><th>Example</th></tr>
+            <tr><td>RSA Encryption</td><td>Secure communication using public/private keys</td><td>M = 5 → C = 14 (mod 33)</td></tr>
+            <tr><td>Hash Functions</td><td>Data integrity verification</td><td>SHA-256</td></tr>
+            <tr><td>Digital Signatures</td><td>Authentication</td><td>RSA signatures</td></tr>
+            <tr><td>ISBN Check Digits</td><td>Error detection</td><td>ISBN-10 checksum</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>🔐 Key insight:</strong> Congruences enable secure encryption by making it computationally hard to reverse the process without the private key. The security of RSA relies on the difficulty of factoring large numbers.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 6 summary</strong><br>Integers and division form the basis of number theory. Key concepts include divisibility, primes, GCD, LCM, modular arithmetic, and their applications in cryptography.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Integers: ℤ = {..., -2, -1, 0, 1, 2, ...}.<br>• Division: b | a if a = b·k.<br>• Primes: >1 divisible only by 1 and itself.<br>• Fundamental theorem: unique prime factorization.<br>• Infinitude of primes: Euclid's proof.<br>• GCD: Euclidean algorithm.<br>• LCM: |a·b| / GCD.<br>• Modular arithmetic: a ≡ b (mod n).<br>• Cryptography: RSA uses congruences for encryption.</div>
     </div>
 </body>
 </html>

@@ -1,471 +1,560 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Searching in Data Structures</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 8: Searching</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-    <h1><b>Unit 8: Searching</b></h1>
+    <h1>Unit 8: Searching</h1>
+    <div class="subhead">Introduction · sequential search · binary search · tree search · hashing · collision resolution · rehashing · efficiency</div>
 
+    <!-- ========== 8.1 ========== -->
     <div class="section">
-        <h2><b>8.1 Introduction</b></h2>
-        <p><b>Searching</b> is the process of finding a specific element in a collection of data. It is a fundamental operation in computer science, used in applications like databases, file systems, and information retrieval. The efficiency of a search algorithm depends on the data structure and the organization of the data.</p>
-    </div>
+        <h2>8.1 Introduction</h2>
+        <p><strong>Searching</strong> is the process of finding a specific element in a collection of data. It is a fundamental operation in computer science, used in applications like databases, file systems, and information retrieval. The efficiency of a search algorithm depends on the data structure and the organization of the data.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🔍 What is Searching?</strong><br>Finding a specific element (target) within a data structure. Used in databases, file systems, and everyday applications.</div>
+            <div class="card"><strong>📊 Key Factors</strong><br>Data organization (sorted/unsorted), data structure (array, tree, hash table), and algorithm efficiency.</div>
+        </div>
 
-    <div class="section">
-        <h2><b>8.2 Searching Techniques</b></h2>
-        <p>Common searching techniques include:</p>
+        <h3>Applications</h3>
         <ul>
-            <li><b>Sequential Search:</b> Also known as linear search, it checks each element in a list sequentially until the target is found or the list is exhausted. Suitable for unsorted data.
-                <p>Example:</p>
-                <pre>
-#include &lt;stdio.h&gt;
-
-int sequentialSearch(int arr[], int n, int target) {
-    for (int i = 0; i < n; i++) {
-        if (arr[i] == target) {
-            return i;
-        }
-    }
-    return -1;
-}
-                </pre>
-            </li>
-            <li><b>Binary Search:</b> Used for sorted arrays, it divides the search space in half at each step, significantly reducing the number of comparisons.
-                <p>Example:</p>
-                <pre>
-#include &lt;stdio.h&gt;
-
-int binarySearch(int arr[], int n, int target) {
-    int left = 0, right = n - 1;
-    while (left <= right) {
-        int mid = left + (right - left) / 2;
-        if (arr[mid] == target) {
-            return mid;
-        }
-        if (arr[mid] < target) {
-            left = mid + 1;
-        } else {
-            right = mid - 1;
-        }
-    }
-    return -1;
-}
-                </pre>
-            </li>
-            <li><b>Tree Search:</b> Used in binary search trees (BSTs), where the search follows the tree structure, comparing the target with the current node and moving left or right based on the comparison.
-                <p>Example:</p>
-                <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-typedef struct Node {
-    int data;
-    struct Node* left;
-    struct Node* right;
-} Node;
-
-Node* createNode(int data) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = data;
-    newNode->left = NULL;
-    newNode->right = NULL;
-    return newNode;
-}
-
-Node* search(Node* root, int target) {
-    if (root == NULL || root->data == target) {
-        return root;
-    }
-    if (target < root->data) {
-        return search(root->left, target);
-    }
-    return search(root->right, target);
-}
-                </pre>
-            </li>
+            <li>Database query optimization.</li>
+            <li>File system navigation.</li>
+            <li>Information retrieval in search engines.</li>
+            <li>Symbol table lookup in compilers.</li>
+            <li>Spell checkers and dictionary lookups.</li>
         </ul>
     </div>
 
+    <!-- ========== 8.2 ========== -->
     <div class="section">
-        <h2><b>8.3 Hashing</b></h2>
-        <p><b>Hashing</b> is
+        <h2>8.2 Searching Techniques</h2>
 
- a technique that maps data to a fixed-size array (hash table) using a hash function, enabling fast retrieval of elements. It is widely used in databases, caches, and dictionaries.</p>
+        <h3>Sequential Search (Linear Search)</h3>
         <ul>
-            <li><b>Hash Functions:</b>
+            <li><strong>Approach:</strong> Checks each element sequentially until the target is found or the list ends.</li>
+            <li><strong>Time Complexity:</strong> O(n)</li>
+            <li><strong>Space Complexity:</strong> O(1)</li>
+            <li><strong>Best For:</strong> Unsorted or small datasets.</li>
+        </ul>
+        <div class="code-block">
+            int sequentialSearch(int arr[], int n, int target) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < n; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (arr[i] == target) return i;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return -1;<br>
+            }
+        </div>
+
+        <h3>Binary Search</h3>
+        <ul>
+            <li><strong>Approach:</strong> Divides sorted array in half at each step, comparing target with middle element.</li>
+            <li><strong>Time Complexity:</strong> O(log n)</li>
+            <li><strong>Space Complexity:</strong> O(1)</li>
+            <li><strong>Best For:</strong> Sorted arrays with few insertions/deletions.</li>
+        </ul>
+        <div class="code-block">
+            int binarySearch(int arr[], int n, int target) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int left = 0, right = n - 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (left <= right) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int mid = left + (right - left) / 2;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (arr[mid] == target) return mid;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (arr[mid] < target) left = mid + 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else right = mid - 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return -1;<br>
+            }
+        </div>
+
+        <h3>Tree Search (BST)</h3>
+        <ul>
+            <li><strong>Approach:</strong> Searches a binary search tree by comparing target with node values.</li>
+            <li><strong>Time Complexity:</strong> O(log n) average, O(n) worst case.</li>
+            <li><strong>Space Complexity:</strong> O(1) iterative, O(log n) recursive.</li>
+            <li><strong>Best For:</strong> Dynamic data with frequent insertions/deletions.</li>
+        </ul>
+        <div class="code-block">
+            Node* search(Node* root, int target) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (root == NULL || root->data == target) return root;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (target < root->data)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return search(root->left, target);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return search(root->right, target);<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 8.3 ========== -->
+    <div class="section">
+        <h2>8.3 Hashing</h2>
+        <p><strong>Hashing</strong> is a technique that maps data to a fixed-size array (hash table) using a hash function, enabling fast retrieval of elements.</p>
+
+        <h3>Hash Functions</h3>
+        <ul>
+            <li><strong>Characteristics of Good Hash Functions:</strong>
                 <ul>
-                    <li><b>Characteristics of Good Hash Functions:</b>
-                        <ul>
-                            <li><b>Uniform Distribution:</b> Distributes keys evenly across the hash table to minimize collisions.</li>
-                            <li><b>Deterministic:</b> Same input always produces the same output.</li>
-                            <li><b>Efficiency:</b> Computes the hash value quickly.</li>
-                            <li><b>Minimal Collisions:</b> Reduces the likelihood of different keys mapping to the same index.</li>
-                        </ul>
-                    </li>
-                    <li><b>Types of Hash Functions:</b>
-                        <ul>
-                            <li><b>Division Method:</b> h(k) = k % m, where m is the table size (preferably prime).</li>
-                            <li><b>Multiplication Method:</b> h(k) = floor(m * (k * A % 1)), where A is a constant (0 < A < 1).</li>
-                            <li><b>Mid-Square Method:</b> Square the key, take middle digits, and apply modulo.</li>
-                            <li><b>Folding Method:</b> Divide the key into parts, sum them, and apply modulo.</li>
-                        </ul>
-                    </li>
+                    <li><strong>Uniform Distribution:</strong> Distributes keys evenly across the hash table.</li>
+                    <li><strong>Deterministic:</strong> Same input always produces the same output.</li>
+                    <li><strong>Efficiency:</strong> Computes hash value quickly.</li>
+                    <li><strong>Minimal Collisions:</strong> Reduces the likelihood of different keys mapping to the same index.</li>
                 </ul>
             </li>
-            <li><b>Hash Tables and Applications:</b> A hash table stores key-value pairs, where keys are hashed to determine their storage index. Applications include:
+            <li><strong>Types of Hash Functions:</strong>
                 <ul>
-                    <li><b>Databases:</b> Indexing for fast data retrieval.</li>
-                    <li><b>Caches:</b> Storing frequently accessed data.</li>
-                    <li><b>Symbol Tables:</b> Used in compilers for variable lookup.</li>
+                    <li><strong>Division Method:</strong> h(k) = k % m (m is table size, preferably prime).</li>
+                    <li><strong>Multiplication Method:</strong> h(k) = floor(m * (k * A % 1)), where 0 < A < 1.</li>
+                    <li><strong>Mid-Square Method:</strong> Square the key, take middle digits, and apply modulo.</li>
+                    <li><strong>Folding Method:</strong> Divide the key into parts, sum them, and apply modulo.</li>
                 </ul>
-                <p>Example:</p>
-                <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-typedef struct {
-    int* table;
-    int size;
-} HashTable;
-
-HashTable* createHashTable(int size) {
-    HashTable* ht = (HashTable*)malloc(sizeof(HashTable));
-    ht->size = size;
-    ht->table = (int*)calloc(size, sizeof(int));
-    return ht;
-}
-
-int hash(HashTable* ht, int key) {
-    return key % ht->size;
-}
-
-void insert(HashTable* ht, int key) {
-    int index = hash(ht, key);
-    ht->table[index] = key;
-}
-                </pre>
             </li>
         </ul>
-    </div>
 
-    <div class="section">
-        <h2><b>8.4 Collision Resolution Techniques</b></h2>
-        <p>A <b>collision</b> occurs when multiple keys hash to the same index. Common resolution techniques include:</p>
+        <h3>Hash Tables</h3>
         <ul>
-            <li><b>Open Addressing:</b> Store all elements in the hash table itself by probing for the next available slot (e.g., linear probing, quadratic probing, double hashing).</li>
-            <li><b>Chaining:</b> Each hash table slot contains a linked list of all keys that hash to that index.</li>
+            <li><strong>Definition:</strong> Data structure that stores key-value pairs using a hash function.</li>
+            <li><strong>Applications:</strong>
+                <ul>
+                    <li>Databases (indexing).</li>
+                    <li>Caches (frequently accessed data).</li>
+                    <li>Symbol tables (compilers).</li>
+                    <li>Dictionary implementations.</li>
+                </ul>
+            </li>
         </ul>
+
+        <div class="code-block">
+            <span>// Hash Table Implementation</span><br>
+            typedef struct {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int* table;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int size;<br>
+            } HashTable;<br><br>
+            HashTable* createHashTable(int size) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;HashTable* ht = (HashTable*)malloc(sizeof(HashTable));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;ht->size = size;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;ht->table = (int*)calloc(size, sizeof(int));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return ht;<br>
+            }<br><br>
+            int hash(HashTable* ht, int key) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return key % ht->size;<br>
+            }<br><br>
+            void insert(HashTable* ht, int key) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int index = hash(ht, key);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;ht->table[index] = key;<br>
+            }
+        </div>
     </div>
 
+    <!-- ========== 8.4 ========== -->
     <div class="section">
-        <h2><b>8.5 Hashing with Open Addressing</b></h2>
+        <h2>8.4 Collision Resolution Techniques</h2>
+        <p>A <strong>collision</strong> occurs when multiple keys hash to the same index. Common resolution techniques include:</p>
+
+        <h3>Open Addressing</h3>
         <ul>
-            <li><b>Linear Probing:</b> If a collision occurs at index h(k), check the next slot (h(k) + 1) % m, then (h(k) + 2) % m, and so on.
-                <p>Example:</p>
-                <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-typedef struct {
-    int* table;
-    int size;
-} HashTableLinear;
-
-HashTableLinear* createHashTableLinear(int size) {
-    HashTableLinear* ht = (HashTableLinear*)malloc(sizeof(HashTableLinear));
-    ht->size = size;
-    ht->table = (int*)calloc(size, sizeof(int));
-    return ht;
-}
-
-void insert(HashTableLinear* ht, int key) {
-    int index = key % ht->size;
-    while (ht->table[index] != 0) {
-        index = (index + 1) % ht->size;
-    }
-    ht->table[index] = key;
-}
-                </pre>
-            </li>
-            <li><b>Quadratic Probing:</b> Uses a quadratic function to probe slots, e.g., (h(k) + i²) % m for i = 0, 1, 2, ...
-                <p>Example:</p>
-                <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-typedef struct {
-    int* table;
-    int size;
-} HashTable;
-
-HashTable* createHashTable(int size) {
-    HashTable* ht = (HashTable*)malloc(sizeof(HashTable));
-    ht->size = size;
-    ht->table = (int*)calloc(size, sizeof(int));
-    return ht;
-}
-
-void insert(HashTable* ht, int key) {
-    int index = key % ht->size;
-    int i = 0;
-    while (ht->table[index] != 0) {
-        i++;
-        index = (key % ht->size + i * i) % ht->size;
-    }
-    ht->table[index] = key;
-}
-                </pre>
-            </li>
-            <li><b>Double Hashing:</b> Uses a second hash function to determine the step size, e.g., h(k, i) = (h1(k) + i * h2(k)) % m.
-                <p>Example:</p>
-                <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-typedef struct {
-    int* table;
-    int size;
-} HashTable;
-
-HashTable* createHashTable(int size) {
-    HashTable* ht = (HashTable*)malloc(sizeof(HashTable));
-    ht->size = size;
-    ht->table = (int*)calloc(size, sizeof(int));
-    return ht;
-}
-
-int hash2(int key, int size) {
-    return 1 + (key % (size - 1));
-}
-
-void insert(HashTable* ht, int key) {
-    int index = key % ht->size;
-    int i = 0;
-    while (ht->table[index] != 0) {
-        i++;
-        index = (key % ht->size + i * hash2(key, ht->size)) % ht->size;
-    }
-    ht->table[index] = key;
-}
-                </pre>
-            </li>
+            <li>All elements are stored in the hash table itself.</li>
+            <li>Probes for the next available slot.</li>
+            <li>Types: Linear Probing, Quadratic Probing, Double Hashing.</li>
         </ul>
-    </div>
 
-    <div class="section">
-        <h2><b>8.6 Hashing with Chaining</b></h2>
-        <p>In <b>chaining</b>, each hash table slot contains a linked list to store all keys that hash to that index. Collisions are resolved by adding the key to the linked list.</p>
-        <p>Example:</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-typedef struct Node {
-    int data;
-    struct Node* next;
-} Node;
-
-typedef struct {
-    Node** table;
-    int size;
-} HashTableChaining;
-
-Node* createNode(int data) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = data;
-    newNode->next = NULL;
-    return newNode;
-}
-
-HashTableChaining* createHashTableChaining(int size) {
-    HashTableChaining* ht = (HashTableChaining*)malloc(sizeof(HashTableChaining));
-    ht->size = size;
-    ht->table = (Node**)calloc(size, sizeof(Node*));
-    return ht;
-}
-
-int hash(HashTableChaining* ht, int key) {
-    return key % ht->size;
-}
-
-void insert(HashTableChaining* ht, int key) {
-    int index = hash(ht, key);
-    Node* newNode = createNode(key);
-    newNode->next = ht->table[index];
-    ht->table[index] = newNode;
-}
-                </pre>
-    </div>
-
-    <div class="section">
-        <h2><b>8.7 Rehashing</b></h2>
-        <p><b>Rehashing</b> is the process of resizing a hash table (usually doubling its size) and reinserting all existing keys when the load factor (ratio of elements to table size) exceeds a threshold. This reduces collisions and maintains performance.</p>
-        <p>Example:</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-typedef struct Node {
-    int data;
-    struct Node* next;
-} Node;
-
-typedef struct {
-    Node** table;
-    int size;
-} HashTableChaining;
-
-Node* createNode(int data) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = data;
-    newNode->next = NULL;
-    return newNode;
-}
-
-HashTableChaining* createHashTableChaining(int size) {
-    HashTableChaining* ht = (HashTableChaining*)malloc(sizeof(HashTableChaining));
-    ht->size = size;
-    ht->table = (Node**)calloc(size, sizeof(Node*));
-    return ht;
-}
-
-int hash(HashTableChaining* ht, int key) {
-    return key % ht->size;
-}
-
-void insert(HashTableChaining* ht, int key) {
-    int index = hash(ht, key);
-    Node* newNode = createNode(key);
-    newNode->next = ht->table[index];
-    ht->table[index] = newNode;
-}
-
-void rehash(HashTableChaining* ht) {
-    Node** oldTable = ht->table;
-    int oldSize = ht->size;
-    ht->size *= 2;
-    ht->table = (Node**)calloc(ht->size, sizeof(Node*));
-    for (int i = 0; i < oldSize; i++) {
-        Node* current = oldTable[i];
-        while (current != NULL) {
-            Node* next = current->next;
-            insert(ht, current->data);
-            free(current);
-            current = next;
-        }
-    }
-    free(oldTable);
-}
-                </pre>
-    </div>
-
-    <div class="section">
-        <h2><b>8.8 Efficiency Comparison of Different Search Techniques</b></h2>
-        <p>The efficiency of search techniques depends on the data structure and organization:</p>
+        <h3>Chaining</h3>
         <ul>
-            <li><b>Sequential Search:</b> Time Complexity: O(n) (worst and average case). Suitable for small or unsorted data.</li>
-            <li><b>Binary Search:</b> Time Complexity: O(log n) (sorted array). Requires sorted data, not suitable for frequent insertions/deletions.</li>
-            <li><b>Tree Search (Balanced BST):</b> Time Complexity: O(log n) (average case for balanced BST), O(n) (worst case for unbalanced). Supports dynamic operations.</li>
-            <li><b>Hashing:</b> Time Complexity: O(1) (average case with good hash function and low collisions), O(n) (worst case with many collisions). Ideal for fast lookups but requires good collision resolution.</li>
+            <li>Each slot contains a linked list of all keys that hash to that index.</li>
+            <li>Simple to implement and handles collisions efficiently.</li>
         </ul>
-        <p>Comparison Table:</p>
-        <table border="1">
-            <tr>
-                <th>Technique</th>
-                <th>Average Time Complexity</th>
-                <th>Worst Time Complexity</th>
-                <th>Space Complexity</th>
-            </tr>
-            <tr>
-                <td>Sequential Search</td>
-                <td>O(n)</td>
-                <td>O(n)</td>
-                <td>O(1)</td>
-            </tr>
-            <tr>
-                <td>Binary Search</td>
-                <td>O(log n)</td>
-                <td>O(log n)</td>
-                <td>O(1)</td>
-            </tr>
-            <tr>
-                <td>Tree Search (Balanced BST)</td>
-                <td>O(log n)</td>
-                <td>O(n)</td>
-                <td>O(n)</td>
-            </tr>
-            <tr>
-                <td>Hashing</td>
-                <td>O(1)</td>
-                <td>O(n)</td>
-                <td>O(n)</td>
-            </tr>
+
+        <div class="figure-box">
+            <pre>
+Collision Resolution:
+Open Addressing:  [Index] → [Key] → [Key] → [Key] (same slot with probing)
+Chaining:          [Index] → [Key] → [Key] → [Key] (linked list)
+            </pre>
+        </div>
+    </div>
+
+    <!-- ========== 8.5 ========== -->
+    <div class="section">
+        <h2>8.5 Hashing with Open Addressing</h2>
+
+        <h3>Linear Probing</h3>
+        <ul>
+            <li>If collision at h(k), check h(k)+1, h(k)+2, ... (mod m).</li>
+            <li><strong>Advantage:</strong> Simple to implement.</li>
+            <li><strong>Disadvantage:</strong> Primary clustering (long runs of occupied slots).</li>
+        </ul>
+        <div class="code-block">
+            void insertLinear(HashTable* ht, int key) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int index = key % ht->size;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (ht->table[index] != 0) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index = (index + 1) % ht->size;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;ht->table[index] = key;<br>
+            }
+        </div>
+
+        <h3>Quadratic Probing</h3>
+        <ul>
+            <li>Uses quadratic function: h(k, i) = (h(k) + i²) % m.</li>
+            <li><strong>Advantage:</strong> Reduces primary clustering.</li>
+            <li><strong>Disadvantage:</strong> Secondary clustering possible.</li>
+        </ul>
+        <div class="code-block">
+            void insertQuadratic(HashTable* ht, int key) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int index = key % ht->size;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int i = 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (ht->table[index] != 0) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i++;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index = (key % ht->size + i * i) % ht->size;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;ht->table[index] = key;<br>
+            }
+        </div>
+
+        <h3>Double Hashing</h3>
+        <ul>
+            <li>Uses second hash function: h(k, i) = (h₁(k) + i * h₂(k)) % m.</li>
+            <li><strong>Advantage:</strong> Minimizes clustering.</li>
+            <li><strong>Disadvantage:</strong> More computationally expensive.</li>
+        </ul>
+        <div class="code-block">
+            int hash2(int key, int size) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 1 + (key % (size - 1));<br>
+            }<br><br>
+            void insertDoubleHash(HashTable* ht, int key) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int index = key % ht->size;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int i = 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (ht->table[index] != 0) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i++;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index = (key % ht->size + i * hash2(key, ht->size)) % ht->size;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;ht->table[index] = key;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 8.6 ========== -->
+    <div class="section">
+        <h2>8.6 Hashing with Chaining</h2>
+        <p>In <strong>chaining</strong>, each hash table slot contains a linked list to store all keys that hash to that index. Collisions are resolved by adding the key to the linked list.</p>
+
+        <h3>Advantages</h3>
+        <ul>
+            <li>Handles collisions simply.</li>
+            <li>No clustering issues.</li>
+            <li>Table can grow beyond initial size.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Chaining Implementation</span><br>
+            typedef struct Node {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int data;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Node* next;<br>
+            } Node;<br><br>
+            typedef struct {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node** table;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int size;<br>
+            } HashTableChaining;<br><br>
+            void insertChaining(HashTableChaining* ht, int key) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int index = key % ht->size;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* newNode = createNode(key);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->next = ht->table[index];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;ht->table[index] = newNode;<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 8.7 ========== -->
+    <div class="section">
+        <h2>8.7 Rehashing</h2>
+        <p><strong>Rehashing</strong> is the process of resizing a hash table (usually doubling its size) and reinserting all existing keys when the load factor (ratio of elements to table size) exceeds a threshold. This reduces collisions and maintains performance.</p>
+
+        <h3>When to Rehash</h3>
+        <ul>
+            <li>Load factor > 0.7 (typical threshold).</li>
+            <li>Performance degrades due to too many collisions.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Rehashing Implementation</span><br>
+            void rehash(HashTableChaining* ht) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node** oldTable = ht->table;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int oldSize = ht->size;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;ht->size *= 2;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;ht->table = (Node**)calloc(ht->size, sizeof(Node*));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < oldSize; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node* current = oldTable[i];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (current != NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node* next = current->next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;insertChaining(ht, current->data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;free(current);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;current = next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;free(oldTable);<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 8.8 ========== -->
+    <div class="section">
+        <h2>8.8 Efficiency Comparison of Different Search Techniques</h2>
+
+        <h3>Comparison Table</h3>
+        <table>
+            <tr><th>Technique</th><th>Data Structure</th><th>Average Time</th><th>Worst Time</th><th>Space</th></tr>
+            <tr><td>Sequential Search</td><td>Array/List</td><td>O(n)</td><td>O(n)</td><td>O(1)</td></tr>
+            <tr><td>Binary Search</td><td>Sorted Array</td><td>O(log n)</td><td>O(log n)</td><td>O(1)</td></tr>
+            <tr><td>Tree Search</td><td>BST</td><td>O(log n)</td><td>O(n)</td><td>O(n)</td></tr>
+            <tr><td>Hashing (Chaining)</td><td>Hash Table</td><td>O(1)</td><td>O(n)</td><td>O(n)</td></tr>
+            <tr><td>Hashing (Open Addressing)</td><td>Hash Table</td><td>O(1)</td><td>O(n)</td><td>O(n)</td></tr>
         </table>
+
+        <h3>Choosing the Right Technique</h3>
+        <ul>
+            <li><strong>Unsorted data:</strong> Sequential Search (or sort first for better performance).</li>
+            <li><strong>Sorted static data:</strong> Binary Search.</li>
+            <li><strong>Dynamic data with frequent insertions/deletions:</strong> BST or Hashing.</li>
+            <li><strong>Fast lookup requirements:</strong> Hashing with good collision resolution.</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>🔍 Key insight:</strong> No single search technique is optimal for all scenarios. The choice depends on data size, organization, update frequency, and performance requirements.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 8 summary</strong><br>Searching finds elements in data structures. Techniques include sequential, binary, tree search, and hashing. Hashing offers O(1) average time with proper collision resolution.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Sequential search: O(n) for unsorted data.<br>• Binary search: O(log n) for sorted arrays.<br>• Tree search: O(log n) for balanced BSTs.<br>• Hashing: O(1) average with good hash function.<br>• Collision resolution: chaining, open addressing (linear, quadratic, double hashing).<br>• Rehashing maintains performance as table grows.</div>
     </div>
 </body>
 </html>

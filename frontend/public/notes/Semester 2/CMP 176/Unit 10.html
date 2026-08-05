@@ -1,187 +1,433 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Growth Functions and Asymptotic Notations</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 10: Growth Functions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-    <h1><b>Unit 10: Growth Functions</b></h1>
+    <h1>Unit 10: Growth Functions</h1>
+    <div class="subhead">Asymptotic notations · Big O · Omega · Theta · limitations</div>
 
+    <!-- ========== 10.1 ========== -->
     <div class="section">
-        <h2><b>10.1 Introduction to Asymptotic Notations</b></h2>
-        <p><b>Asymptotic notations</b> are mathematical tools used to describe the performance or complexity of algorithms, focusing on their behavior as the input size (n) grows large. They provide a simplified way to analyze the efficiency of algorithms by ignoring constants and lower-order terms. The main asymptotic notations are Big O, Omega, and Theta, which describe upper, lower, and tight bounds, respectively.</p>
+        <h2>10.1 Introduction to Asymptotic Notations</h2>
+        <p><strong>Asymptotic notations</strong> are mathematical tools used to describe the performance or complexity of algorithms, focusing on their behavior as the input size (n) grows large. They provide a simplified way to analyze the efficiency of algorithms by ignoring constants and lower-order terms.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📊 Why Asymptotic Analysis?</strong><br>Focuses on how algorithm performance scales with input size. Helps compare algorithms independently of hardware and implementation details.</div>
+            <div class="card"><strong>📐 Key Notations</strong><br>Big O (upper bound), Omega (lower bound), Theta (tight bound). Each describes a different aspect of algorithm efficiency.</div>
+        </div>
+
+        <h3>Purpose of Asymptotic Analysis</h3>
+        <ul>
+            <li><strong>Scalability:</strong> Predict how algorithm behaves with large inputs.</li>
+            <li><strong>Comparison:</strong> Compare algorithms objectively.</li>
+            <li><strong>Simplification:</strong> Ignore constants and focus on growth rates.</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+Asymptotic Notations:
+┌─────────────────────────────────────────────┐
+│                                             │
+│  Big O     → Upper bound (worst case)      │
+│  Omega     → Lower bound (best case)       │
+│  Theta     → Tight bound (average case)    │
+│                                             │
+└─────────────────────────────────────────────┘
+            </pre>
+        </div>
     </div>
 
+    <!-- ========== 10.2 ========== -->
     <div class="section">
-        <h2><b>10.2 Big O Notation</b></h2>
-        <p><b>Big O notation</b> (O) describes the upper bound of an algorithm's time or space complexity, representing the worst-case scenario. It indicates the maximum time or space an algorithm may take as a function of the input size n.</p>
-        <ul>
-            <li><b>Definition:</b> f(n) = O(g(n)) if there exist constants c > 0 and n₀ > 0 such that f(n) ≤ c * g(n) for all n ≥ n₀.</li>
-            <li><b>Example:</b> If an algorithm takes 3n² + 5n + 2 time, it is O(n²) because n² dominates for large n.</li>
-        </ul>
-        <p>Example:</p>
-        <pre>
-#include &lt;stdio.h&gt;
+        <h2>10.2 Big O Notation</h2>
+        <p><strong>Big O notation</strong> (O) describes the upper bound of an algorithm's time or space complexity, representing the worst-case scenario. It indicates the maximum time or space an algorithm may take as a function of the input size n.</p>
 
-void example(int n) {
-    for (int i = 0; i < n; i++) {
-        printf("%d\n", i); // O(n) time complexity
-    }
-}
-        </pre>
-        <p>Common Big O complexities: O(1) (constant), O(log n) (logarithmic), O(n) (linear), O(n log n) (log-linear), O(n²) (quadratic).</p>
+        <h3>Formal Definition</h3>
+        <ul>
+            <li>f(n) = O(g(n)) if there exist constants c > 0 and n₀ > 0 such that f(n) ≤ c * g(n) for all n ≥ n₀.</li>
+            <li>Example: f(n) = 3n² + 5n + 2 is O(n²) because n² dominates for large n.</li>
+        </ul>
+
+        <h3>Common Big O Complexities</h3>
+        <table>
+            <tr><th>Complexity</th><th>Notation</th><th>Example Algorithm</th></tr>
+            <tr><td>Constant</td><td>O(1)</td><td>Array access</td></tr>
+            <tr><td>Logarithmic</td><td>O(log n)</td><td>Binary search</td></tr>
+            <tr><td>Linear</td><td>O(n)</td><td>Linear search</td></tr>
+            <tr><td>Linearithmic</td><td>O(n log n)</td><td>Merge sort</td></tr>
+            <tr><td>Quadratic</td><td>O(n²)</td><td>Bubble sort</td></tr>
+            <tr><td>Cubic</td><td>O(n³)</td><td>Matrix multiplication (naive)</td></tr>
+            <tr><td>Exponential</td><td>O(2ⁿ)</td><td>Recursive Fibonacci</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Example: O(n) complexity</span><br>
+            void example(int n) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < n; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%d\n", i);  <span>// O(n)</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <h3>Big O Examples</h3>
+        <ul>
+            <li><strong>O(1):</strong> int x = arr[5];</li>
+            <li><strong>O(log n):</strong> Binary search in a sorted array.</li>
+            <li><strong>O(n):</strong> Finding max in an unsorted array.</li>
+            <li><strong>O(n log n):</strong> Merge sort, heap sort.</li>
+            <li><strong>O(n²):</strong> Nested loops (e.g., bubble sort).</li>
+        </ul>
     </div>
 
+    <!-- ========== 10.3 ========== -->
     <div class="section">
-        <h2><b>10.3 Omega Notation</b></h2>
-        <p><b>Omega notation</b> (Ω) describes the lower bound of an algorithm's time or space complexity, representing the best-case scenario. It indicates the minimum time or space an algorithm will take.</p>
-        <ul>
-            <li><b>Definition:</b> f(n) = Ω(g(n)) if there exist constants c > 0 and n₀ > 0 such that f(n) ≥ c * g(n) for all n ≥ n₀.</li>
-            <li><b>Example:</b> A sorting algorithm like Quick Sort has Ω(n log n) in the best case when the pivot divides the array evenly.</li>
-        </ul>
-        <p>Example:</p>
-        <pre>
-#include &lt;stdio.h&gt;
+        <h2>10.3 Omega Notation</h2>
+        <p><strong>Omega notation</strong> (Ω) describes the lower bound of an algorithm's time or space complexity, representing the best-case scenario. It indicates the minimum time or space an algorithm will take.</p>
 
-int linearSearch(int arr[], int n, int target) {
-    for (int i = 0; i < n; i++) {
-        if (arr[i] == target) return i; // Ω(1) if target is at index 0
-    }
-    return -1; // Ω(n) in worst case
-}
-        </pre>
+        <h3>Formal Definition</h3>
+        <ul>
+            <li>f(n) = Ω(g(n)) if there exist constants c > 0 and n₀ > 0 such that f(n) ≥ c * g(n) for all n ≥ n₀.</li>
+            <li>Example: Quick Sort has Ω(n log n) in the best case when the pivot divides the array evenly.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Example: Ω(1) best case</span><br>
+            int linearSearch(int arr[], int n, int target) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < n; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (arr[i] == target) return i;  <span>// Ω(1) if target at index 0</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return -1;  <span>// O(n) worst case</span><br>
+            }
+        </div>
+
+        <h3>Omega Examples</h3>
+        <ul>
+            <li><strong>Ω(1):</strong> Finding an element at the first position.</li>
+            <li><strong>Ω(log n):</strong> Best case for binary search (target at middle).</li>
+            <li><strong>Ω(n log n):</strong> Best case for comparison-based sorting.</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>📊 Key insight:</strong> Omega notation is less commonly used in practice because best-case performance is often less relevant than worst-case or average-case performance.
+        </div>
     </div>
 
+    <!-- ========== 10.4 ========== -->
     <div class="section">
-        <h2><b>10.4 Theta Notation</b></h2>
-        <p><b>Theta notation</b> (Θ) describes a tight bound on an algorithm's time or space complexity, indicating that the algorithm's performance is both upper and lower bounded by the same function.</p>
+        <h2>10.4 Theta Notation</h2>
+        <p><strong>Theta notation</strong> (Θ) describes a tight bound on an algorithm's time or space complexity, indicating that the algorithm's performance is both upper and lower bounded by the same function.</p>
+
+        <h3>Formal Definition</h3>
         <ul>
-            <li><b>Definition:</b> f(n) = Θ(g(n)) if there exist constants c₁, c₂ > 0 and n₀ > 0 such that c₁ * g(n) ≤ f(n) ≤ c₂ * g(n) for all n ≥ n₀.</li>
-            <li><b>Example:</b> Merge Sort has Θ(n log n) time complexity for all cases, as it always divides the array into halves and merges them.</li>
+            <li>f(n) = Θ(g(n)) if there exist constants c₁, c₂ > 0 and n₀ > 0 such that c₁ * g(n) ≤ f(n) ≤ c₂ * g(n) for all n ≥ n₀.</li>
+            <li>Example: Merge Sort has Θ(n log n) time complexity for all cases.</li>
         </ul>
-        <p>Example:</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
 
-void merge(int arr[], int l, int m, int r) {
-    int n1 = m - l + 1;
-    int n2 = r - m;
-    int* L = (int*)malloc(n1 * sizeof(int));
-    int* R = (int*)malloc(n2 * sizeof(int));
-    for (int i = 0; i < n1; i++) L[i] = arr[l + i];
-    for (int i = 0; i < n2; i++) R[i] = arr[m + 1 + i];
-    int i = 0, j = 0, k = l;
-    while (i < n1 && j < n2) {
-        if (L[i] <= R[j]) {
-            arr[k] = L[i];
-            i++;
-        } else {
-            arr[k] = R[j];
-            j++;
-        }
-        k++;
-    }
-    while (i < n1) {
-        arr[k] = L[i];
-        i++;
-        k++;
-    }
-    while (j < n2) {
-        arr[k] = R[j];
-        j++;
-        k++;
-    }
-    free(L);
-    free(R);
-}
+        <div class="code-block">
+            <span>// Example: Θ(n log n) complexity</span><br>
+            void mergeSort(int arr[], int l, int r) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (l < r) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int m = l + (r - l) / 2;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mergeSort(arr, l, m);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mergeSort(arr, m + 1, r);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;merge(arr, l, m, r);  <span>// Θ(n log n)</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
 
-void mergeSort(int arr[], int l, int r) {
-    if (l < r) {
-        int m = l + (r - l) / 2;
-        mergeSort(arr, l, m);
-        mergeSort(arr, m + 1, r);
-        merge(arr, l, m, r); // Θ(n log n) time complexity
-    }
-}
-        </pre>
+        <h3>When Θ is Used</h3>
+        <ul>
+            <li>When the algorithm has the same complexity in all cases (best, average, worst).</li>
+            <li>Example: Merge Sort, Heap Sort, Linear Search (all cases).</li>
+        </ul>
+
+        <h3>Comparison of Notations</h3>
+        <table>
+            <tr><th>Notation</th><th>Meaning</th><th>Analogy</th><th>Use Case</th></tr>
+            <tr><td>Big O</td><td>≤ (Upper Bound)</td><td>"At most"</td><td>Worst-case analysis</td></tr>
+            <tr><td>Omega</td><td>≥ (Lower Bound)</td><td>"At least"</td><td>Best-case analysis</td></tr>
+            <tr><td>Theta</td><td>= (Tight Bound)</td><td>"Exactly"</td><td>Average-case analysis</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 10.5 ========== -->
     <div class="section">
-        <h2><b>10.5 Limitations of Big O Notation</b></h2>
-        <p>While Big O notation is widely used, it has limitations:</p>
+        <h2>10.5 Limitations of Big O Notation</h2>
+        <p>While Big O notation is widely used, it has limitations that should be considered when analyzing algorithms.</p>
+
+        <h3>Key Limitations</h3>
         <ul>
-            <li><b>Ignores Constants:</b> Big O focuses on asymptotic behavior, ignoring constants and lower-order terms, which can be significant for small inputs (e.g., O(n²) may outperform O(n log n) for small n).</li>
-            <li><b>Worst-Case Focus:</b> Big O describes the upper bound, which may not reflect average or best-case performance.</li>
-            <li><b>Implementation Details:</b> It does not account for hardware, caching, or implementation-specific optimizations.</li>
-            <li><b>Not Precise for Small Inputs:</b> For small datasets, practical performance may differ from asymptotic predictions.</li>
-            <li><b>Assumes Large n:</b> Big O is less relevant for small inputs where constant factors dominate.</li>
+            <li><strong>Ignores Constants:</strong> Big O focuses on asymptotic behavior, ignoring constants and lower-order terms, which can be significant for small inputs.
+                <div class="code-block">
+                    <span>// O(n²) may be faster than O(n log n) for small n</span><br>
+                    <span>// Due to lower constant factors</span>
+                </div>
+            </li>
+            <li><strong>Worst-Case Focus:</strong> Big O describes the upper bound, which may not reflect average or best-case performance.</li>
+            <li><strong>Implementation Details:</strong> It does not account for hardware, caching, or implementation-specific optimizations.</li>
+            <li><strong>Not Precise for Small Inputs:</strong> For small datasets, practical performance may differ from asymptotic predictions.</li>
+            <li><strong>Assumes Large n:</strong> Big O is less relevant for small inputs where constant factors dominate.</li>
         </ul>
-        <p>Example: A linear search (O(n)) may be faster than binary search (O(log n)) for small arrays due to lower overhead, despite worse asymptotic complexity.</p>
+
+        <h3>Practical Example</h3>
+        <ul>
+            <li>A linear search (O(n)) may be faster than binary search (O(log n)) for small arrays due to lower overhead.</li>
+            <li>An O(n²) algorithm with low constants may outperform an O(n log n) algorithm with high constants for small n.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Example: Linear vs Binary Search</span><br>
+            <span>// For n = 10, linear search (10 comparisons) may be faster</span><br>
+            <span>// than binary search with overhead</span>
+        </div>
+
+        <h3>When to Use Other Notations</h3>
+        <ul>
+            <li><strong>Omega (Ω):</strong> For best-case analysis (e.g., proving lower bounds).</li>
+            <li><strong>Theta (Θ):</strong> When the algorithm has the same complexity in all cases.</li>
+            <li><strong>Little o and ω:</strong> For strict bounds (strictly less/greater).</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>📊 Key insight:</strong> Big O is a useful tool, but it should be used alongside practical considerations like input size, constants, and implementation details when choosing algorithms.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 10 summary</strong><br>Asymptotic notations describe algorithm performance as input grows. Big O (upper), Omega (lower), and Theta (tight) provide different perspectives on complexity.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Big O: upper bound (worst case).<br>• Omega: lower bound (best case).<br>• Theta: tight bound (average case).<br>• Big O ignores constants and lower-order terms.<br>• Common complexities: O(1), O(log n), O(n), O(n log n), O(n²).<br>• Limitations: ignores constants, worst-case focus, not precise for small inputs.</div>
     </div>
 </body>
 </html>

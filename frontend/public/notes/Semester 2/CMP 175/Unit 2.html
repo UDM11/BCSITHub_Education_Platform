@@ -1,238 +1,618 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Java</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-      font-weight: bold;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 2: Basic Java</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-    <h1><b>Unit 2: Basic Java</b></h1>
+    <h1>Unit 2: Basic Java</h1>
+    <div class="subhead">Java features · JVM · program structure · variables · data types · operators · I/O · control statements · arrays</div>
 
+    <!-- ========== 2.1 ========== -->
     <div class="section">
-        <h2><b>2.1 Introduction to Java: Features of Java</b></h2>
+        <h2>2.1 Introduction to Java: Features of Java</h2>
         <p>Java is a high-level, object-oriented programming language developed by Sun Microsystems in 1995, now maintained by Oracle. It is widely used for its portability, robustness, and versatility.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>☕ Platform Independence</strong><br>Java programs are compiled into bytecode, which runs on any device with a Java Virtual Machine (JVM), enabling "write once, run anywhere."</div>
+            <div class="card"><strong>🔒 Secure</strong><br>Java's sandbox environment and bytecode verification ensure security against malicious code.</div>
+            <div class="card"><strong>🧵 Multithreaded</strong><br>Supports concurrent execution of multiple threads, enhancing performance for multi-tasking applications.</div>
+            <div class="card"><strong>📦 Object-Oriented</strong><br>Supports OOP principles like encapsulation, inheritance, polymorphism, and abstraction.</div>
+        </div>
+
+        <h3>Key Features of Java</h3>
         <ul>
-            <li><b>Platform Independence:</b> Java programs are compiled into bytecode, which runs on any device with a Java Virtual Machine (JVM), enabling "write once, run anywhere."</li>
-            <li><b>Object-Oriented:</b> Supports OOP principles like encapsulation, inheritance, polymorphism, and abstraction.</li>
-            <li><b>Robust:</b> Features like automatic memory management (garbage collection), exception handling, and type checking make Java reliable.</li>
-            <li><b>Secure:</b> Java’s sandbox environment and bytecode verification ensure security against malicious code.</li>
-            <li><b>Multithreaded:</b> Supports concurrent execution of multiple threads, enhancing performance for multi-tasking applications.</li>
-            <li><b>Simple:</b> Java’s syntax is clear and derived from C/C++, making it easier to learn for programmers familiar with these languages.</li>
-            <li><b>Portable:</b> Java’s bytecode and JVM ensure consistent behavior across different platforms.</li>
+            <li><strong>Platform Independence:</strong> Java programs are compiled into bytecode, which runs on any device with a JVM.</li>
+            <li><strong>Object-Oriented:</strong> Supports OOP principles like encapsulation, inheritance, polymorphism, and abstraction.</li>
+            <li><strong>Robust:</strong> Features like automatic memory management (garbage collection), exception handling, and type checking make Java reliable.</li>
+            <li><strong>Secure:</strong> Java's sandbox environment and bytecode verification ensure security against malicious code.</li>
+            <li><strong>Multithreaded:</strong> Supports concurrent execution of multiple threads, enhancing performance for multi-tasking applications.</li>
+            <li><strong>Simple:</strong> Java's syntax is clear and derived from C/C++, making it easier to learn for programmers familiar with these languages.</li>
+            <li><strong>Portable:</strong> Java's bytecode and JVM ensure consistent behavior across different platforms.</li>
         </ul>
+
+        <div class="code-block">
+            <span>// First Java Program</span><br>
+            public class HelloWorld {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Hello, World!");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
     </div>
 
+    <!-- ========== 2.2 ========== -->
     <div class="section">
-        <h2><b>2.2 The Java Virtual Machine (JVM), Parts of Java Program, Naming Conventions in Java</b></h2>
-        <p><b>Java Virtual Machine (JVM):</b> The JVM is an abstract computing machine that interprets or compiles Java bytecode into machine code for execution on specific hardware. It provides platform independence by acting as an intermediary between Java code and the operating system.</p>
-        <p><b>Parts of a Java Program:</b></p>
+        <h2>2.2 The Java Virtual Machine (JVM), Parts of Java Program, Naming Conventions in Java</h2>
+
+        <h3>Java Virtual Machine (JVM)</h3>
         <ul>
-            <li><b>Class Declaration:</b> Every Java program contains at least one class, defined using the <code>class</code> keyword.</li>
-            <li><b>Main Method:</b> The entry point of a program, defined as <code>public static void main(String[] args)</code>.</li>
-            <li><b>Variables and Methods:</b> Variables store data, and methods define behavior within the class.</li>
-            <li><b>Comments:</b> Single-line (<code>//</code>) or multi-line (<code>/* */</code>) comments for documentation.</li>
-            <li><b>Packages:</b> Used to organize classes, declared with the <code>package</code> keyword.</li>
-            <li><b>Imports:</b> Import statements bring in external classes (e.g., <code>import java.util.Scanner;</code>).</li>
+            <li><strong>Definition:</strong> The JVM is an abstract computing machine that interprets or compiles Java bytecode into machine code for execution on specific hardware.</li>
+            <li><strong>Purpose:</strong> Provides platform independence by acting as an intermediary between Java code and the operating system.</li>
         </ul>
-        <p><b>Naming Conventions in Java:</b></p>
+
+        <div class="figure-box">
+            <pre>
+Java Compilation and Execution:
+┌──────────────┐     ┌──────────────┐     ┌──────────────┐
+│  Java Code   │────▶│  Compiler    │────▶│  Bytecode    │
+│  (.java)     │     │  (javac)     │     │  (.class)    │
+└──────────────┘     └──────────────┘     └──────┬───────┘
+                                                   │
+                                                   ▼
+                                          ┌──────────────┐
+                                          │     JVM      │
+                                          │   (interprets│
+                                          │   bytecode)  │
+                                          └──────┬───────┘
+                                                   │
+                                                   ▼
+                                          ┌──────────────┐
+                                          │   Operating  │
+                                          │   System     │
+                                          └──────────────┘
+            </pre>
+        </div>
+
+        <h3>Parts of a Java Program</h3>
         <ul>
-            <li><b>Class Names:</b> Use PascalCase (e.g., <code>MyClass</code>).</li>
-            <li><b>Method Names:</b> Use camelCase (e.g., <code>calculateTotal</code>).</li>
-            <li><b>Variables:</b> Use camelCase (e.g., <code>studentName</code>).</li>
-            <li><b>Constants:</b> Use UPPER_SNAKE_CASE (e.g., <code>MAX_VALUE</code>).</li>
-            <li><b>Packages:</b> Use lowercase with dots (e.g., <code>com.example.project</code>).</li>
+            <li><strong>Class Declaration:</strong> Every Java program contains at least one class, defined using the <code>class</code> keyword.</li>
+            <li><strong>Main Method:</strong> The entry point of a program, defined as <code>public static void main(String[] args)</code>.</li>
+            <li><strong>Variables and Methods:</strong> Variables store data, and methods define behavior within the class.</li>
+            <li><strong>Comments:</strong> Single-line (<code>//</code>) or multi-line (<code>/* */</code>) comments for documentation.</li>
+            <li><strong>Packages:</strong> Used to organize classes, declared with the <code>package</code> keyword.</li>
+            <li><strong>Imports:</strong> Import statements bring in external classes (e.g., <code>import java.util.Scanner;</code>).</li>
         </ul>
+
+        <h3>Naming Conventions in Java</h3>
+        <table>
+            <tr><th>Type</th><th>Convention</th><th>Example</th></tr>
+            <tr><td>Class Names</td><td>PascalCase</td><td>MyClass, StudentRecord</td></tr>
+            <tr><td>Method Names</td><td>camelCase</td><td>calculateTotal, getAge</td></tr>
+            <tr><td>Variables</td><td>camelCase</td><td>studentName, totalScore</td></tr>
+            <tr><td>Constants</td><td>UPPER_SNAKE_CASE</td><td>MAX_VALUE, PI</td></tr>
+            <tr><td>Packages</td><td>lowercase with dots</td><td>com.example.project</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 2.3 ========== -->
     <div class="section">
-        <h2><b>2.3 Variables and Constants</b></h2>
-        <p><b>Variables:</b> Named memory locations that store data, which can change during program execution. Declared with a data type, name, and optional initial value (e.g., <code>int count = 10;</code>).</p>
-        <p><b>Constants:</b> Variables whose values cannot change once assigned, declared using the <code>final</code> keyword (e.g., <code>final double PI = 3.14159;</code>).</p>
-        <ul>
-            <li><b>Types of Variables:</b> Local (within a method), instance (within a class, non-static), and static (shared across all instances of a class).</li>
-            <li><b>Scope:</b> Determines where a variable is accessible (e.g., local variables are only accessible within their block).</li>
-        </ul>
-    </div>
+        <h2>2.3 Variables and Constants</h2>
 
-    <div class="section">
-        <h2><b>2.4 Data Types in Java</b></h2>
-        <p>Java has two categories of data types:</p>
+        <h3>Variables</h3>
         <ul>
-            <li><b>Primitive Data Types:</b>
+            <li><strong>Definition:</strong> Named memory locations that store data, which can change during program execution.</li>
+            <li><strong>Declaration:</strong> <code>data_type variable_name = initial_value;</code></li>
+            <li><strong>Example:</strong> <code>int count = 10;</code></li>
+            <li><strong>Types of Variables:</strong>
                 <ul>
-                    <li><b>byte:</b> 8-bit integer (-128 to 127).</li>
-                    <li><b>short:</b> 16-bit integer (-32,768 to 32,767).</li>
-                    <li><b>int:</b> 32-bit integer (-2^31 to 2^31-1).</li>
-                    <li><b>long:</b> 64-bit integer (-2^63 to 2^63-1).</li>
-                    <li><b>float:</b> 32-bit floating-point.</li>
-                    <li><b>double:</b> 64-bit floating-point.</li>
-                    <li><b>char:</b> 16-bit Unicode character.</li>
-                    <li><b>boolean:</b> true or false.</li>
+                    <li><strong>Local Variables:</strong> Declared within a method, accessible only within that method.</li>
+                    <li><strong>Instance Variables:</strong> Declared within a class (non-static), each object has its own copy.</li>
+                    <li><strong>Static Variables:</strong> Declared with the <code>static</code> keyword, shared across all instances of a class.</li>
                 </ul>
             </li>
-            <li><b>Reference Data Types:</b> Include objects like arrays, strings, and user-defined classes, which store references to data rather than the data itself.</li>
+            <li><strong>Scope:</strong> Determines where a variable is accessible (e.g., local variables are only accessible within their block).</li>
         </ul>
-    </div>
 
-    <div class="section">
-        <h2><b>2.5 Operators in Java</b></h2>
-        <p>Operators perform operations on variables and values. Java supports:</p>
+        <h3>Constants</h3>
         <ul>
-            <li><b>Arithmetic Operators:</b> <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code> (modulus), <code>++</code>, <code>--</code>.</li>
-            <li><b>Relational Operators:</b> <code>==</code>, <code>!=</code>, <code>></code>, <code><</code>, <code>>=</code>, <code><=</code>.</li>
-            <li><b>Logical Operators:</b> <code>&&</code> (AND), <code>||</code> (OR), <code>!</code> (NOT).</li>
-            <li><b>Bitwise Operators:</b> <code>&</code>, <code>|</code>, <code>^</code>, <code>~</code>, <code><<</code>, <code>>></code>, <code>>>></code>.</li>
-            <li><b>Assignment Operators:</b> <code>=</code>, <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code>, etc.</li>
-            <li><b>Ternary Operator:</b> <code>condition ? value1 : value2</code>.</li>
+            <li><strong>Definition:</strong> Variables whose values cannot change once assigned.</li>
+            <li><strong>Declaration:</strong> Use the <code>final</code> keyword.</li>
+            <li><strong>Example:</strong> <code>final double PI = 3.14159;</code></li>
         </ul>
+
+        <div class="code-block">
+            <span>// Variables and Constants Example</span><br>
+            public class VariableDemo {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;static int staticVar = 10;  <span>// Static variable</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int instanceVar = 20;     <span>// Instance variable</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;final double PI = 3.14;  <span>// Constant</span><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public void method() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int localVar = 30;  <span>// Local variable</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(localVar);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
     </div>
 
+    <!-- ========== 2.4 ========== -->
     <div class="section">
-        <h2><b>2.6 Reading and Displaying Output</b></h2>
-        <p><b>Displaying Output:</b> Use <code>System.out.println()</code> or <code>System.out.print()</code> to display text or values to the console.</p>
-        <p><b>Reading Input:</b> Use the <code>Scanner</code> class (from <code>java.util</code>) to read user input.</p>
-        <p>Example:</p>
-        <pre>
-import java.util.Scanner;
-public class InputOutput {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter your name: ");
-        String name = scanner.nextLine();
-        System.out.println("Hello, " + name + "!");
-        scanner.close();
-    }
-}
-        </pre>
-    </div>
+        <h2>2.4 Data Types in Java</h2>
+        <p>Java has two categories of data types: <strong>primitive</strong> and <strong>reference</strong> data types.</p>
 
-    <div class="section">
-        <h2><b>2.7 Command Line Arguments</b></h2>
-        <p>Command line arguments are inputs passed to a Java program when it is executed. They are stored as strings in the <code>String[] args</code> parameter of the <code>main</code> method.</p>
-        <p>Example:</p>
-        <pre>
-public class CommandLine {
-    public static void main(String[] args) {
-        for (String arg : args) {
-            System.out.println("Argument: " + arg);
-        }
-    }
-}
-        </pre>
-        <p>Run as: <code>java CommandLine arg1 arg2</code></p>
-    </div>
+        <h3>Primitive Data Types</h3>
+        <table>
+            <tr><th>Type</th><th>Size</th><th>Range</th><th>Example</th></tr>
+            <tr><td>byte</td><td>8-bit</td><td>-128 to 127</td><td>byte b = 100;</td></tr>
+            <tr><td>short</td><td>16-bit</td><td>-32,768 to 32,767</td><td>short s = 10000;</td></tr>
+            <tr><td>int</td><td>32-bit</td><td>-2³¹ to 2³¹-1</td><td>int i = 100000;</td></tr>
+            <tr><td>long</td><td>64-bit</td><td>-2⁶³ to 2⁶³-1</td><td>long l = 10000000000L;</td></tr>
+            <tr><td>float</td><td>32-bit</td><td>~3.4e-38 to 3.4e+38</td><td>float f = 3.14f;</td></tr>
+            <tr><td>double</td><td>64-bit</td><td>~1.7e-308 to 1.7e+308</td><td>double d = 3.14159;</td></tr>
+            <tr><td>char</td><td>16-bit</td><td>0 to 65,535 (Unicode)</td><td>char c = 'A';</td></tr>
+            <tr><td>boolean</td><td>1-bit (conceptually)</td><td>true or false</td><td>boolean flag = true;</td></tr>
+        </table>
 
-    <div class="section">
-        <h2><b>2.8 Control Statements in Java</b></h2>
-        <p>Control statements manage the flow of execution:</p>
+        <h3>Reference Data Types</h3>
         <ul>
-            <li><b>Conditional Statements:</b>
-                <ul>
-                    <li><code>if</code>, <code>if-else</code>, <code>else-if ladder</code>: Execute code based on conditions.</li>
-                    <li><code>switch</code>: Selects one of many code blocks to execute.</li>
-                </ul>
-            </li>
-            <li><b>Looping Statements:</b>
-                <ul>
-                    <li><code>for</code>: Iterates a fixed number of times.</li>
-                    <li><code>while</code>: Repeats while a condition is true.</li>
-                    <li><code>do-while</code>: Executes at least once, then repeats while a condition is true.</li>
-                </ul>
-            </li>
-            <li><b>Jump Statements:</b>
-                <ul>
-                    <li><code>break</code>: Exits a loop or switch.</li>
-                    <li><code>continue</code>: Skips the current iteration of a loop.</li>
-                    <li><code>return</code>: Exits a method and optionally returns a value.</li>
-                </ul>
-            </li>
+            <li><strong>Definition:</strong> Store references to data rather than the data itself.</li>
+            <li><strong>Examples:</strong> Arrays, Strings, and user-defined classes.</li>
+            <li><strong>Default Value:</strong> <code>null</code> (for objects).</li>
         </ul>
+
+        <div class="code-block">
+            <span>// Data Types Example</span><br>
+            int age = 25;<br>
+            double salary = 50000.50;<br>
+            char grade = 'A';<br>
+            boolean isActive = true;<br>
+            String name = "John Doe";  <span>// Reference type</span>
+        </div>
     </div>
 
+    <!-- ========== 2.5 ========== -->
     <div class="section">
-        <h2><b>2.9 Array</b></h2>
-        <p>An array is a fixed-size collection of elements of the same data type, stored in contiguous memory locations.</p>
+        <h2>2.5 Operators in Java</h2>
+        <p>Operators perform operations on variables and values. Java supports several types of operators.</p>
+
+        <h3>Types of Operators</h3>
         <ul>
-            <li><b>Declaration:</b> <code>int[] numbers;</code> or <code>int numbers[];</code></li>
-            <li><b>Initialization:</b> <code>numbers = new int[5];</code> or <code>int[] numbers = {1, 2, 3, 4, 5};</code></li>
-            <li><b>Accessing Elements:</b> Use index (e.g., <code>numbers[0]</code>).</li>
-            <li><b>Multidimensional Arrays:</b> Arrays of arrays (e.g., <code>int[][] matrix = new int[3][3];</code>).</li>
+            <li><strong>Arithmetic Operators:</strong> <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code> (modulus), <code>++</code>, <code>--</code></li>
+            <li><strong>Relational Operators:</strong> <code>==</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code></li>
+            <li><strong>Logical Operators:</strong> <code>&amp;&amp;</code> (AND), <code>||</code> (OR), <code>!</code> (NOT)</li>
+            <li><strong>Bitwise Operators:</strong> <code>&amp;</code>, <code>|</code>, <code>^</code>, <code>~</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>&gt;&gt;&gt;</code></li>
+            <li><strong>Assignment Operators:</strong> <code>=</code>, <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code>, etc.</li>
+            <li><strong>Ternary Operator:</strong> <code>condition ? value1 : value2</code></li>
         </ul>
-        <p>Example:</p>
-        <pre>
-public class ArrayExample {
-    public static void main(String[] args) {
-        int[] numbers = {1, 2, 3, 4, 5};
-        for (int num : numbers) {
-            System.out.println(num);
-        }
-    }
-}
-        </pre>
+
+        <div class="code-block">
+            <span>// Operators Example</span><br>
+            int a = 10, b = 5;<br><br>
+            <span>// Arithmetic</span><br>
+            int sum = a + b;  <span>// 15</span><br>
+            int product = a * b;  <span>// 50</span><br><br>
+            <span>// Relational</span><br>
+            boolean isEqual = (a == b);  <span>// false</span><br>
+            boolean isGreater = (a > b);  <span>// true</span><br><br>
+            <span>// Logical</span><br>
+            boolean result = (a > 5 &amp;&amp; b < 10);  <span>// true</span><br><br>
+            <span>// Ternary</span><br>
+            int max = (a > b) ? a : b;  <span>// 10</span><br><br>
+            <span>// Assignment</span><br>
+            a += 5;  <span>// a = 15</span>
+        </div>
+    </div>
+
+    <!-- ========== 2.6 ========== -->
+    <div class="section">
+        <h2>2.6 Reading and Displaying Output</h2>
+
+        <h3>Displaying Output</h3>
+        <ul>
+            <li><code>System.out.println()</code> — Prints with a newline.</li>
+            <li><code>System.out.print()</code> — Prints without a newline.</li>
+            <li><code>System.out.printf()</code> — Formatted output.</li>
+        </ul>
+
+        <h3>Reading Input</h3>
+        <ul>
+            <li>Use the <code>Scanner</code> class from <code>java.util</code> package.</li>
+            <li>Common methods: <code>nextLine()</code>, <code>nextInt()</code>, <code>nextDouble()</code>, <code>next()</code>.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Input and Output Example</span><br>
+            import java.util.Scanner;<br><br>
+            public class InputOutputDemo {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scanner scanner = new Scanner(System.in);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print("Enter your name: ");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String name = scanner.nextLine();<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print("Enter your age: ");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int age = scanner.nextInt();<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.printf("Hello, %s! You are %d years old.\n", name, age);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scanner.close();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 2.7 ========== -->
+    <div class="section">
+        <h2>2.7 Command Line Arguments</h2>
+        <p><strong>Command line arguments</strong> are inputs passed to a Java program when it is executed. They are stored as strings in the <code>String[] args</code> parameter of the <code>main</code> method.</p>
+
+        <div class="code-block">
+            <span>// Command Line Arguments Example</span><br>
+            public class CommandLineDemo {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Number of arguments: " + args.length);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < args.length; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Argument " + i + ": " + args[i]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <div class="code-block">
+            <span>// Run: java CommandLineDemo Hello World 123</span><br>
+            <span>// Output:</span><br>
+            <span>// Number of arguments: 3</span><br>
+            <span>// Argument 0: Hello</span><br>
+            <span>// Argument 1: World</span><br>
+            <span>// Argument 2: 123</span>
+        </div>
+    </div>
+
+    <!-- ========== 2.8 ========== -->
+    <div class="section">
+        <h2>2.8 Control Statements in Java</h2>
+        <p>Control statements manage the flow of execution in a Java program.</p>
+
+        <h3>Conditional Statements</h3>
+        <ul>
+            <li><code>if</code>, <code>if-else</code>, <code>else-if ladder</code>: Execute code based on conditions.</li>
+            <li><code>switch</code>: Selects one of many code blocks to execute based on a value.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// if-else Example</span><br>
+            int score = 85;<br>
+            if (score >= 90) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Grade: A");<br>
+            } else if (score >= 75) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Grade: B");<br>
+            } else {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Grade: C");<br>
+            }<br><br>
+            <span>// switch Example</span><br>
+            int day = 3;<br>
+            switch (day) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;case 1: System.out.println("Monday"); break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;case 2: System.out.println("Tuesday"); break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;case 3: System.out.println("Wednesday"); break;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;default: System.out.println("Invalid day");<br>
+            }
+        </div>
+
+        <h3>Looping Statements</h3>
+        <ul>
+            <li><code>for</code>: Iterates a fixed number of times.</li>
+            <li><code>while</code>: Repeats while a condition is true.</li>
+            <li><code>do-while</code>: Executes at least once, then repeats while a condition is true.</li>
+        </ul>
+
+        <h3>Jump Statements</h3>
+        <ul>
+            <li><code>break</code>: Exits a loop or switch.</li>
+            <li><code>continue</code>: Skips the current iteration of a loop.</li>
+            <li><code>return</code>: Exits a method and optionally returns a value.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Loop Example</span><br>
+            <span>// for loop</span><br>
+            for (int i = 0; i < 5; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;System.out.print(i + " ");<br>
+            }<br><br>
+            <span>// while loop</span><br>
+            int j = 0;<br>
+            while (j < 5) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;System.out.print(j + " ");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;j++;<br>
+            }<br><br>
+            <span>// do-while loop</span><br>
+            int k = 0;<br>
+            do {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;System.out.print(k + " ");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;k++;<br>
+            } while (k < 5);
+        </div>
+    </div>
+
+    <!-- ========== 2.9 ========== -->
+    <div class="section">
+        <h2>2.9 Array</h2>
+        <p>An <strong>array</strong> is a fixed-size collection of elements of the same data type, stored in contiguous memory locations.</p>
+
+        <h3>Array Declaration and Initialization</h3>
+        <ul>
+            <li><strong>Declaration:</strong> <code>int[] numbers;</code> or <code>int numbers[];</code></li>
+            <li><strong>Initialization with size:</strong> <code>numbers = new int[5];</code></li>
+            <li><strong>Initialization with values:</strong> <code>int[] numbers = {1, 2, 3, 4, 5};</code></li>
+            <li><strong>Accessing Elements:</strong> Use index (e.g., <code>numbers[0]</code>).</li>
+        </ul>
+
+        <h3>Multidimensional Arrays</h3>
+        <ul>
+            <li><strong>Declaration:</strong> <code>int[][] matrix = new int[3][3];</code></li>
+            <li><strong>Initialization:</strong> <code>int[][] matrix = {{1,2,3}, {4,5,6}, {7,8,9}};</code></li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Array Example</span><br>
+            public class ArrayDemo {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>// 1D Array</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int[] numbers = {1, 2, 3, 4, 5};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < numbers.length; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(numbers[i] + " ");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println();<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>// 2D Array</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int[][] matrix = {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{1, 2, 3},<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{4, 5, 6},<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{7, 8, 9}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < matrix.length; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int j = 0; j < matrix[i].length; j++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(matrix[i][j] + " ");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>📚 Key insight:</strong> Arrays are fundamental data structures in Java. They provide efficient indexed access but have a fixed size. For dynamic collections, consider using <code>ArrayList</code> or other collection classes.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 2 summary</strong><br>Basic Java covers language features, JVM, program structure, variables, data types, operators, I/O, control statements, and arrays.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Java features: platform independence, OOP, robust, secure, multithreaded.<br>• JVM: runs bytecode, provides platform independence.<br>• Data types: primitive (int, double, char, boolean) and reference (objects, arrays).<br>• Operators: arithmetic, relational, logical, bitwise, assignment, ternary.<br>• Control statements: if-else, switch, for, while, do-while.<br>• Arrays: fixed-size, indexed, multidimensional.</div>
     </div>
 </body>
 </html>

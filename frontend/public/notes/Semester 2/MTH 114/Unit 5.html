@@ -1,137 +1,434 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 5: Ordinary Differential Equation</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            color: black;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
         }
         li {
-            margin-bottom: 10px;
+            margin-bottom: 0.6rem;
         }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
+        strong {
+            color: #0f3d66;
         }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
         }
-        h2 {
-            font-size: 1rem; /* smaller sub-header */
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
         }
-        .section {
-            padding: 8px; /* less padding for small screens */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
-    }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1><b>Unit 5: Ordinary Differential Equation</b></h1>
+    <h1>Unit 5: Ordinary Differential Equation</h1>
+    <div class="subhead">Introduction · order & degree · first-order solutions · variable separation · homogeneous · linear · second-order · IVP & BVP</div>
 
+    <!-- ========== 5.1 ========== -->
     <div class="section">
-        <h2><b>5.1 Introduction</b></h2>
-        <p>An ordinary differential equation (ODE) is an equation involving a function of one independent variable and its derivatives. ODEs describe relationships between a function and its rates of change, widely used to model phenomena in physics, engineering, biology, and economics.</p>
+        <h2>5.1 Introduction</h2>
+        <p>An <strong>ordinary differential equation (ODE)</strong> is an equation involving a function of one independent variable and its derivatives. ODEs describe relationships between a function and its rates of change, widely used to model phenomena in physics, engineering, biology, and economics.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📐 Definition</strong><br>F(x, y, y', y'', ..., yⁿ) = 0, where y = f(x) is the unknown function. Example: y' + 2y = x.</div>
+            <div class="card"><strong>📊 Applications</strong><br>Population growth (dy/dt = ky), motion (Newton's second law), electrical circuits (L di/dt + Ri = V).</div>
+        </div>
+
+        <h3>Key Concepts</h3>
         <ul>
-            <li><strong>Definition:</strong> An ODE is of the form <em>F(x, y, y', y'', ..., y^(n)) = 0</em>, where <em>y = f(x)</em> is the unknown function, and <em>y', y'', ..., y^(n)</em> are its derivatives. Example: <em>y' + 2y = x</em> is an ODE.</li>
-            <li><strong>Applications:</strong> Model population growth (e.g., <em>dy/dt = ky</em>), motion (e.g., Newton’s second law), or electrical circuits (e.g., <em>L di/dt + Ri = V</em>).</li>
-            <li><strong>Types:</strong> Classified by order, degree, and linearity (linear or nonlinear). Solutions can be explicit, implicit, or numerical.</li>
+            <li><strong>Order:</strong> Highest derivative in the equation.</li>
+            <li><strong>Degree:</strong> Power of the highest-order derivative (if polynomial in derivatives).</li>
+            <li><strong>Linearity:</strong> Linear if y and its derivatives appear to the first power and are not multiplied together.</li>
         </ul>
     </div>
 
+    <!-- ========== 5.2 ========== -->
     <div class="section">
-        <h2><b>5.2 Order and Degree of Differential Equation</b></h2>
-        <p>The order and degree characterize the structure of a differential equation, indicating its complexity and the methods needed for solution.</p>
+        <h2>5.2 Order and Degree of Differential Equation</h2>
+
+        <h3>Order</h3>
         <ul>
-            <li><strong>Order:</strong> The highest derivative in the equation. Example: <em>y'' + 3y' + 2y = 0</em> is second-order (highest derivative is <em>y''</em>); <em>y' = x²</em> is first-order.</li>
-            <li><strong>Degree:</strong> The power of the highest-order derivative when the equation is polynomial in derivatives. Example: <em>(y'')² + y' + y = 0</em> has degree 2 (due to <em>(y'')²</em>); <em>y'' + y = 0</em> has degree 1.</li>
-            <li><strong>Determination:</strong> Rewrite the equation to isolate derivatives. Example: <em>√(y') + y = x</em> has order 1, degree 1/2 (after squaring to eliminate the square root). If the equation is not polynomial in derivatives, degree may be undefined.</li>
-            <li><strong>Applications:</strong> Order determines the number of initial conditions needed; degree affects solution techniques.</li>
+            <li>Highest derivative in the equation.</li>
+            <li>Example: y'' + 3y' + 2y = 0 → order 2.</li>
+            <li>Example: y' = x² → order 1.</li>
         </ul>
+
+        <h3>Degree</h3>
+        <ul>
+            <li>Power of the highest-order derivative when the equation is polynomial in derivatives.</li>
+            <li>Example: (y'')² + y' + y = 0 → degree 2.</li>
+            <li>Example: y'' + y = 0 → degree 1.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Order and Degree Examples</span><br>
+            y'' + 2y' = 0  → Order 2, Degree 1<br>
+            (y')³ + y = x  → Order 1, Degree 3<br>
+            √(y') + y = x  → Order 1, Degree 1/2 (after squaring)
+        </div>
+
+        <div class="note-box">
+            <strong>📌 Key insight:</strong> The order determines the number of arbitrary constants in the general solution. The degree affects the solution techniques.
+        </div>
     </div>
 
+    <!-- ========== 5.3 ========== -->
     <div class="section">
-        <h2><b>5.3 Solution of the First Order and First Degree Differential Equation</b></h2>
-        <p>First-order, first-degree ODEs have the form <em>dy/dx = f(x, y)</em>. Solutions can be general (family of solutions) or particular (satisfying specific conditions).</p>
+        <h2>5.3 Solution of the First Order and First Degree Differential Equation</h2>
+        <p>First-order, first-degree ODEs have the form <em>dy/dx = f(x, y)</em>.</p>
+
+        <h3>General and Particular Solutions</h3>
         <ul>
-            <li><strong>General Solution:</strong> Includes an arbitrary constant. Example: For <em>dy/dx = x</em>, integrate: <em>y = ∫ x dx = x²/2 + C</em>.</li>
-            <li><strong>Particular Solution:</strong> Obtained by applying an initial condition. Example: For <em>y(0) = 1</em>, <em>y = x²/2 + 1</em>.</li>
-            <li><strong>Methods:</strong>
-                <ul>
-                    <li><strong>Direct Integration:</strong> If <em>dy/dx = f(x)</em>, then <em>y = ∫ f(x) dx + C</em>. Example: <em>dy/dx = 2x</em>, <em>y = x² + C</em>.</li>
-                    <li><strong>Other Methods:</strong> Separation of variables, integrating factors (for linear equations), or exact equations (covered in 5.4).</li>
-                </ul>
-            </li>
-            <li><strong>Example:</strong> Solve <em>dy/dx = -y/x</em>. This is separable (see 5.4), yielding <em>y = C/x</em>.</li>
-            <li><strong>Applications:</strong> Model exponential growth/decay, cooling processes, or simple motion.</li>
+            <li><strong>General Solution:</strong> Includes an arbitrary constant (e.g., y = x²/2 + C).</li>
+            <li><strong>Particular Solution:</strong> Satisfies an initial condition (e.g., y(0) = 1 → y = x²/2 + 1).</li>
         </ul>
+
+        <div class="code-block">
+            <span>// Direct Integration</span><br>
+            dy/dx = 2x → y = ∫ 2x dx = x² + C<br>
+            y(0) = 1 → 1 = 0 + C → C = 1 → y = x² + 1
+        </div>
     </div>
 
+    <!-- ========== 5.4 ========== -->
     <div class="section">
-        <h2><b>5.4 Variable Separation, Homogeneous, Linear Differential Equation</b></h2>
-        <p>Specific types of first-order ODEs can be solved using tailored methods, each suited to the equation’s structure.</p>
+        <h2>5.4 Variable Separation, Homogeneous, Linear Differential Equation</h2>
+
+        <h3>Variable Separation</h3>
         <ul>
-            <li><strong>Variable Separation:</strong> For <em>dy/dx = f(x)g(y)</em>, rewrite as <em>dy/g(y) = f(x) dx</em>, then integrate both sides. Example: Solve <em>dy/dx = xy</em>. Rewrite: <em>dy/y = x dx</em>. Integrate: <em>ln |y| = x²/2 + C</em>, so <em>y = ±e^(C) e^(x²/2) = A e^(x²/2)</em>.</li>
-            <li><strong>Homogeneous Equations:</strong> An equation <em>dy/dx = f(x, y)</em> where <em>f(tx, ty) = f(x, y)</em> (same degree in <em>x</em> and <em>y</em>). Use substitution <em>y = vx</em>, so <em>dy/dx = v + x dv/dx</em>. Example: Solve <em>dy/dx = (x + y)/x</em>. Rewrite as <em>dy/dx = 1 + y/x</em>. Let <em>y = vx</em>, then <em>v + x dv/dx = 1 + v</em>, so <em>x dv/dx = 1</em>. Integrate: <em>v = ln |x| + C</em>, so <em>y = x ln |x| + Cx</em>.</li>
-            <li><strong>Linear Differential Equations:</strong> Form <em>dy/dx + P(x)y = Q(x)</em>. Use integrating factor <em>e^(∫ P(x) dx)</em>. Multiply through by the integrating factor, then integrate. Example: Solve <em>dy/dx + 2y/x = x</em>. Integrating factor: <em>e^(∫ 2/x dx) = e^(2 ln x) = x²</em>. Multiply: <em>x² dy/dx + 2xy = x³</em>, or <em>d/dx (x²y) = x³</em>. Integrate: <em>x²y = x⁴/4 + C</em>, so <em>y = x²/4 + C/x²</em>.</li>
-            <li><strong>Applications:</strong> Used in modeling population dynamics, fluid flow, and electrical circuits.</li>
+            <li>Form: dy/dx = f(x)g(y)</li>
+            <li>Rewrite: dy/g(y) = f(x) dx</li>
+            <li>Integrate both sides.</li>
         </ul>
+        <div class="code-block">
+            <span>// Variable Separation Example</span><br>
+            dy/dx = xy<br>
+            dy/y = x dx<br>
+            ln|y| = x²/2 + C → y = A e^(x²/2)
+        </div>
+
+        <h3>Homogeneous Equations</h3>
+        <ul>
+            <li>Form: dy/dx = f(x,y) where f(tx,ty) = f(x,y)</li>
+            <li>Substitution: y = vx → dy/dx = v + x dv/dx</li>
+        </ul>
+        <div class="code-block">
+            <span>// Homogeneous Equation Example</span><br>
+            dy/dx = (x + y)/x = 1 + y/x<br>
+            Let y = vx → v + x dv/dx = 1 + v<br>
+            x dv/dx = 1 → dv = dx/x → v = ln|x| + C<br>
+            y = x ln|x| + Cx
+        </div>
+
+        <h3>Linear Differential Equations</h3>
+        <ul>
+            <li>Form: dy/dx + P(x)y = Q(x)</li>
+            <li>Integrating factor: e^(∫ P(x) dx)</li>
+        </ul>
+        <div class="code-block">
+            <span>// Linear Equation Example</span><br>
+            dy/dx + 2y/x = x<br>
+            IF = e^(∫ 2/x dx) = x²<br>
+            d/dx (x²y) = x³ → x²y = x⁴/4 + C<br>
+            y = x²/4 + C/x²
+        </div>
     </div>
 
+    <!-- ========== 5.5 ========== -->
     <div class="section">
-        <h2><b>5.5 Second-Order Linear Differential Equation with Constant Coefficients</b></h2>
-        <p>Second-order linear ODEs with constant coefficients have the form <em>ay'' + by' + cy = f(x)</em>, where <em>a, b, c</em> are constants.</p>
+        <h2>5.5 Second-Order Linear Differential Equation with Constant Coefficients</h2>
+        <p>Form: <em>ay'' + by' + cy = f(x)</em>, where a, b, c are constants.</p>
+
+        <h3>Homogeneous Case (f(x) = 0)</h3>
         <ul>
-            <li><strong>Homogeneous Case (<em>f(x) = 0</em>):</strong> Solve <em>ay'' + by' + cy = 0</em>. Use characteristic equation <em>ar² + br + c = 0</em>.
-                <ul>
-                    <li><strong>Real Distinct Roots:</strong> If roots <em>r₁, r₂</em> are distinct, solution is <em>y = C₁ e^(r₁x) + C₂ e^(r₂x)</em>. Example: <em>y'' - 3y' + 2y = 0</em>, characteristic equation <em>r² - 3r + 2 = 0</em> gives <em>r = 1, 2</em>, so <em>y = C₁ e^x + C₂ e^(2x)</em>.</li>
-                    <li><strong>Real Repeated Roots:</strong> If <em>r₁ = r₂ = r</em>, solution is <em>y = (C₁ + C₂x) e^(rx)</em>. Example: <em>y'' - 2y' + y = 0</em>, <em>r² - 2r + 1 = 0</em>, <em>r = 1</em>, so <em>y = (C₁ + C₂x) e^x</em>.</li>
-                    <li><strong>Complex Roots:</strong> If <em>r = α ± βi</em>, solution is <em>y = e^(αx) (C₁ cos(βx) + C₂ sin(βx))</em>. Example: <em>y'' + y = 0</em>, <em>r² + 1 = 0</em>, <em>r = ±i</em>, so <em>y = C₁ cos x + C₂ sin x</em>.</li>
-                </ul>
-            </li>
-            <li><strong>Non-Homogeneous Case:</strong> Solve <em>ay'' + by' + cy = f(x)</em>. Solution is <em>y = y_h + y_p</em>, where <em>y_h</em> is the homogeneous solution, and <em>y_p</em> is a particular solution found via:
-                <ul>
-                    <li><strong>Undetermined Coefficients:</strong> Guess <em>y_p</em> based on <em>f(x)</em>. Example: For <em>y'' + y = x</em>, <em>y_h = C₁ cos x + C₂ sin x</em>. Guess <em>y_p = ax + b</em>, solve to get <em>y_p = x</em>, so <em>y = C₁ cos x + C₂ sin x + x</em>.</li>
-                    <li><strong>Variation of Parameters:</strong> Use <em>y_p = u₁(x)y₁ + u₂(x)y₂</em>, where <em>y₁, y₂</em> are homogeneous solutions.</li>
-                </ul>
-            </li>
-            <li><strong>Applications:</strong> Model damped oscillations, electrical circuits, and mechanical systems.</li>
+            <li>Characteristic equation: ar² + br + c = 0</li>
+            <li><strong>Real Distinct Roots:</strong> y = C₁e^(r₁x) + C₂e^(r₂x)</li>
+            <li><strong>Repeated Roots:</strong> y = (C₁ + C₂x)e^(rx)</li>
+            <li><strong>Complex Roots:</strong> y = e^(αx)(C₁ cos βx + C₂ sin βx)</li>
         </ul>
+
+        <h3>Non-Homogeneous Case</h3>
+        <ul>
+            <li>Solution: y = y_h + y_p</li>
+            <li><strong>Undetermined Coefficients:</strong> Guess y_p based on f(x).</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Homogeneous Examples</span><br>
+            y'' - 3y' + 2y = 0 → r² - 3r + 2 = 0 → r = 1, 2<br>
+            y = C₁e^x + C₂e^(2x)<br><br>
+            y'' + y = 0 → r² + 1 = 0 → r = ±i<br>
+            y = C₁ cos x + C₂ sin x
+        </div>
+
+        <div class="code-block">
+            <span>// Non-Homogeneous Example</span><br>
+            y'' + y = x<br>
+            y_h = C₁ cos x + C₂ sin x<br>
+            Guess y_p = ax + b → y_p = x<br>
+            y = C₁ cos x + C₂ sin x + x
+        </div>
     </div>
 
+    <!-- ========== 5.6 ========== -->
     <div class="section">
-        <h2><b>5.6 Initial and Boundary Value Problems</b></h2>
-        <p>Initial and boundary value problems specify conditions to find particular solutions to ODEs.</p>
+        <h2>5.6 Initial and Boundary Value Problems</h2>
+
+        <h3>Initial Value Problems (IVP)</h3>
         <ul>
-            <li><strong>Initial Value Problems (IVPs):</strong> Specify conditions at a single point, typically <em>x = x₀</em>. For a second-order ODE, provide <em>y(x₀) = y₀</em> and <em>y'(x₀) = y₁</em>. Example: Solve <em>y'' + y = 0</em>, <em>y(0) = 1</em>, <em>y'(0) = 0</em>. General solution: <em>y = C₁ cos x + C₂ sin x</em>, <em>y' = -C₁ sin x + C₂ cos x</em>. Apply conditions: <em>C₁ = 1</em>, <em>C₂ = 0</em>, so <em>y = cos x</em>.</li>
-            <li><strong>Boundary Value Problems (BVPs):</strong> Specify conditions at different points, e.g., <em>y(a) = y₁</em>, <em>y(b) = y₂</em>. Example: Solve <em>y'' + y = 0</em>, <em>y(0) = 0</em>, <em>y(π) = 0</em>. General solution: <em>y = C₁ cos x + C₂ sin x</em>. Apply <em>y(0) = C₁ = 0</em>, <em>y(π) = C₂ sin π = 0</em>, so <em>y = C₂ sin x</em> (includes trivial solution <em>y = 0</em>).</li>
-            <li><strong>Uniqueness:</strong> IVPs typically have unique solutions for linear ODEs; BVPs may have multiple or no solutions depending on conditions.</li>
-            <li><strong>Applications:</strong> IVPs model dynamic systems (e.g., projectile motion); BVPs model steady-state systems (e.g., beam deflection).</li>
+            <li>Conditions given at a single point (x₀).</li>
+            <li>Example: y(0) = 1, y'(0) = 0.</li>
         </ul>
+
+        <div class="code-block">
+            <span>// IVP Example</span><br>
+            y'' + y = 0, y(0) = 1, y'(0) = 0<br>
+            y = C₁ cos x + C₂ sin x<br>
+            y(0) = C₁ = 1, y'(0) = C₂ = 0 → y = cos x
+        </div>
+
+        <h3>Boundary Value Problems (BVP)</h3>
+        <ul>
+            <li>Conditions given at different points.</li>
+            <li>Example: y(0) = 0, y(π) = 0.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// BVP Example</span><br>
+            y'' + y = 0, y(0) = 0, y(π) = 0<br>
+            y = C₁ cos x + C₂ sin x<br>
+            y(0) = C₁ = 0, y(π) = C₂ sin π = 0<br>
+            y = C₂ sin x (including trivial solution)
+        </div>
+
+        <table>
+            <tr><th>Type</th><th>Conditions</th><th>Uniqueness</th><th>Example</th></tr>
+            <tr><td>IVP</td><td>At one point</td><td>Typically unique</td><td>y(0)=1, y'(0)=0</td></tr>
+            <tr><td>BVP</td><td>At different points</td><td>May be multiple or none</td><td>y(0)=0, y(π)=0</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>📊 Key insight:</strong> IVPs model dynamic systems (e.g., motion), while BVPs model steady-state systems (e.g., beam deflection). The number of conditions equals the order of the ODE.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 5 summary</strong><br>Ordinary differential equations model relationships between functions and their derivatives. Key methods include separation of variables, homogeneous, linear, and second-order solutions.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• ODE: equation with derivatives.<br>• Order & degree: highest derivative and its power.<br>• First-order: separation, homogeneous, linear.<br>• Second-order: characteristic equation (real, repeated, complex roots).<br>• IVP: conditions at one point; BVP: conditions at different points.</div>
     </div>
 </body>
 </html>

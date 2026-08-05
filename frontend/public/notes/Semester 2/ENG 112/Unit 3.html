@@ -1,89 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 3: Oral Business Communication</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1, h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
         }
-        .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
-        }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1><b>Unit 3: Oral Business Communication</b></h1>
+    <h1>Unit 3: Oral Business Communication</h1>
+    <div class="subhead">Basics · presentations · interviews · meetings · in-person & digital</div>
 
+    <!-- ========== 3.1 ========== -->
     <div class="section">
-        <h2><b>3.1 Basics of Oral Business Communication Process</b></h2>
-        <p>Oral business communication involves the spoken exchange of information, ideas, or emotions in a professional context to achieve organizational goals. It is dynamic, immediate, and relies heavily on verbal and non-verbal cues.</p>
+        <h2>3.1 Basics of Oral Business Communication Process</h2>
+        <p><strong>Oral business communication</strong> involves the spoken exchange of information, ideas, or emotions in a professional context to achieve organizational goals. It is dynamic, immediate, and relies heavily on verbal and non-verbal cues.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🗣️ Qualities</strong><br>Clarity, engagement, conciseness, adaptability, and confidence. These ensure the message is understood and well-received.</div>
+            <div class="card"><strong>📊 vs Written</strong><br>Oral: immediate, transient, uses non-verbal cues, flexible. Written: delayed, permanent, relies on formatting, planned.</div>
+        </div>
+
+        <h3>Qualities of Oral Communication</h3>
         <ul>
-            <li><strong>Qualities of Oral Communication:</strong>
-                <ul>
-                    <li><strong>Clarity:</strong> Speak clearly with proper pronunciation and enunciation to ensure understanding. Example: Use simple language during a team briefing.</li>
-                    <li><strong>Engagement:</strong> Capture the audience’s attention through tone, enthusiasm, and body language. Example: Maintain eye contact during a presentation.</li>
-                    <li><strong>Conciseness:</strong> Deliver the message succinctly to maintain attention. Example: Summarize key points in a meeting rather than elaborating unnecessarily.</li>
-                    <li><strong>Adaptability:</strong> Adjust tone and content based on the audience’s reactions. Example: Simplify technical terms for a non-expert audience.</li>
-                    <li><strong>Confidence:</strong> Project assurance through posture and voice to build credibility. Example: Avoid filler words like “um” or “uh.”</li>
-                </ul>
-            </li>
-            <li><strong>Distinction Between Oral and Written Communication:</strong>
-                <ul>
-                    <li><strong>Immediacy:</strong> Oral communication is real-time, allowing instant feedback, while written communication is delayed. Example: A phone call vs. an email.</li>
-                    <li><strong>Permanence:</strong> Written communication creates a permanent record, whereas oral is transient unless recorded. Example: Meeting notes vs. verbal instructions.</li>
-                    <li><strong>Non-verbal Cues:</strong> Oral relies on tone, gestures, and facial expressions; written relies on formatting and word choice. Example: A smile in a meeting conveys warmth, unlike text.</li>
-                    <li><strong>Flexibility:</strong> Oral allows quick adaptation to audience reactions; written requires planning and revision. Example: Clarifying a point during Q&A vs. rewriting a report.</li>
-                </ul>
-            </li>
+            <li><strong>Clarity:</strong> Speak clearly with proper pronunciation and enunciation. Example: Use simple language during a team briefing.</li>
+            <li><strong>Engagement:</strong> Capture audience attention through tone, enthusiasm, and body language. Example: Maintain eye contact during a presentation.</li>
+            <li><strong>Conciseness:</strong> Deliver the message succinctly to maintain attention. Example: Summarize key points in a meeting.</li>
+            <li><strong>Adaptability:</strong> Adjust tone and content based on audience reactions. Example: Simplify technical terms for a non-expert audience.</li>
+            <li><strong>Confidence:</strong> Project assurance through posture and voice to build credibility. Example: Avoid filler words like "um" or "uh."</li>
         </ul>
+
+        <h3>Oral vs Written Communication</h3>
+        <table>
+            <tr><th>Aspect</th><th>Oral Communication</th><th>Written Communication</th></tr>
+            <tr><td>Immediacy</td><td>Real-time, instant feedback</td><td>Delayed, asynchronous</td></tr>
+            <tr><td>Permanence</td><td>Transient (unless recorded)</td><td>Permanent record</td></tr>
+            <tr><td>Non-verbal Cues</td><td>Present (tone, gestures, facial expressions)</td><td>Absent (relies on formatting)</td></tr>
+            <tr><td>Flexibility</td><td>Quick adaptation to audience</td><td>Requires planning and revision</td></tr>
+            <tr><td>Examples</td><td>Phone calls, meetings, presentations</td><td>Emails, reports, memos</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>🗣️ Key insight:</strong> Oral communication is dynamic and immediate, making it ideal for collaboration and quick decision-making. However, it requires strong verbal and non-verbal skills to be effective.
+        </div>
     </div>
 
+    <!-- ========== 3.2 ========== -->
     <div class="section">
-        <h2><b>3.2 Major Oral Communication Situations</b></h2>
+        <h2>3.2 Major Oral Communication Situations</h2>
         <p>Oral communication in business occurs in various high-stakes situations, each requiring specific skills to ensure effectiveness.</p>
-    </div>
 
-    <div class="section">
-        <h2><b>3.2.1 Mastering Oral Presentation and Public Speech</b></h2>
+        <h3>3.2.1 Mastering Oral Presentation and Public Speech</h3>
         <p>Oral presentations and public speeches are formal methods to inform, persuade, or inspire an audience in a business context.</p>
+
+        <h4>Key Elements</h4>
         <ul>
             <li><strong>Preparation:</strong> Research the topic, understand the audience, and outline key points. Example: Prepare slides for a product launch presentation.</li>
             <li><strong>Structure:</strong> Use a clear format—introduction, main content, and conclusion. Example: Start with a problem, present solutions, and end with a call to action.</li>
@@ -92,45 +287,79 @@
             <li><strong>Handling Q&A:</strong> Anticipate questions and respond clearly and concisely. Example: Acknowledge a question before answering to show attentiveness.</li>
             <li><strong>Practice:</strong> Rehearse to improve fluency and timing. Example: Record a practice session to refine delivery.</li>
         </ul>
-        <p><strong>Best Practices:</strong> Tailor content to the audience, use storytelling to engage, and avoid overloading slides with text.</p>
-    </div>
 
-    <div class="section">
-        <h2><b>3.2.2 Effective Job Interview Process</b></h2>
+        <div class="code-block">
+            <span>// Presentation Structure Checklist</span><br>
+            <span>// 1. Introduction (hook, agenda)</span><br>
+            <span>// 2. Body (key points with evidence)</span><br>
+            <span>// 3. Conclusion (summary, call to action)</span><br>
+            <span>// 4. Q&A preparation</span>
+        </div>
+
+        <h3>3.2.2 Effective Job Interview Process</h3>
         <p>Job interviews are critical oral communication situations where candidates demonstrate their suitability for a role through verbal and non-verbal interaction.</p>
+
+        <h4>Key Elements</h4>
         <ul>
-            <li><strong>Preparation:</strong> Research the company, role, and industry; practice common questions. Example: Review the company’s mission statement to align answers.</li>
+            <li><strong>Preparation:</strong> Research the company, role, and industry; practice common questions. Example: Review the company's mission statement to align answers.</li>
             <li><strong>First Impressions:</strong> Dress professionally, arrive on time, and greet interviewers confidently. Example: Offer a firm handshake and smile.</li>
             <li><strong>Answering Questions:</strong> Use the STAR method (Situation, Task, Action, Result) to structure responses. Example: Describe a past project to highlight problem-solving skills.</li>
-            <li><strong>Asking Questions:</strong> Show interest by asking about company culture or role expectations. Example: “What are the team’s key priorities this year?”</li>
+            <li><strong>Asking Questions:</strong> Show interest by asking about company culture or role expectations. Example: "What are the team's key priorities this year?"</li>
             <li><strong>Non-verbal Communication:</strong> Maintain good posture, eye contact, and avoid fidgeting. Example: Nod to show active listening.</li>
             <li><strong>Follow-up:</strong> Send a thank-you email post-interview to reinforce interest. Example: Express gratitude and reiterate enthusiasm for the role.</li>
         </ul>
-        <p><strong>Best Practices:</strong> Be honest, concise, and enthusiastic; tailor responses to the job description.</p>
-    </div>
 
-    <div class="section">
-        <h2><b>3.2.3 Effective Business Meetings: In-Person and Digital Mode</b></h2>
+        <div class="code-block">
+            <span>// STAR Method for Interview Responses</span><br>
+            <span>// S - Situation: Set the context</span><br>
+            <span>// T - Task: Describe your responsibility</span><br>
+            <span>// A - Action: Explain the steps you took</span><br>
+            <span>// R - Result: Share the outcome</span>
+        </div>
+
+        <h3>3.2.3 Effective Business Meetings: In-Person and Digital Mode</h3>
         <p>Business meetings facilitate collaboration, decision-making, and information sharing, whether conducted in-person or digitally.</p>
+
+        <h4>Key Elements</h4>
         <ul>
             <li><strong>Preparation:</strong> Set a clear agenda, identify participants, and share materials in advance. Example: Email an agenda with discussion topics before the meeting.</li>
             <li><strong>Facilitation:</strong> Keep discussions on track, encourage participation, and manage time. Example: Use a timer to allocate time for each agenda item.</li>
             <li><strong>In-Person Meetings:</strong>
                 <ul>
-                    <li>Ensure a suitable environment (e.g., quiet room, proper seating). Example: Arrange a conference room for a team briefing.</li>
-                    <li>Use visual aids like whiteboards or projectors for clarity. Example: Sketch a process flow during brainstorming.</li>
+                    <li>Ensure a suitable environment (quiet room, proper seating).</li>
+                    <li>Use visual aids like whiteboards or projectors for clarity.</li>
                 </ul>
             </li>
             <li><strong>Digital Meetings:</strong>
                 <ul>
-                    <li>Use reliable platforms (e.g., Zoom, Microsoft Teams) and test technology beforehand. Example: Check audio and video settings before starting.</li>
-                    <li>Encourage camera use for engagement and mute microphones to reduce noise. Example: Request participants to unmute only when speaking.</li>
+                    <li>Use reliable platforms (Zoom, Microsoft Teams) and test technology beforehand.</li>
+                    <li>Encourage camera use for engagement and mute microphones to reduce noise.</li>
                 </ul>
             </li>
-            <li><strong>Active Participation:</strong> Listen attentively, ask clarifying questions, and summarize key points. Example: Paraphrase a colleague’s idea to confirm understanding.</li>
+            <li><strong>Active Participation:</strong> Listen attentively, ask clarifying questions, and summarize key points. Example: Paraphrase a colleague's idea to confirm understanding.</li>
             <li><strong>Follow-up:</strong> Share minutes or action items post-meeting. Example: Email a summary with assigned tasks and deadlines.</li>
         </ul>
-        <p><strong>Best Practices:</strong> Start and end on time, foster inclusivity, and ensure all voices are heard.</p>
+
+        <h4>Meeting Types Comparison</h4>
+        <table>
+            <tr><th>Aspect</th><th>In-Person Meetings</th><th>Digital Meetings</th></tr>
+            <tr><td>Environment</td><td>Physical room, face-to-face</td><td>Virtual platform, screen-based</td></tr>
+            <tr><td>Engagement</td><td>High (body language, eye contact)</td><td>Moderate (camera use, chat)</td></tr>
+            <tr><td>Technology</td><td>Minimal (whiteboard, projector)</td><td>High (audio/video setup, screen sharing)</td></tr>
+            <tr><td>Flexibility</td><td>Fixed location</td><td>Anywhere with internet</td></tr>
+            <tr><td>Follow-up</td><td>Physical notes or minutes</td><td>Digital notes, recordings</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>🤝 Key insight:</strong> Effective oral communication in business requires preparation, adaptability, and active listening. Whether in presentations, interviews, or meetings, clarity and engagement are essential for success.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 3 summary</strong><br>Oral business communication is dynamic and immediate. Key situations include presentations, interviews, and meetings (in-person and digital).</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Qualities: clarity, engagement, conciseness, adaptability, confidence.<br>• Oral vs written: immediate vs delayed, transient vs permanent.<br>• Presentations: prepare, structure, deliver, use visuals, handle Q&A.<br>• Interviews: research, STAR method, first impressions, follow-up.<br>• Meetings: agenda, facilitation, active participation, follow-up.<br>• In-person vs digital: different engagement and technology needs.</div>
     </div>
 </body>
 </html>

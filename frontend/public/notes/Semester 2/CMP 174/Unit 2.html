@@ -1,242 +1,507 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 2: Boolean Building Blocks</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            color: black;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
         }
         li {
-            margin-bottom: 10px;
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
         }
         table {
+            width: 100%;
             border-collapse: collapse;
-            margin: 10px 0;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
-        th, td {
-            border: 1px solid black;
-            padding: 5px;
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
             text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
         }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
         }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
         }
-        h2 {
-            font-size: 1rem; /* smaller sub-header */
+        .gate-symbol {
+            display: inline-block;
+            font-family: 'Courier New', monospace;
+            padding: 0.2rem 0.8rem;
+            border: 2px solid #1b3b5c;
+            border-radius: 6px;
+            background: #f0f4f9;
+            font-weight: bold;
+            margin: 0.1rem 0;
         }
-        .section {
-            padding: 8px; /* less padding for small screens */
+        .truth-table {
+            display: inline-block;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
         }
-    }
+        .truth-table td {
+            padding: 4px 12px;
+            text-align: center;
+            border: 1px solid #cbd5e1;
+        }
+        .truth-table th {
+            padding: 4px 12px;
+            text-align: center;
+            background: #e2e8f0;
+            border: 1px solid #cbd5e1;
+        }
     </style>
 </head>
 <body>
-    <h1><b>Unit 2: Boolean Building Blocks</b></h1>
+    <h1>Unit 2: Boolean Building Blocks</h1>
+    <div class="subhead">Boolean algebra · De Morgan's theorems · logic gates · truth tables · universal gates</div>
 
+    <!-- ========== 2.1 ========== -->
     <div class="section">
-        <h2><b>2.1 Basic Laws of Boolean Algebra</b></h2>
-        <p>Boolean algebra is a mathematical framework used to analyze and design digital circuits, manipulating binary variables (0 and 1) with operations like AND, OR, and NOT.</p>
-        <ul>
-            <li><strong>Identity Laws:</strong>
-                <ul>
-                    <li><em>A + 0 = A</em> (OR with 0 leaves A unchanged).</li>
-                    <li><em>A · 1 = A</em> (AND with 1 leaves A unchanged).</li>
-                </ul>
-            </li>
-            <li><strong>Null Laws:</strong>
-                <ul>
-                    <li><em>A + 1 = 1</em> (OR with 1 is always 1).</li>
-                    <li><em>A · 0 = 0</em> (AND with 0 is always 0).</li>
-                </ul>
-            </li>
-            <li><strong>Idempotent Laws:</strong>
-                <ul>
-                    <li><em>A + A = A</em> (OR with itself is A).</li>
-                    <li><em>A · A = A</em> (AND with itself is A).</li>
-                </ul>
-            </li>
-            <li><strong>Complement Laws:</strong>
-                <ul>
-                    <li><em>A + A' = 1</em> (OR with complement is 1).</li>
-                    <li><em>A · A' = 0</em> (AND with complement is 0).</li>
-                </ul>
-            </li>
-            <li><strong>Commutative Laws:</strong>
-                <ul>
-                    <li><em>A + B = B + A</em> (OR order doesn’t matter).</li>
-                    <li><em>A · B = B · A</em> (AND order doesn’t matter).</li>
-                </ul>
-            </li>
-            <li><strong>Associative Laws:</strong>
-                <ul>
-                    <li><em>(A + B) + C = A + (B + C)</em> (OR grouping).</li>
-                    <li><em>(A · B) · C = A · (B · C)</em> (AND grouping).</li>
-                </ul>
-            </li>
-            <li><strong>Distributive Laws:</strong>
-                <ul>
-                    <li><em>A · (B + C) = A · B + A · C</em>.</li>
-                    <li><em>A + B · C = (A + B) · (A + C)</em>.</li>
-                </ul>
-            </li>
-            <li><strong>Absorption Laws:</strong>
-                <ul>
-                    <li><em>A + A · B = A</em>.</li>
-                    <li><em>A · (A + B) = A</em>.</li>
-                </ul>
-            </li>
-            <li><strong>Example:</strong> Simplify <em>A + A · B</em>. Using absorption law: <em>A + A · B = A</em>.</li>
-            <li><strong>Applications:</strong> Simplify logic expressions and optimize digital circuits.</li>
-        </ul>
+        <h2>2.1 Basic Laws of Boolean Algebra</h2>
+        <p><strong>Boolean algebra</strong> is a mathematical framework used to analyze and design digital circuits, manipulating binary variables (0 and 1) with operations like AND, OR, and NOT.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🧮 Purpose</strong><br>Simplify logic expressions, optimize digital circuits, and provide a mathematical foundation for computer hardware design.</div>
+            <div class="card"><strong>🔑 Key Operations</strong><br>AND (·), OR (+), NOT (') — the fundamental operations of Boolean algebra.</div>
+        </div>
+
+        <h3>Fundamental Laws</h3>
+        <table>
+            <tr><th>Law</th><th>OR Form</th><th>AND Form</th></tr>
+            <tr><td>Identity</td><td>A + 0 = A</td><td>A · 1 = A</td></tr>
+            <tr><td>Null (Dominance)</td><td>A + 1 = 1</td><td>A · 0 = 0</td></tr>
+            <tr><td>Idempotent</td><td>A + A = A</td><td>A · A = A</td></tr>
+            <tr><td>Complement</td><td>A + A' = 1</td><td>A · A' = 0</td></tr>
+            <tr><td>Commutative</td><td>A + B = B + A</td><td>A · B = B · A</td></tr>
+            <tr><td>Associative</td><td>(A + B) + C = A + (B + C)</td><td>(A · B) · C = A · (B · C)</td></tr>
+            <tr><td>Distributive</td><td>A + B·C = (A+B)·(A+C)</td><td>A · (B+C) = A·B + A·C</td></tr>
+            <tr><td>Absorption</td><td>A + A·B = A</td><td>A · (A+B) = A</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Boolean Algebra Simplification Examples</span><br><br>
+            <span>// Using Absorption Law</span><br>
+            A + A·B = A<br><br>
+            <span>// Using Distributive Law</span><br>
+            A·(B + C) = A·B + A·C<br><br>
+            <span>// Using Complement Law</span><br>
+            A + A' = 1<br>
+            A·A' = 0
+        </div>
+
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> Boolean algebra laws are essential for simplifying logic circuits, reducing the number of gates, and minimizing power consumption and cost.
+        </div>
     </div>
 
+    <!-- ========== 2.2 ========== -->
     <div class="section">
-        <h2><b>2.2 De Morgan's Theorems</b></h2>
-        <p>De Morgan’s theorems provide rules to transform logical expressions involving complements, useful for circuit design and simplification.</p>
-        <ul>
-            <li><strong>First Theorem:</strong> <em>(A + B)' = A' · B'</em>. The complement of an OR operation is the AND of the complements.</li>
-            <li><strong>Second Theorem:</strong> <em>(A · B)' = A' + B'</em>. The complement of an AND operation is the OR of the complements.</li>
-            <li><strong>Example:</strong> Simplify <em>(A + B)'</em>. By De Morgan’s: <em>(A + B)' = A' · B'</em>. For <em>(A · B)'</em>, <em>(A · B)' = A' + B'</em>.</li>
-            <li><strong>Generalization:</strong> Extends to multiple variables, e.g., <em>(A + B + C)' = A' · B' · C'</em>.</li>
-            <li><strong>Applications:</strong> Used to convert between AND/OR gates, simplify expressions, and design NAND/NOR-based circuits.</li>
-        </ul>
-    </div>
+        <h2>2.2 De Morgan's Theorems</h2>
+        <p><strong>De Morgan's theorems</strong> provide rules to transform logical expressions involving complements, useful for circuit design and simplification.</p>
 
-    <div class="section">
-        <h2><b>2.3 Logic Gates and Their Symbols</b></h2>
-        <p>Logic gates are the building blocks of digital circuits, performing basic Boolean operations.</p>
+        <h3>The Theorems</h3>
         <ul>
-            <li><strong>AND Gate:</strong> Outputs 1 if all inputs are 1. Symbol: A curved input with a flat output.</li>
-            <li><strong>OR Gate:</strong> Outputs 1 if at least one input is 1. Symbol: A curved shape with a pointed output.</li>
-            <li><strong>NOT Gate:</strong> Inverts the input (0 to 1, 1 to 0). Symbol: A triangle with a small circle at the output.</li>
-            <li><strong>NAND Gate:</strong> AND followed by NOT. Outputs 0 if all inputs are 1. Symbol: AND gate with a circle at the output.</li>
-            <li><strong>NOR Gate:</strong> OR followed by NOT. Outputs 1 if all inputs are 0. Symbol: OR gate with a circle at the output.</li>
-            <li><strong>XOR Gate:</strong> Outputs 1 if exactly one input is 1. Symbol: OR gate with an extra curved line at the input.</li>
-            <li><strong>XNOR Gate:</strong> Outputs 1 if inputs are the same. Symbol: XOR gate with a circle at the output.</li>
-            <li><strong>Applications:</strong> Used in processors, memory units, and control circuits.</li>
+            <li><strong>First Theorem:</strong> <span class="highlight">(A + B)' = A' · B'</span> — The complement of an OR is the AND of the complements.</li>
+            <li><strong>Second Theorem:</strong> <span class="highlight">(A · B)' = A' + B'</span> — The complement of an AND is the OR of the complements.</li>
         </ul>
-    </div>
 
-    <div class="section">
-        <h2><b>2.4 Logic Gate Truth Tables</b></h2>
-        <p>Truth tables describe the output of logic gates for all possible input combinations.</p>
+        <h3>Generalization</h3>
         <ul>
-            <li><strong>AND Gate:</strong>
-                <table>
-                    <tr><th>A</th><th>B</th><th>A · B</th></tr>
-                    <tr><td>0</td><td>0</td><td>0</td></tr>
-                    <tr><td>0</td><td>1</td><td>0</td></tr>
-                    <tr><td>1</td><td>0</td><td>0</td></tr>
-                    <tr><td>1</td><td>1</td><td>1</td></tr>
-                </table>
-            </li>
-            <li><strong>OR Gate:</strong>
-                <table>
-                    <tr><th>A</th><th>B</th><th>A + B</th></tr>
-                    <tr><td>0</td><td>0</td><td>0</td></tr>
-                    <tr><td>0</td><td>1</td><td>1</td></tr>
-                    <tr><td>1</td><td>0</td><td>1</td></tr>
-                    <tr><td>1</td><td>1</td><td>1</td></tr>
-                </table>
-            </li>
-            <li><strong>NOT Gate:</strong>
-                <table>
-                    <tr><th>A</th><th>A'</th></tr>
-                    <tr><td>0</td><td>1</td></tr>
-                    <tr><td>1</td><td>0</td></tr>
-                </table>
-            </li>
-            <li><strong>NAND Gate:</strong>
-                <table>
-                    <tr><th>A</th><th>B</th><th>(A · B)'</th></tr>
-                    <tr><td>0</td><td>0</td><td>1</td></tr>
-                    <tr><td>0</td><td>1</td><td>1</td></tr>
-                    <tr><td>1</td><td>0</td><td>1</td></tr>
-                    <tr><td>1</td><td>1</td><td>0</td></tr>
-                </table>
-            </li>
-            <li><strong>NOR Gate:</strong>
-                <table>
-                    <tr><th>A</th><th>B</th><th>(A + B)'</th></tr>
-                    <tr><td>0</td><td>0</td><td>1</td></tr>
-                    <tr><td>0</td><td>1</td><td>0</td></tr>
-                    <tr><td>1</td><td>0</td><td>0</td></tr>
-                    <tr><td>1</td><td>1</td><td>0</td></tr>
-                </table>
-            </li>
-            <li><strong>XOR Gate:</strong>
-                <table>
-                    <tr><th>A</th><th>B</th><th>A ⊕ B</th></tr>
-                    <tr><td>0</td><td>0</td><td>0</td></tr>
-                    <tr><td>0</td><td>1</td><td>1</td></tr>
-                    <tr><td>1</td><td>0</td><td>1</td></tr>
-                    <tr><td>1</td><td>1</td><td>0</td></tr>
-                </table>
-            </li>
-            <li><strong>XNOR Gate:</strong>
-                <table>
-                    <tr><th>A</th><th>B</th><th>(A ⊕ B)'</th></tr>
-                    <tr><td>0</td><td>0</td><td>1</td></tr>
-                    <tr><td>0</td><td>1</td><td>0</td></tr>
-                    <tr><td>1</td><td>0</td><td>0</td></tr>
-                    <tr><td>1</td><td>1</td><td>1</td></tr>
-                </table>
-            </li>
-            <li><strong>Applications:</strong> Truth tables verify gate behavior and design combinational circuits.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2><b>2.5 Universal Gates</b></h2>
-        <p>Universal gates can implement any Boolean function, reducing the need for multiple gate types.</p>
-        <ul>
-            <li><strong>NAND Gate:</strong> Universal because any gate (AND, OR, NOT) can be constructed using only NAND gates.
+            <li><strong>For n variables:</strong>
                 <ul>
-                    <li><strong>NOT:</strong> <em>A NAND A = (A · A)' = A'</em>.</li>
-                    <li><strong>AND:</strong> <em>(A NAND B)' = ((A · B)')' = A · B</em>.</li>
-                    <li><strong>OR:</strong> <em>(A' NAND B') = (A' · B')' = A + B</em> (using De Morgan’s).</li>
-                    <li>Example: Implement <em>A + B</em> using NAND: <em>(A NAND A) NAND (B NAND B) = A' NAND B' = A + B</em>.</li>
+                    <li><span class="highlight">(A₁ + A₂ + ... + Aₙ)' = A₁' · A₂' · ... · Aₙ'</span></li>
+                    <li><span class="highlight">(A₁ · A₂ · ... · Aₙ)' = A₁' + A₂' + ... + Aₙ'</span></li>
                 </ul>
             </li>
-            <li><strong>NOR Gate:</strong> Universal because any gate can be constructed using only NOR gates.
-                <ul>
-                    <li><strong>NOT:</strong> <em>A NOR A = (A + A)' = A'</em>.</li>
-                    <li><strong>OR:</strong> <em>(A NOR B)' = ((A + B)')' = A + B</em>.</li>
-                    <li><strong>AND:</strong> <em>(A' NOR B') = (A' + B')' = A · B</em> (using De Morgan’s).</li>
-                    <li>Example: Implement <em>A · B</em> using NOR: <em>(A NOR A) NOR (B NOR B) = A' NOR B' = A · B</em>.</li>
-                </ul>
-            </li>
-            <li><strong>Applications:</strong> NAND and NOR gates simplify circuit design, reduce manufacturing costs, and are used in integrated circuits.</li>
         </ul>
+
+        <div class="code-block">
+            <span>// De Morgan's Theorem Examples</span><br><br>
+            <span>// Example 1: 3 variables</span><br>
+            (A + B + C)' = A' · B' · C'<br>
+            (A · B · C)' = A' + B' + C'<br><br>
+            <span>// Example 2: Simplification</span><br>
+            F = (A + B)' · C<br>
+            F = (A' · B') · C<br>
+            F = A' · B' · C
+        </div>
+
+        <div class="note-box">
+            <strong>📐 Key insight:</strong> De Morgan's theorems allow conversion between AND/OR gates and are essential for implementing circuits using only NAND or NOR gates.
+        </div>
+    </div>
+
+    <!-- ========== 2.3 ========== -->
+    <div class="section">
+        <h2>2.3 Logic Gates and Their Symbols</h2>
+        <p><strong>Logic gates</strong> are the building blocks of digital circuits, performing basic Boolean operations on binary inputs.</p>
+
+        <h3>Basic Logic Gates</h3>
+        <table>
+            <tr><th>Gate</th><th>Symbol Description</th><th>Boolean Expression</th><th>Function</th></tr>
+            <tr><td>AND</td><td>Curved input, flat output</td><td>Y = A · B</td><td>Outputs 1 if all inputs are 1</td></tr>
+            <tr><td>OR</td><td>Curved shape, pointed output</td><td>Y = A + B</td><td>Outputs 1 if at least one input is 1</td></tr>
+            <tr><td>NOT</td><td>Triangle with circle at output</td><td>Y = A'</td><td>Inverts the input (0→1, 1→0)</td></tr>
+            <tr><td>NAND</td><td>AND with circle at output</td><td>Y = (A · B)'</td><td>Outputs 0 if all inputs are 1</td></tr>
+            <tr><td>NOR</td><td>OR with circle at output</td><td>Y = (A + B)'</td><td>Outputs 1 if all inputs are 0</td></tr>
+            <tr><td>XOR</td><td>OR with extra curved line</td><td>Y = A ⊕ B</td><td>Outputs 1 if exactly one input is 1</td></tr>
+            <tr><td>XNOR</td><td>XOR with circle at output</td><td>Y = (A ⊕ B)'</td><td>Outputs 1 if inputs are the same</td></tr>
+        </table>
+
+        <div class="figure-box">
+            <pre>
+Logic Gate Symbols (Text Representation):
+
+AND:     ┌─┐
+       ──┤ ├──
+       ──┤ ├──
+         └─┘
+
+OR:      ┌─┐
+       ──┤ ├──
+       ──┤ ├──
+         └─┘
+
+NOT:     ┌─┐
+       ──┤ ├──o
+         └─┘
+            </pre>
+        </div>
+    </div>
+
+    <!-- ========== 2.4 ========== -->
+    <div class="section">
+        <h2>2.4 Logic Gate Truth Tables</h2>
+        <p><strong>Truth tables</strong> describe the output of logic gates for all possible input combinations.</p>
+
+        <h3>AND Gate Truth Table</h3>
+        <table class="truth-table" style="width:auto; margin:0 auto;">
+            <tr><th>A</th><th>B</th><th>Y = A · B</th></tr>
+            <tr><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>0</td><td>1</td><td>0</td></tr>
+            <tr><td>1</td><td>0</td><td>0</td></tr>
+            <tr><td>1</td><td>1</td><td>1</td></tr>
+        </table>
+
+        <h3>OR Gate Truth Table</h3>
+        <table class="truth-table" style="width:auto; margin:0 auto;">
+            <tr><th>A</th><th>B</th><th>Y = A + B</th></tr>
+            <tr><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>0</td><td>1</td><td>1</td></tr>
+            <tr><td>1</td><td>0</td><td>1</td></tr>
+            <tr><td>1</td><td>1</td><td>1</td></tr>
+        </table>
+
+        <h3>NOT Gate Truth Table</h3>
+        <table class="truth-table" style="width:auto; margin:0 auto;">
+            <tr><th>A</th><th>Y = A'</th></tr>
+            <tr><td>0</td><td>1</td></tr>
+            <tr><td>1</td><td>0</td></tr>
+        </table>
+
+        <h3>NAND Gate Truth Table</h3>
+        <table class="truth-table" style="width:auto; margin:0 auto;">
+            <tr><th>A</th><th>B</th><th>Y = (A · B)'</th></tr>
+            <tr><td>0</td><td>0</td><td>1</td></tr>
+            <tr><td>0</td><td>1</td><td>1</td></tr>
+            <tr><td>1</td><td>0</td><td>1</td></tr>
+            <tr><td>1</td><td>1</td><td>0</td></tr>
+        </table>
+
+        <h3>NOR Gate Truth Table</h3>
+        <table class="truth-table" style="width:auto; margin:0 auto;">
+            <tr><th>A</th><th>B</th><th>Y = (A + B)'</th></tr>
+            <tr><td>0</td><td>0</td><td>1</td></tr>
+            <tr><td>0</td><td>1</td><td>0</td></tr>
+            <tr><td>1</td><td>0</td><td>0</td></tr>
+            <tr><td>1</td><td>1</td><td>0</td></tr>
+        </table>
+
+        <h3>XOR Gate Truth Table</h3>
+        <table class="truth-table" style="width:auto; margin:0 auto;">
+            <tr><th>A</th><th>B</th><th>Y = A ⊕ B</th></tr>
+            <tr><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>0</td><td>1</td><td>1</td></tr>
+            <tr><td>1</td><td>0</td><td>1</td></tr>
+            <tr><td>1</td><td>1</td><td>0</td></tr>
+        </table>
+
+        <h3>XNOR Gate Truth Table</h3>
+        <table class="truth-table" style="width:auto; margin:0 auto;">
+            <tr><th>A</th><th>B</th><th>Y = (A ⊕ B)'</th></tr>
+            <tr><td>0</td><td>0</td><td>1</td></tr>
+            <tr><td>0</td><td>1</td><td>0</td></tr>
+            <tr><td>1</td><td>0</td><td>0</td></tr>
+            <tr><td>1</td><td>1</td><td>1</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== 2.5 ========== -->
+    <div class="section">
+        <h2>2.5 Universal Gates</h2>
+        <p><strong>Universal gates</strong> can implement any Boolean function, reducing the need for multiple gate types in circuit design.</p>
+
+        <h3>NAND Gate as Universal Gate</h3>
+        <ul>
+            <li><strong>NOT using NAND:</strong> <span class="highlight">A NAND A = (A · A)' = A'</span></li>
+            <li><strong>AND using NAND:</strong> <span class="highlight">(A NAND B)' = ((A · B)')' = A · B</span></li>
+            <li><strong>OR using NAND:</strong> <span class="highlight">(A' NAND B') = (A' · B')' = A + B</span></li>
+        </ul>
+
+        <div class="code-block">
+            <span>// NAND Gate Implementations</span><br><br>
+            <span>// NOT gate using NAND</span><br>
+            NOT A = A NAND A<br><br>
+            <span>// AND gate using NAND</span><br>
+            A · B = (A NAND B) NAND (A NAND B)<br><br>
+            <span>// OR gate using NAND</span><br>
+            A + B = (A NAND A) NAND (B NAND B)
+        </div>
+
+        <h3>NOR Gate as Universal Gate</h3>
+        <ul>
+            <li><strong>NOT using NOR:</strong> <span class="highlight">A NOR A = (A + A)' = A'</span></li>
+            <li><strong>OR using NOR:</strong> <span class="highlight">(A NOR B)' = ((A + B)')' = A + B</span></li>
+            <li><strong>AND using NOR:</strong> <span class="highlight">(A' NOR B') = (A' + B')' = A · B</span></li>
+        </ul>
+
+        <div class="code-block">
+            <span>// NOR Gate Implementations</span><br><br>
+            <span>// NOT gate using NOR</span><br>
+            NOT A = A NOR A<br><br>
+            <span>// OR gate using NOR</span><br>
+            A + B = (A NOR B) NOR (A NOR B)<br><br>
+            <span>// AND gate using NOR</span><br>
+            A · B = (A NOR A) NOR (B NOR B)
+        </div>
+
+        <h3>NAND vs NOR</h3>
+        <table>
+            <tr><th>Feature</th><th>NAND</th><th>NOR</th></tr>
+            <tr><td>Implementation</td><td>AND + NOT</td><td>OR + NOT</td></tr>
+            <tr><td>Efficiency</td><td>More common in CMOS</td><td>Less common</td></tr>
+            <tr><td>Speed</td><td>Generally faster</td><td>Slower</td></tr>
+            <tr><td>Use Case</td><td>Most digital circuits</td><td>Specific applications</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>🔑 Key insight:</strong> NAND and NOR gates are called "universal" because they can implement any logic function. This simplifies manufacturing and reduces the variety of gate types needed in integrated circuits.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 2 summary</strong><br>Boolean algebra provides the mathematical foundation for digital logic, with gates implementing Boolean operations and universal gates enabling complete circuit design.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Boolean laws: identity, null, idempotent, complement, commutative, associative, distributive, absorption.<br>• De Morgan's theorems: (A+B)' = A'·B', (A·B)' = A'+B'.<br>• Logic gates: AND, OR, NOT, NAND, NOR, XOR, XNOR.<br>• Truth tables: define gate behavior.<br>• Universal gates: NAND and NOR can implement any function.</div>
     </div>
 </body>
 </html>

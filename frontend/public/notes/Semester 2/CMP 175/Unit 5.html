@@ -1,214 +1,490 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exception Handling in Java</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 5: Exception Handling</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-    <h1><b>Unit 5: Exception Handling</b></h1>
+    <h1>Unit 5: Exception Handling</h1>
+    <div class="subhead">Exceptions · errors · checked/unchecked · try-catch · finally · throw · throws · built-in · user-defined</div>
 
+    <!-- ========== 5.1 ========== -->
     <div class="section">
-        <h2><b>5.1 Introduction to Exception</b></h2>
-        <p>An <b>exception</b> in Java is an event that disrupts the normal flow of a program’s execution. It occurs during runtime due to unexpected conditions, such as invalid input, file not found, or division by zero. Exception handling allows a program to detect and respond to these issues gracefully, ensuring robustness and preventing crashes.</p>
-        <p>Exceptions are objects derived from the <code>Throwable</code> class, with two main subclasses: <code>Error</code> and <code>Exception</code>.</p>
+        <h2>5.1 Introduction to Exception</h2>
+        <p>An <strong>exception</strong> in Java is an event that disrupts the normal flow of a program's execution. It occurs during runtime due to unexpected conditions, such as invalid input, file not found, or division by zero. Exception handling allows a program to detect and respond to these issues gracefully, ensuring robustness and preventing crashes.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>⚠️ What is an Exception?</strong><br>An exception is an event that interrupts the normal flow of program execution. It represents an abnormal condition that occurs during runtime.</div>
+            <div class="card"><strong>🛡️ Why Handle Exceptions?</strong><br>To build robust applications that can gracefully recover from errors, provide meaningful error messages, and prevent program crashes.</div>
+        </div>
+
+        <h3>Exception Hierarchy</h3>
+        <div class="figure-box">
+            <pre>
+Throwable
+    ├── Error (Unrecoverable)
+    │   ├── OutOfMemoryError
+    │   ├── StackOverflowError
+    │   └── VirtualMachineError
+    │
+    └── Exception (Recoverable)
+        ├── RuntimeException (Unchecked)
+        │   ├── NullPointerException
+        │   ├── ArithmeticException
+        │   ├── ArrayIndexOutOfBoundsException
+        │   └── IllegalArgumentException
+        │
+        └── Checked Exceptions
+            ├── IOException
+            ├── SQLException
+            ├── FileNotFoundException
+            └── ClassNotFoundException
+            </pre>
+        </div>
     </div>
 
+    <!-- ========== 5.2 ========== -->
     <div class="section">
-        <h2><b>5.2 Errors in Java Program</b></h2>
-        <p><b>Errors</b> represent serious problems that a Java program cannot reasonably recover from. They are typically caused by issues outside the program’s control, such as hardware failures or JVM issues.</p>
+        <h2>5.2 Errors in Java Program</h2>
+        <p><strong>Errors</strong> represent serious problems that a Java program cannot reasonably recover from. They are typically caused by issues outside the program's control, such as hardware failures or JVM issues.</p>
+
+        <h3>Types of Errors</h3>
         <ul>
-            <li><b>Types of Errors:</b>
-                <ul>
-                    <li><code>OutOfMemoryError</code>: Occurs when the JVM runs out of memory.</li>
-                    <li><code>StackOverflowError</code>: Caused by excessive recursion leading to stack overflow.</li>
-                    <li><code>VirtualMachineError</code>: Indicates JVM issues, such as corrupted internal data.</li>
-                </ul>
-            </li>
-            <li>Errors are not typically caught or handled, as they indicate critical issues that require external intervention.</li>
+            <li><strong>OutOfMemoryError:</strong> Occurs when the JVM runs out of memory.</li>
+            <li><strong>StackOverflowError:</strong> Caused by excessive recursion leading to stack overflow.</li>
+            <li><strong>VirtualMachineError:</strong> Indicates JVM issues, such as corrupted internal data.</li>
+            <li><strong>NoClassDefFoundError:</strong> When a class definition cannot be found.</li>
         </ul>
-        <p>Example:</p>
-        <pre>
-public class ErrorExample {
-    public static void recursiveMethod() {
-        recursiveMethod(); // Causes StackOverflowError
-    }
 
-    public static void main(String[] args) {
-        recursiveMethod();
-    }
-}
-        </pre>
+        <div class="code-block">
+            <span>// StackOverflowError Example</span><br>
+            public class ErrorExample {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static void recursiveMethod() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;recursiveMethod();  <span>// Infinite recursion</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;recursiveMethod();  <span>// Throws StackOverflowError</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>⚠️ Key insight:</strong> Errors are not meant to be caught or handled in typical applications. They indicate critical issues that require intervention at the system level.
+        </div>
     </div>
 
+    <!-- ========== 5.3 ========== -->
     <div class="section">
-        <h2><b>5.3 Types of Exceptions</b></h2>
-        <p>Exceptions in Java are categorized into two types:</p>
+        <h2>5.3 Types of Exceptions</h2>
+        <p>Exceptions in Java are categorized into two types: <strong>checked</strong> and <strong>unchecked</strong> exceptions.</p>
+
+        <h3>Checked Exceptions</h3>
         <ul>
-            <li><b>Checked Exceptions:</b> Checked at compile-time, these are exceptions that the programmer must handle explicitly using try-catch or declare using <code>throws</code>. Examples include <code>IOException</code> and <code>SQLException</code>.</li>
-            <li><b>Unchecked Exceptions:</b> Occur at runtime and are not checked at compile-time. These are subclasses of <code>RuntimeException</code>, such as <code>NullPointerException</code> and <code>ArithmeticException</code>.</li>
+            <li><strong>Definition:</strong> Checked at compile-time. The programmer must handle them using try-catch or declare using <code>throws</code>.</li>
+            <li><strong>Examples:</strong> <code>IOException</code>, <code>SQLException</code>, <code>FileNotFoundException</code>, <code>ClassNotFoundException</code>.</li>
+            <li><strong>Required Action:</strong> Either handle with try-catch or declare with throws.</li>
         </ul>
-        <p>Example:</p>
-        <pre>
-public class ExceptionTypes {
-    public static void main(String[] args) {
-        // Unchecked Exception
-        int[] arr = null;
-        System.out.println(arr[0]); // NullPointerException
 
-        // Checked Exception (requires handling)
-        // FileInputStream file = new FileInputStream("file.txt"); // FileNotFoundException
-    }
-}
-        </pre>
+        <h3>Unchecked Exceptions (RuntimeException)</h3>
+        <ul>
+            <li><strong>Definition:</strong> Occur at runtime and are not checked at compile-time.</li>
+            <li><strong>Examples:</strong> <code>NullPointerException</code>, <code>ArithmeticException</code>, <code>ArrayIndexOutOfBoundsException</code>, <code>IllegalArgumentException</code>.</li>
+            <li><strong>Required Action:</strong> Handling is optional (but recommended).</li>
+        </ul>
+
+        <table>
+            <tr><th>Feature</th><th>Checked</th><th>Unchecked</th></tr>
+            <tr><td>Compile-time check</td><td>Yes</td><td>No</td></tr>
+            <tr><td>Handling required</td><td>Yes (try-catch or throws)</td><td>Optional</td></tr>
+            <tr><td>Superclass</td><td>Exception (but not RuntimeException)</td><td>RuntimeException</td></tr>
+            <tr><td>Examples</td><td>IOException, SQLException</td><td>NullPointerException, ArithmeticException</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Unchecked Exception Example</span><br>
+            int[] arr = null;<br>
+            System.out.println(arr[0]);  <span>// NullPointerException (unchecked)</span><br><br>
+            <span>// Checked Exception Example (requires handling)</span><br>
+            <span>// FileInputStream file = new FileInputStream("file.txt");</span><br>
+            <span>// Unhandled FileNotFoundException (checked)</span>
+        </div>
     </div>
 
+    <!-- ========== 5.4 ========== -->
     <div class="section">
-        <h2><b>5.4 Exception Handling Mechanism</b></h2>
+        <h2>5.4 Exception Handling Mechanism</h2>
         <p>Java provides a robust mechanism to handle exceptions using the following keywords:</p>
+
+        <h3>Try-Catch-Finally</h3>
         <ul>
-            <li><b>try:</b> Encloses code that might throw an exception.</li>
-            <li><b>catch:</b> Handles the exception thrown in the try block.</li>
-            <li><b>finally:</b> Executes code regardless of whether an exception occurs, often used for cleanup.</li>
-            <li><b>throw:</b> Explicitly throws an exception.</li>
-            <li><b>throws:</b> Declares exceptions that a method might throw.</li>
+            <li><strong>try:</strong> Encloses code that might throw an exception.</li>
+            <li><strong>catch:</strong> Handles the exception thrown in the try block.</li>
+            <li><strong>finally:</strong> Executes code regardless of whether an exception occurs (cleanup).</li>
         </ul>
-        <p>Example:</p>
-        <pre>
-public class ExceptionHandling {
-    public static void main(String[] args) {
-        try {
-            int result = 10 / 0; // ArithmeticException
-        } catch (ArithmeticException e) {
-            System.out.println("Error: " + e.getMessage());
-        } finally {
-            System.out.println("Cleanup in finally block.");
-        }
-    }
-}
-        </pre>
+
+        <h3>Throw and Throws</h3>
+        <ul>
+            <li><strong>throw:</strong> Explicitly throws an exception.</li>
+            <li><strong>throws:</strong> Declares exceptions that a method might throw.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Exception Handling Example</span><br>
+            public class ExceptionHandlingDemo {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int result = 10 / 0;  <span>// ArithmeticException</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch (ArithmeticException e) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Error: " + e.getMessage());<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} finally {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Cleanup in finally block.");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            <span>// throw and throws Example</span><br>
+            public void validateAge(int age) throws IllegalArgumentException {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (age < 18) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new IllegalArgumentException("Age must be 18 or above.");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <h3>Multi-catch (Java 7+)</h3>
+        <div class="code-block">
+            try {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span>// code that may throw multiple exceptions</span><br>
+            } catch (IOException | SQLException e) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("I/O or SQL error: " + e.getMessage());<br>
+            }
+        </div>
     </div>
 
+    <!-- ========== 5.5 ========== -->
     <div class="section">
-        <h2><b>5.5 Built-in Exceptions in Java</b></h2>
-        <p>Java provides a variety of built-in exceptions under the <code>java.lang</code> package and others. Common examples include:</p>
-        <ul>
-            <li><b>ArithmeticException:</b> Thrown for arithmetic errors, like division by zero.</li>
-            <li><b>NullPointerException:</b> Thrown when accessing a null object’s methods or fields.</li>
-            <li><b>ArrayIndexOutOfBoundsException:</b> Thrown when accessing an invalid array index.</li>
-            <li><b>IOException:</b> Thrown for I/O-related errors, such as file not found.</li>
-            <li><b>ClassNotFoundException:</b> Thrown when a class is not found during reflection.</li>
-        </ul>
-        <p>Example:</p>
-        <pre>
-public class BuiltInExceptions {
-    public static void main(String[] args) {
-        try {
-            int[] arr = {1, 2, 3};
-            System.out.println(arr[5]); // ArrayIndexOutOfBoundsException
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-}
-        </pre>
+        <h2>5.5 Built-in Exceptions in Java</h2>
+        <p>Java provides a variety of built-in exceptions under the <code>java.lang</code> package and others.</p>
+
+        <h3>Common Built-in Exceptions</h3>
+        <table>
+            <tr><th>Exception</th><th>Type</th><th>Description</th></tr>
+            <tr><td>ArithmeticException</td><td>Unchecked</td><td>Arithmetic errors (e.g., division by zero)</td></tr>
+            <tr><td>NullPointerException</td><td>Unchecked</td><td>Accessing methods/fields of a null object</td></tr>
+            <tr><td>ArrayIndexOutOfBoundsException</td><td>Unchecked</td><td>Invalid array index access</td></tr>
+            <tr><td>ClassCastException</td><td>Unchecked</td><td>Invalid type casting</td></tr>
+            <tr><td>IllegalArgumentException</td><td>Unchecked</td><td>Invalid argument passed to a method</td></tr>
+            <tr><td>NumberFormatException</td><td>Unchecked</td><td>Invalid number format conversion</td></tr>
+            <tr><td>IOException</td><td>Checked</td><td>I/O operation failures</td></tr>
+            <tr><td>FileNotFoundException</td><td>Checked</td><td>File not found</td></tr>
+            <tr><td>SQLException</td><td>Checked</td><td>Database access errors</td></tr>
+            <tr><td>ClassNotFoundException</td><td>Checked</td><td>Class not found during reflection</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Built-in Exception Examples</span><br>
+            try {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int[] arr = {1, 2, 3};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(arr[5]);  <span>// ArrayIndexOutOfBoundsException</span><br>
+            } catch (ArrayIndexOutOfBoundsException e) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Index error: " + e.getMessage());<br>
+            }<br><br>
+            try {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int num = Integer.parseInt("abc");  <span>// NumberFormatException</span><br>
+            } catch (NumberFormatException e) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Number format error: " + e.getMessage());<br>
+            }
+        </div>
     </div>
 
+    <!-- ========== 5.6 ========== -->
     <div class="section">
-        <h2><b>5.6 User-Defined Exception in Java</b></h2>
-        <p><b>User-defined exceptions</b> are custom exceptions created by extending the <code>Exception</code> class (for checked exceptions) or <code>RuntimeException</code> (for unchecked exceptions). They allow developers to define specific error conditions for their application.</p>
-        <p>Example:</p>
-        <pre>
-public class InsufficientBalanceException extends Exception {
-    public InsufficientBalanceException(String message) {
-        super(message);
-    }
-}
+        <h2>5.6 User-Defined Exception in Java</h2>
+        <p><strong>User-defined exceptions</strong> are custom exceptions created by extending the <code>Exception</code> class (for checked exceptions) or <code>RuntimeException</code> (for unchecked exceptions). They allow developers to define specific error conditions for their application.</p>
 
-public class BankAccount {
-    private double balance;
+        <h3>Creating a Custom Exception</h3>
+        <ul>
+            <li>Extend <code>Exception</code> for checked exceptions.</li>
+            <li>Extend <code>RuntimeException</code> for unchecked exceptions.</li>
+            <li>Provide constructors that call <code>super(message)</code>.</li>
+        </ul>
 
-    public void withdraw(double amount) throws InsufficientBalanceException {
-        if (amount > balance) {
-            throw new InsufficientBalanceException("Insufficient balance for withdrawal.");
-        }
-        balance -= amount;
-    }
+        <div class="code-block">
+            <span>// User-defined Exception Example</span><br>
+            public class InsufficientBalanceException extends Exception {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public InsufficientBalanceException(String message) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;super(message);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            public class BankAccount {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;private double balance;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public BankAccount(double initialBalance) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.balance = initialBalance;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public void withdraw(double amount) throws InsufficientBalanceException {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (amount > balance) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new InsufficientBalanceException(<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Insufficient balance. Available: " + balance<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;balance -= amount;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BankAccount account = new BankAccount(100.0);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;account.withdraw(150.0);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch (InsufficientBalanceException e) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Transaction failed: " + e.getMessage());<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
 
-    public static void main(String[] args) {
-        BankAccount account = new BankAccount();
-        account.balance = 100;
-        try {
-            account.withdraw(150);
-        } catch (InsufficientBalanceException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-}
-        </pre>
+        <div class="code-block">
+            <span>// Unchecked Custom Exception</span><br>
+            public class InvalidAgeException extends RuntimeException {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public InvalidAgeException(String message) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;super(message);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>🔧 Key insight:</strong> User-defined exceptions make your code more readable and maintainable by providing meaningful error messages specific to your application's domain.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 5 summary</strong><br>Exception handling in Java provides a robust mechanism to handle runtime errors using try-catch-finally, throw, and throws. Built-in and user-defined exceptions enable graceful error recovery.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Exceptions: abnormal events during program execution.<br>• Errors: serious issues (OutOfMemory, StackOverflow).<br>• Checked vs Unchecked: compile-time vs runtime.<br>• Try-catch-finally: handle exceptions and cleanup.<br>• throw: explicitly throw exceptions.<br>• throws: declare exceptions in method signature.<br>• Built-in exceptions: Arithmetic, NullPointer, IOException, etc.<br>• User-defined: extend Exception or RuntimeException.</div>
     </div>
 </body>
 </html>

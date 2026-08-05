@@ -1,496 +1,544 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Graphs in Data Structures</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 9: Graph</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-    <h1><b>Unit 9: Graph</b></h1>
+    <h1>Unit 9: Graph</h1>
+    <div class="subhead">Introduction · terminology · types · representation · traversal · spanning trees · shortest path · applications</div>
 
+    <!-- ========== 9.1 ========== -->
     <div class="section">
-        <h2><b>9.1 Introduction</b></h2>
-        <p>A <b>graph</b> is a non-linear data structure consisting of vertices (nodes) connected by edges. It is used to represent relationships between entities, such as networks, social connections, or road maps. Graphs are versatile and widely applied in computer science for problems like shortest path finding, network analysis, and scheduling.</p>
+        <h2>9.1 Introduction</h2>
+        <p>A <strong>graph</strong> is a non-linear data structure consisting of vertices (nodes) connected by edges. It is used to represent relationships between entities, such as networks, social connections, or road maps. Graphs are versatile and widely applied in computer science for problems like shortest path finding, network analysis, and scheduling.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🔗 What is a Graph?</strong><br>A collection of vertices connected by edges. Represents relationships between entities.</div>
+            <div class="card"><strong>📊 Key Features</strong><br>Non-linear, can represent complex relationships, used in networks, social media, and routing.</div>
+        </div>
+
+        <div class="figure-box">
+            <pre>
+Graph Example:
+    ┌─────┐
+    │  A  │
+    └──┬──┘
+       │
+    ┌──┴──┐
+    │  B  │──────┐
+    └──┬──┘      │
+       │         │
+    ┌──┴──┐  ┌───┴───┐
+    │  C  │  │  D    │
+    └─────┘  └───────┘
+            </pre>
+        </div>
     </div>
 
+    <!-- ========== 9.2 ========== -->
     <div class="section">
-        <h2><b>9.2 Graph Terminology</b></h2>
+        <h2>9.2 Graph Terminology</h2>
+
+        <table>
+            <tr><th>Term</th><th>Description</th></tr>
+            <tr><td>Vertex (Node)</td><td>Fundamental unit representing an entity.</td></tr>
+            <tr><td>Edge</td><td>Connection between two vertices.</td></tr>
+            <tr><td>Adjacent Vertices</td><td>Two vertices connected by an edge.</td></tr>
+            <tr><td>Degree</td><td>Number of edges incident to a vertex.</td></tr>
+            <tr><td>Path</td><td>Sequence of vertices where each consecutive pair is connected by an edge.</td></tr>
+            <tr><td>Cycle</td><td>Path that starts and ends at the same vertex.</td></tr>
+            <tr><td>Weighted Graph</td><td>Edges have weights (distances, costs, etc.).</td></tr>
+            <tr><td>Connected Graph</td><td>Path exists between any pair of vertices.</td></tr>
+            <tr><td>In-degree</td><td>Number of incoming edges (directed graph).</td></tr>
+            <tr><td>Out-degree</td><td>Number of outgoing edges (directed graph).</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== 9.3 ========== -->
+    <div class="section">
+        <h2>9.3 Types of Graphs</h2>
+
+        <h3>Undirected Graph</h3>
         <ul>
-            <li><b>Vertex (Node):</b> A fundamental unit of a graph, representing an entity.</li>
-            <li><b>Edge:</b> A connection between two vertices, representing a relationship.</li>
-            <li><b>Adjacent Vertices:</b> Two vertices connected by an edge.</li>
-            <li><b>Degree:</b> The number of edges incident to a vertex (in directed graphs, in-degree and out-degree).</li>
-            <li><b>Path:</b> A sequence of vertices where each consecutive pair is connected by an edge.</li>
-            <li><b>Cycle:</b> A path that starts and ends at the same vertex.</li>
-            <li><b>Weighted Graph:</b> A graph where edges have weights (e.g., distances or costs).</li>
-            <li><b>Connected Graph:</b> An undirected graph where there is a path between any pair of vertices.</li>
+            <li>Edges have no direction.</li>
+            <li>Relationship is bidirectional (A-B implies B-A).</li>
+            <li>Example: Facebook friendship connections.</li>
+        </ul>
+
+        <h3>Directed Graph (Digraph)</h3>
+        <ul>
+            <li>Edges have direction.</li>
+            <li>Relationship is unidirectional (A→B does not imply B→A).</li>
+            <li>Example: Twitter following (A follows B).</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+Types of Graphs:
+Undirected:  A ─── B
+Directed:    A ──→ B
+            </pre>
+        </div>
+
+        <h3>Other Graph Types</h3>
+        <ul>
+            <li><strong>Weighted Graph:</strong> Edges have weights (costs, distances).</li>
+            <li><strong>Connected Graph:</strong> All vertices are reachable from each other.</li>
+            <li><strong>Complete Graph:</strong> Every pair of vertices is connected by an edge.</li>
+            <li><strong>Cyclic/Acyclic Graph:</strong> Contains/does not contain cycles.</li>
+            <li><strong>Bipartite Graph:</strong> Vertices can be divided into two disjoint sets with edges only between sets.</li>
         </ul>
     </div>
 
+    <!-- ========== 9.4 ========== -->
     <div class="section">
-        <h2><b>9.3 Types of Graphs</b></h2>
+        <h2>9.4 Graph Representation</h2>
+
+        <h3>Adjacency Matrix</h3>
         <ul>
-            <li><b>Undirected Graph:</b> Edges have no direction; the relationship is bidirectional (e.g., A-B implies B-A).</li>
-            <li><b>Directed Graph (Digraph):</b> Edges have direction; the relationship is unidirectional (e.g., A→B does not imply B→A).</li>
+            <li><strong>Definition:</strong> 2D array where matrix[i][j] represents edge between i and j.</li>
+            <li><strong>Space:</strong> O(V²)</li>
+            <li><strong>Best For:</strong> Dense graphs.</li>
+            <li><strong>Operations:</strong> Edge lookup O(1), traversal O(V²).</li>
         </ul>
-    </div>
+        <div class="code-block">
+            <span>// Adjacency Matrix (Undirected)</span><br>
+            int adjMatrix[4][4] = {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;{0, 1, 0, 1},<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;{1, 0, 1, 0},<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;{0, 1, 0, 1},<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;{1, 0, 1, 0}<br>
+            };
+        </div>
 
-    <div class="section">
-        <h2><b>9.4 Graph Representation</b></h2>
-        <p>Graphs can be represented in two main ways:</p>
+        <h3>Adjacency List</h3>
         <ul>
-            <li><b>Adjacency Matrix:</b> A 2D array where matrix[i][j] represents an edge (or weight) between vertices i and j. Suitable for dense graphs.
-                <p>Example (Adjacency Matrix for undirected graph):</p>
-                <pre>
-int adjMatrix[3][3] = {
-    {0, 1, 0},
-    {1, 0, 1},
-    {0, 1, 0}
-};
-                </pre>
-            </li>
-            <li><b>Adjacency List:</b> Each vertex stores a list of adjacent vertices. Suitable for sparse graphs.
-                <p>Example (Adjacency List in C):</p>
-                <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-typedef struct Node {
-    int vertex;
-    struct Node* next;
-} Node;
-
-typedef struct {
-    int V;
-    Node** adjList;
-} Graph;
-
-Node* createNode(int vertex) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->vertex = vertex;
-    newNode->next = NULL;
-    return newNode;
-}
-
-Graph* createGraph(int V) {
-    Graph* graph = (Graph*)malloc(sizeof(Graph));
-    graph->V = V;
-    graph->adjList = (Node**)calloc(V, sizeof(Node*));
-    return graph;
-}
-
-void addEdge(Graph* graph, int u, int v) {
-    Node* newNode = createNode(v);
-    newNode->next = graph->adjList[u];
-    graph->adjList[u] = newNode;
-    
-    newNode = createNode(u); // For undirected graph
-    newNode->next = graph->adjList[v];
-    graph->adjList[v] = newNode;
-}
-                </pre>
-            </li>
+            <li><strong>Definition:</strong> Each vertex stores a list of adjacent vertices.</li>
+            <li><strong>Space:</strong> O(V + E)</li>
+            <li><strong>Best For:</strong> Sparse graphs.</li>
+            <li><strong>Operations:</strong> Traversal O(V + E), edge lookup O(degree).</li>
         </ul>
-    </div>
-
-    <div class="section">
-        <h2><b>9.5 Graph Traversal</b></h2>
-        <p>Graph traversal involves visiting all vertices in a graph. The two main algorithms are:</p>
-        <ul>
-            <li><b>Breadth First Search (BFS):</b> Explores vertices level by level, using a queue to visit neighbors before moving deeper.
-                <p>Example:</p>
-                <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-typedef struct Node {
-    int vertex;
-    struct Node* next;
-} Node;
-
-typedef struct {
-    int V;
-    Node** adjList;
-} Graph;
-
-typedef struct {
-    int* array;
-    int front, rear, size;
-} Queue;
-
-Queue* createQueue(int size) {
-    Queue* queue = (Queue*)malloc(sizeof(Queue));
-    queue->size = size;
-    queue->array = (int*)malloc(size * sizeof(int));
-    queue->front = 0;
-    queue->rear = -1;
-    return queue;
-}
-
-void enqueue(Queue* queue, int item) {
-    queue->array[++queue->rear] = item;
-}
-
-int dequeue(Queue* queue) {
-    return queue->array[queue->front++];
-}
-
-int isEmpty(Queue* queue) {
-    return queue->front > queue->rear;
-}
-
-void bfs(Graph* graph, int start) {
-    int V = graph->V;
-    int* visited = (int*)calloc(V, sizeof(int));
-    Queue* queue = createQueue(V);
-    
-    visited[start] = 1;
-    enqueue(queue, start);
-    
-    while (!isEmpty(queue)) {
-        int vertex = dequeue(queue);
-        printf("%d ", vertex);
-        for (Node* neighbor = graph->adjList[vertex]; neighbor != NULL; neighbor = neighbor->next) {
-            if (!visited[neighbor->vertex]) {
-                visited[neighbor->vertex] = 1;
-                enqueue(queue, neighbor->vertex);
+        <div class="code-block">
+            <span>// Adjacency List Implementation</span><br>
+            typedef struct Node {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int vertex;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Node* next;<br>
+            } Node;<br><br>
+            typedef struct {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int V;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node** adjList;<br>
+            } Graph;<br><br>
+            void addEdge(Graph* graph, int u, int v) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* newNode = createNode(v);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->next = graph->adjList[u];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;graph->adjList[u] = newNode;<br>
+            <span>// For undirected graph, add reverse edge</span><br>
             }
-        }
-    }
-    
-    free(queue->array);
-    free(queue);
-    free(visited);
-}
-                </pre>
-            </li>
-            <li><b>Depth First Search (DFS):</b> Explores as far as possible along a branch before backtracking, using recursion or a stack.
-                <p>Example:</p>
-                <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+        </div>
 
-typedef struct Node {
-    int vertex;
-    struct Node* next;
-} Node;
-
-typedef struct {
-    int V;
-    Node** adjList;
-} Graph;
-
-void dfs(Graph* graph, int vertex, int* visited) {
-    visited[vertex] = 1;
-    printf("%d ", vertex);
-    for (Node* neighbor = graph->adjList[vertex]; neighbor != NULL; neighbor = neighbor->next) {
-        if (!visited[neighbor->vertex]) {
-            dfs(graph, neighbor->vertex, visited);
-        }
-    }
-}
-
-void dfsStart(Graph* graph, int start) {
-    int* visited = (int*)calloc(graph->V, sizeof(int));
-    dfs(graph, start, visited);
-    free(visited);
-}
-                </pre>
-            </li>
-        </ul>
+        <table>
+            <tr><th>Feature</th><th>Adjacency Matrix</th><th>Adjacency List</th></tr>
+            <tr><td>Space</td><td>O(V²)</td><td>O(V + E)</td></tr>
+            <tr><td>Edge Lookup</td><td>O(1)</td><td>O(degree)</td></tr>
+            <tr><td>Traversal</td><td>O(V²)</td><td>O(V + E)</td></tr>
+            <tr><td>Best For</td><td>Dense Graphs</td><td>Sparse Graphs</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 9.5 ========== -->
     <div class="section">
-        <h2><b>9.6 Spanning Tree and Minimum Spanning Tree</b></h2>
-        <p>A <b>spanning tree</b> is a subgraph of a connected, undirected graph that includes all vertices with no cycles and the minimum number of edges. A <b>minimum spanning tree (MST)</b> is a spanning tree with the minimum total edge weight.</p>
+        <h2>9.5 Graph Traversal</h2>
+
+        <h3>Breadth First Search (BFS)</h3>
         <ul>
-            <li><b>Kruskal's Algorithm:</b> Builds an MST by selecting edges in increasing order of weight, adding them if they do not form a cycle (using a disjoint-set data structure).
-                <p>Example:</p>
-                <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-typedef struct {
-    int src, dest, weight;
-} Edge;
-
-typedef struct {
-    int V, E;
-    Edge* edges;
-} Graph;
-
-int find(int* parent, int i) {
-    if (parent[i] == i) return i;
-    return parent[i] = find(parent, parent[i]);
-}
-
-void unionSet(int* parent, int* rank, int x, int y) {
-    int rootX = find(parent, x);
-    int rootY = find(parent, y);
-    if (rank[rootX] < rank[rootY]) parent[rootX] = rootY;
-    else if (rank[rootX] > rank[rootY]) parent[rootY] = rootX;
-    else {
-        parent[rootY] = rootX;
-        rank[rootX]++;
-    }
-}
-
-int compareEdges(const void* a, const void* b) {
-    return ((Edge*)a)->weight - ((Edge*)b)->weight;
-}
-
-void kruskalMST(Graph* graph) {
-    qsort(graph->edges, graph->E, sizeof(Edge), compareEdges);
-    int* parent = (int*)malloc(graph->V * sizeof(int));
-    int* rank = (int*)calloc(graph->V, sizeof(int));
-    Edge* mst = (Edge*)malloc((graph->V - 1) * sizeof(Edge));
-    int mstIndex = 0;
-
-    for (int i = 0; i < graph->V; i++) parent[i] = i;
-
-    for (int i = 0; i < graph->E && mstIndex < graph->V - 1; i++) {
-        int x = find(parent, graph->edges[i].src);
-        int y = find(parent, graph->edges[i].dest);
-        if (x != y) {
-            mst[mstIndex++] = graph->edges[i];
-            unionSet(parent, rank, x, y);
-        }
-    }
-
-    free(parent);
-    free(rank);
-    free(mst);
-}
-                </pre>
-            </li>
-            <li><b>Prim's Algorithm:</b> Builds an MST by growing a tree from a starting vertex, adding the minimum-weight edge connecting a vertex in the tree to a vertex outside it.
-                <p>Example:</p>
-                <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;limits.h&gt;
-
-int minKey(int* key, int* mstSet, int V) {
-    int min = INT_MAX, minIndex = -1;
-    for (int v = 0; v < V; v++) {
-        if (!mstSet[v] && key[v] < min) {
-            min = key[v];
-            minIndex = v;
-        }
-    }
-    return minIndex;
-}
-
-void primMST(int** graph, int V) {
-    int* parent = (int*)malloc(V * sizeof(int));
-    int* key = (int*)malloc(V * sizeof(int));
-    int* mstSet = (int*)calloc(V, sizeof(int));
-
-    for (int i = 0; i < V; i++) key[i] = INT_MAX;
-    key[0] = 0;
-    parent[0] = -1;
-
-    for (int count = 0; count < V - 1; count++) {
-        int u = minKey(key, mstSet, V);
-        mstSet[u] = 1;
-        for (int v = 0; v < V; v++) {
-            if (graph[u][v] && !mstSet[v] && graph[u][v] < key[v]) {
-                parent[v] = u;
-                key[v] = graph[u][v];
-            }
-        }
-    }
-
-    free(parent);
-    free(key);
-    free(mstSet);
-}
-                </pre>
-            </li>
+            <li><strong>Approach:</strong> Explores vertices level by level using a queue.</li>
+            <li><strong>Time Complexity:</strong> O(V + E)</li>
+            <li><strong>Space Complexity:</strong> O(V)</li>
+            <li><strong>Applications:</strong> Shortest path in unweighted graphs, social network analysis.</li>
         </ul>
-    </div>
-
-    <div class="section">
-        <h2><b>9.7 Shortest Path Problem: Dijkstra's Algorithm</b></h2>
-        <p><b>Dijkstra's Algorithm</b> finds the shortest path from a source vertex to all other vertices in a weighted graph with non-negative edge weights.</p>
-        <p><b>Algorithm:</b></p>
-        <pre>
-1. Initialize distances to all vertices as infinity, except source (0).
-2. Use a priority queue to select the vertex with the minimum distance.
-3. For each neighbor of the selected vertex, update the distance if a shorter path is found.
-4. Repeat until all vertices are processed.
-        </pre>
-        <p>Example:</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;limits.h&gt;
-
-typedef struct {
-    int vertex, dist;
-} PQNode;
-
-typedef struct {
-    PQNode* nodes;
-    int size, capacity;
-} PriorityQueue;
-
-PriorityQueue* createPQ(int capacity) {
-    PriorityQueue* pq = (PriorityQueue*)malloc(sizeof(PriorityQueue));
-    pq->nodes = (PQNode*)malloc(capacity * sizeof(PQNode));
-    pq->size = 0;
-    pq->capacity = capacity;
-    return pq;
-}
-
-void swap(PQNode* a, PQNode* b) {
-    PQNode temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
-void heapify(PriorityQueue* pq, int i) {
-    int smallest = i;
-    int left = 2 * i + 1;
-    int right = 2 * i + 2;
-    if (left < pq->size && pq->nodes[left].dist < pq->nodes[smallest].dist)
-        smallest = left;
-    if (right < pq->size && pq->nodes[right].dist < pq->nodes[smallest].dist)
-        smallest = right;
-    if (smallest != i) {
-        swap(&pq->nodes[i], &pq->nodes[smallest]);
-        heapify(pq, smallest);
-    }
-}
-
-void push(PriorityQueue* pq, int vertex, int dist) {
-    pq->nodes[pq->size].vertex = vertex;
-    pq->nodes[pq->size].dist = dist;
-    int i = pq->size++;
-    while (i && pq->nodes[i].dist < pq->nodes[(i - 1) / 2].dist) {
-        swap(&pq->nodes[i], &pq->nodes[(i - 1) / 2]);
-        i = (i - 1) / 2;
-    }
-}
-
-PQNode pop(PriorityQueue* pq) {
-    PQNode min = pq->nodes[0];
-    pq->nodes[0] = pq->nodes[--pq->size];
-    heapify(pq, 0);
-    return min;
-}
-
-int isEmpty(PriorityQueue* pq) {
-    return pq->size == 0;
-}
-
-void dijkstra(int** graph, int src, int V) {
-    int* dist = (int*)malloc(V * sizeof(int));
-    int* visited = (int*)calloc(V, sizeof(int));
-    PriorityQueue* pq = createPQ(V);
-
-    for (int i = 0; i < V; i++) dist[i] = INT_MAX;
-    dist[src] = 0;
-    push(pq, src, 0);
-
-    while (!isEmpty(pq)) {
-        PQNode node = pop(pq);
-        int u = node.vertex;
-        if (visited[u]) continue;
-        visited[u] = 1;
-
-        for (int v = 0; v < V; v++) {
-            if (!visited[v] && graph[u][v] && dist[u] != INT_MAX && dist[u] + graph[u][v] < dist[v]) {
-                dist[v] = dist[u] + graph[u][v];
-                push(pq, v, dist[v]);
+        <div class="code-block">
+            void bfs(Graph* graph, int start) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int visited[V] = {0};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int queue[V], front = 0, rear = 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;visited[start] = 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;queue[rear++] = start;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (front < rear) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int u = queue[front++];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", u);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (Node* v = adjList[u]; v; v = v->next) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!visited[v->vertex]) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;visited[v->vertex] = 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queue[rear++] = v->vertex;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
             }
-        }
-    }
+        </div>
 
-    free(dist);
-    free(visited);
-    free(pq->nodes);
-    free(pq);
-}
-                </pre>
-            </li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2><b>9.8 Graph Applications</b></h2>
-        <p>Graphs have numerous applications in computer science and real-world scenarios:</p>
+        <h3>Depth First Search (DFS)</h3>
         <ul>
-            <li><b>Networks:</b> Modeling computer networks, social networks, or transportation systems.</li>
-            <li><b>Shortest Path Finding:</b> Used in GPS navigation, routing protocols, and logistics.</li>
-            <li><b>Dependency Resolution:</b> Managing dependencies in software builds or task scheduling.</li>
-            <li><b>Graph Algorithms:</b> BFS and DFS for search, cycle detection, or topological sorting.</li>
-            <li><b>Recommendation Systems:</b> Modeling user-item relationships in social media or e-commerce.</li>
-            <li><b>Minimum Spanning Trees:</b> Used in network design, such as minimizing cable length in telecommunications.</li>
+            <li><strong>Approach:</strong> Explores as far as possible along a branch before backtracking.</li>
+            <li><strong>Time Complexity:</strong> O(V + E)</li>
+            <li><strong>Space Complexity:</strong> O(V) (recursive stack).</li>
+            <li><strong>Applications:</strong> Cycle detection, topological sorting, path finding.</li>
         </ul>
+        <div class="code-block">
+            void dfs(Graph* graph, int u, int visited[]) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;visited[u] = 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", u);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (Node* v = adjList[u]; v; v = v->next) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!visited[v->vertex]) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dfs(graph, v->vertex, visited);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 9.6 ========== -->
+    <div class="section">
+        <h2>9.6 Spanning Tree and Minimum Spanning Tree</h2>
+        <p>A <strong>spanning tree</strong> is a subgraph that includes all vertices with no cycles. A <strong>minimum spanning tree (MST)</strong> has the minimum total edge weight.</p>
+
+        <h3>Kruskal's Algorithm</h3>
+        <ul>
+            <li>Sorts edges by weight.</li>
+            <li>Adds edges if they don't form a cycle (using union-find).</li>
+            <li>Time Complexity: O(E log E)</li>
+        </ul>
+
+        <h3>Prim's Algorithm</h3>
+        <ul>
+            <li>Grows tree from a starting vertex.</li>
+            <li>Adds minimum-weight edge connecting tree to outside.</li>
+            <li>Time Complexity: O(V²) or O(E log V) with priority queue.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Kruskal's Algorithm Skeleton</span><br>
+            void kruskalMST(Graph* graph) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;sort(edges, weight);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for each edge (u, v) in sorted order {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (find(u) != find(v)) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add to MST;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;union(u, v);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 9.7 ========== -->
+    <div class="section">
+        <h2>9.7 Shortest Path Problem: Dijkstra's Algorithm</h2>
+        <p><strong>Dijkstra's Algorithm</strong> finds the shortest path from a source vertex to all other vertices in a weighted graph with non-negative edge weights.</p>
+
+        <h3>Algorithm Steps</h3>
+        <ol>
+            <li>Initialize distances to infinity, source distance = 0.</li>
+            <li>Use a priority queue to select the vertex with minimum distance.</li>
+            <li>For each neighbor, update distance if a shorter path is found.</li>
+            <li>Repeat until all vertices are processed.</li>
+        </ol>
+
+        <h3>Properties</h3>
+        <ul>
+            <li><strong>Time Complexity:</strong> O((V + E) log V) with priority queue.</li>
+            <li><strong>Space Complexity:</strong> O(V)</li>
+            <li><strong>Works with:</strong> Non-negative edge weights.</li>
+            <li><strong>Applications:</strong> GPS navigation, network routing, mapping.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Dijkstra's Algorithm Skeleton</span><br>
+            void dijkstra(Graph* graph, int src) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int dist[V];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < V; i++) dist[i] = INT_MAX;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;dist[src] = 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;PriorityQueue pq;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;push(pq, src, 0);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (!isEmpty(pq)) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int u = pop(pq);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (visited[u]) continue;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;visited[u] = 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (each neighbor v of u) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (dist[u] + weight < dist[v]) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dist[v] = dist[u] + weight;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;push(pq, v, dist[v]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>🚀 Key insight:</strong> Dijkstra's algorithm is widely used for pathfinding in navigation, network routing, and games. It assumes non-negative weights and finds the shortest path efficiently.
+        </div>
+    </div>
+
+    <!-- ========== 9.8 ========== -->
+    <div class="section">
+        <h2>9.8 Graph Applications</h2>
+
+        <h3>Real-World Applications</h3>
+        <ul>
+            <li><strong>Networks:</strong> Computer networks, social networks, transportation systems.</li>
+            <li><strong>Shortest Path:</strong> GPS navigation, routing protocols (OSPF, BGP).</li>
+            <li><strong>Dependency Resolution:</strong> Build systems, task scheduling, package managers.</li>
+            <li><strong>Recommendation Systems:</strong> User-item relationships, social media.</li>
+            <li><strong>Minimum Spanning Tree:</strong> Network design, telecommunications.</li>
+            <li><strong>Web Crawling:</strong> BFS/DFS for crawling web pages.</li>
+        </ul>
+
+        <h3>Graph Algorithms Summary</h3>
+        <table>
+            <tr><th>Algorithm</th><th>Purpose</th><th>Time Complexity</th></tr>
+            <tr><td>BFS</td><td>Traversal, shortest path (unweighted)</td><td>O(V + E)</td></tr>
+            <tr><td>DFS</td><td>Traversal, cycle detection</td><td>O(V + E)</td></tr>
+            <tr><td>Dijkstra</td><td>Shortest path (weighted, non-negative)</td><td>O((V + E) log V)</td></tr>
+            <tr><td>Kruskal</td><td>Minimum Spanning Tree</td><td>O(E log E)</td></tr>
+            <tr><td>Prim</td><td>Minimum Spanning Tree</td><td>O(V²) or O(E log V)</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>📊 Key insight:</strong> Graphs are one of the most versatile data structures, with applications across almost all areas of computer science and beyond.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 9 summary</strong><br>Graphs represent relationships between entities. Key concepts include vertices, edges, traversal (BFS/DFS), spanning trees, and shortest path algorithms.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Graph: vertices connected by edges.<br>• Types: undirected, directed, weighted.<br>• Representation: adjacency matrix, adjacency list.<br>• Traversal: BFS (queue), DFS (stack/recursion).<br>• MST: Kruskal, Prim algorithms.<br>• Shortest path: Dijkstra's algorithm.<br>• Applications: networks, navigation, recommendations.</div>
     </div>
 </body>
 </html>

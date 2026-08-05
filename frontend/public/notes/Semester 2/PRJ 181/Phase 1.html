@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phase 1: Conceptual Framework and Proposal Guidelines</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
+        }
+        .section {
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
+        }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Unit I: Conceptual Framework and Proposal Guidelines</h1>
+    <div class="subhead">Course Specifications · Academic Timeline · Proposal Structural Flow · Design Foundations</div>
+
+    <!-- ========== 1.1 Course Specifications ========== -->
+    <div class="section">
+        <h2>1.1 Course Syllabus & Overview</h2>
+        <p>
+            <strong>Project I (PRJ 181)</strong> is a milestone practical course in the First Year, Second Semester of the 
+            Bachelor of Computer System and Information Technology (BCSIT) program under the Pokhara University curriculum.
+            This course is designed to transition students from theoretical programming to functional, real-world web application engineering.
+        </p>
+        <div class="grid-2col">
+            <div class="card">
+                <strong>📊 Course Parameters:</strong><br />
+                • <strong>Course Code:</strong> PRJ 181<br />
+                • <strong>Course Title:</strong> Project I<br />
+                • <strong>Credits:</strong> 2 [Hrs]<br />
+                • <strong>Nature:</strong> Lab-oriented Project Work<br />
+                • <strong>Total Hours:</strong> 32 lectures equivalent of lab counseling.
+            </div>
+            <div class="card">
+                <strong>🎯 Primary Objectives:</strong><br />
+                • Master structural markup using HTML5 semantic elements.<br />
+                • Gain layout precision using CSS Box Model, Flexbox, and Grid.<br />
+                • Implement dynamic user experiences via vanilla JavaScript/jQuery DOM manipulation.<br />
+                • Learn asynchronous network requests (AJAX/Fetch) and JSON integration.
+            </div>
+        </div>
+        <p>
+            Students begin by learning how to structure document trees cleanly, followed by applying advanced CSS for layout alignment 
+            and visual fidelity. JavaScript is then introduced to capture events, handle user actions, validate forms, and request data 
+            from API endpoints without reloading the document.
+        </p>
+    </div>
+
+    <!-- ========== 1.2 Project Milestones & Evaluation ========== -->
+    <div class="section">
+        <h2>1.2 Project Academic Timeline & Evaluation System</h2>
+        <p>
+            The project requires systematic progress across 48 days of development. The university implements a 
+            progressive marking scheme to evaluate consistency:
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Milestone</th>
+                    <th>Timeline (Days)</th>
+                    <th>Expected Deliverables</th>
+                    <th>Marks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Topic Selection & Research</strong></td>
+                    <td>Days 2 - 4</td>
+                    <td>Topic submission, bibliography, initial review, and team assignments (2-3 members).</td>
+                    <td>5 Marks (Topic & Attendance)</td>
+                </tr>
+                <tr>
+                    <td><strong>Proposal Defense</strong></td>
+                    <td>Days 6 - 10</td>
+                    <td>Printed project proposal draft, slide presentation defending scope, methodology, and Gantt chart.</td>
+                    <td>5 Marks</td>
+                </tr>
+                <tr>
+                    <td><strong>Mid-Term Defense</strong></td>
+                    <td>Day 11</td>
+                    <td>Interim progress report (2 printed copies), complete system flowcharts, and 50% functional demo.</td>
+                    <td>15 Marks</td>
+                </tr>
+                <tr>
+                    <td><strong>End-Term Evaluation</strong></td>
+                    <td>Day 24</td>
+                    <td>Completed layout interfaces, validated form operations, and at least 60% of coding finalized.</td>
+                    <td>25 Marks</td>
+                </tr>
+                <tr>
+                    <td><strong>Final Defense & Viva</strong></td>
+                    <td>Day 48</td>
+                    <td>Hardbound project report, final web application demonstration, code test cases, and oral viva defense.</td>
+                    <td>50 Marks</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="note-box">
+            <strong>⚠️ Academic Requirements:</strong> Students must secure a minimum of 45% marks separately in both internal 
+            assessments and external evaluations, along with a minimum of 80% attendance, to qualify for final grading.
+        </div>
+    </div>
+
+    <!-- ========== 1.3 Team Formation & Topic Selection ========== -->
+    <div class="section">
+        <h2>1.3 Team Formation & Project Direction Guidelines</h2>
+        <p>
+            Collaborative execution simulates real-world industry settings. Teams must be formed under the following parameters:
+        </p>
+        <ul>
+            <li><strong>Team Size:</strong> Minimum of 2 members and a maximum of 3 members.</li>
+            <li><strong>Collaboration Workflows:</strong> Teams are encouraged to use Git for version control to track individual contributions.</li>
+            <li><strong>Workload Distribution:</strong> Contributions must be logged in the project report's appendix sheets and verified by the supervisor.</li>
+        </ul>
+        <h3>Recommended Web Project Directions</h3>
+        <p>The following are highly structured templates for Project I topics conforming to Pokhara University expectations:</p>
+        <div class="grid-2col">
+            <div class="card">
+                <strong>📦 Interactive E-Commerce Catalog</strong><br />
+                • <em>Features:</em> Product grids, category filtering, search input, a sliding cart sidebar, and dynamically calculated checkouts.<br />
+                • <em>Tech:</em> HTML5 validation, local JSON storage, and CSS transitions.
+            </div>
+            <div class="card">
+                <strong>📅 Local Diagnostic Lab Portal</strong><br />
+                • <em>Features:</em> Test booking form, patient database listing, jQuery date picker integration, and invoice estimation.<br />
+                • <em>Tech:</em> Event handling, form regex verification, and print layouts.
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 1.4 Proposal Structural Layout ========== -->
+    <div class="section">
+        <h2>1.4 Prescribed Proposal Content Flow</h2>
+        <p>
+            The project proposal is a formal document serving as the development roadmap. It must follow this exact flow:
+        </p>
+        <ol>
+            <li><strong>Cover Page:</strong> Title, course details, program code, submission metadata, and university logo.</li>
+            <li><strong>Introduction:</strong> Background context explaining the business utility of the website.</li>
+            <li><strong>Problem Statement:</strong> Clearly identify the challenges or inefficiencies of existing systems that your project will address.</li>
+            <li><strong>Objectives of the Study:</strong>
+                <ul>
+                    <li><em>General Objective:</em> The high-level ultimate goal (e.g., "To develop a responsive booking application").</li>
+                    <li><em>Specific Objectives:</em> Measurable development targets (e.g., "To create dynamic form validation", "To implement slider controls").</li>
+                </ul>
+            </li>
+            <li><strong>Methodology:</strong>
+                <ul>
+                    <li><em>Requirement Identification:</em> Defining target users and system behaviors.</li>
+                    <li><em>Study of Existing Systems:</em> Brief review of similar solutions in the market.</li>
+                    <li><em>Requirement Collection:</em> Compiling technical requirements.</li>
+                    <li><em>Feasibility Study:</em> Quick analysis on Technical, Operational, and Economic viability.</li>
+                    <li><em>High-Level Design:</em> Flowcharts representing user interaction logic.</li>
+                </ul>
+            </li>
+            <li><strong>Gantt Chart:</strong> Visually tracking development progress over the 48-day project timeline.</li>
+            <li><strong>Expected Outcome:</strong> Summary of the final deliverables.</li>
+            <li><strong>References:</strong> Citing textbooks, articles, or online documentation.</li>
+        </ol>
+    </div>
+
+    <!-- ========== 1.5 Semantic HTML5 Tag Reference Guide ========== -->
+    <div class="section">
+        <h2>1.5 Semantic HTML5 Tags Reference Guide</h2>
+        <p>
+            Semantic elements clearly describe their meaning to both the browser and the developer. This is a core component 
+            of the Project I syllabus:
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tag</th>
+                    <th>Semantic Purpose</th>
+                    <th>Code Context Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>&lt;header&gt;</code></td>
+                    <td>Contains introductory content, site title, or main navigation.</td>
+                    <td><code>&lt;header&gt;&lt;nav&gt;...&lt;/nav&gt;&lt;/header&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><code>&lt;main&gt;</code></td>
+                    <td>Specifies the dominant content area of the document body.</td>
+                    <td><code>&lt;main&gt;&lt;article&gt;...&lt;/article&gt;&lt;/main&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><code>&lt;section&gt;</code></td>
+                    <td>Defines a thematic grouping of content, typically with a heading.</td>
+                    <td><code>&lt;section&gt;&lt;h2&gt;Scope&lt;/h2&gt;...&lt;/section&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><code>&lt;article&gt;</code></td>
+                    <td>Represents self-contained, independent, reusable compositions.</td>
+                    <td><code>&lt;article&gt;&lt;p&gt;Project Phase details...&lt;/p&gt;&lt;/article&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><code>&lt;aside&gt;</code></td>
+                    <td>Contains tangentially related content like sidebars or Callouts.</td>
+                    <td><code>&lt;aside&gt;&lt;h4&gt;Quick Tip&lt;/h4&gt;&lt;/aside&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><code>&lt;footer&gt;</code></td>
+                    <td>Defines meta information, copyright notes, or contact info.</td>
+                    <td><code>&lt;footer&gt;&lt;p&gt;&copy; 2026 BCSIT&lt;/p&gt;&lt;/footer&gt;</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ========== 1.6 CSS Box Model & Fluid Layouts ========== -->
+    <div class="section">
+        <h2>1.6 CSS Box Model & Fluid Grid Layouts</h2>
+        <p>
+            Understanding the Box Model is crucial to creating layouts without overlapping errors. Every element is represented 
+            as a rectangular box comprising content, padding, border, and margin:
+        </p>
+        <div class="figure-box">
+            <pre>
+┌────────────────────────────────────────────────────────┐
+│                        MARGIN                          │
+│   ┌────────────────────────────────────────────────┐   │
+│   │                    BORDER                      │   │
+│   │   ┌────────────────────────────────────────┐   │   │
+│   │   │                PADDING                 │   │   │
+│   │   │   ┌────────────────────────────────┐   │   │   │
+│   │   │   │            CONTENT             │   │   │   │
+│   │   │   │        (Width × Height)        │   │   │   │
+│   │   │   └────────────────────────────────┘   │   │   │
+│   │   └────────────────────────────────────────┘   │   │
+│   └────────────────────────────────────────────────┘   │
+└────────────────────────────────────────────────────────┘
+            </pre>
+        </div>
+        <p>
+            For modern fluid grids, <code>box-sizing: border-box;</code> ensures that padding and borders are calculated 
+            within the specified width rather than expanding it.
+        </p>
+        <h3>Fluid Grid Layout Implementation Code:</h3>
+        <div class="code-block">
+            <span>/* Global Box Model Settings */</span><br />
+            <span>* {</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;margin: 0;</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;padding: 0;</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;box-sizing: border-box;</span><br />
+            <span>}</span><br /><br />
+            <span>/* Responsive Grid Layout */</span><br />
+            <span>.grid-layout {</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;display: grid;</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;gap: 1.5rem;</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;padding: 1rem;</span><br />
+            <span>}</span><br /><br />
+            <span>/* Card Styling with CSS Variables */</span><br />
+            <span>.grid-layout .card {</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;background: #ffffff;</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;padding: 1.5rem;</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;border-radius: 12px;</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;border: 1px solid #e3ecf5;</span><br />
+            <span>}</span>
+        </div>
+    </div>
+
+    <!-- ========== 1.7 Dynamic Interactivity & Form Code ========== -->
+    <div class="section">
+        <h2>1.7 Dynamic Interactivity & Semantic Form Layout</h2>
+        <p>
+            To fulfill Phase 1 milestones, teams must code semantically compliant form validation layouts. The form 
+            uses semantic elements for inputs, choices, and buttons:
+        </p>
+        <div class="code-block">
+            <span>&lt;!-- Responsive Registration Form layout --&gt;</span><br />
+            <span>&lt;form id="registrationForm" class="form-grid" novalidate&gt;</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="form-group"&gt;</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label for="username"&gt;Username&lt;/label&gt;</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="text" id="username" name="username" required placeholder="Enter username"&gt;</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="form-group"&gt;</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label for="email"&gt;Email Address&lt;/label&gt;</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="email" id="email" name="email" required placeholder="name@domain.com"&gt;</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;button type="submit" class="submit-btn"&gt;Register Team&lt;/button&gt;</span><br />
+            <span>&lt;/form&gt;</span>
+        </div>
+        <p>
+            Using the <code>novalidate</code> attribute on forms allows JavaScript to intercept the submit action and execute custom 
+            regular expression (regex) verification before data is processed.
+        </p>
+    </div>
+
+    <!-- ========== 1.8 Document Formatting Guidelines ========== -->
+    <div class="section">
+        <h2>1.8 Document Formatting Guidelines</h2>
+        <p>
+            To maintain uniformity across all project documentation, the university mandates strict guidelines for reports:
+        </p>
+        <ul>
+            <li><strong>Page Size:</strong> Standard A4 paper format (210mm x 297mm).</li>
+            <li><strong>Page Margins:</strong> 
+                <ul>
+                    <li>Top: 1.0 inch (2.54 cm)</li>
+                    <li>Bottom: 1.0 inch (2.54 cm)</li>
+                    <li>Left: 1.25 inches (3.17 cm) to allow for binding</li>
+                    <li>Right: 1.0 inch (2.54 cm)</li>
+                </ul>
+            </li>
+            <li><strong>Typography:</strong>
+                <ul>
+                    <li>Primary Font: Times New Roman or Segoe UI</li>
+                    <li>Main Heading size: 14pt (Bold, Centered)</li>
+                    <li>Sub-heading size: 12pt (Bold)</li>
+                    <li>Body Text size: 12pt (Normal, Justified)</li>
+                </ul>
+            </li>
+            <li><strong>Paragraph Settings:</strong> Line spacing of exactly 1.5, with 6pt spacing after paragraphs.</li>
+        </ul>
+        <div class="note-box">
+            <strong>📝 Binding Note:</strong> The final report copy must be spiral bound (for mid-term drafts) or hardbound with a dark blue cover (for the final defense submission).
+        </div>
+    </div>
+</body>
+</html>

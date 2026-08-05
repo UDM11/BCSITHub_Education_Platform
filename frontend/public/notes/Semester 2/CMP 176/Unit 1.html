@@ -1,205 +1,592 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Introduction to Data Structures</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-        @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 1: Introduction to Data Structure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-  <h1><b>Unit 1: Introduction to Data Structure</b></h1>
+    <h1>Unit 1: Introduction to Data Structure</h1>
+    <div class="subhead">Definition · classification · ADT · algorithm · analysis · design · performance</div>
 
-  <div class="section">
-    <h2><b>1.1 Introduction</b></h2>
-    <p>Data structures are specialized formats for organizing, storing, and managing data to enable efficient access and manipulation. They form the backbone of computer algorithms, allowing programs to handle data effectively for tasks like searching, sorting, and processing. Choosing the right data structure significantly impacts a program's performance.</p>
-  </div>
+    <!-- ========== 1.1 ========== -->
+    <div class="section">
+        <h2>1.1 Introduction</h2>
+        <p><strong>Data structures</strong> are specialized formats for organizing, storing, and managing data to enable efficient access and manipulation. They form the backbone of computer algorithms, allowing programs to handle data effectively for tasks like searching, sorting, and processing. Choosing the right data structure significantly impacts a program's performance and efficiency.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📊 What are Data Structures?</strong><br>Ways to organize and store data so it can be used efficiently. They define the relationship between data elements and provide operations to access and modify them.</div>
+            <div class="card"><strong>🎯 Why are they Important?</strong><br>The right data structure can dramatically improve algorithm performance, reduce memory usage, and make code more maintainable and scalable.</div>
+        </div>
 
-  <div class="section">
-    <h2><b>1.2 Definition</b></h2>
-    <p>A <b>data structure</b> is a way of organizing data in a computer so that it can be used efficiently. It defines the relationship between data elements and provides operations to access and modify them. Examples include arrays, linked lists, stacks, queues, and trees.</p>
-  </div>
-
-  <div class="section">
-    <h2><b>1.3 Classification of Data Structure</b></h2>
-    <p>Data structures are classified based on their organization and usage:</p>
-    <ul>
-      <li><b>Primitive Data Structures:</b> Basic data types (e.g., int, float, char).</li>
-      <li><b>Non-Primitive Data Structures:</b> Derived from primitive types:
+        <h3>Real-World Analogy</h3>
         <ul>
-          <li><b>Linear:</b> Arrays, Linked Lists, Stacks, Queues</li>
-          <li><b>Non-Linear:</b> Trees, Graphs</li>
+            <li><strong>Library Catalog:</strong> Books organized by author, title, or subject (like different data structures).</li>
+            <li><strong>Grocery List:</strong> Simple list vs. categorized list (like arrays vs. trees).</li>
+            <li><strong>File System:</strong> Hierarchical organization (like trees).</li>
         </ul>
-      </li>
-      <li><b>Static:</b> Fixed size (e.g., arrays)</li>
-      <li><b>Dynamic:</b> Can grow/shrink during execution (e.g., linked lists)</li>
-    </ul>
-  </div>
+    </div>
 
-  <div class="section">
-    <h2><b>1.4 Abstract Data Type (ADT)</b></h2>
-    <p>An <b>Abstract Data Type (ADT)</b> is a logical description of how data is viewed and the operations that can be performed, without specifying implementation.</p>
-    <p>Example: A <code>Stack</code> ADT defines <code>push()</code>, <code>pop()</code>, and <code>peek()</code>.</p>
-  </div>
+    <!-- ========== 1.2 ========== -->
+    <div class="section">
+        <h2>1.2 Definition</h2>
+        <p>A <strong>data structure</strong> is a way of organizing data in a computer so that it can be used efficiently. It defines the relationship between data elements and provides operations to access and modify them.</p>
 
-  <div class="section">
-    <h2><b>1.5 Comparison between Data Structure and ADT</b></h2>
-    <ul>
-      <li><b>Definition:</b> ADT is a logical model, Data Structure is the physical implementation.</li>
-      <li><b>Focus:</b> ADT focuses on "what", DS focuses on "how".</li>
-      <li><b>Abstraction:</b> ADTs hide implementation; DS show internal details.</li>
-      <li><b>Example:</b> A <code>List</code> ADT may be implemented using an array or linked list.</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2><b>1.6 Algorithm</b></h2>
-    <p>An <b>algorithm</b> is a set of instructions to solve a problem. It must be clear, finite, and effective.</p>
-    <p>Example: Bubble Sort in C:</p>
-    <pre><code>
-for (int i = 0; i < n - 1; i++) {
-    for (int j = 0; j < n - i - 1; j++) {
-        if (arr[j] > arr[j + 1]) {
-            int temp = arr[j];
-            arr[j] = arr[j + 1];
-            arr[j + 1] = temp;
-        }
-    }
-}
-    </code></pre>
-  </div>
-
-  <div class="section">
-    <h2><b>1.7 Analysis Algorithm</b></h2>
-    <ul>
-      <li><b>Time Complexity:</b> Time taken vs input size (O(n), O(n²))</li>
-      <li><b>Space Complexity:</b> Memory usage vs input size</li>
-      <li><b>Approaches:</b> Theoretical (asymptotic) or Empirical (measured)</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2><b>1.8 Design Algorithm</b></h2>
-    <ul>
-      <li><b>Incremental:</b> Builds solution step-by-step (e.g., Insertion Sort)
-        <pre><code>
-for (int i = 1; i < n; i++) {
-    int key = arr[i];
-    int j = i - 1;
-    while (j >= 0 && arr[j] > key) {
-        arr[j + 1] = arr[j];
-        j--;
-    }
-    arr[j + 1] = key;
-}
-        </code></pre>
-      </li>
-      <li><b>Divide and Conquer:</b> Divide → Solve → Combine (e.g., Merge Sort)
-        <pre><code>
-void mergeSort(int arr[], int l, int r) {
-    if (l < r) {
-        int m = l + (r - l) / 2;
-        mergeSort(arr, l, m);
-        mergeSort(arr, m + 1, r);
-        merge(arr, l, m, r);
-    }
-}
-        </code></pre>
-      </li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2><b>1.9 Performance Analysis and Measurement</b></h2>
-    <ul>
-      <li><b>Space Complexity:</b>
+        <h3>Key Characteristics</h3>
         <ul>
-          <li><b>Fixed Space:</b> Constants and variables</li>
-          <li><b>Variable Space:</b> Depends on input size</li>
+            <li><strong>Organization:</strong> How data elements are arranged and related.</li>
+            <li><strong>Operations:</strong> What operations can be performed (insert, delete, search, traverse).</li>
+            <li><strong>Performance:</strong> Time and space complexity of operations.</li>
         </ul>
-      </li>
-      <li><b>Time Complexity:</b> Efficiency based on operations
+
+        <h3>Examples</h3>
         <ul>
-          <li><b>O(1):</b> Constant (array access)</li>
-          <li><b>O(n):</b> Linear (linear search)</li>
-          <li><b>O(n²):</b> Quadratic (bubble sort)</li>
-          <li><b>O(log n):</b> Logarithmic (binary search)</li>
+            <li><strong>Arrays:</strong> Contiguous memory locations with index-based access.</li>
+            <li><strong>Linked Lists:</strong> Nodes connected by pointers, dynamic size.</li>
+            <li><strong>Stacks:</strong> LIFO (Last In, First Out) structure.</li>
+            <li><strong>Queues:</strong> FIFO (First In, First Out) structure.</li>
+            <li><strong>Trees:</strong> Hierarchical structure with root and child nodes.</li>
+            <li><strong>Graphs:</strong> Network of nodes connected by edges.</li>
         </ul>
-      </li>
-    </ul>
-    <p>Example: Linear Search in C</p>
-    <pre><code>
-int search(int arr[], int n, int x) {
-    for (int i = 0; i < n; i++) {
-        if (arr[i] == x)
-            return i;
-    }
-    return -1;
-}
-// Time: O(n)
-// Space: O(1)
-    </code></pre>
-  </div>
+
+        <div class="code-block">
+            <span>// Example: Array in C</span><br>
+            int arr[5] = {10, 20, 30, 40, 50};<br>
+            printf("%d", arr[2]);  <span>// Access element at index 2: 30</span>
+        </div>
+    </div>
+
+    <!-- ========== 1.3 ========== -->
+    <div class="section">
+        <h2>1.3 Classification of Data Structure</h2>
+        <p>Data structures are classified based on their organization, usage, and behavior.</p>
+
+        <div class="figure-box">
+            <pre>
+Data Structure Classification:
+┌─────────────────────────────────────────────────────────────────┐
+│                        DATA STRUCTURES                         │
+├───────────────────────────────┬─────────────────────────────────┤
+│        PRIMITIVE              │        NON-PRIMITIVE            │
+│  (Built-in types)             │    (Derived/User-defined)       │
+├───────────────────────────────┼─────────────────────────────────┤
+│ • int                         │  ┌───────────────────────────┐  │
+│ • float                       │  │         LINEAR            │  │
+│ • char                        │  │ • Arrays                  │  │
+│ • double                      │  │ • Linked Lists            │  │
+│ • boolean                     │  │ • Stacks                  │  │
+│                               │  │ • Queues                  │  │
+│                               │  └───────────────────────────┘  │
+│                               │  ┌───────────────────────────┐  │
+│                               │  │       NON-LINEAR          │  │
+│                               │  │ • Trees                   │  │
+│                               │  │ • Graphs                  │  │
+│                               │  └───────────────────────────┘  │
+└───────────────────────────────┴─────────────────────────────────┘
+            </pre>
+        </div>
+
+        <h3>Classification Categories</h3>
+        <ul>
+            <li><strong>Primitive Data Structures:</strong> Basic data types provided by programming languages (int, float, char, boolean).</li>
+            <li><strong>Non-Primitive Data Structures:</strong> Derived from primitive types:
+                <ul>
+                    <li><strong>Linear:</strong> Elements arranged sequentially (Arrays, Linked Lists, Stacks, Queues)</li>
+                    <li><strong>Non-Linear:</strong> Elements arranged hierarchically or in networks (Trees, Graphs)</li>
+                </ul>
+            </li>
+            <li><strong>Static vs Dynamic:</strong>
+                <ul>
+                    <li><strong>Static:</strong> Fixed size (e.g., arrays)</li>
+                    <li><strong>Dynamic:</strong> Can grow/shrink during execution (e.g., linked lists)</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <!-- ========== 1.4 ========== -->
+    <div class="section">
+        <h2>1.4 Abstract Data Type (ADT)</h2>
+        <p>An <strong>Abstract Data Type (ADT)</strong> is a logical description of how data is viewed and the operations that can be performed, without specifying implementation.</p>
+
+        <h3>Key Concepts</h3>
+        <ul>
+            <li><strong>Abstraction:</strong> Hides implementation details from the user.</li>
+            <li><strong>Encapsulation:</strong> Bundles data and operations together.</li>
+            <li><strong>Interface:</strong> Defines what operations are available.</li>
+        </ul>
+
+        <h3>Example: Stack ADT</h3>
+        <div class="code-block">
+            <span>// Stack ADT Operations</span><br>
+            <span>// push(data): Add an element to the top</span><br>
+            <span>// pop(): Remove and return the top element</span><br>
+            <span>// peek(): Return the top element without removing</span><br>
+            <span>// isEmpty(): Check if stack is empty</span><br>
+            <span>// isFull(): Check if stack is full (for fixed-size)</span>
+        </div>
+
+        <h3>Common ADTs</h3>
+        <table>
+            <tr><th>ADT</th><th>Operations</th><th>Possible Implementations</th></tr>
+            <tr><td>Stack</td><td>push, pop, peek, isEmpty</td><td>Array, Linked List</td></tr>
+            <tr><td>Queue</td><td>enqueue, dequeue, front, isEmpty</td><td>Array, Linked List</td></tr>
+            <tr><td>List</td><td>insert, delete, search, traverse</td><td>Array, Linked List</td></tr>
+            <tr><td>Tree</td><td>insert, delete, search, traverse</td><td>Node-based</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== 1.5 ========== -->
+    <div class="section">
+        <h2>1.5 Comparison between Data Structure and ADT</h2>
+
+        <table>
+            <tr><th>Feature</th><th>ADT (Abstract Data Type)</th><th>Data Structure</th></tr>
+            <tr><td>Definition</td><td>Logical model of data and operations</td><td>Physical implementation of data organization</td></tr>
+            <tr><td>Focus</td><td>"What" operations are available</td><td>"How" operations are implemented</td></tr>
+            <tr><td>Abstraction</td><td>Hides implementation details</td><td>Shows internal details</td></tr>
+            <tr><td>Example</td><td>Stack ADT (push, pop, peek)</td><td>Array-based stack or Linked-List-based stack</td></tr>
+            <tr><td>Level</td><td>Conceptual / Logical</td><td>Physical / Concrete</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Stack ADT (Logical)</span><br>
+            <span>// Operations: push, pop, peek</span><br><br>
+            <span>// Array-based Stack Implementation (Physical)</span><br>
+            int stack[100];<br>
+            int top = -1;<br><br>
+            void push(int x) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;stack[++top] = x;<br>
+            }<br><br>
+            <span>// Linked List-based Stack Implementation (Physical)</span><br>
+            struct Node {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int data;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Node* next;<br>
+            };<br>
+            void push(Node** head, int data) { ... }
+        </div>
+    </div>
+
+    <!-- ========== 1.6 ========== -->
+    <div class="section">
+        <h2>1.6 Algorithm</h2>
+        <p>An <strong>algorithm</strong> is a finite set of well-defined instructions to solve a specific problem. It must be clear, unambiguous, and guaranteed to terminate.</p>
+
+        <h3>Characteristics of a Good Algorithm</h3>
+        <ul>
+            <li><strong>Finiteness:</strong> Must terminate after a finite number of steps.</li>
+            <li><strong>Definiteness:</strong> Each step must be precisely defined.</li>
+            <li><strong>Input:</strong> Has zero or more inputs.</li>
+            <li><strong>Output:</strong> Has one or more outputs.</li>
+            <li><strong>Effectiveness:</strong> Each step must be doable.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Example: Bubble Sort Algorithm in C</span><br>
+            void bubbleSort(int arr[], int n) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < n - 1; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int j = 0; j < n - i - 1; j++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (arr[j] > arr[j + 1]) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int temp = arr[j];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[j] = arr[j + 1];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[j + 1] = temp;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+    </div>
+
+    <!-- ========== 1.7 ========== -->
+    <div class="section">
+        <h2>1.7 Analysis of Algorithm</h2>
+        <p>Algorithm analysis evaluates the efficiency of an algorithm in terms of time and space requirements.</p>
+
+        <h3>Time Complexity</h3>
+        <ul>
+            <li><strong>Definition:</strong> The amount of time taken by an algorithm to run as a function of input size.</li>
+            <li><strong>Asymptotic Notations:</strong>
+                <ul>
+                    <li><strong>O(n) - Big O:</strong> Upper bound (worst case)</li>
+                    <li><strong>Ω(n) - Big Omega:</strong> Lower bound (best case)</li>
+                    <li><strong>Θ(n) - Big Theta:</strong> Tight bound (average case)</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Space Complexity</h3>
+        <ul>
+            <li><strong>Definition:</strong> The amount of memory used by an algorithm as a function of input size.</li>
+            <li><strong>Components:</strong>
+                <ul>
+                    <li><strong>Fixed Space:</strong> Constants, variables, and code.</li>
+                    <li><strong>Variable Space:</strong> Depends on input size (e.g., arrays, recursion stack).</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Common Time Complexities</h3>
+        <table>
+            <tr><th>Complexity</th><th>Notation</th><th>Example</th></tr>
+            <tr><td>Constant</td><td>O(1)</td><td>Array access</td></tr>
+            <tr><td>Logarithmic</td><td>O(log n)</td><td>Binary search</td></tr>
+            <tr><td>Linear</td><td>O(n)</td><td>Linear search</td></tr>
+            <tr><td>Linearithmic</td><td>O(n log n)</td><td>Merge sort</td></tr>
+            <tr><td>Quadratic</td><td>O(n²)</td><td>Bubble sort</td></tr>
+            <tr><td>Exponential</td><td>O(2ⁿ)</td><td>Recursive Fibonacci</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== 1.8 ========== -->
+    <div class="section">
+        <h2>1.8 Design of Algorithm</h2>
+        <p>Algorithm design involves creating efficient solutions to problems using various strategies.</p>
+
+        <h3>Common Design Approaches</h3>
+
+        <h4>1. Incremental (Iterative)</h4>
+        <ul>
+            <li>Builds solution step-by-step.</li>
+            <li>Examples: Insertion Sort, Selection Sort.</li>
+        </ul>
+        <div class="code-block">
+            <span>// Insertion Sort - Incremental</span><br>
+            void insertionSort(int arr[], int n) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i < n; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int key = arr[i];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int j = i - 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (j >= 0 && arr[j] > key) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[j + 1] = arr[j];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;j--;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[j + 1] = key;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <h4>2. Divide and Conquer</h4>
+        <ul>
+            <li>Divide problem into smaller sub-problems.</li>
+            <li>Solve sub-problems recursively.</li>
+            <li>Combine solutions.</li>
+            <li>Examples: Merge Sort, Quick Sort, Binary Search.</li>
+        </ul>
+        <div class="code-block">
+            <span>// Merge Sort - Divide and Conquer</span><br>
+            void mergeSort(int arr[], int l, int r) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (l < r) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int m = l + (r - l) / 2;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mergeSort(arr, l, m);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mergeSort(arr, m + 1, r);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;merge(arr, l, m, r);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <h4>3. Greedy</h4>
+        <ul>
+            <li>Makes locally optimal choices at each step.</li>
+            <li>Examples: Dijkstra's algorithm, Huffman coding.</li>
+        </ul>
+
+        <h4>4. Dynamic Programming</h4>
+        <ul>
+            <li>Breaks problem into overlapping subproblems.</li>
+            <li>Stores results to avoid recomputation.</li>
+            <li>Examples: Fibonacci, Knapsack problem.</li>
+        </ul>
+    </div>
+
+    <!-- ========== 1.9 ========== -->
+    <div class="section">
+        <h2>1.9 Performance Analysis and Measurement</h2>
+        <p>Performance analysis evaluates algorithms through theoretical analysis and empirical testing.</p>
+
+        <h3>Space Complexity Analysis</h3>
+        <ul>
+            <li><strong>Fixed Space:</strong> Constants, simple variables, program code.</li>
+            <li><strong>Variable Space:</strong> Depends on input size (arrays, recursion stack, dynamic allocation).</li>
+        </ul>
+
+        <h3>Time Complexity Analysis</h3>
+        <ul>
+            <li><strong>Best Case:</strong> Minimum time (e.g., already sorted array).</li>
+            <li><strong>Average Case:</strong> Expected time for random input.</li>
+            <li><strong>Worst Case:</strong> Maximum time (e.g., reverse sorted array).</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Linear Search - Time: O(n), Space: O(1)</span><br>
+            int linearSearch(int arr[], int n, int x) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < n; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (arr[i] == x)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return i;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return -1;<br>
+            }<br>
+            <span>// Best: O(1), Average: O(n), Worst: O(n)</span>
+        </div>
+
+        <div class="code-block">
+            <span>// Binary Search - Time: O(log n), Space: O(1)</span><br>
+            int binarySearch(int arr[], int l, int r, int x) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (l <= r) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int m = l + (r - l) / 2;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (arr[m] == x) return m;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (arr[m] < x) l = m + 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else r = m - 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return -1;<br>
+            }<br>
+            <span>// Best: O(1), Average: O(log n), Worst: O(log n)</span>
+        </div>
+
+        <div class="code-block">
+            <span>// Recursive Fibonacci - Time: O(2ⁿ), Space: O(n)</span><br>
+            int fib(int n) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (n <= 1) return n;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return fib(n - 1) + fib(n - 2);<br>
+            }<br>
+            <span>// Highly inefficient for large n due to exponential time</span>
+        </div>
+
+        <div class="note-box">
+            <strong>📊 Key insight:</strong> Performance analysis helps choose the right algorithm and data structure for a given problem. Understanding time and space complexity is essential for writing efficient code.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 1 summary</strong><br>Data structures organize data efficiently. ADTs define logical operations. Algorithms are step-by-step solutions with performance measured by time and space complexity.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Data structures: ways to organize data.<br>• Classification: primitive, linear, non-linear.<br>• ADT: logical model vs physical implementation.<br>• Algorithm: finite set of instructions.<br>• Time complexity: O(n), O(log n), O(n²), etc.<br>• Space complexity: memory usage.<br>• Design approaches: incremental, divide & conquer, greedy, dynamic programming.</div>
+    </div>
 </body>
 </html>

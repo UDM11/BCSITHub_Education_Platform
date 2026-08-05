@@ -1,519 +1,703 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linked Lists in Data Structures</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        color: black;
-        font-size: 16pt;
-        font-weight: bold;
-    }
-    h2 {
-      color: black;
-    }
-    .section {
-      background: #fff;
-      padding: 5px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: justify;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    pre {
-      background-color: #000000;
-      color: #ffffff;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 5px;
-      font-size: 12pt;
-    }
-    code {
-      font-family: Consolas, monospace;
-    }
-    @media (max-width: 600px) {
-      .section {
-        padding: 5px;
-      }
-      pre {
-        font-size: 13px;
-      }
-    }
-            @media only screen and (max-width: 768px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit 5: Linked List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-size: 14px; /* slightly smaller font for mobile */
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            font-size: 1.2rem; /* smaller header */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
         }
         h2 {
-            font-size: 1rem; /* smaller sub-header */
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            padding: 8px; /* less padding for small screens */
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-    }
-  </style>
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-    <h1><b>Unit 5: Linked List</b></h1>
+    <h1>Unit 5: Linked List</h1>
+    <div class="subhead">Introduction · advantages & disadvantages · operations · types · insertion · deletion · polynomial addition</div>
 
+    <!-- ========== 5.1 ========== -->
     <div class="section">
-        <h2><b>5.1 Introduction</b></h2>
-        <p>A <b>linked list</b> is a linear data structure where elements, called nodes, are linked using pointers. Unlike arrays, linked lists do not store elements in contiguous memory locations, allowing dynamic memory allocation and flexible size management. Linked lists are widely used in applications requiring dynamic data management, such as implementing stacks, queues, and polynomial operations.</p>
+        <h2>5.1 Introduction</h2>
+        <p>A <strong>linked list</strong> is a linear data structure where elements, called <strong>nodes</strong>, are linked using pointers. Unlike arrays, linked lists do not store elements in contiguous memory locations, allowing dynamic memory allocation and flexible size management.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🔗 What is a Linked List?</strong><br>A sequence of nodes where each node contains data and a pointer to the next node. The last node points to NULL.</div>
+            <div class="card"><strong>📊 Key Features</strong><br>Dynamic size, efficient insertions/deletions, non-contiguous memory allocation.</div>
+        </div>
+
+        <div class="figure-box">
+            <pre>
+Singly Linked List Structure:
+┌─────────┐    ┌─────────┐    ┌─────────┐
+│ Data │Next│───▶│ Data │Next│───▶│ Data │NULL│
+└─────────┘    └─────────┘    └─────────┘
+    Head                                      Tail
+            </pre>
+        </div>
     </div>
 
+    <!-- ========== 5.2 ========== -->
     <div class="section">
-        <h2><b>5.2 Linked List: Advantages and Disadvantages</b></h2>
-        <p><b>Advantages:</b></p>
+        <h2>5.2 Linked List: Advantages and Disadvantages</h2>
+
+        <h3>Advantages</h3>
         <ul>
-            <li><b>Dynamic Size:</b> Linked lists can grow or shrink during runtime, unlike arrays with fixed sizes.</li>
-            <li><b>Efficient Insertions/Deletions:</b> Adding or removing elements is faster (O(1) if the position is known) compared to arrays, which require shifting elements.</li>
-            <li><b>Memory Efficiency:</b> Allocates memory only as needed, avoiding wasted space.</li>
+            <li><strong>Dynamic Size:</strong> Grows or shrinks during runtime, unlike arrays with fixed sizes.</li>
+            <li><strong>Efficient Insertions/Deletions:</strong> O(1) if the position is known, compared to O(n) for arrays (which require shifting).</li>
+            <li><strong>Memory Efficiency:</strong> Allocates memory only as needed, avoiding wasted space.</li>
         </ul>
-        <p><b>Disadvantages:</b></p>
+
+        <h3>Disadvantages</h3>
         <ul>
-            <li><b>No Random Access:</b> Accessing an element requires traversing the list (O(n) time).</li>
-            <li><b>Extra Memory:</b> Requires additional memory for storing pointers to link nodes.</li>
-            <li><b>Poor Cache Performance:</b> Non-contiguous memory allocation leads to slower access compared to arrays.</li>
+            <li><strong>No Random Access:</strong> Accessing an element requires traversal (O(n) time).</li>
+            <li><strong>Extra Memory:</strong> Requires additional memory for storing pointers to link nodes.</li>
+            <li><strong>Poor Cache Performance:</strong> Non-contiguous memory allocation leads to slower access compared to arrays.</li>
         </ul>
+
+        <table>
+            <tr><th>Feature</th><th>Array</th><th>Linked List</th></tr>
+            <tr><td>Memory</td><td>Contiguous</td><td>Non-contiguous</td></tr>
+            <tr><td>Size</td><td>Fixed</td><td>Dynamic</td></tr>
+            <tr><td>Random Access</td><td>O(1)</td><td>O(n)</td></tr>
+            <tr><td>Insertion/Deletion</td><td>O(n)</td><td>O(1) (if position known)</td></tr>
+            <tr><td>Memory Usage</td><td>Efficient</td><td>Extra pointer storage</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 5.3 ========== -->
     <div class="section">
-        <h2><b>5.3 Key Terms</b></h2>
+        <h2>5.3 Key Terms</h2>
+
         <ul>
-            <li><b>Data Field:</b> The part of a node that stores the actual data (e.g., an integer, string, or object).</li>
-            <li><b>Link Field:</b> The part of a node that stores a reference (pointer) to the next node (or previous node in doubly linked lists).</li>
+            <li><strong>Data Field:</strong> The part of a node that stores the actual data (e.g., integer, string, or object).</li>
+            <li><strong>Link Field (Next):</strong> The part of a node that stores a reference (pointer) to the next node.</li>
+            <li><strong>Head:</strong> The first node of the linked list.</li>
+            <li><strong>Tail:</strong> The last node of the linked list (points to NULL).</li>
+            <li><strong>Node:</strong> The basic unit of a linked list containing data and link fields.</li>
         </ul>
-        <p>Example: In a node structure, <code>struct Node { int data; struct Node* next; }</code>, <code>data</code> is the data field, and <code>next</code> is the link field.</p>
+
+        <div class="code-block">
+            <span>// Node Structure in C</span><br>
+            struct Node {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int data;       <span>// Data field</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Node* next;  <span>// Link field (pointer to next node)</span><br>
+            };
+        </div>
     </div>
 
+    <!-- ========== 5.4 ========== -->
     <div class="section">
-        <h2><b>5.4 Representation of Linear Linked List</b></h2>
-        <p>A linear linked list is a sequence of nodes where each node contains a data field and a link field pointing to the next node. The last node’s link field points to <code>NULL</code>, indicating the end of the list. It is represented as:</p>
-        <pre>
-[Data1 | Next] -> [Data2 | Next] -> [Data3 | NULL]
-        </pre>
-        <p>C Representation:</p>
-        <pre>
-#include &lt;stdlib.h&gt;
+        <h2>5.4 Representation of Linear Linked List</h2>
+        <p>A linear linked list is a sequence of nodes where each node contains a data field and a link field pointing to the next node. The last node's link field points to <code>NULL</code>.</p>
 
-typedef struct Node {
-    int data;
-    struct Node* next;
-} Node;
+        <div class="figure-box">
+            <pre>
+[Data | Next] -> [Data | Next] -> [Data | NULL]
+    Head                               Tail
+            </pre>
+        </div>
 
-typedef struct {
-    Node* head;
-} LinkedList;
-
-Node* createNode(int data) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = data;
-    newNode->next = NULL;
-    return newNode;
-}
-        </pre>
-    </div>
-
-    <div class="section">
-        <h2><b>5.5 Operations of Linked List</b></h2>
-        <p>Linked lists support several operations:</p>
-        <ul>
-            <li><b>Creation:</b> Initialize an empty list or create nodes with data.</li>
-            <li><b>Insertion:</b> Add a node at the beginning, end, or a specific position.</li>
-            <li><b>Deletion:</b> Remove a node from the beginning, end, or a specific position.</li>
-            <li><b>Traversing:</b> Visit each node to process or display data.</li>
-            <li><b>Searching:</b> Find a node with a specific value.</li>
-            <li><b>Concatenation:</b> Merge two linked lists into one.</li>
-            <li><b>Display:</b> Print the elements of the list.</li>
-        </ul>
-        <p>Example (Basic Operations in C):</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-typedef struct Node {
-    int data;
-    struct Node* next;
-} Node;
-
-typedef struct {
-    Node* head;
-} LinkedList;
-
-Node* createNode(int data) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = data;
-    newNode->next = NULL;
-    return newNode;
-}
-
-void insertAtBeginning(LinkedList* list, int data) {
-    Node* newNode = createNode(data);
-    newNode->next = list->head;
-    list->head = newNode;
-}
-
-void deleteAtBeginning(LinkedList* list) {
-    if (list->head != NULL) {
-        Node* temp = list->head;
-        list->head = list->head->next;
-        free(temp);
-    }
-}
-
-void display(LinkedList* list) {
-    Node* current = list->head;
-    while (current != NULL) {
-        printf("%d ", current->data);
-        current = current->next;
-    }
-    printf("\n");
-}
-        </pre>
-    </div>
-
-    <div class="section">
-        <h2><b>5.6 Types of Linked List</b></h2>
-        <ul>
-            <li><b>Singly Linked List:</b> Each node contains a data field and a link to the next node. The last node points to <code>NULL</code>.</li>
-            <li><b>Doubly Linked List:</b> Each node contains a data field, a link to the next node, and a link to the previous node, allowing bidirectional traversal.</li>
-            <li><b>Circular Linked List:</b> The last node points to the first node, forming a loop. Can be singly or doubly linked.</li>
-            <li><b>Circular Doubly Linked List:</b> A doubly linked list where the last node’s next pointer links to the first node, and the first node’s previous pointer links to the last node.</li>
-        </ul>
-        <p>Example (Doubly Linked List Node):</p>
-        <pre>
-#include &lt;stdlib.h&gt;
-
-typedef struct DoublyNode {
-    int data;
-    struct DoublyNode* prev;
-    struct DoublyNode* next;
-} DoublyNode;
-
-DoublyNode* createDoublyNode(int data) {
-    DoublyNode* newNode = (DoublyNode*)malloc(sizeof(DoublyNode));
-    newNode->data = data;
-    newNode->prev = NULL;
-    newNode->next = NULL;
-    return newNode;
-}
-        </pre>
-    </div>
-
-    <div class="section">
-        <h2><b>5.7 Create Single Linked List</b></h2>
-        <p>Creating a singly linked list involves defining a node structure and initializing a list with nodes.</p>
-        <p>Example:</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-typedef struct Node {
-    int data;
-    struct Node* next;
-} Node;
-
-typedef struct {
-    Node* head;
-} LinkedList;
-
-Node* createNode(int data) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = data;
-    newNode->next = NULL;
-    return newNode;
-}
-
-void create(LinkedList* list, int values[], int size) {
-    list->head = NULL;
-    for (int i = 0; i < size; i++) {
-        Node* newNode = createNode(values[i]);
-        if (list->head == NULL) {
-            list->head = newNode;
-        } else {
-            Node* current = list->head;
-            while (current->next != NULL) {
-                current = current->next;
+        <div class="code-block">
+            <span>// C Representation of Linked List</span><br>
+            #include &lt;stdlib.h&gt;<br><br>
+            typedef struct Node {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int data;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Node* next;<br>
+            } Node;<br><br>
+            typedef struct {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* head;<br>
+            } LinkedList;<br><br>
+            Node* createNode(int data) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* newNode = (Node*)malloc(sizeof(Node));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->data = data;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->next = NULL;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return newNode;<br>
             }
-            current->next = newNode;
-        }
-    }
-}
-
-void display(LinkedList* list) {
-    Node* current = list->head;
-    while (current != NULL) {
-        printf("%d ", current->data);
-        current = current->next;
-    }
-    printf("\n");
-}
-
-int main() {
-    LinkedList list;
-    int values[] = {1, 2, 3, 4};
-    create(&list, values, 4);
-    display(&list); // Output: 1 2 3 4
-    return 0;
-}
-        </pre>
+        </div>
     </div>
 
+    <!-- ========== 5.5 ========== -->
     <div class="section">
-        <h2><b>5.8 Insertion of Single Linked List at Specific Position</b></h2>
-        <p><b>Algorithm for Insertion at Specific Position:</b></p>
-        <pre>
-Algorithm InsertAtPosition(list, data, position)
-1. Create new node with data
-2. If position == 1
-    a. newNode.next = head
-    b. head = newNode
-    c. Return
-3. current = head, count = 1
-4. While count < position - 1 and current != null
-    a. current = current.next
-    b. count++
-5. If current == null
-    Print "Invalid position"
-    Return
-6. newNode.next = current.next
-7. current.next = newNode
-        </pre>
-        <p>Example Implementation:</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+        <h2>5.5 Operations of Linked List</h2>
 
-typedef struct Node {
-    int data;
-    struct Node* next;
-} Node;
+        <ul>
+            <li><strong>Creation:</strong> Initialize an empty list or create nodes with data.</li>
+            <li><strong>Insertion:</strong> Add a node at the beginning, end, or a specific position.</li>
+            <li><strong>Deletion:</strong> Remove a node from the beginning, end, or a specific position.</li>
+            <li><strong>Traversing:</strong> Visit each node to process or display data.</li>
+            <li><strong>Searching:</strong> Find a node with a specific value.</li>
+            <li><strong>Concatenation:</strong> Merge two linked lists into one.</li>
+            <li><strong>Display:</strong> Print the elements of the list.</li>
+        </ul>
 
-typedef struct {
-    Node* head;
-} LinkedList;
-
-Node* createNode(int data) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = data;
-    newNode->next = NULL;
-    return newNode;
-}
-
-void insertAtPosition(LinkedList* list, int data, int position) {
-    Node* newNode = createNode(data);
-    if (position == 1) {
-        newNode->next = list->head;
-        list->head = newNode;
-        return;
-    }
-    Node* current = list->head;
-    int count = 1;
-    while (count < position - 1 && current != NULL) {
-        current = current->next;
-        count++;
-    }
-    if (current == NULL) {
-        printf("Invalid position\n");
-        free(newNode);
-        return;
-    }
-    newNode->next = current->next;
-    current->next = newNode;
-}
-        </pre>
+        <div class="code-block">
+            <span>// Basic Operations Implementation</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #include &lt;stdlib.h&gt;<br><br>
+            typedef struct Node {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int data;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Node* next;<br>
+            } Node;<br><br>
+            typedef struct {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* head;<br>
+            } LinkedList;<br><br>
+            Node* createNode(int data) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* newNode = (Node*)malloc(sizeof(Node));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->data = data;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->next = NULL;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return newNode;<br>
+            }<br><br>
+            void insertAtBeginning(LinkedList* list, int data) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* newNode = createNode(data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->next = list->head;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;list->head = newNode;<br>
+            }<br><br>
+            void deleteAtBeginning(LinkedList* list) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (list->head != NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node* temp = list->head;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list->head = list->head->next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;free(temp);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            void display(LinkedList* list) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* current = list->head;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (current != NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", current->data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;current = current->next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("\n");<br>
+            }
+        </div>
     </div>
 
+    <!-- ========== 5.6 ========== -->
     <div class="section">
-        <h2><b>5.9 Deletion of Single Linked List at Specific Position</b></h2>
-        <p><b>Algorithm for Deletion at Specific Position:</b></p>
-        <pre>
-Algorithm DeleteAtPosition(list, position)
-1. If head == null
-    Print "List is empty"
-    Return
-2. If position == 1
-    a. head = head.next
-    b. Return
-3. current = head, count = 1
-4. While count < position - 1 and current != null
-    a. current = current.next
-    b. count++
-5. If current == null or current.next == null
-    Print "Invalid position"
-    Return
-6. current.next = current.next.next
-        </pre>
-        <p>Example Implementation:</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+        <h2>5.6 Types of Linked List</h2>
 
-typedef struct Node {
-    int data;
-    struct Node* next;
-} Node;
+        <h3>Singly Linked List</h3>
+        <ul>
+            <li>Each node has data and a pointer to the next node.</li>
+            <li>Last node points to NULL.</li>
+        </ul>
 
-typedef struct {
-    Node* head;
-} LinkedList;
+        <h3>Doubly Linked List</h3>
+        <ul>
+            <li>Each node has data, next pointer, and previous pointer.</li>
+            <li>Allows bidirectional traversal.</li>
+        </ul>
 
-Node* createNode(int data) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = data;
-    newNode->next = NULL;
-    return newNode;
-}
+        <h3>Circular Linked List</h3>
+        <ul>
+            <li>The last node points to the first node, forming a loop.</li>
+            <li>Can be singly or doubly linked.</li>
+        </ul>
 
-void deleteAtPosition(LinkedList* list, int position) {
-    if (list->head == NULL) {
-        printf("List is empty\n");
-        return;
-    }
-    if (position == 1) {
-        Node* temp = list->head;
-        list->head = list->head->next;
-        free(temp);
-        return;
-    }
-    Node* current = list->head;
-    int count = 1;
-    while (count < position - 1 && current != NULL) {
-        current = current->next;
-        count++;
-    }
-    if (current == NULL || current->next == NULL) {
-        printf("Invalid position\n");
-        return;
-    }
-    Node* temp = current->next;
-    current->next = current->next->next;
-    free(temp);
-}
-        </pre>
+        <h3>Circular Doubly Linked List</h3>
+        <ul>
+            <li>A doubly linked list where the last node's next points to the first, and the first's prev points to the last.</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+Types of Linked Lists:
+Singly:     [A]→[B]→[C]→NULL
+Doubly:     NULL←[A]⇄[B]⇄[C]→NULL
+Circular:   [A]→[B]→[C]→[A] (loop)
+Circular Doubly: [A]⇄[B]⇄[C]⇄[A]
+            </pre>
+        </div>
+
+        <div class="code-block">
+            <span>// Doubly Linked List Node</span><br>
+            typedef struct DoublyNode {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int data;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct DoublyNode* prev;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct DoublyNode* next;<br>
+            } DoublyNode;
+        </div>
     </div>
 
+    <!-- ========== 5.7 ========== -->
     <div class="section">
-        <h2><b>5.10 Application: Addition of Two Polynomials</b></h2>
-        <p>Linked lists are ideal for representing and adding polynomials, where each node stores a coefficient and an exponent. The addition of two polynomials involves combining terms with the same exponent.</p>
-        <p><b>Algorithm:</b></p>
-        <pre>
-Algorithm AddPolynomials(poly1, poly2)
-1. Initialize result list as empty
-2. While poly1 != null and poly2 != null
-    a. If poly1.exponent == poly2.exponent
-        i. Add coefficients, create new node with sum and exponent
-        ii. Move poly1 and poly2 to next nodes
-    b. Else if poly1.exponent > poly2.exponent
-        i. Add poly1 term to result
-        ii. Move poly1 to next node
-    c. Else
-        i. Add poly2 term to result
-        ii. Move poly2 to next node
-3. Append remaining nodes of poly1 or poly2 to result
-4. Return result
-        </pre>
-        <p>Example Implementation:</p>
-        <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+        <h2>5.7 Create Single Linked List</h2>
+        <p>Creating a singly linked list involves defining a node structure and initializing a list with nodes.</p>
 
-typedef struct Node {
-    int coefficient, exponent;
-    struct Node* next;
-} Node;
+        <div class="code-block">
+            <span>// Create Linked List from Array</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #include &lt;stdlib.h&gt;<br><br>
+            typedef struct Node {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int data;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Node* next;<br>
+            } Node;<br><br>
+            typedef struct {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* head;<br>
+            } LinkedList;<br><br>
+            Node* createNode(int data) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* newNode = (Node*)malloc(sizeof(Node));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->data = data;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->next = NULL;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return newNode;<br>
+            }<br><br>
+            void createList(LinkedList* list, int values[], int size) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;list->head = NULL;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < size; i++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node* newNode = createNode(values[i]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (list->head == NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list->head = newNode;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node* current = list->head;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (current->next != NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;current = current->next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;current->next = newNode;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            void display(LinkedList* list) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* current = list->head;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (current != NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", current->data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;current = current->next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("\n");<br>
+            }
+        </div>
+    </div>
 
-typedef struct {
-    Node* head;
-} Polynomial;
+    <!-- ========== 5.8 ========== -->
+    <div class="section">
+        <h2>5.8 Insertion of Single Linked List at Specific Position</h2>
 
-Node* createNode(int coefficient, int exponent) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->coefficient = coefficient;
-    newNode->exponent = exponent;
-    newNode->next = NULL;
-    return newNode;
-}
+        <div class="code-block">
+            <span>// Insert at Position Algorithm</span><br>
+            Algorithm InsertAtPosition(list, data, position)<br>
+            1. Create new node with data<br>
+            2. If position == 1<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;a. newNode.next = head<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;b. head = newNode<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;c. Return<br>
+            3. current = head, count = 1<br>
+            4. While count < position - 1 and current != null<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;a. current = current.next<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;b. count++<br>
+            5. If current == null<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Print "Invalid position"<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Return<br>
+            6. newNode.next = current.next<br>
+            7. current.next = newNode
+        </div>
 
-void add(Polynomial* poly1, Polynomial* poly2, Polynomial* result) {
-    Node* p1 = poly1->head;
-    Node* p2 = poly2->head;
-    Node* temp = NULL;
-    result->head = NULL;
+        <div class="code-block">
+            <span>// Insert at Position Implementation</span><br>
+            void insertAtPosition(LinkedList* list, int data, int position) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* newNode = createNode(data);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (position == 1) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newNode->next = list->head;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list->head = newNode;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* current = list->head;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int count = 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (count < position - 1 && current != NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;current = current->next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count++;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (current == NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Invalid position\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;free(newNode);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->next = current->next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;current->next = newNode;<br>
+            }
+        </div>
+    </div>
 
-    while (p1 != NULL && p2 != NULL) {
-        Node* newNode = createNode(0, 0);
-        if (p1->exponent == p2->exponent) {
-            newNode->coefficient = p1->coefficient + p2->coefficient;
-            newNode->exponent = p1->exponent;
-            p1 = p1->next;
-            p2 = p2->next;
-        } else if (p1->exponent > p2->exponent) {
-            newNode->coefficient = p1->coefficient;
-            newNode->exponent = p1->exponent;
-            p1 = p1->next;
-        } else {
-            newNode->coefficient = p2->coefficient;
-            newNode->exponent = p2->exponent;
-            p2 = p2->next;
-        }
-        if (result->head == NULL) {
-            result->head = newNode;
-            temp = newNode;
-        } else {
-            temp->next = newNode;
-            temp = newNode;
-        }
-    }
-    while (p1 != NULL) {
-        temp->next = createNode(p1->coefficient, p1->exponent);
-        temp = temp->next;
-        p1 = p1->next;
-    }
-    while (p2 != NULL) {
-        temp->next = createNode(p2->coefficient, p2->exponent);
-        temp = temp->next;
-        p2 = p2->next;
-    }
-}
+    <!-- ========== 5.9 ========== -->
+    <div class="section">
+        <h2>5.9 Deletion of Single Linked List at Specific Position</h2>
 
-void display(Polynomial* poly) {
-    Node* current = poly->head;
-    while (current != NULL) {
-        printf("%dx^%d ", current->coefficient, current->exponent);
-        current = current->next;
-    }
-    printf("\n");
-}
+        <div class="code-block">
+            <span>// Delete at Position Algorithm</span><br>
+            Algorithm DeleteAtPosition(list, position)<br>
+            1. If head == null<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Print "List is empty"<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Return<br>
+            2. If position == 1<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;a. head = head.next<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;b. Return<br>
+            3. current = head, count = 1<br>
+            4. While count < position - 1 and current != null<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;a. current = current.next<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;b. count++<br>
+            5. If current == null or current.next == null<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Print "Invalid position"<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Return<br>
+            6. current.next = current.next.next
+        </div>
 
-int main() {
-    Polynomial p1, p2, result;
-    p1.head = createNode(5, 2);
-    p1.head->next = createNode(4, 1);
+        <div class="code-block">
+            <span>// Delete at Position Implementation</span><br>
+            void deleteAtPosition(LinkedList* list, int position) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (list->head == NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("List is empty\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (position == 1) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node* temp = list->head;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list->head = list->head->next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;free(temp);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* current = list->head;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int count = 1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (count < position - 1 && current != NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;current = current->next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count++;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if (current == NULL || current->next == NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Invalid position\n");<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* temp = current->next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;current->next = current->next->next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;free(temp);<br>
+            }
+        </div>
+    </div>
 
-    p2.head = createNode(3, 2);
-    p2.head->next = createNode(2, 1);
+    <!-- ========== 5.10 ========== -->
+    <div class="section">
+        <h2>5.10 Application: Addition of Two Polynomials</h2>
+        <p>Linked lists are ideal for representing and adding polynomials, where each node stores a coefficient and an exponent.</p>
 
-    add(&p1, &p2, &result);
-    display(&result); // Output: 8x^2 6x^1
-    return 0;
-}
-        </pre>
+        <div class="code-block">
+            <span>// Polynomial Addition Algorithm</span><br>
+            Algorithm AddPolynomials(poly1, poly2)<br>
+            1. Initialize result list as empty<br>
+            2. While poly1 != null and poly2 != null<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;a. If poly1.exponent == poly2.exponent<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i. Add coefficients, create new node with sum<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ii. Move both to next<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;b. Else if poly1.exponent > poly2.exponent<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i. Add poly1 term to result<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ii. Move poly1 to next<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;c. Else<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i. Add poly2 term to result<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ii. Move poly2 to next<br>
+            3. Append remaining nodes of poly1 or poly2<br>
+            4. Return result
+        </div>
+
+        <div class="code-block">
+            <span>// Polynomial Addition Implementation</span><br>
+            #include &lt;stdio.h&gt;<br>
+            #include &lt;stdlib.h&gt;<br><br>
+            typedef struct Node {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int coefficient, exponent;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;struct Node* next;<br>
+            } Node;<br><br>
+            typedef struct {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* head;<br>
+            } Polynomial;<br><br>
+            Node* createPolyNode(int coeff, int exp) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* newNode = (Node*)malloc(sizeof(Node));<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->coefficient = coeff;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->exponent = exp;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;newNode->next = NULL;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return newNode;<br>
+            }<br><br>
+            void addPolynomials(Polynomial* p1, Polynomial* p2, Polynomial* result) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* a = p1->head;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* b = p2->head;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* temp = NULL;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;result->head = NULL;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (a != NULL && b != NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node* newNode = createPolyNode(0, 0);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (a->exponent == b->exponent) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newNode->coefficient = a->coefficient + b->coefficient;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newNode->exponent = a->exponent;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a = a->next; b = b->next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if (a->exponent > b->exponent) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newNode->coefficient = a->coefficient;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newNode->exponent = a->exponent;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a = a->next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newNode->coefficient = b->coefficient;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newNode->exponent = b->exponent;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b = b->next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (result->head == NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result->head = newNode;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp = newNode;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp->next = newNode;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp = newNode;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (a != NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp->next = createPolyNode(a->coefficient, a->exponent);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp = temp->next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a = a->next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (b != NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp->next = createPolyNode(b->coefficient, b->exponent);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp = temp->next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b = b->next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            void displayPolynomial(Polynomial* p) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Node* current = p->head;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;while (current != NULL) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%dx^%d ", current->coefficient, current->exponent);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;current = current->next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("\n");<br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Polynomial p1, p2, result;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;p1.head = createPolyNode(5, 2);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;p1.head->next = createPolyNode(4, 1);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;p2.head = createPolyNode(3, 2);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;p2.head->next = createPolyNode(2, 1);<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;addPolynomials(&p1, &p2, &result);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;displayPolynomial(&result);  <span>// 8x^2 6x^1</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>🔗 Key insight:</strong> Linked lists provide dynamic memory management and efficient insertions/deletions. They are ideal for applications requiring frequent modifications, such as polynomial arithmetic, stacks, and queues.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 5 summary</strong><br>Linked lists are dynamic data structures with nodes containing data and pointers. They support efficient insertions/deletions and are available in singly, doubly, and circular forms.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Linked list: dynamic, non-contiguous memory.<br>• Advantages: dynamic size, efficient insertions/deletions.<br>• Disadvantages: no random access, extra memory for pointers.<br>• Types: singly, doubly, circular, circular doubly.<br>• Operations: insertion, deletion, traversal, search.<br>• Application: polynomial addition.</div>
     </div>
 </body>
 </html>

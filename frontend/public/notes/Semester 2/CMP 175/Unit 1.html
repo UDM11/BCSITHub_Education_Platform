@@ -1,122 +1,475 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 1: Introduction to Object-Oriented Programming</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            color: black;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
         }
         li {
-            margin-bottom: 10px;
+            margin-bottom: 0.6rem;
         }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
+        strong {
+            color: #0f3d66;
         }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
         }
-        h2 {
-            font-size: 1rem; /* smaller sub-header */
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
         }
-        .section {
-            padding: 8px; /* less padding for small screens */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
-    }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1><b>Unit 1: Introduction to Object-Oriented Programming</b></h1>
+    <h1>Unit 1: Introduction to Object-Oriented Programming</h1>
+    <div class="subhead">POP limitations · OOP overview · features · concepts · advantages & disadvantages</div>
 
+    <!-- ========== 1.1 ========== -->
     <div class="section">
-        <h2><b>1.1 Problems in Procedure-Oriented Programming</b></h2>
-        <p>Procedure-oriented programming (POP) relies on procedures or functions to perform tasks, but it has limitations that make it less suitable for complex, large-scale software development.</p>
+        <h2>1.1 Problems in Procedure-Oriented Programming</h2>
+        <p><strong>Procedure-oriented programming (POP)</strong> relies on procedures or functions to perform tasks, but it has limitations that make it less suitable for complex, large-scale software development.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>🔓 Lack of Data Security</strong><br>Data is typically global and accessible to all functions, leading to unintended modifications. Example: A global variable in C can be altered by any function, risking data corruption.</div>
+            <div class="card"><strong>📈 Poor Scalability</strong><br>As programs grow, managing numerous functions and shared data becomes complex. Example: A large C program with many functions is hard to maintain.</div>
+            <div class="card"><strong>♻️ Limited Reusability</strong><br>Functions are often specific to a program, making reuse in other projects difficult. Example: A sorting function tailored for one data structure may not work for others.</div>
+            <div class="card"><strong>🌍 Difficulty in Modeling Real-World Problems</strong><br>POP focuses on procedures rather than entities, making it hard to represent real-world objects. Example: Modeling a "car" with attributes and behaviors is unnatural in POP.</div>
+        </div>
+
+        <h3>Key Limitations of POP</h3>
         <ul>
-            <li><strong>Lack of Data Security:</strong> Data is typically global and accessible to all functions, leading to unintended modifications. Example: A global variable in C can be altered by any function, risking data corruption.</li>
-            <li><strong>Poor Scalability:</strong> As programs grow, managing numerous functions and shared data becomes complex. Example: A large C program with many functions is hard to maintain.</li>
-            <li><strong>Limited Reusability:</strong> Functions are often specific to a program, making reuse in other projects difficult. Example: A sorting function tailored for one data structure may not work for others.</li>
-            <li><strong>Difficulty in Modeling Real-World Problems:</strong> POP focuses on procedures rather than entities, making it hard to represent real-world objects. Example: Modeling a "car" with attributes and behaviors is unnatural in POP.</li>
-            <li><strong>Maintenance Challenges:</strong> Changes in one function can affect others due to shared data, complicating debugging. Example: Modifying a global variable’s usage requires checking all functions.</li>
+            <li><strong>Maintenance Challenges:</strong> Changes in one function can affect others due to shared data, complicating debugging. Example: Modifying a global variable's usage requires checking all functions.</li>
+            <li><strong>Lack of Data Hiding:</strong> No mechanism to restrict access to data, leading to accidental modifications and security risks.</li>
+            <li><strong>Code Duplication:</strong> Similar logic often repeated across functions due to lack of inheritance or reuse mechanisms.</li>
         </ul>
+
+        <div class="code-block">
+            <span>// Procedure-oriented programming example (C)</span><br>
+            int global_data = 10;  <span>// Global variable - accessible everywhere</span><br><br>
+            void add() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;global_data += 5;  <span>// Can be modified anywhere</span><br>
+            }<br><br>
+            void subtract() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;global_data -= 3;  <span>// Uncontrolled access</span><br>
+            }<br><br>
+            int main() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;add();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;subtract();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;printf("%d", global_data);  <span>// Hard to track changes</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+            }
+        </div>
+
+        <div class="note-box">
+            <strong>💡 Key insight:</strong> Procedure-oriented programming works well for small, simple programs but becomes difficult to manage as software grows in size and complexity.
+        </div>
     </div>
 
+    <!-- ========== 1.2 ========== -->
     <div class="section">
-        <h2><b>1.2 Introduction to Object-Oriented Programming, Advantages and Disadvantages</b></h2>
-        <p>Object-Oriented Programming (OOP) is a programming paradigm that organizes code around objects, which combine data and behaviors, to model real-world entities.</p>
+        <h2>1.2 Introduction to Object-Oriented Programming, Advantages and Disadvantages</h2>
+        <p><strong>Object-Oriented Programming (OOP)</strong> is a programming paradigm that organizes code around objects, which combine data and behaviors, to model real-world entities.</p>
+
+        <h3>Introduction to OOP</h3>
         <ul>
-            <li><strong>Introduction:</strong> OOP uses objects (instances of classes) that encapsulate data (attributes) and functions (methods). Example: A "Car" class with attributes (speed, color) and methods (drive, stop).</li>
-            <li><strong>Advantages:</strong>
-                <ul>
-                    <li><strong>Encapsulation:</strong> Bundles data and methods, protecting data from external interference. Example: Private variables in a Java class are only accessible via methods.</li>
-                    <li><strong>Reusability:</strong> Classes can be reused across programs. Example: A "Date" class can be used in multiple applications.</li>
-                    <li><strong>Modularity:</strong> Code is organized into independent objects, simplifying development. Example: A "BankAccount" class handles account-related tasks separately.</li>
-                    <li><strong>Scalability:</strong> Easier to manage large projects through object hierarchies. Example: Inheritance allows extending a "Vehicle" class to "Car" and "Bike".</li>
-                    <li><strong>Easier Maintenance:</strong> Changes to one class have minimal impact on others. Example: Updating a class method doesn’t affect unrelated classes.</li>
-                </ul>
-            </li>
-            <li><strong>Disadvantages:</strong>
-                <ul>
-                    <li><strong>Complexity:</strong> OOP can be overkill for simple programs. Example: A small script may not need classes.</li>
-                    <li><strong>Learning Curve:</strong> Requires understanding concepts like inheritance and polymorphism. Example: Beginners may struggle with abstract classes.</li>
-                    <li><strong>Overhead:</strong> OOP programs may use more memory and processing due to object creation. Example: Instantiating many objects in Java can be resource-intensive.</li>
-                    <li><strong>Design Challenges:</strong> Poorly designed class hierarchies can lead to complexity. Example: Overusing inheritance can create tangled dependencies.</li>
-                </ul>
-            </li>
-            <li><strong>Applications:</strong> Used in software development (e.g., Java, C++), game programming, and GUI frameworks.</li>
+            <li><strong>Definition:</strong> OOP uses objects (instances of classes) that encapsulate data (attributes) and functions (methods).</li>
+            <li><strong>Example:</strong> A "Car" class with attributes (speed, color) and methods (drive, stop).</li>
+            <li><strong>Languages:</strong> Java, C++, Python, C#, JavaScript (ES6+), Ruby.</li>
         </ul>
+
+        <div class="code-block">
+            <span>// Object-oriented programming example (Java)</span><br>
+            public class Car {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;private int speed;  <span>// Encapsulated data</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;private String color;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public Car(String color) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.color = color;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.speed = 0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public void drive() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;speed += 10;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public int getSpeed() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return speed;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <h3>Advantages of OOP</h3>
+        <table>
+            <tr><th>Advantage</th><th>Description</th><th>Example</th></tr>
+            <tr><td>Encapsulation</td><td>Bundles data and methods, protecting data from external interference</td><td>Private variables in a Java class accessed via methods</td></tr>
+            <tr><td>Reusability</td><td>Classes can be reused across programs</td><td>A "Date" class used in multiple applications</td></tr>
+            <tr><td>Modularity</td><td>Code is organized into independent objects</td><td>"BankAccount" class handles account-related tasks</td></tr>
+            <tr><td>Scalability</td><td>Easier to manage large projects through object hierarchies</td><td>Inheritance allows extending "Vehicle" to "Car" and "Bike"</td></tr>
+            <tr><td>Easier Maintenance</td><td>Changes to one class have minimal impact on others</td><td>Updating a class method doesn't affect unrelated classes</td></tr>
+        </table>
+
+        <h3>Disadvantages of OOP</h3>
+        <ul>
+            <li><strong>Complexity:</strong> OOP can be overkill for simple programs. Example: A small script may not need classes.</li>
+            <li><strong>Learning Curve:</strong> Requires understanding concepts like inheritance and polymorphism. Example: Beginners may struggle with abstract classes.</li>
+            <li><strong>Overhead:</strong> OOP programs may use more memory and processing due to object creation. Example: Instantiating many objects in Java can be resource-intensive.</li>
+            <li><strong>Design Challenges:</strong> Poorly designed class hierarchies can lead to complexity. Example: Overusing inheritance can create tangled dependencies.</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>📦 Key insight:</strong> OOP provides a powerful framework for building complex, maintainable software. While it has a learning curve, the benefits for large-scale development far outweigh the costs.
+        </div>
     </div>
 
+    <!-- ========== 1.3 ========== -->
     <div class="section">
-        <h2><b>1.3 Features and Concepts of Object-Oriented Programming</b></h2>
+        <h2>1.3 Features and Concepts of Object-Oriented Programming</h2>
         <p>OOP is built on core features and concepts that enable robust and flexible software design.</p>
+
+        <h3>Core OOP Concepts</h3>
         <ul>
-            <li><strong>Objects:</strong> Instances of classes that combine data and methods. Example: A "Student" object with attributes (name, ID) and methods (register, submitAssignment).</li>
-            <li><strong>Classes:</strong> Blueprints for creating objects. Example: A "Car" class defines properties (model, speed) and behaviors (accelerate, brake).</li>
-            <li><strong>Encapsulation:</strong> Restricting access to an object’s data through access modifiers (e.g., private, public) and providing controlled access via methods. Example: A private variable "balance" in a "BankAccount" class accessed via getBalance().</li>
-            <li><strong>Inheritance:</strong> A class (child) inherits properties and methods from another class (parent). Example: A "SportsCar" class inherits from a "Car" class, adding turbo features.</li>
-            <li><strong>Polymorphism:</strong> Objects of different classes can be treated as objects of a common superclass, or methods can behave differently based on context. Example: A "Shape" class with a draw() method overridden by "Circle" and "Rectangle" classes.</li>
-            <li><strong>Abstraction:</strong> Hiding complex implementation details and exposing only necessary features. Example: A user interacts with a "Phone" class’s call() method without knowing its internal logic.</li>
-            <li><strong>Applications:</strong> These features enable modular, reusable, and maintainable code in systems like databases and user interfaces.</li>
+            <li><strong>Objects:</strong> Instances of classes that combine data and methods.
+                <div class="code-block">
+                    Student s1 = new Student();  <span>// Object creation</span><br>
+                    s1.name = "Alice";<br>
+                    s1.register();
+                </div>
+            </li>
+            <li><strong>Classes:</strong> Blueprints for creating objects.
+                <div class="code-block">
+                    class Student {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;String name;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;int id;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;void register() { ... }<br>
+                    }
+                </div>
+            </li>
+            <li><strong>Encapsulation:</strong> Restricting access to an object's data through access modifiers (private, public) and providing controlled access via methods.</li>
+            <li><strong>Inheritance:</strong> A class (child) inherits properties and methods from another class (parent).
+                <div class="code-block">
+                    class SportsCar extends Car {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;void turboBoost() { ... }<br>
+                    }
+                </div>
+            </li>
+            <li><strong>Polymorphism:</strong> Objects of different classes can be treated as objects of a common superclass, or methods can behave differently based on context.
+                <div class="code-block">
+                    Shape s1 = new Circle();<br>
+                    Shape s2 = new Rectangle();<br>
+                    s1.draw();  <span>// Draws circle</span><br>
+                    s2.draw();  <span>// Draws rectangle</span>
+                </div>
+            </li>
+            <li><strong>Abstraction:</strong> Hiding complex implementation details and exposing only necessary features.
+                <div class="code-block">
+                    interface Phone {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;void call();  <span>// Implementation hidden</span><br>
+                    }
+                </div>
+            </li>
         </ul>
+
+        <table>
+            <tr><th>Concept</th><th>Description</th><th>Example</th></tr>
+            <tr><td>Object</td><td>Instance of a class</td><td>car1 = new Car("Red")</td></tr>
+            <tr><td>Class</td><td>Blueprint for objects</td><td>class Car { ... }</td></tr>
+            <tr><td>Encapsulation</td><td>Data hiding and protection</td><td>private variables with getters/setters</td></tr>
+            <tr><td>Inheritance</td><td>Reusing parent class features</td><td>SportsCar extends Car</td></tr>
+            <tr><td>Polymorphism</td><td>Multiple forms of behavior</td><td>draw() overridden in subclasses</td></tr>
+            <tr><td>Abstraction</td><td>Hiding implementation details</td><td>Interfaces and abstract classes</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 1.4 ========== -->
     <div class="section">
-        <h2><b>1.4 Basic Concept of OOP</b></h2>
+        <h2>1.4 Basic Concept of OOP</h2>
         <p>The basic concepts of OOP provide a framework for designing software around real-world entities.</p>
+
+        <h3>Object and Class</h3>
         <ul>
-            <li><strong>Object and Class:</strong> A class defines the structure and behavior of objects. Example: Class "Employee" with attributes (name, salary) and methods (calculateBonus). An object is an instance, e.g., employee1 = new Employee("Alice", 50000).</li>
-            <li><strong>Encapsulation:</strong> Combines data and methods into a single unit (class) and restricts access to ensure data integrity. Example: In C++, private data members like "age" are accessed via public getters and setters.</li>
-            <li><strong>Inheritance:</strong> Enables code reuse by allowing a class to inherit attributes and methods from another. Example: A "Manager" class inherits from "Employee" and adds a department attribute.</li>
-            <li><strong>Polymorphism:</strong> Allows flexibility through method overriding or overloading. Example: A "Vehicle" class’s start() method is overridden differently in "Car" (start engine) and "Bicycle" (pedal).</li>
-            <li><strong>Abstraction:</strong> Simplifies complex systems by focusing on essential features. Example: An "Animal" abstract class defines eat() but leaves implementation to "Dog" or "Cat".</li>
-            <li><strong>Example:</strong> In Java, a "BankAccount" class encapsulates balance (private), inherits from an "Account" class, allows polymorphic withdrawals (savings vs. checking), and abstracts transaction details.</li>
-            <li><strong>Applications:</strong> These concepts are used in software frameworks (e.g., Java Spring), game engines, and enterprise applications.</li>
+            <li><strong>Class:</strong> Defines the structure and behavior of objects.</li>
+            <li><strong>Object:</strong> An instance of a class.</li>
         </ul>
+
+        <div class="code-block">
+            <span>// Class and Object Example</span><br>
+            class Employee {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;private String name;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;private double salary;<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public Employee(String name, double salary) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.name = name;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.salary = salary;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public double calculateBonus() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return salary * 0.1;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br><br>
+            Employee emp = new Employee("Alice", 50000);
+        </div>
+
+        <h3>Encapsulation</h3>
+        <ul>
+            <li>Combines data and methods into a single unit (class).</li>
+            <li>Restricts access to ensure data integrity.</li>
+            <li>Example: In C++, private data members like "age" are accessed via public getters and setters.</li>
+        </ul>
+
+        <h3>Inheritance</h3>
+        <ul>
+            <li>Enables code reuse by allowing a class to inherit attributes and methods from another.</li>
+            <li>Example: A "Manager" class inherits from "Employee" and adds a department attribute.</li>
+        </ul>
+
+        <h3>Polymorphism</h3>
+        <ul>
+            <li>Allows flexibility through method overriding or overloading.</li>
+            <li>Example: A "Vehicle" class's start() method is overridden differently in "Car" and "Bicycle".</li>
+        </ul>
+
+        <h3>Abstraction</h3>
+        <ul>
+            <li>Simplifies complex systems by focusing on essential features.</li>
+            <li>Example: An "Animal" abstract class defines eat() but leaves implementation to "Dog" or "Cat".</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+OOP Concepts Overview:
+┌─────────────────────────────────────────────┐
+│                 CLASS                       │
+│  ┌─────────────────────────────────────┐   │
+│  │           OBJECT                     │   │
+│  │  ┌───────────────────────────────┐  │   │
+│  │  │  ENCAPSULATION (Data + Methods)│  │   │
+│  │  └───────────────────────────────┘  │   │
+│  └─────────────────────────────────────┘   │
+│         ↓              ↓                   │
+│    INHERITANCE     POLYMORPHISM             │
+│         ↓              ↓                   │
+│       ABSTRACTION                          │
+└─────────────────────────────────────────────┘
+            </pre>
+        </div>
+
+        <div class="note-box">
+            <strong>🏗️ Key insight:</strong> The four pillars of OOP — encapsulation, inheritance, polymorphism, and abstraction — work together to create modular, reusable, and maintainable software that models real-world relationships naturally.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 1 summary</strong><br>Object-Oriented Programming overcomes the limitations of procedure-oriented programming by organizing code around objects, providing encapsulation, inheritance, polymorphism, and abstraction.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• POP limitations: global data, poor scalability, limited reuse.<br>• OOP advantages: encapsulation, reusability, modularity, scalability.<br>• OOP disadvantages: complexity, learning curve, overhead.<br>• Core concepts: objects, classes, encapsulation, inheritance, polymorphism, abstraction.<br>• OOP models real-world entities naturally.</div>
     </div>
 </body>
 </html>

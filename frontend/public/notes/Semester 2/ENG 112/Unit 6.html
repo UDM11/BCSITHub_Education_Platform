@@ -1,144 +1,435 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 6: Employment Communication and Presentation (Practicum)</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            color: black;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
         }
         li {
-            margin-bottom: 10px;
+            margin-bottom: 0.6rem;
         }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
+        strong {
+            color: #0f3d66;
         }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
         }
-        h2 {
-            font-size: 1rem; /* smaller sub-header */
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
         }
-        .section {
-            padding: 8px; /* less padding for small screens */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
-    }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1><b>Unit 6: Employment Communication and Presentation (Practicum)</b></h1>
+    <h1>Unit 6: Employment Communication and Presentation (Practicum)</h1>
+    <div class="subhead">Cover letter · resume · mock interviews · business meetings · LinkedIn · oral presentations</div>
 
+    <!-- ========== 6.1 ========== -->
     <div class="section">
-        <h2><b>6.1 Cover Letter and Resume Writing Workshops</b></h2>
-        <p>Cover letter and resume writing workshops provide hands-on guidance to create tailored, professional documents that effectively showcase a candidate’s qualifications and interest in a job position. These workshops focus on practical skills to enhance employability.</p>
+        <h2>6.1 Cover Letter and Resume Writing Workshops</h2>
+        <p>Cover letter and resume writing workshops provide hands-on guidance to create tailored, professional documents that effectively showcase a candidate's qualifications and interest in a job position. These workshops focus on practical skills to enhance employability.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📄 Resume Writing</strong><br>Concise document summarizing education, skills, work experience, and achievements. Tailored to the job description.</div>
+            <div class="card"><strong>📝 Cover Letter Writing</strong><br>Introduces the candidate, explains interest in the role, and highlights relevant qualifications. Personalized for each application.</div>
+        </div>
+
+        <h3>Resume Writing</h3>
         <ul>
-            <li><strong>Resume Writing:</strong>
+            <li><strong>Purpose:</strong> Create a concise document summarizing education, skills, work experience, and achievements. Example: A one-page resume highlighting relevant internships.</li>
+            <li><strong>Components:</strong> Contact information, objective/summary, education, experience, skills, optional sections (certifications, projects).</li>
+            <li><strong>Best Practices:</strong>
                 <ul>
-                    <li><strong>Purpose:</strong> Create a concise document summarizing education, skills, work experience, and achievements. Example: A one-page resume highlighting relevant internships for a marketing role.</li>
-                    <li><strong>Components:</strong> Contact information, objective or summary, education, experience, skills, and optional sections like certifications. Example: List “Proficient in Adobe Photoshop” under skills for a graphic design job.</li>
-                    <li><strong>Best Practices:</strong> Use action verbs (e.g., “led,” “developed”), quantify achievements (e.g., “increased sales by 20%”), and tailor to the job description. Avoid clutter and ensure ATS (Applicant Tracking System) compatibility.</li>
-                    <li><strong>Workshop Activities:</strong> Drafting resumes, peer reviews, and incorporating feedback to refine format and content.</li>
+                    <li>Use action verbs (e.g., "led," "developed," "implemented").</li>
+                    <li>Quantify achievements (e.g., "increased sales by 20%").</li>
+                    <li>Tailor to the job description.</li>
+                    <li>Ensure ATS (Applicant Tracking System) compatibility.</li>
+                    <li>Avoid clutter; keep to 1-2 pages.</li>
                 </ul>
             </li>
-            <li><strong>Cover Letter Writing:</strong>
-                <ul>
-                    <li><strong>Purpose:</strong> Introduce the candidate, explain interest in the role, and highlight relevant qualifications. Example: A cover letter expressing enthusiasm for a project management position.</li>
-                    <li><strong>Components:</strong> Header, salutation, introduction, body (connecting skills to job requirements), and closing. Example: Mention a specific company project in the body to show research.</li>
-                    <li><strong>Best Practices:</strong> Personalize the letter (e.g., address to a specific hiring manager), keep it concise (one page), and align with the company’s values. Avoid repeating the resume verbatim.</li>
-                    <li><strong>Workshop Activities:</strong> Writing sample cover letters, analyzing job postings to match qualifications, and practicing professional tone.</li>
-                </ul>
-            </li>
+            <li><strong>Workshop Activities:</strong> Drafting resumes, peer reviews, and incorporating feedback to refine format and content.</li>
         </ul>
-        <p><strong>Outcomes:</strong> Participants leave with polished, job-specific resumes and cover letters ready for submission.</p>
+
+        <h3>Cover Letter Writing</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Introduce the candidate, explain interest in the role, and highlight relevant qualifications.</li>
+            <li><strong>Components:</strong> Header, salutation, introduction, body (connecting skills to job requirements), and closing.</li>
+            <li><strong>Best Practices:</strong>
+                <ul>
+                    <li>Personalize the letter (address to a specific hiring manager).</li>
+                    <li>Keep it concise (one page).</li>
+                    <li>Align with the company's values.</li>
+                    <li>Avoid repeating the resume verbatim.</li>
+                </ul>
+            </li>
+            <li><strong>Workshop Activities:</strong> Writing sample cover letters, analyzing job postings to match qualifications, and practicing professional tone.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Cover Letter Structure</span><br>
+            <span>// 1. Header (contact info)</span><br>
+            <span>// 2. Salutation (Dear [Hiring Manager])</span><br>
+            <span>// 3. Introduction (role interest)</span><br>
+            <span>// 4. Body (skills & experiences)</span><br>
+            <span>// 5. Closing (call to action)</span>
+        </div>
+
+        <div class="note-box">
+            <strong>📌 Key insight:</strong> A well-crafted resume and cover letter are essential for making a strong first impression. Tailoring documents to each job application significantly increases chances of success.
+        </div>
     </div>
 
+    <!-- ========== 6.2 ========== -->
     <div class="section">
-        <h2><b>6.2 Mock Job Interview and Business Meetings</b></h2>
+        <h2>6.2 Mock Job Interview and Business Meetings</h2>
         <p>Mock job interviews and business meetings simulate real-world scenarios, allowing participants to practice communication, problem-solving, and professional behavior in a supportive environment.</p>
-        <ul>
-            <li><strong>Mock Job Interviews:</strong>
-                <ul>
-                    <li><strong>Purpose:</strong> Prepare candidates to confidently answer questions and demonstrate suitability for a role. Example: Practicing for a software developer interview.</li>
-                    <li><strong>Activities:</strong> Responding to common questions (e.g., “Tell me about yourself”), behavioral questions (using STAR method: Situation, Task, Action, Result), and technical questions. Example: Explaining a past project to showcase coding skills.</li>
-                    <li><strong>Best Practices:</strong> Dress professionally, maintain eye contact, and prepare questions for the interviewer (e.g., “What are the team’s goals?”). Practice handling unexpected questions calmly.</li>
-                    <li><strong>Feedback:</strong> Receive constructive critiques on body language, tone, and content from peers or instructors.</li>
-                </ul>
-            </li>
-            <li><strong>Mock Business Meetings:</strong>
-                <ul>
-                    <li><strong>Purpose:</strong> Develop skills for effective participation and leadership in professional discussions. Example: Simulating a project status meeting.</li>
-                    <li><strong>Activities:</strong> Role-playing as meeting facilitator, participant, or note-taker; discussing agendas, resolving conflicts, and assigning action items. Example: Leading a discussion on budget allocation.</li>
-                    <li><strong>Best Practices:</strong> Prepare an agenda, practice active listening, and summarize key points. Use inclusive language to encourage participation.</li>
-                    <li><strong>Feedback:</strong> Evaluate time management, clarity of contributions, and interpersonal skills.</li>
-                </ul>
-            </li>
-        </ul>
-        <p><strong>Outcomes:</strong> Improved confidence, refined communication skills, and better preparedness for real interviews and meetings.</p>
-    </div>
 
-    <div class="section">
-        <h2><b>6.3 Creating LinkedIn Profile</b></h2>
-        <p>Creating a LinkedIn profile workshop guides participants in building a professional online presence to network, showcase skills, and attract job opportunities.</p>
+        <h3>Mock Job Interviews</h3>
         <ul>
-            <li><strong>Purpose:</strong> Establish a digital professional identity for networking and job searches. Example: A profile highlighting project management expertise.</li>
-            <li><strong>Components:</strong>
-                <ul>
-                    <li><strong>Profile Photo:</strong> Use a professional headshot with a neutral background. Example: A clear, smiling photo in business attire.</li>
-                    <li><strong>Headline:</strong> Summarize expertise or career goals. Example: “Marketing Specialist | Driving Brand Growth.”</li>
-                    <li><strong>About Section:</strong> Write a concise summary of skills, experience, and aspirations. Example: Highlight achievements like “Led a campaign increasing engagement by 30%.”</li>
-                    <li><strong>Experience and Education:</strong> List relevant roles and qualifications with specific accomplishments. Example: Include “Managed a team of 5” under a job role.</li>
-                    <li><strong>Skills and Endorsements:</strong> Add relevant skills (e.g., “Data Analysis”) and seek endorsements from colleagues.</li>
-                    <li><strong>Recommendations:</strong> Request testimonials from supervisors or peers to build credibility.</li>
-                </ul>
-            </li>
-            <li><strong>Best Practices:</strong> Use keywords from job descriptions, keep the profile updated, and engage with posts to increase visibility. Avoid informal language or incomplete sections.</li>
-            <li><strong>Workshop Activities:</strong> Setting up profiles, optimizing sections, and learning to connect with professionals or join industry groups.</li>
-        </ul>
-        <p><strong>Outcomes:</strong> A complete, professional LinkedIn profile optimized for networking and job opportunities.</p>
-    </div>
-
-    <div class="section">
-        <h2><b>6.4 Oral Presentation Practicum</b></h2>
-        <p>The oral presentation practicum provides hands-on practice in delivering clear, engaging, and persuasive presentations in a business context.</p>
-        <ul>
-            <li><strong>Purpose:</strong> Develop skills to communicate ideas effectively to diverse audiences. Example: Presenting a business proposal to stakeholders.</li>
+            <li><strong>Purpose:</strong> Prepare candidates to confidently answer questions and demonstrate suitability for a role.</li>
             <li><strong>Activities:</strong>
                 <ul>
-                    <li><strong>Preparation:</strong> Research topic, create slides, and outline key points. Example: A slide deck on market expansion strategies.</li>
-                    <li><strong>Delivery:</strong> Practice voice modulation, eye contact, and gestures. Example: Emphasize key points with pauses and hand movements.</li>
-                    <li><strong>Visual Aids:</strong> Use slides, charts, or props to support the message. Example: A bar graph showing projected revenue.</li>
-                    <li><strong>Q&A Handling:</strong> Respond to audience questions confidently. Example: Clarify a question before answering to ensure accuracy.</li>
+                    <li>Responding to common questions (e.g., "Tell me about yourself").</li>
+                    <li>Behavioral questions using the STAR method (Situation, Task, Action, Result).</li>
+                    <li>Technical questions specific to the role.</li>
                 </ul>
             </li>
-            <li><strong>Best Practices:</strong> Structure the presentation (introduction, body, conclusion), tailor content to the audience, and rehearse to manage time. Avoid reading slides or overloading with text.</li>
+            <li><strong>Best Practices:</strong>
+                <ul>
+                    <li>Dress professionally.</li>
+                    <li>Maintain eye contact and good posture.</li>
+                    <li>Prepare thoughtful questions for the interviewer.</li>
+                    <li>Practice handling unexpected questions calmly.</li>
+                </ul>
+            </li>
+            <li><strong>Feedback:</strong> Receive constructive critiques on body language, tone, and content from peers or instructors.</li>
+        </ul>
+
+        <h3>Mock Business Meetings</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Develop skills for effective participation and leadership in professional discussions.</li>
+            <li><strong>Activities:</strong>
+                <ul>
+                    <li>Role-playing as meeting facilitator, participant, or note-taker.</li>
+                    <li>Discussing agendas, resolving conflicts, and assigning action items.</li>
+                </ul>
+            </li>
+            <li><strong>Best Practices:</strong>
+                <ul>
+                    <li>Prepare an agenda in advance.</li>
+                    <li>Practice active listening.</li>
+                    <li>Summarize key points and action items.</li>
+                    <li>Use inclusive language to encourage participation.</li>
+                </ul>
+            </li>
+            <li><strong>Feedback:</strong> Evaluate time management, clarity of contributions, and interpersonal skills.</li>
+        </ul>
+
+        <table>
+            <tr><th>Aspect</th><th>Mock Interview</th><th>Mock Business Meeting</th></tr>
+            <tr><td>Focus</td><td>Job suitability, communication</td><td>Collaboration, decision-making</td></tr>
+            <tr><td>Activities</td><td>Q&A, STAR method responses</td><td>Agenda discussion, role-playing</td></tr>
+            <tr><td>Best Practices</td><td>Professional attire, eye contact</td><td>Active listening, clear agenda</td></tr>
+            <tr><td>Feedback</td><td>Body language, tone, content</td><td>Time management, contributions</td></tr>
+        </table>
+    </div>
+
+    <!-- ========== 6.3 ========== -->
+    <div class="section">
+        <h2>6.3 Creating LinkedIn Profile</h2>
+        <p>Creating a LinkedIn profile workshop guides participants in building a professional online presence to network, showcase skills, and attract job opportunities.</p>
+
+        <h3>Key Components</h3>
+        <ul>
+            <li><strong>Profile Photo:</strong> Professional headshot with neutral background.</li>
+            <li><strong>Headline:</strong> Summarize expertise or career goals (e.g., "Marketing Specialist | Driving Brand Growth").</li>
+            <li><strong>About Section:</strong> Concise summary of skills, experience, and aspirations. Highlight key achievements.</li>
+            <li><strong>Experience and Education:</strong> List relevant roles and qualifications with specific accomplishments.</li>
+            <li><strong>Skills and Endorsements:</strong> Add relevant skills (e.g., "Data Analysis") and seek endorsements from colleagues.</li>
+            <li><strong>Recommendations:</strong> Request testimonials from supervisors or peers to build credibility.</li>
+        </ul>
+
+        <h3>Best Practices</h3>
+        <ul>
+            <li>Use keywords from job descriptions for better visibility.</li>
+            <li>Keep the profile updated with new achievements and roles.</li>
+            <li>Engage with posts and content to increase visibility.</li>
+            <li>Avoid informal language or incomplete sections.</li>
+            <li>Connect with professionals and join industry groups.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// LinkedIn Profile Checklist</span><br>
+            <span>// ✓ Professional photo</span><br>
+            <span>// ✓ Compelling headline</span><br>
+            <span>// ✓ Detailed about section</span><br>
+            <span>// ✓ Complete experience & education</span><br>
+            <span>// ✓ Skills with endorsements</span><br>
+            <span>// ✓ Recommendations</span>
+        </div>
+
+        <div class="note-box">
+            <strong>💼 Key insight:</strong> A well-optimized LinkedIn profile serves as a digital resume and networking tool, significantly enhancing professional visibility and job opportunities.
+        </div>
+    </div>
+
+    <!-- ========== 6.4 ========== -->
+    <div class="section">
+        <h2>6.4 Oral Presentation Practicum</h2>
+        <p>The oral presentation practicum provides hands-on practice in delivering clear, engaging, and persuasive presentations in a business context.</p>
+
+        <h3>Key Elements</h3>
+        <ul>
+            <li><strong>Purpose:</strong> Develop skills to communicate ideas effectively to diverse audiences.</li>
+            <li><strong>Activities:</strong>
+                <ul>
+                    <li><strong>Preparation:</strong> Research topic, create slides, outline key points.</li>
+                    <li><strong>Delivery:</strong> Practice voice modulation, eye contact, and gestures.</li>
+                    <li><strong>Visual Aids:</strong> Use slides, charts, or props to support the message.</li>
+                    <li><strong>Q&A Handling:</strong> Respond to audience questions confidently.</li>
+                </ul>
+            </li>
+            <li><strong>Best Practices:</strong>
+                <ul>
+                    <li>Structure: introduction, body, conclusion.</li>
+                    <li>Tailor content to the audience.</li>
+                    <li>Rehearse to manage time effectively.</li>
+                    <li>Avoid reading slides or overloading with text.</li>
+                </ul>
+            </li>
             <li><strong>Feedback:</strong> Receive critiques on clarity, engagement, and body language from peers or instructors.</li>
         </ul>
-        <p><strong>Outcomes:</strong> Enhanced presentation skills, increased confidence, and ability to deliver impactful business presentations.</p>
+
+        <div class="code-block">
+            <span>// Presentation Structure</span><br>
+            <span>// 1. Introduction (hook, agenda)</span><br>
+            <span>// 2. Body (key points with evidence)</span><br>
+            <span>// 3. Conclusion (summary, call to action)</span><br>
+            <span>// 4. Q&A</span>
+        </div>
+
+        <div class="note-box">
+            <strong>🎤 Key insight:</strong> Effective oral presentations require thorough preparation, confident delivery, and audience engagement. Practicum exercises build these skills through practice and feedback.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 6 summary</strong><br>Employment communication and presentation skills are essential for career success. This unit covers resume/cover letter writing, mock interviews, LinkedIn profiles, and oral presentations.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Resume: concise, tailored, action-oriented.<br>• Cover letter: personalized, concise, aligns with job requirements.<br>• Mock interviews: practice STAR method, professional demeanor.<br>• Business meetings: agenda, active listening, action items.<br>• LinkedIn: professional photo, complete profile, networking.<br>• Oral presentations: structure, practice, audience engagement.</div>
     </div>
 </body>
 </html>

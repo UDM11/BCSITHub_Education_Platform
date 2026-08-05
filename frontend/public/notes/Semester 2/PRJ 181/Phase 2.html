@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phase 2: Progress Report and System Design</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
+        }
+        .section {
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
+        }
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Unit II: Progress Report & System Design</h1>
+    <div class="subhead">SRS · Feasibility Study · System Design · Form Validation · Mid & End Term Milestones</div>
+
+    <!-- ========== SRS ========== -->
+    <div class="section">
+        <h2>2.1 Software Requirements Specification (SRS)</h2>
+        <p>
+            During Phase 2, teams transition from initial ideas to detailed specifications. The SRS document defines the exact scope:
+        </p>
+        <h3>Functional Requirements (FR)</h3>
+        <p>FRs detail the specific features or processes the system must execute:</p>
+        <ul>
+            <li><strong>User Interaction:</strong> The system must accept registration input containing email formats and strong passwords.</li>
+            <li><strong>Interactive Gallery:</strong> Users must be able to filter image items based on tags and click to expand them in a lightbox.</li>
+            <li><strong>JSON Loading:</strong> The interface must fetch external datasets asynchronously and render them into table structures.</li>
+        </ul>
+        <h3>Non-Functional Requirements (NFR)</h3>
+        <p>NFRs detail performance, design constraints, and operational quality benchmarks:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>NFR Category</th>
+                    <th>Standard Benchmark</th>
+                    <th>Implementation Strategy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Usability</strong></td>
+                    <td>Intuitive and clean layout</td>
+                    <td>Maintain consistency via design tokens and CSS variables.</td>
+                </tr>
+                <tr>
+                    <td><strong>Responsiveness</strong></td>
+                    <td>Fluid behavior across all screens</td>
+                    <td>Media queries (breakpoints: 768px, 480px) and flexible flex/grid layouts.</td>
+                </tr>
+                <tr>
+                    <td><strong>Performance</strong></td>
+                    <td>Loads under 2 seconds</td>
+                    <td>Minimize asset size, optimize script compilation times, and clean up DOM listeners.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ========== Feasibility Study ========== -->
+    <div class="section">
+        <h2>2.2 Feasibility Study Guidelines</h2>
+        <p>Every proposal require a comprehensive feasibility check across four essential domains:</p>
+        <ul>
+            <li><strong>Technical Feasibility:</strong> Evaluating if the available technology stack (HTML5, CSS3, JS, jQuery) matches the application's complexity.</li>
+            <li><strong>Operational Feasibility:</strong> Determining whether the user flow is logical and user-friendly.</li>
+            <li><strong>Financial Feasibility:</strong> Assessing development costs (typically negligible for student projects using open-source utilities).</li>
+            <li><strong>Schedule Feasibility:</strong> Mapping deliverables strictly within the 48-day timeline using a Gantt chart.</li>
+        </ul>
+    </div>
+
+    <!-- ========== System Analysis & Design ========== -->
+    <div class="section">
+        <h2>2.3 High-Level System Analysis & UI Design</h2>
+        <p>
+            Teams must design user pathways and layout structural diagrams (wireframes or Interface Structure Diagrams) 
+            prior to actual implementation.
+        </p>
+        <div class="note-box">
+            <strong>📊 High-Level Design:</strong> A flowchart outlining how data passes from a user input form, gets validated, and populates the dynamic DOM list.
+        </div>
+    </div>
+
+    <!-- ========== client side validation ========== -->
+    <div class="section">
+        <h2>2.4 Client-Side Form Validation (Code Sample)</h2>
+        <p>
+            One of the critical components in the Project I syllabus is form validation. Below is the standard code template for client-side form validation using JavaScript:
+        </p>
+        <div class="code-block">
+            <span>// Client-Side Validation Script</span><br />
+            <span>document.getElementById('registrationForm').addEventListener('submit', function(event) {</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;let username = document.getElementById('username').value;</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;let email = document.getElementById('email').value;</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;</span><br /><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;if (username.trim() === '') {</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert('Username cannot be empty.');</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;event.preventDefault();</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;} else if (!emailPattern.test(email)) {</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert('Please enter a valid email address.');</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;event.preventDefault();</span><br />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;}</span><br />
+            <span>});</span>
+        </div>
+    </div>
+
+    <!-- ========== Mid & End Term Defense ========== -->
+    <div class="section">
+        <h2>2.5 Mid-Term & End-Term Defenses</h2>
+        <p>To pass the intermediate evaluations successfully, teams must show consistent progress:</p>
+        <ul>
+            <li><strong>Mid-Term (15% Weight):</strong> Teams must present two printed copies of the formal proposal report, along with slides and a working prototype demonstrating early features (e.g., raw HTML/CSS shell).</li>
+            <li><strong>End-Term (25% Weight):</strong> The project must have <strong>at least 60% of the core functionality completed</strong> (working forms, validation, sliders, and structural layout styling fully integrated).</li>
+        </ul>
+    </div>
+</body>
+</html>

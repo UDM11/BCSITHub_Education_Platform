@@ -1,173 +1,458 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 6: Registers and Counters</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            color: black;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
         }
         li {
-            margin-bottom: 10px;
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
         }
         table {
+            width: 100%;
             border-collapse: collapse;
-            margin: 10px 0;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
-        th, td {
-            border: 1px solid black;
-            padding: 5px;
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
             text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
         }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
         }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
         }
-        h2 {
-            font-size: 1rem; /* smaller sub-header */
-        }
-        .section {
-            padding: 8px; /* less padding for small screens */
-        }
-    }
     </style>
 </head>
 <body>
-    <h1><b>Unit 6: Registers and Counters</b></h1>
+    <h1>Unit 6: Registers and Counters</h1>
+    <div class="subhead">Shift registers · SISO · SIPO · PISO · PIPO · asynchronous counters · synchronous counters</div>
 
+    <!-- ========== 6.1 ========== -->
     <div class="section">
-        <h2><b>6.1 Shift Register</b></h2>
-        <p>A shift register is a sequential logic circuit composed of flip-flops connected in series, used to store and shift data in a digital system.</p>
+        <h2>6.1 Shift Register</h2>
+        <p>A <strong>shift register</strong> is a sequential logic circuit composed of flip-flops connected in series, used to store and shift data in a digital system.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📦 Definition</strong><br>A cascade of flip-flops where the output of one flip-flop is connected to the input of the next, allowing data to shift left or right with each clock pulse.</div>
+            <div class="card"><strong>⚡ Operation</strong><br>Data bits are shifted by one position per clock cycle, either left (toward higher-order bits) or right (toward lower-order bits).</div>
+        </div>
+
+        <h3>Components and Operation</h3>
         <ul>
-            <li><strong>Definition:</strong> A shift register is a cascade of flip-flops where the output of one flip-flop is connected to the input of the next, allowing data to shift left or right with each clock pulse.</li>
-            <li><strong>Operation:</strong> Data bits are shifted by one position per clock cycle, either left (toward higher-order bits) or right (toward lower-order bits). Example: In a 4-bit shift register, <em>1011</em> shifts right to <em>0101</em> with a 0 input.</li>
-            <li><strong>Components:</strong> Typically uses D or JK flip-flops, with a clock signal to synchronize shifts.</li>
-            <li><strong>Applications:</strong> Used in data storage, serial-to-parallel conversion, delay lines, and communication systems.</li>
+            <li><strong>Flip-flops:</strong> Typically D or JK flip-flops.</li>
+            <li><strong>Clock Signal:</strong> Synchronizes the shifting process.</li>
+            <li><strong>Example:</strong> 4-bit shift register shifting right: 1011 → 0101 (with 0 input).</li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+4-Bit Shift Register:
+┌─────┐   ┌─────┐   ┌─────┐   ┌─────┐
+│ D0  │──▶│ D1  │──▶│ D2  │──▶│ D3  │
+│ Q0  │   │ Q1  │   │ Q2  │   │ Q3  │
+└─────┘   └─────┘   └─────┘   └─────┘
+   ↑         ↑         ↑         ↑
+  Clock     Clock     Clock     Clock
+            </pre>
+        </div>
+
+        <h3>Applications</h3>
+        <ul>
+            <li>Data storage and transfer</li>
+            <li>Serial-to-parallel conversion</li>
+            <li>Delay lines</li>
+            <li>Communication systems</li>
+            <li>Digital signal processing</li>
         </ul>
     </div>
 
+    <!-- ========== 6.2 ========== -->
     <div class="section">
-        <h2><b>6.2 Modes of Shift Register (SISO, SIPO, PISO, PIPO)</b></h2>
+        <h2>6.2 Modes of Shift Register (SISO, SIPO, PISO, PIPO)</h2>
         <p>Shift registers operate in different modes based on how data is input and output.</p>
+
+        <h3>SISO (Serial-In, Serial-Out)</h3>
         <ul>
-            <li><strong>SISO (Serial-In, Serial-Out):</strong>
-                <ul>
-                    <li>Data enters serially (one bit at a time) and exits serially.</li>
-                    <li>Example: A 4-bit SISO register with input <em>1010</em> shifts in one bit per clock cycle, outputting each bit after 4 cycles.</li>
-                    <li><strong>Use:</strong> Data delay or temporary storage in serial communication.</li>
-                </ul>
-            </li>
-            <li><strong>SIPO (Serial-In, Parallel-Out):</strong>
-                <ul>
-                    <li>Data enters serially but is output from all flip-flops simultaneously.</li>
-                    <li>Example: A 4-bit SIPO register shifts in <em>1010</em> serially, then outputs all 4 bits in parallel.</li>
-                    <li><strong>Use:</strong> Serial-to-parallel conversion (e.g., receiving serial data for parallel processing).</li>
-                </ul>
-            </li>
-            <li><strong>PISO (Parallel-In, Serial-Out):</strong>
-                <ul>
-                    <li>Data is loaded into all flip-flops simultaneously, then shifted out serially.</li>
-                    <li>Example: A 4-bit PISO register loads <em>1010</em> in parallel, then shifts out one bit per cycle.</li>
-                    <li><strong>Use:</strong> Parallel-to-serial conversion (e.g., transmitting parallel data serially).</li>
-                </ul>
-            </li>
-            <li><strong>PIPO (Parallel-In, Parallel-Out):</strong>
-                <ul>
-                    <li>Data is loaded and output in parallel.</li>
-                    <li>Example: A 4-bit PIPO register loads <em>1010</em> and outputs <em>1010</em> in parallel after one clock cycle.</li>
-                    <li><strong>Use:</strong> Data storage and transfer in registers (e.g., CPU registers).</li>
-                </ul>
-            </li>
-            <li><strong>Applications:</strong> SISO for delay lines, SIPO/PISO for data conversion, PIPO for register files.</li>
+            <li><strong>Input:</strong> Serial (one bit at a time)</li>
+            <li><strong>Output:</strong> Serial (one bit at a time)</li>
+            <li><strong>Example:</strong> 4-bit SISO with input 1010 → after 4 cycles, output is 1010.</li>
+            <li><strong>Use:</strong> Data delay, temporary storage in serial communication.</li>
         </ul>
+
+        <h3>SIPO (Serial-In, Parallel-Out)</h3>
+        <ul>
+            <li><strong>Input:</strong> Serial</li>
+            <li><strong>Output:</strong> Parallel (all bits simultaneously)</li>
+            <li><strong>Example:</strong> 4-bit SIPO: shift in 1010, then output Q₃Q₂Q₁Q₀ = 1010.</li>
+            <li><strong>Use:</strong> Serial-to-parallel conversion (e.g., receiving serial data).</li>
+        </ul>
+
+        <h3>PISO (Parallel-In, Serial-Out)</h3>
+        <ul>
+            <li><strong>Input:</strong> Parallel (all bits simultaneously)</li>
+            <li><strong>Output:</strong> Serial</li>
+            <li><strong>Example:</strong> 4-bit PISO: load 1010 in parallel, then shift out one bit per cycle.</li>
+            <li><strong>Use:</strong> Parallel-to-serial conversion (e.g., transmitting parallel data).</li>
+        </ul>
+
+        <h3>PIPO (Parallel-In, Parallel-Out)</h3>
+        <ul>
+            <li><strong>Input:</strong> Parallel</li>
+            <li><strong>Output:</strong> Parallel</li>
+            <li><strong>Example:</strong> 4-bit PIPO: load 1010 and output 1010 after one clock cycle.</li>
+            <li><strong>Use:</strong> Data storage and transfer (e.g., CPU registers).</li>
+        </ul>
+
+        <table>
+            <tr><th>Mode</th><th>Input</th><th>Output</th><th>Example Use</th></tr>
+            <tr><td>SISO</td><td>Serial</td><td>Serial</td><td>Delay lines</td></tr>
+            <tr><td>SIPO</td><td>Serial</td><td>Parallel</td><td>Serial-to-parallel conversion</td></tr>
+            <tr><td>PISO</td><td>Parallel</td><td>Serial</td><td>Parallel-to-serial conversion</td></tr>
+            <tr><td>PIPO</td><td>Parallel</td><td>Parallel</td><td>CPU registers</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Shift Register Operation Example</span><br>
+            <span>// 4-bit SIPO: Input 1010 (serial)</span><br>
+            <span>// Cycle 1: Q0 = 1</span><br>
+            <span>// Cycle 2: Q1 = 1, Q0 = 0</span><br>
+            <span>// Cycle 3: Q2 = 1, Q1 = 0, Q0 = 1</span><br>
+            <span>// Cycle 4: Q3 = 1, Q2 = 0, Q1 = 1, Q0 = 0</span><br>
+            <span>// Output: 1010</span>
+        </div>
     </div>
 
+    <!-- ========== 6.3 ========== -->
     <div class="section">
-        <h2><b>6.3 Asynchronous Counter (Binary Ripple, BCD Counter)</b></h2>
-        <p>Asynchronous counters are sequential circuits where flip-flops are not synchronized by a common clock, leading to ripple effects in state changes.</p>
+        <h2>6.3 Asynchronous Counter (Binary Ripple, BCD Counter)</h2>
+        <p><strong>Asynchronous counters</strong> are sequential circuits where flip-flops are not synchronized by a common clock, leading to ripple effects in state changes.</p>
+
+        <h3>Binary Ripple Counter</h3>
         <ul>
-            <li><strong>Binary Ripple Counter:</strong>
-                <ul>
-                    <li>Uses T or JK flip-flops, where each flip-flop’s output clocks the next. Counts in binary sequence (e.g., 000 to 111 for 3 bits).</li>
-                    <li><strong>Operation:</strong> First flip-flop toggles on clock pulse; its output toggles the next, causing a ripple effect. Example: 3-bit counter sequence: <em>000, 001, 010, 011, 100, 101, 110, 111</em>.</li>
-                    <li><strong>Drawback:</strong> Propagation delay due to rippling, limiting speed.</li>
-                    <li><strong>Truth Table (3-bit):</strong>
-                        <table>
-                            <tr><th>Clock Pulse</th><th>Q₂</th><th>Q₁</th><th>Q₀</th></tr>
-                            <tr><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-                            <tr><td>1</td><td>0</td><td>0</td><td>1</td></tr>
-                            <tr><td>2</td><td>0</td><td>1</td><td>0</td></tr>
-                            <tr><td>3</td><td>0</td><td>1</td><td>1</td></tr>
-                            <tr><td>4</td><td>1</td><td>0</td><td>0</td></tr>
-                            <tr><td>5</td><td>1</td><td>0</td><td>1</td></tr>
-                            <tr><td>6</td><td>1</td><td>1</td><td>0</td></tr>
-                            <tr><td>7</td><td>1</td><td>1</td><td>1</td></tr>
-                        </table>
-                    </li>
-                </ul>
-            </li>
-            <li><strong>BCD Counter (Binary-Coded Decimal):</strong>
-                <ul>
-                    <li>Counts from 0 to 9 (0000 to 1001 in BCD), resetting to 0000 after 1001.</li>
-                    <li><strong>Operation:</strong> Uses additional logic to reset after 9. Example: After <em>1001</em> (9), next state is <em>0000</em> instead of <em>1010</em>.</li>
-                    <li><strong>Use:</strong> Displays decimal digits in digital clocks and calculators.</li>
-                </ul>
-            </li>
-            <li><strong>Applications:</strong> Ripple counters in low-speed applications; BCD counters in decimal displays.</li>
+            <li><strong>Circuit:</strong> Uses T or JK flip-flops, where each flip-flop's output clocks the next.</li>
+            <li><strong>Operation:</strong> First flip-flop toggles on clock pulse; its output toggles the next, causing a ripple effect.</li>
+            <li><strong>Example:</strong> 3-bit counter sequence: 000, 001, 010, 011, 100, 101, 110, 111.</li>
+            <li><strong>Drawback:</strong> Propagation delay due to rippling, limiting speed.</li>
         </ul>
+
+        <div class="code-block">
+            <span>// 3-bit Ripple Counter Sequence</span><br>
+            Clock 0: 000<br>
+            Clock 1: 001<br>
+            Clock 2: 010<br>
+            Clock 3: 011<br>
+            Clock 4: 100<br>
+            Clock 5: 101<br>
+            Clock 6: 110<br>
+            Clock 7: 111<br>
+            Clock 8: 000 (rollover)
+        </div>
+
+        <h3>BCD Counter (Binary-Coded Decimal)</h3>
+        <ul>
+            <li><strong>Counts:</strong> 0 to 9 (0000 to 1001 in BCD).</li>
+            <li><strong>Operation:</strong> Resets to 0000 after 1001 using additional logic.</li>
+            <li><strong>Example:</strong> After 1001 (9), next state is 0000 instead of 1010.</li>
+            <li><strong>Use:</strong> Decimal displays in digital clocks and calculators.</li>
+        </ul>
+
+        <table>
+            <tr><th>Clock Pulse</th><th>BCD Output</th></tr>
+            <tr><td>0</td><td>0000 (0)</td></tr>
+            <tr><td>1</td><td>0001 (1)</td></tr>
+            <tr><td>2</td><td>0010 (2)</td></tr>
+            <tr><td>3</td><td>0011 (3)</td></tr>
+            <tr><td>4</td><td>0100 (4)</td></tr>
+            <tr><td>5</td><td>0101 (5)</td></tr>
+            <tr><td>6</td><td>0110 (6)</td></tr>
+            <tr><td>7</td><td>0111 (7)</td></tr>
+            <tr><td>8</td><td>1000 (8)</td></tr>
+            <tr><td>9</td><td>1001 (9)</td></tr>
+            <tr><td>10</td><td>0000 (0)</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>⏱️ Key insight:</strong> Asynchronous counters are simple but slow due to ripple propagation delay. They are suitable for low-speed applications where timing precision is not critical.
+        </div>
     </div>
 
+    <!-- ========== 6.4 ========== -->
     <div class="section">
-        <h2><b>6.4 Synchronous Counter (Up/Down Counter)</b></h2>
-        <p>Synchronous counters use a common clock to synchronize all flip-flops, eliminating ripple delays.</p>
+        <h2>6.4 Synchronous Counter (Up/Down Counter)</h2>
+        <p><strong>Synchronous counters</strong> use a common clock to synchronize all flip-flops, eliminating ripple delays.</p>
+
+        <h3>Operation</h3>
         <ul>
-            <li><strong>Operation:</strong> All flip-flops toggle based on a single clock signal and control logic. Example: In a 3-bit synchronous counter, flip-flops toggle based on combinational logic for each bit.</li>
-            <li><strong>Up Counter:</strong> Counts upward (e.g., 000, 001, 010, ..., 111). Example: 3-bit up counter uses T flip-flops where T₀ = 1, T₁ = Q₀, T₂ = Q₀ · Q₁.</li>
-            <li><strong>Down Counter:</strong> Counts downward (e.g., 111, 110, 101, ..., 000). Example: T₁ = Q₀', T₂ = Q₀' · Q₁'.</li>
-            <li><strong>Up/Down Counter:</strong> Switches between up and down counting based on a control input (e.g., Mode = 1 for up, 0 for down). Logic: Combine up/down conditions using multiplexers or additional gates.</li>
-            <li><strong>Truth Table (3-bit Up Counter):</strong>
-                <table>
-                    <tr><th>Clock Pulse</th><th>Q₂</th><th>Q₁</th><th>Q₀</th></tr>
-                    <tr><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-                    <tr><td>1</td><td>0</td><td>0</td><td>1</td></tr>
-                    <tr><td>2</td><td>0</td><td>1</td><td>0</td></tr>
-                    <tr><td>3</td><td>0</td><td>1</td><td>1</td></tr>
-                    <tr><td>4</td><td>1</td><td>0</td><td>0</td></tr>
-                    <tr><td>5</td><td>1</td><td>0</td><td>1</td></tr>
-                    <tr><td>6</td><td>1</td><td>1</td><td>0</td></tr>
-                    <tr><td>7</td><td>1</td><td>1</td><td>1</td></tr>
-                </table>
+            <li>All flip-flops toggle based on a single clock signal and control logic.</li>
+            <li>Example: 3-bit synchronous counter uses T flip-flops with:
+                <ul>
+                    <li>T₀ = 1 (always toggles)</li>
+                    <li>T₁ = Q₀ (toggles when Q₀ = 1)</li>
+                    <li>T₂ = Q₀ · Q₁ (toggles when Q₀ = 1 and Q₁ = 1)</li>
+                </ul>
             </li>
-            <li><strong>Advantages:</strong> Faster than asynchronous counters due to simultaneous updates; no ripple delay.</li>
-            <li><strong>Applications:</strong> Used in high-speed circuits, frequency dividers, and timers in microprocessors.</li>
         </ul>
+
+        <h3>Up Counter</h3>
+        <ul>
+            <li>Counts upward: 000, 001, 010, ..., 111.</li>
+            <li><strong>Logic:</strong> T₀ = 1, T₁ = Q₀, T₂ = Q₀ · Q₁.</li>
+        </ul>
+
+        <h3>Down Counter</h3>
+        <ul>
+            <li>Counts downward: 111, 110, 101, ..., 000.</li>
+            <li><strong>Logic:</strong> T₀ = 1, T₁ = Q₀', T₂ = Q₀' · Q₁'.</li>
+        </ul>
+
+        <h3>Up/Down Counter</h3>
+        <ul>
+            <li>Switches between up and down counting based on a control input.</li>
+            <li><strong>Mode:</strong> Mode = 1 for up, Mode = 0 for down.</li>
+            <li><strong>Implementation:</strong> Use multiplexers to select between up and down logic.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// 3-bit Synchronous Up Counter Logic</span><br>
+            T₀ = 1<br>
+            T₁ = Q₀<br>
+            T₂ = Q₀ · Q₁<br><br>
+            <span>// 3-bit Synchronous Down Counter Logic</span><br>
+            T₀ = 1<br>
+            T₁ = Q₀'<br>
+            T₂ = Q₀' · Q₁'<br><br>
+            <span>// Up/Down Counter</span><br>
+            T₀ = 1<br>
+            T₁ = Mode ? Q₀ : Q₀'<br>
+            T₂ = Mode ? (Q₀ · Q₁) : (Q₀' · Q₁')
+        </div>
+
+        <h3>Advantages</h3>
+        <ul>
+            <li><strong>Faster:</strong> No ripple delay, all flip-flops update simultaneously.</li>
+            <li><strong>More predictable:</strong> Synchronous timing ensures reliable operation.</li>
+            <li><strong>Use:</strong> High-speed circuits, frequency dividers, and timers in microprocessors.</li>
+        </ul>
+
+        <div class="note-box">
+            <strong>🚀 Key insight:</strong> Synchronous counters are preferred in high-speed applications because they eliminate propagation delays. The design is more complex but offers better performance and reliability.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 6 summary</strong><br>Registers store and shift data; counters count sequences. Shift registers have SISO, SIPO, PISO, PIPO modes. Counters can be asynchronous (ripple) or synchronous.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Shift registers: store and shift data.<br>• Modes: SISO, SIPO, PISO, PIPO.<br>• Asynchronous counters: ripple effect, simpler but slower.<br>• Binary ripple counter: counts in binary.<br>• BCD counter: counts 0-9, resets to 0.<br>• Synchronous counters: common clock, no ripple.<br>• Up/Down counters: count in either direction.</div>
     </div>
 </body>
 </html>

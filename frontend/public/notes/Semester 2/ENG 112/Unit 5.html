@@ -1,219 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 5: Visual Communication</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            color: black;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
         }
         li {
-            margin-bottom: 10px;
+            margin-bottom: 0.6rem;
         }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
+        strong {
+            color: #0f3d66;
         }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
         }
-        h2 {
-            font-size: 1rem; /* smaller sub-header */
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
         }
-        .section {
-            padding: 8px; /* less padding for small screens */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
-    }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1><b>Unit 5: Visual Communication</b></h1>
+    <h1>Unit 5: Visual Communication</h1>
+    <div class="subhead">Uses · types · signs · tables · graphs · charts · infographics · ethical considerations</div>
 
+    <!-- ========== 5.1 ========== -->
     <div class="section">
-        <h2><b>5.1 Uses of Visual Aids in Business Communication</b></h2>
-        <p>Visual aids are graphical or pictorial representations used to enhance the effectiveness of business communication by making complex information more accessible, engaging, and memorable.</p>
+        <h2>5.1 Uses of Visual Aids in Business Communication</h2>
+        <p><strong>Visual aids</strong> are graphical or pictorial representations used to enhance the effectiveness of business communication by making complex information more accessible, engaging, and memorable.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📊 Clarity</strong><br>Simplifies complex data or concepts. Example: A chart summarizing quarterly sales figures.</div>
+            <div class="card"><strong>🎯 Engagement</strong><br>Captures audience attention and maintains interest. Example: Infographics in a marketing presentation.</div>
+            <div class="card"><strong>🧠 Retention</strong><br>Visuals improve recall compared to text alone. Example: A flowchart helps employees remember a new process.</div>
+            <div class="card"><strong>📈 Persuasion</strong><br>Strengthens arguments by providing visual evidence. Example: A bar graph showing market growth in a business proposal.</div>
+        </div>
+
+        <h3>Key Applications</h3>
         <ul>
-            <li><strong>Clarity:</strong> Simplifies complex data or concepts for easier understanding. Example: A chart summarizing quarterly sales figures.</li>
-            <li><strong>Engagement:</strong> Captures audience attention and maintains interest. Example: Infographics in a marketing presentation.</li>
-            <li><strong>Retention:</strong> Visuals improve recall compared to text alone. Example: A flowchart helps employees remember a new process.</li>
-            <li><strong>Persuasion:</strong> Strengthens arguments by providing visual evidence. Example: A bar graph showing market growth in a business proposal.</li>
-            <li><strong>Professionalism:</strong> Enhances the credibility of presentations or reports. Example: A well-designed organizational chart in a company handbook.</li>
+            <li><strong>Meetings:</strong> Presentation slides, charts, and graphs.</li>
+            <li><strong>Reports:</strong> Tables, infographics, and diagrams.</li>
+            <li><strong>Proposals:</strong> Bar graphs, pie charts, and maps.</li>
+            <li><strong>Training Materials:</strong> Flowcharts, diagrams, and photographs.</li>
+            <li><strong>Marketing Campaigns:</strong> Infographics, photographs, and symbols.</li>
         </ul>
-        <p><strong>Applications:</strong> Used in meetings, reports, proposals, training materials, and marketing campaigns to convey information effectively.</p>
+
+        <div class="note-box">
+            <strong>📊 Key insight:</strong> Visual aids enhance clarity, engagement, retention, and persuasion, making them essential for effective business communication.
+        </div>
     </div>
 
+    <!-- ========== 5.2 ========== -->
     <div class="section">
-        <h2><b>5.2 Types of Visual Aids</b></h2>
+        <h2>5.2 Types of Visual Aids</h2>
         <p>Visual aids encompass various formats, each suited to specific purposes in business communication.</p>
-    </div>
 
-    <div class="section">
-        <h2><b>5.2.1 Signs, Symbols, Signals</b></h2>
-        <p>Signs, symbols, and signals are simple, universally recognized visual cues that convey specific meanings without words.</p>
+        <h3>5.2.1 Signs, Symbols, Signals</h3>
         <ul>
-            <li><strong>Signs:</strong> Indicate instructions or warnings. Example: A “No Smoking” sign in an office.</li>
+            <li><strong>Signs:</strong> Indicate instructions or warnings. Example: A "No Smoking" sign in an office.</li>
             <li><strong>Symbols:</strong> Represent ideas or entities. Example: A company logo symbolizing brand identity.</li>
-            <li><strong>Signals:</strong> Communicate actions or statuses. Example: A green checkmark indicating task completion in project management software.</li>
+            <li><strong>Signals:</strong> Communicate actions or statuses. Example: A green checkmark indicating task completion.</li>
         </ul>
-        <p><strong>Use:</strong> Effective for quick, clear communication in workplaces or public spaces.</p>
-    </div>
 
-    <div class="section">
-        <h2><b>5.2.2 Tables</b></h2>
-        <p>Tables organize data in rows and columns for easy comparison and reference.</p>
+        <h3>5.2.2 Tables</h3>
         <ul>
-            <li><strong>Purpose:</strong> Present structured data clearly. Example: A table comparing product features in a sales report.</li>
-            <li><strong>Features:</strong> Include headings, borders, and alignment for readability. Example: A budget table with columns for expenses and totals.</li>
-            <li><strong>Best Practices:</strong> Keep tables simple, avoid clutter, and use consistent formatting.</li>
+            <li><strong>Purpose:</strong> Present structured data clearly. Example: A table comparing product features.</li>
+            <li><strong>Features:</strong> Headings, borders, and alignment for readability.</li>
+            <li><strong>Best Practices:</strong> Keep simple, avoid clutter, use consistent formatting.</li>
         </ul>
-        <p><strong>Use:</strong> Common in financial reports, schedules, and analytical documents.</p>
-    </div>
 
-    <div class="section">
-        <h2><b>5.2.3 Figures</b></h2>
-        <p>Figures are visual representations like drawings or illustrations used to explain concepts or processes.</p>
+        <h3>5.2.3 Figures</h3>
         <ul>
-            <li><strong>Purpose:</strong> Clarify technical or abstract ideas. Example: A figure showing the layout of a new office space.</li>
-            <li><strong>Types:</strong> Include schematics, sketches, or models. Example: A 3D model of a product prototype.</li>
-            <li><strong>Best Practices:</strong> Label parts clearly and ensure relevance to the content.</li>
+            <li><strong>Purpose:</strong> Clarify technical or abstract ideas. Example: A figure showing office layout.</li>
+            <li><strong>Types:</strong> Schematics, sketches, or models.</li>
+            <li><strong>Best Practices:</strong> Label parts clearly, ensure relevance.</li>
         </ul>
-        <p><strong>Use:</strong> Common in technical manuals, training materials, and design proposals.</p>
-    </div>
 
-    <div class="section">
-        <h2><b>5.2.4 Bar Graphs</b></h2>
-        <p>Bar graphs use rectangular bars to represent data, facilitating comparison across categories.</p>
+        <h3>5.2.4 Bar Graphs</h3>
         <ul>
-            <li><strong>Purpose:</strong> Show differences or trends. Example: A bar graph comparing sales performance across regions.</li>
-            <li><strong>Types:</strong> Vertical, horizontal, or stacked bars. Example: Stacked bars showing product sales by quarter.</li>
-            <li><strong>Best Practices:</strong> Use clear labels, consistent scales, and minimal colors for clarity.</li>
+            <li><strong>Purpose:</strong> Show differences or trends. Example: Sales performance across regions.</li>
+            <li><strong>Types:</strong> Vertical, horizontal, stacked.</li>
+            <li><strong>Best Practices:</strong> Clear labels, consistent scales, minimal colors.</li>
         </ul>
-        <p><strong>Use:</strong> Common in financial presentations, marketing reports, and performance reviews.</p>
-    </div>
 
-    <div class="section">
-        <h2><b>5.2.5 Gantt Chart</b></h2>
-        <p>Gantt charts are timelines that illustrate project schedules, tasks, and dependencies.</p>
+        <h3>5.2.5 Gantt Chart</h3>
         <ul>
-            <li><strong>Purpose:</strong> Track progress and deadlines. Example: A Gantt chart for a product launch showing task durations.</li>
-            <li><strong>Features:</strong> Horizontal bars represent tasks, with timelines and milestones. Example: A bar showing “Market Research” from January to March.</li>
-            <li><strong>Best Practices:</strong> Include start/end dates, task owners, and dependencies for clarity.</li>
+            <li><strong>Purpose:</strong> Track project progress and deadlines. Example: Product launch schedule.</li>
+            <li><strong>Features:</strong> Horizontal bars, timelines, milestones.</li>
+            <li><strong>Best Practices:</strong> Include start/end dates, task owners, dependencies.</li>
         </ul>
-        <p><strong>Use:</strong> Widely used in project management and planning.</p>
-    </div>
 
-    <div class="section">
-        <h2><b>5.2.6 Infographics</b></h2>
-        <p>Infographics combine text, images, and data visualizations to present information in an engaging, concise format.</p>
+        <h3>5.2.6 Infographics</h3>
         <ul>
-            <li><strong>Purpose:</strong> Simplify complex information for quick understanding. Example: An infographic summarizing annual company achievements.</li>
-            <li><strong>Features:</strong> Use icons, colors, and minimal text. Example: Icons representing customer growth in a marketing infographic.</li>
-            <li><strong>Best Practices:</strong> Ensure a clear narrative, use consistent design, and avoid overloading with data.</li>
+            <li><strong>Purpose:</strong> Simplify complex information. Example: Annual company achievements.</li>
+            <li><strong>Features:</strong> Icons, colors, minimal text.</li>
+            <li><strong>Best Practices:</strong> Clear narrative, consistent design, avoid overload.</li>
         </ul>
-        <p><strong>Use:</strong> Popular in marketing, social media, and reports.</p>
-    </div>
 
-    <div class="section">
-        <h2><b>5.2.7 Pie Chart</b></h2>
-        <p>Pie charts display data as slices of a circle, showing proportions or percentages.</p>
+        <h3>5.2.7 Pie Chart</h3>
         <ul>
-            <li><strong>Purpose:</strong> Illustrate relative contributions. Example: A pie chart showing budget allocation by department.</li>
-            <li><strong>Features:</strong> Each slice represents a category, with labels or percentages. Example: A slice for “Marketing” showing 30% of the budget.</li>
-            <li><strong>Best Practices:</strong> Limit slices to 5-7, use contrasting colors, and include a legend if needed.</li>
+            <li><strong>Purpose:</strong> Show proportions or percentages. Example: Budget allocation by department.</li>
+            <li><strong>Features:</strong> Slices represent categories with labels/percentages.</li>
+            <li><strong>Best Practices:</strong> Limit slices to 5-7, use contrasting colors.</li>
         </ul>
-        <p><strong>Use:</strong> Common in financial reports and presentations to show distribution.</p>
-    </div>
 
-    <div class="section">
-        <h2><b>5.2.8 Organizational Chart</b></h2>
-        <p>Organizational charts depict the structure of an organization, showing hierarchies and relationships.</p>
+        <h3>5.2.8 Organizational Chart</h3>
         <ul>
-            <li><strong>Purpose:</strong> Clarify roles, reporting lines, and departmental structure. Example: A chart showing the CEO at the top, with VPs below.</li>
-            <li><strong>Features:</strong> Boxes represent positions, connected by lines to show hierarchy. Example: A box for “HR Manager” linked to “HR Team.”</li>
-            <li><strong>Best Practices:</strong> Keep design simple, update regularly, and include job titles.</li>
+            <li><strong>Purpose:</strong> Clarify roles and reporting lines. Example: Company hierarchy.</li>
+            <li><strong>Features:</strong> Boxes for positions connected by lines.</li>
+            <li><strong>Best Practices:</strong> Keep simple, update regularly, include job titles.</li>
         </ul>
-        <p><strong>Use:</strong> Used in employee handbooks, onboarding, and management presentations.</p>
-    </div>
 
-    <div class="section">
-        <h2><b>5.2.9 Flowchart</b></h2>
-        <p>Flowcharts use shapes and arrows to represent processes or workflows.</p>
+        <h3>5.2.9 Flowchart</h3>
         <ul>
-            <li><strong>Purpose:</strong> Map out steps in a process for clarity. Example: A flowchart for customer complaint resolution.</li>
-            <li><strong>Features:</strong> Shapes (e.g., ovals for start/end, rectangles for steps) connected by arrows. Example: An arrow from “Receive Complaint” to “Investigate Issue.”</li>
-            <li><strong>Best Practices:</strong> Use standard shapes, keep steps concise, and ensure logical flow.</li>
+            <li><strong>Purpose:</strong> Map out processes or workflows. Example: Customer complaint resolution.</li>
+            <li><strong>Features:</strong> Shapes (ovals, rectangles) connected by arrows.</li>
+            <li><strong>Best Practices:</strong> Use standard shapes, concise steps, logical flow.</li>
         </ul>
-        <p><strong>Use:</strong> Common in process documentation, training, and quality control.</p>
-    </div>
 
-    <div class="section">
-        <h2><b>5.2.10 Diagrams</b></h2>
-        <p>Diagrams are schematic representations of systems, concepts, or relationships.</p>
+        <h3>5.2.10 Diagrams</h3>
         <ul>
-            <li><strong>Purpose:</strong> Illustrate structures or connections. Example: A network diagram showing IT infrastructure.</li>
-            <li><strong>Types:</strong> Include Venn diagrams, system diagrams, or concept maps. Example: A Venn diagram comparing product features.</li>
-            <li><strong>Best Practices:</strong> Use clear labels, consistent symbols, and avoid overcrowding.</li>
+            <li><strong>Purpose:</strong> Illustrate structures or connections. Example: Network diagram.</li>
+            <li><strong>Types:</strong> Venn, system, concept maps.</li>
+            <li><strong>Best Practices:</strong> Clear labels, consistent symbols, avoid overcrowding.</li>
         </ul>
-        <p><strong>Use:</strong> Used in technical reports, strategic planning, and training.</p>
-    </div>
 
-    <div class="section">
-        <h2><b>5.2.11 Map</b></h2>
-        <p>Maps visually represent geographical or spatial information relevant to business.</p>
+        <h3>5.2.11 Map</h3>
         <ul>
-            <li><strong>Purpose:</strong> Show locations, routes, or distribution. Example: A map highlighting store locations across a region.</li>
-            <li><strong>Features:</strong> Include labels, scales, and color coding. Example: Color-coded regions showing sales territories.</li>
-            <li><strong>Best Practices:</strong> Ensure accuracy, use clear legends, and focus on relevant details.</li>
+            <li><strong>Purpose:</strong> Show geographical or spatial information. Example: Store locations.</li>
+            <li><strong>Features:</strong> Labels, scales, color coding.</li>
+            <li><strong>Best Practices:</strong> Ensure accuracy, clear legends, focus on relevant details.</li>
         </ul>
-        <p><strong>Use:</strong> Common in logistics, marketing, and expansion planning.</p>
-    </div>
 
-    <div class="section">
-        <h2><b>5.2.12 Photograph</b></h2>
-        <p>Photographs are realistic images used to provide visual context or evidence.</p>
+        <h3>5.2.12 Photograph</h3>
         <ul>
-            <li><strong>Purpose:</strong> Enhance authenticity or engagement. Example: Photos of a new product in a marketing brochure.</li>
-            <li><strong>Features:</strong> High resolution, relevant to content, and properly captioned. Example: A captioned photo of a team event in a company newsletter.</li>
-            <li><strong>Best Practices:</strong> Use original or licensed images, ensure good quality, and avoid overuse.</li>
+            <li><strong>Purpose:</strong> Provide visual context or evidence. Example: Product photos in a brochure.</li>
+            <li><strong>Features:</strong> High resolution, relevant, properly captioned.</li>
+            <li><strong>Best Practices:</strong> Use original/licensed images, good quality, avoid overuse.</li>
         </ul>
-        <p><strong>Use:</strong> Used in advertising, reports, and corporate communications.</p>
+
+        <table>
+            <tr><th>Type</th><th>Purpose</th><th>Business Example</th></tr>
+            <tr><td>Signs, Symbols, Signals</td><td>Quick, universal communication</td><td>"No Smoking" sign, company logo</td></tr>
+            <tr><td>Tables</td><td>Structured data presentation</td><td>Product comparison table</td></tr>
+            <tr><td>Figures</td><td>Clarify concepts or designs</td><td>Office layout sketch</td></tr>
+            <tr><td>Bar Graphs</td><td>Compare categories</td><td>Regional sales comparison</td></tr>
+            <tr><td>Gantt Chart</td><td>Project scheduling</td><td>Product launch timeline</td></tr>
+            <tr><td>Infographics</td><td>Simplify complex data</td><td>Company achievements summary</td></tr>
+            <tr><td>Pie Chart</td><td>Show proportions</td><td>Budget allocation</td></tr>
+            <tr><td>Organizational Chart</td><td>Clarify hierarchy</td><td>Company reporting structure</td></tr>
+            <tr><td>Flowchart</td><td>Map processes</td><td>Customer complaint process</td></tr>
+            <tr><td>Diagrams</td><td>Illustrate connections</td><td>IT network diagram</td></tr>
+            <tr><td>Map</td><td>Geographical information</td><td>Store locations</td></tr>
+            <tr><td>Photograph</td><td>Visual context or evidence</td><td>Product photos in marketing</td></tr>
+        </table>
     </div>
 
+    <!-- ========== 5.3 ========== -->
     <div class="section">
-        <h2><b>5.3 Ethical Consideration in Using Visual Aids</b></h2>
+        <h2>5.3 Ethical Consideration in Using Visual Aids</h2>
         <p>Ethical use of visual aids ensures accuracy, fairness, and credibility in business communication.</p>
+
+        <h3>Key Ethical Principles</h3>
         <ul>
-            <li><strong>Accuracy:</strong> Avoid manipulating data or visuals to mislead. Example: Do not alter a graph’s scale to exaggerate growth.</li>
+            <li><strong>Accuracy:</strong> Avoid manipulating data or visuals to mislead. Example: Do not alter a graph's scale to exaggerate growth.</li>
             <li><strong>Transparency:</strong> Clearly label sources and data origins. Example: Cite the source of statistics in a pie chart.</li>
             <li><strong>Copyright Compliance:</strong> Use only licensed or original images and graphics. Example: Purchase stock photos instead of copying from the web.</li>
             <li><strong>Inclusivity:</strong> Avoid visuals that perpetuate stereotypes or exclude groups. Example: Use diverse imagery in marketing materials.</li>
             <li><strong>Clarity:</strong> Ensure visuals do not distort or confuse the message. Example: Avoid cluttered infographics that obscure key points.</li>
         </ul>
-        <p><strong>Best Practices:</strong> Verify data, use reputable sources, and review visuals for fairness and clarity before use.</p>
+
+        <div class="code-block">
+            <span>// Visual Ethics Checklist</span><br>
+            <span>// ✓ Verify data accuracy</span><br>
+            <span>// ✓ Cite sources</span><br>
+            <span>// ✓ Use licensed images</span><br>
+            <span>// ✓ Ensure inclusivity</span><br>
+            <span>// ✓ Check for clarity</span>
+        </div>
+
+        <div class="note-box">
+            <strong>⚖️ Key insight:</strong> Ethical visual communication requires accuracy, transparency, copyright compliance, inclusivity, and clarity. These principles build trust and credibility in business communication.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 5 summary</strong><br>Visual communication uses visual aids to enhance clarity, engagement, and persuasion. Types include signs, tables, graphs, charts, infographics, and photographs.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Uses: clarity, engagement, retention, persuasion.<br>• Types: signs, tables, figures, bar graphs, Gantt charts, infographics, pie charts, organizational charts, flowcharts, diagrams, maps, photographs.<br>• Ethics: accuracy, transparency, copyright compliance, inclusivity, clarity.</div>
     </div>
 </body>
 </html>

@@ -1,131 +1,488 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 3: Simplification of Boolean Functions</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            color: black;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
         }
         li {
-            margin-bottom: 10px;
+            margin-bottom: 0.6rem;
+        }
+        strong {
+            color: #0f3d66;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
         }
         table {
+            width: 100%;
             border-collapse: collapse;
-            margin: 10px 0;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
-        th, td {
-            border: 1px solid black;
-            padding: 5px;
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
             text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
         }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
         }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
         }
-        h2 {
-            font-size: 1rem; /* smaller sub-header */
-        }
-        .section {
-            padding: 8px; /* less padding for small screens */
-        }
-    }
     </style>
 </head>
 <body>
-    <h1><b>Unit 3: Simplification of Boolean Functions</b></h1>
+    <h1>Unit 3: Simplification of Boolean Functions</h1>
+    <div class="subhead">Minterms & maxterms · SOP & POS · dual & complement · K-maps · don't cares · gate implementations</div>
 
+    <!-- ========== 3.1 ========== -->
     <div class="section">
-        <h2><b>3.1 Minterms and Maxterms</b></h2>
-        <p>Minterms and maxterms are standard forms of Boolean expressions used to represent any Boolean function in a canonical form.</p>
-        <ul>
-            <li><strong>Minterms:</strong> A minterm is a product (AND) of all variables in a function, where each variable appears exactly once, either complemented or uncomplemented. For <em>n</em> variables, there are <em>2^n</em> minterms. Example: For variables <em>A, B</em>, minterms are <em>A'B'</em>, <em>A'B</em>, <em>AB'</em>, <em>AB</em>. Each corresponds to a row in the truth table where the function is 1. Notation: <em>mᵢ</em>, where <em>i</em> is the decimal equivalent of the binary input. Example: <em>m₂ = AB'</em> (A=1, B=0).</li>
-            <li><strong>Maxterms:</strong> A maxterm is a sum (OR) of all variables, where each variable appears once, either complemented or uncomplemented. For <em>n</em> variables, there are <em>2^n</em> maxterms. Example: For <em>A, B</em>, maxterms are <em>A+B</em>, <em>A+B'</em>, <em>A'+B</em>, <em>A'+B'</em>. Each corresponds to a row where the function is 0. Notation: <em>Mᵢ</em>. Example: <em>M₂ = A'+B</em> (A=0, B=1).</li>
-            <li><strong>Example:</strong> For <em>F(A, B) = 1</em> when <em>AB = 10, 11</em>, the minterm form is <em>F = A'B + AB = m₂ + m₃</em>. The maxterm form is <em>F = (A+B)·(A'+B') = M₀ · M₁</em>.</li>
-            <li><strong>Applications:</strong> Used to express Boolean functions systematically and simplify circuit design.</li>
-        </ul>
-    </div>
+        <h2>3.1 Minterms and Maxterms</h2>
+        <p><strong>Minterms</strong> and <strong>maxterms</strong> are standard forms of Boolean expressions used to represent any Boolean function in a canonical form.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📘 Minterms</strong><br>A product (AND) of all variables, each appearing once (complemented or uncomplemented). For n variables, there are 2ⁿ minterms. Denoted as mᵢ.</div>
+            <div class="card"><strong>📗 Maxterms</strong><br>A sum (OR) of all variables, each appearing once (complemented or uncomplemented). For n variables, there are 2ⁿ maxterms. Denoted as Mᵢ.</div>
+        </div>
 
-    <div class="section">
-        <h2><b>3.2 Sum of Products and Product of Sums</b></h2>
-        <p>Sum of Products (SOP) and Product of Sums (POS) are two standard forms for representing Boolean functions.</p>
+        <h3>Minterms (Product Terms)</h3>
         <ul>
-            <li><strong>Sum of Products (SOP):</strong> A Boolean function expressed as a sum (OR) of minterms. Example: <em>F(A, B, C) = A'BC + AB'C + ABC</em> corresponds to minterms <em>m₃, m₅, m₇</em> (decimal 3, 5, 7). Derived from truth table rows where <em>F = 1</em>.</li>
-            <li><strong>Product of Sums (POS):</strong> A Boolean function expressed as a product (AND) of maxterms. Example: <em>F(A, B, C) = (A+B+C)·(A+B'+C)·(A'+B+C')</em> corresponds to maxterms <em>M₀, M₂, M₆</em> (rows where <em>F = 0</em>).</li>
-            <li><strong>Conversion:</strong> Use truth table or algebraic manipulation. Example: For <em>F = A'B + AB</em>, SOP is direct. For POS, find rows where <em>F = 0</em> (e.g., <em>A+B, A'+B'</em>).</li>
-            <li><strong>Example:</strong> Truth table for <em>F(A, B) = 1</em> at <em>AB = 01, 10</em>. SOP: <em>F = A'B + AB'</em>. POS: <em>F = (A+B)·(A'+B)</em>.</li>
-            <li><strong>Applications:</strong> SOP is implemented with AND-OR circuits; POS with OR-AND circuits.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2><b>3.3 Dual and Complement of Boolean Function</b></h2>
-        <p>The dual and complement operations transform Boolean expressions while preserving or altering their logic.</p>
-        <ul>
-            <li><strong>Dual:</strong> Replace AND with OR, OR with AND, 0 with 1, and 1 with 0, while keeping variables unchanged. Example: Dual of <em>F = A · B + C</em> is <em>Fᵈ = (A + B) · C</em>. Note: The dual does not necessarily yield the same function but is useful in circuit design.</li>
-            <li><strong>Complement:</strong> The complement of a function <em>F</em>, denoted <em>F'</em>, gives the opposite output (0 for 1, 1 for 0). Use De Morgan’s theorems or truth table. Example: For <em>F = A · B</em>, <em>F' = (A · B)' = A' + B'</em>. For <em>F = A + B</em>, <em>F' = A' · B'</em>.</li>
-            <li><strong>Example:</strong> For <em>F = A'B + AB'</em>, complement is <em>F' = (A'B + AB')' = (A'B)' · (AB')' = (A + B') · (A' + B)</em>. Dual is <em>Fᵈ = (A' + B) · (A + B')</em>.</li>
-            <li><strong>Applications:</strong> Complements are used in circuit minimization; duals help convert between SOP and POS forms.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2><b>3.4 K-map & Don't Care Conditions</b></h2>
-        <p>Karnaugh maps (K-maps) are graphical tools for simplifying Boolean expressions, and don’t care conditions help further optimize circuits.</p>
-        <ul>
-            <li><strong>K-map:</strong> A grid where each cell represents a minterm, used to simplify SOP or POS expressions by grouping 1s (or 0s). For <em>n</em> variables, the K-map has <em>2^n</em> cells. Example: For 3 variables <em>A, B, C</em>, a 4x2 K-map is used.
+            <li><strong>Definition:</strong> A minterm is a product term that evaluates to 1 for exactly one combination of input variables.</li>
+            <li><strong>For 2 variables (A, B):</strong>
                 <ul>
-                    <li><strong>Steps:</strong> Plot 1s for minterms (SOP) or 0s for maxterms (POS). Group adjacent 1s (or 0s) in powers of 2 (1, 2, 4, 8). Each group gives a simplified term.</li>
-                    <li>Example: For <em>F(A, B, C) = Σm(0, 1, 4, 5)</em>, plot 1s in K-map, group <em>A'B'</em> (m₀, m₁) and <em>AB'</em> (m₄, m₅). Result: <em>F = A'B' + AB'</em>.</li>
+                    <li>m₀ = A'B' (00)</li>
+                    <li>m₁ = A'B (01)</li>
+                    <li>m₂ = AB' (10)</li>
+                    <li>m₃ = AB (11)</li>
                 </ul>
             </li>
-            <li><strong>Don't Care Conditions:</strong> Inputs where the output is unspecified (denoted <em>X</em>) can be treated as 0 or 1 to simplify expressions. Example: For <em>F(A, B, C) = Σm(0, 1) + d(4, 5)</em>, include don’t cares in groups to get <em>F = A'</em> (grouping m₀, m₁, d₄, d₅).</li>
-            <li><strong>Applications:</strong> K-maps minimize logic gates in circuit design; don’t cares optimize incomplete specifications (e.g., unused input combinations).</li>
+            <li><strong>Notation:</strong> A function expressed as sum of minterms: <span class="highlight">F = Σm(i₁, i₂, ...)</span></li>
         </ul>
-    </div>
 
-    <div class="section">
-        <h2><b>3.5 Two-Level and Multilevel Gate Implementations</b></h2>
-        <p>Boolean functions can be implemented using two-level or multilevel gate circuits, balancing speed, complexity, and cost.</p>
+        <h3>Maxterms (Sum Terms)</h3>
         <ul>
-            <li><strong>Two-Level Gate Implementation:</strong>
+            <li><strong>Definition:</strong> A maxterm is a sum term that evaluates to 0 for exactly one combination of input variables.</li>
+            <li><strong>For 2 variables (A, B):</strong>
                 <ul>
-                    <li><strong>SOP (AND-OR):</strong> First level: AND gates for each minterm; second level: OR gate to sum them. Example: <em>F = A'B + AB'</em> uses two AND gates (for <em>A'B</em>, <em>AB'</em>) and one OR gate.</li>
-                    <li><strong>POS (OR-AND):</strong> First level: OR gates for each maxterm; second level: AND gate to combine them. Example: <em>F = (A+B)·(A'+B)</em> uses two OR gates and one AND gate.</li>
-                    <li><strong>Advantage:</strong> Fast (only two gate delays). <strong>Drawback:</strong> May require many gates for complex functions.</li>
+                    <li>M₀ = A + B (00)</li>
+                    <li>M₁ = A + B' (01)</li>
+                    <li>M₂ = A' + B (10)</li>
+                    <li>M₃ = A' + B' (11)</li>
                 </ul>
             </li>
-            <li><strong>Multilevel Gate Implementation:</strong> Uses multiple levels of gates (AND, OR, NOT, etc.) to factor expressions, reducing gate count. Example: <em>F = A'B + AB'C</em> can be factored as <em>F = A'(B + BC) = A'(B + C)</em>, implemented with fewer gates but more levels.</li>
-            <li><strong>Example:</strong> For <em>F = A'BC + A'BC' + ABC</em>, SOP needs three AND gates and one OR gate. Factored form <em>F = A'B(C + C') + ABC = A'B + ABC = B(A' + AC)</em> uses fewer gates with three levels.</li>
-            <li><strong>Applications:</strong> Two-level for high-speed circuits (e.g., critical paths in CPUs); multilevel for cost-effective designs (e.g., ASICs).</li>
+            <li><strong>Notation:</strong> A function expressed as product of maxterms: <span class="highlight">F = ΠM(i₁, i₂, ...)</span></li>
         </ul>
+
+        <table>
+            <tr><th>Row</th><th>A</th><th>B</th><th>F</th><th>Minterm</th><th>Maxterm</th></tr>
+            <tr><td>0</td><td>0</td><td>0</td><td>1</td><td>m₀ = A'B'</td><td>M₀ = A + B</td></tr>
+            <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>m₁ = A'B</td><td>M₁ = A + B'</td></tr>
+            <tr><td>2</td><td>1</td><td>0</td><td>1</td><td>m₂ = AB'</td><td>M₂ = A' + B</td></tr>
+            <tr><td>3</td><td>1</td><td>1</td><td>0</td><td>m₃ = AB</td><td>M₃ = A' + B'</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Example: F(A,B) = 1 for rows 0, 2</span><br>
+            F = Σm(0, 2) = m₀ + m₂ = A'B' + AB'<br>
+            F = ΠM(1, 3) = M₁ · M₃ = (A + B') · (A' + B')
+        </div>
+    </div>
+
+    <!-- ========== 3.2 ========== -->
+    <div class="section">
+        <h2>3.2 Sum of Products and Product of Sums</h2>
+        <p><strong>Sum of Products (SOP)</strong> and <strong>Product of Sums (POS)</strong> are two standard forms for representing Boolean functions.</p>
+
+        <h3>Sum of Products (SOP)</h3>
+        <ul>
+            <li><strong>Definition:</strong> A Boolean function expressed as a sum (OR) of minterms.</li>
+            <li><strong>Form:</strong> F = Σm(i₁, i₂, ...)</li>
+            <li><strong>Implementation:</strong> AND-OR (first level AND, second level OR).</li>
+            <li><strong>Example:</strong> F(A,B,C) = A'BC + AB'C + ABC = Σm(3, 5, 7)</li>
+        </ul>
+
+        <h3>Product of Sums (POS)</h3>
+        <ul>
+            <li><strong>Definition:</strong> A Boolean function expressed as a product (AND) of maxterms.</li>
+            <li><strong>Form:</strong> F = ΠM(i₁, i₂, ...)</li>
+            <li><strong>Implementation:</strong> OR-AND (first level OR, second level AND).</li>
+            <li><strong>Example:</strong> F(A,B,C) = (A+B+C)·(A+B'+C)·(A'+B+C') = ΠM(0, 2, 6)</li>
+        </ul>
+
+        <h3>SOP vs POS</h3>
+        <table>
+            <tr><th>Feature</th><th>SOP</th><th>POS</th></tr>
+            <tr><td>Expression</td><td>Sum of products (AND terms)</td><td>Product of sums (OR terms)</td></tr>
+            <tr><td>Notation</td><td>Σm(i)</td><td>ΠM(i)</td></tr>
+            <tr><td>Implementation</td><td>AND-OR</td><td>OR-AND</td></tr>
+            <tr><td>Use Case</td><td>Common in PLA/PAL</td><td>Common in some ROMs</td></tr>
+            <tr><td>Example</td><td>F = AB + A'C</td><td>F = (A+B)(A'+C)</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span>// Conversion between SOP and POS</span><br>
+            <span>// Given F = Σm(0, 1, 4, 5)</span><br>
+            <span>// SOP: F = A'B' + A'B + AB'</span><br><br>
+            <span>// POS (use zeros): F' = Σm(2, 3, 6, 7)</span><br>
+            <span>// F' = A'B + AB + AB' = B + A</span><br>
+            <span>// F = (F')' = (A + B)' = A'B'</span>
+        </div>
+    </div>
+
+    <!-- ========== 3.3 ========== -->
+    <div class="section">
+        <h2>3.3 Dual and Complement of Boolean Function</h2>
+        <p>The <strong>dual</strong> and <strong>complement</strong> operations transform Boolean expressions while preserving or altering their logic.</p>
+
+        <h3>Dual of a Boolean Function</h3>
+        <ul>
+            <li><strong>Definition:</strong> Replace AND (·) with OR (+), OR with AND, 0 with 1, and 1 with 0. Variables remain unchanged.</li>
+            <li><strong>Notation:</strong> Fᵈ</li>
+            <li><strong>Example:</strong> If F = A · B + C, then Fᵈ = (A + B) · C</li>
+            <li><strong>Property:</strong> The dual of a function is not necessarily equal to the original.</li>
+        </ul>
+
+        <h3>Complement of a Boolean Function</h3>
+        <ul>
+            <li><strong>Definition:</strong> The complement of F (denoted F') gives the opposite output for all inputs.</li>
+            <li><strong>Methods:</strong>
+                <ul>
+                    <li>Use De Morgan's theorems.</li>
+                    <li>Use the dual and then complement variables.</li>
+                    <li>Use a truth table.</li>
+                </ul>
+            </li>
+            <li><strong>Example:</strong> If F = A · B, then F' = (A · B)' = A' + B'</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Dual and Complement Examples</span><br><br>
+            <span>// F = A'B + AB'</span><br>
+            <span>// Dual: Fᵈ = (A' + B) · (A + B')</span><br>
+            <span>// Complement: F' = (A'B + AB')' = (A'B)' · (AB')' = (A + B') · (A' + B)</span><br><br>
+            <span>// Relationship: F' = (Fᵈ) with variables complemented</span>
+        </div>
+
+        <div class="note-box">
+            <strong>📐 Key insight:</strong> The dual of a function is useful for converting between SOP and POS forms. The complement is essential for implementing functions in negative logic or using NAND/NOR gates.
+        </div>
+    </div>
+
+    <!-- ========== 3.4 ========== -->
+    <div class="section">
+        <h2>3.4 K-map & Don't Care Conditions</h2>
+        <p><strong>Karnaugh maps (K-maps)</strong> are graphical tools for simplifying Boolean expressions, and <strong>don't care conditions</strong> help further optimize circuits.</p>
+
+        <h3>Karnaugh Map (K-map)</h3>
+        <ul>
+            <li><strong>Definition:</strong> A grid where each cell represents a minterm. Adjacent cells differ by one variable.</li>
+            <li><strong>Grid Sizes:</strong>
+                <ul>
+                    <li>2 variables: 2×2</li>
+                    <li>3 variables: 4×2</li>
+                    <li>4 variables: 4×4</li>
+                </ul>
+            </li>
+            <li><strong>Grouping Rules:</strong>
+                <ul>
+                    <li>Group adjacent 1s (or 0s) in powers of 2 (1, 2, 4, 8, ...).</li>
+                    <li>Groups can wrap around edges.</li>
+                    <li>Each group gives a simplified product term (SOP) or sum term (POS).</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="figure-box">
+            <pre>
+3-Variable K-map (A, B, C):
+         BC
+         00  01  11  10
+A  0 | m0 | m1 | m3 | m2 |
+   1 | m4 | m5 | m7 | m6 |
+            </pre>
+        </div>
+
+        <h3>Don't Care Conditions</h3>
+        <ul>
+            <li><strong>Definition:</strong> Input combinations where the output is unspecified (denoted X).</li>
+            <li><strong>Usage:</strong> Treat don't cares as 0 or 1 to create larger groups and simplify expressions.</li>
+            <li><strong>Example:</strong> F(A,B,C) = Σm(0, 1) + d(4, 5) → grouping with don't cares gives F = A'</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// K-map Simplification Example</span><br>
+            <span>// F(A,B,C) = Σm(0, 1, 3, 4, 5)</span><br><br>
+            <span>// K-map groups:</span><br>
+            <span>// Group 1: m0, m1, m4, m5 → A'</span><br>
+            <span>// Group 2: m1, m3 → A'B'C' + A'BC = A'B</span><br>
+            <span>// Simplified: F = A' + B</span>
+        </div>
+    </div>
+
+    <!-- ========== 3.5 ========== -->
+    <div class="section">
+        <h2>3.5 Two-Level and Multilevel Gate Implementations</h2>
+        <p>Boolean functions can be implemented using <strong>two-level</strong> or <strong>multilevel</strong> gate circuits, balancing speed, complexity, and cost.</p>
+
+        <h3>Two-Level Gate Implementation</h3>
+        <ul>
+            <li><strong>SOP (AND-OR):</strong>
+                <ul>
+                    <li>Level 1: AND gates for each product term.</li>
+                    <li>Level 2: OR gate to sum them.</li>
+                    <li><strong>Example:</strong> F = A'B + AB' → 2 AND gates + 1 OR gate.</li>
+                    <li><strong>Advantage:</strong> Fast (only 2 gate delays).</li>
+                    <li><strong>Disadvantage:</strong> May require many gates.</li>
+                </ul>
+            </li>
+            <li><strong>POS (OR-AND):</strong>
+                <ul>
+                    <li>Level 1: OR gates for each sum term.</li>
+                    <li>Level 2: AND gate to combine them.</li>
+                    <li><strong>Example:</strong> F = (A+B)·(A'+B) → 2 OR gates + 1 AND gate.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Multilevel Gate Implementation</h3>
+        <ul>
+            <li><strong>Definition:</strong> Uses more than two levels of gates (AND, OR, NOT, etc.).</li>
+            <li><strong>Goal:</strong> Reduce gate count by factoring expressions.</li>
+            <li><strong>Example:</strong> F = A'B + AB'C = A'(B + BC) = A'(B + C)</li>
+            <li><strong>Advantage:</strong> Fewer gates, lower cost.</li>
+            <li><strong>Disadvantage:</strong> Slower (more gate delays).</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Two-Level vs Multilevel Example</span><br>
+            <span>// F = A'B'C + A'BC + AB'C + ABC</span><br><br>
+            <span>// Two-Level SOP (4 AND, 1 OR):</span><br>
+            F = A'B'C + A'BC + AB'C + ABC<br><br>
+            <span>// Multilevel (factorization):</span><br>
+            F = C(A'B' + A'B + AB' + AB)<br>
+            F = C(A' + B')<br>
+            <span>// Implementation: 1 AND + 1 OR + 1 NOT</span>
+        </div>
+
+        <table>
+            <tr><th>Feature</th><th>Two-Level</th><th>Multilevel</th></tr>
+            <tr><td>Speed</td><td>Fast</td><td>Slow</td></tr>
+            <tr><td>Gate Count</td><td>May be large</td><td>Optimized</td></tr>
+            <tr><td>Implementation</td><td>AND-OR / OR-AND</td><td>Mixed gates</td></tr>
+            <tr><td>Use Case</td><td>High-speed logic</td><td>Cost-effective designs</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>🔑 Key insight:</strong> Two-level implementations are faster but may require more gates. Multilevel implementations use fewer gates but introduce more propagation delays. The choice depends on speed requirements and cost constraints.
+        </div>
+    </div>
+
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 3 summary</strong><br>Boolean function simplification techniques include minterms/maxterms, SOP/POS forms, dual/complement, K-maps, and gate implementations.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Minterms: Σm(i), Maxterms: ΠM(i).<br>• SOP: sum of products (AND-OR).<br>• POS: product of sums (OR-AND).<br>• Dual: swap AND/OR, 0/1.<br>• Complement: invert the function.<br>• K-maps: graphical simplification.<br>• Don't cares: X for unspecified outputs.<br>• Two-level: fast, more gates.<br>• Multilevel: slower, fewer gates.</div>
     </div>
 </body>
 </html>

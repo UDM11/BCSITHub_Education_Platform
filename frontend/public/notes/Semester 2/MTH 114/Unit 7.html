@@ -1,153 +1,471 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit 7: Fourier Series and Integrals</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h2 {
-            color: black;
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #eef2f7;
+            color: #1a2a3f;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.2rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
         }
         h1 {
-            text-align: center;
-            color: black;
-            font-size: 16pt;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #0b2a4a, #1b5a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 10px solid #1b6bb0;
+            padding-left: 1.4rem;
+            margin: 0 0 0.3rem 0;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #3d5a78;
+            margin-bottom: 2rem;
+            padding-left: 2.4rem;
+            border-bottom: 2px solid #dce5f0;
+            padding-bottom: 0.6rem;
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.6rem;
+            margin-bottom: 1rem;
+            color: #0b2a4a;
+            border-bottom: 4px solid #cbd8e8;
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h2::before {
+            content: "▹";
+            color: #1b6bb0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b5a;
+            margin: 1.8rem 0 0.8rem 0;
+        }
+        h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f4970;
+            margin: 1.2rem 0 0.4rem 0;
         }
         .section {
-            background: #fff;
-            padding: 5px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: justify;
+            background: #f9fbfe;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            border: 1px solid #e6edf6;
+            transition: 0.2s;
         }
-        ul {
-            margin: 5px 0;
-            padding-left: 10px;
+        .section:hover {
+            border-color: #b6d0e8;
+            box-shadow: 0 8px 18px rgba(26, 80, 140, 0.08);
+        }
+        p {
+            margin: 0.8rem 0;
+            color: #1f3347;
+        }
+        ul, ol {
+            padding-left: 1.8rem;
+            margin: 0.8rem 0 1.2rem 0;
         }
         li {
-            margin-bottom: 10px;
+            margin-bottom: 0.6rem;
         }
-                @media only screen and (max-width: 768px) {
-        body {
-            font-size: 14px; /* slightly smaller font for mobile */
+        strong {
+            color: #0f3d66;
         }
-        h1 {
-            font-size: 1.2rem; /* smaller header */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 1.2rem 0;
         }
-        h2 {
-            font-size: 1rem; /* smaller sub-header */
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e3ecf5;
         }
-        .section {
-            padding: 8px; /* less padding for small screens */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
-    }
+        th {
+            background: #1b3b5c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2eaf3;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #1b6bb0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            margin-right: 0.4rem;
+        }
+        .note-box {
+            background: #e2edfb;
+            border-left: 6px solid #1b6bb0;
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin: 1.6rem 0;
+            color: #0a2842;
+        }
+        .code-block {
+            background: #122433;
+            color: #d4eaff;
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid #2a4b6e;
+        }
+        .code-block span {
+            color: #9fc9ff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; padding-left: 0.8rem; }
+            h2 { font-size: 1.4rem; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .section { padding: 1.2rem; }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .section { padding: 1rem; }
+        }
+        hr {
+            border: none;
+            border-top: 2px dashed #cbdae8;
+            margin: 2rem 0;
+        }
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .icon-list li::before {
+            content: "●";
+            color: #1b6bb0;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+        .figure-box {
+            background: #eaf1fb;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #bdd2e8;
+            margin: 1rem 0;
+        }
+        .figure-box pre {
+            background: transparent;
+            color: #0b2a4a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1><b>Unit 7: Fourier Series and Integrals</b></h1>
+    <h1>Unit 7: Fourier Series and Integrals</h1>
+    <div class="subhead">Introduction · even & odd functions · periodic functions · Fourier series · coefficients · sine & cosine series · Fourier integrals</div>
 
+    <!-- ========== 7.1 ========== -->
     <div class="section">
-        <h2><b>7.1 Introduction</b></h2>
-        <p>Fourier series and integrals are mathematical tools used to represent functions as sums or integrals of sine and cosine functions. They are fundamental in analyzing periodic phenomena and solving differential equations in physics, engineering, and signal processing.</p>
+        <h2>7.1 Introduction</h2>
+        <p><strong>Fourier series</strong> and <strong>integrals</strong> are mathematical tools used to represent functions as sums or integrals of sine and cosine functions. They are fundamental in analyzing periodic phenomena and solving differential equations in physics, engineering, and signal processing.</p>
+        <div class="grid-2col">
+            <div class="card"><strong>📊 Purpose</strong><br>Decompose complex functions into simpler trigonometric components. Example: Representing a sound wave as a sum of pure tones.</div>
+            <div class="card"><strong>📐 Applications</strong><br>Signal processing, heat transfer, vibration analysis, image compression (JPEG), and quantum mechanics.</div>
+        </div>
+
+        <h3>Key Concepts</h3>
         <ul>
-            <li><strong>Purpose:</strong> Decompose complex functions into simpler trigonometric components to study their behavior. Example: Representing a sound wave as a sum of pure tones.</li>
-            <li><strong>Fourier Series:</strong> Expresses a periodic function as a sum of sines and cosines. Example: A square wave can be approximated by a series of sine terms.</li>
-            <li><strong>Fourier Integrals:</strong> Extend Fourier series to non-periodic functions, representing them as integrals over a continuous range of frequencies.</li>
-            <li><strong>Applications:</strong> Used in signal processing (e.g., audio analysis), heat transfer, vibration analysis, and image compression.</li>
+            <li><strong>Fourier Series:</strong> Represents periodic functions as sums of sines and cosines.</li>
+            <li><strong>Fourier Integral:</strong> Extends Fourier series to non-periodic functions.</li>
+            <li><strong>Even/Odd Functions:</strong> Simplify Fourier series by eliminating sine or cosine terms.</li>
         </ul>
     </div>
 
+    <!-- ========== 7.2 ========== -->
     <div class="section">
-        <h2><b>7.2 Even and Odd Function</b></h2>
-        <p>Even and odd functions have symmetry properties that simplify Fourier series representations.</p>
+        <h2>7.2 Even and Odd Function</h2>
+
+        <h3>Even Function</h3>
         <ul>
-            <li><strong>Even Function:</strong> A function <em>f(x)</em> is even if <em>f(-x) = f(x)</em> for all <em>x</em>. Graphically, it is symmetric about the y-axis. Example: <em>f(x) = cos x</em>, <em>f(x) = x²</em>.</li>
-            <li><strong>Odd Function:</strong> A function <em>f(x)</em> is odd if <em>f(-x) = -f(x)</em>. Graphically, it is symmetric about the origin. Example: <em>f(x) = sin x</em>, <em>f(x) = x³</em>.</li>
-            <li><strong>Properties:</strong>
-                <ul>
-                    <li>Integral of an odd function over a symmetric interval <em>[-a, a]</em> is zero: <em>∫<sub>-a</sub><sup>a</sup> f(x) dx = 0</em>.</li>
-                    <li>Integral of an even function: <em>∫<sub>-a</sub><sup>a</sup> f(x) dx = 2 ∫<sub>0</sub><sup>a</sup> f(x) dx</em>.</li>
-                </ul>
-                Example: For <em>f(x) = x</em> (odd), <em>∫<sub>-1</sub><sup>1</sup> x dx = [x²/2]<sub>-1</sub><sup>1</sup> = 1/2 - 1/2 = 0</em>.</li>
-            <li><strong>Application in Fourier Series:</strong> Even functions yield only cosine terms; odd functions yield only sine terms.</li>
+            <li><strong>Definition:</strong> f(-x) = f(x) for all x.</li>
+            <li><strong>Graph:</strong> Symmetric about the y-axis.</li>
+            <li><strong>Examples:</strong> cos x, x², |x|.</li>
+        </ul>
+
+        <h3>Odd Function</h3>
+        <ul>
+            <li><strong>Definition:</strong> f(-x) = -f(x) for all x.</li>
+            <li><strong>Graph:</strong> Symmetric about the origin.</li>
+            <li><strong>Examples:</strong> sin x, x³, tan x.</li>
+        </ul>
+
+        <h3>Properties</h3>
+        <ul>
+            <li>∫<sub>-a</sub><sup>a</sup> f(x) dx = 0 for odd functions.</li>
+            <li>∫<sub>-a</sub><sup>a</sup> f(x) dx = 2∫<sub>0</sub><sup>a</sup> f(x) dx for even functions.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Even Function Example</span><br>
+            f(x) = cos(x) → f(-x) = cos(-x) = cos(x)<br>
+            <span>// Odd Function Example</span><br>
+            f(x) = sin(x) → f(-x) = sin(-x) = -sin(x)
+        </div>
+
+        <div class="note-box">
+            <strong>📌 Key insight:</strong> Even functions yield only cosine terms in Fourier series; odd functions yield only sine terms. This simplifies calculations significantly.
+        </div>
+    </div>
+
+    <!-- ========== 7.3 ========== -->
+    <div class="section">
+        <h2>7.3 Periodic Function</h2>
+
+        <h3>Definition</h3>
+        <ul>
+            <li>f(x + T) = f(x) for all x. T is the period.</li>
+            <li>The smallest such T is the fundamental period.</li>
+        </ul>
+
+        <h3>Examples</h3>
+        <ul>
+            <li>sin x: period 2π</li>
+            <li>cos(2x): period π</li>
+            <li>Square wave: period depends on definition.</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Periodic Function Examples</span><br>
+            sin(x + 2π) = sin(x) → Period = 2π<br>
+            cos(2x + π) = cos(2x) → Period = π
+        </div>
+    </div>
+
+    <!-- ========== 7.4 ========== -->
+    <div class="section">
+        <h2>7.4 Fourier Series and Fourier Coefficients (Without Proof)</h2>
+
+        <h3>Fourier Series</h3>
+        <ul>
+            <li>For f(x) with period 2L:
+                <div class="code-block">
+                    f(x) = a₀/2 + Σ<sub>n=1</sub><sup>∞</sup> [aₙ cos(nπx/L) + bₙ sin(nπx/L)]
+                </div>
+            </li>
+        </ul>
+
+        <h3>Fourier Coefficients</h3>
+        <ul>
+            <li><strong>a₀:</strong> (1/L) ∫<sub>-L</sub><sup>L</sup> f(x) dx</li>
+            <li><strong>aₙ:</strong> (1/L) ∫<sub>-L</sub><sup>L</sup> f(x) cos(nπx/L) dx</li>
+            <li><strong>bₙ:</strong> (1/L) ∫<sub>-L</sub><sup>L</sup> f(x) sin(nπx/L) dx</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Fourier Series for f(x) = x on [-π, π]</span><br>
+            a₀ = 0 (odd function)<br>
+            aₙ = 0 (odd function)<br>
+            bₙ = (-2/n)(-1)ⁿ<br>
+            f(x) = Σ<sub>n=1</sub><sup>∞</sup> [(-2/n)(-1)ⁿ sin(nx)]
+        </div>
+
+        <h3>Convergence</h3>
+        <ul>
+            <li>Converges to f(x) at points of continuity.</li>
+            <li>Converges to the average of limits at discontinuities.</li>
         </ul>
     </div>
 
+    <!-- ========== 7.5 ========== -->
     <div class="section">
-        <h2><b>7.3 Periodic Function</b></h2>
-        <p>A periodic function repeats its values at regular intervals, which is essential for Fourier series.</p>
+        <h2>7.5 Fourier Sine and Cosine Series</h2>
+
+        <h3>Fourier Cosine Series</h3>
         <ul>
-            <li><strong>Definition:</strong> A function <em>f(x)</em> is periodic with period <em>T</em> if <em>f(x + T) = f(x)</em> for all <em>x</em>. The smallest such <em>T</em> is the fundamental period. Example: <em>f(x) = sin x</em> has period <em>2π</em>.</li>
-            <li><strong>Examples:</strong> <em>cos x</em> (period <em>2π</em>), <em>sin(2x)</em> (period <em>π</em>), square wave (period depends on definition).</li>
-            <li><strong>Importance:</strong> Fourier series represent periodic functions as sums of sines and cosines with frequencies that are multiples of the fundamental frequency <em>1/T</em>.</li>
-            <li><strong>Applications:</strong> Model periodic phenomena like electrical signals, seasonal patterns, or mechanical vibrations.</li>
+            <li>For even functions on [0, L]:
+                <div class="code-block">
+                    f(x) = a₀/2 + Σ<sub>n=1</sub><sup>∞</sup> aₙ cos(nπx/L)
+                </div>
+            </li>
+            <li>a₀ = (2/L) ∫<sub>0</sub><sup>L</sup> f(x) dx</li>
+            <li>aₙ = (2/L) ∫<sub>0</sub><sup>L</sup> f(x) cos(nπx/L) dx</li>
+        </ul>
+
+        <h3>Fourier Sine Series</h3>
+        <ul>
+            <li>For odd functions on [0, L]:
+                <div class="code-block">
+                    f(x) = Σ<sub>n=1</sub><sup>∞</sup> bₙ sin(nπx/L)
+                </div>
+            </li>
+            <li>bₙ = (2/L) ∫<sub>0</sub><sup>L</sup> f(x) sin(nπx/L) dx</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Cosine Series for f(x) = x² on [0, π]</span><br>
+            a₀ = 2π²/3<br>
+            aₙ = (2/π) ∫₀^π x² cos(nx) dx<br>
+            <span>// Sine Series for f(x) = x on [0, π]</span><br>
+            bₙ = (-2/n)(-1)ⁿ
+        </div>
+    </div>
+
+    <!-- ========== 7.6 ========== -->
+    <div class="section">
+        <h2>7.6 Fourier Integral</h2>
+
+        <h3>Definition</h3>
+        <ul>
+            <li>For f(x) on (-∞, ∞):
+                <div class="code-block">
+                    f(x) = ∫<sub>0</sub><sup>∞</sup> [A(ω) cos(ωx) + B(ω) sin(ωx)] dω
+                </div>
+            </li>
+            <li>A(ω) = (1/π) ∫<sub>-∞</sub><sup>∞</sup> f(t) cos(ωt) dt</li>
+            <li>B(ω) = (1/π) ∫<sub>-∞</sub><sup>∞</sup> f(t) sin(ωt) dt</li>
+        </ul>
+
+        <div class="code-block">
+            <span>// Fourier Integral for f(x) = e^(-|x|)</span><br>
+            A(ω) = (2/π)(1/(1 + ω²))<br>
+            B(ω) = 0 (even function)<br>
+            f(x) = (2/π) ∫₀^∞ [1/(1 + ω²)] cos(ωx) dω
+        </div>
+
+        <h3>Conditions</h3>
+        <ul>
+            <li>Piecewise continuous.</li>
+            <li>Finite number of discontinuities.</li>
+            <li>Absolutely integrable: ∫<sub>-∞</sub><sup>∞</sup> |f(x)| dx < ∞</li>
         </ul>
     </div>
 
+    <!-- ========== 7.7 ========== -->
     <div class="section">
-        <h2><b>7.4 Fourier Series and Fourier Coefficients (Without Proof)</b></h2>
-        <p>A Fourier series represents a periodic function as an infinite sum of sines and cosines.</p>
+        <h2>7.7 Fourier Sine and Cosine Integral</h2>
+
+        <h3>Fourier Cosine Integral</h3>
         <ul>
-            <li><strong>Definition:</strong> For a function <em>f(x)</em> with period <em>2L</em>, the Fourier series is:
-                <p><em>f(x) = a₀/2 + ∑<sub>n=1</sub><sup>∞</sup> [aₙ cos(nπx/L) + bₙ sin(nπx/L)]</em></p>
-                where <em>a₀, aₙ, bₙ</em> are Fourier coefficients.</li>
-            <li><strong>Fourier Coefficients:</strong>
-                <ul>
-                    <li><em>a₀ = (1/L) ∫<sub>-L</sub><sup>L</sup> f(x) dx</em></li>
-                    <li><em>aₙ = (1/L) ∫<sub>-L</sub><sup>L</sup> f(x) cos(nπx/L) dx</em>, for <em>n = 1, 2, ...</em></li>
-                    <li><em>bₙ = (1/L) ∫<sub>-L</sub><sup>L</sup> f(x) sin(nπx/L) dx</em>, for <em>n = 1, 2, ...</em></li>
-                </ul>
-                Example: For <em>f(x) = x</em> on <em>[-π, π]</em>, compute <em>a₀ = (1/π) ∫<sub>-π</sub><sup>π</sup> x dx = 0</em> (odd function), <em>aₙ = 0</em> (since <em>f(x) cos(nπx/π)</em> is odd), <em>bₙ = (2/π) ∫<sub>0</sub><sup>π</sup> x sin(nx) dx = (-2/n)(-1)^n</em>. Thus, <em>f(x) = ∑<sub>n=1</sub><sup>∞</sup> [(-2/n)(-1)^n sin(nx)]</em>.</li>
-            <li><strong>Convergence:</strong> The series converges to <em>f(x)</em> at points of continuity, and to the average of the limits at discontinuities, assuming <em>f(x)</em> is piecewise smooth.</li>
+            <li>For even extension on [0, ∞):
+                <div class="code-block">
+                    f(x) = (2/π) ∫₀^∞ [∫₀^∞ f(t) cos(ωt) dt] cos(ωx) dω
+                </div>
+            </li>
         </ul>
+
+        <div class="code-block">
+            <span>// Cosine Integral for f(x) = 1 on [0, 1]</span><br>
+            ∫₀^∞ f(t) cos(ωt) dt = sin(ω)/ω<br>
+            f(x) = (2/π) ∫₀^∞ [sin(ω)/ω] cos(ωx) dω
+        </div>
+
+        <h3>Fourier Sine Integral</h3>
+        <ul>
+            <li>For odd extension on [0, ∞):
+                <div class="code-block">
+                    f(x) = (2/π) ∫₀^∞ [∫₀^∞ f(t) sin(ωt) dt] sin(ωx) dω
+                </div>
+            </li>
+        </ul>
+
+        <h3>Applications</h3>
+        <ul>
+            <li><strong>Heat Equation:</strong> Solving with Dirichlet or Neumann boundary conditions.</li>
+            <li><strong>Signal Processing:</strong> Analyzing non-periodic signals.</li>
+            <li><strong>Quantum Mechanics:</strong> Wavefunction analysis.</li>
+        </ul>
+
+        <table>
+            <tr><th>Type</th><th>Function Type</th><th>Integral Form</th><th>Use Case</th></tr>
+            <tr><td>Fourier Series</td><td>Periodic</td><td>Sum of sines and cosines</td><td>Periodic signals</td></tr>
+            <tr><td>Fourier Integral</td><td>Non-periodic</td><td>Integral over frequencies</td><td>General signals</td></tr>
+            <tr><td>Cosine Integral</td><td>Even extension</td><td>Cosine only</td><td>Neumann boundary</td></tr>
+            <tr><td>Sine Integral</td><td>Odd extension</td><td>Sine only</td><td>Dirichlet boundary</td></tr>
+        </table>
+
+        <div class="note-box">
+            <strong>📊 Key insight:</strong> Fourier series and integrals provide a powerful framework for analyzing and representing functions in terms of their frequency components, making them essential in science and engineering.
+        </div>
     </div>
 
-    <div class="section">
-        <h2><b>7.5 Fourier Sine and Cosine Series</b></h2>
-        <p>Fourier sine and cosine series are used for odd or even extensions of functions, simplifying the Fourier series for specific symmetries.</p>
-        <ul>
-            <li><strong>Fourier Cosine Series:</strong> For an even function on <em>[0, L]</em>, extended to <em>[-L, L]</em>, the series contains only cosine terms:
-                <p><em>f(x) = a₀/2 + ∑<sub>n=1</sub><sup>∞</sup> aₙ cos(nπx/L)</em></p>
-                where <em>a₀ = (2/L) ∫<sub>0</sub><sup>L</sup> f(x) dx</em>, <em>aₙ = (2/L) ∫<sub>0</sub><sup>L</sup> f(x) cos(nπx/L) dx</em>. Example: For <em>f(x) = x²</em> on <em>[0, π]</em>, <em>a₀ = (2/π) ∫<sub>0</sub><sup>π</sup> x² dx = 2π²/3</em>, <em>aₙ = (2/π) ∫<sub>0</sub><sup>π</sup> x² cos(nx) dx</em>.</li>
-            <li><strong>Fourier Sine Series:</strong> For an odd function on <em>[0, L]</em>, extended to <em>[-L, L]</em>, the series contains only sine terms:
-                <p><em>f(x) = ∑<sub>n=1</sub><sup>∞</sup> bₙ sin(nπx/L)</em></p>
-                where <em>bₙ = (2/L) ∫<sub>0</sub><sup>L</sup> f(x) sin(nπx/L) dx</em>. Example: For <em>f(x) = x</em> on <em>[0, π]</em>, <em>bₙ = (2/π) ∫<sub>0</sub><sup>π</sup> x sin(nx) dx = (-2/n)(-1)^n</em>.</li>
-            <li><strong>Applications:</strong> Used in solving partial differential equations (e.g., heat equation) with specific boundary conditions.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2><b>7.6 Fourier Integral</b></h2>
-        <p>The Fourier integral extends Fourier series to non-periodic functions, representing them as integrals over a continuous range of frequencies.</p>
-        <ul>
-            <li><strong>Definition:</strong> For a function <em>f(x)</em> defined on <em>(-∞, ∞)</em>, the Fourier integral is:
-                <p><em>f(x) = ∫<sub>0</sub><sup>∞</sup> [A(ω) cos(ωx) + B(ω) sin(ωx)] dω</em></p>
-                where <em>A(ω) = (1/π) ∫<sub>-∞</sub><sup>∞</sup> f(t) cos(ωt) dt</em>, <em>B(ω) = (1/π) ∫<sub>-∞</sub><sup>∞</sup> f(t) sin(ωt) dt</em>.</li>
-            <li><strong>Conditions:</strong> <em>f(x)</em> must be piecewise continuous, have a finite number of discontinuities, and be absolutely integrable (<em>∫<sub>-∞</sub><sup>∞</sup> |f(x)| dx < ∞</em>).</li>
-            <li><strong>Example:</strong> For <em>f(x) = e^(-|x|)</em>, compute <em>A(ω) = (2/π) ∫<sub>0</sub><sup>∞</sup> e^(-t) cos(ωt) dt = (2/π)(1/(1 + ω²))</em>, <em>B(ω) = 0</em> (since <em>f(x)</em> is even). Thus, <em>f(x) = (2/π) ∫<sub>0</sub><sup>∞</sup> [1/(1 + ω²)] cos(ωx) dω</em>.</li>
-            <li><strong>Applications:</strong> Used in signal processing, heat conduction, and wave analysis for non-periodic functions.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2><b>7.7 Fourier Sine and Cosine Integral</b></h2>
-        <p>Fourier sine and cosine integrals represent non-periodic functions using only sine or cosine terms, often for functions defined on <em>[0, ∞)</em>.</p>
-        <ul>
-            <li><strong>Fourier Cosine Integral:</strong> For an even extension of <em>f(x)</em> on <em>[0, ∞)</em>:
-                <p><em>f(x) = (2/π) ∫<sub>0</sub><sup>∞</sup> [∫<sub>0</sub><sup>∞</sup> f(t) cos(ωt) dt] cos(ωx) dω</em></p>
-                Example: For <em>f(x) = 1</em> on <em>[0, 1]</em>, <em>0</em> elsewhere, compute <em>∫<sub>0</sub><sup>∞</sup> f(t) cos(ωt) dt = ∫<sub>0</sub><sup>1</sup> cos(ωt) dt = sin(ω)/ω</em>. Thus, <em>f(x) ≈ (2/π) ∫<sub>0</sub><sup>∞</sup> [sin(ω)/ω] cos(ωx) dω</em>.</li>
-            <li><strong>Fourier Sine Integral:</strong> For an odd extension of <em>f(x)</em> on <em>[0, ∞)</em>:
-                <p><em>f(x) = (2/π) ∫<sub>0</sub><sup>∞</sup> [∫<sub>0</sub><sup>∞</sup> f(t) sin(ωt) dt] sin(ωx) dω</em></p>
-                Example: For <em>f(x) = x</em> on <em>[0, 1]</em>, <em>0</em> elsewhere, compute <em>∫<sub>0</sub><sup>∞</sup> f(t) sin(ωt) dt = ∫<sub>0</sub><sup>1</sup> t sin(ωt) dt</em>, which requires integration by parts.</li>
-            <li><strong>Applications:</strong> Solve boundary value problems (e.g., heat equation with Dirichlet or Neumann conditions) and analyze signals with specific symmetries.</li>
-        </ul>
+    <!-- ========== footer ========== -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; background: #edf4fb; border-radius: 24px; padding: 1.8rem; margin-top: 1rem;">
+        <div><strong>📘 Unit 7 summary</strong><br>Fourier series represent periodic functions as sums of sines and cosines. Fourier integrals extend this to non-periodic functions. Even/odd functions simplify the series.</div>
+        <div><strong>🔑 Key takeaways</strong><br>• Fourier series: f(x) = a₀/2 + Σ(aₙ cos + bₙ sin).<br>• Even functions: only cosine terms; odd: only sine terms.<br>• Fourier coefficients: a₀, aₙ, bₙ from integrals.<br>• Fourier integral: non-periodic functions.<br>• Cosine/Sine integrals: for even/odd extensions.</div>
     </div>
 </body>
 </html>
