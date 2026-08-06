@@ -16,6 +16,7 @@ class Settings:
     JWT_SECRET: str = os.getenv("JWT_SECRET", "super-secret-jwt-key-for-bcsithub")
     QUIZ_API_KEY: str = os.getenv("QUIZ_API_KEY", "")
     GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
+    GEMINI_MODEL_NAME: str = os.getenv("GEMINI_MODEL_NAME", "gemini-2.5-flash-lite")
 
     # URLs for OAuth Redirects
     BACKEND_URL: str = os.getenv("BACKEND_URL", "http://localhost:8000")

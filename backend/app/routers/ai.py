@@ -50,8 +50,9 @@ async def chat_with_ai(
         import google.generativeai as genai
         
         genai.configure(api_key=settings.GEMINI_API_KEY)
+        model_name = settings.GEMINI_MODEL_NAME if settings.GEMINI_MODEL_NAME.startswith("models/") else f"models/{settings.GEMINI_MODEL_NAME}"
         model = genai.GenerativeModel(
-            model_name="models/gemini-2.0-flash-lite",
+            model_name=model_name,
             system_instruction=BCSIT_SYSTEM_PROMPT
         )
         
@@ -71,7 +72,7 @@ async def chat_with_ai(
         
         return {
             "response": response.text,
-            "model": "gemini-2.0-flash-lite"
+            "model": settings.GEMINI_MODEL_NAME
         }
         
     except Exception as e:
