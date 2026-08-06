@@ -18,6 +18,8 @@ Allow: /cgpa-calculator
 Allow: /code-compiler
 Allow: /pomodoro-timer
 Allow: /quiz-generator
+Allow: /logo.jpg
+Allow: /logos/
 
 # SECTION 2: Restrictive Crawl Rules for Private Directories
 # -------------------------------------------------------------------------
@@ -33,6 +35,7 @@ Allow: /api/notices
 Allow: /api/papers
 Allow: /api/notes
 Allow: /api/colleges
+Allow: /api/ai/health
 Disallow: /api/
 
 # SECTION 3: Restriction of AI Scrapers & Data Harvesters
