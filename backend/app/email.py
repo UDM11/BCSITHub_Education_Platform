@@ -14,7 +14,7 @@ def _otp_digit_boxes(otp: str) -> str:
     for digit in otp:
         boxes += (
             f'<td style="padding:0 5px;">'
-            f'<div style="width:52px;height:64px;background:#ffffff;'
+            f'<div class="otp-digit" style="width:52px;height:64px;background:#ffffff;'
             f'border:2.5px solid #818cf8;border-radius:14px;display:inline-block;'
             f'text-align:center;line-height:64px;font-size:32px;font-weight:900;'
             f'color:#4338ca;font-family:Courier New,monospace;'
@@ -34,28 +34,22 @@ def _email_header(title: str, subtitle: str) -> str:
     return f"""
       <!-- ══ HEADER ══ -->
       <tr>
-        <td style="background:linear-gradient(135deg,#0f0c29 0%,#302b63 50%,#24243e 100%);
-                   padding:0;position:relative;overflow:hidden;">
-
-          <!-- top glow blob -->
-          <div style="position:absolute;top:-60px;left:50%;transform:translateX(-50%);
-                      width:320px;height:160px;
-                      background:radial-gradient(ellipse,rgba(129,140,248,0.30) 0%,transparent 70%);"></div>
-
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+        <td style="background-color:#1e1b4b; background:linear-gradient(135deg,#0f0c29 0%,#302b63 50%,#24243e 100%);
+                   padding:0; text-align:center;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width:100%;">
             <tr>
-              <td style="padding:48px 40px 40px;text-align:center;position:relative;z-index:1;">
+              <td style="padding:40px 20px; text-align:center;">
 
                 <!-- Wordmark pill -->
                 <table role="presentation" align="center" cellpadding="0" cellspacing="0"
-                       style="margin:0 auto 22px;">
+                       style="margin:0 auto 20px;">
                   <tr>
                     <td style="background:rgba(129,140,248,0.15);
                                 border:1.5px solid rgba(165,180,252,0.40);
-                                border-radius:999px;padding:10px 24px;">
-                      <span style="font-size:15px;font-weight:900;color:#e0e7ff;
+                                border-radius:999px;padding:8px 20px;">
+                      <span style="font-size:14px;font-weight:900;color:#e0e7ff;
                                    letter-spacing:1.5px;text-transform:uppercase;
-                                   font-family:'Segoe UI',Arial,sans-serif;">
+                                   font-family:'Segoe UI',Arial,sans-serif;display:block;">
                         &#9733;&nbsp;BCSITHub
                       </span>
                     </td>
@@ -63,15 +57,15 @@ def _email_header(title: str, subtitle: str) -> str:
                 </table>
 
                 <!-- Accent line -->
-                <div style="width:48px;height:3px;background:linear-gradient(90deg,#6366f1,#a78bfa);
-                            border-radius:99px;margin:0 auto 18px;"></div>
+                <div style="width:48px;height:3px;background-color:#6366f1;background:linear-gradient(90deg,#6366f1,#a78bfa);
+                            border-radius:99px;margin:0 auto 16px;"></div>
 
-                <h1 style="margin:0 0 10px;font-size:28px;font-weight:900;color:#ffffff;
+                <h1 style="margin:0 0 8px;font-size:26px;font-weight:900;color:#ffffff;
                            letter-spacing:-0.5px;line-height:1.25;
                            font-family:'Segoe UI',Arial,sans-serif;">
                   {title}
                 </h1>
-                <p style="margin:0;font-size:13px;color:rgba(199,210,254,0.75);font-weight:500;">
+                <p style="margin:0;font-size:13px;color:rgba(199,210,254,0.75);font-weight:500;font-family:'Segoe UI',Arial,sans-serif;">
                   {subtitle}
                 </p>
 
@@ -91,7 +85,7 @@ def _email_footer() -> str:
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
             <tr>
               <!-- Notes -->
-              <td align="center" width="33%" style="padding:0 5px;">
+              <td class="feature-cell" align="center" width="33%" style="padding:0 5px; vertical-align:top;">
                 <table role="presentation" align="center" cellpadding="0" cellspacing="0"
                        style="width:100%;background:#f5f3ff;border:1.5px solid #ddd6fe;
                               border-radius:14px;overflow:hidden;">
@@ -106,7 +100,7 @@ def _email_footer() -> str:
                 </table>
               </td>
               <!-- CGPA -->
-              <td align="center" width="33%" style="padding:0 5px;">
+              <td class="feature-cell" align="center" width="33%" style="padding:0 5px; vertical-align:top;">
                 <table role="presentation" align="center" cellpadding="0" cellspacing="0"
                        style="width:100%;background:#eff6ff;border:1.5px solid #bfdbfe;
                               border-radius:14px;overflow:hidden;">
@@ -121,7 +115,7 @@ def _email_footer() -> str:
                 </table>
               </td>
               <!-- Papers -->
-              <td align="center" width="33%" style="padding:0 5px;">
+              <td class="feature-cell" align="center" width="33%" style="padding:0 5px; vertical-align:top;">
                 <table role="presentation" align="center" cellpadding="0" cellspacing="0"
                        style="width:100%;background:#fdf4ff;border:1.5px solid #e9d5ff;
                               border-radius:14px;overflow:hidden;">
@@ -230,10 +224,10 @@ def send_otp_email(to_email: str, name: str, otp: str) -> bool:
   <title>Verify Your Email — BCSITHub</title>
   <style>
     @media only screen and (max-width:600px){{
-      .card{{width:100%!important;border-radius:0!important;}}
+      .card{{width:100%!important;max-width:100%!important;border-radius:0!important;}}
       .body-pad{{padding:28px 20px!important;}}
-      .otp-digit{{width:40px!important;height:52px!important;font-size:26px!important;line-height:52px!important;}}
-      .feature-cell{{display:block!important;width:100%!important;margin-bottom:10px;}}
+      .otp-digit{{width:38px!important;height:50px!important;font-size:24px!important;line-height:50px!important;}}
+      .feature-cell{{display:block!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important;padding:8px 0!important;margin-bottom:10px;}}
     }}
   </style>
 </head>
@@ -242,13 +236,13 @@ def send_otp_email(to_email: str, name: str, otp: str) -> bool:
              -webkit-font-smoothing:antialiased;">
 
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-         style="background:#e8e9f7;padding:40px 16px;">
+         style="background:#e8e9f7;padding:40px 16px;width:100%;">
     <tr>
       <td align="center">
 
         <!-- ═══ CARD ═══ -->
-        <table role="presentation" class="card" width="100%" cellpadding="0" cellspacing="0"
-               style="max-width:580px;background:#ffffff;border-radius:24px;
+        <table role="presentation" class="card" align="center" cellpadding="0" cellspacing="0" width="580"
+               style="width:100%;max-width:580px;margin:0 auto;background:#ffffff;border-radius:24px;
                       overflow:hidden;box-shadow:0 24px 80px rgba(67,56,202,0.18);">
 
           {_email_header("Email Verification", "Pokhara University &mdash; BCSIT Student Portal")}
@@ -396,6 +390,11 @@ def send_reset_password_email(to_email: str, name: str, reset_link: str) -> bool
         return True
 
     first_name = name.split()[0] if name else "Student"
+    reset_steps_html = _build_steps_html([
+        (1, "Click the 'Reset My Password' button or copy the fallback link"),
+        (2, "Choose a strong, secure new password"),
+        (3, "Sign in with your updated credentials"),
+    ])
 
     subject = "Reset Your BCSITHub Password"
 
@@ -408,10 +407,10 @@ def send_reset_password_email(to_email: str, name: str, reset_link: str) -> bool
   <title>Reset Your Password — BCSITHub</title>
   <style>
     @media only screen and (max-width:600px){{
-      .card{{width:100%!important;border-radius:0!important;}}
+      .card{{width:100%!important;max-width:100%!important;border-radius:0!important;}}
       .body-pad{{padding:28px 20px!important;}}
       .reset-btn a{{font-size:14px!important;padding:14px 24px!important;}}
-      .feature-cell{{display:block!important;width:100%!important;margin-bottom:10px;}}
+      .feature-cell{{display:block!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important;padding:8px 0!important;margin-bottom:10px;}}
     }}
   </style>
 </head>
@@ -420,13 +419,13 @@ def send_reset_password_email(to_email: str, name: str, reset_link: str) -> bool
              -webkit-font-smoothing:antialiased;">
 
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-         style="background:#e8e9f7;padding:40px 16px;">
+         style="background:#e8e9f7;padding:40px 16px;width:100%;">
     <tr>
       <td align="center">
 
         <!-- ═══ CARD ═══ -->
-        <table role="presentation" class="card" width="100%" cellpadding="0" cellspacing="0"
-               style="max-width:580px;background:#ffffff;border-radius:24px;
+        <table role="presentation" class="card" align="center" cellpadding="0" cellspacing="0" width="580"
+               style="width:100%;max-width:580px;margin:0 auto;background:#ffffff;border-radius:24px;
                       overflow:hidden;box-shadow:0 24px 80px rgba(67,56,202,0.18);">
 
           {_email_header("Password Reset", "Pokhara University &mdash; BCSIT Student Portal")}
