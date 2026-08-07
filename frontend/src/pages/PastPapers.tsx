@@ -107,6 +107,9 @@ export function PastPapers() {
   const navigate = useNavigate();
 
   const seoTitle = useMemo(() => {
+    if (selectedPaperForPreview) {
+      return `${selectedPaperForPreview.title} - Pokhara University Past Question Paper`;
+    }
     if (selectedSemester && selectedExamType) {
       const formattedType = selectedExamType.charAt(0).toUpperCase() + selectedExamType.slice(1);
       return `Semester ${selectedSemester} ${formattedType} Past Papers`;
@@ -119,23 +122,29 @@ export function PastPapers() {
       return `${formattedType} Exam Question Papers`;
     }
     return "Pokhara University BCSIT Past Question Papers";
-  }, [selectedSemester, selectedExamType]);
+  }, [selectedSemester, selectedExamType, selectedPaperForPreview]);
 
   const seoDescription = useMemo(() => {
+    if (selectedPaperForPreview) {
+      return `Download and view the official Pokhara University past exam question paper for ${selectedPaperForPreview.title} (${selectedPaperForPreview.subject}) in the BCSIT program.`;
+    }
     let descStr = "Download Pokhara University BCSIT semester final past exam question papers, midterm questions, and student solutions for all core subjects.";
     if (selectedSemester) {
       descStr = `Access and download official Pokhara University past papers and solutions for all subjects in Semester ${selectedSemester} of the BCSIT program.`;
     }
     return descStr;
-  }, [selectedSemester]);
+  }, [selectedSemester, selectedPaperForPreview]);
 
   const seoKeywords = useMemo(() => {
+    if (selectedPaperForPreview) {
+      return `bcsit, pokhara university, pu, past paper, ${selectedPaperForPreview.subject.toLowerCase()}, ${selectedPaperForPreview.title.toLowerCase()}, exam questions`;
+    }
     let kw = "bcsit past papers, pokhara university question papers, pu past papers, bcsit exam papers";
     if (selectedSemester) {
       kw += `, bcsit semester ${selectedSemester} papers, pu bcsit sem ${selectedSemester}`;
     }
     return kw;
-  }, [selectedSemester]);
+  }, [selectedSemester, selectedPaperForPreview]);
 
   useSEO({
     title: seoTitle,
