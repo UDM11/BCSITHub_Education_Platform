@@ -16,27 +16,56 @@ import {
   Heart,
 } from 'lucide-react';
 import { useInstallModal } from '@/context/InstallModalContext';
+import { apiClient } from '@/lib/apiClient';
+import { toast } from 'react-hot-toast';
 
 export function Footer() {
   const { open: openInstallModal } = useInstallModal();
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showOtpInput, setShowOtpInput] = useState(false);
+  const [otpCode, setOtpCode] = useState('');
+  const [otpLoading, setOtpLoading] = useState(false);
   const location = useLocation();
 
   const isChapterNotes = /^\/notes\/semester\/[^/]+\/subject\/[^/]+\/chapter\/[^/]+$/.test(location.pathname);
   if (isChapterNotes) return null;
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
     setLoading(true);
-    // Simulate API request
-    setTimeout(() => {
+    try {
+      const res: any = await apiClient.post('/newsletter/subscribe', { email });
       setLoading(false);
+      if (res.requires_verification) {
+        setShowOtpInput(true);
+        toast.success("Verification code sent to your email!");
+      } else if (res.already_subscribed) {
+        setSubscribed(true);
+        toast.success("You are already subscribed!");
+      }
+    } catch (err: any) {
+      setLoading(false);
+      toast.error(err.response?.data?.detail || "Subscription failed.");
+    }
+  };
+
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!otpCode) return;
+    setOtpLoading(true);
+    try {
+      await apiClient.post('/newsletter/verify', { email, otp: otpCode });
+      setOtpLoading(false);
       setSubscribed(true);
-      setEmail('');
-    }, 1000);
+      setShowOtpInput(false);
+      toast.success("Subscription verified successfully!");
+    } catch (err: any) {
+      setOtpLoading(false);
+      toast.error(err.response?.data?.detail || "Invalid code. Please try again.");
+    }
   };
 
   const scrollToTop = () => {
@@ -153,7 +182,64 @@ export function Footer() {
                 Subscribe to PU Exam Notices
               </h4>
               <AnimatePresence mode="wait">
-                {!subscribed ? (
+                {subscribed ? (
+                  <motion.div
+                    key="success"
+                    className="flex flex-col gap-2 bg-emerald-950/20 border border-emerald-900/50 p-4 rounded-xl text-emerald-400 text-xs font-bold shadow-lg shadow-emerald-950/10 max-w-sm"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 flex-shrink-0 animate-bounce text-emerald-400" />
+                      <span>Subscription Successful!</span>
+                    </div>
+                    <p className="text-[10px] text-emerald-400/80 font-normal leading-relaxed">
+                      You are now registered. We will dispatch critical Pokhara University notices to your inbox instantly.
+                    </p>
+                  </motion.div>
+                ) : showOtpInput ? (
+                  <motion.form
+                    key="otp-form"
+                    onSubmit={handleVerifyOtp}
+                    className="flex flex-col gap-2 max-w-sm w-full bg-slate-900 border border-slate-800 focus-within:border-indigo-500/50 rounded-xl p-3.5 transition-all text-left"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    <span className="text-[10px] font-bold text-indigo-400 tracking-wide">Enter the 6-Digit OTP sent to your email:</span>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        required
+                        maxLength={6}
+                        placeholder="123456"
+                        value={otpCode}
+                        onChange={(e) => setOtpCode(e.target.value)}
+                        className="bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 w-full text-xs text-center font-bold tracking-widest text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                      />
+                      <button
+                        type="submit"
+                        disabled={otpLoading}
+                        className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg px-4 py-2 flex items-center justify-center flex-shrink-0 transition-colors shadow-md disabled:opacity-50 font-bold text-xs"
+                      >
+                        {otpLoading ? (
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                          "Verify"
+                        )}
+                      </button>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowOtpInput(false)}
+                      className="text-[10px] text-slate-500 hover:text-slate-300 font-bold self-start mt-1 cursor-pointer bg-transparent border-0"
+                    >
+                      ← Back to email input
+                    </button>
+                  </motion.form>
+                ) : (
                   <motion.form
                     key="form"
                     onSubmit={handleSubscribe}
@@ -182,23 +268,6 @@ export function Footer() {
                       )}
                     </button>
                   </motion.form>
-                ) : (
-                  <motion.div
-                    key="success"
-                    className="flex flex-col gap-2 bg-emerald-950/20 border border-emerald-900/50 p-4 rounded-xl text-emerald-400 text-xs font-bold shadow-lg shadow-emerald-950/10 max-w-sm"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 flex-shrink-0 animate-bounce text-emerald-400" />
-                      <span>Subscription Successful!</span>
-                    </div>
-                    <p className="text-[10px] text-emerald-400/80 font-normal leading-relaxed">
-                      You are now registered. We will dispatch critical Pokhara University notices to your inbox instantly.
-                    </p>
-                  </motion.div>
                 )}
               </AnimatePresence>
             </div>
@@ -249,7 +318,7 @@ export function Footer() {
             <h3 className="text-sm font-bold text-white uppercase tracking-wider">Get in Touch</h3>
             <div className="space-y-4">
               {[
-                { icon: Mail, text: 'info@bcsithub.com', href: 'mailto:info@bcsithub.com' },
+                { icon: Mail, text: 'bcsithub@gmail.com', href: 'mailto:bcsithub@gmail.com' },
                 { icon: Phone, text: '+977-123456789', href: 'tel:+977123456789' },
                 { icon: MapPin, text: 'Kathmandu, Nepal', href: '#' },
               ].map((item, index) => (

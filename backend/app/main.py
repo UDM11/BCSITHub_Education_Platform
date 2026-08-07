@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, HTMLResponse
-from app.routers import auth, papers, notices, quiz, compiler, ai
+from app.routers import auth, papers, notices, quiz, compiler, ai, support, pomodoro, newsletter
 from app.config import settings
 
 app = FastAPI(
@@ -32,6 +32,9 @@ app.include_router(notices.router, prefix="/api")
 app.include_router(quiz.router, prefix="/api")
 app.include_router(compiler.router, prefix="/api")
 app.include_router(ai.router, prefix="/api")
+app.include_router(support.router, prefix="/api")
+app.include_router(pomodoro.router, prefix="/api")
+app.include_router(newsletter.router, prefix="/api")
 
 # Mount the static directory for the React frontend
 STATIC_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "static")

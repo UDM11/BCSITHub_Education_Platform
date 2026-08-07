@@ -19,6 +19,7 @@ import { AdminUsers } from "./AdminUsers";
 import { AdminPapers } from "./AdminPapers";
 import { AdminNotices } from "./AdminNotices";
 import { AdminAnalytics } from "./AdminAnalytics";
+import { AdminTickets } from "./AdminTickets";
 
 interface User {
   objectId: string;
@@ -174,6 +175,7 @@ export default function AdminDashboard() {
     { id: "users", label: "User Management", icon: Users },
     { id: "papers", label: "Manage Papers", icon: FileText },
     { id: "notices", label: "Manage Notices", icon: Bell },
+    { id: "tickets", label: "Support Tickets", icon: CheckSquare },
     { id: "analytics", label: "Platform Health", icon: BarChart3 },
   ];
 
@@ -492,6 +494,10 @@ export default function AdminDashboard() {
                 <AdminNotices 
                   onNoticeUpdate={fetchUsersAndStats}
                 />
+              )}
+
+              {activeTab === "tickets" && (
+                <AdminTickets />
               )}
 
               {activeTab === "analytics" && (

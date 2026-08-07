@@ -194,6 +194,10 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
       if (language.id === "react") {
         const cleanedReact = reactCode.replace(/import\s+.*?\s+from\s+['"].*?['"];?/g, '');
         combined = `<!DOCTYPE html><html><head>
+          <script>
+            window.exports = {};
+            window.module = { exports: {} };
+          </script>
           <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
           <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
           <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -203,10 +207,11 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
             const {useState,useEffect,useRef,useMemo,useCallback}=React;
             const ol=console.log;console.log=function(...a){ol(...a);window.parent.postMessage({type:'LOG',data:a.join(' ')},'*');};
             window.onerror=function(m,s,l){window.parent.postMessage({type:'ERROR',data:m+' (L'+l+')'},'*');};
-            try{${cleanedReact}
-              const T=typeof App!=='undefined'?App:null;
+            try{
+              ${cleanedReact}
+              const T = typeof App !== 'undefined' ? App : (window.exports.default || window.module.exports.default || null);
               if(T)ReactDOM.render(React.createElement(T),document.getElementById('root'));
-              else document.getElementById('root').innerHTML='<div style="color:red">❌ No App component found</div>';
+              else document.getElementById('root').innerHTML='<div style="color:red">❌ No App component found. Make sure to define "App" function or export it as default.</div>';
             }catch(e){document.getElementById('root').innerHTML='<div style="color:red">❌ '+e.message+'</div>';}
           </script></body></html>`;
       } else {

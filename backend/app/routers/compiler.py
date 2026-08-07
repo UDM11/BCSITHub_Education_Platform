@@ -1,10 +1,11 @@
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 import os
 import subprocess
 import tempfile
 import sqlite3
+import httpx
 
 router = APIRouter(prefix="/compiler", tags=["compiler"])
 
@@ -16,6 +17,7 @@ class ExecuteRequest(BaseModel):
     language: str
     version: str
     files: List[FileModel]
+    stdin: Optional[str] = None
 
 @router.post("/run")
 async def run_code(req_body: ExecuteRequest):
@@ -79,7 +81,39 @@ async def run_code(req_body: ExecuteRequest):
                 }
             }
 
-    # 2. General Programming Language Execution (Local Subprocess)
+    # 2. General Programming Language Execution via Piston API
+    PISTON_URL = "https://emkc.org/api/v2/piston/execute"
+    payload = {
+        "language": req_body.language,
+        "version": req_body.version,
+        "files": [{"name": f.name, "content": f.content} for f in req_body.files]
+    }
+    if req_body.stdin:
+        payload["stdin"] = req_body.stdin
+        
+    try:
+        async with httpx.AsyncClient() as client:
+            resp = await client.post(PISTON_URL, json=payload, timeout=8.0)
+            data = resp.json() if resp.status_code == 200 else {}
+            
+            # If the version was not installed (Piston returns error message or not 200), try fallback to version = "*"
+            if resp.status_code != 200 or "message" in data:
+                payload["version"] = "*"
+                resp = await client.post(PISTON_URL, json=payload, timeout=8.0)
+                data = resp.json() if resp.status_code == 200 else {}
+                
+            if resp.status_code == 200 and "run" in data:
+                return {
+                    "run": {
+                        "stdout": data.get("run", {}).get("stdout", ""),
+                        "stderr": data.get("run", {}).get("stderr", ""),
+                        "code": data.get("run", {}).get("code", 0)
+                    }
+                }
+    except Exception as e:
+        print("Piston execution failed, falling back to local runner:", e)
+
+    # 3. Local Subprocess Fallback Execution
     with tempfile.TemporaryDirectory() as tmpdir:
         # Determine files and execution command
         exec_cmd = []

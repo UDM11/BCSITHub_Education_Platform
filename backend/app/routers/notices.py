@@ -1,13 +1,42 @@
-from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Form
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Form, BackgroundTasks
 from fastapi.responses import StreamingResponse
 from app.client import supabase_client
 from app.schemas.notices import NoticeResponse
 from app.dependencies import get_admin_user, get_optional_current_user
+from app.email import send_notice_alert_email
 from typing import List, Optional
 import uuid
 import httpx
 
 router = APIRouter(prefix="/notices", tags=["notices"])
+
+def dispatch_notice_emails(notice_title: str, notice_category: str, notice_content: Optional[str], file_url: Optional[str]):
+    # Get all users
+    try:
+        users_resp = supabase_client.table("users").select("email").execute()
+        users_emails = [u["email"] for u in users_resp.data if u.get("email")]
+    except Exception as e:
+        print("Failed to fetch users for notice broadcast:", e)
+        users_emails = []
+        
+    # Get all verified newsletter subscribers
+    try:
+        subs_resp = supabase_client.table("newsletter_subscribers").select("email").eq("verified", True).execute()
+        subs_emails = [s["email"] for s in subs_resp.data if s.get("email")]
+    except Exception as e:
+        print("Failed to fetch newsletter subscribers for notice broadcast:", e)
+        subs_emails = []
+        
+    # Consolidate unique list of emails
+    unique_emails = list(set(users_emails + subs_emails))
+    print(f"Broadcasting notice to {len(unique_emails)} unique subscribers: {unique_emails}")
+    
+    # Send notices
+    for email in unique_emails:
+        try:
+            send_notice_alert_email(email, notice_title, notice_category, notice_content, file_url)
+        except Exception as e:
+            print(f"Failed to email notice to {email}:", e)
 
 @router.get("", response_model=List[NoticeResponse])
 async def list_notices(
@@ -42,6 +71,7 @@ async def list_notices(
 
 @router.post("/upload", response_model=NoticeResponse)
 async def upload_notice(
+    background_tasks: BackgroundTasks,
     title: str = Form(...),
     category: str = Form(...),
     content: Optional[str] = Form(None),
@@ -92,6 +122,15 @@ async def upload_notice(
         db_resp = supabase_client.table("pu_notices").insert(notice_payload).execute()
         if not db_resp.data:
             raise Exception("Failed to insert record into pu_notices table.")
+            
+        # Dispatch emails asynchronously in the background
+        background_tasks.add_task(
+            dispatch_notice_emails,
+            notice_title=title,
+            notice_category=category,
+            notice_content=content,
+            file_url=file_url
+        )
             
         return db_resp.data[0]
     except Exception as e:

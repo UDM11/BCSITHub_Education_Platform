@@ -146,7 +146,7 @@ export function Navbar() {
   // Close mobile drawer if screen is resized to desktop width
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1280) {
+      if (window.innerWidth >= 1536) {
         setIsOpen(false);
       }
     };
@@ -324,7 +324,7 @@ export function Navbar() {
             </div>
 
             {/* Desktop Search Icon Button + Dropdown (xl and above) */}
-            <div className="hidden xl:block relative z-40">
+            <div className="hidden 2xl:block relative z-40">
               {/* Search trigger button */}
               <button
                 onClick={() => { setShowSearch(!showSearch); setShowUserMenu(false); setShowToolsMenu(false); }}
@@ -512,7 +512,7 @@ export function Navbar() {
             </div>
 
             {/* Desktop Navigation Links (Visible on 1280px width and above) */}
-            <div className="hidden xl:flex items-center space-x-1.5">
+            <div className="hidden 2xl:flex items-center space-x-1.5">
               {navLinks.map(({ to, icon: Icon, label }) => (
                 <Link
                   key={to}
@@ -598,7 +598,7 @@ export function Navbar() {
             </div>
 
             {/* Desktop Auth & PWA Installer (Visible on 1280px width and above) */}
-            <div className="hidden xl:flex items-center space-x-3">
+            <div className="hidden 2xl:flex items-center space-x-3">
               
               {/* Install App button */}
               <button
@@ -730,7 +730,7 @@ export function Navbar() {
             </div>
 
             {/* Mobile & Tablet Toggle Menu Button (Visible on screens smaller than 1280px) */}
-            <div className="flex xl:hidden items-center">
+            <div className="flex 2xl:hidden items-center">
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="p-2 text-slate-600 hover:text-indigo-600 hover:bg-slate-50 rounded-xl transition-colors duration-200 focus:outline-none"
@@ -745,7 +745,7 @@ export function Navbar() {
         {/* Mobile & Tablet Drawer Panel */}
         <AnimatePresence>
           {isOpen && (
-            <div className="fixed inset-0 z-[100] flex xl:hidden">
+            <div className="fixed inset-0 z-[100] flex 2xl:hidden">
               {/* Darkened Backdrop Overlay */}
               <motion.div
                 initial={{ opacity: 0 }}

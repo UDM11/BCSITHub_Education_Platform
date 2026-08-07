@@ -23,6 +23,8 @@ import {
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { toast } from 'sonner';
+import { apiClient } from '../lib/apiClient';
 
 interface FAQItem {
   id: string;
@@ -168,17 +170,21 @@ export function Support() {
     setExpandedFAQ(expandedFAQ === faqId ? null : faqId);
   };
 
-  const handleContactSubmit = (e: React.FormEvent) => {
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Contact form submitted:', contactForm);
-    toast.success('Your support message was sent successfully!');
-    setContactForm({
-      name: '',
-      email: '',
-      subject: '',
-      message: '',
-      priority: 'medium'
-    });
+    try {
+      await apiClient.post('/support', contactForm);
+      toast.success('Your support message was sent successfully!');
+      setContactForm({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+        priority: 'medium'
+      });
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to submit support message');
+    }
   };
 
   return (
@@ -483,7 +489,7 @@ export function Support() {
                   <div className="space-y-3.5">
                     <div className="flex items-center">
                       <Mail className="w-4 h-4 mr-3 text-indigo-650" />
-                      <span>support@bcsithub.com</span>
+                      <span>bcsithub@gmail.com</span>
                     </div>
                     <div className="flex items-center">
                       <Phone className="w-4 h-4 mr-3 text-indigo-650" />

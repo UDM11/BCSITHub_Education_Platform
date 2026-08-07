@@ -64,6 +64,28 @@ const StudentOverview: React.FC<StudentOverviewProps> = ({
     fetchRecentNotices();
   }, []);
 
+  const [pomodoroStats, setPomodoroStats] = useState({
+    totalSessions: 0,
+    totalFocusTime: 0,
+    streak: 0
+  });
+
+  useEffect(() => {
+    const fetchPomodoro = async () => {
+      try {
+        const data = await apiClient.get("/pomodoro/stats") as any;
+        setPomodoroStats({
+          totalSessions: data.totalSessions,
+          totalFocusTime: Math.round(data.totalFocusTime / 60), // in minutes
+          streak: data.streak
+        });
+      } catch (error) {
+        console.error("Error fetching pomodoro stats in overview:", error);
+      }
+    };
+    fetchPomodoro();
+  }, []);
+
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return "Good Morning";
@@ -139,12 +161,13 @@ const StudentOverview: React.FC<StudentOverviewProps> = ({
       </div>
 
       {/* 2. STATS OVERVIEW CARDS */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         {[
           { title: "Contributed Papers", value: stats.totalPapers, sub: `${stats.approvedPapers} Approved`, icon: FileText, color: "text-indigo-500 bg-indigo-500/10 border-indigo-500/20" },
           { title: "Current Semester", value: profile?.semester ? `${profile.semester} Sem` : "N/A", sub: "Pokhara University", icon: GraduationCap, color: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20" },
-          { title: "Assigned Campus", value: profile?.college ? (profile.college.length > 12 ? profile.college.substring(0, 12) + "..." : profile.college) : "N/A", sub: "Liberty College", icon: Building, color: "text-amber-500 bg-amber-500/10 border-amber-500/20" },
-          { title: "Recent Actions", value: stats.recentActivity, sub: "In past 7 days", icon: TrendingUp, color: "text-purple-500 bg-purple-500/10 border-purple-500/20" }
+          { title: "Study Focus Time", value: `${pomodoroStats.totalFocusTime} Min`, sub: `${pomodoroStats.totalSessions} Sessions Complete`, icon: Clock, color: "text-rose-500 bg-rose-500/10 border-rose-500/20" },
+          { title: "Focus Streak", value: `${pomodoroStats.streak} Days`, sub: "Keep it up!", icon: Award, color: "text-purple-500 bg-purple-500/10 border-purple-500/20" },
+          { title: "Assigned Campus", value: profile?.college ? (profile.college.length > 12 ? profile.college.substring(0, 12) + "..." : profile.college) : "N/A", sub: "Pokhara University Affiliation", icon: Building, color: "text-amber-500 bg-amber-500/10 border-amber-500/20" }
         ].map((stat, idx) => (
           <div key={idx} className="bg-white dark:bg-white border border-slate-200/60 dark:border-slate-200/60 p-5 rounded-2xl flex items-center justify-between gap-3 shadow-sm hover:shadow-md transition-all duration-200">
             <div className="space-y-1 min-w-0">

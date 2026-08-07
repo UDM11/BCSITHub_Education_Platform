@@ -10,6 +10,9 @@ import { Button } from "../components/ui/Button";
 import { Card, CardContent } from "../components/ui/Card";
 import { Link } from "react-router-dom";
 import { useSEO } from "../hooks/useSEO";
+import { useAuth } from "../context/AuthContext";
+import { apiClient } from "../lib/apiClient";
+import { toast } from "sonner";
 
 interface PomodoroSession {
   id: string;
@@ -54,6 +57,7 @@ const TIMER_TYPES = {
 };
 
 export function PomodoroTimer() {
+  const { user } = useAuth();
   const [currentType, setCurrentType] = useState<"work" | "shortBreak" | "longBreak">("work");
   const [timeLeft, setTimeLeft] = useState(TIMER_TYPES.work.duration);
   const [isRunning, setIsRunning] = useState(false);
@@ -153,6 +157,13 @@ export function PomodoroTimer() {
       });
     }
 
+    if (user) {
+      apiClient.post("/pomodoro/session", {
+        type: currentType,
+        duration: customDurations[currentType] * 60
+      }).catch(err => console.error("Failed to save session to backend:", err));
+    }
+
     const newSession: PomodoroSession = {
       id: Date.now().toString(),
       type: currentType,
@@ -184,7 +195,7 @@ export function PomodoroTimer() {
       setCurrentType("work");
       setTimeLeft(customDurations.work * 60);
     }
-  }, [currentType, customDurations, sessions, stats, completedCycles, soundEnabled]);
+  }, [currentType, customDurations, sessions, stats, completedCycles, soundEnabled, user]);
 
   // Timer logic ticker
   useEffect(() => {
@@ -241,6 +252,35 @@ export function PomodoroTimer() {
       Notification.requestPermission();
     }
   }, []);
+
+  // Sync Pomodoro stats with backend
+  useEffect(() => {
+    const fetchBackendStats = async () => {
+      if (!user) return;
+      try {
+        const backendStats = await apiClient.get("/pomodoro/stats") as any;
+        setStats({
+          totalSessions: backendStats.totalSessions,
+          totalFocusTime: backendStats.totalFocusTime,
+          todaySessions: backendStats.todaySessions,
+          weekSessions: backendStats.weekSessions,
+          streak: backendStats.streak
+        });
+        if (backendStats.history && backendStats.history.length > 0) {
+          setSessions(backendStats.history.map((s: any) => ({
+            id: s.id,
+            type: s.type as any,
+            duration: s.duration,
+            completedAt: new Date(s.completed_at)
+          })));
+        }
+      } catch (err) {
+        console.error("Failed to load Pomodoro stats from backend:", err);
+      }
+    };
+
+    fetchBackendStats();
+  }, [user]);
 
   const toggleTimer = () => {
     setIsRunning(!isRunning);

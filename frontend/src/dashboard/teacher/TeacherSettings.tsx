@@ -47,7 +47,7 @@ const TeacherSettings: React.FC<TeacherSettingsProps> = ({ profile }) => {
 
           <div className="text-center py-4">
             <p className="text-xs text-slate-400 font-semibold mb-3">Interactive profile modifications are administered by institution moderators.</p>
-            <p className="text-xs text-indigo-650 font-bold">Contact support@bcsithub.com for credential changes.</p>
+            <p className="text-xs text-indigo-650 font-bold">Contact bcsithub@gmail.com for credential changes.</p>
           </div>
         </div>
       </CardContent>
