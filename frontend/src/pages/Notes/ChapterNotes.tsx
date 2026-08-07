@@ -660,6 +660,66 @@ export default function ChapterNotes() {
           background-color: #1e293b !important;
           border-left-color: #eab308 !important;
         }
+
+        /* Normalization & Responsiveness overrides for Semester 1 & 2 notes */
+        .notes-reader-content .container {
+          max-width: 100% !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          background: transparent !important;
+          border-radius: 0 !important;
+          box-shadow: none !important;
+        }
+        
+        .notes-reader-content p {
+          text-align: justify !important;
+        }
+
+        .notes-reader-content .section {
+          padding: 25px !important;
+          margin-bottom: 35px !important;
+          border-radius: 12px !important;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+          text-align: justify !important;
+        }
+
+        .notes-reader-content .figure-box {
+          max-width: 100% !important;
+          overflow-x: auto !important;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 768px) {
+          .notes-reader-content .section {
+            padding: 18px !important;
+            margin-bottom: 25px !important;
+          }
+          .notes-reader-content ul, .notes-reader-content ol {
+            padding-left: 1.25rem !important;
+          }
+          .notes-reader-content ul ul, .notes-reader-content ol ol, .notes-reader-content ul ol, .notes-reader-content ol ul {
+            padding-left: 1rem !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .notes-reader-content .section {
+            padding: 14px !important;
+            margin-bottom: 20px !important;
+          }
+          .notes-reader-content h1 {
+            font-size: 1.5rem !important;
+          }
+          .notes-reader-content h2 {
+            font-size: 1.25rem !important;
+          }
+          .notes-reader-content ul, .notes-reader-content ol {
+            padding-left: 1rem !important;
+          }
+          .notes-reader-content ul ul, .notes-reader-content ol ol, .notes-reader-content ul ol, .notes-reader-content ol ul {
+            padding-left: 0.75rem !important;
+          }
+        }
       ` }} />
 
       {/* Top Floating Progress Bar */}
@@ -743,7 +803,8 @@ export default function ChapterNotes() {
                   variant="ghost"
                   size="sm"
                   onClick={shareContent}
-                  className="hover:bg-indigo-50/50 p-2.5 rounded-xl opacity-60 hidden xs:flex"
+                  className="hover:bg-indigo-50/50 p-2.5 rounded-xl opacity-60 flex"
+                  title="Share Note"
                 >
                   <Share2 className="w-4 h-4" />
                 </Button>
@@ -754,14 +815,15 @@ export default function ChapterNotes() {
                   size="sm"
                   onClick={downloadAsPDF}
                   disabled={isDownloading}
-                  className="hidden sm:flex items-center gap-2 hover:bg-gradient-primary hover:text-white border-slate-200 shadow-sm rounded-xl px-3.5"
+                  className="flex items-center gap-2 hover:bg-gradient-primary hover:text-white border-slate-200 shadow-sm rounded-xl px-3.5"
+                  title="Download PDF"
                 >
                   {isDownloading ? (
                     <div className="w-4 h-4 rounded-full border-2 border-indigo-600 border-t-transparent animate-spin" />
                   ) : (
                     <Download className="w-4 h-4" />
                   )}
-                  <span className="font-bold text-xs">PDF</span>
+                  <span className="hidden sm:inline font-bold text-xs">PDF</span>
                 </Button>
               </div>
             </div>

@@ -31,6 +31,16 @@ export default function SubjectChapters() {
 
   const decodedSubjectId = decodeURIComponent(subjectId || '');
 
+  const currentSubject = useMemo(() => {
+    for (const sem of semestersData) {
+      const found = sem.subjects.find(
+        (s) => s.courseCode === decodedSubjectId || s.courseName === decodedSubjectId
+      );
+      if (found) return found;
+    }
+    return null;
+  }, [decodedSubjectId]);
+
   const currentSemesterSubjects = useMemo(() => {
     const sem = semestersData.find((s) => s.id === Number(semesterId));
     return sem ? sem.subjects : [];
@@ -41,22 +51,22 @@ export default function SubjectChapters() {
   }, [subjectChapters]);
 
   const seoTitle = useMemo(() => {
-    return subjectChapters 
-      ? `${subjectChapters.courseName} Lecture Notes & Chapter Guides | PU BCSIT` 
+    return currentSubject 
+      ? `${currentSubject.courseName} Lecture Notes & Chapter Guides | PU BCSIT` 
       : "Subject Chapters & Lecture Notes | BCSITHub";
-  }, [subjectChapters]);
+  }, [currentSubject]);
 
   const seoDescription = useMemo(() => {
-    return subjectChapters 
-      ? `Download Pokhara University BCSIT ${subjectChapters.courseName} (${subjectChapters.courseCode || 'Core'}) chapter notes. Includes units: ${chapterTitlesString}.` 
+    return currentSubject 
+      ? `Download Pokhara University BCSIT ${currentSubject.courseName} (${currentSubject.courseCode || 'Core'}) chapter notes. Includes units: ${chapterTitlesString}.` 
       : "Browse chapter-wise course lecture notes, downloads, and academic reference syllabus guidelines for Pokhara University BCSIT.";
-  }, [subjectChapters, chapterTitlesString]);
+  }, [currentSubject, chapterTitlesString]);
 
   const seoKeywords = useMemo(() => {
-    return subjectChapters 
-      ? `${subjectChapters.courseName} notes, ${subjectChapters.courseCode || 'core'} chapter guides, ${chapterTitlesString}` 
+    return currentSubject 
+      ? `${currentSubject.courseName} notes, ${currentSubject.courseCode || 'core'} chapter guides, ${chapterTitlesString}` 
       : "bcsit course chapters, lecture reference handouts";
-  }, [subjectChapters, chapterTitlesString]);
+  }, [currentSubject, chapterTitlesString]);
 
   useSEO({
     title: seoTitle,
@@ -87,7 +97,7 @@ export default function SubjectChapters() {
         const data = chapterData.find(
           (subject) => 
             subject.courseCode === decodedSubjectId || 
-            subject.courseName === decodedSubjectId
+            (currentSubject && subject.courseCode === currentSubject.courseCode)
         );
 
         if (data) {
@@ -118,7 +128,7 @@ export default function SubjectChapters() {
     };
 
     loadChaptersWithAvailability();
-  }, [decodedSubjectId, semesterId]);
+  }, [decodedSubjectId, semesterId, currentSubject]);
 
   // Filter and sort chapters
   const filteredChapters = useMemo(() => {

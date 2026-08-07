@@ -1,36 +1,30 @@
 # =========================================================================
 #  BCSITHub Robots Configuration File
 #  Target Host: https://bcsithub.umeshdarlami.com.np/
-#  Last Modified: 2026-07-30
+#  Last Modified: 2026-08-07
 # =========================================================================
 
 # SECTION 1: Permitted Search Crawlers
 # -------------------------------------------------------------------------
-# Permitting global search engines to crawl public syllabus indices, notes,
-# past question papers, and interactive calculator utilities.
 User-agent: *
 Allow: /
-Allow: /notes
-Allow: /syllabus
-Allow: /past-papers
-Allow: /colleges
-Allow: /cgpa-calculator
-Allow: /code-compiler
-Allow: /pomodoro-timer
-Allow: /quiz-generator
-Allow: /logo.jpg
-Allow: /logos/
 
-# SECTION 2: Restrictive Crawl Rules for Private Directories
+# SECTION 2: Restrictive Crawl Rules for Private & Auth Directories
 # -------------------------------------------------------------------------
-# Preventing indexing of personal user portals, administrative dashboards,
-# and authentication pages to maintain secure data guidelines.
 Disallow: /dashboard/
 Disallow: /profile/
 Disallow: /admin-dashboard/
 Disallow: /teacher-dashboard/
 Disallow: /forgot-password
+Disallow: /reset-password
 Disallow: /email-verification
+Disallow: /verify
+Disallow: /complete-profile
+Disallow: /signin
+Disallow: /signup
+
+# SECTION 3: Allow API calls for public content rendering, block the rest
+# -------------------------------------------------------------------------
 Allow: /api/notices
 Allow: /api/papers
 Allow: /api/notes
@@ -38,10 +32,8 @@ Allow: /api/colleges
 Allow: /api/ai/health
 Disallow: /api/
 
-# SECTION 3: Restriction of AI Scrapers & Data Harvesters
+# SECTION 4: AI Scrapers & Data Harvesters
 # -------------------------------------------------------------------------
-# Blocking automated scrapers and large language model (LLM) agents
-# to prevent unauthorized content duplication of course notes.
 User-agent: GPTBot
 Disallow: /
 
@@ -63,6 +55,6 @@ Disallow: /
 User-agent: FacebookBot
 Disallow: /
 
-# SECTION 4: Global XML Sitemap Index
+# SECTION 5: Global XML Sitemap Index
 # -------------------------------------------------------------------------
 Sitemap: https://bcsithub.umeshdarlami.com.np/sitemap.xml
