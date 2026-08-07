@@ -41,7 +41,7 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   
-  const { user, signOut } = useAuth();
+  const { user, loading, signOut } = useAuth();
   const { open: openInstallModal } = useInstallModal();
   const navigate = useNavigate();
   const location = useLocation();
@@ -612,7 +612,9 @@ export function Navbar() {
 
               <div className="h-4 w-px bg-slate-200/80 mx-1" />
 
-              {user ? (
+              {loading ? (
+                <div className="w-5 h-5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-4" />
+              ) : user ? (
                 <div className="relative">
                   <button
                     onClick={() => setShowUserMenu(!showUserMenu)}
@@ -847,7 +849,11 @@ export function Navbar() {
                     </button>
 
                     <div className="mt-2 space-y-1">
-                      {user ? (
+                      {loading ? (
+                        <div className="flex justify-center py-4">
+                          <div className="w-5 h-5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+                        </div>
+                      ) : user ? (
                         <>
                           <Link
                             to="/profile"

@@ -253,11 +253,10 @@ const StudentProfile: React.FC = () => {
   const sidebarContent = (isCollapsed: boolean) => (
     <div className="flex flex-col h-full justify-between">
       <div className="space-y-6">
-        {/* Sidebar Header */}
         <div className={`flex items-center p-2 ${isCollapsed ? "justify-center" : "justify-between"}`}>
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/10 flex-shrink-0">
-              <GraduationCap className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-xl overflow-hidden shadow-md flex-shrink-0 border border-slate-200 dark:border-slate-800">
+              <img src="/logo.jpg" alt="BCSITHub Logo" className="w-full h-full object-cover" />
             </div>
             {!isCollapsed && (
               <motion.div
@@ -420,7 +419,7 @@ const StudentProfile: React.FC = () => {
       {/* MOBILE HEADER BAR */}
       <header className="md:hidden bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-800 px-4 py-4 flex items-center justify-between sticky top-0 z-40 w-full shadow-sm">
         <div className="flex items-center gap-2">
-          <GraduationCap className="w-6 h-6 text-indigo-600" />
+          <img src="/logo.jpg" alt="BCSITHub Logo" className="w-6 h-6 rounded-lg object-cover border border-slate-200 dark:border-slate-800" />
           <span className="font-black text-slate-800 dark:text-white tracking-tight text-sm">BCSITHub</span>
         </div>
         <div className="flex items-center gap-3">

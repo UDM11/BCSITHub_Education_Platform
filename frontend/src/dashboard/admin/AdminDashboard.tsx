@@ -182,11 +182,10 @@ export default function AdminDashboard() {
   const sidebarContent = (isCollapsed: boolean) => (
     <div className="flex flex-col h-full bg-slate-900 text-slate-200 text-left">
       
-      {/* Brand Header */}
       <div className={`p-4 border-b border-slate-800 flex items-center flex-shrink-0 ${isCollapsed ? "justify-center" : "justify-between"}`}>
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-rose-500 via-indigo-600 to-purple-600 flex items-center justify-center shadow-md flex-shrink-0">
-            <Shield className="w-5 h-5 text-white animate-pulse" />
+          <div className="w-9 h-9 rounded-xl overflow-hidden shadow-md flex-shrink-0 border border-slate-700">
+            <img src="/logo.jpg" alt="BCSITHub Logo" className="w-full h-full object-cover" />
           </div>
           {!isCollapsed && (
             <motion.div
@@ -327,8 +326,8 @@ export default function AdminDashboard() {
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
-          <span className="text-sm font-black text-white tracking-tight flex items-center gap-1.5">
-            <Shield className="w-4 h-4 text-indigo-400" />
+          <span className="text-sm font-black text-white tracking-tight flex items-center gap-2">
+            <img src="/logo.jpg" alt="BCSITHub Logo" className="w-6 h-6 rounded-lg object-cover border border-slate-700" />
             Admin Console
           </span>
         </div>

@@ -393,8 +393,8 @@ const TeacherDashboard: React.FC = () => {
       <div className="space-y-6">
         <div className={`flex items-center p-2 ${isCollapsed ? "justify-center" : "justify-between"}`}>
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 via-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/10 flex-shrink-0">
-              <GraduationCap className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-xl overflow-hidden shadow-md flex-shrink-0 border border-slate-200 dark:border-slate-800">
+              <img src="/logo.jpg" alt="BCSITHub Logo" className="w-full h-full object-cover" />
             </div>
             {!isCollapsed && (
               <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="min-w-0">
@@ -521,7 +521,7 @@ const TeacherDashboard: React.FC = () => {
       {/* MOBILE HEADER BAR */}
       <header className="md:hidden bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-800 px-4 py-4 flex items-center justify-between sticky top-0 z-40 w-full shadow-sm">
         <div className="flex items-center gap-2">
-          <GraduationCap className="w-6 h-6 text-indigo-600" />
+          <img src="/logo.jpg" alt="BCSITHub Logo" className="w-6 h-6 rounded-lg object-cover border border-slate-200 dark:border-slate-800" />
           <span className="font-black text-slate-800 dark:text-white tracking-tight text-sm">BCSITHub</span>
         </div>
         <button onClick={() => setIsMobileMenuOpen(true)} className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-600 hover:bg-slate-50 cursor-pointer" aria-label="Open Menu">
