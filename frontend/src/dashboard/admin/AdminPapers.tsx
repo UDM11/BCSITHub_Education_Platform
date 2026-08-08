@@ -44,6 +44,13 @@ export const AdminPapers: React.FC<AdminPapersProps> = ({ onPaperUpdate }) => {
   const [editCollege, setEditCollege] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
+  const buildTitle = (subject: string, session: string, examType: string, currentTitle: string) => {
+    const yearMatch = currentTitle.match(/\b(19|20)\d{2}\b/);
+    const year = yearMatch ? yearMatch[0] : new Date().getFullYear().toString();
+    const examTypeLabel = examType.charAt(0).toUpperCase() + examType.slice(1);
+    return `${subject.trim()} ${session ? session + ' ' : ''}${examTypeLabel} Exam ${year}`;
+  };
+
   useEffect(() => {
     fetchPapers();
   }, []);
@@ -340,7 +347,11 @@ export const AdminPapers: React.FC<AdminPapersProps> = ({ onPaperUpdate }) => {
                     type="text"
                     required
                     value={editSubject}
-                    onChange={(e) => setEditSubject(e.target.value)}
+                    onChange={(e) => {
+                      const newSubject = e.target.value;
+                      setEditSubject(newSubject);
+                      setEditTitle(buildTitle(newSubject, editSession, editExamType, editTitle));
+                    }}
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
@@ -363,7 +374,11 @@ export const AdminPapers: React.FC<AdminPapersProps> = ({ onPaperUpdate }) => {
                     <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Exam Type</label>
                     <select
                       value={editExamType}
-                      onChange={(e) => setEditExamType(e.target.value)}
+                      onChange={(e) => {
+                        const newExamType = e.target.value;
+                        setEditExamType(newExamType);
+                        setEditTitle(buildTitle(editSubject, editSession, newExamType, editTitle));
+                      }}
                       className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
                     >
                       {['midterm', 'pre-board', 'final', 'quiz', 'assignment'].map((t) => (
@@ -378,7 +393,11 @@ export const AdminPapers: React.FC<AdminPapersProps> = ({ onPaperUpdate }) => {
                     <label className="text-xs font-bold text-slate-550 uppercase tracking-wider">Session</label>
                     <select
                       value={editSession}
-                      onChange={(e) => setEditSession(e.target.value)}
+                      onChange={(e) => {
+                        const newSession = e.target.value;
+                        setEditSession(newSession);
+                        setEditTitle(buildTitle(editSubject, newSession, editExamType, editTitle));
+                      }}
                       className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
                     >
                       <option value="">No Session</option>
