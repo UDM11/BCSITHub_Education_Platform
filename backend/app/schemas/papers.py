@@ -9,6 +9,7 @@ class PaperCreate(BaseModel):
     exam_type: str
     college: str
     file_url: str
+    session: Optional[str] = None
 
 class PaperResponse(BaseModel):
     id: str
@@ -18,6 +19,7 @@ class PaperResponse(BaseModel):
     exam_type: str
     college: str
     file_url: str
+    session: Optional[str] = None
     uploaded_by: Optional[str] = None
     uploader_name: Optional[str] = None
     uploader_role: Optional[str] = None

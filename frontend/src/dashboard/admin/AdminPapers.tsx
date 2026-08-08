@@ -19,6 +19,7 @@ interface Paper {
   downloads: number;
   approved: boolean;
   fileUrl: string;
+  session?: string;
 }
 
 interface AdminPapersProps {
@@ -39,6 +40,7 @@ export const AdminPapers: React.FC<AdminPapersProps> = ({ onPaperUpdate }) => {
   const [editSubject, setEditSubject] = useState("");
   const [editSemester, setEditSemester] = useState(1);
   const [editExamType, setEditExamType] = useState("final");
+  const [editSession, setEditSession] = useState("");
   const [editCollege, setEditCollege] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -62,6 +64,7 @@ export const AdminPapers: React.FC<AdminPapersProps> = ({ onPaperUpdate }) => {
         downloads: item.downloads || 0,
         approved: item.approved,
         fileUrl: item.file_url,
+        session: item.session || "",
       }));
       setPapers(mapped);
     } catch (err: any) {
@@ -103,6 +106,7 @@ export const AdminPapers: React.FC<AdminPapersProps> = ({ onPaperUpdate }) => {
     setEditSubject(paper.subject);
     setEditSemester(paper.semester);
     setEditExamType(paper.examType);
+    setEditSession(paper.session || "");
     setEditCollege(paper.college);
   };
 
@@ -117,6 +121,7 @@ export const AdminPapers: React.FC<AdminPapersProps> = ({ onPaperUpdate }) => {
         subject: editSubject.trim(),
         semester: editSemester,
         exam_type: editExamType,
+        session: editSession,
         college: editCollege.trim()
       });
       toast.success("Past paper details updated successfully!");
@@ -230,7 +235,7 @@ export const AdminPapers: React.FC<AdminPapersProps> = ({ onPaperUpdate }) => {
                           {p.title}
                         </a>
                         <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wide mt-1 block">
-                          Sem {p.semester} • {p.examType} • by {p.uploadedBy}
+                          Sem {p.semester} • {p.examType}{p.session ? ` • ${p.session}` : ''} • by {p.uploadedBy}
                         </span>
                       </div>
                     </td>
@@ -368,15 +373,30 @@ export const AdminPapers: React.FC<AdminPapersProps> = ({ onPaperUpdate }) => {
                   </div>
                 </div>
 
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">College Name</label>
-                  <input
-                    type="text"
-                    required
-                    value={editCollege}
-                    onChange={(e) => setEditCollege(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  />
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-550 uppercase tracking-wider">Session</label>
+                    <select
+                      value={editSession}
+                      onChange={(e) => setEditSession(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+                    >
+                      <option value="">No Session</option>
+                      <option value="Spring">Spring</option>
+                      <option value="Fall">Fall</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">College Name</label>
+                    <input
+                      type="text"
+                      required
+                      value={editCollege}
+                      onChange={(e) => setEditCollege(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                  </div>
                 </div>
 
                 <div className="pt-2 flex gap-3">

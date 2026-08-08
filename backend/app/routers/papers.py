@@ -72,6 +72,7 @@ async def upload_paper(
     semester: int = Form(...),
     exam_type: str = Form(...),
     college: str = Form(...),
+    session: Optional[str] = Form(None),
     file: UploadFile = File(...),
     current_user: dict = Depends(get_current_user)
 ):
@@ -102,6 +103,7 @@ async def upload_paper(
             "semester": semester,
             "exam_type": exam_type,
             "college": college,
+            "session": session,
             "file_url": file_url,
             "uploaded_by": current_user["id"],
             "approved": is_approved,
@@ -230,7 +232,7 @@ async def update_paper(
 ):
     try:
         update_payload = {}
-        for key in ["title", "subject", "semester", "exam_type", "college", "approved"]:
+        for key in ["title", "subject", "semester", "exam_type", "college", "approved", "session"]:
             if key in payload:
                 update_payload[key] = payload[key]
                 

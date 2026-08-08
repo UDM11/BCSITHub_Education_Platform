@@ -39,6 +39,7 @@ const UploadPaper: React.FC = () => {
     subject: '',
     customSubject: '',
     examType: '',
+    season: '',
     year: '',
     college: '',
     file: null as File | null
@@ -101,7 +102,7 @@ const UploadPaper: React.FC = () => {
 
   const displaySubject = formData.subject === "other" ? formData.customSubject : formData.subject;
   const generatedTitle = displaySubject && formData.examType && formData.year
-    ? `${displaySubject} ${formData.examType} Exam ${formData.year}`
+    ? `${displaySubject} ${formData.season ? formData.season + ' ' : ''}${formData.examType} Exam ${formData.year}`
     : "";
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -149,6 +150,9 @@ const UploadPaper: React.FC = () => {
       payload.append('semester', formData.semester);
       payload.append('exam_type', formData.examType.toLowerCase());
       payload.append('college', formData.college);
+      if (formData.season) {
+        payload.append('session', formData.season);
+      }
       payload.append('file', formData.file);
 
       await apiClient.postMultipart('/papers/upload', payload);
@@ -268,7 +272,7 @@ const UploadPaper: React.FC = () => {
                   </div>
                 )}
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
                   <div>
                     <label className="block text-[10px] font-bold text-slate-555 mb-1.5 uppercase tracking-wider">
                       Exam Type *
@@ -285,6 +289,22 @@ const UploadPaper: React.FC = () => {
                       <option value="Midterm">Midterm Exam</option>
                       <option value="Quiz">Quiz</option>
                       <option value="Assignment">Assignment</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-555 mb-1.5 uppercase tracking-wider">
+                      Session
+                    </label>
+                    <select
+                      name="season"
+                      value={formData.season}
+                      onChange={handleInputChange}
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-705 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-bold transition-all"
+                    >
+                      <option value="">No Session</option>
+                      <option value="Spring">Spring</option>
+                      <option value="Fall">Fall</option>
                     </select>
                   </div>
 

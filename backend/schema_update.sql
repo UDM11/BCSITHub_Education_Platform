@@ -18,3 +18,6 @@ ALTER TABLE public.users ADD COLUMN IF NOT EXISTS last_login TIMESTAMP WITH TIME
 -- 3. Add OTP columns for email verification
 ALTER TABLE public.users ADD COLUMN IF NOT EXISTS otp_code TEXT;
 ALTER TABLE public.users ADD COLUMN IF NOT EXISTS otp_expires_at TIMESTAMP WITH TIME ZONE;
+
+-- 4. Add session column to past_papers table
+ALTER TABLE public.past_papers ADD COLUMN IF NOT EXISTS session TEXT;

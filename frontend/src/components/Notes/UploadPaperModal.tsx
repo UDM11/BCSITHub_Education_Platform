@@ -70,6 +70,7 @@ export function UploadPaperModal({ onClose, user, onUploadSuccess }: UploadPaper
   const [subject, setSubject] = useState("");
   const [customSubject, setCustomSubject] = useState("");
   const [examType, setExamType] = useState("");
+  const [season, setSeason] = useState("");
   const [year, setYear] = useState("");
   const [college, setCollege] = useState("");
   const [files, setFiles] = useState<File[]>([]);
@@ -155,7 +156,7 @@ export function UploadPaperModal({ onClose, user, onUploadSuccess }: UploadPaper
   const examTypeLabel = examTypes.find(e => e.value === examType)?.label || examType;
   const displaySubject = subject === "other" ? customSubject : subject;
   const generatedTitle = displaySubject && examTypeLabel && year
-    ? `${displaySubject} ${examTypeLabel} Exam ${year}`
+    ? `${displaySubject} ${season ? season + ' ' : ''}${examTypeLabel} Exam ${year}`
     : "";
 
   const handleUpload = async () => {
@@ -210,6 +211,9 @@ export function UploadPaperModal({ onClose, user, onUploadSuccess }: UploadPaper
         payload.append('semester', semester);
         payload.append('exam_type', examType.toLowerCase());
         payload.append('college', college);
+        if (season) {
+          payload.append('session', season);
+        }
         payload.append('file', file);
 
         await apiClient.postMultipart('/papers/upload', payload);
@@ -224,6 +228,7 @@ export function UploadPaperModal({ onClose, user, onUploadSuccess }: UploadPaper
       setSubject("");
       setCustomSubject("");
       setExamType("");
+      setSeason("");
       setYear("");
       setCollege("");
       setFiles([]);
@@ -320,12 +325,23 @@ export function UploadPaperModal({ onClose, user, onUploadSuccess }: UploadPaper
               />
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <Select
                 label="Exam Type"
                 value={examType}
                 onChange={(e) => setExamType(e.target.value)}
                 options={examTypes}
+                disabled={loading}
+              />
+              <Select
+                label="Session"
+                value={season}
+                onChange={(e) => setSeason(e.target.value)}
+                options={[
+                  { value: "", label: "No Session" },
+                  { value: "Spring", label: "Spring" },
+                  { value: "Fall", label: "Fall" }
+                ]}
                 disabled={loading}
               />
               <Select

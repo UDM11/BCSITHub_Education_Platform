@@ -34,6 +34,7 @@ create table if not exists public.past_papers (
   semester integer not null check (semester between 1 and 8),
   exam_type text not null check (exam_type in ('midterm', 'pre-board', 'final', 'quiz', 'assignment')),
   college text not null,
+  session text,
   file_url text not null,
   uploaded_by uuid references public.profiles(id) on delete set null,
   approved boolean default false not null,
