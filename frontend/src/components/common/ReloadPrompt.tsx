@@ -37,7 +37,8 @@ export function ReloadPrompt() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] w-[92%] max-w-md"
+          className="fixed bottom-6 z-[9999] w-[92%] max-w-md"
+          style={{ left: '50%', transform: 'translateX(-50%)' }}
         >
           <div className="bg-white/95 backdrop-blur-xl border border-indigo-100 rounded-2xl shadow-2xl shadow-indigo-500/10 p-4 sm:p-5">
             {/* Top accent bar */}
