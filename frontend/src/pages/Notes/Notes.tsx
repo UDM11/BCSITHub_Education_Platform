@@ -47,7 +47,7 @@ export function Notes() {
     title: "Pokhara University BCSIT Lecture Notes & Study Materials",
     description: "Access official Pokhara University BCSIT lecture notes, chapter study guides, course syllabus indices, and solved past questions for semesters 1st to 8th.",
     keywords: "bcsit notes, pokhara university bcsit notes, pu computer science lecture notes, bcsithub study resources, bcsit 1st sem notes, bcsit 3rd sem notes, bcsit subject guides, download bcsit chapter notes",
-    image: "https://bcsithub.umeshdarlami.com.np/logo.jpg"
+    image: "https://bcsithub.lovestoblog.com/logo.png"
   });
 
   const [searchTerm, setSearchTerm] = useState('');

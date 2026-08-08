@@ -146,12 +146,12 @@ const TeacherDashboard: React.FC = () => {
     title: seoTitle,
     description: currentSEO.description,
     keywords: currentSEO.keywords,
-    image: "https://bcsithub.umeshdarlami.com.np/logo.jpg",
+    image: "https://bcsithub.lovestoblog.com/logo.png",
   });
 
   // ── 4. Extended OG / Twitter tags + JSON-LD injected per tab ─────────────
   useEffect(() => {
-    const BASE_URL = "https://bcsithub.umeshdarlami.com.np";
+    const BASE_URL = "https://bcsithub.lovestoblog.com";
     const PAGE_URL = `${BASE_URL}/teacher-dashboard`;
 
     // og:type
@@ -208,10 +208,10 @@ const TeacherDashboard: React.FC = () => {
           "@id": `${BASE_URL}/#organization`,
           "name": "BCSITHub",
           "url": BASE_URL,
-          "logo": `${BASE_URL}/logo.jpg`,
+          "logo": `${BASE_URL}/logo.png`,
           "description": "Nepal's leading academic resource hub for Pokhara University BCSIT students.",
           "sameAs": [
-            "https://bcsithub.umeshdarlami.com.np",
+            "https://bcsithub.lovestoblog.com",
           ],
         },
       ],
@@ -394,7 +394,7 @@ const TeacherDashboard: React.FC = () => {
         <div className={`flex items-center p-2 ${isCollapsed ? "justify-center" : "justify-between"}`}>
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl overflow-hidden shadow-md flex-shrink-0 border border-slate-200 dark:border-slate-800">
-              <img src="/logo.jpg" alt="BCSITHub Logo" className="w-full h-full object-cover" />
+              <img src="/logo.png" alt="BCSITHub Logo" className="w-full h-full object-cover" />
             </div>
             {!isCollapsed && (
               <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="min-w-0">
@@ -521,7 +521,7 @@ const TeacherDashboard: React.FC = () => {
       {/* MOBILE HEADER BAR */}
       <header className="md:hidden bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-800 px-4 py-4 flex items-center justify-between sticky top-0 z-40 w-full shadow-sm">
         <div className="flex items-center gap-2">
-          <img src="/logo.jpg" alt="BCSITHub Logo" className="w-6 h-6 rounded-lg object-cover border border-slate-200 dark:border-slate-800" />
+          <img src="/logo.png" alt="BCSITHub Logo" className="w-6 h-6 rounded-lg object-cover border border-slate-200 dark:border-slate-800" />
           <span className="font-black text-slate-800 dark:text-white tracking-tight text-sm">BCSITHub</span>
         </div>
         <button onClick={() => setIsMobileMenuOpen(true)} className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-600 hover:bg-slate-50 cursor-pointer" aria-label="Open Menu">

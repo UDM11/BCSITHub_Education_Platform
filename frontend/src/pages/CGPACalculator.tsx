@@ -158,7 +158,7 @@ export function CGPACalculator() {
     title: seoTitle,
     description: seoDescription,
     keywords: seoKeywords,
-    image: "https://bcsithub.umeshdarlami.com.np/logo.jpg"
+    image: "https://bcsithub.lovestoblog.com/logo.png"
   });
 
   const getGradeFromMarks = (marks: number): { grade: string; gradePoints: number } => {

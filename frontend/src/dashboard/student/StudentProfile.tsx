@@ -91,7 +91,7 @@ const StudentProfile: React.FC = () => {
   useSEO({
     title: seoTitle,
     description: "Manage your uploaded past papers, review approval statuses, update college preferences, and inspect activity logs on BCSITHub.",
-    image: "https://bcsithub.umeshdarlami.com.np/logo.jpg"
+    image: "https://bcsithub.lovestoblog.com/logo.png"
   });
 
   useEffect(() => {
@@ -256,7 +256,7 @@ const StudentProfile: React.FC = () => {
         <div className={`flex items-center p-2 ${isCollapsed ? "justify-center" : "justify-between"}`}>
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl overflow-hidden shadow-md flex-shrink-0 border border-slate-200 dark:border-slate-800">
-              <img src="/logo.jpg" alt="BCSITHub Logo" className="w-full h-full object-cover" />
+              <img src="/logo.png" alt="BCSITHub Logo" className="w-full h-full object-cover" />
             </div>
             {!isCollapsed && (
               <motion.div
@@ -419,7 +419,7 @@ const StudentProfile: React.FC = () => {
       {/* MOBILE HEADER BAR */}
       <header className="md:hidden bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-800 px-4 py-4 flex items-center justify-between sticky top-0 z-40 w-full shadow-sm">
         <div className="flex items-center gap-2">
-          <img src="/logo.jpg" alt="BCSITHub Logo" className="w-6 h-6 rounded-lg object-cover border border-slate-200 dark:border-slate-800" />
+          <img src="/logo.png" alt="BCSITHub Logo" className="w-6 h-6 rounded-lg object-cover border border-slate-200 dark:border-slate-800" />
           <span className="font-black text-slate-800 dark:text-white tracking-tight text-sm">BCSITHub</span>
         </div>
         <div className="flex items-center gap-3">

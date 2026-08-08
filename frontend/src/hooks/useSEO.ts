@@ -40,7 +40,7 @@ export function useSEO({ title, description, keywords, image }: SEOProps) {
     }
 
     // 4. Update Canonical URL
-    const canonicalUrl = `https://bcsithub.umeshdarlami.com.np${window.location.pathname}`;
+    const canonicalUrl = `https://bcsithub.lovestoblog.com${window.location.pathname}`;
     let linkCanonical = document.querySelector('link[rel="canonical"]');
     const originalCanonical = linkCanonical?.getAttribute("href") || "";
     if (!linkCanonical) {
@@ -67,7 +67,7 @@ export function useSEO({ title, description, keywords, image }: SEOProps) {
     const originalTwitterDesc = twitterDesc?.getAttribute("content") || "";
     const originalTwitterImage = twitterImage?.getAttribute("content") || "";
 
-    const previewImage = image || "https://bcsithub.umeshdarlami.com.np/logo.jpg";
+    const previewImage = image || "https://bcsithub.lovestoblog.com/logo.png";
 
     if (ogTitle) ogTitle.setAttribute("content", `${title} | BCSITHub`);
     if (ogDesc) ogDesc.setAttribute("content", description);

@@ -49,7 +49,7 @@ export function Colleges() {
     title: seoTitle,
     description: seoDescription,
     keywords: `bcsit colleges, pokhara university colleges, bcsit admission, pu bcsit${selectedLocation ? `, colleges in ${selectedLocation}` : ''}`,
-    image: "https://bcsithub.umeshdarlami.com.np/logo.jpg"
+    image: "https://bcsithub.lovestoblog.com/logo.png"
   });
 
   const locations = [

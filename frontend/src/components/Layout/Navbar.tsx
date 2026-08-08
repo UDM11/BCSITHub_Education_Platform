@@ -309,7 +309,7 @@ export function Navbar() {
             <div className="flex items-center space-x-2.5">
               <Link to="/" className="flex items-center space-x-2 group flex-shrink-0">
                 <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl overflow-hidden shadow-md shadow-indigo-200 transition-transform duration-300 group-hover:scale-105">
-                  <img src="/logo.jpg" alt="BCSITHub Logo" className="w-full h-full object-cover" />
+                  <img src="/logo.png" alt="BCSITHub Logo" className="w-full h-full object-cover" />
                 </div>
                 <span className="hidden sm:inline-block text-xl font-extrabold bg-gradient-to-r from-indigo-600 via-purple-600 to-violet-600 bg-clip-text text-transparent tracking-tight whitespace-nowrap">
                   BCSITHub
@@ -769,7 +769,7 @@ export function Navbar() {
                 <div className="flex items-center justify-between pb-5 border-b border-slate-100">
                   <div className="flex items-center space-x-2">
                     <div className="w-8 h-8 rounded-lg overflow-hidden shadow-md shadow-indigo-100 flex items-center justify-center">
-                      <img src="/logo.jpg" alt="BCSITHub Logo" className="w-full h-full object-cover" />
+                      <img src="/logo.png" alt="BCSITHub Logo" className="w-full h-full object-cover" />
                     </div>
                     <span className="text-lg font-bold text-slate-800">BCSITHub</span>
                   </div>

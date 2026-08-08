@@ -68,7 +68,7 @@ export default function SemesterSubjects() {
     title: seoTitle,
     description: seoDescription,
     keywords: seoKeywords,
-    image: "https://bcsithub.umeshdarlami.com.np/logo.jpg"
+    image: "https://bcsithub.lovestoblog.com/logo.png"
   });
 
   const getCourseCategory = (code?: string) => {

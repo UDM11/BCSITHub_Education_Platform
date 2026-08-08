@@ -61,8 +61,8 @@ def send_otp_email(to_email: str, name: str, otp: str) -> bool:
         <table role="presentation" cellpadding="0" cellspacing="0" class="container" align="center">
             <tr>
                 <td class="header" style="text-align: center;">
-                    <a href="https://bcsithub.umeshdarlami.com.np" style="display: block; text-decoration: none; margin-bottom: 4px;">
-                        <img src="https://bcsithub.umeshdarlami.com.np/logo.jpg" alt="BCSITHub Logo" style="width: 50px; height: 50px; border-radius: 12px; object-fit: cover; display: inline-block; vertical-align: middle; border: 1.5px solid rgba(255,255,255,0.25);" />
+                    <a href="https://bcsithub.lovestoblog.com" style="display: block; text-decoration: none; margin-bottom: 4px;">
+                        <img src="https://bcsithub.lovestoblog.com/logo.png" alt="BCSITHub Logo" style="width: 50px; height: 50px; border-radius: 12px; object-fit: cover; display: inline-block; vertical-align: middle; border: 1.5px solid rgba(255,255,255,0.25);" />
                         <span style="font-size: 24px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; margin-left: 10px; display: inline-block; vertical-align: middle; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">BCSIT<span style="color:#818cf8;">Hub</span></span>
                     </a>
                     <div class="header-subtitle">Pokhara University &mdash; BCSIT Student Portal</div>
@@ -133,7 +133,7 @@ def send_otp_email(to_email: str, name: str, otp: str) -> bool:
 def send_reset_password_email(to_email: str, name: str, token: str) -> bool:
     subject = "Reset Your BCSITHub Password"
     first_name = name.split(" ")[0] if name else "Student"
-    reset_link = f"https://bcsithub.umeshdarlami.com.np/reset-password?token={token}&email={to_email}"
+    reset_link = f"https://bcsithub.lovestoblog.com/reset-password?token={token}&email={to_email}"
     
     html_body = f"""<!DOCTYPE html>
 <html>
@@ -148,8 +148,8 @@ def send_reset_password_email(to_email: str, name: str, token: str) -> bool:
         <table role="presentation" cellpadding="0" cellspacing="0" class="container" align="center">
             <tr>
                 <td class="header" style="text-align: center;">
-                    <a href="https://bcsithub.umeshdarlami.com.np" style="display: block; text-decoration: none; margin-bottom: 4px;">
-                        <img src="https://bcsithub.umeshdarlami.com.np/logo.jpg" alt="BCSITHub Logo" style="width: 50px; height: 50px; border-radius: 12px; object-fit: cover; display: inline-block; vertical-align: middle; border: 1.5px solid rgba(255,255,255,0.25);" />
+                    <a href="https://bcsithub.lovestoblog.com" style="display: block; text-decoration: none; margin-bottom: 4px;">
+                        <img src="https://bcsithub.lovestoblog.com/logo.png" alt="BCSITHub Logo" style="width: 50px; height: 50px; border-radius: 12px; object-fit: cover; display: inline-block; vertical-align: middle; border: 1.5px solid rgba(255,255,255,0.25);" />
                         <span style="font-size: 24px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; margin-left: 10px; display: inline-block; vertical-align: middle; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">BCSIT<span style="color:#818cf8;">Hub</span></span>
                     </a>
                     <div class="header-subtitle">Pokhara University &mdash; BCSIT Student Portal</div>
@@ -235,8 +235,8 @@ def send_newsletter_otp_email(to_email: str, otp: str) -> bool:
         <table role="presentation" cellpadding="0" cellspacing="0" class="container" align="center">
             <tr>
                 <td class="header" style="text-align: center;">
-                    <a href="https://bcsithub.umeshdarlami.com.np" style="display: block; text-decoration: none; margin-bottom: 4px;">
-                        <img src="https://bcsithub.umeshdarlami.com.np/logo.jpg" alt="BCSITHub Logo" style="width: 50px; height: 50px; border-radius: 12px; object-fit: cover; display: inline-block; vertical-align: middle; border: 1.5px solid rgba(255,255,255,0.25);" />
+                    <a href="https://bcsithub.lovestoblog.com" style="display: block; text-decoration: none; margin-bottom: 4px;">
+                        <img src="https://bcsithub.lovestoblog.com/logo.png" alt="BCSITHub Logo" style="width: 50px; height: 50px; border-radius: 12px; object-fit: cover; display: inline-block; vertical-align: middle; border: 1.5px solid rgba(255,255,255,0.25);" />
                         <span style="font-size: 24px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; margin-left: 10px; display: inline-block; vertical-align: middle; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">BCSIT<span style="color:#818cf8;">Hub</span></span>
                     </a>
                     <div class="header-subtitle">Pokhara University &mdash; BCSIT Student Portal</div>
@@ -320,8 +320,8 @@ def send_notice_alert_email(to_email: str, notice_title: str, notice_category: s
         <table role="presentation" cellpadding="0" cellspacing="0" class="container" align="center">
             <tr>
                 <td class="header" style="text-align: center;">
-                    <a href="https://bcsithub.umeshdarlami.com.np" style="display: block; text-decoration: none; margin-bottom: 4px;">
-                        <img src="https://bcsithub.umeshdarlami.com.np/logo.jpg" alt="BCSITHub Logo" style="width: 50px; height: 50px; border-radius: 12px; object-fit: cover; display: inline-block; vertical-align: middle; border: 1.5px solid rgba(255,255,255,0.25);" />
+                    <a href="https://bcsithub.lovestoblog.com" style="display: block; text-decoration: none; margin-bottom: 4px;">
+                        <img src="https://bcsithub.lovestoblog.com/logo.png" alt="BCSITHub Logo" style="width: 50px; height: 50px; border-radius: 12px; object-fit: cover; display: inline-block; vertical-align: middle; border: 1.5px solid rgba(255,255,255,0.25);" />
                         <span style="font-size: 24px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; margin-left: 10px; display: inline-block; vertical-align: middle; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">BCSIT<span style="color:#818cf8;">Hub</span></span>
                     </a>
                     <div class="header-subtitle">Pokhara University &mdash; BCSIT Student Portal</div>
@@ -342,7 +342,7 @@ def send_notice_alert_email(to_email: str, notice_title: str, notice_category: s
                     {file_attachment_html}
                     
                     <div class="btn-container" style="margin-top: 28px; margin-bottom: 0;">
-                        <a href="https://bcsithub.umeshdarlami.com.np/pu-notices" target="_blank" class="btn">🌐 View Notices Dashboard</a>
+                        <a href="https://bcsithub.lovestoblog.com/pu-notices" target="_blank" class="btn">🌐 View Notices Dashboard</a>
                     </div>
                 </td>
             </tr>

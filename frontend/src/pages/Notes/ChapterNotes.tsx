@@ -382,7 +382,7 @@ export default function ChapterNotes() {
     title: seoTitle,
     description: seoDescription,
     keywords: seoKeywords,
-    image: "https://bcsithub.umeshdarlami.com.np/logo.jpg"
+    image: "https://bcsithub.lovestoblog.com/logo.png"
   });
 
   const downloadAsPDF = () => {

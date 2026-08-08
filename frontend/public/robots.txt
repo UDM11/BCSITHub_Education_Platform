@@ -1,7 +1,7 @@
 # =========================================================================
 #  BCSITHub Robots Configuration File
-#  Target Host: https://bcsithub.umeshdarlami.com.np/
-#  Last Modified: 2026-08-07
+#  Target Host: https://bcsithub.lovestoblog.com/
+#  Last Modified: 2026-08-08
 # =========================================================================
 
 # SECTION 1: Permitted Search Crawlers
@@ -22,14 +22,11 @@ Disallow: /verify
 Disallow: /complete-profile
 Disallow: /signin
 Disallow: /signup
+Disallow: /auth/
+Disallow: /upload-paper
 
-# SECTION 3: Allow API calls for public content rendering, block the rest
+# SECTION 3: Block API endpoints (JSON data, not HTML pages)
 # -------------------------------------------------------------------------
-Allow: /api/notices
-Allow: /api/papers
-Allow: /api/notes
-Allow: /api/colleges
-Allow: /api/ai/health
 Disallow: /api/
 
 # SECTION 4: AI Scrapers & Data Harvesters
@@ -57,4 +54,4 @@ Disallow: /
 
 # SECTION 5: Global XML Sitemap Index
 # -------------------------------------------------------------------------
-Sitemap: https://bcsithub.umeshdarlami.com.np/sitemap.xml
+Sitemap: https://bcsithub.lovestoblog.com/sitemap.xml

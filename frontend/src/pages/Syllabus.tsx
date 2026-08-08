@@ -30,7 +30,7 @@ export function Syllabus() {
     title: "Official Pokhara University BCSIT Syllabus & Credits",
     description: "Explore the complete 4-year Pokhara University BCSIT syllabus roadmap. View credit hours, core and elective subjects for all 8 semesters, browse specialization tracks, and download the official syllabus PDF.",
     keywords: "bcsit syllabus, pokhara university bcsit syllabus, pu bcsit syllabus, bcsit course structure, bcsit credit hours, pu syllabus pdf download, bcsit semesters, bcsit subjects list",
-    image: "https://bcsithub.umeshdarlami.com.np/logo.jpg"
+    image: "https://bcsithub.lovestoblog.com/logo.png"
   });
 
   const [expandedSemester, setExpandedSemester] = useState<string | null>(null);

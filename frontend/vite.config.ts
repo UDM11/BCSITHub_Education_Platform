@@ -12,7 +12,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'prompt',
-      includeAssets: ['favicon.png', 'icon-512.png', 'logo.jpg'],
+      includeAssets: ['favicon.png', 'icon-512.png', 'logo.png'],
       manifest: {
         name: 'BCSITHub - Educational Platform for BCSIT Students',
         short_name: 'BCSITHub',

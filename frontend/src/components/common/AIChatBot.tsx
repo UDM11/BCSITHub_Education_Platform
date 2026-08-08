@@ -218,7 +218,7 @@ export function AIChatBot() {
             <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-indigo-600 to-violet-600 flex-shrink-0">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl overflow-hidden bg-white/15 flex items-center justify-center">
-                  <img src="/logo.jpg" alt="BCSITHub Logo" className="w-full h-full object-cover" />
+                  <img src="/logo.png" alt="BCSITHub Logo" className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <p className="text-sm font-extrabold text-white leading-snug">BCSITHub AI</p>

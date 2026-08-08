@@ -165,7 +165,7 @@ export function Footer() {
           <motion.div variants={itemVariants} className="lg:col-span-5 space-y-6 text-left">
             <div className="flex items-center space-x-3">
               <div className="w-11 h-11 rounded-xl overflow-hidden shadow-md flex items-center justify-center">
-                <img src="/logo.jpg" alt="BCSITHub Logo" className="w-full h-full object-cover" />
+                <img src="/logo.png" alt="BCSITHub Logo" className="w-full h-full object-cover" />
               </div>
               <span className="text-xl font-extrabold text-white tracking-tight">
                 BCSIT<span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Hub</span>
