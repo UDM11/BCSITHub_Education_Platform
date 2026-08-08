@@ -39,10 +39,42 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // Try to restore user profile from localStorage immediately to prevent loading spinner
+  const [user, setUser] = useState<User | null>(() => {
+    try {
+      const savedUser = localStorage.getItem('bcsithub_user');
+      return savedUser ? JSON.parse(savedUser) : null;
+    } catch {
+      return null;
+    }
+  });
+
+  const [loading, setLoading] = useState(() => {
+    const token = localStorage.getItem('bcsithub_token');
+    const savedUser = localStorage.getItem('bcsithub_user');
+    // If we have both token and saved user, we can display immediately and verify in background (no loading spinner)
+    if (token && savedUser) return false;
+    // If we don't even have a token, we don't need to load anything
+    if (!token) return false;
+    // Otherwise, we have a token but no user, so we must show spinner
+    return true;
+  });
+
+  const [isAdmin, setIsAdmin] = useState(() => {
+    try {
+      const savedUser = localStorage.getItem('bcsithub_user');
+      if (savedUser) {
+        const parsed = JSON.parse(savedUser);
+        return parsed.role === 'admin';
+      }
+    } catch {}
+    return false;
+  });
+
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return !!localStorage.getItem('bcsithub_token');
+  });
+
   const mountedRef = useRef(true);
 
   useEffect(() => {
@@ -61,6 +93,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setUser(me);
           setIsAdmin(me.role === 'admin');
           setIsAuthenticated(true);
+          // Keep local storage copy updated
+          localStorage.setItem('bcsithub_user', JSON.stringify(me));
         } else {
           setAuthSession(null, null);
         }
