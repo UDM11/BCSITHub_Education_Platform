@@ -23,6 +23,9 @@ export function ReloadPrompt() {
 
   const handleUpdate = () => {
     updateServiceWorker(true);
+    setTimeout(() => {
+      window.location.reload();
+    }, 300);
   };
 
   const handleClose = () => {
