@@ -100,6 +100,18 @@ export const apiClient = {
     });
   },
 
+  patch: (path: string, body: any, options: RequestOptions = {}) => {
+    return request(path, {
+      ...options,
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+      body: JSON.stringify(body),
+    });
+  },
+
   delete: (path: string, options: RequestOptions = {}) => {
     return request(path, {
       ...options,
