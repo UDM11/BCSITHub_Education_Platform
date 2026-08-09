@@ -14,7 +14,7 @@ export async function addWatermarkToPdf(pdfBlob: Blob, watermarkText = "BCSITHub
       const { width, height } = page.getSize();
       
       // Calculate a responsive font size based on page dimensions
-      const fontSize = Math.min(width, height) / 10;
+      const fontSize = Math.min(width, height) / 6.5;
       
       // Calculate rotation and center position
       const textWidth = HelveticaBold.widthOfTextAtSize(watermarkText, fontSize);
@@ -69,7 +69,7 @@ export async function addWatermarkToImage(imageBlob: Blob, watermarkText = "BCSI
       ctx.drawImage(img, 0, 0);
       
       // Compute font size based on image height/width
-      const fontSize = Math.min(canvas.width, canvas.height) / 12;
+      const fontSize = Math.min(canvas.width, canvas.height) / 7.5;
       ctx.font = `bold ${fontSize}px Helvetica, Arial, sans-serif`;
       ctx.fillStyle = "rgba(180, 180, 180, 0.25)"; // light opacity grey
       ctx.textAlign = "center";
