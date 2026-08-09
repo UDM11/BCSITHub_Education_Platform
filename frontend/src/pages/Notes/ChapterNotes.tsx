@@ -422,7 +422,8 @@ export default function ChapterNotes() {
     // Extract raw body content from the processedHtml (strip any remaining style tags)
     const bodyContent = htmlContent
       .replace(/<style[\s\S]*?<\/style>/gi, "") // strip scoped styles (we apply our own)
-      .replace(/<script[\s\S]*?<\/script>/gi, ""); // strip scripts
+      .replace(/<script[\s\S]*?<\/script>/gi, "") // strip scripts
+      .replace(/<h1[\s\S]*?<\/h1>/i, ""); // strip first h1 — we show the title in our own doc-title block
 
     const printHtml = `<!DOCTYPE html>
 <html lang="en">
