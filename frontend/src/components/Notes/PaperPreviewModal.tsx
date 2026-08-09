@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { 
   X, Download, Share2, AlertTriangle, Calendar, 
-  School, FileText, Check, User, Lock
+  School, FileText, Check, User, Lock, ZoomIn, ZoomOut, RotateCcw
 } from "lucide-react";
 import { Button } from "../ui/Button";
 import { PDFViewer } from "../common/PDFViewer";
@@ -35,6 +35,7 @@ interface PaperPreviewModalProps {
 export function PaperPreviewModal({ paper, onClose, onDownload, isAuthenticated }: PaperPreviewModalProps) {
   const [copied, setCopied] = useState(false);
   const [reported, setReported] = useState(false);
+  const [zoom, setZoom] = useState(1);
 
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
@@ -101,13 +102,50 @@ export function PaperPreviewModal({ paper, onClose, onDownload, isAuthenticated 
         </button>
 
         {/* Left Column: Interactive Document Viewer */}
-        <div className="w-full md:flex-1 bg-slate-950 p-4 md:p-6 flex items-center justify-center relative min-h-[480px] md:h-full">
-          <div className="w-full h-full flex items-center justify-center">
+        <div className="w-full md:flex-1 bg-slate-950 p-4 md:p-6 flex flex-col items-center justify-center relative min-h-[480px] md:h-full overflow-hidden">
+          {/* Zoom controls for Image */}
+          {isImage && (
+            <div className="absolute top-4 left-4 z-40 flex items-center gap-2 bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-xl p-1.5 shadow-lg">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setZoom(prev => Math.max(0.5, prev - 0.25))}
+                className="p-1.5 hover:bg-slate-800 text-slate-300 hover:text-white rounded-lg h-7 w-7 flex items-center justify-center"
+                title="Zoom Out"
+              >
+                <ZoomOut className="w-4 h-4" />
+              </Button>
+              <span className="text-[10px] font-bold text-slate-400 min-w-[36px] text-center">
+                {Math.round(zoom * 100)}%
+              </span>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setZoom(prev => Math.min(3, prev + 0.25))}
+                className="p-1.5 hover:bg-slate-800 text-slate-300 hover:text-white rounded-lg h-7 w-7 flex items-center justify-center"
+                title="Zoom In"
+              >
+                <ZoomIn className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setZoom(1)}
+                className="p-1.5 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg h-7 flex items-center justify-center"
+                title="Reset Zoom"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+              </Button>
+            </div>
+          )}
+
+          <div className="w-full h-full flex items-center justify-center overflow-auto p-4">
             {isImage ? (
               <img 
                 src={paper.fileUrl} 
                 alt={paper.title} 
-                className="max-w-full max-h-[440px] md:max-h-[702px] object-contain rounded-2xl shadow-premium border border-slate-900 bg-slate-900"
+                style={{ transform: `scale(${zoom})`, transformOrigin: "center center", transition: "transform 0.2s ease-out" }}
+                className="max-w-full max-h-[440px] md:max-h-[640px] object-contain rounded-2xl shadow-premium border border-slate-900 bg-slate-900"
               />
             ) : (
               <PDFViewer 

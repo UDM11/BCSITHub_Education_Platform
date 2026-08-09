@@ -264,8 +264,8 @@ export function PastPapers() {
       
       const originalBlob = await response.blob();
       
-      // Apply watermark to the blob
-      const watermarkedBlob = await watermarkFile(originalBlob, "BCSITHub");
+      // Apply watermark and convert image to PDF if it is an image
+      const watermarkedBlob = await watermarkFile(originalBlob, "BCSITHub", true);
       
       const blobUrl = window.URL.createObjectURL(watermarkedBlob);
       
@@ -274,8 +274,13 @@ export function PastPapers() {
       link.href = blobUrl;
       
       // Extract file extension and construct safe filename
-      const urlParts = paper.fileUrl.split('?')[0].split('.');
-      const ext = urlParts.length > 1 ? urlParts[urlParts.length - 1] : 'pdf';
+      let ext = 'pdf';
+      if (watermarkedBlob.type === "application/pdf") {
+        ext = "pdf";
+      } else {
+        const urlParts = paper.fileUrl.split('?')[0].split('.');
+        ext = urlParts.length > 1 ? urlParts[urlParts.length - 1] : 'pdf';
+      }
       const safeTitle = paper.title.replace(/[^a-zA-Z0-9\s-_]/g, '').trim();
       
       link.download = `${safeTitle}.${ext}`;

@@ -40,15 +40,21 @@ export const PaperCard: React.FC<Props> = ({ paper }) => {
       if (!response.ok) throw new Error("Failed to fetch file directly.");
       const originalBlob = await response.blob();
 
-      // Apply watermark
-      const watermarkedBlob = await watermarkFile(originalBlob, "BCSITHub");
+      // Apply watermark and convert image to PDF if it is an image
+      const watermarkedBlob = await watermarkFile(originalBlob, "BCSITHub", true);
       const blobUrl = window.URL.createObjectURL(watermarkedBlob);
 
       // Create download link
       const link = document.createElement('a');
       link.href = blobUrl;
-      const urlParts = paper.fileUrl.split('?')[0].split('.');
-      const ext = urlParts.length > 1 ? urlParts[urlParts.length - 1] : 'pdf';
+      
+      let ext = 'pdf';
+      if (watermarkedBlob.type === "application/pdf") {
+        ext = "pdf";
+      } else {
+        const urlParts = paper.fileUrl.split('?')[0].split('.');
+        ext = urlParts.length > 1 ? urlParts[urlParts.length - 1] : 'pdf';
+      }
       const safeTitle = paper.title.replace(/[^a-zA-Z0-9\s-_]/g, '').trim();
       link.download = `${safeTitle}.${ext}`;
       

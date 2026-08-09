@@ -99,13 +99,68 @@ export async function addWatermarkToImage(imageBlob: Blob, watermarkText = "BCSI
 }
 
 /**
- * Automatically applies a watermark based on file type.
+ * Converts a JPEG/PNG image to a PDF page and adds the responsive watermark.
  */
-export async function watermarkFile(blob: Blob, watermarkText = "BCSITHub"): Promise<Blob> {
+export async function convertImageToPdfWithWatermark(imageBlob: Blob, watermarkText = "BCSITHub"): Promise<Blob> {
+  try {
+    const arrayBuffer = await imageBlob.arrayBuffer();
+    const doc = await PDFDocument.create();
+    
+    let image;
+    if (imageBlob.type === "image/png") {
+      image = await doc.embedPng(arrayBuffer);
+    } else {
+      image = await doc.embedJpg(arrayBuffer);
+    }
+    
+    const { width, height } = image.scale(1.0);
+    const page = doc.addPage([width, height]);
+    page.drawImage(image, {
+      x: 0,
+      y: 0,
+      width: width,
+      height: height,
+    });
+    
+    // Draw responsive watermark
+    const HelveticaBold = await doc.embedFont(StandardFonts.HelveticaBold);
+    const fontSize = Math.min(width, height) / 6.5;
+    const textWidth = HelveticaBold.widthOfTextAtSize(watermarkText, fontSize);
+    const textHeight = HelveticaBold.heightAtSize(fontSize);
+    const rad = 45 * Math.PI / 180;
+    const x = (width - (textWidth * Math.cos(rad) - textHeight * Math.sin(rad))) / 2 - 30;
+    const y = (height - (textWidth * Math.sin(rad) + textHeight * Math.cos(rad))) / 2 + 10;
+    
+    page.drawText(watermarkText, {
+      x: x,
+      y: y,
+      size: fontSize,
+      font: HelveticaBold,
+      color: rgb(0.7, 0.7, 0.7),
+      opacity: 0.2,
+      rotate: degrees(45),
+    });
+    
+    const pdfBytes = await doc.save();
+    return new Blob([pdfBytes], { type: "application/pdf" });
+  } catch (error) {
+    console.error("Image to PDF conversion failed, running image watermark fallback:", error);
+    return addWatermarkToImage(imageBlob, watermarkText);
+  }
+}
+
+/**
+ * Automatically applies a watermark based on file type, with optional image-to-PDF conversion.
+ */
+export async function watermarkFile(blob: Blob, watermarkText = "BCSITHub", convertToPdf = false): Promise<Blob> {
   if (blob.type === "application/pdf") {
     return addWatermarkToPdf(blob, watermarkText);
   } else if (blob.type.startsWith("image/")) {
-    return addWatermarkToImage(blob, watermarkText);
+    if (convertToPdf) {
+      return convertImageToPdfWithWatermark(blob, watermarkText);
+    } else {
+      return addWatermarkToImage(blob, watermarkText);
+    }
   }
   return blob;
 }
