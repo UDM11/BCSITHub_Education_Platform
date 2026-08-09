@@ -44,6 +44,7 @@ const UploadPaper: React.FC = () => {
     college: ''
   });
   const [files, setFiles] = useState<File[]>([]);
+  const [previewFile, setPreviewFile] = useState<File | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -448,7 +449,11 @@ const UploadPaper: React.FC = () => {
                       <div className="mt-4 space-y-2 text-left max-h-[180px] overflow-y-auto pr-1">
                         {files.map((file, idx) => (
                           <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl text-xs">
-                            <div className="flex items-center gap-2 truncate">
+                            <div 
+                              onClick={() => setPreviewFile(file)}
+                              className="flex items-center gap-2 truncate cursor-pointer hover:text-indigo-600 hover:underline"
+                              title="Click to preview file"
+                            >
                               <FileText className="w-4 h-4 text-indigo-500 flex-shrink-0" />
                               <span className="font-bold text-slate-700 truncate leading-snug">{file.name}</span>
                               <span className="text-[9px] text-slate-400 font-bold uppercase flex-shrink-0">({(file.size / 1024).toFixed(0)} KB)</span>
@@ -533,6 +538,48 @@ const UploadPaper: React.FC = () => {
           </Card>
         </motion.div>
       </div>
+
+      {/* Local File Preview Lightbox */}
+      <AnimatePresence>
+        {previewFile && (
+          <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-[150] p-4">
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white rounded-3xl p-6 max-w-3xl w-full flex flex-col relative text-left"
+            >
+              <button
+                type="button"
+                onClick={() => setPreviewFile(null)}
+                className="absolute top-4 right-4 z-50 p-2.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 border-0 cursor-pointer flex items-center justify-center"
+              >
+                <X className="w-4 h-4" />
+              </button>
+              
+              <h3 className="text-sm font-bold text-slate-800 mb-4 truncate pr-10">
+                Preview: {previewFile.name}
+              </h3>
+              
+              <div className="bg-slate-900 rounded-2xl overflow-hidden flex items-center justify-center p-2 min-h-[300px]">
+                {previewFile.type.startsWith("image/") ? (
+                  <img
+                    src={URL.createObjectURL(previewFile)}
+                    alt="Preview"
+                    className="max-w-full max-h-[60vh] object-contain rounded-xl"
+                  />
+                ) : (
+                  <iframe
+                    src={URL.createObjectURL(previewFile)}
+                    title="PDF Preview"
+                    className="w-full h-[60vh] border-0 rounded-xl"
+                  />
+                )}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
