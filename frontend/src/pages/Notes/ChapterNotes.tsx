@@ -403,122 +403,10 @@ export default function ChapterNotes() {
       setShowModal(true);
       return;
     }
-    if (!contentRef.current) return;
+    if (!htmlContent) return;
 
     setIsDownloading(true);
-    toast.loading("Compiling note to PDF...", { id: "pdf-toast" });
-
-    // Create a temporary off-screen container with clean academic print styling
-    const tempContainer = document.createElement("div");
-    tempContainer.className = "academic-pdf-print notes-reader-content";
-    tempContainer.style.position = "fixed";
-    tempContainer.style.left = "0";
-    tempContainer.style.top = "0";
-    tempContainer.style.zIndex = "-9999";
-    tempContainer.style.width = "750px"; // standard width for crisp rendering page layout
-    tempContainer.innerHTML = htmlContent;
-
-    // Append standard print styles to the container
-    const printStyle = document.createElement("style");
-    printStyle.textContent = `
-      .academic-pdf-print {
-        font-family: 'Times New Roman', Times, serif;
-        color: #000000 !important;
-        line-height: 1.6 !important;
-        padding: 30px !important;
-        background: #ffffff !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        display: block !important;
-      }
-      .academic-pdf-print * {
-        opacity: 1 !important;
-        visibility: visible !important;
-      }
-      .academic-pdf-print h1 {
-        text-align: center !important;
-        font-size: 22pt !important;
-        font-weight: bold !important;
-        margin-top: 10px !important;
-        margin-bottom: 25px !important;
-        color: #000000 !important;
-      }
-      .academic-pdf-print h2 {
-        font-size: 16pt !important;
-        font-weight: bold !important;
-        border-bottom: 2px solid #222 !important;
-        padding-bottom: 6px !important;
-        margin-top: 35px !important;
-        margin-bottom: 15px !important;
-        color: #000000 !important;
-      }
-      .academic-pdf-print h3 {
-        font-size: 13pt !important;
-        font-weight: bold !important;
-        margin-top: 25px !important;
-        margin-bottom: 10px !important;
-        color: #000000 !important;
-      }
-      .academic-pdf-print p {
-        font-size: 11pt !important;
-        text-align: justify !important;
-        margin-bottom: 14px !important;
-        color: #000000 !important;
-      }
-      .academic-pdf-print ul, .academic-pdf-print ol {
-        margin-bottom: 15px !important;
-        padding-left: 25px !important;
-      }
-      .academic-pdf-print li {
-        font-size: 11pt !important;
-        margin-bottom: 6px !important;
-        color: #000000 !important;
-      }
-      .academic-pdf-print .section {
-        background: transparent !important;
-        padding: 0 !important;
-        margin-bottom: 25px !important;
-        border-radius: 0 !important;
-        box-shadow: none !important;
-        border: none !important;
-      }
-      .academic-pdf-print .note {
-        background-color: #f3f4f6 !important;
-        border-left: 5px solid #4b5563 !important;
-        padding: 15px !important;
-        margin: 20px 0 !important;
-        border-radius: 4px !important;
-        color: #1f2937 !important;
-      }
-      .academic-pdf-print pre {
-        background-color: #f3f4f6 !important;
-        color: #111827 !important;
-        padding: 14px !important;
-        border-radius: 6px !important;
-        font-family: monospace !important;
-        font-size: 10pt !important;
-        border: 1px solid #e5e7eb !important;
-        margin: 15px 0 !important;
-        overflow-x: auto !important;
-      }
-      .academic-pdf-print table {
-        width: 100% !important;
-        border-collapse: collapse !important;
-        margin: 20px 0 !important;
-      }
-      .academic-pdf-print th, .academic-pdf-print td {
-        border: 1px solid #9ca3af !important;
-        padding: 8px 12px !important;
-        font-size: 10.5pt !important;
-        color: #000000 !important;
-      }
-      .academic-pdf-print th {
-        background-color: #e5e7eb !important;
-        font-weight: bold !important;
-      }
-    `;
-    tempContainer.appendChild(printStyle);
-    document.body.appendChild(tempContainer);
+    toast.loading("Opening print dialog...", { id: "pdf-toast" });
 
     const rawFilename = `BCSIT ${semesterId}sem ${subjectId || ""} ${currentChapter ? currentChapter.title : chapterId}`;
     const cleanFilename = rawFilename
@@ -527,46 +415,295 @@ export default function ChapterNotes() {
       .replace(/\s+/g, " ")
       .trim();
 
-    const opt = {
-      margin: 0.5,
-      filename: `${cleanFilename}.pdf`,
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-    };
+    const noteTitle = currentChapter?.title || chapterId || "Note";
+    const courseCode = subjectId ? decodeURIComponent(subjectId) : "";
+    const semLabel = semesterId ? `Semester ${semesterId}` : "";
 
-    html2pdf()
-      .set(opt)
-      .from(tempContainer)
-      .outputPdf("arraybuffer")
-      .then(async (pdfBuffer: ArrayBuffer) => {
-        // Clean up the temporary DOM element
-        document.body.removeChild(tempContainer);
+    // Extract raw body content from the processedHtml (strip any remaining style tags)
+    const bodyContent = htmlContent
+      .replace(/<style[\s\S]*?<\/style>/gi, "") // strip scoped styles (we apply our own)
+      .replace(/<script[\s\S]*?<\/script>/gi, ""); // strip scripts
 
-        const originalBlob = new Blob([pdfBuffer], { type: "application/pdf" });
-        const watermarkedBlob = await watermarkFile(originalBlob, "BCSITHub");
-        
-        const blobUrl = window.URL.createObjectURL(watermarkedBlob);
-        const link = document.createElement("a");
-        link.href = blobUrl;
-        link.download = `${cleanFilename}.pdf`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(blobUrl);
+    const printHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>${cleanFilename}</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap');
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 12pt;
+      line-height: 1.8;
+      color: #000;
+      background: #fff;
+      padding: 1.2in 1.1in 1.2in 1.4in;
+    }
+
+    /* Header / Title block */
+    .doc-title {
+      text-align: center;
+      margin-bottom: 6px;
+      font-size: 15pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .doc-subtitle {
+      text-align: center;
+      font-size: 11pt;
+      color: #444;
+      margin-bottom: 28px;
+      border-bottom: 1px solid #bbb;
+      padding-bottom: 12px;
+    }
+
+    /* Headings */
+    h1 {
+      font-size: 15pt;
+      font-weight: bold;
+      text-align: center;
+      text-transform: uppercase;
+      margin: 30px 0 10px 0;
+      color: #000;
+    }
+
+    h2 {
+      font-size: 13pt;
+      font-weight: bold;
+      margin: 28px 0 10px 0;
+      color: #000;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 4px;
+    }
+
+    h2::before { content: ""; }
+
+    h3 {
+      font-size: 12pt;
+      font-weight: bold;
+      margin: 18px 0 8px 0;
+      color: #000;
+    }
+
+    h4 {
+      font-size: 11.5pt;
+      font-weight: bold;
+      margin: 14px 0 6px 0;
+      color: #000;
+    }
+
+    /* Paragraphs */
+    p {
+      font-size: 12pt;
+      text-align: justify;
+      margin: 0 0 12px 0;
+      color: #000;
+    }
+
+    /* Lists */
+    ul, ol {
+      padding-left: 28px;
+      margin: 10px 0 14px 0;
+    }
+
+    li {
+      font-size: 12pt;
+      text-align: justify;
+      margin-bottom: 5px;
+      color: #000;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      font-size: 11pt;
+    }
+
+    th {
+      background: #f0f0f0;
+      font-weight: bold;
+      border: 1px solid #888;
+      padding: 8px 10px;
+      text-align: left;
+      color: #000;
+    }
+
+    td {
+      border: 1px solid #aaa;
+      padding: 7px 10px;
+      color: #000;
+    }
+
+    /* Code blocks */
+    pre, code {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 10pt;
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 10px 14px;
+      margin: 12px 0;
+      white-space: pre-wrap;
+      word-break: break-all;
+      color: #111;
+    }
+
+    code { padding: 2px 5px; font-size: 10.5pt; display: inline; }
+
+    /* Note / callout boxes */
+    .note-box, .note, .callout {
+      background: #f9f9f9;
+      border-left: 4px solid #555;
+      padding: 12px 16px;
+      margin: 16px 0;
+      color: #000;
+    }
+
+    .section {
+      background: transparent;
+      padding: 0;
+      margin-bottom: 22px;
+      border: none;
+      box-shadow: none;
+    }
+
+    /* Decorative elements from note templates */
+    .card, .grid-2col {
+      background: transparent;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 6px 0;
+      page-break-inside: avoid;
+    }
+
+    .grid-2col {
+      display: block;
+    }
+
+    .badge {
+      font-weight: bold;
+      font-size: 10pt;
+      border: 1px solid #777;
+      border-radius: 3px;
+      padding: 1px 6px;
+      display: inline;
+    }
+
+    .subhead {
+      text-align: center;
+      font-style: italic;
+      color: #444;
+      margin: 0 0 18px 0;
+      font-size: 11pt;
+    }
+
+    /* Watermark */
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    .watermark-overlay {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-45deg);
+      font-size: 72pt;
+      font-weight: bold;
+      color: rgba(0,0,0,0.045);
+      font-family: 'Times New Roman', serif;
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    /* Page numbers via CSS */
+    @page {
+      size: A4 portrait;
+      margin: 1in 1in 1in 1.25in;
+      @bottom-right {
+        content: counter(page);
+        font-family: 'Times New Roman', serif;
+        font-size: 10pt;
+      }
+    }
+
+    /* Print-specific */
+    @media print {
+      body {
+        padding: 0;
+      }
+
+      .no-print { display: none !important; }
+
+      h1, h2, h3, h4 { page-break-after: avoid; }
+      table, pre, .card { page-break-inside: avoid; }
+
+      a { color: #000; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="watermark-overlay">BCSITHub</div>
+
+  <div class="doc-title">${noteTitle}</div>
+  <div class="doc-subtitle">${courseCode}${semLabel ? ` &nbsp;·&nbsp; ${semLabel}` : ""} &nbsp;·&nbsp; BCSITHub</div>
+
+  ${bodyContent}
+</body>
+</html>`;
+
+    try {
+      const printWindow = window.open("", "_blank", "width=900,height=700");
+      if (!printWindow) {
+        toast.error("Popup blocked. Please allow popups and try again.", { id: "pdf-toast" });
         setIsDownloading(false);
-        toast.success("PDF Downloaded successfully!", { id: "pdf-toast" });
-      })
-      .catch((err) => {
-        // Clean up temporary DOM element in case of failure
-        if (document.body.contains(tempContainer)) {
-          document.body.removeChild(tempContainer);
+        return;
+      }
+
+      printWindow.document.open();
+      printWindow.document.write(printHtml);
+      printWindow.document.close();
+
+      // Wait for resources to load before triggering print
+      printWindow.onload = () => {
+        setTimeout(() => {
+          printWindow.document.title = cleanFilename;
+          printWindow.focus();
+          printWindow.print();
+          setIsDownloading(false);
+          toast.success("Print dialog opened — save as PDF!", { id: "pdf-toast" });
+        }, 600);
+      };
+
+      // Fallback in case onload doesn't fire
+      setTimeout(() => {
+        if (isDownloading) {
+          printWindow.document.title = cleanFilename;
+          printWindow.focus();
+          printWindow.print();
+          setIsDownloading(false);
+          toast.success("Print dialog opened — save as PDF!", { id: "pdf-toast" });
         }
-        console.error("PDF generation failed:", err);
-        setIsDownloading(false);
-        toast.error("Failed to generate PDF.", { id: "pdf-toast" });
-      });
+      }, 2000);
+
+    } catch (err) {
+      console.error("Print window failed:", err);
+      setIsDownloading(false);
+      toast.error("Failed to open print dialog.", { id: "pdf-toast" });
+    }
   };
 
   const adjustFontSize = (increment: number) => {
