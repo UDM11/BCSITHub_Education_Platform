@@ -543,17 +543,16 @@ export function Navbar() {
 
             {/* Desktop Navigation Links (Visible on 1280px width and above) */}
             <div className="hidden 2xl:flex items-center space-x-1.5">
-              {navLinks.map(({ to, icon: Icon, label }) => (
+              {navLinks.map(({ to, label }) => (
                 <Link
                   key={to}
                   to={to}
-                  className={`relative flex items-center space-x-1.5 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap overflow-hidden group ${
+                  className={`relative flex items-center px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap overflow-hidden group ${
                     isActive(to)
                       ? 'bg-indigo-50/80 text-indigo-600 border border-indigo-100/50 shadow-sm shadow-indigo-100/10'
                       : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50'
                   }`}
                 >
-                  <Icon className="w-4 h-4 flex-shrink-0 relative z-10" />
                   <span className="relative z-10">{label}</span>
                   <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-3/5 ${
                     isActive(to) ? 'w-3/5' : ''
@@ -569,13 +568,12 @@ export function Navbar() {
               >
                 <button
                   onClick={() => setShowToolsMenu(!showToolsMenu)}
-                  className={`flex items-center space-x-1.5 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                  className={`flex items-center space-x-1 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap ${
                     isToolsActive()
                       ? 'bg-indigo-50/80 text-indigo-600 border border-indigo-100/50 shadow-sm'
                       : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50'
                   }`}
                 >
-                  <Brain className="w-4 h-4 flex-shrink-0" />
                   <span>Tools</span>
                   <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${showToolsMenu ? 'rotate-180' : ''}`} />
                 </button>
@@ -815,18 +813,17 @@ export function Navbar() {
                 <div className="flex-1 py-4 space-y-5">
                   {/* Primary Navigation Section */}
                   <div className="space-y-1">
-                    {navLinks.map(({ to, icon: Icon, label }) => (
+                    {navLinks.map(({ to, label }) => (
                       <Link
                         key={to}
                         to={to}
                         onClick={() => setIsOpen(false)}
-                        className={`flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+                        className={`flex items-center px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                           isActive(to)
                             ? 'bg-indigo-50 text-indigo-600 font-semibold'
                             : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50'
                         }`}
                       >
-                        <Icon className="w-4.5 h-4.5 flex-shrink-0" />
                         <span>{label}</span>
                       </Link>
                     ))}
@@ -839,19 +836,17 @@ export function Navbar() {
                     </span>
                     <div className="space-y-1">
                       {toolsLinks.map((tool) => {
-                        const ToolIcon = tool.icon;
                         return (
                           <Link
                             key={tool.to}
                             to={tool.to}
                             onClick={() => setIsOpen(false)}
-                            className={`flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+                            className={`flex items-center px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                               isActive(tool.to)
                                 ? 'bg-indigo-50 text-indigo-600 font-semibold'
                                 : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50'
                             }`}
                           >
-                            <ToolIcon className="w-4.5 h-4.5 flex-shrink-0" />
                             <span>{tool.label}</span>
                           </Link>
                         );
