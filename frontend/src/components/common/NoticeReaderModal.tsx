@@ -107,7 +107,7 @@ export function NoticeReaderModal({ notice, onClose, isAuthenticated, onAuthRequ
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.95, opacity: 0, y: 20 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
-        className="bg-white border border-slate-200/50 shadow-2xl w-full max-w-6xl rounded-3xl flex flex-col md:flex-row relative text-left overflow-y-auto md:overflow-hidden max-h-[95vh] md:h-[720px]"
+        className="bg-white border border-slate-200/50 shadow-2xl w-full max-w-6xl rounded-3xl flex flex-col md:flex-row relative text-left overflow-hidden h-[85vh] md:h-[720px]"
       >
         {/* Unified Close Button */}
         <button
@@ -119,14 +119,14 @@ export function NoticeReaderModal({ notice, onClose, isAuthenticated, onAuthRequ
         </button>
 
         {/* Left Panel: File Viewer OR Text Notice Reader */}
-        <div className="w-full md:flex-1 bg-slate-950 p-4 md:p-6 flex items-center justify-center relative min-h-[400px] md:h-full">
+        <div className="w-full h-[65%] md:h-full md:flex-1 bg-slate-950 p-3 md:p-6 flex items-center justify-center relative overflow-hidden shrink-0">
           <div className="w-full h-full flex items-center justify-center">
             {hasFile ? (
               isImage ? (
                 <img 
                   src={notice.fileUrl} 
                   alt={notice.title} 
-                  className="max-w-full max-h-[380px] md:max-h-[672px] object-contain rounded-2xl shadow-premium border border-slate-900 bg-slate-900"
+                  className="max-w-full max-h-full md:max-h-[672px] object-contain rounded-2xl shadow-premium border border-slate-900 bg-slate-900"
                 />
               ) : (
                 <PDFViewer 
@@ -162,18 +162,18 @@ export function NoticeReaderModal({ notice, onClose, isAuthenticated, onAuthRequ
         </div>
 
         {/* Right Panel: Metadata & Action Items */}
-        <div className="w-full md:w-[420px] p-4 md:p-8 flex flex-col justify-between border-t md:border-t-0 md:border-l border-slate-100 md:h-full md:overflow-y-auto shrink-0 bg-white">
-          <div className="space-y-4 md:space-y-6">
+        <div className="w-full h-[35%] md:h-full md:w-[420px] p-3 md:p-8 flex flex-col justify-between border-t md:border-t-0 md:border-l border-slate-100 overflow-y-auto shrink-0 bg-white">
+          <div className="space-y-2 md:space-y-6">
             <div>
-              <span className="inline-block text-[9px] md:text-[10px] font-bold px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 uppercase tracking-wider mb-2">
+              <span className="inline-block text-[9px] md:text-[10px] font-bold px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 uppercase tracking-wider mb-1.5">
                 PU {notice.category} Notice
               </span>
-              <h2 className="text-base md:text-xl font-black text-slate-850 tracking-tight leading-snug pr-8">
+              <h2 className="text-sm md:text-xl font-black text-slate-850 tracking-tight leading-snug pr-8">
                 {notice.title}
               </h2>
             </div>
 
-            <div className="space-y-2.5 md:space-y-3.5 border-t border-b border-slate-100 py-4 md:py-5">
+            <div className="space-y-1.5 md:space-y-3.5 border-t border-b border-slate-100 py-2 md:py-5">
               <div className="flex items-center text-slate-650 font-semibold gap-3">
                 <Calendar className="w-3.5 h-3.5 md:w-4 md:h-4 text-slate-400" />
                 <div>
@@ -212,7 +212,7 @@ export function NoticeReaderModal({ notice, onClose, isAuthenticated, onAuthRequ
             )}
           </div>
 
-          <div className="space-y-2.5 md:space-y-3 pt-4 md:pt-6">
+          <div className="space-y-2 md:space-y-3 pt-2.5 md:pt-6">
             {hasFile && (
               <Button
                 variant="primary"

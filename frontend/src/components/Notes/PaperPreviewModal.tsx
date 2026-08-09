@@ -87,7 +87,7 @@ export function PaperPreviewModal({ paper, onClose, onDownload, isAuthenticated 
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.95, opacity: 0, y: 20 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
-        className="bg-white border border-slate-200/50 shadow-2xl w-full max-w-6xl rounded-3xl flex flex-col md:flex-row relative text-left overflow-y-auto md:overflow-hidden max-h-[95vh] md:h-[750px]"
+        className="bg-white border border-slate-200/50 shadow-2xl w-full max-w-6xl rounded-3xl flex flex-col md:flex-row relative text-left overflow-hidden h-[85vh] md:h-[750px]"
       >
         {/* Decorative background glow */}
         <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-200/20 rounded-full blur-3xl pointer-events-none" />
@@ -102,7 +102,7 @@ export function PaperPreviewModal({ paper, onClose, onDownload, isAuthenticated 
         </button>
 
         {/* Left Column: Interactive Document Viewer */}
-        <div className="w-full md:flex-1 bg-slate-950 p-4 md:p-6 flex flex-col items-center justify-center relative min-h-[480px] md:h-full overflow-hidden">
+        <div className="w-full h-[65%] md:h-full md:flex-1 bg-slate-950 p-3 md:p-6 flex flex-col items-center justify-center relative overflow-hidden shrink-0">
           {/* Zoom controls for Image */}
           {isImage && (
             <div className="absolute top-4 left-4 z-40 flex items-center gap-2 bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-xl p-1.5 shadow-lg">
@@ -139,13 +139,13 @@ export function PaperPreviewModal({ paper, onClose, onDownload, isAuthenticated 
             </div>
           )}
 
-          <div className="w-full h-full flex items-center justify-center overflow-auto p-4">
+          <div className="w-full h-full flex items-center justify-center overflow-auto p-2">
             {isImage ? (
               <img 
                 src={paper.fileUrl} 
                 alt={paper.title} 
                 style={{ transform: `scale(${zoom})`, transformOrigin: "center center", transition: "transform 0.2s ease-out" }}
-                className="max-w-full max-h-[440px] md:max-h-[640px] object-contain rounded-2xl shadow-premium border border-slate-900 bg-slate-900"
+                className="max-w-full max-h-full md:max-h-[640px] object-contain rounded-2xl shadow-premium border border-slate-900 bg-slate-900"
               />
             ) : (
               <PDFViewer 
@@ -161,20 +161,20 @@ export function PaperPreviewModal({ paper, onClose, onDownload, isAuthenticated 
         </div>
 
         {/* Right Column: Metadata & Actions */}
-        <div className="w-full md:w-[420px] p-4 md:p-8 flex flex-col justify-between border-t md:border-t-0 md:border-l border-slate-100 md:h-full md:overflow-y-auto shrink-0 bg-white">
-          <div className="space-y-4 md:space-y-6">
+        <div className="w-full h-[35%] md:h-full md:w-[420px] p-3 md:p-8 flex flex-col justify-between border-t md:border-t-0 md:border-l border-slate-100 overflow-y-auto shrink-0 bg-white">
+          <div className="space-y-2 md:space-y-6">
             {/* Header */}
             <div>
-              <span className="inline-block text-[9px] md:text-[10px] font-bold px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 uppercase tracking-wider mb-2">
+              <span className="inline-block text-[9px] md:text-[10px] font-bold px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 uppercase tracking-wider mb-1.5">
                 {paper.examType} Exam
               </span>
-              <h2 className="text-base md:text-xl font-black text-slate-850 tracking-tight leading-snug pr-8">
+              <h2 className="text-sm md:text-xl font-black text-slate-850 tracking-tight leading-snug pr-8">
                 {paper.title}
               </h2>
             </div>
 
             {/* Meta stats block */}
-            <div className="space-y-2.5 md:space-y-3.5 border-t border-b border-slate-100 py-4 md:py-5">
+            <div className="space-y-1.5 md:space-y-3.5 border-t border-b border-slate-100 py-2 md:py-5">
               <div className="flex items-center text-slate-600 font-semibold gap-3">
                 <School className="w-3.5 h-3.5 md:w-4 md:h-4 text-slate-400" />
                 <div>
@@ -216,7 +216,7 @@ export function PaperPreviewModal({ paper, onClose, onDownload, isAuthenticated 
           </div>
 
           {/* Action buttons panel */}
-          <div className="space-y-2.5 md:space-y-3 pt-4 md:pt-6">
+          <div className="space-y-2 md:space-y-3 pt-2.5 md:pt-6">
             <Button
               variant="primary"
               className="w-full py-2.5 md:py-3 rounded-xl font-bold text-[11px] md:text-xs flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 border-0 hover:brightness-105 transition-all text-white shadow-lg shadow-indigo-100"
