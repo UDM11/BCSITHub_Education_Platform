@@ -9,12 +9,12 @@ Options -Indexes
   RewriteCond %{HTTPS} off
   RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-  # Don't rewrite files or directories that exist
-  RewriteCond %{REQUEST_FILENAME} -f [OR]
-  RewriteCond %{REQUEST_FILENAME} -d
+  # Only skip rewriting for actual FILES (not directories)
+  # This allows /notes directory to be handled by React Router
+  RewriteCond %{REQUEST_FILENAME} -f
   RewriteRule ^ - [L]
 
-  # Rewrite everything else to index.html for React Router
+  # Rewrite everything else (including /notes directory) to index.html
   RewriteRule ^ index.html [L]
 </IfModule>
 
