@@ -1,7 +1,7 @@
 // src/dashboard/admin/AdminPapers.tsx
 import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "../../components/ui/Card";
-import { FileText, Search, Filter, Edit, Trash2, CheckCircle, XCircle, ArrowRight, Eye } from "lucide-react";
+import { FileText, Search, Filter, Edit, Trash2, CheckCircle, XCircle, ArrowRight, Eye, ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
 import { apiClient } from "../../lib/apiClient";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
@@ -34,6 +34,7 @@ export const AdminPapers: React.FC<AdminPapersProps> = ({ onPaperUpdate }) => {
   const [approvedFilter, setApprovedFilter] = useState("all");
   const [editingPaper, setEditingPaper] = useState<Paper | null>(null);
   const [previewPaper, setPreviewPaper] = useState<Paper | null>(null);
+  const [previewZoom, setPreviewZoom] = useState(1);
 
   // Edit form states
   const [editTitle, setEditTitle] = useState("");
@@ -460,13 +461,47 @@ export const AdminPapers: React.FC<AdminPapersProps> = ({ onPaperUpdate }) => {
               </button>
 
               {/* PDF/Image Preview Panel */}
-              <div className="w-full md:flex-1 bg-slate-950 p-4 flex items-center justify-center relative min-h-[350px] md:h-full">
-                <div className="w-full h-full flex items-center justify-center">
+              <div className="w-full md:flex-1 bg-slate-950 p-4 flex flex-col items-center justify-center relative min-h-[350px] md:h-full overflow-hidden">
+                {/* Zoom controls for Image */}
+                {previewPaper.fileUrl && /\.(jpg|jpeg|png|webp)$/i.test(previewPaper.fileUrl) && (
+                  <div className="absolute top-4 left-4 z-40 flex items-center gap-2 bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-xl p-1.5 shadow-lg">
+                    <button
+                      type="button"
+                      onClick={() => setPreviewZoom(prev => Math.max(0.5, prev - 0.25))}
+                      className="p-1 hover:bg-slate-800 text-slate-300 hover:text-white rounded-lg h-7 w-7 flex items-center justify-center bg-transparent border-0 cursor-pointer"
+                      title="Zoom Out"
+                    >
+                      <ZoomOut className="w-4 h-4" />
+                    </button>
+                    <span className="text-[10px] font-bold text-slate-400 min-w-[36px] text-center">
+                      {Math.round(previewZoom * 100)}%
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setPreviewZoom(prev => Math.min(3, prev + 0.25))}
+                      className="p-1 hover:bg-slate-800 text-slate-300 hover:text-white rounded-lg h-7 w-7 flex items-center justify-center bg-transparent border-0 cursor-pointer"
+                      title="Zoom In"
+                    >
+                      <ZoomIn className="w-4 h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setPreviewZoom(1)}
+                      className="p-1 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg h-7 flex items-center justify-center bg-transparent border-0 cursor-pointer"
+                      title="Reset Zoom"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                )}
+
+                <div className="w-full h-full flex items-center justify-center overflow-auto p-4">
                   {previewPaper.fileUrl && /\.(jpg|jpeg|png|webp)$/i.test(previewPaper.fileUrl) ? (
                     <img 
                       src={previewPaper.fileUrl} 
                       alt={previewPaper.title} 
-                      className="max-w-full max-h-[600px] object-contain rounded-2xl shadow-premium border border-slate-900 bg-slate-900"
+                      style={{ transform: `scale(${previewZoom})`, transformOrigin: "center center", transition: "transform 0.2s ease-out" }}
+                      className="max-w-full max-h-[500px] object-contain rounded-2xl shadow-premium border border-slate-900 bg-slate-900"
                     />
                   ) : (
                     <PDFViewer 

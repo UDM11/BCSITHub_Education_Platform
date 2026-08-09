@@ -6,7 +6,7 @@ import { Select } from "../ui/Select";
 import { motion, AnimatePresence } from "framer-motion";
 import { apiClient } from "../../lib/apiClient";
 import { 
-  X, UploadCloud, FileText, CheckCircle2, AlertCircle 
+  X, UploadCloud, FileText, CheckCircle2, AlertCircle, ArrowUp, ArrowDown
 } from "lucide-react";
 import { semestersData } from "../../data/notesData";
 import { specializationData } from "../../data/syllabusData";
@@ -125,6 +125,28 @@ export function UploadPaperModal({ onClose, user, onUploadSuccess }: UploadPaper
 
   const removeFile = (index: number) => {
     setFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const moveFileUp = (index: number) => {
+    if (index === 0) return;
+    setFiles(prev => {
+      const copy = [...prev];
+      const temp = copy[index];
+      copy[index] = copy[index - 1];
+      copy[index - 1] = temp;
+      return copy;
+    });
+  };
+
+  const moveFileDown = (index: number) => {
+    if (index === files.length - 1) return;
+    setFiles(prev => {
+      const copy = [...prev];
+      const temp = copy[index];
+      copy[index] = copy[index + 1];
+      copy[index + 1] = temp;
+      return copy;
+    });
   };
 
   const getSubjectsForSemester = (semId: string) => {
@@ -433,7 +455,7 @@ export function UploadPaperModal({ onClose, user, onUploadSuccess }: UploadPaper
 
               {/* Staged files list */}
               {files.length > 0 && (
-                <div className="space-y-2 max-h-[140px] overflow-y-auto pr-1">
+                <div className="space-y-2 max-h-[160px] overflow-y-auto pr-1">
                   {files.map((file, idx) => (
                     <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl text-xs">
                       <div className="flex items-center gap-2 truncate">
@@ -441,17 +463,48 @@ export function UploadPaperModal({ onClose, user, onUploadSuccess }: UploadPaper
                         <span className="font-bold text-slate-700 truncate leading-snug">{file.name}</span>
                         <span className="text-[9px] text-slate-400 font-bold uppercase flex-shrink-0">({(file.size / 1024).toFixed(0)} KB)</span>
                       </div>
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          removeFile(idx);
-                        }}
-                        className="p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded-lg transition-colors border-0 cursor-pointer flex items-center justify-center"
-                        disabled={loading}
-                      >
-                        <X className="w-3.5 h-3.5" />
-                      </button>
+                      
+                      <div className="flex items-center gap-1 flex-shrink-0">
+                        {/* Move Up */}
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            moveFileUp(idx);
+                          }}
+                          disabled={loading || idx === 0}
+                          className="p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded-lg transition-colors border-0 cursor-pointer disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center"
+                          title="Move Up"
+                        >
+                          <ArrowUp className="w-3.5 h-3.5" />
+                        </button>
+                        {/* Move Down */}
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            moveFileDown(idx);
+                          }}
+                          disabled={loading || idx === files.length - 1}
+                          className="p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded-lg transition-colors border-0 cursor-pointer disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center"
+                          title="Move Down"
+                        >
+                          <ArrowDown className="w-3.5 h-3.5" />
+                        </button>
+                        {/* Remove */}
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeFile(idx);
+                          }}
+                          className="p-1 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all border-0 cursor-pointer flex items-center justify-center"
+                          disabled={loading}
+                          title="Remove File"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
