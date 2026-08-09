@@ -33,13 +33,14 @@ import {
   Book
 } from "lucide-react";
 import html2pdf from "html2pdf.js";
+import { watermarkFile } from "../../lib/watermark";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
 import AuthRequiredModal from "../../components/common/AuthRequiredModal";
 import { chapterData } from "../../data/chapterData";
 import { toast } from "react-hot-toast";
 import { useSEO } from "../../hooks/useSEO";
-import { NOTES_VERSION } from "../../data/notesData";
+import { NOTES_VERSION, semestersData } from "../../data/notesData";
 
 export default function ChapterNotes() {
   const { semesterId, subjectId, chapterId } = useParams();
@@ -358,26 +359,37 @@ export default function ChapterNotes() {
     return chapters.find((c) => c.id === chapterId);
   }, [chapters, chapterId]);
 
+  // Lookup the actual course name from semestersData
+  const subjectName = useMemo(() => {
+    if (!subjectId) return "";
+    const decoded = decodeURIComponent(subjectId);
+    for (const sem of semestersData) {
+      const found = sem.subjects.find((s) => s.courseCode === decoded);
+      if (found) return found.courseName;
+    }
+    return "";
+  }, [subjectId]);
+
   const seoTitle = useMemo(() => {
     if (currentChapter && subjectChapters) {
-      return `${currentChapter.title} (${subjectChapters.courseCode || 'PU'}) - ${subjectChapters.courseName}`;
+      return `${currentChapter.title} (${subjectChapters.courseCode || 'PU'}) - ${subjectName || subjectChapters.courseCode} | BCSIT Hub`;
     }
-    return chapterId ? `${chapterId.toUpperCase()} Lecture Notes` : "Chapter Notes";
-  }, [currentChapter, subjectChapters, chapterId]);
+    return chapterId ? `${chapterId.toUpperCase()} Lecture Notes | BCSIT Hub` : "Chapter Notes | BCSIT Hub";
+  }, [currentChapter, subjectChapters, chapterId, subjectName]);
 
   const seoDescription = useMemo(() => {
     if (currentChapter && subjectChapters) {
-      return `Read online chapter lecture notes for "${currentChapter.title}" under ${subjectChapters.courseName} (${subjectChapters.courseCode || 'Core'}) of Pokhara University BCSIT.`;
+      return `Read online chapter lecture notes for "${currentChapter.title}" under ${subjectName || subjectChapters.courseCode} (${subjectChapters.courseCode || 'Core'}) of Pokhara University BCSIT.`;
     }
     return `Read the lecture notes, study references, and key guidelines for ${chapterId} under subject ${subjectId} of Pokhara University BCSIT.`;
-  }, [currentChapter, subjectChapters, chapterId, subjectId]);
+  }, [currentChapter, subjectChapters, chapterId, subjectId, subjectName]);
 
   const seoKeywords = useMemo(() => {
     if (currentChapter && subjectChapters) {
-      return `${currentChapter.title} notes, ${subjectChapters.courseName} chapters, download bcsit study guides, pu computer science`;
+      return `${currentChapter.title} notes, ${subjectName || subjectChapters.courseCode} chapters, download bcsit study guides, pu computer science`;
     }
     return `${chapterId} notes, ${subjectId} lecture notes, pu computer science`;
-  }, [currentChapter, subjectChapters, chapterId, subjectId]);
+  }, [currentChapter, subjectChapters, chapterId, subjectId, subjectName]);
 
   useSEO({
     title: seoTitle,
@@ -396,9 +408,120 @@ export default function ChapterNotes() {
     setIsDownloading(true);
     toast.loading("Compiling note to PDF...", { id: "pdf-toast" });
 
+    // Create a temporary off-screen container with clean academic print styling
+    const tempContainer = document.createElement("div");
+    tempContainer.className = "academic-pdf-print";
+    tempContainer.style.position = "absolute";
+    tempContainer.style.left = "-9999px";
+    tempContainer.style.top = "0";
+    tempContainer.style.width = "750px"; // standard width for crisp rendering page layout
+    tempContainer.innerHTML = htmlContent;
+
+    // Append standard print styles to the container
+    const printStyle = document.createElement("style");
+    printStyle.textContent = `
+      .academic-pdf-print {
+        font-family: 'Times New Roman', Times, serif;
+        color: #000000 !important;
+        line-height: 1.6 !important;
+        padding: 30px !important;
+        background: #ffffff !important;
+      }
+      .academic-pdf-print h1 {
+        text-align: center !important;
+        font-size: 22pt !important;
+        font-weight: bold !important;
+        margin-top: 10px !important;
+        margin-bottom: 25px !important;
+        color: #000000 !important;
+      }
+      .academic-pdf-print h2 {
+        font-size: 16pt !important;
+        font-weight: bold !important;
+        border-bottom: 2px solid #222 !important;
+        padding-bottom: 6px !important;
+        margin-top: 35px !important;
+        margin-bottom: 15px !important;
+        color: #000000 !important;
+      }
+      .academic-pdf-print h3 {
+        font-size: 13pt !important;
+        font-weight: bold !important;
+        margin-top: 25px !important;
+        margin-bottom: 10px !important;
+        color: #000000 !important;
+      }
+      .academic-pdf-print p {
+        font-size: 11pt !important;
+        text-align: justify !important;
+        margin-bottom: 14px !important;
+        color: #000000 !important;
+      }
+      .academic-pdf-print ul, .academic-pdf-print ol {
+        margin-bottom: 15px !important;
+        padding-left: 25px !important;
+      }
+      .academic-pdf-print li {
+        font-size: 11pt !important;
+        margin-bottom: 6px !important;
+        color: #000000 !important;
+      }
+      .academic-pdf-print .section {
+        background: transparent !important;
+        padding: 0 !important;
+        margin-bottom: 25px !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
+      .academic-pdf-print .note {
+        background-color: #f3f4f6 !important;
+        border-left: 5px solid #4b5563 !important;
+        padding: 15px !important;
+        margin: 20px 0 !important;
+        border-radius: 4px !important;
+        color: #1f2937 !important;
+      }
+      .academic-pdf-print pre {
+        background-color: #f3f4f6 !important;
+        color: #111827 !important;
+        padding: 14px !important;
+        border-radius: 6px !important;
+        font-family: monospace !important;
+        font-size: 10pt !important;
+        border: 1px solid #e5e7eb !important;
+        margin: 15px 0 !important;
+        overflow-x: auto !important;
+      }
+      .academic-pdf-print table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        margin: 20px 0 !important;
+      }
+      .academic-pdf-print th, .academic-pdf-print td {
+        border: 1px solid #9ca3af !important;
+        padding: 8px 12px !important;
+        font-size: 10.5pt !important;
+        color: #000000 !important;
+      }
+      .academic-pdf-print th {
+        background-color: #e5e7eb !important;
+        font-weight: bold !important;
+      }
+    `;
+    tempContainer.appendChild(printStyle);
+    document.body.appendChild(tempContainer);
+
+    const rawFilename = `BCSIT ${semesterId}sem ${subjectId || ""} ${currentChapter ? currentChapter.title : chapterId}`;
+    const cleanFilename = rawFilename
+      .replace(/:/g, "")
+      .replace(/[^a-zA-Z0-9\s-_]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+
     const opt = {
       margin: 0.5,
-      filename: `${chapterId}.pdf`,
+      filename: `${cleanFilename}.pdf`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2, useCORS: true },
       jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
@@ -406,13 +529,33 @@ export default function ChapterNotes() {
 
     html2pdf()
       .set(opt)
-      .from(contentRef.current)
-      .save()
-      .then(() => {
+      .from(tempContainer)
+      .outputPdf("arraybuffer")
+      .then(async (pdfBuffer: ArrayBuffer) => {
+        // Clean up the temporary DOM element
+        document.body.removeChild(tempContainer);
+
+        const originalBlob = new Blob([pdfBuffer], { type: "application/pdf" });
+        const watermarkedBlob = await watermarkFile(originalBlob, "BCSITHub");
+        
+        const blobUrl = window.URL.createObjectURL(watermarkedBlob);
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.download = `${cleanFilename}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(blobUrl);
+
         setIsDownloading(false);
         toast.success("PDF Downloaded successfully!", { id: "pdf-toast" });
       })
-      .catch(() => {
+      .catch((err) => {
+        // Clean up temporary DOM element in case of failure
+        if (document.body.contains(tempContainer)) {
+          document.body.removeChild(tempContainer);
+        }
+        console.error("PDF generation failed:", err);
         setIsDownloading(false);
         toast.error("Failed to generate PDF.", { id: "pdf-toast" });
       });
@@ -433,10 +576,18 @@ export default function ChapterNotes() {
   };
 
   const shareContent = async () => {
+    const getSemSuffix = (sem: string) => {
+      if (sem === "1") return "1st";
+      if (sem === "2") return "2nd";
+      if (sem === "3") return "3rd";
+      return `${sem}th`;
+    };
+    const shareTitle = `BCSIT ${getSemSuffix(semesterId || "")} Sem ${subjectId || ""} ${currentChapter ? currentChapter.title : chapterId} | BCSIT Hub`;
+
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${chapterId} Notes - BCSITHub`,
+          title: shareTitle,
           url: window.location.href,
         });
       } catch (err) {
@@ -771,7 +922,7 @@ export default function ChapterNotes() {
               {/* Title Header */}
               <div className="flex-1 text-center px-4 min-w-0">
                 <h1 className="text-sm sm:text-base font-extrabold tracking-tight truncate max-w-lg mx-auto">
-                  {chapterId?.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+                  {currentChapter ? currentChapter.title : chapterId?.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
                 </h1>
                 <p className="text-[10px] sm:text-xs font-semibold opacity-60 tracking-wider hidden md:block">
                   {decodeURIComponent(subjectId || "")} • Semester {semesterId}

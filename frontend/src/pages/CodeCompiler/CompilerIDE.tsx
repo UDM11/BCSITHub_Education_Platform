@@ -192,7 +192,14 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
 
       let combined = "";
       if (language.id === "react") {
-        const cleanedReact = reactCode.replace(/import\s+.*?\s+from\s+['"].*?['"];?/g, '');
+        let cleanedReact = reactCode.replace(/import\s+.*?\s+from\s+['"].*?['"];?/g, '');
+        // Strip out export statements since they are invalid inside try blocks
+        cleanedReact = cleanedReact
+          .replace(/export\s+default\s+function\b/g, 'function')
+          .replace(/export\s+default\s+class\b/g, 'class')
+          .replace(/export\s+default\b/g, '')
+          .replace(/\bexport\s+(const|let|var|function|class)\b/g, '$1');
+
         combined = `<!DOCTYPE html><html><head>
           <script>
             window.exports = {};
@@ -321,8 +328,8 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
             <ArrowLeft className="w-4 h-4" />
           </button>
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center">
-              <Code className="w-3.5 h-3.5 text-indigo-400" />
+            <div className="w-7 h-7 rounded-lg overflow-hidden border border-slate-700/60 flex items-center justify-center bg-slate-800">
+              <img src="/logo.png" alt="BCSITHub Logo" className="w-5 h-5 object-contain" />
             </div>
             <div>
               <p className="text-xs font-bold text-white leading-none">BCSIT Sandbox</p>

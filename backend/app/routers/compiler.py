@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel
 from typing import List, Optional
 import os
+import re
 import subprocess
 import tempfile
 import sqlite3
@@ -22,6 +23,57 @@ class ExecuteRequest(BaseModel):
 @router.post("/run")
 async def run_code(req_body: ExecuteRequest):
     lang = req_body.language.lower()
+    
+    if lang == "mongodb":
+        mongodb_mock = """
+const db = (() => {
+  const collections = {};
+  class Collection {
+    constructor(name) {
+      this.name = name;
+      this.data = [];
+    }
+    insertOne(doc) {
+      this.data.push(doc);
+      return { acknowledged: true, insertedId: this.data.length };
+    }
+    insertMany(docs) {
+      if (!Array.isArray(docs)) docs = [docs];
+      docs.forEach(d => this.insertOne(d));
+      return { acknowledged: true, insertedIds: docs.map((_, i) => i) };
+    }
+    find(query) {
+      let results = [...this.data];
+      if (query) {
+        results = results.filter(item => {
+          for (let key in query) {
+            if (item[key] !== query[key]) return false;
+          }
+          return true;
+        });
+      }
+      return {
+        toArray: () => results,
+        forEach: (fn) => results.forEach(fn),
+        limit: (n) => { results = results.slice(0, n); return this; }
+      };
+    }
+  }
+  return new Proxy({}, {
+    get: (target, prop) => {
+      if (!collections[prop]) collections[prop] = new Collection(prop);
+      return collections[prop];
+    }
+  });
+})();
+const printjson = (obj) => console.log(JSON.stringify(obj, null, 2));
+
+"""
+        req_body.language = "javascript"
+        if req_body.files:
+            req_body.files[0].content = mongodb_mock + req_body.files[0].content
+            
+    lang = req_body.language.lower()
     code = req_body.files[0].content if req_body.files else ""
     
     # 1. SQL (MySQL, PostgreSQL, SQLite, PL/SQL) Execution
@@ -41,6 +93,39 @@ async def run_code(req_body: ExecuteRequest):
                 stmt_clean = "\n".join([line for line in stmt.split("\n") if not line.strip().startswith("--")])
                 if not stmt_clean.strip():
                     continue
+                
+                # PL/SQL script parsing mock
+                if lang == "plsql" or "dbms_output" in stmt_clean.lower():
+                    # Parse variables in declare block
+                    vars = {}
+                    # Match basic variables: varname TYPE := value;
+                    for var_name, var_val in re.findall(r'(\w+)\s+\w+(?:\(\d+\))?\s*:=\s*[\'"](.*?)[\'"]', stmt_clean):
+                        vars[var_name] = var_val
+                    
+                    # Match dbms_output.put_line(value)
+                    printed = False
+                    for print_val in re.findall(r'dbms_output\.put_line\s*\(\s*(.*?)\s*\)', stmt_clean, re.IGNORECASE):
+                        print_val = print_val.strip()
+                        printed = True
+                        if (print_val.startswith("'") and print_val.endswith("'")) or (print_val.startswith('"') and print_val.endswith('"')):
+                            output_lines.append(print_val[1:-1])
+                        elif print_val in vars:
+                            output_lines.append(vars[print_val])
+                        else:
+                            output_lines.append(print_val)
+                    if printed:
+                        continue
+                
+                # Dynamic translation of MySQL-specific constructs to SQLite syntax
+                # 1. AUTO_INCREMENT -> AUTOINCREMENT
+                stmt_clean = re.sub(r'\bAUTO_INCREMENT\b', 'AUTOINCREMENT', stmt_clean, flags=re.IGNORECASE)
+                
+                # 2. INT PRIMARY KEY AUTOINCREMENT -> INTEGER PRIMARY KEY AUTOINCREMENT
+                stmt_clean = re.sub(r'\bINT\b(\s+PRIMARY\s+KEY\s+AUTOINCREMENT)', r'INTEGER\1', stmt_clean, flags=re.IGNORECASE)
+                stmt_clean = re.sub(r'\bINT\b(\s+AUTOINCREMENT\s+PRIMARY\s+KEY)', r'INTEGER\1', stmt_clean, flags=re.IGNORECASE)
+                
+                # 3. Clean trailing MySQL engines / options like ENGINE=InnoDB etc.
+                stmt_clean = re.sub(r'\bENGINE\s*=\s*\w+', '', stmt_clean, flags=re.IGNORECASE)
                 
                 try:
                     cursor.execute(stmt_clean)

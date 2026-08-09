@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'sonner';
 import { apiClient } from '../lib/apiClient';
-import { UploadCloud, FileText, ArrowLeft, ShieldCheck } from 'lucide-react';
+import { UploadCloud, FileText, ArrowLeft, ShieldCheck, X } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/Card';
 import { motion } from 'framer-motion';
 import { semestersData } from '../data/notesData';
@@ -41,9 +41,9 @@ const UploadPaper: React.FC = () => {
     examType: '',
     season: '',
     year: '',
-    college: '',
-    file: null as File | null
+    college: ''
   });
+  const [files, setFiles] = useState<File[]>([]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -61,13 +61,14 @@ const UploadPaper: React.FC = () => {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setFormData(prev => ({
-        ...prev,
-        file
-      }));
+    if (e.target.files && e.target.files[0]) {
+      const selectedFiles = Array.from(e.target.files);
+      setFiles(prev => [...prev, ...selectedFiles]);
     }
+  };
+
+  const removeFile = (index: number) => {
+    setFiles(prev => prev.filter((_, i) => i !== index));
   };
 
   const getSubjectsForSemester = (semId: string) => {
@@ -136,14 +137,60 @@ const UploadPaper: React.FC = () => {
       toast.error('Please select a college');
       return;
     }
-    if (!formData.file) {
-      toast.error('Please select a file to upload');
+    if (files.length === 0) {
+      toast.error('Please select at least one file to upload');
       return;
+    }
+
+    const allowedTypes = ["application/pdf", "image/jpeg", "image/png", "image/jpg"];
+    for (const file of files) {
+      if (!allowedTypes.includes(file.type)) {
+        toast.error("Only PDF documents or image files (JPG, PNG) are permitted.");
+        return;
+      }
+      if (file.size > 10485760) { // 10MB limit
+        toast.error(`File "${file.name}" exceeds the 10MB file size limit.`);
+        return;
+      }
     }
 
     setIsUploading(true);
 
     try {
+      let fileToUpload: File;
+      if (files.length === 1) {
+        fileToUpload = files[0];
+      } else {
+        const { PDFDocument } = await import("pdf-lib");
+        const mergedPdf = await PDFDocument.create();
+
+        for (const file of files) {
+          const fileBytes = await file.arrayBuffer();
+          if (file.type === "application/pdf") {
+            const pdf = await PDFDocument.load(fileBytes);
+            const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+            copiedPages.forEach((page) => mergedPdf.addPage(page));
+          } else if (file.type.startsWith("image/")) {
+            let image;
+            if (file.type === "image/png") {
+              image = await mergedPdf.embedPng(fileBytes);
+            } else {
+              image = await mergedPdf.embedJpg(fileBytes);
+            }
+            const page = mergedPdf.addPage([image.width, image.height]);
+            page.drawImage(image, {
+              x: 0,
+              y: 0,
+              width: image.width,
+              height: image.height,
+            });
+          }
+        }
+
+        const mergedPdfBytes = await mergedPdf.save();
+        fileToUpload = new File([mergedPdfBytes], "merged_past_paper.pdf", { type: "application/pdf" });
+      }
+
       const payload = new FormData();
       payload.append('title', finalTitle);
       payload.append('subject', finalSubject);
@@ -153,7 +200,7 @@ const UploadPaper: React.FC = () => {
       if (formData.season) {
         payload.append('session', formData.season);
       }
-      payload.append('file', formData.file);
+      payload.append('file', fileToUpload);
 
       await apiClient.postMultipart('/papers/upload', payload);
 
@@ -361,7 +408,8 @@ const UploadPaper: React.FC = () => {
                       type="file"
                       onChange={handleFileChange}
                       accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                      required
+                      multiple
+                      required={files.length === 0}
                       className="hidden"
                       id="file-upload"
                     />
@@ -369,17 +417,32 @@ const UploadPaper: React.FC = () => {
                       <div className="space-y-2">
                         <UploadCloud className="w-10 h-10 text-slate-400 mx-auto" />
                         <div className="text-xs font-semibold text-slate-600">
-                          <span className="text-indigo-650 hover:text-indigo-800 underline">Click to browse file</span> or drag & drop here
+                          <span className="text-indigo-650 hover:text-indigo-800 underline">Click to browse file(s)</span> or drag & drop here
                         </div>
-                        <p className="text-[10px] font-bold text-slate-455 uppercase tracking-wide">PDF, DOC, DOCX, JPG, PNG (Max 10MB)</p>
+                        <p className="text-[10px] font-bold text-slate-455 uppercase tracking-wide">PDF, JPG, PNG (Max 10MB)</p>
                       </div>
                     </label>
-                    {formData.file && (
-                      <div className="mt-4 p-3 bg-emerald-50 border border-emerald-100 rounded-xl flex items-center justify-center gap-2">
-                        <FileText className="w-4 h-4 text-emerald-650" />
-                        <span className="text-xs font-bold text-emerald-805">
-                          Selected: {formData.file.name}
-                        </span>
+                    {files.length > 0 && (
+                      <div className="mt-4 space-y-2 text-left max-h-[160px] overflow-y-auto pr-1">
+                        {files.map((file, idx) => (
+                          <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl text-xs">
+                            <div className="flex items-center gap-2 truncate">
+                              <FileText className="w-4 h-4 text-indigo-500 flex-shrink-0" />
+                              <span className="font-bold text-slate-700 truncate leading-snug">{file.name}</span>
+                              <span className="text-[9px] text-slate-400 font-bold uppercase flex-shrink-0">({(file.size / 1024).toFixed(0)} KB)</span>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                removeFile(idx);
+                              }}
+                              className="p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded-lg transition-colors border-0 cursor-pointer flex items-center justify-center"
+                            >
+                              <X className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        ))}
                       </div>
                     )}
                   </div>

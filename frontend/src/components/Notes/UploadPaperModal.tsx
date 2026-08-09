@@ -204,20 +204,52 @@ export function UploadPaperModal({ onClose, user, onUploadSuccess }: UploadPaper
     setAlert(null);
 
     try {
-      for (const file of files) {
-        const payload = new FormData();
-        payload.append('title', finalTitle);
-        payload.append('subject', finalSubject);
-        payload.append('semester', semester);
-        payload.append('exam_type', examType.toLowerCase());
-        payload.append('college', college);
-        if (season) {
-          payload.append('session', season);
-        }
-        payload.append('file', file);
+      let fileToUpload: File;
+      if (files.length === 1) {
+        fileToUpload = files[0];
+      } else {
+        const { PDFDocument } = await import("pdf-lib");
+        const mergedPdf = await PDFDocument.create();
 
-        await apiClient.postMultipart('/papers/upload', payload);
+        for (const file of files) {
+          const fileBytes = await file.arrayBuffer();
+          if (file.type === "application/pdf") {
+            const pdf = await PDFDocument.load(fileBytes);
+            const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+            copiedPages.forEach((page) => mergedPdf.addPage(page));
+          } else if (file.type.startsWith("image/")) {
+            let image;
+            if (file.type === "image/png") {
+              image = await mergedPdf.embedPng(fileBytes);
+            } else {
+              image = await mergedPdf.embedJpg(fileBytes);
+            }
+            const page = mergedPdf.addPage([image.width, image.height]);
+            page.drawImage(image, {
+              x: 0,
+              y: 0,
+              width: image.width,
+              height: image.height,
+            });
+          }
+        }
+
+        const mergedPdfBytes = await mergedPdf.save();
+        fileToUpload = new File([mergedPdfBytes], "merged_past_paper.pdf", { type: "application/pdf" });
       }
+
+      const payload = new FormData();
+      payload.append('title', finalTitle);
+      payload.append('subject', finalSubject);
+      payload.append('semester', semester);
+      payload.append('exam_type', examType.toLowerCase());
+      payload.append('college', college);
+      if (season) {
+        payload.append('session', season);
+      }
+      payload.append('file', fileToUpload);
+
+      await apiClient.postMultipart('/papers/upload', payload);
 
       setAlert({
         type: "success",

@@ -20,6 +20,7 @@ import { useAuth } from '../context/AuthContext';
 import { UploadPaperModal } from '../components/Notes/UploadPaperModal';
 import { PaperPreviewModal } from '../components/Notes/PaperPreviewModal';
 import { apiClient } from '../lib/apiClient';
+import { watermarkFile } from '../lib/watermark';
 import LoginRedirectModal from '../components/common/LoginRedirectModal';
 import { useSEO } from '../hooks/useSEO';
 import { useNavigate, useParams, Link } from 'react-router-dom';
@@ -261,8 +262,12 @@ export function PastPapers() {
       const response = await fetch(paper.fileUrl);
       if (!response.ok) throw new Error("Failed to fetch file directly.");
       
-      const blob = await response.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
+      const originalBlob = await response.blob();
+      
+      // Apply watermark to the blob
+      const watermarkedBlob = await watermarkFile(originalBlob, "BCSITHub");
+      
+      const blobUrl = window.URL.createObjectURL(watermarkedBlob);
       
       // Create temporary download link
       const link = document.createElement('a');

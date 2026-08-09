@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { Button } from "../ui/Button";
 import { PDFViewer } from "./PDFViewer";
+import { watermarkFile } from "../../lib/watermark";
 
 interface Notice {
   id?: string;
@@ -75,8 +76,9 @@ export function NoticeReaderModal({ notice, onClose, isAuthenticated, onAuthRequ
     // Direct download trigger
     fetch(notice.fileUrl)
       .then(res => res.blob())
-      .then(blob => {
-        const blobUrl = window.URL.createObjectURL(blob);
+      .then(async (blob) => {
+        const watermarkedBlob = await watermarkFile(blob, "BCSITHub");
+        const blobUrl = window.URL.createObjectURL(watermarkedBlob);
         const link = document.createElement("a");
         link.href = blobUrl;
         
@@ -89,8 +91,8 @@ export function NoticeReaderModal({ notice, onClose, isAuthenticated, onAuthRequ
         document.body.removeChild(link);
         window.URL.revokeObjectURL(blobUrl);
       })
-      .catch(err => {
-        console.error("Direct download failed, opening in tab:", err);
+      .catch((err) => {
+        console.error("Watermarked notice download failed, redirecting:", err);
         window.open(notice.fileUrl, "_blank");
       });
   };

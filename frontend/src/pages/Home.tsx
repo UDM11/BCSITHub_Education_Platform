@@ -45,6 +45,7 @@ import { semesterData } from '../data/syllabusData';
 import { semestersData } from '../data/notesData';
 import { useSEO } from '../hooks/useSEO';
 import { apiClient } from '../lib/apiClient';
+import { watermarkFile } from '../lib/watermark';
 import { PaperPreviewModal } from '../components/Notes/PaperPreviewModal';
 import LoginRedirectModal from '../components/common/LoginRedirectModal';
 import { NoticeReaderModal } from '../components/common/NoticeReaderModal';
@@ -286,8 +287,31 @@ export function Home() {
     const fileUrl = paper.fileUrl || paper.file_url;
     const paperId = paper.objectId || paper.id;
     if (!fileUrl) return;
-    window.open(fileUrl, '_blank');
+
     try {
+      // Fetch file
+      const response = await fetch(fileUrl);
+      if (!response.ok) throw new Error("Failed to fetch file directly.");
+      const originalBlob = await response.blob();
+
+      // Apply watermark
+      const watermarkedBlob = await watermarkFile(originalBlob, "BCSITHub");
+      const blobUrl = window.URL.createObjectURL(watermarkedBlob);
+
+      // Create download link
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      const urlParts = fileUrl.split('?')[0].split('.');
+      const ext = urlParts.length > 1 ? urlParts[urlParts.length - 1] : 'pdf';
+      const safeTitle = (paper.title || "past-paper").replace(/[^a-zA-Z0-9\s-_]/g, '').trim();
+      link.download = `${safeTitle}.${ext}`;
+      
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+
+      // Increment downloads count
       await apiClient.post(`/papers/${paperId}/download`, {});
       setLatestPapers(prev =>
         prev.map(p => (p.id === paperId ? { ...p, downloads: (p.downloads || 0) + 1 } : p))
@@ -296,7 +320,19 @@ export function Home() {
         setSelectedPaper(prev => prev ? { ...prev, downloads: (prev.downloads || 0) + 1 } : null);
       }
     } catch (err) {
-      console.error(err);
+      console.error("Watermarked download failed, falling back to redirect:", err);
+      window.open(fileUrl, '_blank');
+      try {
+        await apiClient.post(`/papers/${paperId}/download`, {});
+        setLatestPapers(prev =>
+          prev.map(p => (p.id === paperId ? { ...p, downloads: (p.downloads || 0) + 1 } : p))
+        );
+        if (selectedPaper && (selectedPaper.objectId === paperId || selectedPaper.id === paperId)) {
+          setSelectedPaper(prev => prev ? { ...prev, downloads: (prev.downloads || 0) + 1 } : null);
+        }
+      } catch (postErr) {
+        console.error(postErr);
+      }
     }
   };
 

@@ -56,7 +56,7 @@ print(f"Squares of {numbers} are {squared}")`
     name: "JavaScript",
     category: "programming",
     pistonLanguage: "javascript",
-    pistonVersion: "1.8.5",
+    pistonVersion: "18.15.0",
     extension: "js",
     logo: "javascript",
     template: `// JavaScript ES6 Environment
@@ -172,7 +172,7 @@ foreach ($numbers as $num) {
     name: "C#",
     category: "programming",
     pistonLanguage: "csharp",
-    pistonVersion: "5.0.201",
+    pistonVersion: "6.12.0",
     extension: "cs",
     logo: "csharp",
     template: `using System;
@@ -191,7 +191,7 @@ public class Program {
     name: "Assembly",
     category: "programming",
     pistonLanguage: "nasm",
-    pistonVersion: "2.15.05",
+    pistonVersion: "2.15.5",
     extension: "asm",
     logo: "assembly",
     template: `section .data
@@ -249,7 +249,7 @@ END;`
     name: "NodeJS",
     category: "programming",
     pistonLanguage: "javascript",
-    pistonVersion: "16.3.0",
+    pistonVersion: "18.15.0",
     extension: "js",
     logo: "nodejs",
     template: `const os = require('os');

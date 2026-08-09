@@ -4,6 +4,12 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
+    default-jdk \
+    nodejs \
+    php-cli \
+    ruby \
+    lua5.4 \
+    groovy \
     && rm -rf /var/lib/apt/lists/*
 
 COPY backend/requirements.txt .

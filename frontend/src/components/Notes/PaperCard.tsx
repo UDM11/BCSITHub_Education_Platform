@@ -4,6 +4,7 @@ import { Button } from '../ui/Button';
 import { Download } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { apiClient } from '../../lib/apiClient';
+import { watermarkFile } from '../../lib/watermark';
 import LoginRedirectModal from '../common/LoginRedirectModal';
 import { toast } from 'sonner';
 
@@ -33,14 +34,39 @@ export const PaperCard: React.FC<Props> = ({ paper }) => {
       return;
     }
 
-    // ✅ Open the file in a new tab before any async logic
-    window.open(paper.fileUrl, '_blank');
-
-    // ✅ Update the download count in backend
     try {
+      // Fetch file as blob
+      const response = await fetch(paper.fileUrl);
+      if (!response.ok) throw new Error("Failed to fetch file directly.");
+      const originalBlob = await response.blob();
+
+      // Apply watermark
+      const watermarkedBlob = await watermarkFile(originalBlob, "BCSITHub");
+      const blobUrl = window.URL.createObjectURL(watermarkedBlob);
+
+      // Create download link
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      const urlParts = paper.fileUrl.split('?')[0].split('.');
+      const ext = urlParts.length > 1 ? urlParts[urlParts.length - 1] : 'pdf';
+      const safeTitle = paper.title.replace(/[^a-zA-Z0-9\s-_]/g, '').trim();
+      link.download = `${safeTitle}.${ext}`;
+      
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+
+      // Update download count
       await apiClient.post(`/papers/${paper.objectId}/download`, {});
     } catch (err) {
-      console.error('Failed to update download count:', err);
+      console.error("Watermarked download failed, falling back to redirect:", err);
+      window.open(paper.fileUrl, '_blank');
+      try {
+        await apiClient.post(`/papers/${paper.objectId}/download`, {});
+      } catch (postErr) {
+        console.error('Failed to update download count:', postErr);
+      }
     }
   };
 

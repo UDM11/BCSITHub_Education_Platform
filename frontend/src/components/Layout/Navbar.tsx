@@ -28,6 +28,7 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { useInstallModal } from '@/context/InstallModalContext';
 import { apiClient } from '../../lib/apiClient';
+import { watermarkFile } from '../../lib/watermark';
 import { PaperPreviewModal } from '../Notes/PaperPreviewModal';
 import { NoticeReaderModal } from '../common/NoticeReaderModal';
 import LoginRedirectModal from '../common/LoginRedirectModal';
@@ -93,11 +94,40 @@ export function Navbar() {
     const fileUrl = paper.fileUrl || paper.file_url;
     const paperId = paper.objectId || paper.id;
     if (!fileUrl) return;
-    window.open(fileUrl, '_blank');
+
     try {
+      // Fetch file
+      const response = await fetch(fileUrl);
+      if (!response.ok) throw new Error("Failed to fetch file directly.");
+      const originalBlob = await response.blob();
+
+      // Apply watermark
+      const watermarkedBlob = await watermarkFile(originalBlob, "BCSITHub");
+      const blobUrl = window.URL.createObjectURL(watermarkedBlob);
+
+      // Create download link
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      const urlParts = fileUrl.split('?')[0].split('.');
+      const ext = urlParts.length > 1 ? urlParts[urlParts.length - 1] : 'pdf';
+      const safeTitle = (paper.title || "past-paper").replace(/[^a-zA-Z0-9\s-_]/g, '').trim();
+      link.download = `${safeTitle}.${ext}`;
+      
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+
+      // Increment downloads count
       await apiClient.post(`/papers/${paperId}/download`, {});
     } catch (err) {
-      console.error(err);
+      console.error("Watermarked download failed, falling back to redirect:", err);
+      window.open(fileUrl, '_blank');
+      try {
+        await apiClient.post(`/papers/${paperId}/download`, {});
+      } catch (postErr) {
+        console.error(postErr);
+      }
     }
   };
 
