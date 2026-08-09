@@ -127,6 +127,24 @@ def inject_seo_meta(
     html = re.sub(r'<meta name="twitter:description" content=".*?"\s*/?>', f'<meta name="twitter:description" content="{description}" />', html)
     html = re.sub(r'<meta name="twitter:image" content=".*?"\s*/?>', f'<meta name="twitter:image" content="{image}" />', html)
 
+    # 8. Inject visible crawler-readable content into the root div
+    # Googlebot doesn't execute JavaScript, so it sees an empty <div id="root"></div>
+    # This pre-rendered content block ensures Google indexes the page with real content.
+    seo_content_block = f'''<div id="root"><div style="font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:2rem">
+  <h1 style="font-size:1.8rem;font-weight:700;margin-bottom:1rem">{title}</h1>
+  <p style="font-size:1rem;line-height:1.6;color:#444;margin-bottom:1.5rem">{description}</p>
+  <p style="font-size:0.9rem;color:#666">This page is part of <a href="{BASE_URL}" style="color:#4f46e5">BCSITHub</a> — the free educational portal for Pokhara University BCSIT students. Access notes, past papers, syllabi, and study tools.</p>
+  <nav aria-label="Quick links" style="margin-top:1.5rem">
+    <a href="{BASE_URL}/notes" style="margin-right:1rem;color:#4f46e5">Notes</a>
+    <a href="{BASE_URL}/past-papers" style="margin-right:1rem;color:#4f46e5">Past Papers</a>
+    <a href="{BASE_URL}/syllabus" style="margin-right:1rem;color:#4f46e5">Syllabus</a>
+    <a href="{BASE_URL}/cgpa-calculator" style="margin-right:1rem;color:#4f46e5">CGPA Calculator</a>
+    <a href="{BASE_URL}/code-compiler" style="color:#4f46e5">Code Compiler</a>
+  </nav>
+</div></div>'''
+
+    html = html.replace('<div id="root"></div>', seo_content_block)
+
     return HTMLResponse(content=html)
 
 
