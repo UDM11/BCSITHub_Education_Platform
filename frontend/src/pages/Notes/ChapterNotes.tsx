@@ -410,7 +410,7 @@ export default function ChapterNotes() {
 
     // Create a temporary off-screen container with clean academic print styling
     const tempContainer = document.createElement("div");
-    tempContainer.className = "academic-pdf-print";
+    tempContainer.className = "academic-pdf-print notes-reader-content";
     tempContainer.style.position = "absolute";
     tempContainer.style.left = "-9999px";
     tempContainer.style.top = "0";
@@ -426,6 +426,13 @@ export default function ChapterNotes() {
         line-height: 1.6 !important;
         padding: 30px !important;
         background: #ffffff !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: block !important;
+      }
+      .academic-pdf-print * {
+        opacity: 1 !important;
+        visibility: visible !important;
       }
       .academic-pdf-print h1 {
         text-align: center !important;
@@ -814,6 +821,15 @@ export default function ChapterNotes() {
         }
 
         /* Normalization & Responsiveness overrides for Semester 1 & 2 notes */
+        .notes-reader-content {
+          opacity: 1 !important;
+          visibility: visible !important;
+          display: block !important;
+        }
+        .notes-reader-content * {
+          opacity: 1 !important;
+          visibility: visible !important;
+        }
         .notes-reader-content .container {
           max-width: 100% !important;
           padding: 0 !important;
