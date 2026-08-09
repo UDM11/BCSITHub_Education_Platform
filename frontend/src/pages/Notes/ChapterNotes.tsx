@@ -411,9 +411,10 @@ export default function ChapterNotes() {
     // Create a temporary off-screen container with clean academic print styling
     const tempContainer = document.createElement("div");
     tempContainer.className = "academic-pdf-print notes-reader-content";
-    tempContainer.style.position = "absolute";
-    tempContainer.style.left = "-9999px";
+    tempContainer.style.position = "fixed";
+    tempContainer.style.left = "0";
     tempContainer.style.top = "0";
+    tempContainer.style.zIndex = "-9999";
     tempContainer.style.width = "750px"; // standard width for crisp rendering page layout
     tempContainer.innerHTML = htmlContent;
 
