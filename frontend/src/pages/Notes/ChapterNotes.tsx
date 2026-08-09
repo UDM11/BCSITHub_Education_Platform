@@ -269,8 +269,9 @@ export default function ChapterNotes() {
     }
 
     const encodedSemester = encodeURIComponent(`Semester ${semesterId}`);
-    const encodedSubject = encodeURIComponent(subjectId);
-    const filePath = `/notes/${encodedSemester}/${encodedSubject}/${chapterId}.html`;
+    const encodedSubject = encodeURIComponent(decodeURIComponent(subjectId));
+    const encodedChapter = encodeURIComponent(decodeURIComponent(chapterId));
+    const filePath = `/notes/${encodedSemester}/${encodedSubject}/${encodedChapter}.html`;
 
     setLoading(true);
     setError(null);

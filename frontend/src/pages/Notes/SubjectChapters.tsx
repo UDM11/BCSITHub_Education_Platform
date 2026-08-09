@@ -81,7 +81,8 @@ export default function SubjectChapters() {
       try {
         const encodedSemester = encodeURIComponent(`Semester ${semesterId}`);
         const encodedSubject = encodeURIComponent(decodedSubjectId);
-        const filePath = `/notes/${encodedSemester}/${encodedSubject}/${chapterId}.html`;
+        const encodedChapter = encodeURIComponent(chapterId);
+        const filePath = `/notes/${encodedSemester}/${encodedSubject}/${encodedChapter}.html`;
         const response = await fetch(`${filePath}?v=${NOTES_VERSION}`);
         if (!response.ok) return false;
         const text = await response.text();
@@ -491,7 +492,7 @@ export default function SubjectChapters() {
                           navigate(
                             `/notes/semester/${semesterId}/subject/${encodeURIComponent(
                               decodedSubjectId
-                            )}/chapter/${chapter.id}`
+                            )}/chapter/${encodeURIComponent(chapter.id)}`
                           )
                         }
                       >
