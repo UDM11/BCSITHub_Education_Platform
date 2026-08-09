@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'sonner';
 import { apiClient } from '../lib/apiClient';
-import { UploadCloud, FileText, ArrowLeft, ShieldCheck, X } from 'lucide-react';
+import { UploadCloud, FileText, ArrowLeft, ShieldCheck, X, ArrowUp, ArrowDown } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/Card';
 import { motion } from 'framer-motion';
 import { semestersData } from '../data/notesData';
@@ -69,6 +69,28 @@ const UploadPaper: React.FC = () => {
 
   const removeFile = (index: number) => {
     setFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const moveFileUp = (index: number) => {
+    if (index === 0) return;
+    setFiles(prev => {
+      const copy = [...prev];
+      const temp = copy[index];
+      copy[index] = copy[index - 1];
+      copy[index - 1] = temp;
+      return copy;
+    });
+  };
+
+  const moveFileDown = (index: number) => {
+    if (index === files.length - 1) return;
+    setFiles(prev => {
+      const copy = [...prev];
+      const temp = copy[index];
+      copy[index] = copy[index + 1];
+      copy[index + 1] = temp;
+      return copy;
+    });
   };
 
   const getSubjectsForSemester = (semId: string) => {
@@ -423,7 +445,7 @@ const UploadPaper: React.FC = () => {
                       </div>
                     </label>
                     {files.length > 0 && (
-                      <div className="mt-4 space-y-2 text-left max-h-[160px] overflow-y-auto pr-1">
+                      <div className="mt-4 space-y-2 text-left max-h-[180px] overflow-y-auto pr-1">
                         {files.map((file, idx) => (
                           <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl text-xs">
                             <div className="flex items-center gap-2 truncate">
@@ -431,16 +453,48 @@ const UploadPaper: React.FC = () => {
                               <span className="font-bold text-slate-700 truncate leading-snug">{file.name}</span>
                               <span className="text-[9px] text-slate-400 font-bold uppercase flex-shrink-0">({(file.size / 1024).toFixed(0)} KB)</span>
                             </div>
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                removeFile(idx);
-                              }}
-                              className="p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded-lg transition-colors border-0 cursor-pointer flex items-center justify-center"
-                            >
-                              <X className="w-3.5 h-3.5" />
-                            </button>
+                            
+                            <div className="flex items-center gap-1 flex-shrink-0">
+                              {/* Move Up */}
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  moveFileUp(idx);
+                                }}
+                                disabled={isUploading || idx === 0}
+                                className="p-1 text-slate-400 hover:text-slate-650 hover:bg-slate-200 rounded-lg transition-colors border-0 cursor-pointer disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center"
+                                title="Move Up"
+                              >
+                                <ArrowUp className="w-3.5 h-3.5" />
+                              </button>
+                              {/* Move Down */}
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  moveFileDown(idx);
+                                }}
+                                disabled={isUploading || idx === files.length - 1}
+                                className="p-1 text-slate-400 hover:text-slate-650 hover:bg-slate-200 rounded-lg transition-colors border-0 cursor-pointer disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center"
+                                title="Move Down"
+                              >
+                                <ArrowDown className="w-3.5 h-3.5" />
+                              </button>
+                              {/* Remove */}
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  removeFile(idx);
+                                }}
+                                className="p-1 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all border-0 cursor-pointer flex items-center justify-center"
+                                disabled={isUploading}
+                                title="Remove File"
+                              >
+                                <X className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
                           </div>
                         ))}
                       </div>
