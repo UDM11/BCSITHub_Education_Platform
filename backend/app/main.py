@@ -105,7 +105,11 @@ def inject_seo_meta(
         html
     )
 
-    # 5. Replace canonical URL
+    # 5. Replace canonical URL - use both direct placeholder replace and regex to guarantee replacement
+    html = html.replace(
+        'href="https://bcsithub.lovestoblog.com/CANONICAL_PLACEHOLDER"',
+        f'href="{url}"'
+    )
     html = re.sub(
         r'<link rel="canonical" href=".*?"\s*/>',
         f'<link rel="canonical" href="{url}" />',
