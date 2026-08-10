@@ -47,9 +47,11 @@ export function PWAInstallBanner() {
             {/* App logo and text row */}
             <div className="flex items-center gap-3.5 pr-6">
               {/* App icon block */}
-              <div className="w-12 h-12 bg-gradient-to-tr from-rose-500 via-indigo-600 to-purple-600 rounded-xl flex items-center justify-center text-white font-black text-lg shadow-md flex-shrink-0">
-                B
-              </div>
+              <img 
+                src="/logo.png" 
+                alt="BCSITHub Logo" 
+                className="w-12 h-12 rounded-xl object-cover shadow-md flex-shrink-0"
+              />
               
               <div className="min-w-0">
                 <h4 className="font-extrabold text-slate-800 text-xs uppercase tracking-wider flex items-center gap-1">

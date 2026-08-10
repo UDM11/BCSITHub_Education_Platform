@@ -152,9 +152,33 @@
     </script>
   </head>
   <body>
+    <!-- Splash Screen showing a large logo and clean layout during initial loading/opening -->
+    <div id="pwa-splash" style="position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #0f172a; z-index: 99999; transition: opacity 0.5s ease-out; font-family: sans-serif;">
+      <div style="position: relative; display: flex; align-items: center; justify-content: center; width: 140px; height: 140px; margin-bottom: 24px;">
+        <img src="/logo.png" alt="BCSITHub Logo" style="width: 140px; height: 140px; border-radius: 28px; object-fit: cover; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);" />
+        <div style="position: absolute; inset: -8px; border: 2px solid transparent; border-top-color: #6366f1; border-bottom-color: #a855f7; border-radius: 36px; animation: spin-splash 2s linear infinite;"></div>
+      </div>
+      <style>
+        @keyframes spin-splash {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      </style>
+    </div>
+
     <h1 style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;">BCSITHub - Complete Educational Platform for Pokhara University BCSIT Students</h1>
     <div id="root"></div>
     <script>
+      // Cleanly fade out and remove the splash screen once the app is loaded
+      window.addEventListener('DOMContentLoaded', () => {
+        const splash = document.getElementById('pwa-splash');
+        if (splash) {
+          setTimeout(() => {
+            splash.style.opacity = '0';
+            setTimeout(() => splash.remove(), 500);
+          }, 350);
+        }
+      });
       window.MathJax = {
         tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
         options: { skipHtmlTags: ['script', 'noscript', 'style'] }
