@@ -14,8 +14,8 @@ export default defineConfig({
       registerType: 'prompt',
       includeAssets: ['favicon.png', 'icon-512.png', 'logo.png'],
       manifest: {
-        name: 'BCSITHub - Educational Platform for BCSIT Students',
-        short_name: 'BCSITHub',
+        name: '​',
+        short_name: '​',
         description: 'Notes, courses & resources for BCSIT students. Install for offline access to unit notes.',
         theme_color: '#4f46e5',
         background_color: '#ffffff',
@@ -24,7 +24,7 @@ export default defineConfig({
         scope: '/',
         icons: [
           { src: '/favicon.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
-          { src: '/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
+          { src: '/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
         ],
       },
       workbox: {

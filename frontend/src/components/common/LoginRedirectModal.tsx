@@ -27,7 +27,7 @@ const LoginRedirectModal: React.FC<Props> = ({ isOpen, onClose, message }) => {
 
   const handleOk = () => {
     onClose();
-    navigate("/login");
+    navigate("/signin");
   };
 
   return (

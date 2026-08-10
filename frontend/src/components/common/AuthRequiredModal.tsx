@@ -31,7 +31,7 @@ export default function AuthRequiredModal({ onClose }: { onClose: () => void }) 
           </div>
 
           <h2 className="text-base font-extrabold text-slate-800 dark:text-white mb-2">
-            Signup Required
+            Sign In Required
           </h2>
           
           <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-6 leading-relaxed px-2">
@@ -42,11 +42,11 @@ export default function AuthRequiredModal({ onClose }: { onClose: () => void }) 
             <button
               onClick={() => {
                 onClose();
-                window.location.href = "/signup";
+                window.location.href = "/signin";
               }}
               className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:brightness-110 text-white font-extrabold text-xs py-3 rounded-xl shadow-md border-0 transition-all cursor-pointer flex items-center justify-center gap-1.5"
             >
-              <span>Sign Up Now</span>
+              <span>Sign In Now</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
             <Button
