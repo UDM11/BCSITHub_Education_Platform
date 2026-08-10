@@ -31,8 +31,8 @@ export async function addWatermarkToPdf(pdfBlob: Blob, watermarkText = "BCSITHub
         y: y,
         size: fontSize,
         font: HelveticaBold,
-        color: rgb(0.7, 0.7, 0.7),
-        opacity: 0.2, // light transparent watermark
+        color: rgb(0.65, 0.65, 0.65),
+        opacity: 0.4, // Darker, bolder transparent watermark
         rotate: degrees(45),
       });
     }
@@ -71,7 +71,7 @@ export async function addWatermarkToImage(imageBlob: Blob, watermarkText = "BCSI
       // Compute font size based on image height/width
       const fontSize = Math.min(canvas.width, canvas.height) / 7.5;
       ctx.font = `bold ${fontSize}px Helvetica, Arial, sans-serif`;
-      ctx.fillStyle = "rgba(180, 180, 180, 0.25)"; // light opacity grey
+      ctx.fillStyle = "rgba(165, 165, 165, 0.45)"; // Darker opacity grey watermark for image exports
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       
@@ -136,8 +136,8 @@ export async function convertImageToPdfWithWatermark(imageBlob: Blob, watermarkT
       y: y,
       size: fontSize,
       font: HelveticaBold,
-      color: rgb(0.7, 0.7, 0.7),
-      opacity: 0.2,
+      color: rgb(0.65, 0.65, 0.65),
+      opacity: 0.4, // Darker, bolder transparent watermark
       rotate: degrees(45),
     });
     
