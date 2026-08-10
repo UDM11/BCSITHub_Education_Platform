@@ -418,6 +418,7 @@ export default function ChapterNotes() {
     const noteTitle = currentChapter?.title || chapterId || "Note";
     const courseCode = subjectId ? decodeURIComponent(subjectId) : "";
     const semLabel = semesterId ? `Semester ${semesterId}` : "";
+    const fullSubjectLabel = subjectName ? `${courseCode}: ${subjectName}` : courseCode;
 
     // Extract raw body content from the processedHtml (strip any remaining style tags)
     const bodyContent = htmlContent
@@ -622,7 +623,7 @@ export default function ChapterNotes() {
       transform: translate(-50%, -50%) rotate(-45deg);
       font-size: 72pt;
       font-weight: bold;
-      color: rgba(0,0,0,0.045);
+      color: rgba(0, 0, 0, 0.12); /* Darkened opacity from 0.045 to 0.12 */
       font-family: 'Times New Roman', serif;
       z-index: 0;
       pointer-events: none;
@@ -660,7 +661,7 @@ export default function ChapterNotes() {
   <div class="watermark-overlay">BCSITHub</div>
 
   <div class="doc-title">${noteTitle}</div>
-  <div class="doc-subtitle">${courseCode}${semLabel ? ` &nbsp;·&nbsp; ${semLabel}` : ""} &nbsp;·&nbsp; BCSITHub</div>
+  <div class="doc-subtitle">${fullSubjectLabel}${semLabel ? ` &nbsp;·&nbsp; ${semLabel}` : ""} &nbsp;·&nbsp; BCSITHub</div>
 
   ${bodyContent}
 </body>

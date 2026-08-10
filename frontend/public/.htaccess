@@ -9,6 +9,10 @@ Options -Indexes
   RewriteCond %{HTTPS} off
   RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+  # Redirect index.html to clean root URL
+  RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP/
+  RewriteRule ^index\.html$ / [R=301,L]
+
   # Only skip rewriting for actual FILES (not directories)
   # This allows /notes directory to be handled by React Router
   RewriteCond %{REQUEST_FILENAME} -f
