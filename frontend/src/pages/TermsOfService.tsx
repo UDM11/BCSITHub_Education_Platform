@@ -26,6 +26,7 @@ import {
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { useSEO } from '../hooks/useSEO';
 
 interface TermsSection {
   id: string;
@@ -241,6 +242,13 @@ const termsSections: TermsSection[] = [
 export function TermsOfService() {
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<string>('acceptance');
+
+  useSEO({
+    title: 'Terms of Service',
+    description: 'Review the BCSITHub Terms of Service. Understand the rules, responsibilities, and policies for using our Pokhara University BCSIT educational platform.',
+    keywords: 'bcsithub terms of service, bcsit platform terms, pokhara university student platform policy',
+  });
+
 
   const containerVariants = {
     hidden: { opacity: 0 },

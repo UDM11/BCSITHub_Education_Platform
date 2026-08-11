@@ -26,7 +26,7 @@
     <meta name="keywords" content="bcsit, bcsit course, bcsithub, pokhara university, bcsit syllabus, bcsit notes, pu notes, pu past papers, bcsit question papers, pu colleges, bcsit colleges, cgpa calculator, code compiler, pokhara university computer science" />
     <meta name="author" content="BCSITHub Developers" />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://bcsithub.lovestoblog.com/CANONICAL_PLACEHOLDER" />
+    <link rel="canonical" id="canonical-tag" href="https://bcsithub.lovestoblog.com/" />
     
     <!-- Open Graph Protocol (Facebook, LinkedIn, Discord, etc.) -->
     <meta property="og:type" content="website" />
@@ -169,13 +169,37 @@
     <h1 style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;">BCSITHub - Complete Educational Platform for Pokhara University BCSIT Students</h1>
     <div id="root"></div>
     <script>
+      // ---------------------------------------------------------------
+      // DYNAMIC CANONICAL URL — fixes Google "duplicate canonical" issue
+      // Runs immediately, before React mounts, so crawlers see it early
+      // ---------------------------------------------------------------
+      (function () {
+        var BASE = 'https://bcsithub.lovestoblog.com';
+        function setCanonical() {
+          var tag = document.getElementById('canonical-tag');
+          if (tag) {
+            // Use pathname only (no query string or hash) for canonical
+            var path = window.location.pathname.replace(/\/$/, '') || '/';
+            tag.setAttribute('href', BASE + path);
+          }
+        }
+        // Set immediately on load
+        setCanonical();
+        // Update on every SPA navigation
+        var origPush = history.pushState;
+        history.pushState = function () { origPush.apply(history, arguments); setCanonical(); };
+        var origReplace = history.replaceState;
+        history.replaceState = function () { origReplace.apply(history, arguments); setCanonical(); };
+        window.addEventListener('popstate', setCanonical);
+      })();
+
       // Cleanly fade out and remove the splash screen once the app is loaded
-      window.addEventListener('DOMContentLoaded', () => {
-        const splash = document.getElementById('pwa-splash');
+      window.addEventListener('DOMContentLoaded', function () {
+        var splash = document.getElementById('pwa-splash');
         if (splash) {
-          setTimeout(() => {
+          setTimeout(function () {
             splash.style.opacity = '0';
-            setTimeout(() => splash.remove(), 500);
+            setTimeout(function () { splash.remove(); }, 500);
           }, 350);
         }
       });

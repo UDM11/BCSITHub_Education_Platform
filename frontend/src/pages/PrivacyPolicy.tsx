@@ -26,6 +26,8 @@ import {
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { useSEO } from '../hooks/useSEO';
+
 
 interface PolicySection {
   id: string;
@@ -209,6 +211,13 @@ const policySections: PolicySection[] = [
 export function PrivacyPolicy() {
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<string>('information-collection');
+
+  useSEO({
+    title: 'Privacy Policy',
+    description: 'Read the BCSITHub Privacy Policy to understand how we collect, use, and protect your personal data as a Pokhara University BCSIT student.',
+    keywords: 'bcsithub privacy policy, data protection, bcsit student data, pokhara university privacy',
+  });
+
 
   const containerVariants = {
     hidden: { opacity: 0 },

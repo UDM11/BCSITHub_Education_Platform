@@ -77,7 +77,8 @@ export function useSEO({ title, description, keywords, image }: SEOProps) {
     if (twitterDesc) twitterDesc.setAttribute("content", description);
     if (twitterImage) twitterImage.setAttribute("content", previewImage);
 
-    // Cleanup to restore previous meta tags when component unmounts
+    // Cleanup: restore original title/meta but DO NOT restore canonical to stale value.
+    // The dynamic canonical script in index.html handles canonical updates on navigation.
     return () => {
       document.title = originalTitle;
       if (metaDesc) {
@@ -86,12 +87,10 @@ export function useSEO({ title, description, keywords, image }: SEOProps) {
       if (keywords && metaKeywords) {
         metaKeywords.setAttribute("content", originalKeywords);
       }
+      // Update canonical to the CURRENT URL (not restore stale value)
       if (linkCanonical) {
-        if (originalCanonical) {
-          linkCanonical.setAttribute("href", originalCanonical);
-        } else {
-          linkCanonical.remove();
-        }
+        const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+        linkCanonical.setAttribute("href", `https://bcsithub.lovestoblog.com${currentPath}`);
       }
       if (ogTitle && originalOgTitle) ogTitle.setAttribute("content", originalOgTitle);
       if (ogDesc && originalOgDesc) ogDesc.setAttribute("content", originalOgDesc);
@@ -101,6 +100,7 @@ export function useSEO({ title, description, keywords, image }: SEOProps) {
       if (twitterDesc && originalTwitterDesc) twitterDesc.setAttribute("content", originalTwitterDesc);
       if (twitterImage && originalTwitterImage) twitterImage.setAttribute("content", originalTwitterImage);
     };
+
   }, [title, description, keywords, image]);
 }
 export default useSEO;

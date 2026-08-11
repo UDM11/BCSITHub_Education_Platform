@@ -25,6 +25,7 @@ import { Card, CardContent } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { toast } from 'sonner';
 import { apiClient } from '../lib/apiClient';
+import { useSEO } from '../hooks/useSEO';
 
 interface FAQItem {
   id: string;
@@ -127,6 +128,13 @@ export function Support() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [expandedFAQ, setExpandedFAQ] = useState<string | null>(null);
+
+  useSEO({
+    title: 'Help & Support',
+    description: 'Get help and support for BCSITHub — the educational platform for Pokhara University BCSIT students. Browse FAQs or contact our team.',
+    keywords: 'bcsithub support, bcsit help, pokhara university student support, bcsithub faq',
+  });
+
   const [contactForm, setContactForm] = useState({
     name: '',
     email: '',
