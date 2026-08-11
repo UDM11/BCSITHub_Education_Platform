@@ -45,3 +45,7 @@ jobs:
           local-dir: ./frontend/dist/
           server-dir: /htdocs/
           state-name: .ftp-deploy-sync-state.json
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
