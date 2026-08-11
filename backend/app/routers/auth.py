@@ -2,6 +2,7 @@ import bcrypt
 import jwt
 import uuid
 import random
+import logging
 from datetime import datetime, timedelta, timezone
 from fastapi import APIRouter, Depends, HTTPException, status
 from app.client import supabase_client
@@ -9,8 +10,9 @@ from app.schemas.auth import UserSignUp, UserSignIn, UserProfileUpdate, TokenRes
 from app.dependencies import get_current_user, get_admin_user, get_teacher_or_admin_user
 from typing import Any, List
 from app.config import settings
-from app.email import send_otp_email, send_reset_password_email
+from app.email import send_otp_email, send_reset_password_email, send_welcome_email
 
+logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 def hash_password(password: str) -> str:
@@ -453,6 +455,13 @@ async def verify_otp(payload: dict) -> Any:
         profile["last_login"] = now_str
 
         token = create_jwt_token(profile["id"])
+        
+        # Send Welcome Email on first verification
+        try:
+            send_welcome_email(email, profile.get("name", "Student"))
+        except Exception as welcome_err:
+            logger.error(f"Failed to trigger welcome email inside verify_otp: {welcome_err}")
+
         return build_user_response(profile, token)
 
     except HTTPException as he:
@@ -698,6 +707,14 @@ async def handle_social_login(email: str, name: str, provider: str, provider_id:
         # Build user payload to return to frontend
         user_data = build_user_response(profile)
         is_new = profile.pop("_is_new_oauth_user", False)
+        
+        # Send Welcome Email on first OAuth registration
+        if is_new:
+            try:
+                send_welcome_email(email, name or email.split("@")[0])
+            except Exception as welcome_err:
+                logger.error(f"Failed to trigger welcome email inside handle_social_login: {welcome_err}")
+
         user_json = json.dumps(user_data)
         
         # Redirect back to frontend OAuth callback route

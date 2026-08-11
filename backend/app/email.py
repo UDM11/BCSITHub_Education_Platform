@@ -130,6 +130,91 @@ def send_otp_email(to_email: str, name: str, otp: str) -> bool:
         logger.error(f"Failed to send verification OTP email to {to_email}: {e}")
         return False
 
+def send_welcome_email(to_email: str, name: str) -> bool:
+    subject = "Welcome to BCSITHub! 🚀"
+    first_name = name.split(" ")[0] if name else "Student"
+    
+    html_body = f"""<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <title>{subject}</title>
+    {_email_style_header()}
+</head>
+<body>
+    <div class="wrapper">
+        <table role="presentation" cellpadding="0" cellspacing="0" class="container" align="center">
+            <tr>
+                <td class="header" style="text-align: center;">
+                    <a href="https://bcsithub.lovestoblog.com" style="display: block; text-decoration: none; margin-bottom: 4px;">
+                        <img src="https://bcsithub.lovestoblog.com/logo.png" alt="BCSITHub Logo" style="width: 50px; height: 50px; border-radius: 12px; object-fit: cover; display: inline-block; vertical-align: middle; border: 1.5px solid rgba(255,255,255,0.25);" />
+                        <span style="font-size: 24px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; margin-left: 10px; display: inline-block; vertical-align: middle; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">BCSIT<span style="color:#818cf8;">Hub</span></span>
+                    </a>
+                    <div class="header-subtitle">Pokhara University &mdash; BCSIT Student Portal</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="content">
+                    <h2 class="greeting">Welcome to the Hub, {first_name}! 🎉</h2>
+                    <p class="paragraph">
+                        We are absolutely thrilled to have you here! <strong>BCSITHub</strong> is built specifically for Pokhara University BCSIT students to make learning, collaboration, and examination preparation simple, interactive, and structured.
+                    </p>
+                    
+                    <div class="steps-container">
+                        <div class="steps-title">Here is what you can do right now:</div>
+                        <div class="step"><span class="step-num">📚</span> <strong>Subject Notes:</strong> Access detailed, chapter-wise notes for all 8 semesters.</div>
+                        <div class="step"><span class="step-num">📄</span> <strong>Past Papers:</strong> Browse, preview, and download PU board exam question papers.</div>
+                        <div class="step"><span class="step-num">💻</span> <strong>Code Compiler:</strong> Write and execute code directly in your browser without any setups.</div>
+                        <div class="step"><span class="step-num">⏳</span> <strong>Study tools:</strong> Utilize built-in CGPA/SGPA calculators and a Pomodoro focus timer.</div>
+                    </div>
+
+                    <div class="btn-container">
+                        <a href="https://bcsithub.lovestoblog.com" target="_blank" class="btn">Explore BCSITHub Console</a>
+                    </div>
+
+                    <div class="notice-box">
+                        <p class="notice-text">
+                            <strong>Need any support?</strong> If you have any feedback, questions, or want to contribute study resources, feel free to visit our Support tab or reply to us!
+                        </p>
+                    </div>
+
+                    <p class="paragraph" style="text-align: center; font-style: italic; color: #64748b; margin-top: 32px;">
+                        Let's master the BCSIT course together. Good luck with your studies!
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td class="footer">
+                    <div class="footer-bold">BCSITHub Platform</div>
+                    <p class="footer-text">You are receiving this because you registered an account on BCSITHub.</p>
+                    <p class="footer-text" style="margin-top:12px;">&copy; 2026 BCSITHub. All rights reserved.</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>"""
+
+    try:
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = subject
+        msg["From"] = f"{settings.SMTP_FROM_NAME} <{settings.SMTP_EMAIL}>"
+        msg["To"] = to_email
+        msg.attach(MIMEText(html_body, "html"))
+
+        with smtplib.SMTP(settings.SMTP_HOST, settings.SMTP_PORT) as server:
+            server.ehlo()
+            server.starttls()
+            server.login(settings.SMTP_EMAIL, settings.SMTP_PASSWORD)
+            server.sendmail(settings.SMTP_EMAIL, to_email, msg.as_string())
+
+        logger.info(f"Welcome email sent successfully to {to_email}")
+        return True
+    except Exception as e:
+        logger.error(f"Failed to send welcome email to {to_email}: {e}")
+        return False
+
 def send_reset_password_email(to_email: str, name: str, token: str) -> bool:
     subject = "Reset Your BCSITHub Password"
     first_name = name.split(" ")[0] if name else "Student"
