@@ -58,9 +58,23 @@ import { ResetPassword } from './pages/auth/ResetPassword';
 import { NotFound } from './pages/NotFound';
 
 function AppContent() {
-
   const { user } = useAuth();
   const location = useLocation();
+
+  // Automatically delete old bad caches from users' browsers
+  React.useEffect(() => {
+    if ("caches" in window) {
+      caches.keys().then((keys) => {
+        keys.forEach((key) => {
+          if (key === "bcsithub-notes-cache" || key === "bcsithub-notes-fallback-cache") {
+            caches.delete(key);
+            console.log(`[Cache Cleanup] Deleted old cache: ${key}`);
+          }
+        });
+      });
+    }
+  }, []);
+
   const isDashboardRoute = location.pathname.startsWith('/admin-dashboard') || 
                            location.pathname.startsWith('/dashboard') || 
                            location.pathname.startsWith('/profile') ||

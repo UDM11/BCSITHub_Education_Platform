@@ -279,7 +279,7 @@ export default function ChapterNotes() {
     window.scrollTo(0, 0);
 
     const delay = new Promise((res) => setTimeout(res, 1200)); // Smooth transitions
-    const notesCacheName = "bcsithub-notes-fallback-cache";
+    const notesCacheName = "bcsithub-notes-fallback-cache-v2";
 
     const loadNoteContent = async () => {
       try {

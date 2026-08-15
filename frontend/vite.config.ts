@@ -37,7 +37,7 @@ export default defineConfig({
             urlPattern: /\/notes\/.*\.html/,
             handler: 'NetworkFirst',          // Always try network first; fall back to cache if offline
             options: {
-              cacheName: 'bcsithub-notes-cache',
+              cacheName: 'bcsithub-notes-cache-v2',
               networkTimeoutSeconds: 5,       // If network takes >5s, serve cached version
               expiration: { maxEntries: 500, maxAgeSeconds: 60 * 60 * 24 * 7 }, // 7 days (was 365)
               cacheableResponse: { statuses: [0, 200] },
