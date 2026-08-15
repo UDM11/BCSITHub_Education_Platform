@@ -29,12 +29,12 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
-        globIgnores: ['**/version.json'],
+        globIgnores: ['**/version.json', 'notes/**/*.html'],
         maximumFileSizeToCacheInBytes: 6 * 1024 * 1024, // 6 MB (icons are ~5 MB)
         navigateFallbackDenylist: [/\/api\//, /\/sitemap\.xml$/, /\/robots\.txt$/, /\/googleac19bc2bcb3cb960\.html$/, /\/BingSiteAuth\.xml$/, /\/version\.json$/],
         runtimeCaching: [
           {
-            urlPattern: /\/notes\/.+/,
+            urlPattern: /\/notes\/.*\.html/,
             handler: 'NetworkFirst',          // Always try network first; fall back to cache if offline
             options: {
               cacheName: 'bcsithub-notes-cache',

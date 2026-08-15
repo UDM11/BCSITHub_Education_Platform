@@ -287,7 +287,14 @@ export default function ChapterNotes() {
         if (!res.ok) throw new Error("Note not found.");
 
         const text = await res.text();
-        if (text.includes('id="root"') || text.includes("id='root'")) {
+        const isIndexHtml = 
+          text.includes('id="root"') || 
+          text.includes("id='root'") || 
+          text.includes('id=root') || 
+          text.includes('pwa-splash') || 
+          text.includes('/src/main.tsx');
+
+        if (isIndexHtml) {
           throw new Error("Note not found.");
         }
 
@@ -308,7 +315,14 @@ export default function ChapterNotes() {
             (await (await caches.open(notesCacheName)).match(filePath));
           if (cached) {
             const cachedText = await cached.text();
-            if (!cachedText.includes('id="root"') && !cachedText.includes("id='root'")) {
+            const isCachedIndexHtml = 
+              cachedText.includes('id="root"') || 
+              cachedText.includes("id='root'") || 
+              cachedText.includes('id=root') || 
+              cachedText.includes('pwa-splash') || 
+              cachedText.includes('/src/main.tsx');
+
+            if (!isCachedIndexHtml) {
               return cachedText;
             }
           }

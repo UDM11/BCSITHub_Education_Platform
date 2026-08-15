@@ -86,7 +86,14 @@ export default function SubjectChapters() {
         const response = await fetch(`${filePath}?v=${NOTES_VERSION}`);
         if (!response.ok) return false;
         const text = await response.text();
-        return !text.includes('id="root"') && !text.includes("id='root'");
+        const isIndexHtml = 
+          text.includes('id="root"') || 
+          text.includes("id='root'") || 
+          text.includes('id=root') || 
+          text.includes('pwa-splash') || 
+          text.includes('/src/main.tsx');
+
+        return !isIndexHtml;
       } catch {
         return false;
       }
