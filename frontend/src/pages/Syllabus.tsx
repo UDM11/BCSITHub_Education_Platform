@@ -49,6 +49,37 @@ export function Syllabus() {
 
   const [containerWidth, setContainerWidth] = useState<number>(800);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    try {
+      setDownloading(true);
+      const response = await fetch('/BCSITsyllabus.pdf');
+      const originalBlob = await response.blob();
+      
+      const { watermarkFile } = await import('../lib/watermark');
+      const watermarkedBlob = await watermarkFile(originalBlob, 'BCSITHub');
+      
+      const blobUrl = window.URL.createObjectURL(watermarkedBlob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = 'PU-BCSIT-Syllabus.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (err) {
+      console.error('Watermark download failed, falling back to direct download:', err);
+      const link = document.createElement('a');
+      link.href = '/BCSITsyllabus.pdf';
+      link.download = 'PU-BCSIT-Syllabus.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   // Measure container width for responsive page sizing
   useEffect(() => {
@@ -549,14 +580,14 @@ export function Syllabus() {
               <p className="text-xs text-slate-400 mt-1">Browse through the full official syllabus pages below.</p>
             </div>
             
-            <a
-              href="/BCSITsyllabus.pdf"
-              download="PU-BCSIT-Syllabus.pdf"
-              className="inline-flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-5 py-2.5 rounded-xl shadow-lg shadow-indigo-600/20 transition-all cursor-pointer flex-shrink-0"
+            <button
+              onClick={handleDownload}
+              disabled={downloading}
+              className="inline-flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-5 py-2.5 rounded-xl shadow-lg shadow-indigo-600/20 transition-all cursor-pointer flex-shrink-0 disabled:opacity-50"
             >
               <Download className="w-4 h-4" />
-              <span>Download Full PDF</span>
-            </a>
+              <span>{downloading ? 'Applying Watermark...' : 'Download Full PDF'}</span>
+            </button>
           </div>
 
           <div 
