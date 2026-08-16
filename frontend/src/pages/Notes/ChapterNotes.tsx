@@ -81,6 +81,50 @@ export default function ChapterNotes() {
   // Mobile navigation tab: "outline" | "toc" | "settings"
   const [mobileTab, setMobileTab] = useState<"outline" | "toc" | "settings">("outline");
 
+  // Track active reading time as study focus session
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    let totalActiveSeconds = 0;
+    let lastActivityTime = Date.now();
+
+    const updateActivity = () => {
+      lastActivityTime = Date.now();
+    };
+
+    window.addEventListener("mousemove", updateActivity);
+    window.addEventListener("keydown", updateActivity);
+    window.addEventListener("scroll", updateActivity);
+    window.addEventListener("click", updateActivity);
+
+    const interval = setInterval(async () => {
+      if (document.visibilityState === "visible" && (Date.now() - lastActivityTime < 60000)) {
+        totalActiveSeconds += 30;
+
+        if (totalActiveSeconds >= 60) {
+          try {
+            const { apiClient } = await import("../../lib/apiClient");
+            await apiClient.post("/pomodoro/session", {
+              type: "work",
+              duration: 60
+            });
+            totalActiveSeconds = 0;
+          } catch (e) {
+            console.error("Failed to auto-save notes reading session:", e);
+          }
+        }
+      }
+    }, 30000);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("mousemove", updateActivity);
+      window.removeEventListener("keydown", updateActivity);
+      window.removeEventListener("scroll", updateActivity);
+      window.removeEventListener("click", updateActivity);
+    };
+  }, [isAuthenticated]);
+
   // Sync preferences to localStorage
   useEffect(() => {
     localStorage.setItem("notes-theme", theme);

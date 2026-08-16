@@ -75,8 +75,25 @@ async def get_stats(current_user: dict = Depends(get_current_user)):
             except Exception as e:
                 print("Failed to parse date:", e)
                 
-        # Simple streak count based on completed focus sessions
-        streak = min(7, max(1, total_sessions // 4)) if total_sessions > 0 else 0
+        # Real consecutive days streak calculation
+        unique_dates = set()
+        for s in user_sessions:
+            try:
+                completed_str = s["completed_at"].replace("Z", "+00:00")
+                completed_dt = datetime.fromisoformat(completed_str).replace(tzinfo=None)
+                unique_dates.add(completed_dt.date())
+            except Exception as e:
+                print("Failed to parse date for streak:", e)
+                
+        streak = 0
+        if unique_dates:
+            today = datetime.utcnow().date()
+            yesterday = today - timedelta(days=1)
+            if today in unique_dates or yesterday in unique_dates:
+                current_date = today if today in unique_dates else yesterday
+                while current_date in unique_dates:
+                    streak += 1
+                    current_date -= timedelta(days=1)
         
         # Map last 10 sessions for history
         history = []
