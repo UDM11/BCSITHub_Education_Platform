@@ -331,7 +331,7 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
             <div className="w-7 h-7 rounded-lg overflow-hidden border border-slate-700/60 flex items-center justify-center bg-slate-800">
               <img src="/logo.png" alt="BCSITHub Logo" className="w-5 h-5 object-contain" />
             </div>
-            <div>
+            <div className="hidden md:block">
               <p className="text-xs font-bold text-white leading-none">BCSIT Sandbox</p>
               <p className="text-[9px] text-slate-500 uppercase tracking-widest leading-none mt-0.5">Multi-Language IDE</p>
             </div>
@@ -339,7 +339,7 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
         </div>
 
         {/* Center: Lang switcher + Run */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-1.5 sm:gap-2.5">
           {/* Language Switcher */}
           <div className="relative">
             <button
@@ -398,20 +398,20 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
         </div>
 
         {/* Right: toolbar actions */}
-        <div className="flex items-center gap-1.5">
-          <button onClick={handleCopy} className="p-1.5 rounded-lg hover:bg-[#3c3c3c] text-slate-400 hover:text-white transition-colors" title="Copy active file">
-            <Copy className="w-4 h-4" />
+        <div className="flex items-center gap-0.5 sm:gap-1.5">
+          <button onClick={handleCopy} className="p-1 sm:p-1.5 rounded-lg hover:bg-[#3c3c3c] text-slate-400 hover:text-white transition-colors" title="Copy active file">
+            <Copy className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </button>
-          <button onClick={handleDownload} className="p-1.5 rounded-lg hover:bg-[#3c3c3c] text-slate-400 hover:text-white transition-colors" title="Download active file">
-            <Download className="w-4 h-4" />
+          <button onClick={handleDownload} className="p-1 sm:p-1.5 rounded-lg hover:bg-[#3c3c3c] text-slate-400 hover:text-white transition-colors" title="Download active file">
+            <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </button>
-          <button onClick={handleReset} className="p-1.5 rounded-lg hover:bg-[#3c3c3c] text-slate-400 hover:text-white transition-colors" title="Reset to template">
-            <RotateCcw className="w-4 h-4" />
+          <button onClick={handleReset} className="p-1 sm:p-1.5 rounded-lg hover:bg-[#3c3c3c] text-slate-400 hover:text-white transition-colors" title="Reset to template">
+            <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </button>
           {/* Settings */}
           <div className="relative">
-            <button onClick={() => setShowSettings(v => !v)} className={`p-1.5 rounded-lg transition-colors ${showSettings ? "bg-[#3c3c3c] text-white" : "hover:bg-[#3c3c3c] text-slate-400 hover:text-white"}`} title="Settings">
-              <Settings className="w-4 h-4" />
+            <button onClick={() => setShowSettings(v => !v)} className={`p-1 sm:p-1.5 rounded-lg transition-colors ${showSettings ? "bg-[#3c3c3c] text-white" : "hover:bg-[#3c3c3c] text-slate-400 hover:text-white"}`} title="Settings">
+              <Settings className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
             {showSettings && (
               <div className="absolute top-full right-0 mt-2 w-64 bg-[#252526] border border-[#3c3c3c] rounded-xl shadow-2xl z-50 p-4 space-y-4">
@@ -445,7 +445,7 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
               </div>
             )}
           </div>
-          <button onClick={() => setIsFullscreen(v => !v)} className="p-1.5 rounded-lg hover:bg-[#3c3c3c] text-slate-400 hover:text-white transition-colors" title="Toggle fullscreen">
+          <button onClick={() => setIsFullscreen(v => !v)} className="hidden sm:block p-1.5 rounded-lg hover:bg-[#3c3c3c] text-slate-400 hover:text-white transition-colors" title="Toggle fullscreen">
             {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
           </button>
         </div>
