@@ -89,13 +89,20 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
   const [stdin, setStdin] = useState("");
   const [showStdin, setShowStdin] = useState(false);
   const [interactiveInputVal, setInteractiveInputVal] = useState("");
+  const [accumulatedInputs, setAccumulatedInputs] = useState<string[]>([]);
 
   const handleRunInteractive = () => {
-    // Split inputs by space or comma, join with newline, and save to stdin
-    const formatted = interactiveInputVal.trim().split(/\s*,\s*|\s+/).join("\n");
-    setStdin(formatted);
+    const trimmedVal = interactiveInputVal.trim();
+    if (!trimmedVal) return;
+
+    // Append the new input value to our history of inputs
+    const updated = [...accumulatedInputs, trimmedVal];
+    setAccumulatedInputs(updated);
+    setStdin(updated.join("\n"));
+    setInteractiveInputVal("");
+
     setTimeout(() => {
-      handleRun();
+      handleRun(true);
     }, 100);
   };
 
@@ -184,7 +191,11 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
     toast.success(`Deleted ${name}`);
   };
 
-  const handleRun = async () => {
+  const handleRun = async (isInteractiveRun = false) => {
+    if (!isInteractiveRun) {
+      setAccumulatedInputs([]);
+      setStdin("");
+    }
     setConsoleOutput("");
     setConsoleError("");
     setExecStats(null);
