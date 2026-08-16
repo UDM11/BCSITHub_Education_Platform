@@ -255,8 +255,7 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
       };
 
       if (!stdin.trim() && detectsInputFunctions()) {
-        setShowStdin(true);
-        toast.warning("⚠️ Interactive input (like input/scanf) detected! Please enter input values in the Standard Input panel below.", {
+        toast.warning("⚠️ Interactive input (like input/scanf) detected! Use the terminal prompt to provide input interactively.", {
           duration: 6000
         });
       }
@@ -584,23 +583,7 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
             />
           </div>
 
-          {/* Stdin input */}
-          <div className="flex-shrink-0 border-t border-[#3c3c3c]">
-            <button onClick={() => setShowStdin(v => !v)}
-              className="w-full flex items-center justify-between px-4 py-2 text-xs text-slate-400 hover:text-slate-200 hover:bg-[#2d2d2d] transition-colors">
-              <span className="flex items-center gap-2"><ChevronRight className={`w-3.5 h-3.5 transition-transform ${showStdin ? "rotate-90" : ""}`} />Standard Input (stdin)</span>
-              {stdin.trim() && <span className="w-2 h-2 rounded-full bg-amber-400" title="stdin has input" />}
-            </button>
-            {showStdin && (
-              <textarea
-                value={stdin}
-                onChange={e => setStdin(e.target.value)}
-                placeholder="Enter program input here... (one value per line)"
-                rows={3}
-                className="w-full bg-[#1a1a1a] text-xs text-slate-300 placeholder:text-slate-600 px-4 py-2 resize-none font-mono outline-none border-t border-[#3c3c3c] focus:border-[#007acc]"
-              />
-            )}
-          </div>
+
         </div>
 
         {/* ── RIGHT: Output Panel ── */}
