@@ -88,6 +88,16 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
   const [execStats, setExecStats] = useState<ExecStats | null>(null);
   const [stdin, setStdin] = useState("");
   const [showStdin, setShowStdin] = useState(false);
+  const [interactiveInputVal, setInteractiveInputVal] = useState("");
+
+  const handleRunInteractive = () => {
+    // Split inputs by space or comma, join with newline, and save to stdin
+    const formatted = interactiveInputVal.trim().split(/\s*,\s*|\s+/).join("\n");
+    setStdin(formatted);
+    setTimeout(() => {
+      handleRun();
+    }, 100);
+  };
 
   // AI
   const [aiResult, setAiResult] = useState<string>("");
@@ -666,10 +676,43 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
                 {consoleOutput && (
                   <pre className="text-emerald-300 text-xs leading-relaxed whitespace-pre-wrap break-words mb-2">{consoleOutput}</pre>
                 )}
-                {consoleError && (
-                  <div className="mt-2 border-l-2 border-rose-500 pl-3">
-                    <p className="text-rose-400 text-[10px] font-bold uppercase mb-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />Stderr / Error</p>
-                    <pre className="text-rose-300 text-xs leading-relaxed whitespace-pre-wrap break-words">{consoleError}</pre>
+                 {consoleError && (
+                  <div className="mt-2">
+                    <div className="border-l-2 border-rose-500 pl-3">
+                      <p className="text-rose-400 text-[10px] font-bold uppercase mb-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />Stderr / Error</p>
+                      <pre className="text-rose-300 text-xs leading-relaxed whitespace-pre-wrap break-words">{consoleError}</pre>
+                    </div>
+
+                    {/* Inline interactive input block for EOFError */}
+                    {(consoleError.includes("EOFError") || consoleError.includes("EOF when reading a line") || consoleError.includes("EOF")) && (
+                      <div className="mt-4 p-4 rounded-xl bg-amber-950/20 border border-amber-500/30 text-slate-200">
+                        <p className="text-xs font-bold text-amber-400 mb-2 flex items-center gap-1.5">
+                          <Terminal className="w-4 h-4" />
+                          Interactive Input Needed
+                        </p>
+                        <p className="text-[11px] text-slate-400 mb-3">
+                          This program is requesting inputs. Please enter your input values below (use spaces or commas for multiple values, e.g. 1 Umesh 22):
+                        </p>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            placeholder="Enter inputs here..."
+                            value={interactiveInputVal}
+                            onChange={e => setInteractiveInputVal(e.target.value)}
+                            onKeyDown={e => {
+                              if (e.key === "Enter") handleRunInteractive();
+                            }}
+                            className="flex-1 bg-[#252526] text-xs px-3 py-2 rounded-lg border border-[#555] focus:border-[#007acc] outline-none font-mono text-slate-100"
+                          />
+                          <button
+                            onClick={handleRunInteractive}
+                            className="bg-[#007acc] hover:bg-[#1a8fd1] text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
+                          >
+                            Submit & Run
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
