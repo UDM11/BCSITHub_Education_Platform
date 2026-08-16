@@ -93,7 +93,7 @@ areas = list(map(lambda s: s.area(), shapes))
 total = reduce(lambda a, b: a + b, areas)
 largest = max(shapes, key=lambda s: s.area())
 
-print(f"\n── Statistics ──────────────────")
+print(f"\\n── Statistics ──────────────────")
 print(f"  Total area  : {total:.2f}")
 print(f"  Largest     : {largest}")
 
@@ -104,7 +104,7 @@ print(f"  Big shapes  : {[str(s) for s in big_shapes]}")
 # ── 4. Dictionary + sorting ──
 grades = {"Alice": 92, "Bob": 75, "Carol": 88, "Dave": 61}
 sorted_grades = dict(sorted(grades.items(), key=lambda x: x[1], reverse=True))
-print(f"\n── Grade Leaderboard ───────────")
+print(f"\\n── Grade Leaderboard ───────────")
 for rank, (name, score) in enumerate(sorted_grades.items(), 1):
     grade = "A" if score >= 90 else "B" if score >= 75 else "C"
     print(f"  #{rank} {name:<8} {score}  [{grade}]")
@@ -116,11 +116,11 @@ def safe_divide(a, b):
     except ZeroDivisionError:
         return "Error: Division by zero!"
 
-print(f"\n── Safe Divide ─────────────────")
+print(f"\\n── Safe Divide ─────────────────")
 print(f"  10 / 3  = {safe_divide(10, 3):.4f}")
 print(f"  10 / 0  = {safe_divide(10, 0)}")
 
-print(f"\n  Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+print(f"\\n  Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 `
   },
   {
@@ -242,8 +242,11 @@ public class Main {
     }
 
     // ── 2. Student record ──
-    record Student(String name, int age, double gpa) {
-        String grade() {
+    static class Student {
+        public String name; public int age; public double gpa;
+        public Student(String name, int age, double gpa) { this.name = name; this.age = age; this.gpa = gpa; }
+        public double gpa() { return gpa; }
+        public String grade() {
             if (gpa >= 3.7) return "A";
             if (gpa >= 3.0) return "B";
             if (gpa >= 2.0) return "C";
@@ -604,8 +607,9 @@ abstract class Vehicle implements Describable {
         protected float  $price
     ) {}
     abstract public function type(): string;
+    public function getPrice(): float { return $this->price; }
     public function describe(): string {
-        return sprintf("%s %s (%d) — $%.2f", $this->type(), $this->brand, $this->year, $this->price);
+        return sprintf("%s %s (%d) - $%.2f", $this->type(), $this->brand, $this->year, $this->price);
     }
 }
 
@@ -637,13 +641,13 @@ echo "── Fleet ────────────────────�
 foreach ($fleet as $v) echo "  " . $v->describe() . "\n";
 
 // ── 2. Array functions ──
-echo "\n── Top 2 by Price ─────────────────\n";
-usort($fleet, fn($a, $b) => $b->price <=> $a->price);
-array_slice($fleet, 0, 2);
+echo "\\n── Top 2 by Price ─────────────────\n";
+usort($fleet, fn($a, $b) => $b->getPrice() <=> $a->getPrice());
+
 foreach (array_slice($fleet, 0, 2) as $v) echo "  " . $v->describe() . "\n";
 
 // ── 3. Associative array + array functions ──
-echo "\n── Student Grades ─────────────────\n";
+echo "\\n── Student Grades ─────────────────\n";
 $grades = ["Alice" => 92, "Bob" => 75, "Carol" => 88, "Dave" => 61, "Eve" => 95];
 arsort($grades);
 foreach ($grades as $name => $score) {
@@ -657,7 +661,7 @@ foreach ($grades as $name => $score) {
 printf("  Average: %.1f\n", array_sum($grades) / count($grades));
 
 // ── 4. String functions ──
-echo "\n── String Operations ──────────────\n";
+echo "\\n── String Operations ──────────────\n";
 $sentence = "  BCSITHub is an awesome educational platform!  ";
 echo "  Original : '" . $sentence . "'\n";
 echo "  Trimmed  : '" . trim($sentence) . "'\n";
@@ -665,7 +669,7 @@ echo "  Upper    : " . strtoupper(trim($sentence)) . "\n";
 echo "  Word cnt : " . str_word_count(trim($sentence)) . "\n";
 
 // ── 5. Closures ──
-echo "\n── Fibonacci (closure) ────────────\n";
+echo "\\n── Fibonacci (closure) ────────────\n";
 $fib = function(int $n) use (&$fib): int {
     return $n <= 1 ? $n : $fib($n - 1) + $fib($n - 2);
 };
@@ -678,7 +682,7 @@ echo "  " . implode(" ", $seq) . "\n";
     name: "C#",
     category: "programming",
     pistonLanguage: "csharp",
-    pistonVersion: "6.12.0",
+    pistonVersion: "5.0.201",
     extension: "cs",
     logo: "csharp",
     template: `// ── C# Advanced Demo ────────────────────────────────
@@ -788,7 +792,7 @@ console.log('  RAM (MB) :', Math.round(os.totalmem() / 1024 / 1024));
 console.log('  Free (MB):', Math.round(os.freemem()  / 1024 / 1024));
 
 // ── 2. EventEmitter ──
-console.log('\n── Event System ────────────────');
+console.log('\\n── Event System ────────────────');
 class Logger extends EventEmitter {
   log(level, msg) { this.emit('log', { level, msg, ts: new Date().toISOString() }); }
 }
@@ -804,7 +808,7 @@ logger.log('WARN',  'Memory usage above 80%');
 logger.log('ERROR', 'Database connection timeout');
 
 // ── 3. Async / Promise chain ──
-console.log('\n── Async Pipeline ──────────────');
+console.log('\\n── Async Pipeline ──────────────');
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
 async function pipeline(name) {
@@ -824,7 +828,7 @@ async function pipeline(name) {
   console.log('\n  Results:', results);
 
   // ── 4. Functional utils ──
-  console.log('\n── Functional Utilities ────────');
+  console.log('\\n── Functional Utilities ────────');
   const data = Array.from({ length: 10 }, (_, i) => i + 1);
   const evens = data.filter(n => n % 2 === 0);
   const squares = evens.map(n => n ** 2);
@@ -834,7 +838,7 @@ async function pipeline(name) {
   console.log('  Sum even²:', total);
 
   // ── 5. Path utilities ──
-  console.log('\n── Path Utilities ──────────────');
+  console.log('\\n── Path Utilities ──────────────');
   const p = '/home/user/projects/app/src/index.js';
   console.log('  dir     :', path.dirname(p));
   console.log('  base    :', path.basename(p));
@@ -897,13 +901,13 @@ find(students, { course: "BCSIT" }).forEach(s =>
 );
 
 // ── 2. find with $gte ──
-console.log('\n── db.students.find({ gpa: { $gte: 3.5 } }) ──');
+console.log('\\n── db.students.find({ gpa: { $gte: 3.5 } }) ──');
 find(students, { gpa: { $gte: 3.5 } })
   .sort((a, b) => b.gpa - a.gpa)
   .forEach(s => console.log(\`  \${s.name.padEnd(8)} GPA=\${s.gpa}\`));
 
 // ── 3. aggregate – count & avg GPA per course ──
-console.log('\n── aggregate: $group by course ──────────────');
+console.log('\\n── aggregate: $group by course ──────────────');
 const grouped = groupBy(students, 'course', 'gpa');
 Object.entries(grouped)
   .sort((a, b) => b[1].count - a[1].count)
@@ -912,14 +916,14 @@ Object.entries(grouped)
   });
 
 // ── 4. sort + limit ──
-console.log('\n── Top 3 students by GPA ────────────────────');
+console.log('\\n── Top 3 students by GPA ────────────────────');
 [...students]
   .sort((a, b) => b.gpa - a.gpa)
   .slice(0, 3)
   .forEach((s, i) => console.log(\`  #\${i+1} \${s.name} (\${s.course}) — \${s.gpa}\`));
 
 // ── 5. Distinct values ──
-console.log('\n── distinct("city") ─────────────────────────');
+console.log('\\n── distinct("city") ─────────────────────────');
 const cities = [...new Set(students.map(s => s.city))];
 console.log('  ' + cities.join(', '));
 `
@@ -1165,11 +1169,11 @@ puts "── Students (sorted by GPA) ─────"
 students.sort.each { |s| puts "  #{s}" }
 
 avg = students.sum(&:gpa).fdiv(students.size).round(2)
-puts "\n  Average GPA : #{avg}"
+puts "\\n  Average GPA : #{avg}"
 puts "  Honours     : #{students.count { |s| s.gpa >= 3.5 }} student(s)"
 
 # ── 2. Enumerable magic ──
-puts "\n── Enumerable ───────────────────"
+puts "\\n── Enumerable ───────────────────"
 bcsit = students.select { |s| s.course == "BCSIT" }
 puts "  BCSIT students: #{bcsit.map(&:name).join(', ')}"
 
@@ -1177,7 +1181,7 @@ top3 = students.max_by(3, &:gpa)
 puts "  Top 3: #{top3.map(&:name).join(' > ')}"
 
 # ── 3. Hash & grouping ──
-puts "\n── By Course ────────────────────"
+puts "\\n── By Course ────────────────────"
 by_course = students.group_by(&:course)
 by_course.each do |course, list|
   avg_gpa = list.sum(&:gpa).fdiv(list.size).round(2)
@@ -1185,13 +1189,13 @@ by_course.each do |course, list|
 end
 
 # ── 4. Blocks, Procs, Lambdas ──
-puts "\n── Functional ───────────────────"
+puts "\\n── Functional ───────────────────"
 square = ->(n) { n ** 2 }
 evens  = (1..10).select(&:even?)
 puts "  Even squares: #{evens.map(&square).inspect}"
 
 # ── 5. Exception handling ──
-puts "\n── Exception Handling ───────────"
+puts "\\n── Exception Handling ───────────"
 [10, 0, 5].each_cons(2) do |a, b|
   begin
     puts "  #{a} / #{b} = #{a / b}"
