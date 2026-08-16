@@ -14,8 +14,8 @@ export default defineConfig({
       registerType: 'prompt',
       includeAssets: ['favicon.png', 'icon-512.png', 'logo.png'],
       manifest: {
-        name: '​',
-        short_name: '​',
+        name: 'BCSITHub',
+        short_name: 'BCSITHub',
         description: 'Notes, courses & resources for BCSIT students. Install for offline access to unit notes.',
         theme_color: '#4f46e5',
         background_color: '#ffffff',
