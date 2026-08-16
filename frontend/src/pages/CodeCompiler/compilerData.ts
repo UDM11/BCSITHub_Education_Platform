@@ -1182,31 +1182,31 @@ def students = [
 ]
 
 println "── Students (desc GPA) ──────────"
-students.sort { -it.gpa }.each { println "  $it" }
+students.sort { -it.gpa }.each { println "  \${it}" }
 
 def avg = students.sum { it.gpa } / students.size()
 println sprintf("\n  Average GPA : %.2f", avg)
-println "  Honours     : ${students.count { it.gpa >= 3.5 }} student(s)"
+println "  Honours     : \${students.count { it.gpa >= 3.5 }} student(s)"
 
 // ── 2. Closures ──
 println "\n── Closure: Grade Map ───────────"
 def gradeMap = students.groupBy { it.grade() }
 gradeMap.sort { it.key }.each { g, list ->
-    println "  Grade $g → ${list*.name.join(', ')}"
+    println "  Grade \${g} \u2192 \${list*.name.join(', ')}"
 }
 
 // ── 3. Functional collection ops ──
 println "\n── Even Squares ─────────────────"
 def evensq = (1..10).findAll { it % 2 == 0 }.collect { it ** 2 }
-println "  ${evensq}"
+println "  \${evensq}"
 
 // ── 4. String GStrings & multiline ──
 println "\n── GString Templates ────────────"
 def top = students.max { it.gpa }
 println """\
-  Top student : ${top.name}
-  GPA         : ${top.gpa}
-  Grade       : ${top.grade()}
+  Top student : \${top.name}
+  GPA         : \${top.gpa}
+  Grade       : \${top.grade()}
 """
 
 // ── 5. Exception handling ──
@@ -1214,9 +1214,9 @@ println "── Safe Division ────────────────"
 [10, 0, 4].eachWithIndex { v, i ->
     try {
         def result = 100 / v
-        println "  100 / $v = $result"
+        println "  100 / \${v} = \${result}"
     } catch (ArithmeticException e) {
-        println "  100 / $v → Error: ${e.message}"
+        println "  100 / \${v} \u2192 Error: \${e.message}"
     }
 }
 `
