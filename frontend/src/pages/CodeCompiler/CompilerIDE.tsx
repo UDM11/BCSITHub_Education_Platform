@@ -678,10 +678,13 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
                 )}
                  {consoleError && (
                   <div className="mt-2">
-                    <div className="border-l-2 border-rose-500 pl-3">
-                      <p className="text-rose-400 text-[10px] font-bold uppercase mb-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />Stderr / Error</p>
-                      <pre className="text-rose-300 text-xs leading-relaxed whitespace-pre-wrap break-words">{consoleError}</pre>
-                    </div>
+                    {/* Hide traceback error block if it is just a standard EOFError requesting input */}
+                    {!(consoleError.includes("EOFError") || consoleError.includes("EOF when reading a line") || consoleError.includes("EOF")) && (
+                      <div className="border-l-2 border-rose-500 pl-3">
+                        <p className="text-rose-400 text-[10px] font-bold uppercase mb-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />Stderr / Error</p>
+                        <pre className="text-rose-300 text-xs leading-relaxed whitespace-pre-wrap break-words">{consoleError}</pre>
+                      </div>
+                    )}
 
                     {/* Inline interactive input block for EOFError */}
                     {(consoleError.includes("EOFError") || consoleError.includes("EOF when reading a line") || consoleError.includes("EOF")) && (
