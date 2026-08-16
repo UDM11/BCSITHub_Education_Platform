@@ -86,7 +86,6 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
   const [iframeSrcDoc, setIframeSrcDoc] = useState<string>("");
   const [execStats, setExecStats] = useState<ExecStats | null>(null);
   const [stdin, setStdin] = useState("");
-  const [showStdin, setShowStdin] = useState(false);
   const [interactiveInputVal, setInteractiveInputVal] = useState("");
   const [accumulatedInputs, setAccumulatedInputs] = useState<string[]>([]);
   const [consoleHistory, setConsoleHistory] = useState<string[]>([]);
@@ -691,23 +690,20 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
                       </div>
                     )}
 
-                    {/* Inline Terminal Prompt Line */}
-                    {(consoleError.includes("EOFError") || consoleError.includes("EOF when reading a line") || consoleError.includes("EOF")) && (
-                      <div className="flex items-center gap-1.5 text-xs font-mono mt-1 text-slate-100">
-                        <span className="text-amber-400 font-bold select-none">&gt;</span>
-                        <input
-                          type="text"
-                          autoFocus
-                          placeholder="Type input and press Enter..."
-                          value={interactiveInputVal}
-                          onChange={e => setInteractiveInputVal(e.target.value)}
-                          onKeyDown={e => {
-                            if (e.key === "Enter") handleRunInteractive();
-                          }}
-                          className="flex-1 bg-transparent border-none outline-none font-mono text-slate-100 placeholder:text-slate-700 caret-amber-400"
-                        />
-                      </div>
-                    )}
+                    {/* Inline Terminal Prompt Line (Always visible for interactive feel) */}
+                    <div className="flex items-center gap-1.5 text-xs font-mono mt-2 text-slate-100 border-t border-[#333] pt-2">
+                      <span className="text-amber-400 font-bold select-none">&gt;</span>
+                      <input
+                        type="text"
+                        placeholder="Type input and press Enter to interact..."
+                        value={interactiveInputVal}
+                        onChange={e => setInteractiveInputVal(e.target.value)}
+                        onKeyDown={e => {
+                          if (e.key === "Enter") handleRunInteractive();
+                        }}
+                        className="flex-1 bg-transparent border-none outline-none font-mono text-slate-100 placeholder:text-slate-700 caret-amber-400"
+                      />
+                    </div>
                   </div>
                 )}
               </div>
