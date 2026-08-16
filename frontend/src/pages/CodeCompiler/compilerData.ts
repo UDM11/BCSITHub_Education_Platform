@@ -1258,7 +1258,7 @@ function StudentCard({ student, rank }) {
       marginBottom: 8, border: '1px solid #334155',
     }}>
       <span style={{ fontSize: 22, minWidth: 32, textAlign: 'center' }}>
-        {rank <= 3 ? ['🥇','🥈','🥉'][rank - 1] : `#${rank}`}
+        {rank <= 3 ? ['🥇','🥈','🥉'][rank - 1] : \`#\${rank}\`}
       </span>
       <div style={{ flex: 1 }}>
         <p style={{ margin: 0, fontWeight: 700, color: '#f1f5f9' }}>{student.name}</p>
