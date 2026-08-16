@@ -621,6 +621,23 @@ export default function ChapterNotes() {
 
     code { padding: 2px 5px; font-size: 10.5pt; display: inline; }
 
+    .diagram-container {
+      font-family: 'Courier New', Courier, monospace !important;
+      white-space: pre !important;
+      word-wrap: normal !important;
+      overflow-x: auto !important;
+      line-height: 1.25 !important;
+      letter-spacing: 0px !important;
+      background: #f5f5f5 !important;
+      border: 1px solid #ddd !important;
+      border-radius: 4px !important;
+      padding: 12px !important;
+      margin: 12px 0 !important;
+      font-size: 8.5pt !important;
+      display: block !important;
+      page-break-inside: avoid !important;
+    }
+
     /* Note / callout boxes */
     .note-box, .note, .callout {
       background: #f9f9f9;
