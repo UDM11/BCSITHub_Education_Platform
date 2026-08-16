@@ -452,10 +452,10 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
       </header>
 
       {/* ── Main Workspace ── */}
-      <div className="flex-1 grid grid-cols-2 min-h-0">
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-2 min-h-0 overflow-y-auto md:overflow-hidden">
 
         {/* ── LEFT: Editor Panel ── */}
-        <div className="flex flex-col border-r border-[#3c3c3c] min-h-0">
+        <div className="flex flex-col border-b md:border-b-0 md:border-r border-[#3c3c3c] min-h-[55vh] md:min-h-0">
 
           {/* File Tabs */}
           <div className="flex items-center bg-[#252526] border-b border-[#3c3c3c] overflow-x-auto flex-shrink-0">
@@ -502,7 +502,7 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
           )}
 
           {/* Monaco Editor */}
-          <div className="flex-1 min-h-0">
+          <div className="flex-1 min-h-[300px] md:min-h-0">
             <Editor
               key={`${language.id}-${activeFile}`}
               theme={editorTheme}
@@ -557,7 +557,7 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
         </div>
 
         {/* ── RIGHT: Output Panel ── */}
-        <div className="flex flex-col bg-[#1e1e1e] min-h-0">
+        <div className="flex flex-col bg-[#1e1e1e] min-h-[45vh] md:min-h-0">
           {/* Output tab bar */}
           <div className="flex items-center bg-[#252526] border-b border-[#3c3c3c] flex-shrink-0">
             {isWeb && (
