@@ -678,98 +678,6 @@ echo "  " . implode(" ", $seq) . "\n";
 `
   },
   {
-    id: "csharp",
-    name: "C#",
-    category: "programming",
-    pistonLanguage: "csharp",
-    pistonVersion: "5.0.201",
-    extension: "cs",
-    logo: "csharp",
-    template: `// ── C# Advanced Demo ────────────────────────────────
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-// ── 1. Student class with computed Grade ──
-class Student {
-    public string Name { get; }
-    public int    Age  { get; }
-    public double GPA  { get; }
-
-    public Student(string name, int age, double gpa) {
-        Name = name; Age = age; GPA = gpa;
-    }
-
-    public string Grade {
-        get {
-            if (GPA >= 3.7) return "A";
-            if (GPA >= 3.0) return "B";
-            if (GPA >= 2.0) return "C";
-            return "F";
-        }
-    }
-
-    public override string ToString() =>
-        string.Format("{0,-12} age={1,-3} gpa={2:F2} [{3}]", Name, Age, GPA, Grade);
-}
-
-// ── 2. Generic Repository ──
-class Repository<T> where T : class {
-    private readonly List<T> _items = new List<T>();
-    public void Add(T item) { _items.Add(item); }
-    public IEnumerable<T> GetAll() { return _items; }
-    public int Count { get { return _items.Count; } }
-}
-
-class Program {
-    static void Main() {
-        var repo = new Repository<Student>();
-        repo.Add(new Student("Alice",  20, 3.85));
-        repo.Add(new Student("Bob",    22, 2.75));
-        repo.Add(new Student("Carol",  21, 3.50));
-        repo.Add(new Student("Dave",   23, 1.80));
-        repo.Add(new Student("Eve",    20, 3.95));
-
-        // ── 3. LINQ queries ──
-        Console.WriteLine("── Students (desc GPA) ──────────");
-        var sorted = repo.GetAll().OrderByDescending(s => s.GPA);
-        foreach (var s in sorted) Console.WriteLine("  " + s);
-
-        double avg = repo.GetAll().Average(s => s.GPA);
-        Console.WriteLine("\n  Average GPA : " + avg.ToString("F2"));
-        Console.WriteLine("  Honours     : " + repo.GetAll().Count(s => s.GPA >= 3.5) + " student(s)");
-
-        // ── 4. LINQ group by ──
-        Console.WriteLine("\n── Grade Distribution ───────────");
-        var dist = repo.GetAll()
-            .GroupBy(s => s.Grade)
-            .OrderBy(g => g.Key);
-        foreach (var g in dist)
-            Console.WriteLine("  Grade " + g.Key + " => " + g.Count());
-
-        // ── 5. Word frequency ──
-        Console.WriteLine("\n── Word Frequency ───────────────");
-        string text = "the quick brown fox jumps over the lazy dog the fox";
-        var freq = text.Split(' ')
-            .GroupBy(w => w)
-            .OrderByDescending(g => g.Count())
-            .Take(5);
-        foreach (var g in freq)
-            Console.WriteLine("  '" + g.Key + "' => " + g.Count() + "x");
-
-        // ── 6. Safe parse ──
-        Console.WriteLine("\n── Safe Parse ───────────────────");
-        string[] inputs = { "42", "abc", "3.14", "" };
-        foreach (var s in inputs) {
-            int val;
-            bool ok = int.TryParse(s, out val);
-            Console.WriteLine("  '" + s + "' => " + (ok ? val.ToString() : "parse error"));
-        }
-    }
-}
-`
-  },
-  {
     id: "mongodb",
     name: "MongoDB",
     category: "database",
@@ -912,20 +820,20 @@ ORDER BY s.gpa DESC;
 -- ── Query 2: Aggregate per department ──
 SELECT
     d.name       AS Department,
-    COUNT(s.*)   AS Students,
-    ROUND(AVG(s.gpa)::NUMERIC, 2) AS AvgGPA,
+    COUNT(s.student_id)   AS Students,
+    ROUND(AVG(s.gpa), 2) AS AvgGPA,
     MAX(s.gpa)   AS TopGPA
 FROM departments d
 LEFT JOIN students s ON s.dept_id = d.dept_id
 GROUP BY d.name
-ORDER BY AvgGPA DESC NULLS LAST;
+ORDER BY AvgGPA DESC;
 
 -- ── Query 3: Courses per department ──
-SELECT d.name AS Department, COUNT(c.*) AS CourseCount, SUM(c.credits) AS TotalCredits
+SELECT d.name AS Department, COUNT(c.course_id) AS CourseCount, SUM(c.credits) AS TotalCredits
 FROM departments d
 LEFT JOIN courses c ON c.dept_id = d.dept_id
 GROUP BY d.name
-ORDER BY TotalCredits DESC NULLS LAST;
+ORDER BY TotalCredits DESC;
 
 -- ── Query 4: Window function – rank by GPA ──
 SELECT
