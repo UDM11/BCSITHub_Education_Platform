@@ -254,6 +254,31 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
       setActiveRightTab("preview");
       toast.success("Preview updated!");
     } else {
+      // Detect if user code needs standard input but stdin is empty
+      const detectsInputFunctions = () => {
+        const inputPatterns: Record<string, RegExp> = {
+          python: /input\s*\(/,
+          c: /scanf\s*\(/,
+          cpp: /cin\s*>>/,
+          java: /Scanner|BufferedReader|System\.in/,
+          csharp: /Console\.ReadLine/,
+          javascript: /readline|prompt/,
+          typescript: /readline|prompt/,
+          go: /Scan|Scanf|Scanln/,
+          rust: /read_line|stdin/,
+        };
+        const pattern = inputPatterns[language.id];
+        if (!pattern) return false;
+        return files.some(f => pattern.test(f.content));
+      };
+
+      if (!stdin.trim() && detectsInputFunctions()) {
+        setShowStdin(true);
+        toast.warning("⚠️ Interactive input (like input/scanf) detected! Please enter input values in the Standard Input panel below.", {
+          duration: 6000
+        });
+      }
+
       setRunning(true);
       setActiveRightTab("console");
       try {
