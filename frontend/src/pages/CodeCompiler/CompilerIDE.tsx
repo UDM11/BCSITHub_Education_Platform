@@ -90,6 +90,7 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
   const [showStdin, setShowStdin] = useState(false);
   const [interactiveInputVal, setInteractiveInputVal] = useState("");
   const [accumulatedInputs, setAccumulatedInputs] = useState<string[]>([]);
+  const [consoleHistory, setConsoleHistory] = useState<string[]>([]);
 
   const handleRunInteractive = () => {
     const trimmedVal = interactiveInputVal.trim();
@@ -99,6 +100,9 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
     const updated = [...accumulatedInputs, trimmedVal];
     setAccumulatedInputs(updated);
     setStdin(updated.join("\n"));
+    
+    // Add user's typed input visually to the terminal history log
+    setConsoleHistory(prev => [...prev, `\n> ${trimmedVal}`]);
     setInteractiveInputVal("");
 
     setTimeout(() => {
@@ -139,6 +143,9 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
     setActiveFile(initial[0].name);
     setConsoleOutput("");
     setConsoleError("");
+    setConsoleHistory([]);
+    setAccumulatedInputs([]);
+    setStdin("");
     setExecStats(null);
     setIframeSrcDoc("");
     setActiveRightTab(isWeb ? "preview" : "console");
@@ -151,7 +158,7 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
     if (consoleRef.current) {
       consoleRef.current.scrollTop = consoleRef.current.scrollHeight;
     }
-  }, [consoleOutput, consoleError]);
+  }, [consoleOutput, consoleError, consoleHistory]);
 
   // Iframe message handler
   useEffect(() => {
@@ -320,8 +327,19 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
           memory: runRes.memory ? `${runRes.memory} KB` : undefined,
         });
 
+        const fullOutput = runRes.stdout || runRes.output || "";
+        if (isInteractiveRun) {
+          let newContent = fullOutput;
+          if (consoleOutput && fullOutput.startsWith(consoleOutput)) {
+            newContent = fullOutput.substring(consoleOutput.length);
+          }
+          setConsoleHistory(prev => [...prev, newContent]);
+        } else {
+          setConsoleHistory([fullOutput]);
+        }
+
         if (runRes.stderr) setConsoleError(runRes.stderr);
-        setConsoleOutput(runRes.stdout || runRes.output || "");
+        setConsoleOutput(fullOutput);
         if ((runRes.code ?? 0) === 0) toast.success(`Done in ${elapsed}ms`);
         else toast.error(`Exited with code ${runRes.code}`);
       } catch (err: any) {
@@ -340,6 +358,9 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
     setActiveFile(initial[0].name);
     setConsoleOutput("");
     setConsoleError("");
+    setConsoleHistory([]);
+    setAccumulatedInputs([]);
+    setStdin("");
     setExecStats(null);
     toast.success("Editor reset to template.");
   };
@@ -361,6 +382,9 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
   const handleClearConsole = () => {
     setConsoleOutput("");
     setConsoleError("");
+    setConsoleHistory([]);
+    setAccumulatedInputs([]);
+    setStdin("");
     setExecStats(null);
   };
 
@@ -684,9 +708,19 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
                     <span className="text-xs font-mono">Executing...</span>
                   </div>
                 )}
-                {consoleOutput && (
-                  <pre className="text-emerald-300 text-xs leading-relaxed whitespace-pre-wrap break-words mb-2">{consoleOutput}</pre>
-                )}
+                {consoleHistory.map((log, index) => {
+                  const isInputEcho = log.startsWith("\n> ");
+                  return (
+                    <pre
+                      key={index}
+                      className={`text-xs leading-relaxed whitespace-pre-wrap break-words mb-2 ${
+                        isInputEcho ? "text-amber-400 font-bold" : "text-emerald-300"
+                      }`}
+                    >
+                      {log}
+                    </pre>
+                  );
+                })}
                  {consoleError && (
                   <div className="mt-2">
                     {/* Hide traceback error block if it is just a standard EOFError requesting input */}
@@ -705,7 +739,7 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
                           Interactive Input Needed
                         </p>
                         <p className="text-[11px] text-slate-400 mb-3">
-                          This program is requesting inputs. Please enter your input values below (use spaces or commas for multiple values, e.g. 1 Umesh 22):
+                          This program is requesting inputs. Please enter your input values below (use spaces or commas for multiple values, e.g. 1 StudentName 22):
                         </p>
                         <div className="flex gap-2">
                           <input
