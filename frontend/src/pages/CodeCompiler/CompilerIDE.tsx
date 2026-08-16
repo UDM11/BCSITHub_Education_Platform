@@ -731,34 +731,21 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
                       </div>
                     )}
 
-                    {/* Inline interactive input block for EOFError */}
+                    {/* Inline Terminal Prompt Line */}
                     {(consoleError.includes("EOFError") || consoleError.includes("EOF when reading a line") || consoleError.includes("EOF")) && (
-                      <div className="mt-4 p-4 rounded-xl bg-amber-950/20 border border-amber-500/30 text-slate-200">
-                        <p className="text-xs font-bold text-amber-400 mb-2 flex items-center gap-1.5">
-                          <Terminal className="w-4 h-4" />
-                          Interactive Input Needed
-                        </p>
-                        <p className="text-[11px] text-slate-400 mb-3">
-                          This program is requesting inputs. Please enter your input values below (use spaces or commas for multiple values, e.g. 1 StudentName 22):
-                        </p>
-                        <div className="flex gap-2">
-                          <input
-                            type="text"
-                            placeholder="Enter inputs here..."
-                            value={interactiveInputVal}
-                            onChange={e => setInteractiveInputVal(e.target.value)}
-                            onKeyDown={e => {
-                              if (e.key === "Enter") handleRunInteractive();
-                            }}
-                            className="flex-1 bg-[#252526] text-xs px-3 py-2 rounded-lg border border-[#555] focus:border-[#007acc] outline-none font-mono text-slate-100"
-                          />
-                          <button
-                            onClick={handleRunInteractive}
-                            className="bg-[#007acc] hover:bg-[#1a8fd1] text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
-                          >
-                            Submit & Run
-                          </button>
-                        </div>
+                      <div className="flex items-center gap-1.5 text-xs font-mono mt-1 text-slate-100">
+                        <span className="text-amber-400 font-bold select-none">&gt;</span>
+                        <input
+                          type="text"
+                          autoFocus
+                          placeholder="Type input and press Enter..."
+                          value={interactiveInputVal}
+                          onChange={e => setInteractiveInputVal(e.target.value)}
+                          onKeyDown={e => {
+                            if (e.key === "Enter") handleRunInteractive();
+                          }}
+                          className="flex-1 bg-transparent border-none outline-none font-mono text-slate-100 placeholder:text-slate-700 caret-amber-400"
+                        />
                       </div>
                     )}
                   </div>
