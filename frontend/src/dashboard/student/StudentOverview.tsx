@@ -165,7 +165,7 @@ const StudentOverview: React.FC<StudentOverviewProps> = ({
         {[
           { title: "Contributed Papers", value: stats.totalPapers, sub: `${stats.approvedPapers} Approved`, icon: FileText, color: "text-indigo-500 bg-indigo-500/10 border-indigo-500/20" },
           { title: "Current Semester", value: profile?.semester ? `${profile.semester} Sem` : "N/A", sub: "Pokhara University", icon: GraduationCap, color: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20" },
-          { title: "Study Focus Time", value: `${pomodoroStats.totalFocusTime} Min`, sub: `${pomodoroStats.totalSessions} Sessions Complete`, icon: Clock, color: "text-rose-500 bg-rose-500/10 border-rose-500/20" },
+          { title: "Study Focus Time", value: pomodoroStats.totalFocusTime === 0 && pomodoroStats.totalSessions > 0 ? "< 1 Min" : `${pomodoroStats.totalFocusTime} Min`, sub: `${pomodoroStats.totalSessions} Sessions Complete`, icon: Clock, color: "text-rose-500 bg-rose-500/10 border-rose-500/20" },
           { title: "Focus Streak", value: `${pomodoroStats.streak} Days`, sub: "Keep it up!", icon: Award, color: "text-purple-500 bg-purple-500/10 border-purple-500/20" },
           { title: "Assigned Campus", value: profile?.college ? (profile.college.length > 12 ? profile.college.substring(0, 12) + "..." : profile.college) : "N/A", sub: "Pokhara University Affiliation", icon: Building, color: "text-amber-500 bg-amber-500/10 border-amber-500/20" }
         ].map((stat, idx) => (
