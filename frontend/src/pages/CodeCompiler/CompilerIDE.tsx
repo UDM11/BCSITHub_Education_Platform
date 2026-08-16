@@ -30,8 +30,8 @@ const MONACO_LANG_MAP: Record<string, string> = {
   python: "python", javascript: "javascript", typescript: "typescript",
   java: "java", c: "c", cpp: "cpp", csharp: "csharp", go: "go",
   rust: "rust", php: "php", ruby: "ruby", swift: "swift",
-  kotlin: "kotlin", r: "r", perl: "perl", lua: "lua",
-  html: "html", react: "javascript",
+  lua: "lua",
+  html: "html",
   mysql: "sql", postgresql: "sql",
 };
 
@@ -45,7 +45,6 @@ function getInitialFiles(lang: LanguageDef): { name: string; content: string }[]
       { name: "script.js", content: `// BCSITHub Sandbox Script\nconsole.log('Script loaded!');\n\nconst clock = document.getElementById('clock');\nconst btn   = document.getElementById('btn');\nconst colors = ['#6366f1','#ec4899','#f59e0b','#10b981','#3b82f6'];\nlet ci = 0;\n\nfunction tick() {\n  if (clock) clock.textContent = '\\u23f0 ' + new Date().toLocaleTimeString();\n}\ntick();\nsetInterval(tick, 1000);\n\nif (btn) {\n  btn.addEventListener('click', () => {\n    ci = (ci + 1) % colors.length;\n    btn.style.background = colors[ci];\n    console.log('Color changed to', colors[ci]);\n  });\n}` },
     ];
   }
-  if (lang.id === "react") return [{ name: "App.jsx", content: lang.template }];
   return [{ name: `main.${lang.extension}`, content: lang.template }];
 }
 
@@ -56,7 +55,7 @@ const THEMES = [
 
 export default function CompilerIDE({ language, onBack, onSelectLanguage, overrideInitialFiles }: CompilerIDEProps) {
   const monaco = useMonaco();
-  const isWeb = language.id === "html" || language.id === "react";
+  const isWeb = language.id === "html";
 
   // Files
   const [files, setFiles] = useState<{ name: string; content: string }[]>(() => overrideInitialFiles || getInitialFiles(language));
@@ -214,51 +213,8 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
       const htmlCode = htmlFile?.content ?? "";
       const cssCode = cssFile?.content ?? "";
       const jsCode = jsFile?.content ?? "";
-      const reactFile = files.find(f => f.name.endsWith(".jsx") || f.name === "App.jsx");
-      const reactCode = reactFile?.content ?? files[0]?.content ?? "";
 
-      let combined = "";
-      if (language.id === "react") {
-        let cleanedReact = reactCode.replace(/import\s+.*?\s+from\s+['"].*?['"];?/g, '');
-        // Strip out export statements since they are invalid inside try blocks
-        cleanedReact = cleanedReact
-          .replace(/export\s+default\s+function\b/g, 'function')
-          .replace(/export\s+default\s+class\b/g, 'class')
-          .replace(/export\s+default\b/g, '')
-          .replace(/\bexport\s+(const|let|var|function|class)\b/g, '$1');
-
-        combined = `<!DOCTYPE html><html><head>
-          <script>
-            window.exports = {};
-            window.module = { exports: {} };
-          </script>
-          <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
-          <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-          <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-          <style>body{background:#fff;color:#0f172a;padding:24px;font-family:system-ui,sans-serif}</style>
-          </head><body><div id="root"></div>
-          <script type="text/babel">
-            // Prevent navigation out of iframe sandbox
-            document.addEventListener('click', function(e) {
-              const a = e.target.closest('a');
-              if (a) {
-                e.preventDefault();
-                console.log('Navigation to "' + a.getAttribute('href') + '" is disabled in sandbox preview.');
-              }
-            }, true);
-
-            const {useState,useEffect,useRef,useMemo,useCallback}=React;
-            const ol=console.log;console.log=function(...a){ol(...a);window.parent.postMessage({type:'LOG',data:a.join(' ')},'*');};
-            window.onerror=function(m,s,l){window.parent.postMessage({type:'ERROR',data:m+' (L'+l+')'},'*');};
-            try{
-              ${cleanedReact}
-              const T = typeof App !== 'undefined' ? App : (window.exports.default || window.module.exports.default || null);
-              if(T)ReactDOM.render(React.createElement(T),document.getElementById('root'));
-              else document.getElementById('root').innerHTML='<div style="color:red">❌ No App component found. Make sure to define "App" function or export it as default.</div>';
-            }catch(e){document.getElementById('root').innerHTML='<div style="color:red">❌ '+e.message+'</div>';}
-          </script></body></html>`;
-      } else {
-        combined = `<!DOCTYPE html><html><head>
+      const combined = `<!DOCTYPE html><html><head>
           <style>body{background:#fff;color:#0f172a;padding:24px;font-family:system-ui,sans-serif}${cssCode}</style>
           </head><body>
           ${htmlCode}
@@ -276,7 +232,7 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
             window.onerror=function(m,s,l){window.parent.postMessage({type:'ERROR',data:m+' (L'+l+')'},'*');};
             try{${jsCode}}catch(e){console.error(e);}
           </script></body></html>`;
-      }
+      
       setIframeSrcDoc(combined);
       setActiveRightTab("preview");
       toast.success("Preview updated!");
