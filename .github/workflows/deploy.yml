@@ -1,4 +1,4 @@
-name: Build & Deploy Frontend to InfinityFree
+name: Build & Deploy Frontend to Firebase Hosting
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploy to FTP
+    name: Deploy to Firebase Hosting
     runs-on: ubuntu-latest
 
     steps:
@@ -36,16 +36,9 @@ jobs:
         env:
           VITE_API_URL: https://bcsithub.fly.dev/api
 
-      - name: 📤 Upload via FTP to InfinityFree
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: 🚀 Deploy to Firebase Hosting
+        uses: w9jds/firebase-action@v2.2.0
         with:
-          server: ftpupload.net
-          username: if0_42531285
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./frontend/dist/
-          server-dir: /htdocs/
-          state-name: .ftp-deploy-sync-state.json
-          dangerous-clean-slate: false
-          exclude: |
-            **/.git*
-            **/.git*/**
+          args: deploy --only hosting --project bcsithubs
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
