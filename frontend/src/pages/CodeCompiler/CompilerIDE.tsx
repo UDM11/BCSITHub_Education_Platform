@@ -211,6 +211,15 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
           <style>body{background:#fff;color:#0f172a;padding:24px;font-family:system-ui,sans-serif}</style>
           </head><body><div id="root"></div>
           <script type="text/babel">
+            // Prevent navigation out of iframe sandbox
+            document.addEventListener('click', function(e) {
+              const a = e.target.closest('a');
+              if (a) {
+                e.preventDefault();
+                console.log('Navigation to "' + a.getAttribute('href') + '" is disabled in sandbox preview.');
+              }
+            }, true);
+
             const {useState,useEffect,useRef,useMemo,useCallback}=React;
             const ol=console.log;console.log=function(...a){ol(...a);window.parent.postMessage({type:'LOG',data:a.join(' ')},'*');};
             window.onerror=function(m,s,l){window.parent.postMessage({type:'ERROR',data:m+' (L'+l+')'},'*');};
@@ -227,6 +236,15 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
           </head><body>
           ${htmlCode}
           <script>
+            // Prevent navigation out of iframe sandbox
+            document.addEventListener('click', function(e) {
+              const a = e.target.closest('a');
+              if (a) {
+                e.preventDefault();
+                console.log('Navigation to "' + a.getAttribute('href') + '" is disabled in sandbox preview.');
+              }
+            }, true);
+
             const ol=console.log;console.log=function(...a){ol(...a);window.parent.postMessage({type:'LOG',data:a.join(' ')},'*');};
             window.onerror=function(m,s,l){window.parent.postMessage({type:'ERROR',data:m+' (L'+l+')'},'*');};
             try{${jsCode}}catch(e){console.error(e);}
