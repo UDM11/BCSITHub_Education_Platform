@@ -99,15 +99,14 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
     // Append the new input value to our history of inputs
     const updated = [...accumulatedInputs, trimmedVal];
     setAccumulatedInputs(updated);
-    setStdin(updated.join("\n"));
+    const newStdin = updated.join("\n");
+    setStdin(newStdin);
     
     // Add user's typed input visually to the terminal history log
     setConsoleHistory(prev => [...prev, `\n> ${trimmedVal}`]);
     setInteractiveInputVal("");
 
-    setTimeout(() => {
-      handleRun(true);
-    }, 100);
+    handleRun(true, newStdin);
   };
 
   // AI
@@ -198,7 +197,7 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
     toast.success(`Deleted ${name}`);
   };
 
-  const handleRun = async (isInteractiveRun = false) => {
+  const handleRun = async (isInteractiveRun = false, customStdin?: string) => {
     if (!isInteractiveRun) {
       setAccumulatedInputs([]);
       setStdin("");
@@ -315,7 +314,8 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
           version: language.pistonVersion,
           files: files.map(f => ({ name: f.name, content: f.content })),
         };
-        if (stdin.trim()) payload.stdin = stdin;
+        const currentStdin = customStdin !== undefined ? customStdin : stdin;
+        if (currentStdin.trim()) payload.stdin = currentStdin;
 
         const res: any = await apiClient.post("/compiler/run", payload);
         const runRes = res.run || {};
