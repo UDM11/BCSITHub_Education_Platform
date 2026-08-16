@@ -1055,6 +1055,34 @@ export default function ChapterNotes() {
           -webkit-overflow-scrolling: touch;
         }
 
+        .notes-reader-content .diagram-container {
+          font-family: 'Courier New', Courier, monospace !important;
+          white-space: pre !important;
+          word-wrap: normal !important;
+          overflow-x: auto !important;
+          line-height: 1.25 !important;
+          letter-spacing: 0px !important;
+          background-color: #f8fafc !important;
+          border: 1px solid #e2e8f0 !important;
+          border-radius: 12px !important;
+          padding: 18px !important;
+          margin: 20px 0 !important;
+          font-size: 12px !important;
+          display: block !important;
+        }
+        
+        .theme-dark .diagram-container {
+          background-color: #0f172a !important;
+          border-color: #334155 !important;
+          color: #38bdf8 !important;
+        }
+
+        .theme-sepia .diagram-container {
+          background-color: #efe7d9 !important;
+          border-color: #e6d3bf !important;
+          color: #78350f !important;
+        }
+
         @media (max-width: 768px) {
           .notes-reader-content .section {
             padding: 18px !important;
