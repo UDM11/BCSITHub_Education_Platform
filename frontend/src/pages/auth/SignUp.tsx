@@ -145,12 +145,12 @@ export function SignUp() {
       "@type": "WebPage",
       "name": "Create Student Account | BCSITHub",
       "description": "Register a new student or teacher account on BCSITHub to unlock complete lecture notes, solved past papers, and exam results guides.",
-      "url": "https://bcsithub.lovestoblog.com/signup",
+      "url": "https://bcsithubs.web.app/signup",
       "potentialAction": {
         "@type": "RegisterAction",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": "https://bcsithub.lovestoblog.com/signup",
+          "urlTemplate": "https://bcsithubs.web.app/signup",
           "actionPlatform": [
             "http://schema.org/DesktopWebPlatform",
             "http://schema.org/MobileWebPlatform"

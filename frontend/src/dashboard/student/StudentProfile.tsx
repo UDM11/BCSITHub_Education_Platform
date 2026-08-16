@@ -91,7 +91,7 @@ const StudentProfile: React.FC = () => {
   useSEO({
     title: seoTitle,
     description: "Manage your uploaded past papers, review approval statuses, update college preferences, and inspect activity logs on BCSITHub.",
-    image: "https://bcsithub.lovestoblog.com/logo.png"
+    image: "https://bcsithubs.web.app/logo.png"
   });
 
   useEffect(() => {

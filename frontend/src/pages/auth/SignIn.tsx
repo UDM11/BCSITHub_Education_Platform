@@ -85,12 +85,12 @@ export function SignIn() {
       "@type": "WebPage",
       "name": "Student Login | BCSITHub",
       "description": "Log in to your BCSITHub account to access study notes, syllabus guidelines, past exam papers, and GPA tools for Pokhara University BCSIT program.",
-      "url": "https://bcsithub.lovestoblog.com/signin",
+      "url": "https://bcsithubs.web.app/signin",
       "potentialAction": {
         "@type": "ConsumeAction",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": "https://bcsithub.lovestoblog.com/signin",
+          "urlTemplate": "https://bcsithubs.web.app/signin",
           "actionPlatform": [
             "http://schema.org/DesktopWebPlatform",
             "http://schema.org/MobileWebPlatform"

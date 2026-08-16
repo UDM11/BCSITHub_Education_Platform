@@ -87,7 +87,7 @@ export function PomodoroTimer() {
     title: seoTitle,
     description: "Boost your studying productivity with the Pomodoro technique. Use customizable focus sessions and rest cycles matching your syllabus tasks.",
     keywords: "pomodoro timer, study timer, productivity tool, bcsit study focus",
-    image: "https://bcsithub.lovestoblog.com/logo.png"
+    image: "https://bcsithubs.web.app/logo.png"
   });
 
   // Dynamic Browser Tab Countdown Title

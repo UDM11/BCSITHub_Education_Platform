@@ -72,7 +72,7 @@ export default function SubjectChapters() {
     title: seoTitle,
     description: seoDescription,
     keywords: seoKeywords,
-    image: "https://bcsithub.lovestoblog.com/logo.png"
+    image: "https://bcsithubs.web.app/logo.png"
   });
 
   useEffect(() => {

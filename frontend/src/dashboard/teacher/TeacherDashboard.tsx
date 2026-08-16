@@ -146,12 +146,12 @@ const TeacherDashboard: React.FC = () => {
     title: seoTitle,
     description: currentSEO.description,
     keywords: currentSEO.keywords,
-    image: "https://bcsithub.lovestoblog.com/logo.png",
+    image: "https://bcsithubs.web.app/logo.png",
   });
 
   // ── 4. Extended OG / Twitter tags + JSON-LD injected per tab ─────────────
   useEffect(() => {
-    const BASE_URL = "https://bcsithub.lovestoblog.com";
+    const BASE_URL = "https://bcsithubs.web.app";
     const PAGE_URL = `${BASE_URL}/teacher-dashboard`;
 
     // og:type
@@ -211,7 +211,7 @@ const TeacherDashboard: React.FC = () => {
           "logo": `${BASE_URL}/logo.png`,
           "description": "Nepal's leading academic resource hub for Pokhara University BCSIT students.",
           "sameAs": [
-            "https://bcsithub.lovestoblog.com",
+            "https://bcsithubs.web.app",
           ],
         },
       ],

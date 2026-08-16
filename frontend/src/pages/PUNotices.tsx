@@ -103,7 +103,7 @@ const PUNotices: React.FC = () => {
     title: seoTitle,
     description: seoDescription,
     keywords: `pu notices, pokhara university notices, exam schedule, pu results${selectedCategory ? `, pu ${selectedCategory.toLowerCase()} notices` : ''}`,
-    image: "https://bcsithub.lovestoblog.com/logo.png"
+    image: "https://bcsithubs.web.app/logo.png"
   });
 
   useEffect(() => {

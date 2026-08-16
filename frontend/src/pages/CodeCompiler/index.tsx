@@ -34,7 +34,7 @@ export function CodeCompiler() {
     title: seoTitle,
     description: seoDescription,
     keywords: seoKeywords,
-    image: "https://bcsithub.lovestoblog.com/logo.png"
+    image: "https://bcsithubs.web.app/logo.png"
   });
 
   // Check if there is a preset code block loaded from lecture notes

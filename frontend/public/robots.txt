@@ -1,7 +1,7 @@
 # =========================================================================
 #  BCSITHub Robots Configuration File
-#  Target Host: https://bcsithub.lovestoblog.com/
-#  Last Modified: 2026-08-08
+#  Target Host: https://bcsithubs.web.app/
+#  Last Modified: 2026-08-16
 # =========================================================================
 
 # SECTION 1: Permitted Search Crawlers
@@ -54,4 +54,4 @@ Disallow: /
 
 # SECTION 5: Global XML Sitemap Index
 # -------------------------------------------------------------------------
-Sitemap: https://bcsithub.lovestoblog.com/sitemap.xml
+Sitemap: https://bcsithubs.web.app/sitemap.xml

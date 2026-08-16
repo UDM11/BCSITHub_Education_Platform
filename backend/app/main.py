@@ -17,7 +17,8 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://bcsithub.lovestoblog.com",
+        "https://bcsithubs.web.app",
+        "https://bcsithubs.firebaseapp.com",
         "http://localhost:5173",
         "http://localhost:3000"
     ],
@@ -55,7 +56,7 @@ def slugify(text: str) -> str:
     return text.strip('-')
 
 # ── Reusable SSR Meta Injection Helper ───────────────────────────────────────
-BASE_URL = "https://bcsithub.lovestoblog.com"
+BASE_URL = "https://bcsithubs.web.app"
 
 def inject_seo_meta(
     title: str,
@@ -107,7 +108,7 @@ def inject_seo_meta(
 
     # 5. Replace canonical URL - use both direct placeholder replace and regex to guarantee replacement
     html = html.replace(
-        'href="https://bcsithub.lovestoblog.com/CANONICAL_PLACEHOLDER"',
+        'href="https://bcsithubs.web.app/CANONICAL_PLACEHOLDER"',
         f'href="{url}"'
     )
     html = re.sub(

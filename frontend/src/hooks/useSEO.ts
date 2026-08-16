@@ -40,7 +40,7 @@ export function useSEO({ title, description, keywords, image }: SEOProps) {
     }
 
     // 4. Update Canonical URL
-    const canonicalUrl = `https://bcsithub.lovestoblog.com${window.location.pathname}`;
+    const canonicalUrl = `https://bcsithubs.web.app${window.location.pathname}`;
     let linkCanonical = document.querySelector('link[rel="canonical"]');
     const originalCanonical = linkCanonical?.getAttribute("href") || "";
     if (!linkCanonical) {
@@ -67,7 +67,7 @@ export function useSEO({ title, description, keywords, image }: SEOProps) {
     const originalTwitterDesc = twitterDesc?.getAttribute("content") || "";
     const originalTwitterImage = twitterImage?.getAttribute("content") || "";
 
-    const previewImage = image || "https://bcsithub.lovestoblog.com/logo.png";
+    const previewImage = image || "https://bcsithubs.web.app/logo.png";
 
     if (ogTitle) ogTitle.setAttribute("content", `${title} | BCSITHub`);
     if (ogDesc) ogDesc.setAttribute("content", description);
@@ -90,7 +90,7 @@ export function useSEO({ title, description, keywords, image }: SEOProps) {
       // Update canonical to the CURRENT URL (not restore stale value)
       if (linkCanonical) {
         const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
-        linkCanonical.setAttribute("href", `https://bcsithub.lovestoblog.com${currentPath}`);
+        linkCanonical.setAttribute("href", `https://bcsithubs.web.app${currentPath}`);
       }
       if (ogTitle && originalOgTitle) ogTitle.setAttribute("content", originalOgTitle);
       if (ogDesc && originalOgDesc) ogDesc.setAttribute("content", originalOgDesc);
