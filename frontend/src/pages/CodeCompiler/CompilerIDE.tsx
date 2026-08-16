@@ -327,12 +327,16 @@ export default function CompilerIDE({ language, onBack, onSelectLanguage, overri
           memory: runRes.memory ? `${runRes.memory} KB` : undefined,
         });
 
-        const fullOutput = runRes.stdout || runRes.output || "";
+        const fullOutput = (runRes.stdout || runRes.output || "").replace(/\r/g, "");
         if (isInteractiveRun) {
+          const cleanPrev = consoleOutput.replace(/\r/g, "").trim();
           let newContent = fullOutput;
-          if (consoleOutput && fullOutput.startsWith(consoleOutput)) {
-            newContent = fullOutput.substring(consoleOutput.length);
+          if (cleanPrev && fullOutput.startsWith(cleanPrev)) {
+            newContent = fullOutput.substring(cleanPrev.length);
           }
+          // Remove leading newlines/spaces from newContent to format correctly
+          if (newContent.startsWith("\n")) newContent = newContent.substring(1);
+          
           setConsoleHistory(prev => [...prev, newContent]);
         } else {
           setConsoleHistory([fullOutput]);
