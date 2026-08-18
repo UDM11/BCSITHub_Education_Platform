@@ -33,7 +33,6 @@ import {
   Code,
   Calculator,
   Search,
-  Bell,
 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card, CardContent } from '../components/ui/Card';
@@ -48,7 +47,6 @@ import { apiClient } from '../lib/apiClient';
 import { watermarkFile } from '../lib/watermark';
 import { PaperPreviewModal } from '../components/Notes/PaperPreviewModal';
 import LoginRedirectModal from '../components/common/LoginRedirectModal';
-import { NoticeReaderModal } from '../components/common/NoticeReaderModal';
 
 // Stepped how-it-works steps
 const howItWorksSteps = [
@@ -216,10 +214,6 @@ export function Home() {
   const [papersLoading, setPapersLoading] = useState(true);
   const [selectedPaper, setSelectedPaper] = useState<any | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  
-  const [latestNotices, setLatestNotices] = useState<any[]>([]);
-  const [noticesLoading, setNoticesLoading] = useState(true);
-  const [selectedNotice, setSelectedNotice] = useState<any | null>(null);
 
   const mapPaper = (item: any) => ({
     objectId: item.id,
@@ -238,30 +232,7 @@ export function Home() {
     uploaderRole: item.uploader_role || '',
   });
 
-  useEffect(() => {
-    const fetchLatestNotices = async () => {
-      try {
-        setNoticesLoading(true);
-        const data = (await apiClient.get('/notices')) as any[];
-        const mapped = data.slice(0, 3).map((item: any) => ({
-          objectId: item.id,
-          title: item.title,
-          date: new Date(item.date),
-          fileUrl: item.file_url,
-          fileName: item.file_name,
-          fileSize: item.file_size,
-          category: item.category,
-          content: item.content,
-        }));
-        setLatestNotices(mapped);
-      } catch (err) {
-        console.error('Error fetching latest notices:', err);
-      } finally {
-        setNoticesLoading(false);
-      }
-    };
-    fetchLatestNotices();
-  }, []);
+
 
   useEffect(() => {
     const fetchLatestPapers = async () => {
@@ -380,44 +351,23 @@ export function Home() {
       {/* 1. Hero Section */}
       <section className="relative min-h-[90vh] bg-gradient-to-b from-indigo-950 via-slate-900 to-slate-950 text-white pt-24 pb-20 flex items-center overflow-hidden">
         
-        {/* Abstract Glowing Mesh Circles */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <motion.div 
-            animate={{ 
-              x: [0, 20, -20, 0], 
-              y: [0, -35, 20, 0],
-              scale: [1, 1.08, 0.92, 1]
-            }}
-            transition={{ repeat: Infinity, duration: 22, ease: "easeInOut" }}
-            className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-600/10 rounded-full blur-[120px]" 
+        {/* Full Size Background Mockup Image */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
+          <img 
+            src="/hero.png" 
+            alt="BCSIT Mockup Background" 
+            className="w-full h-full object-cover object-center lg:object-right opacity-100" 
           />
-          <motion.div 
-            animate={{ 
-              x: [0, -30, 25, 0], 
-              y: [0, 25, -25, 0],
-              scale: [1, 0.93, 1.07, 1]
-            }}
-            transition={{ repeat: Infinity, duration: 26, ease: "easeInOut" }}
-            className="absolute top-1/3 -right-20 w-[450px] h-[450px] bg-purple-600/10 rounded-full blur-[140px]" 
-          />
-          <motion.div 
-            animate={{ 
-              x: [0, 25, -15, 0], 
-              y: [0, -25, 30, 0]
-            }}
-            transition={{ repeat: Infinity, duration: 24, ease: "easeInOut" }}
-            className="absolute -bottom-20 left-1/3 w-80 h-80 bg-violet-600/10 rounded-full blur-[100px]" 
-          />
+          {/* Subtle overlay gradients for high readability of text on the left and seamless blending */}
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 lg:via-slate-950/40 to-transparent" />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
             {/* Hero Left Content */}
-            <div className="lg:col-span-7 text-left space-y-6">
-              
-
-
+            <div className="lg:col-span-7 text-left space-y-6 flex flex-col justify-center">
               {/* Title & Headline */}
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
@@ -439,9 +389,9 @@ export function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-base sm:text-lg text-slate-300 max-w-xl font-normal leading-relaxed"
+                className="text-base sm:text-lg text-slate-300 max-w-md font-normal leading-relaxed"
               >
-                Explore comprehensive subject notes, syllabus metrics, past exam papers, and live practice tools designed exclusively to help you score high.
+                Access Pokhara University BCSIT notes, solved past papers, and study tools.
               </motion.p>
 
               {/* Call to Actions */}
@@ -449,7 +399,7 @@ export function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="flex flex-col sm:flex-row gap-4 pt-2"
+                className="flex flex-col sm:flex-row gap-4 pt-2 w-full sm:w-auto"
               >
                 <Button
                   variant="primary"
@@ -477,7 +427,7 @@ export function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="flex flex-wrap items-center gap-6 text-slate-400 text-xs sm:text-sm pt-4 border-t border-slate-800/40"
+                className="flex flex-wrap items-center gap-6 text-slate-400 text-xs sm:text-sm pt-4 border-t border-slate-800/40 w-full"
               >
                 <div className="flex items-center space-x-1.5">
                   <CheckCircle className="w-4 h-4 text-indigo-500" />
@@ -494,101 +444,9 @@ export function Home() {
               </motion.div>
             </div>
 
-            {/* Hero Right Content: Live PU Notices Feed */}
-            <div className="lg:col-span-5 relative w-full flex justify-center">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="w-full max-w-sm sm:max-w-md bg-slate-900/70 backdrop-blur-md border border-slate-800 rounded-3xl p-6 shadow-2xl relative overflow-hidden flex flex-col space-y-5"
-              >
-                {/* Background glow effects */}
-                <div className="absolute -top-12 -right-12 w-32 h-32 bg-indigo-500/20 rounded-full blur-2xl pointer-events-none" />
-                <div className="absolute -bottom-12 -left-12 w-24 h-24 bg-purple-500/10 rounded-full blur-xl pointer-events-none" />
+            {/* Hero Right Content: Empty space for background mockup display */}
+            <div className="hidden lg:block lg:col-span-5" />
 
-                {/* Widget Header */}
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3.5 relative z-10">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 rounded-xl bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 text-indigo-400">
-                      <Bell className="w-4 h-4" />
-                    </div>
-                    <span className="text-xs font-bold text-slate-200 tracking-wide uppercase">PU Notices</span>
-                  </div>
-                </div>
-
-                {/* Notices List */}
-                <div className="flex flex-col space-y-3 z-10">
-                  {noticesLoading ? (
-                    <div className="flex flex-col space-y-3 w-full">
-                      {[1, 2, 3].map((n) => (
-                        <div key={n} className="bg-slate-950/40 border border-slate-800/80 rounded-2xl p-3.5 flex flex-col space-y-2.5 animate-pulse">
-                          <div className="flex items-center justify-between">
-                            <div className="h-4.5 w-14 bg-slate-800 rounded-full"></div>
-                            <div className="h-3 w-10 bg-slate-800 rounded"></div>
-                          </div>
-                          <div className="space-y-1.5">
-                            <div className="h-3 w-full bg-slate-800 rounded"></div>
-                            <div className="h-3 w-4/5 bg-slate-800 rounded"></div>
-                          </div>
-                          <div className="h-2.5 w-1/2 bg-slate-800 rounded"></div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : latestNotices.length === 0 ? (
-                    <div className="text-center py-8">
-                      <span className="text-[11px] text-slate-500">No active notices found.</span>
-                    </div>
-                  ) : (
-                    latestNotices.map((notice) => {
-                      const categoryColors: Record<string, string> = {
-                        Exam: 'text-purple-400 bg-purple-500/10 border-purple-500/20',
-                        Admission: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
-                        Result: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
-                        General: 'text-blue-400 bg-blue-500/10 border-blue-500/20',
-                      };
-                      return (
-                        <motion.div
-                          key={notice.objectId}
-                          whileHover={{ x: 4, backgroundColor: 'rgba(255,255,255,0.03)' }}
-                          onClick={() => setSelectedNotice(notice)}
-                          className="bg-slate-950/40 border border-slate-800/80 rounded-2xl p-3.5 flex flex-col text-left space-y-2 cursor-pointer transition-all duration-200"
-                        >
-                          <div className="flex items-center justify-between">
-                            <span className={`text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider border ${categoryColors[notice.category] || categoryColors.General}`}>
-                              {notice.category}
-                            </span>
-                            <span className="text-[9px] text-slate-500 font-medium">
-                              {notice.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                            </span>
-                          </div>
-                          <h4 className="text-xs font-bold text-slate-200 line-clamp-2 leading-relaxed hover:text-indigo-400 transition-colors pr-2">
-                            {notice.title}
-                          </h4>
-                          {notice.fileUrl && (
-                            <div className="flex items-center space-x-1.5 text-[10px] text-slate-400 pt-0.5">
-                              <FileText className="w-3 h-3 text-indigo-400" />
-                              <span className="truncate max-w-[200px] text-[9px]">{notice.fileName || 'Notice Attachment'}</span>
-                            </div>
-                          )}
-                        </motion.div>
-                      );
-                    })
-                  )}
-                </div>
-
-                {/* Footer Link */}
-                <div className="pt-2 z-10">
-                  <Button
-                    onClick={() => navigate('/pu-notices')}
-                    variant="outline"
-                    className="w-full border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white bg-slate-950/20 hover:bg-slate-900/50 py-2.5 rounded-xl font-semibold text-xs transition-colors"
-                  >
-                    <span>Browse All Notices</span>
-                    <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
-                  </Button>
-                </div>
-              </motion.div>
-            </div>
           </div>
         </div>
       </section>
@@ -1222,20 +1080,7 @@ export function Home() {
         )}
       </AnimatePresence>
 
-      {/* Notice Reader Modal */}
-      <AnimatePresence>
-        {selectedNotice && (
-          <NoticeReaderModal
-            notice={selectedNotice}
-            onClose={() => setSelectedNotice(null)}
-            isAuthenticated={!!user}
-            onAuthRequired={() => {
-              setSelectedNotice(null);
-              setShowLoginModal(true);
-            }}
-          />
-        )}
-      </AnimatePresence>
+
 
       {/* Auth Gate Redirect Modal */}
       <LoginRedirectModal
