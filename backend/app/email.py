@@ -375,22 +375,11 @@ def send_newsletter_otp_email(to_email: str, otp: str) -> bool:
     except Exception as e:
         logger.error(f"Failed to send newsletter verification email to {to_email}: {e}")
         return False
-
 def send_notice_alert_email(to_email: str, notice_title: str, notice_category: str, notice_content: Optional[str], file_url: Optional[str]) -> bool:
     subject = f"🔔 New Notice: {notice_title}"
     
     # Notice content fallback
     content_snippet = notice_content or "A new Pokhara University notice has been uploaded. Please check the attachment or visit our platform."
-    if len(content_snippet) > 300:
-        content_snippet = content_snippet[:300] + "..."
-        
-    file_attachment_html = ""
-    if file_url:
-        file_attachment_html = f"""
-        <div style="margin-top: 24px; text-align: center;">
-            <a href="{file_url}" target="_blank" class="btn" style="background-color: #0284c7; color: #ffffff !important;">📥 Download Notice File</a>
-        </div>
-        """
         
     html_body = f"""<!DOCTYPE html>
 <html>
@@ -405,8 +394,8 @@ def send_notice_alert_email(to_email: str, notice_title: str, notice_category: s
         <table role="presentation" cellpadding="0" cellspacing="0" class="container" align="center">
             <tr>
                 <td class="header" style="text-align: center;">
-                    <a href="https://bcsithubs.web.app" style="display: block; text-decoration: none; margin-bottom: 4px;">
-                        <img src="https://bcsithubs.web.app/logo.png" alt="BCSITHub Logo" style="width: 50px; height: 50px; border-radius: 12px; object-fit: cover; display: inline-block; vertical-align: middle; border: 1.5px solid rgba(255,255,255,0.25);" />
+                    <a href="{settings.FRONTEND_URL}" style="display: block; text-decoration: none; margin-bottom: 4px;">
+                        <img src="{settings.FRONTEND_URL}/logo.png" alt="BCSITHub Logo" style="width: 50px; height: 50px; border-radius: 12px; object-fit: cover; display: inline-block; vertical-align: middle; border: 1.5px solid rgba(255,255,255,0.25);" />
                         <span style="font-size: 24px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; margin-left: 10px; display: inline-block; vertical-align: middle; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">BCSIT<span style="color:#818cf8;">Hub</span></span>
                     </a>
                     <div class="header-subtitle">Pokhara University &mdash; BCSIT Student Portal</div>
@@ -420,14 +409,12 @@ def send_notice_alert_email(to_email: str, notice_title: str, notice_category: s
                     
                     <h2 class="greeting" style="margin-bottom: 16px;">{notice_title}</h2>
                     
-                    <p class="paragraph">
+                    <p class="paragraph" style="white-space: pre-wrap; word-break: break-word;">
                         {content_snippet}
                     </p>
                     
-                    {file_attachment_html}
-                    
                     <div class="btn-container" style="margin-top: 28px; margin-bottom: 0;">
-                        <a href="https://bcsithubs.web.app/pu-notices" target="_blank" class="btn">🌐 View Notices Dashboard</a>
+                        <a href="{settings.FRONTEND_URL}/pu-notices" target="_blank" class="btn">🌐 View Notices Dashboard</a>
                     </div>
                 </td>
             </tr>
